@@ -1,59 +1,8 @@
-masum@masum:/media/masum/MASUM_32GB$ git commit --message "20.10.2016"
-[master (root-commit) 72b3967] 20.10.2016
- 828 files changed, 91429 insertions(+)
- create mode 100644 zim/.git.txt.swp
- create mode 100644 zim/.zim/index.db
- create mode 100644 zim/.zim/state.conf
- create mode 100644 zim/AIX/Desktop_1.ini
- create mode 100644 zim/AIX/Desktop_2.ini
- create mode 100644 zim/AIX/day2_prac/Desktop_1.ini
- create mode 100644 zim/AIX/day2_prac/Desktop_2.ini
- create mode 100644 zim/AIX/day2_prac/backup and restore.txt
- create mode 100644 zim/AIX/day2_prac/delete_vg.txt
- create mode 100644 zim/AIX/day2_prac/user_lesson.txt
- create mode 100644 zim/AIX/day3_prac/Desktop_1.ini
- create mode 100644 zim/AIX/day3_prac/Desktop_2.ini
- create mode 100644 zim/AIX/day3_prac/Thumbs.db
- create mode 100644 zim/AIX/day3_prac/appl_wpar.txt
- create mode 100644 zim/AIX/day3_prac/errpt.txt
- create mode 100644 zim/AIX/day3_prac/nfs.txt
- create mode 100644 zim/AIX/day3_prac/tcpip_network_service.txt
- create mode 100644 zim/AIX/day3_prac/vnc_aix.txt
- create mode 100644 zim/AIX/day3_prac/wpar_multidisk.txt
- create mode 100644 zim/AIX/day3_prac/wpar_prac.txt
- create mode 100644 zim/AIX/practise/Desktop_1.ini
- create mode 100644 zim/AIX/practise/Desktop_2.ini
- create mode 100644 zim/AIX/practise/OneNote Table Of Contents.onetoc2
- create mode 100644 zim/AIX/practise/cron_note.txt
- create mode 100644 zim/AIX/practise/crontab.txt
- create mode 100644 zim/AIX/practise/devices1.txt
- create mode 100644 zim/AIX/practise/jfs2.txt
- create mode 100644 zim/AIX/practise/networking overview.txt
- create mode 100644 zim/AIX/practise/paging space.txt
- create mode 100644 zim/AIX/practise/system startup and shutdown.txt
- create mode 100644 zim/AIX/practise/vg_lv_prac.txt
- create mode 100644 zim/AIX/practise/volume_group.txt
- create mode 100644 zim/ASA_gns3.txt
- create mode 100644 zim/Desktop_1.ini
- create mode 100644 zim/Desktop_2.ini
- create mode 100644 zim/NMON.txt
- create mode 100644 zim/Qemu.txt
- create mode 100644 zim/Transparent_proxy.txt
- create mode 100644 zim/Xen.office.txt
- create mode 100644 zim/adding_path_to_linux.txt
- create mode 100644 zim/adding_proxy_to_sheel.txt
- create mode 100644 zim/adding_proxy_to_shell.txt
- create mode 100644 zim/android/Desktop_1.ini
- create mode 100644 zim/android/Desktop_2.ini
- create mode 100644 zim/android/reverse_tather.txt
- create mode 100644 zim/apache.dvl.txt
- create mode 100644 zim/apache2.txt
- create mode 100644 zim/astaro/basic.txt
- create mode 100644 zim/astaro/ssh.txt
- create mode 100644 zim/astaro/text.txt
- create mode 100644 zim/aws/ssh.txt
- create mode 100644 zim/bandwidth.monitor.txt
- create mode 100644 zim/bandwidth.txt
- create mode 100644 zim/c/Desktop_1.ini
- create mode 100644 zim/c/Desktop_2.ini
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
+[master 018a6ef] Thu Oct 20 19:48:28 NZDT 2016
+ 4 files changed, 175 insertions(+), 27 deletions(-)
+ create mode 100644 zim/masum.txt
+ rewrite zim/text.txt (99%)
+masum@masum:/media/masum/MASUM_32GB$ 
 

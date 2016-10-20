@@ -166,5 +166,17 @@ masum@masum:/media/masum/MASUM_32GB$ git commit --message "20.10.2016"
 
  // output cut //
 
+.. after changing some files in the zim directory which has been added before
+.. we are adding it to out git and commit. it has shown that it has accepted
+.. our changes.
+
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
+[master 018a6ef] Thu Oct 20 19:48:28 NZDT 2016
+ 4 files changed, 175 insertions(+), 27 deletions(-)
+ create mode 100644 zim/masum.txt
+ rewrite zim/text.txt (99%)
+masum@masum:/media/masum/MASUM_32GB$ 
+
 
 
