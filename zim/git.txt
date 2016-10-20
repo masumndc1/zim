@@ -215,4 +215,8 @@ usage: git add [options] [--] <pathspec>...
 masum@masum:/media/masum/MASUM_32GB$ git add --refresh zim
 masum@masum:/media/masum/MASUM_32GB$ 
 
+.. when we need to unstagged a file we do that like below.
+
+masum@masum:/media/masum/MASUM_32GB$ git reset HEAD zim/git.txt
+
 
