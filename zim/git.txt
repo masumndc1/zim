@@ -178,5 +178,20 @@ masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
  rewrite zim/text.txt (99%)
 masum@masum:/media/masum/MASUM_32GB$ 
 
+.. now once again deleting the file masum of zim folder we add the folder
+.. zim to our git repository and run the commit like below.
+
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
+[master 7c91652] Thu Oct 20 19:50:53 NZDT 2016
+ 4 files changed, 20 insertions(+), 63 deletions(-)
+ delete mode 100644 zim/masum.txt
+ rewrite zim/text.txt (99%)
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. it is showing that masum.txt has been deleted.
+
+
+
 
 

@@ -1,8 +1,6 @@
-masum@masum:/media/masum/MASUM_32GB$ git add zim
 masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
-[master 018a6ef] Thu Oct 20 19:48:28 NZDT 2016
- 4 files changed, 175 insertions(+), 27 deletions(-)
- create mode 100644 zim/masum.txt
+[master 7c91652] Thu Oct 20 19:50:53 NZDT 2016
+ 4 files changed, 20 insertions(+), 63 deletions(-)
+ delete mode 100644 zim/masum.txt
  rewrite zim/text.txt (99%)
 masum@masum:/media/masum/MASUM_32GB$ 
-
