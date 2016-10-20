@@ -53,7 +53,118 @@ masum@masum:~$ cd /media/masum/MASUM_32GB/.git/
 masum@masum:/media/masum/MASUM_32GB/.git$ ls
 branches  config  description  HEAD  hooks  info  objects  refs
 masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ 
+
+.. adding a folder or file in git 
+
+masum@masum:/media/masum/MASUM_32GB/.git$ git add zim 
+
+.. status of the git 
+
+masum@masum:/media/masum/MASUM_32GB$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   zim/.git.txt.swp
+	new file:   zim/.zim/index.db
+	new file:   zim/.zim/state.conf
+	new file:   zim/AIX/Desktop_1.ini
+	new file:   zim/AIX/Desktop_2.ini
+	new file:   zim/AIX/day2_prac/Desktop_1.ini
+	new file:   zim/AIX/day2_prac/Desktop_2.ini
+	new file:   zim/AIX/day2_prac/backup and restore.txt
+	new file:   zim/AIX/day2_prac/delete_vg.txt
+	new file:   zim/AIX/day2_prac/user_lesson.txt
+	new file:   zim/AIX/day3_prac/Desktop_1.ini
+	new file:   zim/AIX/day3_prac/Desktop_2.ini
+	new file:   zim/AIX/day3_prac/Thumbs.db
+	new file:   zim/AIX/day3_prac/appl_wpar.txt
+	new file:   zim/AIX/day3_prac/errpt.txt
+	new file:   zim/AIX/day3_prac/nfs.txt
+	new file:   zim/AIX/day3_prac/tcpip_network_service.txt
+
+// output cut //
+
+.. commit command on date 20.10.2016
+
+masum@masum:/media/masum/MASUM_32GB$ git commit --message "20.10.2016"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: empty ident name (for <masum@localhost.localdomain>) not allowed
+masum@masum:/media/masum/MASUM_32GB$ git config --globab user.email "masumndc1@gmail.com"
+error: unknown option `globab'
+usage: git config [options]
+
+Config file location
+    --global              use global config file
+    --system              use system config file
+    --local               use repository config file
+    -f, --file <file>     use given config file
+    --blob <blob-id>      read config from given blob object
+
+Action
+    --get                 get value: name [value-regex]
+    --get-all             get all values: key [value-regex]
+    --get-regexp          get values for regexp: name-regex [value-regex]
+    --get-urlmatch        get value specific for the URL: section[.var] URL
+    --replace-all         replace all matching variables: name value [value_regex]
+    --add                 add a new variable: name value
+    --unset               remove a variable: name [value-regex]
+    --unset-all           remove all matches: name [value-regex]
+    --rename-section      rename section: old-name new-name
+    --remove-section      remove a section: name
+    -l, --list            list all
+    -e, --edit            open an editor
+    --get-color <slot>    find the color configured: [default]
+    --get-colorbool <slot>
+                          find the color setting: [stdout-is-tty]
+
+Type
+    --bool                value is "true" or "false"
+    --int                 value is decimal number
+    --bool-or-int         value is --bool or --int
+    --path                value is a path (file or directory name)
+
+Other
+    -z, --null            terminate values with NUL byte
+    --includes            respect include directives on lookup
+
+masum@masum:/media/masum/MASUM_32GB$ git config --global user.email "masumndc1@gmail.com"
+masum@masum:/media/masum/MASUM_32GB$ git config --global user.name "mohammad khabir uddin"
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. now running the command again
+
+masum@masum:/media/masum/MASUM_32GB$ git commit --message "20.10.2016"
+[master (root-commit) 72b3967] 20.10.2016
+ 828 files changed, 91429 insertions(+)
+ create mode 100644 zim/.git.txt.swp
+ create mode 100644 zim/.zim/index.db
+ create mode 100644 zim/.zim/state.conf
+ create mode 100644 zim/AIX/Desktop_1.ini
+ create mode 100644 zim/AIX/Desktop_2.ini
+ create mode 100644 zim/AIX/day2_prac/Desktop_1.ini
+ create mode 100644 zim/AIX/day2_prac/Desktop_2.ini
+ create mode 100644 zim/AIX/day2_prac/backup and restore.txt
+ create mode 100644 zim/AIX/day2_prac/delete_vg.txt
+ create mode 100644 zim/AIX/day2_prac/user_lesson.txt
+ create mode 100644 zim/AIX/day3_prac/Desktop_1.ini
+ create mode 100644 zim/AIX/day3_prac/Desktop_2.ini
+ create mode 100644 zim/c/Desktop_2.ini
+
+ // output cut //
 
 
 
