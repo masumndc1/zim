@@ -1,2 +1,8 @@
 masum@masum:/media/masum/MASUM_32GB$ git reset HEAD zim/git.txt
+Unstaged changes after reset:
+M	zim/git.txt
+M	zim/text.txt
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
 
