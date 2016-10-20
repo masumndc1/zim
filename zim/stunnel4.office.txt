@@ -1,0 +1,21 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-01-15T00:06:32+06:00
+
+====== stunnel4.office ======
+Created Tuesday 15 January 2013
+
+
+
+# vi /etc/stunnel/stunnel.conf
+cert = /etc/stunnel/stunnel.pem
+[mysqls]
+accept = 3307
+connect = 3306
+delay = yes
+
+# sudo mkdir /var/lib/stunnel4/etc
+# sudo cp /etc/resolv.conf [[/var/lib/stunnel4/etc]]
+
+openssl req -new -nodes -x509 -out [[/etc/stunnel/stunnel.pem]] -keyout /etc/stunnel/stunnel.pem
+

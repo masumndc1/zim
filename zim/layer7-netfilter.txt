@@ -1,0 +1,83 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-05-01T00:58:50+06:00
+
+====== layer7-netfilter ======
+Created Tuesday 01 May 2012
+
+root@mail:~# apt-cache search l7-filter
+l7-filter-userspace - Userspace layer 7 packet classifier
+l7-protocols - protocol definitions for the Linux layer 7 packet classifier
+root@mail:~# 
+root@mail:~# uname -a
+Linux mail 2.6.35-24-generic #42-Ubuntu SMP Thu Dec 2 01:41:57 UTC 2010 i686 GNU/Linux
+root@mail:~# 
+root@mail:~# 
+root@mail:~# apt-get install l7-filter-userspace
+
+Testing
+
+Let assume that you have a Ubuntu server with two network devices with WAN device eth0 and LAN device eth1. With iptables we redirect forwarded packages to the userspace. 
+
+**[// As for the testing purpose we will do ssh to our own maching so we are using OUTPUT chain. but we can use all the INPUT FORWARD chain too...]**
+
+root@mail:~#iptables -A OUTPUT -j NFQUEUE --queue-num 0
+
+Create a l7 config file in your favorite editor
+
+root@mail:~# vi /etc/l7_filter.conf
+
+and add some protocols
+
+ssh 5
+bittorrent 6
+
+The list of all supported protocols can be found here. From the config we can read that l7 filter will assign the mark 5 to the packets of ssh protocol and it will sign with mark 6 the bittorrent packets.
+
+Start l7 filter in debuging mode
+
+root@mail:/etc# l7-filter -vv -f /etc/l7_filter.conf
+
+                      ***WARNING***
+Neither the ip_conntrack_netlink nor nf_conntrack_netlink kernel
+modules are loaded. Unless these features are compiled into your
+kernel, please load one and run l7-filter again.
+
+Attempting to read configuration from /etc/l7_filter.conf
+Attempting to load pattern from /etc/l7-protocols/protocols/ssh.pat
+pattern='^ssh-[12]\.[0-9]'
+eflags=0 cflags=11
+Added: ssh	mark=5
+Attempting to load pattern from /etc/l7-protocols/protocols/bittorrent.pat
+pattern='^(\x13bittorrent protocol|azver\x01$|get /scrape\?info_hash=get /announce\?info_hash=|get /client/bitcomet/|GET /data\?fid=)|d1:ad2:id20:|\x08'7P\)[RP]'
+eflags=0 cflags=11
+Added: bittorrent	mark=6
+Got packet, had no ct:	tcp      6 src=192.168.202.36 dst=192.168.200.23 sport=42948 dport=23
+Got packet, had no ct:	tcp      6 src=192.168.202.36 dst=192.168.200.23 sport=42948 dport=23
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=38477 dport=22
+Got packet, had no ct:	tcp      6 src=127.0.0.1 dst=127.0.0.1 sport=22 dport=38477
+
+
+On your LAN client run a bittorrent session or make an ssh connection to an external server. If everything goes fine l7-filter will recognize your traffic and inform you trough the standard output.

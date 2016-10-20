@@ -1,0 +1,191 @@
+
+ciscoasa(config)# dhcpd address 172.16.1.2-172.16.1.10 ?
+
+configure mode commands/options:
+Available interfaces on which to enable the DHCP server:
+  dmz1     Name of interface Ethernet2
+  inside   Name of interface Ethernet1
+  outside  Name of interface Ethernet0
+ciscoasa(config)# dhcpd address 172.16.1.2-172.16.1.10 inside ?
+
+configure mode commands/options:
+  <cr>
+ciscoasa(config)# dhcpd address 172.16.1.2-172.16.1.10 inside 
+
+configure mode commands/options:
+  address       Configure the IP pool address range after this keyword
+  auto_config   Enable auto configuration from client
+  dns           Configure the IP addresses of the DNS servers after this
+                keyword
+  domain        Configure DNS domain name after this keyword
+  enable        Enable the DHCP server
+  lease         Configure the DHCPD lease length after this keyword
+  option        Configure options to pass to DHCP clients after this keyword
+  ping_timeout  Configure ping timeout value after this keyword
+  update        Configure dynamic updates
+  wins          Configure the IP addresses of the NETBIOS servers after this
+                keyword
+ciscoasa(config)# dhcpd enable
+
+ciscoasa(config)# dhcpd enable inside
+
+configure mode commands/options:
+  address       Configure the IP pool address range after this keyword
+  auto_config   Enable auto configuration from client
+  dns           Configure the IP addresses of the DNS servers after this
+                keyword
+  domain        Configure DNS domain name after this keyword
+  enable        Enable the DHCP server
+  lease         Configure the DHCPD lease length after this keyword
+  option        Configure options to pass to DHCP clients after this keyword
+  ping_timeout  Configure ping timeout value after this keyword
+  update        Configure dynamic updates
+  wins          Configure the IP addresses of the NETBIOS servers after this
+                keyword
+
+ciscoasa(config)# dhcpd dns ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  IP address of server 1
+ciscoasa(config)# dhcpd dns 4.2.2.1
+
+configure mode commands/options:
+Available interfaces on which to enable the DHCP server:
+  dmz1     Name of interface Ethernet2
+  inside   Name of interface Ethernet1
+  outside  Name of interface Ethernet0
+
+<! the following is optional options >
+
+ciscoasa(config)# dhcpd lease ?
+
+configure mode commands/options:
+  <300-1048575>  The length of lease, in seconds, granted to DHCP client from
+                 the DHCP server, default is 3600
+  <cr>
+ciscoasa(config)# 
+
+
+2. now on a linux server just issue
+
+root@box:~# dhclient eth0
+udhcpc (v1.19.0) started
+Sending discover...
+Sending select for 172.16.1.2...
+Lease of 172.16.1.2 obtained, lease time 3600
+deleting routers
+route: SIOCDELRT: No such process
+adding dns 4.2.2.1
+root@box:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:AB:CE:E5:00:00  
+          inet addr:172.16.1.2  Bcast:172.16.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::2ab:ceff:fee5:0/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:10 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1472 (1.4 KiB)  TX bytes:1790 (1.7 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 00:00:AB:7B:AB:01  
+          inet6 addr: fe80::200:abff:fe7b:ab01/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:11 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:2103 (2.0 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@box:~# ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr 00:AB:CE:E5:00:00  
+          inet addr:172.16.1.2  Bcast:172.16.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::2ab:ceff:fee5:0/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:10 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1472 (1.4 KiB)  TX bytes:1790 (1.7 KiB)
+
+root@box:~# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+127.0.0.1       0.0.0.0         255.255.255.255 UH    0      0        0 lo
+172.16.1.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
+0.0.0.0         172.16.1.1      0.0.0.0         UG    0      0        0 eth0
+root@box:~# 
+root@box:~# cat /etc/resolv.conf 
+nameserver 4.2.2.1
+root@box:~# 
+
+note: this gets the same nameserver as i did.
+
+3. verify on asa
+
+
+ciscoasa(config)# show run dhcpd
+dhcpd dns 4.2.2.1
+!
+dhcpd address 172.16.1.2-172.16.1.10 inside
+dhcpd enable inside
+!
+
+
+ciscoasa(config)# show run dhcpd
+dhcpd dns 4.2.2.1
+!
+dhcpd address 172.16.1.2-172.16.1.10 inside
+dhcpd enable inside
+!
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# show dhcpd ?
+
+exec mode commands/options:
+  binding     Show dhcp bindings
+  state       Show dhcpd state
+  statistics  Show dhcpd statistics
+
+ciscoasa(config)# show dhcpd binding 
+
+IP address       Hardware address        Lease expiration        Type
+
+     172.16.1.2    0100.abce.e500.00            3465 seconds    Automatic
+ciscoasa(config)# 
+
+ciscoasa(config)# show dhcpd state
+Context  Configured as DHCP Server
+Interface outside, Not Configured for DHCP
+Interface inside, Configured for DHCP SERVER
+Interface dmz1, Not Configured for DHCP
+ciscoasa(config)# 
+ciscoasa(config)# show dhcpd statistics 
+DHCP UDP Unreachable Errors: 0
+DHCP Other UDP Errors: 0
+
+Address pools        1
+Automatic bindings   1
+Expired bindings     0
+Malformed messages   0
+
+Message              Received
+BOOTREQUEST          0
+DHCPDISCOVER         2
+DHCPREQUEST          2
+DHCPDECLINE          0
+DHCPRELEASE          0
+DHCPINFORM           0
+
+Message              Sent
+BOOTREPLY            0
+DHCPOFFER            2
+DHCPACK              2
+DHCPNAK              0
+
+ciscoasa(config)# 

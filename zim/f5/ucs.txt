@@ -1,0 +1,186 @@
+
+// when we backup something in f5 its stores in 
+// /var/local/ucs directory
+
+[root@localhost:NO LICENSE] ucs # pwd
+/var/local/ucs
+
+[root@localhost:NO LICENSE] ucs # ls
+
+cs_backup_rotate.conf 
+
+[root@localhost:NO LICENSE] ucs # cat cs_backup_rotate.conf 
+# logrotate configuration file
+
+/var/local/ucs/cs_backup.ucs {
+	   rotate 4
+	   nocompress
+	   nomail
+	   nocreate
+}
+
+[root@localhost:NO LICENSE] ucs # 
+
+
+root@localhost(NO LICENSE)(tmos)# save 
+Modules:
+  sys   
+root@localhost(NO LICENSE)(tmos)# save /sys 
+
+Components:
+  base-config   config        scf           ucs           
+
+root@localhost(NO LICENSE)(tmos)# save sys 
+
+Components:
+  base-config   config        scf           ucs           
+
+root@localhost(NO LICENSE)(tmos)# save sys ucs 
+Options:
+  no-private-key   
+Configuration Items:
+  [enter file name]
+root@localhost(NO LICENSE)(tmos)# save sys ucs masum.ucs ?
+
+Options:
+  no-private-key  Save configuration without private key information.
+Properties:
+  "{"             Optional delimiter
+  passphrase
+root@localhost(NO LICENSE)(tmos)# save sys ucs masum.ucs 
+
+// now see what happened in the /var/local/ucs directorty
+// whether the file has been created or not.
+
+
+root@localhost(NO LICENSE)(tmos)# exit
+Use "quit" to end the current session
+root@localhost(NO LICENSE)(tmos)# 
+root@localhost(NO LICENSE)(tmos)# quit
+[root@localhost:NO LICENSE] ucs # 
+[root@localhost:NO LICENSE] ucs # pwd
+/var/local/ucs
+
+[root@localhost:NO LICENSE] ucs # ls
+
+cs_backup_rotate.conf  masum.ucs
+[root@localhost:NO LICENSE] ucs # ls -la
+total 420
+drwxr-xr-x 2 root root   4096 Aug  5 02:31 .
+drwxr-xr-x 5 root root   4096 Aug 16  2012 ..
+-r--r--r-- 1 root root    114 Mar 27  2012 cs_backup_rotate.conf
+-rw-r--r-- 1 root root 394051 Aug  5 02:31 masum.ucs
+
+[root@localhost:NO LICENSE] ucs # 
+
+// see the file masum.ucs has been created and the 
+// see the file size. now we can load the system
+// from this files when we need it. its better
+// if we can place the date too. so that we can
+// understand when we created the files. 
+
+*** content of the backup files in encrypted. ***
+
+// now time to load it again. for the loading
+// we do the following procedure like below.
+
+
+[root@localhost:NO LICENSE] ucs # ls
+cs_backup_rotate.conf  masum.ucs
+
+[root@localhost:NO LICENSE] ucs # 
+
+// we will load our previous configuration from the
+// masum.ucs file which one we did from our 
+// previous saving configuration.
+
+[root@localhost:NO LICENSE] ucs # pwd
+/var/local/ucs
+
+[root@localhost:NO LICENSE] ucs # ls
+
+cs_backup_rotate.conf  masum.ucs
+
+[root@localhost:NO LICENSE] ucs # 
+[root@localhost:NO LICENSE] ucs # tmsh
+root@localhost(NO LICENSE)(tmos)# 
+root@localhost(NO LICENSE)(tmos)# load ?
+Modules:
+  sys  General system configuration
+
+root@localhost(NO LICENSE)(tmos)# load sys ?
+Components:
+  base-config     The base load command replaces the running configuration using the contents of the following files in the order
+                  shown, /defaults/config_base.conf, /config/bigip_base.conf, and /config/bigip_sys.conf.
+  config          Replaces the running configuration with the configuration in the stored configuration files.
+  default-config  Install the original default configuration.
+  geoip           Load GeoIP data files
+  scf             Install configuration from the specified SCF file. This overwrites all configuration on the system.
+  ucs             Unpackage and install configuration from the specified UCS file. This overwrite all configuration on the system.
+
+root@localhost(NO LICENSE)(tmos)# load sys ucs ?
+Options:
+  rma  Load full configuration from a UCS file except license file. This command mostly is for RMA use.
+
+root@localhost(NO LICENSE)(tmos)# load sys ucs masum.ucs
+
+// one interesting happening here is that when we tried to 
+// load from the previous back then the running one is being
+// backed up first and the file name is cs_backup.ucs.
+
+***
+// the number of files will be created during the backup 
+// and rotational backup is written on the file 
+// cs_backup_rotate.conf file.
+
+
+// and the content of the cs_backup_rotate.conf file are 
+// 
+
+[root@localhost:NO LICENSE] ucs # ls
+cs_backup_rotate.conf  cs_backup.ucs  masum.ucs
+
+root@localhost:NO LICENSE] ucs #
+[root@localhost:NO LICENSE] ucs # cat cs_backup_rotate.conf 
+# logrotate configuration file
+
+/var/local/ucs/cs_backup.ucs {
+   rotate 4
+   nocompress
+   nomail
+   nocreate
+}
+
+[root@localhost:NO LICENSE] ucs # 
+
+*** 
+
+Current configuration backed up to /var/local/ucs/cs_backup.ucs.
+Product : BIG-IP
+Version : 10.2.4
+Hostname: localhost
+Installing --full-- configuration on host localhost 
+Installing configuration...
+grep: /var/tmp/ucs.6546/config/bigip.license: No such file or directory
+grep: /var/tmp/ucs.6546/config/bigip.license: No such file or directory
+grep: /config/bigip.license: No such file or directory
+grep: /config/bigip.license: No such file or directory
+Post-processing...
+Reloading License and configuration - this may take a few minutes...
+
+Full configuration has been loaded successfully.
+
+root@localhost(NO LICENSE)(tmos)# 
+
+[root@localhost:NO LICENSE] ucs # ls
+cs_backup_rotate.conf  cs_backup.ucs  masum.ucs
+
+[root@localhost:NO LICENSE] ucs # 
+
+// system has succesfully loaded from masum.ucs file 
+// and the cs_backup.ucs was last one before masum.ucs has
+// been implied.
+
+
+
+

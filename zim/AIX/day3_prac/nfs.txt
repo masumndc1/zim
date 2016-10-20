@@ -1,0 +1,52 @@
+10.6.137.111 NFS Server, 10.6.137.112  NFS Client
+
+----login to your lpar
+
+#mkdir /anj_sr
+
+#cd /anj_sr
+
+#cat>f1
+this is file1
+press ^d
+
+#cat>f2
+this is file2
+press ^d
+
+#cd
+
+#chmod -R 777 /anj_sr
+
+#ls -ld /anj_sr
+
+
+-----Add the entry in the /etc/exports files 
+
+#mknfsexp -B -d /anj_sr
+
+#cat /etc/exports
+
+#exportfs -a
+
+#cat /etc/exports
+
+#showmount -e
+
+
+------Now goto partner(telnet partner ip)
+#showmount -e nfsserver_ip 
+#mkdir /anj_cl
+
+#mount  -v nfs yourlparip:/anj_sr /anj_cl
+#ls /anj_cl
+
+#cd /anj_cl
+#touch f3
+
+#umount /anj_cl
+
+
+
+
+

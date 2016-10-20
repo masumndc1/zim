@@ -1,0 +1,19 @@
+
+file : /etc/network/interfaces
+
+formate 
+
+auto eth0
+iface eth0 inet dhcp or
+
+auto eth0
+iface eth0 inet static
+	address 
+	netmask
+	gateway
+	broadcast 
+	dns-nameservers 4.2.2.1 4.2.2.2
+	network
+	
+	
+

@@ -1,0 +1,59 @@
+
+deb http://packages.linuxmint.com debian import
+
+Update system repositories:
+
+# apt-get update
+
+You may get and ignore a following error:
+
+ W: GPG error: http://packages.linuxmint.com debian Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 3EE67F3D0FF405B2
+
+Once system's repositories are updated simply use apt-get command to install Firefox Browser on your Debian Jessie 8 Linux:
+
+# apt-get install firefox
+Reading package lists... Done                                                                                                                                                                             
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  firefox
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 40.8 MB of archives.
+After this operation, 89.9 MB of additional disk space will be used.
+WARNING: The following packages cannot be authenticated!
+  firefox
+Install these packages without verification? [y/N] y
+
+# apt-get install firefox
+
+
+
+// another way to do so.
+
+You need to add the following entry in /etc/apt/sources.list or a new file in /etc/apt/sources.list.d/:
+
+    deb http://mozilla.debian.net/ wheezy-backports firefox-release
+
+You can install it with the following commands:
+
+    $ apt-get update
+    $ apt-get install -t wheezy-backports firefox
+
+Please report any problem to the pkg-mozilla-maintainers@lists.alioth.debian.org list.
+
+The mozilla.debian.net archive is signed, so APT may complain until you add the archive key to your APT keyring.
+
+You can do so by installing the pkg-mozilla-archive-keyring package. Once installed, you can check the key with the following command (requires the debian-keyring package to be installed):
+
+    $ gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers
+    pub   4096R/06C4AE2A 2010-11-20 [expires: 2012-11-14]
+          Key fingerprint = 85F0 6FBC 75E0 67C3 F305  C3C9 85A3 D265 06C4 AE2A
+    uid                  Debian Mozilla team APT archive <pkg-mozilla-maintainers@lists.alioth.debian.org>
+    sig!3        06C4AE2A 2010-11-20  Debian Mozilla team APT archive <pkg-mozilla-maintainers@lists.alioth.debian.org>
+    sig!         54FD2A58 2010-11-20  Mike Hommey <mh@glandium.org>
+
+    1 signature not checked due to a missing key
+
+The latter message about signature not being checked is expected, as the archive key is signed by two keys, but only one being in the Debian keyring at a given moment: 54FD2A58 is an old key that is going to be deprecated and replaced with A6AA8C72. You can thus also expect the last signature validation to differ depending on the Debian keyring version you use.
+
+You may want to check the trust path from your key to the one that signed the archive key. Or you can choose to trust the Debian keyring.

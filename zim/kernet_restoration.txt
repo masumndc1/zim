@@ -1,0 +1,8 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-09T23:50:29+06:00
+
+====== kernet restoration ======
+Created Sunday 09 June 2013
+
+add rdshell and the end of the kernel command. and have debug shell

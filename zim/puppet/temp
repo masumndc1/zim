@@ -1,0 +1,16 @@
+[root@localhost puppet]# puppet resource user root
+user { 'root':
+  ensure           => 'present',
+  comment          => 'root',
+  gid              => '0',
+  groups           => ['root', 'bin', 'daemon', 'sys', 'adm', 'disk', 'wheel'],
+  home             => '/root',
+  password         => '$6$jClLwmZ6$Wbsn/.qu5PoMwERbAoju4QSkEV9VVQNtO/aCAQljKK7DoL3yuzoe2DSO7/5278pALKBmYWWu2AGPWc8Lxu5DE/',
+  password_max_age => '99999',
+  password_min_age => '0',
+  shell            => '/bin/bash',
+  uid              => '0',
+}
+[root@localhost puppet]# 
+[root@localhost puppet]# 
+

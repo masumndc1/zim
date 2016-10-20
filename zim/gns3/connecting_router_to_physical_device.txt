@@ -1,0 +1,102 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-09T21:33:57+06:00
+
+====== connecting router to physical device ======
+Created Tuesday 09 July 2013
+
+root@bt:~# **apt-get install uml-utilities**
+root@bt:~# **tunctl**
+root@bt:~# **ifconfig tap0 10.10.10.1/24**
+root@bt:~# **echo 1 > /proc/sys/net/ipv4/ip_forward**
+root@bt:~#** ifconfig tap0**
+tap0      Link encap:Ethernet  HWaddr ee:af:c0:70:2a:e5  
+          inet addr:10.10.10.1  Bcast:10.10.10.255  Mask:255.255.255.0
+          inet6 addr: fe80::ecaf:c0ff:fe70:2ae5/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:126 errors:0 dropped:23 overruns:0 frame:0
+          TX packets:174 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:10377 (10.3 KB)  TX bytes:14074 (14.0 KB)
+root@bt:~# **gns3 &**
+
+//click on cloud and right click on cloud and then go to nio tap. write tap0 on box and click add apply and ok.//
+//connect the router on nio_tap:tap0//
+
+{{~/Pictures/1.png}}
+
+{{~/Pictures/2.png}}
+
+{{~/Pictures/3.png}}
+
+{{~/Pictures/4.png}}
+
+
+Router(config)#int f0/0
+Router(config-if)#ip address 10.10.10.10 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#do ping 10.10.10.10
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.10, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/4 ms
+Router(config-if)#do ping 10.10.10.1 
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 4/4/8 ms
+Router(config-if)#
+
+//configure router for telnet and lets see wheter router can be rechable from physical device.//
+
+Router(config)#**lin con 0 **
+Router(config-line)#**password cisco**
+Router(config-line)#**login**
+Router(config-line)#**line vty 0 4**
+Router(config-line)#**password cisco**
+Router(config-line)#**login**
+Router(config-line)#**exit**
+Router(config)#
+Router(config)#**do copy run start**
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+Router(config)#
+
+{{~/Pictures/Screenshot from 2013-07-10 01:45:57.png}}
+
+//pinging from my physical box to router in gns3//
+
+root@bt:~# **ping 10.10.10.10**
+PING 10.10.10.10 (10.10.10.10) 56(84) bytes of data.
+64 bytes from 10.10.10.10: icmp_req=1 ttl=255 time=80.9 ms
+64 bytes from 10.10.10.10: icmp_req=2 ttl=255 time=2.14 ms
+64 bytes from 10.10.10.10: icmp_req=3 ttl=255 time=2.08 ms
+64 bytes from 10.10.10.10: icmp_req=4 ttl=255 time=1.93 ms
+^C
+--- 10.10.10.10 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3003ms
+rtt min/avg/max/mdev = 1.935/21.778/80.954/34.165 ms
+root@bt:~# 
+
+root@bt:~#** telnet 10.10.10.10**
+Trying 10.10.10.10...
+Connected to 10.10.10.10.
+Escape character is '^]'.
+
+
+User Access Verification
+
+Password: ***** (cisco)
+Router>
+Router>ena
+Password: ***** (cisco)
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+
+
+//ya i can telnet it too...//
+

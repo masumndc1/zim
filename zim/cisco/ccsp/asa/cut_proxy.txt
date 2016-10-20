@@ -1,0 +1,121 @@
+
+
+// challenging an user to provide credentials for using service through asa 
+// we need the service cut through proxy. 
+
+1. configure the aaa server
+
+ciscoasa(config-service)# show run aaa-server
+
+ aaa-server radius_server protocol radius
+ max-failed-attempts 5
+ aaa-server radius_server (dmz1) host 192.168.35.147
+ key testing123
+ authentication-port 1812
+
+ciscoasa(config-service)# 
+
+2. now configure for which service asa will challenge user to 
+provide his username and password.
+
+ciscoasa(config)# object-group service myservice tcp 
+
+ciscoasa(config-service)# ?
+
+  description   Specify up to 200 characters of description text
+  group-object  Configure an object group as an object
+  help          Help for service object-group configuration commands
+  no            Remove an object or description from object-group
+  port-object   Configure a port object
+
+ciscoasa(config-service)# description allowing tcp http service      
+ciscoasa(config-service)# ?
+
+  description   Specify up to 200 characters of description text
+  group-object  Configure an object group as an object
+  help          Help for service object-group configuration commands
+  no            Remove an object or description from object-group
+  port-object   Configure a port object
+
+ciscoasa(config-service)# port-object ?
+
+service-object-group mode commands/options:
+
+  eq     Enter this keyword to specify a port
+  range  Enter this keyword to specify a range of ports 
+
+ciscoasa(config-service)# port-object eq ?
+
+service-object-group mode commands/options:
+  <0-65535>        Enter port number (0 - 65535)
+  aol              
+  bgp              
+  chargen          
+  cifs             
+  citrix-ica       
+  cmd              
+  ctiqbe           
+  daytime          
+  discard          
+  domain           
+  echo             
+  exec             
+  finger           
+  ftp              
+  ftp-data         
+  gopher           
+  h323             
+  hostname         
+  http             
+  https            
+  ident            
+  imap4            
+
+ciscoasa(config-service)# port-object eq http 
+ciscoasa(config-service)# 
+
+ciscoasa(config)# show run object
+
+object-group service myservice tcp
+ description: allowing tcp http service
+ port-object eq www
+
+ciscoasa(config)# 
+
+
+3. now configure an acl to use particular host/service through asa
+
+ciscoasa(config)# show run access-list 
+
+access-list dmz1-http extended permit tcp object-group inside object-group dmz1 object-group myservice 
+
+ciscoasa(config)#
+
+// here we are instructing asa permitting tcp service from inside block to use dmz1 for the http service
+// with the help of object-group myservice which was configured previously.
+
+4. finally we are instructing asa that to take this service one must have to authenticate himself
+through the aaa server.
+
+
+ciscoasa(config)# show run aaa       
+
+aaa authentication match dmz1-http dmz1 radius_server
+
+ciscoasa(config)# 
+
+5. verify.
+
+// just initiate a connection http through asa and it will prompt for the username and password.
+// when provided then it will allow the connection.
+
+
+6. virtual http and virtual telnet configuration.
+
+
+ciscoasa(config)# aaa authentication http console radius_server LOCAL   
+
+ciscoasa(config)# 
+ciscoasa(config)# virtual telnet 192.168.35.147   
+ciscoasa(config)# virtual http 192.168.35.147     
+ciscoasa(config)# 

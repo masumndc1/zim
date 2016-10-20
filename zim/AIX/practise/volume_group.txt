@@ -1,0 +1,143 @@
+A stale physical partition contains data your system cannot use.
+If you repair a bad disk and place it back in the system without reformatting it, you can let the system automatically activate and resynchronize the stale physical partitions on the drive at boot time. A stale physical partition contains data your system cannot use.
+
+To view the vg
+#lsvg
+
+To view the active vg
+#lsvg -o
+
+To view the information about the volume group
+#lsvg rootvg
+
+To view the physical volumes in the vg
+#lsvg -p rootvg
+
+To view the logical volumes in the vg
+#lsvg -l rootvg
+
+To view the pvs
+#lspv
+
+
+To create a vg
+
+or
+# mkvg -s 16 -y sapvg hdisk2
+
+To check
+#lsvg sapvg
+
+
+To Deactivate a volume group
+#varyoffvg sapvg
+
+To check
+#lsvg -o 
+#lsvg
+
+To Activate a vg
+#varyonvg sapvg
+
+To check
+#lsvg -o
+#lsvg
+
+To view the pvs in a vg 
+
+#lsvg -p sapvg
+
+To view the lvs in a vg
+
+#lsvg -l sapvg
+
+
+
+
+
+
+
+ To remove a volume group
+# reducevg sapvg hdisk2
+****ldeletepv: Volume Group deleted since it contains no physical volumes.
+			Logical Volume
+
+
+To create a logical volume in sapvg
+# mklv -y newlv sapvg 64m 
+
+#mklv -t jfs2 -y newlv1 sapvg 64m
+
+****After this we can check ls /dev/newlv
+
+
+To display the lv
+#lslv  newlv
+
+#lslv -m newlv
+
+To display all the lv in a sapvg
+
+#lsvg -l sapvg
+
+To view the lv from pv
+
+#lspv -l hdisk2
+
+To increase the no of pps' in a lv
+#extendlv newlv 1
+
+
+To view the map
+#lslv -m newlv
+
+
+
+
+
+
+To add a filesystem in the volume group with mount point
+#crfs -v jfs -d /dev/newlv -m /newlv 
+
+#lsvg -l sapvg|grep newlv    ----->showing close
+
+
+To mount the filesystem 
+#mount /newlv
+
+#lsvg -l sapvg|grep newlv    ----->showing open
+
+To check the filesystem
+#df -m /newlv
+
+#cat /etc/filesystems|grep -ip newlv
+ 
+
+#lsfs
+
+
+To increase the size of the lv
+#chfs -a size=+32M /newlv
+
+#lslv -m newlv
+
+#df -m /newlv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

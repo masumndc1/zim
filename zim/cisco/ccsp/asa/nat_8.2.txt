@@ -1,0 +1,123 @@
+//////////////////////// nat before 8.2
+
+
+/// performing nat vs enforced nat
+
+/// performing nat
+os version 7.0 or later version allows packets
+from higher security interface to travel to lower
+security interface which is performing nat.
+
+asa by default nat enabled. on the other hand
+
+/// enforcing nat
+enforcing nat means we have to configure nat for all
+of the packets going toward lower security interface
+that means outbound interface. before os version 7.0
+we had to do that. 
+
+enforcing nat is a kind of security enhancement. no 
+outbound traffic is allowed if no rules are applied 
+and packets are dropped.
+
+and we can force asa to use enforce nat by the following
+
+asa(config)# nat-control
+
+
+
+//// nat exemption
+
+therefore if we dont need nat we can stop by not enabling
+nat-control. nat will be applied on packets whose rules
+are there on configuration. other packets will not be touched.
+
+there are other scenario where nat is not applied
+
+a. if there is needed any kind of end-to-end encryption. 
+decryption failes on the other hand.
+
+b. if we need to encrypt the entire packets ie authetication
+header (AH) or border gateway protocol (BGP). if encryption
+occurs before translation of IP/PORT then packet drops at other
+end when it tries to decrypt the packet.
+
+c. if we need additional dynamic sessions to be build and ASA
+fails to inspect the content of the packets after NAT/PAT then we
+should not use NAT/PAT.	
+
+d. we should not also use nat/pat in case of vpn and internal 
+communication like internal interface to dmz. in later case
+we can use dynamic routing like ospf/eigrp because communication
+between private does not need natting though it can be done.
+
+
+/// dynamic inside nat
+
+the basic two commands to do dynamic inside nat is like below.
+
+asa(config)# global (outside) 1 209.165.200.235-209.165.200.254 netmask 255.255.255.224 timeout xlate 1:00:00
+asa(config)# nat (inside) 1 10.0.0.0 255.255.255.0
+
+global
+the key word for natting pool 
+
+outside 
+means outside interface
+
+1
+a nat id 
+
+ip range with subnet mask
+
+timeout xlate 1:00:00
+timeout value for translation
+
+nat 
+keyword 
+
+inside
+inside interface from where the ips will be natted.
+
+1
+again the nat id which match the previous nat id to be used.
+inside ips will use this nat id. 
+
+there can be multiple nat id
+and we have flexibility to configure which nat id to use.
+
+ip range and subnet mask
+these ips will be natted to global pool.
+
+note below of another configuration..
+
+asa(config)# global (outside) 1 209.165.200.235-209.165.200.254 netmask 255.255.255.224 timeout xlate 1:00:00
+asa(config)# nat (inside) 1 10.0.0.0 255.255.255.0
+asa(config)# global (outside) 2 202.4.191.1-202.4.191.10 netmask 255.255.255.240 timeout xlate 1:00:00
+asa(config)# nat (inside) 2 172.16.1.0 255.255.255.0
+
+here inside two range ips are using two different pool when to communicate outside. we can do that.
+asa is flexible to do so.
+
+
+
+//// dynamic inside pat
+
+
+ asa(config)# global (outside) 5 interface
+ asa(config)# nat (inside) 5 10.0.0.0 255.255.255.0 tcp 0 0 udp 0
+
+ asa(config)# global (DMZ) 5 172.16.0.254 netmask 255.255.255.255
+ asa(config)# nat (DMZ) 5 172.16.0.0 255.255.255.0 tcp 0 0 udp 0
+
+note here in first two line of configuration. inside interfaces ips are being
+natted to outside interface ( no matter what will be the ips of that interface).
+in that case port will be used for as the single ip of outside interface.
+
+next two lines are also same type. direct interface ip is use instead of 
+key word interface. here dmz's 172.16.0.0/24 will be natted to 172.16.0.254 with
+different outgoing ports.
+
+ 
+
+ 

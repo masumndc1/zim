@@ -1,0 +1,9 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-11T03:03:37+06:00
+
+====== packettracer ======
+Created Thursday 11 July 2013
+
+sudo apt-get install ia32-libs-gtk
+http://www.mediafire.com/?r95gqy7n331ht8t

@@ -1,0 +1,28 @@
+
+
+
+........................... basic theory ...........................
+
+.. in puppet agent and master environment, an agent send the node's 
+.. data to the puppet master and in return, agent gets the precomplied
+.. catalog from the master which is only to the node specific policy to
+.. enforced.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

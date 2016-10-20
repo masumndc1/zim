@@ -1,0 +1,21 @@
+backbyna
+
+lsvg -l anjvg
+
+lspv
+
+umount /anjlv1
+
+umount /anjlv
+
+rmfs /anjlv1
+
+rmfs /anjlv
+
+swapoff /dev/paging01
+
+rmps paging01
+
+lsvg -l anjvg|grep -i open
+
+reducevg -df anjvg hdisk1

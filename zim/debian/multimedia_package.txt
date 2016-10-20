@@ -1,0 +1,6 @@
+download codec from following.
+
+https://wiki.debian.org/MultimediaCodecs
+
+
+

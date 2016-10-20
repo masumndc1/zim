@@ -1,0 +1,38 @@
+
+
+// there is how we configure the policy like below.
+// from policy tab/policy and the configuration is
+// quit easy and self explanatory. after doing and
+// saving in gui we got the policy in cli like below.
+
+FortiGate # show firewall policy 
+policyid    Policy ID.
+1  
+
+FortiGate # show firewall policy 1
+config firewall policy
+    edit 1
+        set srcintf "port2"
+        set dstintf "port1"
+        set srcaddr "insideBlock"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+        set logtraffic-start enable
+        set nat enable
+    next
+end
+
+FortiGate # 
+
+// where we can easily see and got the point
+// what is going on there.
+
+// now if everything is going fine. then we can see
+// packets and bytes are showing in the monitor tab
+// under the policy tab
+
+
+

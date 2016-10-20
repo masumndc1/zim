@@ -1,0 +1,239 @@
+
+ 
+FortiGate-VM # get system startup-error-log 
+
+startup-error-log             Display startup config error on console.
+status                        System status.
+storage                       Configure logical storage.
+switch-interface              Configure software switch interfaces.
+tos-based-priority            Configure ToS based priority table.
+vdom-link                     Configure VDOM links.
+wccp                          Configure WCCP.
+zone                          Configure zone.
+
+FortiGate-VM # get system performance firewall statistics 
+
+getting traffic statistics...
+Browsing: 127111 packets, 22376422 bytes
+DNS: 761 packets, 80575 bytes
+E-Mail: 0 packets, 0 bytes
+FTP: 0 packets, 0 bytes
+Gaming: 0 packets, 0 bytes
+IM: 0 packets, 0 bytes
+Newsgroups: 0 packets, 0 bytes
+P2P: 0 packets, 0 bytes
+Streaming: 0 packets, 0 bytes
+TFTP: 0 packets, 0 bytes
+VoIP: 0 packets, 0 bytes
+Generic TCP: 3035 packets, 212721 bytes
+Generic UDP: 8009 packets, 1147869 bytes
+Generic ICMP: 38780 packets, 3258928 bytes
+Generic IP: 19611 packets, 2174526 bytes
+
+FortiGate-VM # 
+
+FortiGate-VM # get system performance firewall packet-distribution 
+getting packet distribution statistics...
+0 bytes - 63 bytes: 64342 packets
+64 bytes - 127 bytes: 42212 packets
+128 bytes - 255 bytes: 394 packets
+256 bytes - 383 bytes: 4623 packets
+384 bytes - 511 bytes: 53 packets
+512 bytes - 767 bytes: 285 packets
+768 bytes - 1023 bytes: 979 packets
+1024 bytes - 1279 bytes: 1254 packets
+1280 bytes - 1500 bytes: 90 packets
+ > 1500 bytes: 0 packets
+
+FortiGate-VM # get system performance top
+
+Run Time:  0 days, 12 hours and 22 minutes
+0U, 6S, 94I; 1007T, 789F, 95KF
+          newcli      601      R       0.4     1.2
+         pyfcgid      591      S       0.0     1.9
+         pyfcgid      592      S       0.0     1.9
+         pyfcgid      593      S       0.0     1.9
+         pyfcgid      594      S       0.0     1.9
+         cmdbsvr       25      S       0.0     1.8
+       ipsengine       60      S <     0.0     1.7
+          httpsd      165      S       0.0     1.7
+          httpsd      166      S       0.0     1.7
+         sslvpnd      142      S       0.0     1.5
+          httpsd      164      S       0.0     1.4
+          httpsd       34      S       0.0     1.4
+     proxyworker       46      S       0.0     1.3
+            iked      262      S       0.0     1.2
+          newcli      600      S       0.0     1.2
+          newcli      494      S       0.0     1.2
+           fgfmd      536      S       0.0     1.2
+         miglogd       32      S       0.0     1.1
+         reportd       72      S       0.0     1.1
+       scanunitd       71      S <     0.0     0.9
+
+FortiGate-VM # 
+FortiGate-VM # 
+FortiGate-VM # 
+FortiGate-VM # get system performance status
+CPU states: 0% user 5% system 0% nice 95% idle
+CPU0 states: 0% user 5% system 0% nice 95% idle
+Memory states: 21% used
+Average network usage: 1 kbps in 1 minute, 1 kbps in 10 minutes, 1 kbps in 30 minutes
+Average sessions: 10 sessions in 1 minute, 11 sessions in 10 minutes, 11 sessions in 30 minutes
+Average session setup rate: 0 sessions per second in last 1 minute, 0 sessions per second in last 10 minutes, 0 sessions per second in last 30 minutes
+Virus caught: 0 total in 1 minute
+IPS attacks blocked: 0 total in 1 minute
+Uptime: 0 days,  12 hours,  22 minutes
+
+FortiGate-VM # 
+FortiGate-VM # 
+FortiGate-VM # diagnose hardware deviceinfo disk 
+
+Device S*	    2.0 GB	ref: n/a	VMware, VMware Virtual S (ASM-SAS) 
+  partition 1	  128.0 MB	ref: n/a	label:                 
+  [ dev: /dev/sda1  major: 8  minor: 1  free: 93MB  mounted: Y ]
+  partition 2	    1.9 GB	ref: n/a	label:                 
+  [ dev: /dev/sda2  major: 8  minor: 2  free: 1886MB  mounted: Y ]
+
+Device S0	   30.0 GB	ref: 0  	VMware, VMware Virtual S (ASM-SAS) [HDD1]
+
+Total available disks: 1
+
+
+FortiGate-VM # diagnose hardware deviceinfo nic
+
+The following NICs are available:
+  port1
+  port2
+  port3
+  port4
+  port5
+  port6
+  port7
+  port8
+  port9
+  port10
+
+FortiGate-VM # 
+FortiGate-VM # 
+FortiGate-VM # 
+FortiGate-VM # diagnose hardware deviceinfo nic port1
+Name:		 port1
+Driver:		 e1000
+Version:	 5.1.13k2 NAPI
+FW version:	 N/A
+Bus:		 02:00.0
+Memory:		 0xef540000 - 0xef560000
+Base address:	 0x2000
+Interrupt:	 18
+Hwaddr:		 00:0c:29:9d:a2:9a
+Permanent Hwaddr:00:0c:29:9d:a2:9a
+State:		 up
+Link:		 up
+Mtu:		 1500
+Supported:	 auto 10half 10full 100half 100full 1000full
+Advertised:	 auto 10half 10full 100half 100full 1000full
+Speed:		 1000full
+Auto:		 enabled
+Rx packets:		 83877
+Rx bytes:		 9374533
+Rx compressed:		 0
+Rx dropped:		 0
+Rx errors:		 0
+  Rx Length err:	 0
+  Rx Buf overflow:	 0
+  Rx Crc err:		 0
+  Rx Frame err:		 0
+  Rx Fifo overrun:	 0
+  Rx Missed packets:	 0
+Tx packets:		 96794
+Tx bytes:		 19630221
+Tx compressed:		 0
+Tx dropped:		 0
+Tx errors:		 0
+  Tx Aborted err:	 0
+  Tx Carrier err:	 0
+  Tx Fifo overrun:	 0
+  Tx Heartbeat err:	 0
+  Tx Window err:	 0
+Multicasts:		 0
+Collisions:		 0
+
+FortiGate-VM # 
+
+
+FortiGate-VM # diagnose ip arp  list
+index=2 ifname=port1 192.168.35.1 00:50:56:c0:00:08 state=00000002 use=23 confirm=23 update=1120 ref=21
+index=3 ifname=port2 192.168.244.10 c2:00:1b:3b:00:01 state=00000002 use=25 confirm=299 update=299 ref=2
+
+FortiGate-VM # 
+
+FortiGate-VM # execute ping-options repeat-count 10 
+
+FortiGate-VM # execute ping yahoo.com
+PING yahoo.com (98.139.183.24): 56 data bytes
+64 bytes from 98.139.183.24: icmp_seq=0 ttl=44 time=218.5 ms
+64 bytes from 98.139.183.24: icmp_seq=1 ttl=44 time=228.6 ms
+64 bytes from 98.139.183.24: icmp_seq=2 ttl=44 time=220.9 ms
+64 bytes from 98.139.183.24: icmp_seq=3 ttl=44 time=220.6 ms
+64 bytes from 98.139.183.24: icmp_seq=4 ttl=44 time=220.7 ms
+64 bytes from 98.139.183.24: icmp_seq=5 ttl=44 time=221.5 ms
+64 bytes from 98.139.183.24: icmp_seq=6 ttl=44 time=221.5 ms
+64 bytes from 98.139.183.24: icmp_seq=7 ttl=44 time=218.1 ms
+64 bytes from 98.139.183.24: icmp_seq=8 ttl=44 time=235.7 ms
+64 bytes from 98.139.183.24: icmp_seq=9 ttl=44 time=221.4 ms
+
+--- yahoo.com ping statistics ---
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 218.1/222.7/235.7 ms
+
+FortiGate-VM # 
+
+FortiGate-VM # execute traceroute  yahoo.com
+traceroute to yahoo.com (206.190.36.45), 32 hops max, 72 byte packets
+ 1  192.168.35.1  2.582 ms  3.234 ms  0.193 ms
+ 2  192.168.1.1  1.554 ms  1.549 ms  1.391 ms
+ 3  103.9.40.41 <103-9-40-41.flip.co.nz>  26.585 ms  25.154 ms  28.846 ms
+ 4  * * *
+ 5  * * *
+ 6  101.98.5.20 <pts-n.cpcak4-r1.tranzpeer.net>  24.264 ms  16.294 ms  36.692 ms
+ 7  101.98.5.21 <pts-s.cpcak4-r1.tranzpeer.net>  22.606 ms  28.834 ms  19.640 ms
+ 8  175.45.102.65  28.508 ms  30.694 ms  27.634 ms
+ 9  114.31.202.100 <bundle-10.cor01.akl05.akl.VOCUS.net.nz>  151.659 ms  157.674 ms  158.215 ms
+10  114.31.202.47 <bundle-200.cor02.lax01.ca.VOCUS.net>  162.820 ms  154.130 ms  167.306 ms
+11  49.255.255.7 <100G-0-1-0-0.cor01.lax01.ca.vocus.net>  161.352 ms  165.441 ms  163.805 ms
+12  49.255.255.9 <bundle100.bdr01.lax01.ca.vocus.net>  162.253 ms  153.041 ms  330.902 ms
+13  206.72.210.195 <yahoo.as10310.any2ix.coresite.com>  153.810 ms  165.548 ms  181.639 ms
+14  216.115.96.46 <xe-4-0-2.pat2.sjc.yahoo.com>  167.189 ms  173.991 ms  166.921 ms
+15  216.115.96.57 <ae-3.pat2.swp.yahoo.com>  183.700 ms  190.630 ms  188.503 ms
+16  216.115.101.111 <ae-5.pat1.gqb.yahoo.com>  199.587 ms  191.794 ms  202.750 ms
+17  66.196.67.109 <et-0-0-0.msr2.gq1.yahoo.com>  182.667 ms  184.846 ms  184.924 ms
+18  67.195.37.97 <et-1-0-0.clr2-a-gdc.gq1.yahoo.com>  186.857 ms  198.504 ms  191.024 ms
+19  67.195.1.83 <et-17-25.fab3-1-gdc.gq1.yahoo.com>  195.716 ms  196.544 ms  195.651 ms
+20  206.190.32.17 <po-11.bas1-7-prd.gq1.yahoo.com>  195.285 ms  187.643 ms  199.603 ms
+21  206.190.36.45 <ir1.fp.vip.gq1.yahoo.com>  193.677 ms  191.190 ms  182.843 ms
+
+FortiGate-VM # 
+
+FortiGate-VM # get route info routing-table all
+Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
+       O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default
+
+S*      0.0.0.0/0 [10/0] via 192.168.35.1, port1
+S       10.10.10.0/24 [10/0] is directly connected, masum_ike1
+C       192.168.35.0/24 is directly connected, port1
+C       192.168.244.0/24 is directly connected, port2
+
+
+FortiGate-VM # 
+FortiGate-VM # 
+
+
+
+To debug an IPSEC site-to-site VPN
+connection, a good list of steps is the one posted by Yuri Slobodyanyuk in
+his blog: http://bit.ly/hzREm1 .
+

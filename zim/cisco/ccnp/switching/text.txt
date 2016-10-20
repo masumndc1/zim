@@ -1,0 +1,35 @@
+R1#show ip cef 
+Prefix              Next Hop             Interface
+0.0.0.0/0           drop                 Null0 (default route handler entry)
+0.0.0.0/8           drop
+0.0.0.0/32          receive
+127.0.0.0/8         drop
+224.0.0.0/4         drop
+224.0.0.0/24        receive
+240.0.0.0/4         drop
+255.255.255.255/32  receive
+R1#
+
+R1#show vlan-switch 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/0, Fa1/1, Fa1/2, Fa1/3
+                                                Fa1/4, Fa1/5, Fa1/6, Fa1/7
+                                                Fa1/8, Fa1/9, Fa1/10, Fa1/12
+                                                Fa1/13, Fa1/14, Fa1/15
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        1002   1003
+1002 fddi  101002     1500  -      -      -        -    -        1      1003
+1003 tr    101003     1500  1005   0      -        -    srb      1      1002
+1004 fdnet 101004     1500  -      -      1        ibm  -        0      0   
+1005 trnet 101005     1500  -      -      1        ibm  -        0      0   
+R1#
+R1#
+

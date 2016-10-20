@@ -1,0 +1,40 @@
+
+
+
+
+........................ openvswitch .........................
+
+.. installing openvswitch.
+
+root@localhost # wget -c http://openvswitch.org/releases/openvswitch-2.5.1.tar.gz
+
+root@debian7:~# ls
+barnayard2.bak		  dns_orig.sh		  Image_Color-1.0.4.tgz  mininet	    openvswitch-2.5.1.tar.gz
+community-rules		  dns_pf.sh		  Image_Graph-0.8.0.tgz  oflops		    openvswitch.sh
+community-rules.tar.gz	  dns_route.sh		  ipscript_reset.sh	 oftest		    pox
+debian_script_office.txt  dns.sh		  ipscript.sh		 openflow	    route.sh
+dns_as.sh		  Image_Canvas-0.3.5.tgz  masum.txt		 openvswitch-2.5.1  Vagrantfile
+root@debian7:~# 
+root@debian7:~# cd openvswitch-2.5.1/
+
+root@debian7:~/openvswitch-2.5.1# ls
+acinclude.m4	CONTRIBUTING.md    INSTALL.Docker.md   INSTALL.userspace.md  NOTICE	       README-native-tunneling.md  Vagrant
+aclocal.m4	COPYING		   INSTALL.DPDK.md     INSTALL.Windows.md    ofproto	       REPORTING-BUGS.md	   vswitch
+appveyor.yml	datapath	   INSTALL.Fedora.md   INSTALL.XenServer.md  OPENFLOW-1.1+.md  rhel			   vtep
+AUTHORS		datapath-windows   INSTALL.KVM.md      IntegrationGuide.md   ovn	       SECURITY.md		   WHY-OVS
+boot.sh		debian		   INSTALL.Libvirt.md  lib		     ovsdb	       selinux			   windows
+build-aux	DESIGN.md	   INSTALL.md	       m4		     package.m4        tests			   xenserv
+CodingStyle.md	Documentation	   INSTALL.NetBSD.md   Makefile.am	     PORTING.md        third-party
+config.h.in	FAQ.md		   INSTALL.RHEL.md     Makefile.in	     python	       TODO.md
+configure	include		   INSTALL.SELinux.md  manpages.mk	     README-lisp.md    tutorial
+configure.ac	INSTALL.Debian.md  INSTALL.SSL.md      NEWS		     README.md	       utilities
+
+root@debian7:~/openvswitch-2.5.1# ./configure
+root@debian7:~/openvswitch-2.5.1# make && make install
+
+.. alternative way is to install the mininet which includes all the 
+.. openvswitch and openflow. 
+
+
+
+

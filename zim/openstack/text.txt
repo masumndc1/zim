@@ -1,0 +1,11 @@
+ciscoasa(config)# 
+ciscoasa(config)# show uauth
+			Current	   Most Seen
+Authenticated Users	  1	     1
+Authen In Progress 	  0	     1
+user 'masum' at 10.10.10.1, authenticated
+   absolute   timeout: 0:05:00
+   inactivity timeout: 0:00:00
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# 

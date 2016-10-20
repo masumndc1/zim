@@ -1,0 +1,7 @@
+//
+// when psad detect an attack then it write the log in
+// /var/log/messages like below
+
+May  5 08:10:03 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: [22] flags: SYN tcp pkts: 5 DL: 4
+
+

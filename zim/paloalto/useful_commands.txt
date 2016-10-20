@@ -1,0 +1,110 @@
+//
+// to see the full configuration just write 
+// show command like below.
+
+
+
+admin@testpa# show
+deviceconfig {
+  system {
+    ip-address 192.168.201.234;
+    netmask 255.255.252.0;
+    update-server updates.paloaltonetworks.com;
+    update-schedule {
+      threats {
+        recurring {
+          weekly {
+            day-of-week wednesday;
+            at 01:02;
+            action download-only;
+          }
+        }
+      }
+    }
+    timezone US/Pacific;
+    service {
+      disable-telnet yes;
+      disable-http yes;
+    }
+    hostname testpa;
+    dns-setting {
+      servers {
+        primary 192.168.201.21;
+      }
+    }
+    domain masum.com;
+    login-banner "do not enter here if you are not authorized. 
+every move is being watched.";
+  }
+  setting {
+    config {
+      rematch yes;
+    }
+    management {
+
+
+-- output cut --
+
+
+// run command to execute operational commands from
+// configuration mode.
+
+admin@testpa# run 
+  clear        Clear runtime parameters
+  debug        Debug and diagnose
+  delete       Remove files from hard disk
+  diff         local configuration diffs
+  ftp          Use ftp to export files
+  grep         Searches file for lines containing a pattern match
+  less         Examine debug file content
+  ls           Examine debug file listing
+  netstat      Print network connections and statistics
+  ping         Ping hosts and networks
+  request      Make system-level requests
+  schedule     schedule test jobs
+  scp          Use scp to import / export files
+  set          Set operational parameters
+  show         Show operational parameters
+  ssh          Start a secure shell to another host
+  tail         Print the last 10 lines of debug file content
+  target       management session target
+  tcpdump      capture packets on management interface
+  test         verify system settings with test cases
+  tftp         Use tftp to import / export files
+  traceroute   Print the route packets take to network host
+  view-pcap    Examine packet capture file content
+
+admin@testpa# run request 
+> acknowledge                Acknowledge alarm logs
+> anti-virus                 Perform anti-virus upgrade operations
+> certificate                Manage certificates
+> commit-lock                commit-lock 
+> config-lock                config-lock 
+> content                    Perform content upgrade operations
+> data-filtering             Perform data filtering related operations
+> device-registration        Device registration process
+> dhcp                       Request to perform DHCP related actions
+> global-protect-client      Perform GlobalProtect client package operations
+> global-protect-gateway     request to perform global-protect-gateway functions
+> global-protect-portal      request to perform global-protect-portal functions
+> global-protect-satellite   request to perform global-protect-satellite functions
+> high-availability          Perform HA operations
+> hsm                        HSM operations
+> last-acknowledge-time      Last alarm acknowledgement time
+> license                    Perform license related operations
+> master-key                 Change masterkey
+> password-change-history    Password History
+> password-hash              Generate password hash
+> quota-enforcement          Manually enforce disk quota enforcement for logs and pcaps
+> restart                    Restart the system or software modules
+> shutdown                   Shutdown the system or software modules
+> stats                      Generate stats dump
+> support                    Technical support information
+> system                     Perform system-level operations
+> tech-support               Generate tech support dump
+> url-filtering              Perform URL filtering related operations
+> wf-private                 Perform WF-Private cloud upgrade operations
+> wildfire                   Perform wildfire upgrade operations
+
+admin@testpa# run request 
+

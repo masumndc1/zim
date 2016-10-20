@@ -1,0 +1,9 @@
+
+// we got the several steps to sync two big-ip dns server 
+// together like below.
+
+1. add dns server on both data center.
+2. create the sync group
+3. gtm_add 10.10.4.31 				# to add other dns server with it
+4. bigip_add 10.10.15.31 to add			# to add other big-ip system
+5. listener

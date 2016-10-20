@@ -1,0 +1,26 @@
+masum@masum:/media/masum/MASUM_32GB$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   zim/.git.txt.swp
+	new file:   zim/.zim/index.db
+	new file:   zim/.zim/state.conf
+	new file:   zim/AIX/Desktop_1.ini
+	new file:   zim/AIX/Desktop_2.ini
+	new file:   zim/AIX/day2_prac/Desktop_1.ini
+	new file:   zim/AIX/day2_prac/Desktop_2.ini
+	new file:   zim/AIX/day2_prac/backup and restore.txt
+	new file:   zim/AIX/day2_prac/delete_vg.txt
+	new file:   zim/AIX/day2_prac/user_lesson.txt
+	new file:   zim/AIX/day3_prac/Desktop_1.ini
+	new file:   zim/AIX/day3_prac/Desktop_2.ini
+	new file:   zim/AIX/day3_prac/Thumbs.db
+	new file:   zim/AIX/day3_prac/appl_wpar.txt
+	new file:   zim/AIX/day3_prac/errpt.txt
+	new file:   zim/AIX/day3_prac/nfs.txt
+	new file:   zim/AIX/day3_prac/tcpip_network_service.txt
+

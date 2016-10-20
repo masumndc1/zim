@@ -1,0 +1,77 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-10T02:08:37+06:00
+
+====== ssh ======
+Created Wednesday 10 July 2013
+
+Router(config)#**hostname masum**
+masum(config)#**ip domain-name masum.com**
+masum(config)#
+masum(config)#**crypto key generate rsa general-keys modulus 1024**
+The name for the keys will be: masum.masum.com
+
+% The key modulus size is 1024 bits
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+
+*Mar  1 00:30:38.259: %SSH-5-ENABLED: SSH 1.99 has been enabled
+masum(config)#
+
+masum(config)#**username masum privilege 15 password cisco**
+masum(config)#
+masum(config)#
+masum(config)#**line con 0**
+masum(config-line)#**login local**
+masum(config-line)#
+masum(config-line)#**line vty 0 4**
+masum(config-line)#**login local**
+masum(config-line)#**transport input ssh **
+//*** note ***//
+//*** only ssh will be accepted ***//
+//*** telnet will be rejected as follows ***//
+
+root@masum-K42JZ:~#** telnet 10.10.10.10**
+Trying 10.10.10.10...
+telnet: Unable to connect to remote host: Connection refused
+root@masum-K42JZ:~#
+
+masum(config-line)#**exit**
+masum(config)#**ip ssh authentication-retries 2**
+masum(config)#**ip ssh ?**
+  authentication-retries  	Specify number of authentication retries
+  break-string            		break-string
+  logging                 			Configure logging for SSH
+  maxstartups            		Maximum concurrent sessions allowed
+  port                    			Starting (or only) Port number to listen on
+  rsa                     				Configure RSA keypair name for SSH
+  source-interface        		Specify interface for source address in SSH connections
+  time-out                			Specify SSH time-out interval
+  version                 			Specify protocol version to be supported
+masum(config)#**ip ssh time-out 60**
+masum(config)#**ip ssh logging ?**
+  events  					Log SSH events
+masum(config)#**ip ssh logging events **
+masum(config)#**do copy run start**
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+masum(config)#
+
+//lets try ssh the router and ssh events will be occuring.//
+
+root@masum-K42JZ:~# **ssh masum@10.10.10.10**
+Password: *****(cisco)
+
+masum(config)#
+*Mar  1 00:35:05.351: %SYS-5-CONFIG_I: Configured from console by masum on vty0 (10.10.10.1)
+masum(config)#
+*Mar  1 00:35:07.419: %SSH-5-SSH2_CLOSE: SSH2 Session from 10.10.10.1 (tty = 0) for user 'masum' using crypto cipher 'aes128-cbc', hmac 'hmac-md5' closed
+masum(config)#
+*Mar  1 00:35:11.095: %SSH-5-SSH2_SESSION: SSH2 Session request from 10.10.10.1 (tty = 0) using crypto cipher 'aes128-cbc', hmac 'hmac-md5' Succeeded
+masum(config)#
+*Mar  1 00:35:14.387: %SSH-5-SSH2_USERAUTH: User 'masum' authentication for SSH2 Session from 10.10.10.1 (tty = 0) using crypto cipher 'aes128-cbc', hmac 'hmac-md5' Succeeded
+masum(config)#
+
+
+
+

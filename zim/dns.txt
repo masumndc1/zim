@@ -1,0 +1,122 @@
+
+
+
+........................... why dns is important for mail and webserver ...................
+
+.. line start with double dots considered as comments
+
+root@masum:~# whois www.facebook.com
+
+Whois Server Version 2.0
+
+Domain names in the .com and .net domains can now be registered
+with many different competing registrars. Go to http://www.internic.net
+for detailed information.
+
+   Server Name: WWW.FACEBOOK.COM-USER.AGE.SECURITY.FOR.APPS.AND.VIDEOS.FXBESTSELLER.COM
+   IP Address: 209.126.124.66
+   Registrar: GODADDY.COM, LLC
+   Whois Server: whois.godaddy.com
+   Referral URL: http://www.godaddy.com
+
+
+   Server Name: WWW.FACEBOOK.COM-USER.AGE.SECURITY.FOR.APPS.AND.VIDEOS.TRYITSYSTEMS.COM
+   IP Address: 209.126.124.66
+   Registrar: GODADDY.COM, LLC
+   Whois Server: whois.godaddy.com
+   Referral URL: http://www.godaddy.com
+
+
+   Server Name: WWW.FACEBOOK.COM.BR
+   Registrar: UNIVERSO ONLINE S/A (UOL)
+   Whois Server: whois.host.uol.com.br
+   Referral URL: http://www.uolhost.com.br
+
+>>> Last update of whois database: Thu, 15 Sep 2016 07:09:04 GMT <<<
+
+.. the above command output saying the facebook.com is registered at godaddy.com
+.. and the following output showing various public address pointing to corresponding
+.. human readable name. like b.ns.c10r.facebook.com is pointing to public address
+.. 69.171.255.11
+
+b.ns.c10r.facebook.com.	3215	IN	A	69.171.255.11
+
+root@masum:~# 
+root@masum:~# dig www.facebook.com
+
+; <<>> DiG 9.8.4-rpz2+rl005.12-P1 <<>> www.facebook.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 6647
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 4
+
+;; QUESTION SECTION:
+;www.facebook.com.		IN	A
+
+;; ANSWER SECTION:
+www.facebook.com.	2640	IN	CNAME	star-mini.c10r.facebook.com.
+star-mini.c10r.facebook.com. 26	IN	A	179.60.193.36
+
+;; AUTHORITY SECTION:
+c10r.facebook.com.	792	IN	NS	b.ns.c10r.facebook.com.
+c10r.facebook.com.	792	IN	NS	a.ns.c10r.facebook.com.
+
+;; ADDITIONAL SECTION:
+a.ns.c10r.facebook.com.	3053	IN	A	69.171.239.11
+a.ns.c10r.facebook.com.	3053	IN	AAAA	2a03:2880:fffe:b:face:b00c:0:99
+b.ns.c10r.facebook.com.	3215	IN	A	69.171.255.11
+b.ns.c10r.facebook.com.	3215	IN	AAAA	2a03:2880:ffff:b:face:b00c:0:99
+
+;; Query time: 15 msec
+;; SERVER: 103.9.40.1#53(103.9.40.1)
+;; WHEN: Fri Sep 16 01:09:45 2016
+;; MSG SIZE  rcvd: 202
+
+root@masum:~# 
+
+.. therefore dns is damn important for webserver and mailserver and their delivery
+.. moreover dns offers us easy way to remember web and mailserver name rather
+.. than their difficult ip address. dns also act as routing in a sense say when
+.. one type www.facebook.com or mail.facebook.com in their browser then browser connect with its own
+.. configured dns server. dns server then reply the query of where is www.facebook.com?
+.. it then reply with ip address pointing to www.facebook.com and mail.facebook.com and then routing 
+.. takes places and go to that ip address and knock at webserver or mail server 
+.. fetch webpage or email. therefore dns server plays a vital role in webserver and email delivery.
+
+.. my previous example where i configured mail and web server and use masum.com
+.. as my domain name. if i configured my own dns then the configuration would be
+.. like below.
+
+.. MX entry is important for the mail server
+.. www entry important for the webserver like
+.. www IN 192.168.35.10
+
+.. and my dns entry would be like below in forwarding zone file
+
+$TTL 86400
+@ IN SOA masum.com. hostmaster.masum.com.
+(
+2009042701
+28800
+14400
+3600000
+86400
+)
+; Name servers
+IN NS ns1.masum.com.
+IN NS ns2.masum.com.
+
+; Mail server for domain
+IN MX 10 mail1.masum.com.
+IN MX 20 mail2.masum.com.
+
+; Public servers
+ns1 IN A 192.168.35.2
+ns2 IN A 192.168.35.3
+mail1 IN 192.168.35.5
+mail2 IN 192.168.35.6
+www IN 192.168.35.10
+www.khabir.com CNAME www.masum.com
+
+; EOF
+

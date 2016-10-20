@@ -1,0 +1,86 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+
+
+
+initrd : /media/5E09-35AF/IOS/ASA842/asa842-initrd.gz
+kernel : /media/5E09-35AF/IOS/ASA842/asa842-vmlinuz
+
+
+these followings two lines are so damn important to set. othewise asa will not boot.
+
+qemu options: -vnc none -vga none -m 1024 -icount auto -hdachs 980,16,32 -cpu coreduo -nographic
+kernel cmd line: ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536 ide1=noprobe no-hlt
+RAM: 1024 MiB
+NIC model: e1000
+
+now run the asa 
+
+
+ciscoasa# activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
+ciscoasa# activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
+ciscoasa# reload
+
+
+if you like 2 processor then you can try this option in qemu
+-vnc :1 -vga none -icount auto -hdachs 980,16,32 -cpu coreduo -nographic
+
+for asa802
+Identifier Name: ASA802
+RAM: 256 MiB
+Qemu Options: -hdachs 980,16,32 -vnc :1
+Initrd: asa802-k8.initrd.gz
+Kernel: asa802-k8.kernel
+Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32 
+
+
+for a second asa802 use just following
+Identifier Name: ASA802_2
+RAM: 256 MiB
+Qemu Options: -hdachs 980,16,32 -vnc :2
+Initrd: asa802-k8.initrd.gz
+Kernel: asa802-k8.kernel
+Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32 
+
+
+
+This is your first boot, please wait about 1 min and then type the following commands:
+cd /mnt/disk0
+/mnt/disk0/lina_monitor
+
+Please note to use the following command under ASA to save your configs:
+copy run disk0:/.private/startup-config
+
+while copying running config if it shows any error like failed then just ignore
+
+
+
+
+work for me
+asa842
+-vnc none -vga none -m 1024 -icount auto -hdachs 980,16,32
+-append ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536 no-hlt
+
+
+another activation keys are but did not work for me.
+
+activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
+activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
+
+Running Activation Key: 0x2h3bdd58 0x88390dcd0 0xf123cda4 0x908784a0 0x4dd5ae9f
+ 
+activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
+activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
+
+serial number: 403340212
+activation key: 0x497acdef 0x39ef68ac 0x36d54110 0x2f9868d7 
+
+activation key: 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
+activation key: 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
+
+
+https://learningnetwork.cisco.com/thread/55915
+http://letusexplain.blogspot.co.nz/2015/08/step-by-step-to-add-cisco-asa-on-gns3.html
+https://www.tectut.com/2015/12/how-to-setup-cisco-asa-in-gns3/
+https://gns3.com/qa/how-to-run-asa-on-gns3-running-a
+https://www.gns3.com/support/docs/importing-asa-images-in-gns3-v-2

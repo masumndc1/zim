@@ -1,0 +1,69 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-08-27T01:35:23+06:00
+
+====== centos ======
+Created Monday 27 August 2012
+
+to upgrade the system.. centos and redhat
+# yum update -y
+
+
+**resetting root password**
+
+If you have forgotten the root password it is possible to set a new one as follows:
+
+Interrupt the boot at the GRUB stage and boot to runlevel 1, AKA single user mode. 
+1.Interrupt GRUB by typing a character such as "space" then append to the kernel line by typing "a", 
+2.backspacing through "rhgb quiet" and appending " 1<enter>". 
+
+This will give you a root shell and not a login prompt. From there you can use the "passwd" command to set a new root password.
+
+
+
+
+////////////////////// Procedure to mount ISO images under Linux /////////////////////////////
+
+1) You must login as a root user, if not root user then switch to root user using following command:
+$ su -
+
+2) Create the directory i.e. mount point:
+# mkdir -p /mnt/disk
+
+3) Use mount command as follows to mount iso file called disk1.iso:
+# mount -o loop disk1.iso /mnt/disk
+
+4) Change directory to list files stored inside an ISO image:
+# cd /mnt/disk
+# ls -l
+
+/////////////////// top ////////////////////////////////////////////////////////////////////
+
+to see the top processes every 5 or 10 seconds type
+
+[root@localhost kernel]# top d 5
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Compare /proc/sys/kernel/shmmax with /proc/meminfo/Mem (physical memory)
+If the shared memory takes up less than 10 percent of physical memory,
+Vtad recommends that you increase your system’s shared memory — usu-
+ally to 25 percent for a typical system. Doing so helps Web servers like
+Apache perform file caching.
+
+[root@localhost kernel]# cat /proc/sys/kernel/shmmax
+4294967295
+[root@localhost kernel]# cat /proc/meminfo | grep em
+MemTotal:         511052 kB
+MemFree:           84692 kB
+Shmem:              3916 kB
+[root@localhost kernel]# 
+
+
+#yum --enablerepo=base clean metadata
+
+
+
+
+

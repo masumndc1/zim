@@ -1,0 +1,99 @@
+
+
+
+.................. spanning tree protocol ..........................
+
+.. spanning tree protocol, stp send bridge protocol data unit, BPDU
+.. to know the other switch status in well known stp broadcast 
+.. mac address as destination. 01-80-c2-00-00-00. bpdu messages send
+.. in every 2 seconds. 
+
+.. there are two types of bpdu exists 
+.. a. configuration bpdu: use for spanning tree computation
+.. b. topology change notification, TCN bpdu: this is used when topology changes.
+
+.. the switch ports are remain in three states in stp operation
+
+.. disable: disable by system administrator or system for any fault condition
+
+.. blocking: this is the begining state in a stp operation. blocking state port
+.. cant send or receive the data. it can only receive the bpdu. ports which
+.. put into stanby mode to avoid looping enter into blocking mode.
+
+.. listening: when port is in listening mode it allows to sending and
+.. receiving of bpdu but not allowed to transmit the data frame. 
+
+.. learning: after some forwarding delay time port enter to learning state
+.. where it can still send and receive the bpdu but cant take parts in sending
+.. data.
+
+.. forwarding: this is the fully functional state of a port enter after
+.. another forwarding delay in listening state. and in this state a port
+.. can transmit and receive both bpdu and data frame. 
+
+.. we can see the state of the port like below
+
+R1#show spanning-tree interface fastEthernet 1/1
+ Port 42 (FastEthernet1/1) of VLAN1 is forwarding
+   Port path cost 19, Port priority 128, Port Identifier 128.42.
+   Designated root has priority 32768, address c200.1c2a.0000
+   Designated bridge has priority 32768, address c200.1c2a.0000
+   Designated port id is 128.42, designated path cost 0
+   Timers: message age 0, forward delay 0, hold 0
+   Number of transitions to forwarding state: 1
+   BPDU: sent 4736, received 1
+R1#
+R1#show spanning-tree interface fastEthernet 1/1 brief 
+
+Vlan                                        Designated
+Name                 Port ID Prio Cost  Sts Cost  Bridge ID            Port ID
+-------------------- ------- ---- ----- --- ----- -------------------- -------
+VLAN1                128.42   128    19 FWD     0 32768 c200.1c2a.0000 128.42 
+R1#
+
+.. this port is in forwarding state.
+
+.. timing in stp operation.
+
+.. hello time: default 2seconds is the hello time for the root bridge to send 
+.. the tcn bpdu. also each switch also has its own hello times to retransmit
+.. tcn bpdu to neighbour switch which it has received from other.
+
+.. forward delay: time lapse between listening and learning state of a port
+.. default is 15 sec.
+
+.. max age: it is the maximum time for a switch to hold bpdu received from
+.. other switches. default is 20 seconds.
+
+.. when change occurs switches send the TCN BPDUs to its root port. also 
+.. note that this file does not contains any data but just inform that a
+.. change has been occured. interestingly a switch will not send any tcn bpdu
+.. if the port has been configured as portfast. what happens when a switching
+.. port is configured as portfast it puts into directly forwarding state
+.. when the port comes back. 
+
+... common spanning tree (CST) 
+.. single spanning tree running for multiple vlan is called the cst. it has 
+.. some advantages like cpu reduction as well as disadvantages like it can
+.. block redundant link for load balancing. moreover link which is not carrying
+.. any specific vlan traffic can be put into forward mode where other link
+.. which carries vlans can be blocked.
+
+.. per vlan spanning tree (PVST) is the cisco proprietary which has enhanced
+.. cst operation. running individual stp for each vlan will give more control
+.. over redundant link. like one link on one vlan and other link on different
+.. and both of them running separate stp and both of them forwarding. this 
+.. requires operation between two cisco switches as this is cisco proprietary
+.. and cisco inter switch link (ISL) encapsulation trunking protocol.
+.. operations between cst and pvst fails because of intercompability.
+
+.. per vlan spanning tree plus (PVST+) has capability to incorporates between
+.. cst and pvst made by cisco. features like
+
+.. cst: running 1 instance of stp over trunk link. 802.1Q based
+.. pvst: running multiple instance of stp for different vlans. cisco isl based.
+.. pvst+: intercompatibility between cst and pvst.operates over both isl and
+.. 802.1Q. 
+
+
+

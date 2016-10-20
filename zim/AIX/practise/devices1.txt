@@ -1,0 +1,83 @@
+			Devices
+To display all the supported devices
+#lsdev -P -H|pg
+
+or
+# smit	lsdev
+	List All Supported Devices
+
+To list the configured devices on the system.
+
+#lsdev -C -H | pg
+
+or
+# smit	lsdev
+	List All Defined Devices
+
+To get the information about the memory
+
+# lsattr -E -l mem0
+# lsattr -El sys0 -a realmem
+
+or
+
+#smit lsdev
+	Show Characteristics of a Defined Device
+
+To display the disk on the system
+
+#lsdev -C -c disk
+# lsdev -Cc cdrom
+
+To get the details of the device like cdrom
+#lscfg -v
+
+To put a defined tape device into an available state:
+#mkdev -l cd0
+
+
+To configure a device like cdrom into the system
+
+1. To  check the device
+ #lsdev -Cc cdrom
+
+****available
+2. To remove the device
+ #rmdev -l cd0
+
+****Defined
+3. To check the device
+#lsdev -Cc cdrom
+****Defined
+
+
+5. lsdev -Cc cdrom
+****Nothing is displayed
+6.cfgmgr
+7.lsdev -Cc cdrom
+****Available
+
+
+8. To delete permanently from ODM en1(2md lan car driver)
+
+#rmdev -dl en1
+**** By the above command the en1 goes to predefined
+
+To check the device state
+#lsdev -c -H|grep en1
+
+9. To make it in defined state(customized state)
+
+#cfgmgr
+
+To check the device state
+#lsdev -c -H|grep en1
+
+11.If the driver en1 is in defined state the after setting the ipaddress by
+
+#smit mktcpip
+it goes to available state
+
+10. To delte the drive and change the state from available to define
+
+#rmdev -l en1

@@ -1,0 +1,20 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-03-29T18:47:32+06:00
+
+====== privoxy ======
+Created Thursday 29 March 2012
+
+
+**root@pbl-OptiPlex-755:/etc/privoxy# pwd**
+**/etc/privoxy**
+**root@pbl-OptiPlex-755:/etc/privoxy# ls**
+**config  config.orig  default.action  default.filter  match-all.action  templates  trust  user.action**
+**root@pbl-OptiPlex-755:/etc/privoxy# vi config**
+**#hide-console**
+**#**
+**forward-socks4a / localhost:9050 .**
+**#**
+**root@pbl-OptiPlex-755:/etc/privoxy# **
+
+add the following line at the bottom of config file. "forward-socks4a / localhost:9050 ."

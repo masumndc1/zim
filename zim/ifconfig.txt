@@ -1,0 +1,11 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-04-28T21:08:38+06:00
+
+====== ifconfig ======
+Created Sunday 28 April 2013
+
+iface eth0 inet static
+address 192.168.1.1
+netmask 255.255.255.0
+hwaddress ether xxxxxxxxxxxx

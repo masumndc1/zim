@@ -1,0 +1,32 @@
+
+To display the lv
+#lslv -l anjlv1
+
+or
+
+#lsvg -l sapvg
+
+To add a filesystem in the volume group with mount point
+#crfs -v jfs2 -d /dev/anjlv1 -m /anjlv1
+
+To mount the filesystem 
+#mount /anjlv1
+
+To check the filesystem
+#df -m /anjlv1
+
+To increase the size of the lv
+#chfs -a size=+64M /anjlv1
+
+To check the filesystem
+#df -m /anjlv1
+
+#lslv -m anjlv1
+
+To decrease the size of the lv
+# chfs -a size=-32M /anjlv1
+
+To check the filesystem
+#df -m /anjlv1
+
+#lslv m anjlv1

@@ -1,0 +1,31 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-07T07:47:27+06:00
+
+====== journalize quota ======
+Created Friday 07 June 2013
+
+Edit /etc/fstab. Add usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0 to the partition where you want to use quota. Mine looks like this (I want to use quota on the / partition):
+
+
+# /etc/fstab: static file system information.
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    defaults        0       0
+/dev/sda1       /               ext3    errors=remount-ro,usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0 0       1
+/dev/sda5       none            swap    sw              0       0
+/dev/hda        /media/cdrom0   udf,iso9660 user,noauto     0       0
+/dev/fd0        /media/floppy0  auto    rw,user,noauto  0       0
+
+
+To enable quota, run these commands:
+
+touch /aquota.user /aquota.group
+chmod 600 /aquota.*
+mount -o remount /
+
+quotacheck -avugm
+quotaon -avug
+
+That's it - journaled quota is now enabled.
+

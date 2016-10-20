@@ -1,0 +1,85 @@
+----To check the summary report of errors
+
+#errpt|more
+
+----To get the details of the the errpt
+
+#errpt -a|more
+
+----To get the intermediate report which modetail that summary
+
+#errpt -A|more
+
+----To get the summary report of all hardwares errors
+
+#errpt -d H|more
+
+----To get the intermidiate report of all hardwares errors
+
+#errpt -A -d H|more
+
+----To get the detail report of all hardwares errors
+
+#errpt -a -d H|more
+
+----To get the summary report of all softwares errors
+
+#errpt -d S
+
+----To get the intermidiate report of all softwares errors
+
+#errpt -A -d S|more
+
+----To get the detail report of all softwares errors
+
+
+#errpt -a -d O|more
+
+----To generate a self error
+
+#errlogger "this is Anjan IBM error"
+
+#errpt|more
+
+#errpt -a|more ----Check your error message
+
+----To get the report by id
+
+#errpt -j AA8AB241
+
+----To get the detail report by id
+
+#errpt -a -j AA8AB241
+
+----To set or change the errpt configuration
+
+#smit errdemon
+
+timeformat 
+
+0630032710
+MMddhhmmyy
+
+
+To view the odm structure
+#cd /etc/objrepos/errnotify
+
+#odmget errnotify
+
+****When ever a system dump is generated it is logged in the errpt because it is a error
+
+#errpt|grep -i sysdump --check the time stamp of the dump
+
+
+
+
+
+
+#sysdumpstart -p
+machine will reboot and check the error
+#errpt|grep -i sysdump --check the time stamp of the dump
+#errpt -a -s 0721130910|more --you will see the dump details when and how occurs.
+
+To clear the errpt
+
+errclear 0

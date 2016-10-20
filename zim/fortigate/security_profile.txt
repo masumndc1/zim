@@ -1,0 +1,32 @@
+
+
+// antivirus setting like below.
+// we are using like bellow setting
+
+
+grayware : mean this is not virus but files or the 
+	   application is now affecting the computer
+	   performance.
+
+db extended: enable this for the blocking of those 
+	  virus which has not been seen yet in 
+	  any virus research.
+
+// and the options are.
+
+FortiGate # config antivirus settings 
+
+FortiGate (settings) # set 
+default-db    Select AV database to be used for AV scanning.
+grayware      Enable/disable detection of grayware.
+ 
+
+FortiGate (settings) # show antivirus settings 
+
+config antivirus settings
+    set grayware enable
+    end
+
+FortiGate (settings) # set default-db extended 
+
+// and i have enable these optins.

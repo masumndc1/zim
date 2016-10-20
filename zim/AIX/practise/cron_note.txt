@@ -1,0 +1,29 @@
+The syntax for the lines in this file is:
+
+minute (0-59)
+hour (0-23)
+date of the month (1-31)
+month of the year (1-12)
+day of the week (0-6, where 0=Sunday, 1=Monday, and so forth)
+
+* * * * *
+
+10,30 * * * 4
+
+45 2 * * 0
+
+0,30,45 * * * *
+
+Each field is separated by a space. To indicate a field is always true use an asterisk (*). 
+To indicate multiple values in a field, use a comma (,). 
+A range can also be specified by using a dash (-). Here are some examples:
+
+
+To start the backup command at midnight, Monday through Friday:
+
+0 0 * * 1-5 backup -0 -u -f /dev/rmt0
+
+To execute a command called script1 every 15 minutes between 8 AM and 5 PM, Monday through Friday:
+
+
+0,15,30,45 8-17 * * 1-5 /home/team01/script1

@@ -1,0 +1,417 @@
+
+
+
+
+
+.................. linux container ..........................
+
+.. install first lxc
+
+root@mininet-vm:~# apt-get install lxc
+
+root@masum:/home/masum/Downloads# lxc-
+lxc-attach                  lxc-info                    lxc-test-concurrent         lxc-test-reboot
+lxc-autostart               lxc-ls                      lxc-test-console            lxc-test-saveconfig
+lxc-cgroup                  lxc-monitor                 lxc-test-containertests     lxc-test-shutdowntest
+lxc-checkconfig             lxc-snapshot                lxc-test-createtest         lxc-test-snapshot
+lxc-clone                   lxc-start                   lxc-test-destroytest        lxc-test-startone
+lxc-config                  lxc-start-ephemeral         lxc-test-device-add-remove  lxc-test-symlink
+lxc-console                 lxc-stop                    lxc-test-get_item           lxc-unfreeze
+lxc-create                  lxc-test-apparmor           lxc-test-getkeys            lxc-unshare
+lxc-destroy                 lxc-test-attach             lxc-test-list               lxc-usernsexec
+lxc-device                  lxc-test-autostart          lxc-test-locktests          lxc-wait
+lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath            
+lxc-freeze                  lxc-test-clonetest          lxc-test-may-control        
+root@masum:/home/masum/Downloads# 
+
+.. Check kernel configuration : 
+
+root@mininet-vm:~# lxc-checkconfig 
+Kernel configuration not found at /proc/config.gz; searching...
+Kernel configuration found at /boot/config-3.13.0-24-generic
+--- Namespaces ---
+Namespaces: enabled
+Utsname namespace: enabled
+Ipc namespace: enabled
+Pid namespace: enabled
+User namespace: enabled
+Network namespace: enabled
+Multiple /dev/pts instances: enabled
+
+--- Control groups ---
+Cgroup: enabled
+Cgroup clone_children flag: enabled
+Cgroup device: enabled
+Cgroup sched: enabled
+Cgroup cpu account: enabled
+Cgroup memory controller: enabled
+Cgroup cpuset: enabled
+
+--- Misc ---
+Veth pair device: enabled
+Macvlan: enabled
+Vlan: enabled
+Bridges: enabled
+Advanced netfilter: enabled
+CONFIG_NF_NAT_IPV4: enabled
+CONFIG_NF_NAT_IPV6: enabled
+CONFIG_IP_NF_TARGET_MASQUERADE: enabled
+CONFIG_IP6_NF_TARGET_MASQUERADE: enabled
+CONFIG_NETFILTER_XT_TARGET_CHECKSUM: enabled
+
+--- Checkpoint/Restore ---
+checkpoint restore: enabled
+CONFIG_FHANDLE: enabled
+CONFIG_EVENTFD: enabled
+CONFIG_EPOLL: enabled
+CONFIG_UNIX_DIAG: enabled
+CONFIG_INET_DIAG: enabled
+CONFIG_PACKET_DIAG: enabled
+CONFIG_NETLINK_DIAG: enabled
+File capabilities: enabled
+
+Note : Before booting a new kernel, you can check its configuration
+usage : CONFIG=/path/to/config /usr/bin/lxc-checkconfig
+
+root@mininet-vm:~# 
+
+.. options we have are below.
+
+root@masum:/home/masum/Downloads# lxc-create -h
+
+Usage: lxc-create --name=NAME [-w] [-r] [-t template] [-P lxcpath]
+
+lxc-create creates a container
+
+Options :
+  -n, --name=NAME    NAME for name of the container
+  -f, --config=file  Initial configuration file
+  -t, --template=t   Template to use to setup container
+  -B, --bdev=BDEV    Backing store type to use
+  -P, --lxcpath=PATH Place container under PATH
+  --lvname=LVNAME    Use LVM lv name LVNAME
+                     (Default: container name)
+  --vgname=VG        Use LVM vg called VG
+                     (Default: lxc)
+  --thinpool=TP      Use LVM thin pool called TP
+                     (Default: lxc)
+  --fstype=TYPE      Create fstype TYPE
+                     (Default: ext3)
+  --fssize=SIZE[U]   Create filesystem of size SIZE * unit U (bBkKmMgGtT)
+                     (Default: 1G, default unit: M)
+  --dir=DIR          Place rootfs directory under DIR
+  --zfsroot=PATH     Create zfs under given zfsroot
+                     (Default: tank/lxc)
+
+Common options :
+  -o, --logfile=FILE               Output log to FILE instead of stderr
+  -l, --logpriority=LEVEL          Set log priority to LEVEL
+  -q, --quiet                      Don't produce any output
+  -P, --lxcpath=PATH               Use specified container path
+  -?, --help                       Give this help list
+      --usage                      Give a short usage message
+      --version                    Print the version number
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+
+See the lxc-create man page for further information.
+
+root@masum:/home/masum/Downloads# 
+
+.. now creating an instance like below.
+
+root@masum:/home/masum/Downloads# lxc-create -n masum -t debian
+
+debootstrap is /usr/sbin/debootstrap
+Checking cache download in /var/cache/lxc/debian/rootfs-jessie-i386 ... 
+Downloading debian minimal ...
+I: Retrieving Release 
+I: Retrieving Release.gpg 
+I: Checking Release signature
+I: Valid Release signature (key id 75DDC3C4A499F1A18CB5F3C8CBF8D6FD518E17E1)
+
+// output cut //
+
+I: Base system installed successfully.
+Download complete.
+Copying rootfs to /var/lib/lxc/masum/rootfs...Generating locales (this might take a while)...
+  en_US.UTF-8... done
+Generation complete.
+insserv: warning: current start runlevel(s) (empty) of script `checkroot.sh' overrides LSB defaults (S).
+insserv: warning: current stop runlevel(s) (S) of script `checkroot.sh' overrides LSB defaults (empty).
+insserv: warning: current start runlevel(s) (empty) of script `checkroot.sh' overrides LSB defaults (S).
+update-rc.d: error: umountfs Default-Start contains no runlevels, aborting.
+insserv: warning: current start runlevel(s) (empty) of script `hwclock.sh' overrides LSB defaults (S).
+insserv: warning: current stop runlevel(s) (0 6 S) of script `hwclock.sh' overrides LSB defaults (0 6).
+update-rc.d: error: cannot find a LSB script for hwclockfirst.sh
+Creating SSH2 RSA key; this may take some time ...
+2048 19:10:d0:41:f1:82:b4:19:39:fb:83:d4:4b:9a:61:43 /etc/ssh/ssh_host_rsa_key.pub (RSA)
+Creating SSH2 DSA key; this may take some time ...
+1024 e0:e1:d9:02:7a:60:e1:59:f6:f8:38:57:b6:2c:f6:6e /etc/ssh/ssh_host_dsa_key.pub (DSA)
+Creating SSH2 ECDSA key; this may take some time ...
+256 70:90:46:5b:38:b2:05:ce:33:9f:8e:c1:37:fd:ee:ea /etc/ssh/ssh_host_ecdsa_key.pub (ECDSA)
+Creating SSH2 ED25519 key; this may take some time ...
+256 ae:07:59:30:30:c2:1c:02:95:52:82:b2:ab:d5:45:23 /etc/ssh/ssh_host_ed25519_key.pub (ED25519)
+Failed to read /proc/cmdline. Ignoring: No such file or directory
+invoke-rc.d: policy-rc.d denied execution of start.
+
+Current default time zone: 'Pacific/Auckland'
+Local time is now:      Wed Oct 19 21:44:09 NZDT 2016.
+Universal Time is now:  Wed Oct 19 08:44:09 UTC 2016.
+
+Root password is '/SEzJtYW', please change !
+root@masum:/home/masum/Downloads# 
+
+root@masum:/home/masum/Downloads# lxc-console --name masum
+masum is not running
+
+root@masum:/home/masum/Downloads# lxc-start --name masum
+lxc-start: Could not find writable mount point for cgroup hierarchy 8 while trying to create cgroup.
+lxc-start: failed creating cgroups
+lxc-start: failed to spawn 'masum'
+lxc-start: The container failed to start.
+lxc-start: Additional information can be obtained by setting the --logfile and --logpriority options.
+root@masum:/home/masum/Downloads# lxc-ls
+masum  
+root@masum:/home/masum/Downloads# 
+
+.. remedy of this problem is given follow. the package cgroupfs-mount is required for the 
+.. auto mount of the cgroup.
+
+root@masum:/home/masum/Downloads# apt-get install cgroupfs-mount
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  axel bkhive comerr-dev florence geoclue geoclue-hostip geoclue-localnet
+  geoclue-manual geoclue-yahoo gir1.2-clutter-gst-1.0 gir1.2-folks-0.6
+  gir1.2-gee-1.0 gir1.2-gst-plugins-base-0.10 gir1.2-gtop-2.0
+  gir1.2-javascriptcoregtk-1.0 gir1.2-webkit-1.0 html2text lesstif2
+  libafpclient0 libass4 libatk-adaptor-data libattica0 libcamel-1.2-33
+  libclucene0ldbl libclutter-gst-1.0-0 libclutter-imcontext-0.1-0
+  libclutter-imcontext-0.1-bin libcluttergesture-0.0.2-0 libcolord1 libdconf0
+  libdirac-decoder0 libdvbpsi7 libebackend-1.2-2 libebml3 libecal-1.2-11
+  libedata-cal-1.2-15 libedataserver-1.2-16 libfilter-perl libflorence-1.0-1
+  libgdu0 libgee2 libgeoclue0 libgnome-bluetooth10
+  libgnome-media-profiles-3.0-0 libgnomekbd7 libgphoto2-2 libgphoto2-port0
+  libgweather-3-0 libimobiledevice2 libkadm5clnt-mit9 libkidletime4
+  libmatroska5 libmozjs10d libmusicbrainz5-0 libmx-1.0-2 libmx-bin
+  libmx-common libncp libplist1 libproxy0 libpthread-stubs0
+  librest-extras-0.7-0 libsocialweb-client2 libsocialweb-common
+  libsocialweb-service libsocialweb0 libt1-5 libtar0 libtelepathy-logger2
+  libusbmuxd1 libwebp2 libwireshark2 libwiretap2 libwsutil2 libxen-4.1 libxp6
+  libyaml-syck-perl linux-kbuild-3.7 python-packagekit rcconf
+  shared-desktop-ontologies testdisk vim-gui-common wwwconfig-common
+Use 'apt-get autoremove' to remove them.
+The following extra packages will be installed:
+  makedev mountall plymouth
+Suggested packages:
+  plymouth-themes
+The following NEW packages will be installed:
+  cgroupfs-mount makedev mountall plymouth
+0 upgraded, 4 newly installed, 0 to remove and 372 not upgraded.
+Need to get 318 kB of archives.
+After this operation, 1,183 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://ftp.ca.debian.org/debian/ jessie/main makedev all 2.3.1-93 [42.6 kB]
+Get:2 http://ftp.ca.debian.org/debian/ jessie/main plymouth i386 0.9.0-9 [204 kB]
+Get:3 http://ftp.ca.debian.org/debian/ jessie/main mountall i386 2.54 [66.8 kB]
+Get:4 http://ftp.ca.debian.org/debian/ jessie/main cgroupfs-mount all 1.1 [4,572 B]
+Fetched 318 kB in 6s (49.6 kB/s)                                               
+Selecting previously unselected package makedev.
+(Reading database ... 388894 files and directories currently installed.)
+Preparing to unpack .../makedev_2.3.1-93_all.deb ...
+Unpacking makedev (2.3.1-93) ...
+Selecting previously unselected package plymouth.
+Preparing to unpack .../plymouth_0.9.0-9_i386.deb ...
+Unpacking plymouth (0.9.0-9) ...
+Selecting previously unselected package mountall.
+Preparing to unpack .../mountall_2.54_i386.deb ...
+Unpacking mountall (2.54) ...
+Selecting previously unselected package cgroupfs-mount.
+Preparing to unpack .../cgroupfs-mount_1.1_all.deb ...
+Unpacking cgroupfs-mount (1.1) ...
+Processing triggers for man-db (2.7.0.2-5) ...
+/usr/bin/mandb: can't open /usr/local/man/man1/gns3.1: Permission denied
+Processing triggers for systemd (215-17+deb8u5) ...
+Processing triggers for dbus (1.8.20-0+deb8u1) ...
+Setting up makedev (2.3.1-93) ...
+/run/udev or .udevdb or .udev presence implies active udev.  Aborting MAKEDEV invocation.
+/run/udev or .udevdb or .udev presence implies active udev.  Aborting MAKEDEV invocation.
+/run/udev or .udevdb or .udev presence implies active udev.  Aborting MAKEDEV invocation.
+/run/udev or .udevdb or .udev presence implies active udev.  Aborting MAKEDEV invocation.
+Setting up plymouth (0.9.0-9) ...
+update-initramfs: deferring update (trigger activated)
+update-rc.d: We have no instructions for the plymouth init script.
+update-rc.d: It looks like a non-network service, we enable it.
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
+insserv: script vboxdrv: service vboxdrv already provided!
+update-rc.d: We have no instructions for the plymouth-log init script.
+update-rc.d: It looks like a non-network service, we enable it.
+update-rc.d: warning: start and stop actions are no longer supported; falling back to defaults
+insserv: script vboxdrv: service vboxdrv already provided!
+Setting up mountall (2.54) ...
+Setting up cgroupfs-mount (1.1) ...
+update-rc.d: We have no instructions for the cgroupfs-mount init script.
+update-rc.d: It looks like a non-network service, we enable it.
+insserv: script vboxdrv: service vboxdrv already provided!
+[ ok ] Mounting cgroupfs hierarchy.
+Processing triggers for systemd (215-17+deb8u5) ...
+Processing triggers for initramfs-tools (0.120+deb8u2) ...
+update-initramfs: Generating /boot/initrd.img-3.2.0-4-686-pae
+E: intel-microcode: unsupported kernel version!
+Processing triggers for libc-bin (2.19-18+deb8u6) ...
+Processing triggers for dbus (1.8.20-0+deb8u1) ...
+root@masum:/home/masum/Downloads# 
+
+.. now start it again the container 
+
+root@masum:/home/masum/Downloads# lxc-start -n masum -l DEBUG
+systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP -APPARMOR)
+Detected virtualization 'lxc'.
+Detected architecture 'x86'.
+
+Welcome to Debian GNU/Linux 8 (jessie)!
+
+Set hostname to <masum>.
+Failed to install release agent, ignoring: File exists
+Cannot add dependency job for unit dbus.socket, ignoring: Unit dbus.socket failed to load: No such file or directory.
+[  OK  ] Reached target Remote File Systems (Pre).
+[  OK  ] Reached target Paths.
+Failed to open /dev/autofs: No such file or directory
+Failed to initialize automounter: No such file or directory
+[FAILED] Failed to set up automount Arbitrary Executable File...utomount Point.
+See 'systemctl status proc-sys-fs-binfmt_misc.automount' for details.
+Unit proc-sys-fs-binfmt_misc.automount entered failed state.
+[  OK  ] Reached target Encrypted Volumes.
+[  OK  ] Reached target Swap.
+[  OK  ] Created slice Root Slice.
+[  OK  ] Created slice User and Session Slice.
+[  OK  ] Listening on /dev/initctl Compatibility Named Pipe.
+[  OK  ] Listening on Delayed Shutdown Socket.
+[  OK  ] Listening on Journal Socket (/dev/log).
+[  OK  ] Listening on Journal Socket.
+[  OK  ] Reached target Sockets.
+[  OK  ] Created slice System Slice.
+[  OK  ] Created slice system-getty.slice.
+         Mounting Huge Pages File System...
+         Mounting POSIX Message Queue File System...
+         Starting Apply Kernel Variables...
+         Starting Copy rules generated while the root was ro...
+         Mounting Debug File System...
+         Mounting FUSE Control File System...
+         Starting Journal Service...
+[  OK  ] Started Journal Service.
+[  OK  ] Reached target Slices.
+         Starting Remount Root and Kernel File Systems...
+[  OK  ] Mounted FUSE Control File System.
+[  OK  ] Mounted Debug File System.
+[  OK  ] Mounted POSIX Message Queue File System.
+[  OK  ] Mounted Huge Pages File System.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started Copy rules generated while the root was ro.
+[  OK  ] Started Remount Root and Kernel File Systems.
+         Starting Load/Save Random Seed...
+[  OK  ] Reached target Local File Systems (Pre).
+[  OK  ] Reached target Local File Systems.
+         Starting Create Volatile Files and Directories...
+[  OK  ] Reached target Remote File Systems.
+         Starting Trigger Flushing of Journal to Persistent Storage...
+[  OK  ] Started Load/Save Random Seed.
+         Starting LSB: Raise network interfaces....
+[  OK  ] Started Create Volatile Files and Directories.
+[  OK  ] Started Trigger Flushing of Journal to Persistent Storage.
+         Starting Update UTMP about System Boot/Shutdown...
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[  OK  ] Started LSB: Raise network interfaces..
+[  OK  ] Reached target Network.
+[  OK  ] Reached target System Initialization.
+[  OK  ] Reached target Timers.
+[  OK  ] Reached target Basic System.
+         Starting OpenBSD Secure Shell server...
+[  OK  ] Started OpenBSD Secure Shell server.
+         Starting /etc/rc.local Compatibility...
+         Starting Permit User Sessions...
+         Starting Cleanup of Temporary Directories...
+[  OK  ] Started Permit User Sessions.
+[  OK  ] Started /etc/rc.local Compatibility.
+         Starting Getty on tty1...
+[  OK  ] Started Getty on tty1.
+         Starting Getty on tty2...
+[  OK  ] Started Getty on tty2.
+         Starting Getty on tty3...
+[  OK  ] Started Getty on tty3.
+         Starting Getty on tty4...
+[  OK  ] Started Getty on tty4.
+         Starting Console Getty...
+[  OK  ] Started Console Getty.
+[  OK  ] Reached target Login Prompts.
+[  OK  ] Reached target Multi-User System.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Cleanup of Temporary Directories.
+[  OK  ] Started Update UTMP about System Runlevel Changes.
+
+Debian GNU/Linux 8 masum console
+
+masum login: root
+Password: 
+
+Login incorrect
+masum login: root
+Password: 
+Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+root@masum:~# 
+root@masum:~# 
+root@masum:~# 
+
+root@masum:~# cat /etc/issue
+Debian GNU/Linux 8 \n \l
+
+root@masum:~# uname -a
+Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686 GNU/Linux
+root@masum:~# 
+
+... now will test some lxc command on the running containers.
+
+root@masum:~# lxc-
+lxc-attach                  lxc-info                    lxc-test-concurrent         lxc-test-reboot
+lxc-autostart               lxc-ls                      lxc-test-console            lxc-test-saveconfig
+lxc-cgroup                  lxc-monitor                 lxc-test-containertests     lxc-test-shutdowntest
+lxc-checkconfig             lxc-snapshot                lxc-test-createtest         lxc-test-snapshot
+lxc-clone                   lxc-start                   lxc-test-destroytest        lxc-test-startone
+lxc-config                  lxc-start-ephemeral         lxc-test-device-add-remove  lxc-test-symlink
+lxc-console                 lxc-stop                    lxc-test-get_item           lxc-unfreeze
+lxc-create                  lxc-test-apparmor           lxc-test-getkeys            lxc-unshare
+lxc-destroy                 lxc-test-attach             lxc-test-list               lxc-usernsexec
+lxc-device                  lxc-test-autostart          lxc-test-locktests          lxc-wait
+lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath            
+lxc-freeze                  lxc-test-clonetest          lxc-test-may-control        
+root@masum:~# 
+
+.. these are some commands above which comes with the lxc packages.
+.. lets try some of them
+
+root@masum:~# lxc-ls -1 --running -f
+NAME   STATE    IPV4  IPV6  AUTOSTART  
+-------------------------------------
+masum  RUNNING  -     -     NO         
+root@masum:~# 
+
+  --version             show program's version number and exit
+
+root@masum:~# lxc-info -n masum
+Name:           masum
+State:          RUNNING
+PID:            5341
+CPU use:        0.51 seconds
+root@masum:~# 
+
+

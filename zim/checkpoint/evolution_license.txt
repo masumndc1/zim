@@ -1,0 +1,18 @@
+Users can add evaluation products into their User Center account easily and quickly using the following steps:
+
+    Login to the User Center.
+    Click "Assets / Info". 
+    Select "Product Center" under "Accounts & Products".
+    Select the "Evaluations" tab and then "Quick Evaluation" 
+    Select the required evaluation license.
+    Select the account, to which the evaluation license will be added.
+    Enter email address.
+    Click "Evaluate".
+
+The evaluation license, for the selected product, is then added to the user's User Center account. An e-mail will also be sent to the user that performed the task, notifying the user that an evaluation license is now available.
+
+For Partners attempting to generate evaluations, refer to sk31144 (How to provide an evaluation product to your customers).
+
+Note: This article is not applicable to appliances with embedded GAiA, such 1100, 1200R, SG80, and Edge devices.
+
+Related solution:

@@ -1,0 +1,181 @@
+
+
+[root@masum modules]# uname -a
+Linux masum.puppet.com 2.6.32-642.el6.i686 #1 SMP Tue May 10 16:13:51 UTC 2016 i686 i686 i386 GNU/Linux
+[root@masum modules]# 
+
+// module generation.
+
+[root@masum modules]# puppet module generate learning-nagios
+
+We need to create a metadata.json file for this module.  Please answer the
+following questions; if the question is not applicable to this module, feel free
+to leave it blank.
+
+Puppet uses Semantic Versioning (semver.org) to version modules.
+What version is this module?  [0.1.0]
+--> ^CCancelling Face
+
+[root@masum modules]# puppet module generate learning-nagios --skip-interview
+
+Notice: Generating module at /etc/puppet/modules/learning-nagios...
+Notice: Populating templates...
+Finished; module generated in learning-nagios.
+learning-nagios/Rakefile
+learning-nagios/README.md
+learning-nagios/Gemfile
+learning-nagios/spec
+learning-nagios/spec/classes
+learning-nagios/spec/classes/init_spec.rb
+learning-nagios/spec/spec_helper.rb
+learning-nagios/manifests
+learning-nagios/manifests/init.pp
+learning-nagios/metadata.json
+learning-nagios/tests
+learning-nagios/tests/init.pp
+
+[root@masum modules]# mv learning-nagios nagios
+
+[
+
+// during the starting we are facing problem like below.
+// due to this we could not starting the nagios. the solution
+// is given below like. 
+
+[root@masum manifests]# puppet apply ../tests/init.pp 
+Warning: Config file /etc/puppet/hiera.yaml not found, using Hiera defaults
+Notice: Compiled catalog for masum.puppet.com in environment production in 4.46 seconds
+Notice: /Stage[main]/Nagios::Server/Exec[set-default-username]/returns: executed successfully
+Error: Could not start Service[nagios]: Execution of '/sbin/service nagios start' returned 1: nagios is stopped
+
+
+///////////////////////Configuration validation failed[FAILED]/////////////////////////
+
+Error: /Stage[main]/Nagios::Server/Service[nagios]/ensure: change from stopped to running failed: Could not start Service[nagios]: Execution of '/sbin/service nagios start' returned 1: nagios is stopped
+Configuration validation failed[FAILED]
+Notice: /Stage[main]/Nagios::Server/Service[nagios]: Triggered 'refresh' from 1 events
+Notice: Finished catalog run in 5.01 seconds
+[root@masum manifests]# 
+
+[root@masum nagios]# /etc/init.d/nagios status
+nagios is stopped
+[root@masum nagios]# /etc/init.d/nagios start
+nagios is stopped
+Configuration validation failed                            [FAILED]
+[root@masum nagios]# 
+[root@masum nagios]# 
+[root@masum nagios]# setenforce permissive   *******************************************************
+[root@masum nagios]# 
+[root@masum nagios]# 
+[root@masum nagios]# /etc/init.d/nagios start
+nagios is stopped
+Starting nagios:                                           [  OK  ]
+[root@masum nagios]# 
+
+// now we will stop nagios again and run the manifest again and we will see what happens.
+
+
+// now make a files directory and place the nagios.conf file like below.
+
+[root@masum files]# pwd
+
+/etc/puppet/modules/nagios/files
+[root@masum files]# 
+[root@masum files]# ls
+nagios.conf
+[root@masum files]# 
+[root@masum files]# cat nagios.conf 
+
+ScriptAlias /nagios/cgi-bin/ /usr/lib/nagios/cgi/
+<Directory /usr/lib/nagios/cgi/>
+Options ExecCGI
+Allow from all
+</Directory>
+
+Alias /nagios /usr/share/nagios/
+<Directory /usr/share/nagios/>
+Allow from all
+</Directory>
+
+[root@masum files]# 
+
+// here see we have two alias like /nagios/cgi will find related files in 
+// /usr/lib/nagios/cgi directory. i have files in there like below.
+
+ 
+[root@masum cgi]# pwd
+/usr/lib/nagios/cgi
+[root@masum cgi]# ls
+avail.cgi  config.cgi   histogram.cgi  notifications.cgi  showlog.cgi  statusmap.cgi  statuswrl.cgi  tac.cgi         trends.cgi
+cmd.cgi    extinfo.cgi  history.cgi    outages.cgi        status.cgi   statuswml.cgi  summary.cgi    traceroute.cgi
+[root@masum cgi]# 
+
+// and another alias /nagios will find the related files from /usr/share/nagios/ directory.
+
+// we have our manifest files like below.
+
+[root@masum nagios]# 
+[root@masum nagios]# cd manifests/
+[root@masum manifests]# ls
+init.pp  server.pp
+[root@masum manifests]# 
+[root@masum manifests]# 
+[root@masum manifests]# cat server.pp 
+class nagios::server {
+	include apache
+	include apache::mod::php
+	package { ['nagios','nagios-plugins-nrpe']:
+	require => Package['httpd'],
+	ensure => installed;
+	}
+	file { '/etc/httpd/conf.d/nagios.conf':
+	require => Package['nagios'],
+	notify => Service['httpd'],
+	source => "puppet:///modules/nagios/nagios.conf";
+	}
+	exec { 'set-default-username':
+	require => Package['nagios'],
+	command => '/bin/echo default_user_name=nagiosadmin >> /etc/nagios/cgi.cfg',
+	unless => '/bin/grep default_user_name=nagiosadmin /etc/nagios/cgi.cfg',
+	notify => Service['nagios'];
+	}
+	service { 'nagios':
+	require => Package['nagios'],
+	ensure => running;
+	}
+}
+[root@masum manifests]# puppet apply ../tests/init.pp 
+Warning: Config file /etc/puppet/hiera.yaml not found, using Hiera defaults
+Notice: Compiled catalog for masum.puppet.com in environment production in 5.73 seconds
+Notice: /Stage[main]/Nagios::Server/Service[nagios]/ensure: ensure changed 'stopped' to 'running'
+Notice: Finished catalog run in 9.83 seconds
+[root@masum manifests]# 
+
+// content of server.pp is self explenatory.
+
+// how navigate firefox:<ip_address>/nagios
+// you will find the informaiton. 
+
+// we have related some files and their contents below.
+
+[root@masum tests]# pwd
+/etc/puppet/modules/nagios/tests
+[root@masum tests]# 
+[root@masum tests]# cat init.pp 
+# The baseline for module testing used by Puppet Labs is that each manifest
+# should have a corresponding test manifest that declares that class or defined
+# type.
+#
+# Tests are then run by using puppet apply --noop (to check for compilation
+# errors and view a log of events) or by fully applying the test in a virtual
+# environment (to compare the resulting system state to the desired state).
+#
+# Learn more about module testing here:
+# http://docs.puppetlabs.com/guides/tests_smoke.html
+#
+#include nagios
+include nagios::server
+[root@masum tests]# 
+
+// look the last line include nagios::server as it is pointing to the parent class
+// nagios and child class server. which we have declared at ../manifest/server.pp 

@@ -1,0 +1,51 @@
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:192.168.10.129:6633"
+        Port "eth1"
+            Interface "eth1"
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# ovs-vsctl del-controller s1 tcp:192.168.10.129:6633
+ovs-vsctl: 'del-controller' command takes at most 1 arguments
+root@mininet-vm:~# ovs-vsctl del-controller s1 
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Port "eth1"
+            Interface "eth1"
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl set-controller s1 tcp:192.168.10.129:6633
+

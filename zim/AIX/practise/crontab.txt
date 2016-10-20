@@ -1,0 +1,59 @@
+To create a crontab file
+
+login with a user anjan/anjan
+
+$ vi cron_anjan
+* * * * * /usr/bin/date >> /tmp/date_anjan
+:wq
+
+To assign the file in crontab 
+
+$ crontab cron_anjan
+
+To check the task in crontab
+
+$crontab -l
+
+wait for 1 minute,then check that every minute the output of date command is added into the date_anjan file. 
+
+$tail -f /tmp/date_anjan
+
+To check the file login with root and type
+
+#cat /var/spool/cron/crontabs/anjan
+
+To remove the crontab file
+
+$crontab -r
+
+To check 
+
+$crontab -l
+
+To check the file login with root and type
+#cat /var/spool/cron/crontabs/anjan
+
+it will give error
+
+To run the at command and assign a at command
+
+$date
+
+$ at now +5 mins
+date>>d1
+ctrl+d
+
+job anjan.1253185730.a at Thu Sep 17 06:08:50 2009
+
+$ ls -l d1
+d1 not found
+
+To check the at jobs
+
+$atq
+
+After 5 minutes
+
+$ls -l d1
+
+you will get it.

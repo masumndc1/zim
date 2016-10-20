@@ -1,0 +1,33 @@
+root@deb-7:~# cat -n /etc/rsyslog.conf 
+     1	#  /etc/rsyslog.conf	Configuration file for rsyslog.
+     2	#
+     3	#			For more information see
+     4	#			/usr/share/doc/rsyslog-doc/html/rsyslog_conf.html
+     5	
+     6	
+     7	#################
+     8	#### MODULES ####
+     9	#################
+    10	
+    11	$ModLoad imuxsock # provides support for local system logging
+    12	$ModLoad imklog   # provides kernel logging support
+    13	#$ModLoad immark  # provides --MARK-- message capability
+    14	
+    15	# provides UDP syslog reception
+    16	#$ModLoad imudp
+    17	#$UDPServerRun 514
+    18	$ModLoad imudp
+    19	$UDPServerRun 514
+    20	
+    21	# provides TCP syslog reception
+    22	#$ModLoad imtcp
+    23	#$InputTCPServerRun 514
+    24	
+    25	#$ModLoad imtcp
+    26	#$InputTCPServerRun 514
+    27	
+    28	###########################
+    29	#### GLOBAL DIRECTIVES ####
+    30	###########################
+    31	
+ 

@@ -1,0 +1,60 @@
+ciscoasa(config-pmap-c)# show service-policy 
+
+Global policy: 
+  Service-policy: global_policy
+    Class-map: inspection_default
+      Inspect: dns maximum-length 512, packet 110, drop 2, reset-drop 0
+      Inspect: ftp, packet 0, drop 0, reset-drop 0
+      Inspect: h323 h225, packet 0, drop 0, reset-drop 0
+      Inspect: h323 ras, packet 0, drop 0, reset-drop 0
+      Inspect: netbios, packet 0, drop 0, reset-drop 0
+      Inspect: rsh, packet 0, drop 0, reset-drop 0
+      Inspect: rtsp, packet 0, drop 0, reset-drop 0
+      Inspect: skinny, packet 0, drop 0, reset-drop 0
+      Inspect: esmtp, packet 0, drop 0, reset-drop 0
+      Inspect: sqlnet, packet 0, drop 0, reset-drop 0
+      Inspect: sunrpc, packet 0, drop 0, reset-drop 0
+      Inspect: tftp, packet 0, drop 0, reset-drop 0
+      Inspect: sip, packet 0, drop 0, reset-drop 0
+      Inspect: xdmcp, packet 0, drop 0, reset-drop 0
+      Inspect: http, packet 808, drop 0, reset-drop 0
+      Inspect: icmp, packet 0, drop 0, reset-drop 0
+
+Interface outside:
+  Service-policy: policy-map-masum
+    Class-map: class-map-masum
+      Inspect: icmp, packet 123, drop 14, reset-drop 0
+    Class-map: class-ssh-masum
+      Set connection policy:         
+      Set connection advanced-options: tcp-map-masum
+        Retransmission drops: 0               TCP checksum drops : 0          
+        Exceeded MSS drops  : 0               SYN with data drops: 0          
+        Out-of-order packets: 0               No buffer drops    : 0          
+        Reserved bit cleared: 0               Reserved bit drops : 0          
+        IP TTL modified     : 0               Urgent flag cleared: 0          
+        Window varied resets: 0          
+        TCP-options:
+          Selective ACK cleared: 0            Timestamp cleared  : 0          
+          Window scale cleared : 0          
+          Other options cleared: 0          
+          Other options drops: 0          
+    Class-map: class-https-masum
+      Set connection policy: conn-max 2 
+        current conns 0, drop 0
+    Class-map: class-http-masum
+      Set connection policy: conn-max 2 
+        current conns 1, drop 2
+      Set connection advanced-options: tcp-map-masum
+        Retransmission drops: 0               TCP checksum drops : 0          
+        Exceeded MSS drops  : 0               SYN with data drops: 0          
+        Out-of-order packets: 68              No buffer drops    : 46         
+        Reserved bit cleared: 0               Reserved bit drops : 0          
+        IP TTL modified     : 0               Urgent flag cleared: 0          
+        Window varied resets: 0          
+        TCP-options:
+          Selective ACK cleared: 0            Timestamp cleared  : 0          
+          Window scale cleared : 0          
+          Other options cleared: 0          
+          Other options drops: 0          
+ciscoasa(config-pmap-c)# 
+

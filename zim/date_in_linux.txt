@@ -1,0 +1,10 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-12T04:00:15+06:00
+
+====== date in linux ======
+Created Thursday 12 September 2013
+
+masum@masum-K42JZ:~/test$ date +%F+%T
+2013-09-12+04:07:08
+masum@masum-K42JZ:~/test$

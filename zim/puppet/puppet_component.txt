@@ -1,0 +1,161 @@
+
+
+................ components of puppet......................
+
+.. facter 
+.. facter is the programe which finds out the node-specific information from the system
+.. for the example run the command facter like below.
+
+[root@localhost opt]# facter
+architecture => i386
+augeasversion => 1.0.0
+bios_release_date => 07/31/2013
+bios_vendor => Phoenix Technologies LTD
+bios_version => 6.00
+blockdevice_sda_model => VMware Virtual S
+blockdevice_sda_size => 10737418240
+blockdevice_sda_vendor => VMware,
+blockdevice_sr0_model => VMware IDE CDR10
+blockdevice_sr0_size => 1675624448
+blockdevice_sr0_vendor => NECVMWar
+blockdevices => sda,sr0
+boardmanufacturer => Intel Corporation
+boardproductname => 440BX Desktop Reference Platform
+boardserialnumber => None
+domain => localdomain
+facterversion => 2.4.6
+filesystems => ext4,iso9660
+fqdn => localhost.localdomain
+gid => root
+hardwareisa => i686
+hardwaremodel => i686
+hostname => localhost
+id => root
+interfaces => eth0,eth1,lo,pan0
+ipaddress => 192.168.35.149
+ipaddress_eth0 => 192.168.35.149
+ipaddress_eth1 => 192.168.244.146
+ipaddress_lo => 127.0.0.1
+is_virtual => true
+kernel => Linux
+kernelmajversion => 2.6
+kernelrelease => 2.6.32-220.el6.i686
+kernelversion => 2.6.32
+lsbdistcodename => Final
+lsbdistdescription => CentOS release 6.2 (Final)
+lsbdistid => CentOS
+lsbdistrelease => 6.2
+lsbmajdistrelease => 6
+lsbminordistrelease => 2
+lsbrelease => :core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch
+macaddress => 00:0C:29:C0:BE:B0
+macaddress_eth0 => 00:0C:29:C0:BE:B0
+macaddress_eth1 => 00:0C:29:C0:BE:BA
+macaddress_pan0 => 8A:E1:10:E7:56:A1
+manufacturer => VMware, Inc.
+memoryfree => 373.88 MB
+memoryfree_mb => 373.88
+memorysize => 499.16 MB
+memorysize_mb => 499.16
+mtu_eth0 => 1500
+mtu_eth1 => 1500
+mtu_lo => 16436
+mtu_pan0 => 1500
+netmask => 255.255.255.0
+netmask_eth0 => 255.255.255.0
+netmask_eth1 => 255.255.255.0
+netmask_lo => 255.0.0.0
+network_eth0 => 192.168.35.0
+network_eth1 => 192.168.244.0
+network_lo => 127.0.0.0
+operatingsystem => CentOS
+operatingsystemmajrelease => 6
+operatingsystemrelease => 6.2
+os => {"family"=>"RedHat", "name"=>"CentOS", "release"=>{"minor"=>"2", "major"=>"6", "full"=>"6.2"}, "lsb"=>{"majdistrelease"=>"6", "distrelease"=>"6.2", "distcodename"=>"Final", "minordistrelease"=>"2", "distdescription"=>"CentOS release 6.2 (Final)", "distid"=>"CentOS", "release"=>":core-4.0-ia32:core-4.0-noarch:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-ia32:printing-4.0-noarch"}}
+osfamily => RedHat
+partitions => {"sda1"=>{"uuid"=>"e2679dea-8273-4e4f-956d-166a24892c35", "size"=>"1024000", "mount"=>"/boot", "filesystem"=>"ext4"}, "sda2"=>{"size"=>"19945472", "filesystem"=>"LVM2_member"}}
+path => /usr/lib/qt-3.3/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+physicalprocessorcount => 1
+processor0 => Intel(R) Pentium(R) CPU        P6200  @ 2.13GHz
+processorcount => 1
+processors => {"count"=>1, "models"=>["Intel(R) Pentium(R) CPU        P6200  @ 2.13GHz"], "physicalcount"=>1}
+productname => VMware Virtual Platform
+ps => ps -ef
+puppetversion => 3.8.7
+rubyplatform => i386-linux
+rubysitedir => /usr/lib/ruby/site_ruby/1.8
+rubyversion => 1.8.7
+selinux => true
+selinux_config_mode => enforcing
+selinux_config_policy => targeted
+selinux_current_mode => enforcing
+selinux_enforced => true
+selinux_policyversion => 24
+serialnumber => VMware-56 4d 8b d4 fe 23 a0 b0-f0 f3 53 d4 11 c0 be b0
+sshdsakey => AAAAB3NzaC1kc3MAAACBALzIyFtCWe4yp7yuQ3UsF7EoCnXYtlYLtscZQttVZMzHinYRRvFgipwzQFyAU3abb9+QqJ8AmYbn9Bno31jf3CcAcEUE9rWGu+qxhizkT8FsxWgZxRa3fuOPnC6BKHWZIzGteAnuYFHmJig3LWvRs/CH3pzs7JdUGghmoCNTCFElAAAAFQD8qj80mdTRikDnSCwAX8R9bo5ZXwAAAIAUdLhHP5qchWETPVtQy7OzAuPvey0iMjuZCJi9DoSAPL7n+wznp5EGoZRh2iOf5RxTt+0NZVODTQvvkTfj054oL5x8jnvjIyUYTXC854shdEsKqmDZvp9EgHKLVV1gy2oeAglRab1fyQvwXM6Yp4WtfuHLlN7WzWTQMBOS8NPBbwAAAIEAqZAC+RvfqMvRCOECHgsAb6vcqpakjHlCvlYBTduIzL2Ra/efjEIENmf+DCcNrezShdHLm1F2fUldUxQYX5l0SFjlZWjMPjPr/PpueOVdABiHxO6Zj6qCfMOznRy+m4b+Wy7gvyJ2uZqmY9o/5OkCRKxIgVpi+jPmIi5NXL3/4As=
+sshfp_dsa => SSHFP 2 1 92ecce50e50b55f585905f686528c566dfd2cc3c
+SSHFP 2 2 99927dbddd4580772178262a4b561283a4fb0ac56d5035ea73595f173a5754fa
+sshfp_rsa => SSHFP 1 1 366dc7bb40b46b6827f46391a251ddad612960e2
+SSHFP 1 2 763ec2ccb8cfc5db0eabab0be59da99f75af2f4bcd449ec2f96f0225cf12ae24
+sshrsakey => AAAAB3NzaC1yc2EAAAABIwAAAQEAtdbHbox7T2I02dI5F2tFyuk6FjV2GhZtxO87OfdBKDTPcLR2VPUpbNtYNcu00C5waGO6OYvgem6inD6ZlykO3O968DLm6cOaa7a/Tz2LNAbVJYNc/IhEdb+tzg0Z9JsWDGBmRF437IVvpLyvSVeu6/8BoibmDX5UQDLDxcMAP497ouR3MeYF0SvvY1PQ9KDqe9p4YpGmQblNLG/Lp+/psxGwHHqk21hVzYxhAvADUjDTNCUlxXjVNV9lLCFdmeqANX02kOyiigWoNqoaETKJPVcXcQ0jyZGgw5KYreBjdbNjfSUwoI5kIiqpHwxIs0s7XUNdbczSdk1PhA23hvd1uw==
+swapfree => 1023.99 MB
+swapfree_mb => 1023.99
+swapsize => 1023.99 MB
+swapsize_mb => 1023.99
+system_uptime => {"days"=>0, "uptime"=>"0:53 hours", "hours"=>0, "seconds"=>3239}
+timezone => EDT
+type => Other
+uniqueid => ef6807d5
+uptime => 0:53 hours
+uptime_days => 0
+uptime_hours => 0
+uptime_seconds => 3239
+uuid => 564D8BD4-FE23-A0B0-F0F3-53D411C0BEB0
+virtual => vmware
+[root@localhost opt]# 
+
+.. hiera: this components is used to manipulate the data used by puppet manifest and puppet modules.
+.. marionette collective: mco is an orchestration framework works with puppet tightly.
+.. manifest: manifest is the puppet configuration files which contain instruction how resources
+.. should be used. 
+
+.. our first manifest
+
+[root@localhost puppet]# vi hello.pp
+[root@localhost puppet]# 
+[root@localhost puppet]# cat -n hello.pp
+     1	notify { greeting: message => 'hello, world!'
+     2	}
+[root@localhost puppet]# 
+
+.. here notify is the resource of puppet where greeting is the title for it.
+.. message is the only attribute of the resource notify and the values are given with the
+.. hash rocket as like perl, ruby and php programming language.
+
+.. now apply command along with puppet is used to run the fresh created manifest hello.pp
+.. manifests have the extension pp
+
+[root@localhost puppet]# puppet apply hello.pp
+Notice: Compiled catalog for localhost.localdomain in environment production in 0.06 seconds
+Notice: hello, world!
+Notice: /Stage[main]/Main/Notify[greeting]/message: defined 'message' as 'hello, world!'
+Notice: Finished catalog run in 0.03 seconds
+[root@localhost puppet]# 
+
+.. output showing that it takes only 0.03 seconds to run the hello.pp
+.. resource declaration in puppet
+.. we declare resource in puppet exactly same way all the time.
+
+resource_type { resource_title:
+ensure => present, 			# normally present or absent
+attribute1 => value			# number
+attribute2 => 'value'			# string
+attribute3 => ['khabir','masum'], 	# array
+noop	   => false 			# boolean
+}
+
+
+
+
+
+

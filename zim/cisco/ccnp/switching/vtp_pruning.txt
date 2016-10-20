@@ -1,0 +1,94 @@
+#### vtp pruning
+
+
+without going much details of the vtp pruning just its need to 
+mention that vtp pruning disable unnecessary brodcast of a vlan
+in a trunk port.
+
+by default vtp pruning is disabled. so we need to enable it.
+if we enable vtp pruning in a server then it advertises all 
+the client that vtp needs to be enable in a particular domain.
+
+1. configure pruning
+
+R1-SW#vlan database 
+
+R1-SW(vlan)#vtp ?
+  client       Set the device to client mode.
+  domain       Set the name of the VTP administrative domain.
+  password     Set the password for the VTP administrative domain.
+  pruning      Set the administrative domain to permit pruning.
+  server       Set the device to server mode.
+  transparent  Set the device to transparent mode.
+  v2-mode      Set the administrative domain to V2 mode.
+
+R1-SW(vlan)#vtp pruning ?
+  v2-mode  Set the administrative domain to V2 mode.
+  <cr>
+
+R1-SW(vlan)#vtp pruning v2-mode ?
+  <cr>
+
+R1-SW(vlan)#vtp pruning v2-mode 
+
+Pruning switched ON
+V2 mode already enabled.
+
+R1-SW(vlan)#exit
+APPLY completed.
+Exiting....
+
+R1-SW#show vtp counters 
+VTP statistics:
+Summary advertisements received    : 2
+Subset advertisements received     : 2
+Request advertisements received    : 1
+Summary advertisements transmitted : 6
+Subset advertisements transmitted  : 2
+Request advertisements transmitted : 0
+Number of config revision errors   : 0
+Number of config digest errors     : 0
+Number of V1 summary errors        : 0
+
+
+VTP pruning statistics:
+
+Trunk            Join Transmitted Join Received    Summary advts received from
+                                                   non-pruning-capable device
+---------------- ---------------- ---------------- ---------------------------
+Fa1/0               1                1                0        
+R1-SW#
+
+configuring pruning is simple and is global and applicable for
+vlan 2 to vlan 1001. but we can controll which vlan should prune
+by the following syntax in a trunk port.
+
+
+Switch(config)# interface type mod/num
+Switch(config-if)# switchport trunk pruning vlan {{{add | except |
+	vlan-list} | none}
+
+### on the client
+
+R6-SW#show vtp counters 
+VTP statistics:
+Summary advertisements received    : 6
+Subset advertisements received     : 2
+Request advertisements received    : 0
+Summary advertisements transmitted : 2
+Subset advertisements transmitted  : 2
+Request advertisements transmitted : 1
+Number of config revision errors   : 0
+Number of config digest errors     : 0
+Number of V1 summary errors        : 0
+
+
+VTP pruning statistics:
+
+Trunk            Join Transmitted Join Received    Summary advts received from
+                                                   non-pruning-capable device
+---------------- ---------------- ---------------- ---------------------------
+Fa1/0               3                3                0        
+R6-SW#
+
+

@@ -1,0 +1,19 @@
+
+
+
+............................. how to see the OS running on ..................
+
+
+root@masum:~# lsb_release -a
+No LSB modules are available.
+Distributor ID:	Kali
+Description:	Kali GNU/Linux 2.0
+Release:	2.0
+Codename:	sana
+root@masum:~# 
+root@masum:~# uname -a
+Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686 GNU/Linux
+root@masum:~# 
+
+
+

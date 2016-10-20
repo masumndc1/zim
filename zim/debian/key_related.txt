@@ -1,0 +1,139 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-15T03:00:07+06:00
+
+====== debian:key related ======
+Created Monday 15 July 2013
+
+
+
+root@mail:/etc/apt# **apt-key list**
+/etc/apt/trusted.gpg
+--------------------
+pub   1024D/437D05B5 2004-09-12
+uid                  Ubuntu Archive Automatic Signing Key <ftpmaster@ubuntu.com>
+sub   2048g/79164387 2004-09-12
+
+pub   1024D/FBB75451 2004-12-30
+uid                  Ubuntu CD Image Automatic Signing Key <cdimage@ubuntu.com>
+
+pub   2048R/886DDD89 2009-09-04 [expires: 2014-09-03]
+uid                  deb.torproject.org archive signing key
+
+pub   1024R/0624A220 2009-01-19
+uid                  Launchpad PPA for [[debian 6 source list]]
+
+//to delete a key just omit the first part of the key pair. there for to delete a key pair 1024R/0624A220 omit 1024R . just use//
+//0624A220.//
+
+root@mail:/etc/apt# **apt-key del 0624A220**
+
+//to download a key from key server manually.there is no public key available for the following key. //
+
+**# gpg --key-server pgp.mit.edu --recv-keys keys**
+**# apt-key add /root/.gnupg/pubring.gpg**
+**# apt-get update**
+
+or alternatively
+gpg --recv-keys 3EE67F3D0FF405B2
+
+to install all the key for a debian based system
+
+**# apt-get install debian-archive-keyring**
+**# aptitude install debian-keyring debian-archive-keyring**
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following NEW packages will be installed:
+  debian-archive-keyring debian-keyring
+0 upgraded, 2 newly installed, 0 to remove and 2412 not upgraded.
+Need to get 45.7MB/45.7MB of archives.
+After this operation, 50.6MB of additional disk space will be used.
+WARNING: The following packages cannot be authenticated!
+  debian-archive-keyring debian-keyring
+Install these packages without verification [y/N]? y
+Get:1 http://ftp.de.debian.org/debian/ sid/main debian-keyring all 2013.06.25 [45.7MB]
+Fetched 45.7MB in 35s(1272kB/)                                                                                                               
+Selecting previously deselected package debian-archive-keyring.
+(Reading database ... 343352 files and directories currently installed.)
+Unpacking debian-archive-keyring (from .../debian-archive-keyring_2012.4_all.deb) ...
+Selecting previously deselected package debian-keyring.
+Unpacking debian-keyring (from .../debian-keyring_2013.06.25_all.deb) ...
+Setting up debian-archive-keyring (2012.4) ...
+Setting up debian-keyring (2013.06.25) ...
+root@mail:~# 
+root@mail:~# 
+root@mail:~# 
+root@mail:~#** apt-key list**
+/etc/apt/trusted.gpg
+--------------------
+pub   1024D/437D05B5 2004-09-12
+uid                  Ubuntu Archive Automatic Signing Key <ftpmaster@ubuntu.com>
+sub   2048g/79164387 2004-09-12
+
+pub   1024D/FBB75451 2004-12-30
+uid                  Ubuntu CD Image Automatic Signing Key <cdimage@ubuntu.com>
+
+pub   1024D/3E5C1192 2010-09-20
+uid                  Ubuntu Extras Archive Automatic Signing Key <ftpmaster@ubuntu.com>
+
+pub   1024R/EEA14886 2010-05-04
+uid                  Launchpad VLC
+
+pub   1024D/E60A19CD 2011-07-18 [expires: 2013-09-25]
+uid                  Java:esmska OBS Project <Java:esmska@build.opensuse.org>
+
+pub   1024D/6DFBCBAE 2008-07-14
+uid                  Sun Microsystems, Inc. (xVM VirtualBox archive signing key) <info@virtualbox.org>
+sub   2048g/78A86EAF 2008-07-14
+
+pub   1024D/7FAC5991 2007-03-08
+uid                  Google, Inc. Linux Package Signing Key <linux-packages-keymaster@google.com>
+sub   2048g/C07CB649 2007-03-08
+
+pub   4096R/46D7E7CF 2009-05-15
+uid                  GetDeb Archive Automatic Signing Key <archive@getdeb.net>
+
+pub   1024D/475A6B7F 2011-03-15
+uid                  BackTrack Repository Admin <emgent@backtrack-linux.org>
+sub   2048g/7F4180CE 2011-03-15
+
+pub   1024R/78A7ABE1 2010-10-05
+uid                  Launchpad PPA for BackBox Linux
+
+
+//these are new key list//
+ 
+/etc/apt/trusted.gpg.d//debian-archive-squeeze-automatic.gpg
+------------------------------------------------------------
+pub   4096R/473041FA 2010-08-27 [expires: 2018-03-05]
+uid                  Debian Archive Automatic Signing Key (6.0/squeeze) <ftpmaster@debian.org>
+
+/etc/apt/trusted.gpg.d//debian-archive-squeeze-stable.gpg
+---------------------------------------------------------
+pub   4096R/B98321F9 2010-08-07 [expires: 2017-08-05]
+uid                  Squeeze Stable Release Key <debian-release@lists.debian.org>
+
+/etc/apt/trusted.gpg.d//debian-archive-wheezy-automatic.gpg
+-----------------------------------------------------------
+pub   4096R/46925553 2012-04-27 [expires: 2020-04-25]
+uid                  Debian Archive Automatic Signing Key (7.0/wheezy) <ftpmaster@debian.org>
+
+/etc/apt/trusted.gpg.d//debian-archive-wheezy-stable.gpg
+--------------------------------------------------------
+pub   4096R/65FFB764 2012-05-08 [expires: 2019-05-07]
+uid                  Wheezy Stable Release Key <debian-release@lists.debian.org>
+
+root@mail:~# 
+
+//if you like to skip not to go to a particular site for update then delete the entry from root@mail:/etc/apt/sources.list.d#//
+
+//now add entry in source.list which is a good repository.//
+9. Canada Mirror
+# /etc/apt/sources.list :
+deb http://ftp.ca.debian.org/debian/ squeeze main contrib non-free
+deb-src http://ftp.ca.debian.org/debian/ squeeze main contrib non-free
+
+
+#####"another key servers
+keys.gnupg.net 

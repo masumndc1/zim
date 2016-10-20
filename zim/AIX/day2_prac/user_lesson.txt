@@ -1,0 +1,53 @@
+-----1) create a user with your name_1
+
+#mkuser anjan_1
+
+-----2) assign a passwd to that user 
+
+#pwdadm anjan_1
+
+----3) login with that user then close that putty
+
+----4) create a user with your name_2,configure that remote login is ----not allowed,only by su you can login
+
+#smit mkuser
+
+----5)assign the passwd
+
+----6)try to login with telnet,if not then su from previous user.
+
+----7) create a user with your name_3,configure that when you login it ----will not ask for new passwd
+
+#mkuser anjan_3
+#pwdadm anjan_3
+#pwdadm -c anjan_3
+
+
+----9) configure name_1 in the security group by smit chuser,then
+----login with name_1,and create a user name_4,assign a passwd,then ----login with name_4 
+
+#smit mkuser
+#pwdadm 
+----10) configure name_2 that when name_2 changes passwd the minimum ----length will be 5
+
+----11)check the effect of primary group and secondary group by newgrp ----command,istat of a file  
+
+
+close all the putty
+
+login with rc
+
+id
+
+touch t1
+
+ls -l t1
+
+istat t1
+
+newgrp system
+
+ touch t2
+ls -l t2
+
+istat t2

@@ -1,0 +1,719 @@
+static nat
+
+
+masum#show run
+
+no ip http secure-server
+ip nat inside source static 192.168.35.128 10.10.10.10
+!
+!
+!
+
+verification
+
+masum#show ip nat statistics 
+Total active translations: 1 (1 static, 0 dynamic; 0 extended)
+Outside interfaces:
+Inside interfaces: 
+Hits: 0  Misses: 0
+CEF Translated packets: 0, CEF Punted packets: 0
+Expired translations: 0
+Dynamic mappings:
+Appl doors: 0
+Normal doors: 0
+Queued Packets: 0
+masum#
+masum#show ip nat tr         
+masum#show ip nat translations 
+Pro Inside global         Inside local          Outside local         Outside global
+--- 10.10.10.10           192.168.35.128        ---                   ---
+masum#
+
+
+
+
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+Connected to Dynamips VM "R1" (ID 0, type c3725) - Console port
+Press ENTER to get the prompt.
+############################################################################################################################################################################# [OK]
+
+Smart Init is disabled. IOMEM set to: 5  
+
+                                         Using iomem percentage: 5
+
+              Restricted Rights Legend
+
+Use, duplication, or disclosure by the Government is
+subject to restrictions as set forth in subparagraph
+(c) of the Commercial Computer Software - Restricted
+Rights clause at FAR sec. 52.227-19 and subparagraph
+(c) (1) (ii) of the Rights in Technical Data and Computer
+Software clause at DFARS sec. 252.227-7013.
+
+           cisco Systems, Inc.
+           170 West Tasman Drive
+           San Jose, California 95134-1706
+
+
+
+Cisco IOS Software, 3700 Software (C3725-ADVENTERPRISEK9-M), Version 12.4(15)T8, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2008 by Cisco Systems, Inc.
+Compiled Mon 01-Dec-08 19:46 by prod_rel_team
+Image text-base: 0x60008930, data-base: 0x63658F80
+
+
+Original NVCONFIG doesnt have correct MAGIC number
+
+Backup NVCONFIG also doesnt have correct MAGIC number
+
+ BIST FAILED...
+Unknown file system detected.
+Use format command to format the card as DOS File System.
+Or use erase command to format the card as Low End File System.
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco 3725 (R7000) processor (revision 0.1) with 124928K/6144K bytes of memory.
+Processor board ID FTX0945W0MY
+R7000 CPU at 240MHz, Implementation 39, Rev 2.1, 256KB L2, 512KB L3 Cache
+2 FastEthernet interfaces
+DRAM configuration is 64 bits wide with parity enabled.
+55K bytes of NVRAM.
+16384K bytes of ATA System CompactFlash (Read/Write)
+
+
+         --- System Configuration Dialog ---
+
+Would you like to enter the initial configuration dialog? [yes/no]: Installed image archive
+
+% Please answer 'yes' or 'no'.
+Would you like to enter the initial configuration dialog? [yes/no]: 
+% Please answer 'yes' or 'no'.
+Would you like to enter the initial configuration dialog? [yes/no]: no
+
+
+Press RETURN to get started!
+
+
+*Mar  1 00:00:07.663: %LINEPROTO-5-UPDOWN: Line protocol on Interface VoIP-Null0, changed state to up
+*Mar  1 00:00:07.667: %LINEPROTO-5-UPDOWN: Line protocol on Interface IPv6-mpls, changed state to up
+*Mar  1 00:00:10.647: %LINK-5-CHANGED: Interface FastEthernet0/1, changed state to administratively down
+*Mar  1 00:00:10.647: %LINK-5-CHANGED: Interface FastEthernet0/0, changed state to administratively down
+*Mar  1 00:00:10.899: %SYS-5-RESTART: System restarted --
+Cisco IOS Software, 3700 Software (C3725-ADVENTERPRISEK9-M), Version 12.4(15)T8, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2008 by Cisco Systems, Inc.
+Compiled Mon 01-Dec-08 19:46 by prod_rel_team
+*Mar  1 00:00:10.907: %SNMP-5-COLDSTART: SNMP agent on host Router is undergoing a cold start
+*Mar  1 00:00:10.959: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+*Mar  1 00:00:10.959: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+*Mar  1 00:00:11.647: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+*Mar  1 00:00:11.647: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+Router>
+Router>
+Router>
+Router>
+Router>
+Router>ena
+Router#confit
+Router#config
+Router#configure t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+Router(config)#
+Router(config)#it
+Router(config)#in
+Router(config)#interface f
+Router(config)#interface fastEthernet 0/0
+Router(config-if)#
+Router(config-if)#
+Router(config-if)#ip add
+Router(config-if)#ip address 10.10.10.10 255.255.255.0
+Router(config-if)#
+Router(config-if)#no shut
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#in
+Router(config)#interface fa
+Router(config)#interface fastEthernet 
+*Mar  1 00:00:45.839: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+*Mar  1 00:00:46.839: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up0/1
+Router(config-if)#
+Router(config-if)#
+Router(config-if)#ip add
+Router(config-if)#ip address 192.168.244.10 255.255.255.0
+Router(config-if)#
+Router(config-if)#no shut
+Router(config-if)#
+Router(config-if)#
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#
+Router(config)#
+Router(config)#
+*Mar  1 00:01:11.663: %LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to up
+*Mar  1 00:01:12.663: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up 
+Router(config)#
+Router(config)#
+Router(config)#
+Router(config)#ip nat
+Router(config)#ip nat poo
+Router(config)#ip nat pool ip
+Router(config)#ip nat pool ippool 10.10.10.10 10.10.10.20 pr
+Router(config)#ip nat pool ippool 10.10.10.10 10.10.10.20 prefix-length 24
+Router(config)#
+Router(config)#acc
+Router(config)#access-list 1 
+*Mar  1 00:01:39.163: %LINEPROTO-5-UPDOWN: Line protocol on Interface NVI0, changed state to upper
+% Incomplete command.
+
+Router(config)#access-list 1 perm
+Router(config)#access-list 1 permit 192.168.244.0 0.0.0.255
+Router(config)#
+Router(config)#ip nat in
+Router(config)#ip nat inside sou
+Router(config)#ip nat inside source li
+Router(config)#ip nat inside source list 1 po
+Router(config)#ip nat inside source list 1 pool ippool
+ 
+Router(config)#
+Router(config)#
+Router(config)#exit
+Router#
+Router#
+Router#sow 
+*Mar  1 00:02:30.547: %SYS-5-CONFIG_I: Configured from console by cons   
+% Type "show ?" for a list of subcommands
+Router#
+Router#
+Router#
+Router#show run
+Building configuration...
+
+Current configuration : 849 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+memory-size iomem 5
+ip cef
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  hidekeys
+! 
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.10.10.10 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 192.168.244.10 255.255.255.0
+ duplex auto
+ speed auto
+!
+ip forward-protocol nd
+!
+!
+ip http server
+no ip http secure-server
+ip nat pool ippool 10.10.10.10 10.10.10.20 prefix-length 24
+ip nat inside source list 1 pool ippool
+!
+access-list 1 permit 192.168.244.0 0.0.0.255
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+!
+!
+end
+
+Router#show me
+Router#show ? 
+  aaa                       Show AAA values
+  aal2                      Show commands for AAL2
+  access-expression         List access expression
+  access-lists              List access lists
+  accounting                Accounting data for active sessions
+  adjacency                 Adjacent nodes
+  alarm-interface           Display information about a specific Alarm
+                            Interface Card
+  aliases                   Display alias commands
+  alignment                 Show alignment information
+  alps                      Alps information
+  appfw                     Application Firewall information
+  appletalk                 AppleTalk information
+  arap                      Show Appletalk Remote Access statistics
+  archive                   Archive of the running configuration information
+  arp                       ARP table
+  async                     Information on terminal lines used as router
+                            interfaces
+  auto                      Show Automation Template
+  backhaul-session-manager  Backhaul Session Manager information
+  backup                    Backup status
+  bcm560x                   BCM560x HW Table
+  beep                      Show BEEP information
+  bgp                       BGP information
+  bridge                    Bridge Forwarding/Filtering Database [verbose]
+  bsc                       BSC interface information
+  bstun                     BSTUN interface information
+  buffers                   Buffer pool statistics
+  call                      Show call
+  call-manager-fallback     Show call-manager fallback configuration & stats
+  caller                    Display information about dialup connections
+  capf-server               Display CAPF server details
+  cca                       CCA information
+  ccm-manager               Call Manager Application information
+  cdapi                     CDAPI information
+  cdp                       CDP information
+  cef                       Cisco Express Forwarding
+  cem                       cem channel information
+  checkpoint                Checkpoint Facility (CPF)
+  class-map                 Show QoS Class Map
+  clns                      CLNS network information
+  clock                     Display the system clock
+  cls                       DLC user information
+  cns                       CNS agents
+  compress                  Show compression statistics
+          
+Router#show bu
+Router#show buffers ?
+  address          Buffer at a given address
+  all              All buffers
+  assigned         Buffers in use
+  failures         Buffer allocation failures
+  free             Buffers available for use
+  input-interface  Buffers assigned to an input interface
+  leak             Buffers which are there in the system for 1 minute 
+  old              Buffers older than one minute
+  pool             Buffers in a specified pool
+  tune             Tuning log
+  usage            Buffers pool usage
+  |                Output modifiers
+  <cr>
+
+Router#show buffers fr
+Router#show buffers free 
+
+  Header DataArea  Pool Rcnt  Size Link  Enc    Flags          Input      Output
+
+662556FC  7A001C4 Small    0     0    0    0        0           None        None
+66255AB0  7A00304 Small    0    60    0    0        0           None        None
+66255E64  7A00444 Small    0    60    0    0        0           None        None
+66256218  7A00584 Small    0    60    0    0        0           None        None
+662565CC  7A006C4 Small    0    60    0    0        0           None        None
+66256980  7A00804 Small    0    60    0    0        0           None        None
+66256D34  7A00944 Small    0    60    0    0        0           None        None
+662570E8  7A00A84 Small    0    60    0    0        0           None        None
+6625749C  7A00BC4 Small    0    60    0    0        0           None        None
+66257850  7A00D04 Small    0    60    0    0        0           None        None
+66257C04  7A00E44 Small    0    60    0    0        0           None        None
+66257FB8  7A00F84 Small    0    60    0    0        0           None        None
+6625836C  7A010C4 Small    0    60    0    0        0           None        None
+66258720  7A01204 Small    0    60    0    0        0           None        None
+66258AD4  7A01344 Small    0    60    0    0        0           None        None
+66258E88  7A01484 Small    0    60    0    0        0           None        None
+6625923C  7A015C4 Small    0    60    0    0        0           None        None
+662595F0  7A01704 Small    0    60    0    0        0           None        None
+662599A4  7A01844 Small    0    60    0    0        0           None        None
+66259D58  7A01984 Small    0    60    0    0        0           None        None
+6625A10C  7A01AC4 Small    0    60    0    0        0           None        None
+6625A4C0  7A01C04 Small    0    60    0    0        0           None        None
+6625A874  7A01D44 Small    0    60    0    0        0           None        None
+6625AC28  7A01E84 Small    0    60    0    0        0           None        None
+6625AFDC  7A01FC4 Middl    0     0    0    0        0           None        None
+6625B390  7A02304 Middl    0     0    0    0        0           None        None
+6625B744  7A02644 Middl    0     0    0    0        0           None        None
+6625BAF8  7A02984 Middl    0     0    0    0        0           None        None
+6625BEAC  7A02CC4 Middl    0     0    0    0        0           None        None
+6625C260  7A03004 Middl    0     0    0    0        0           None        None
+6625C614  7A03344 Middl    0     0    0    0        0           None        None
+6625C9C8  7A03684 Middl    0   413    0    0        0           None        None
+6625CD7C  7A039C4 Middl    0   101    0    0        0           None        None
+6625D130  7A03D04 Middl    0     0    0    0        0           None        None
+6625D4E4  7A04044 Middl    0   107    0    0        0           None        None
+6625D898  7A04384 Middl    0    85    0    0        0           None        None
+6625DC4C  7A046C4 Middl    0   118    0    0        0           None        None
+6625E000  7A04A04 Middl    0   107    0    0        0           None        None
+6625E3B4  7A04D44 Middl    0   218    0    0        0           None        None
+6625E768  7A05084   Big    0     0    0    0        0           None        None
+6625EB1C  7A05764   Big    0     0    0    0        0           None        None
+6625EED0  7A05E44   Big    0     0    0    0        0           None        None
+6625F284  7A06524   Big    0     0    0    0        0           None        None
+          
+
+  Header DataArea  Pool           Rcnt  Size  Original   Flags   caller_pc
+
+Public particle pools:
+
+       0  7B52E20 F/S                0     0        0        1 6002D1C8
+       0  7B52F80 F/S                0     0        0        1 6002D1C8
+       0  7B530E0 F/S                0     0        0        1 6002D1C8
+       0  7B53240 F/S                0     0        0        1 6002D1C8
+       0  7B533A0 F/S                0     0        0        1 6002D1C8
+       0  7B53500 F/S                0     0        0        1 6002D1C8
+       0  7B53660 F/S                0     0        0        1 6002D1C8
+       0  7B537C0 F/S                0     0        0        1 6002D1C8
+       0  7B53920 F/S                0     0        0        1 6002D1C8
+       0  7B53A80 F/S                0     0        0        1 6002D1C8
+       0  7B53BE0 F/S                0     0        0        1 6002D1C8
+       0  7B53D40 F/S                0     0        0        1 6002D1C8
+       0  7B53EA0 F/S                0     0        0        1 6002D1C8
+       0  7B54000 F/S                0     0        0        1 6002D1C8
+       0  7B54160 F/S                0     0        0        1 6002D1C8
+       0  7B542C0 F/S                0     0        0        1 6002D1C8
+       0  7B54420 F/S                0     0        0        1 6002D1C8
+       0  7B54580 F/S                0     0        0        1 6002D1C8
+       0  7B546E0 F/S                0     0        0        1 6002D1C8
+       0  7B54840 F/S                0     0        0        1 6002D1C8
+       0  7B549A0 F/S                0     0        0        1 6002D1C8
+       0  7B54B00 F/S                0     0        0        1 6002D1C8
+          
+Router#ping 4.2.2.1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 4.2.2.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+Router#ping 10.10.10.1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.10.10.1, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 4/9/12 ms
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+Router(config)#
+Router(config)#ip route 0.0.0.0 0.0.0.0 10.10.10.1
+Router(config)#
+Router(config)#
+Router(config)#do ping 4.2.2.1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 4.2.2.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 244/340/568 ms
+Router(config)#int
+Router(config)#interface f
+Router(config)#interface fastEthernet 0/0
+Router(config-if)#
+Router(config-if)#ip nat ?
+  allow-static-host  Allow static-ip clients
+  enable             Enable Address Translation (NVI)
+  inside             Inside interface for address translation
+  outside            Outside interface for address translation
+
+Router(config-if)#ip nat out
+Router(config-if)#ip nat outside 
+% NBAR ERROR: due to memory problem, parsing stopped
+% NBAR Error : Activation failed due to insufficient dynamic memory
+% NBAR Error: Stile could not add protocol node  
+%NAT: Error activating CNBAR on the interface FastEthernet0/0
+Router(config-if)#
+*Mar  1 00:08:09.319: %SYS-2-MALLOCFAIL: Memory allocation of 10260 bytes failed from 0x628F2DA8, alignment 0 
+Pool: Processor  Free: 27860  Cause: Memory fragmentation 
+Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+ -Process= "Exec", ipl= 0, pid= 195,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB24 0x63645A68 0x628F2DB0 0x628D1774 0x628D2054 0x628D2024 0x628D2BEC 0x62905E30 0x62910894 0x628FDAF0 0x6291ACA0 0x6291B020 0x61C5CF7C
+*Mar  1 00:08:09.323: %NBAR-2-NOMEMORY: No memory available for StILE lmalloc,  -Traceback= 0x61477188 0x628F2DCC 0x628D1774 0x628D2054 0x628D2024 0x628D2BEC 0x62905E30 0x62910894 0x628FDAF0 0x6291ACA0 0x6291B020 0x61C5CF7C 0x61C5F8B4 0x614C3364 0x614E70BC 0x62AFA750
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#int
+Router(config)#interface fa
+Router(config)#interface fastEthernet 0/1
+Router(config-if)#ip nat insi
+Router(config-if)#ip nat inside 
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR ERROR: symbol addition
+% NBAR Error : Activation failed due to insufficient dynamic memory
+% NBAR Error: Stile could not add protocol node  
+%NAT: Error activating CNBAR on the interface FastEthernet0/1
+Router(config-if)#
+*Mar  1 00:08:26.487: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
+Router(config-if)#
+Router(config-if)#
+Router(config-if)#
+Router(config-if)#exit
+Router(config)#
+Router(config)#
+Router(config)#exit
+Router#
+Router#show in
+*Mar  1 00:08:36.679: %SYS-5-CONFIG_I: Configured from console by consol 
+% Ambiguous command:  "show i"
+Router#show ip nat st
+Router#show ip nat statistics 
+Total active translations: 4 (0 static, 4 dynamic; 2 extended)
+Outside interfaces:
+  FastEthernet0/0
+Inside interfaces: 
+  FastEthernet0/1
+Hits: 71  Misses: 0
+CEF Translated packets: 71, CEF Punted packets: 0
+Expired translations: 0
+Dynamic mappings:
+-- Inside Source
+[Id: 1] access-list 1 pool ippool refcount 4
+ pool ippool: netmask 255.255.255.0
+	start 10.10.10.10 end 10.10.10.20
+	type generic, total addresses 11, allocated 2 (18%), misses 0
+Appl doors: 0
+Normal doors: 0
+Queued Packets: 0
+Router#
+Router#show ip nat tr
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:23047 192.168.244.6:23047 4.2.2.1:23047     4.2.2.1:23047
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+*Mar  1 00:09:08.559: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
+Pool: Processor  Free: 31788  Cause: Not enough free memory 
+Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+ -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
+*Mar  1 00:09:08.587: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
+Router#
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:23047 192.168.244.6:23047 4.2.2.1:23047     4.2.2.1:23047
+icmp 10.10.10.10:25351 192.168.244.6:25351 4.2.2.1:25351     4.2.2.1:25351
+icmp 10.10.10.10:25607 192.168.244.6:25607 4.2.2.1:25607     4.2.2.1:25607
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:23047 192.168.244.6:23047 4.2.2.1:23047     4.2.2.1:23047
+icmp 10.10.10.10:25351 192.168.244.6:25351 4.2.2.1:25351     4.2.2.1:25351
+icmp 10.10.10.10:25607 192.168.244.6:25607 4.2.2.1:25607     4.2.2.1:25607
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+Router#
+Router#show run | begin nat
+
+Router#
+*Mar  1 00:09:39.567: %SYS-2-MALLOCFAIL: Memory allocation of 28668 bytes failed from 0x61A31BE0, alignment 0 
+Pool: Processor  Free: 26932  Cause: Not enough free memory 
+Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+ -Process= "Exec", ipl= 0, pid= 195,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB24 0x63645A68 0x61A31BE8 0x61486B6C 0x614E2EF4 0x614C3364 0x614E70BC 0x62AFA750 0x62AFA734 
+Router#
+*Mar  1 00:10:50.755: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
+Pool: Processor  Free: 31788  Cause: Not enough free memory 
+Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+ -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
+*Mar  1 00:10:50.767: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
+Router#
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:25607 192.168.244.6:25607 4.2.2.1:25607     4.2.2.1:25607
+icmp 10.10.10.10:28423 192.168.244.6:28423 46.228.47.115:28423 46.228.47.115:28423
+udp 10.10.10.10:58719  192.168.244.6:58719 4.2.2.2:53        4.2.2.2:53
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+Router#
+*Mar  1 00:11:31.255: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
+Pool: Processor  Free: 31788  Cause: Not enough free memory 
+Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+ -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
+*Mar  1 00:11:31.259: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
+Router#
+Router#
+Router#
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
+icmp 10.10.10.11:12295 192.168.244.5:12295 179.60.192.3:12295 179.60.192.3:12295
+udp 10.10.10.11:41785  192.168.244.5:41785 4.2.2.1:53        4.2.2.1:53
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:28423 192.168.244.6:28423 46.228.47.115:28423 46.228.47.115:28423
+udp 10.10.10.10:58719  192.168.244.6:58719 4.2.2.2:53        4.2.2.2:53
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+Router#
+Router#show ip nat statistics 
+Total active translations: 8 (0 static, 8 dynamic; 5 extended)
+Outside interfaces:
+  FastEthernet0/0
+Inside interfaces: 
+  FastEthernet0/1
+Hits: 2305  Misses: 0
+CEF Translated packets: 2295, CEF Punted packets: 15
+Expired translations: 8
+Dynamic mappings:
+-- Inside Source
+[Id: 1] access-list 1 pool ippool refcount 8
+ pool ippool: netmask 255.255.255.0
+	start 10.10.10.10 end 10.10.10.20
+	type generic, total addresses 11, allocated 3 (27%), misses 0
+Appl doors: 0
+Normal doors: 0
+Queued Packets: 0
+Router#
+Router#
+Router#show ip nat tr         
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.12:2     192.168.244.2:2    216.58.210.4:2     216.58.210.4:2
+icmp 10.10.10.12:3     192.168.244.2:3    216.58.210.4:3     216.58.210.4:3
+--- 10.10.10.12        192.168.244.2      ---                ---
+icmp 10.10.10.11:12295 192.168.244.5:12295 179.60.192.3:12295 179.60.192.3:12295
+--- 10.10.10.11        192.168.244.5      ---                ---
+icmp 10.10.10.10:28423 192.168.244.6:28423 46.228.47.115:28423 46.228.47.115:28423
+--- 10.10.10.10        192.168.244.6      ---                ---
+Router#
+Router#
+Router#
+Router#

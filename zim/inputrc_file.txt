@@ -1,0 +1,40 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-09T19:58:24+06:00
+
+====== inputrc file ======
+Created Sunday 09 June 2013
+
+inputrc file is a nice location to add command by using key strock.
+
+root@mail:~# vi /etc/inputrc 
+[--- output omitted due to long output and only show last part of the file---]
+
+# "\e[H": beginning-of-line
+# "\e[F": end-of-line
+
+$endif
+
+# added by me
+Control-t: "ping -c 5 192.168.203.77 \C-m"
+
+first part: keystrock sequence: Control-t
+second part: command itself
+third part: carriage return \C-m
+
+[then save and type control-t in a shell]
+
+[pbl@mail:~]$ ping -c 5 192.168.203.77 
+PING 192.168.203.77 (192.168.203.77) 56(84) bytes of data.
+64 bytes from 192.168.203.77: icmp_seq=1 ttl=128 time=0.842 ms
+64 bytes from 192.168.203.77: icmp_seq=2 ttl=128 time=1.01 ms
+64 bytes from 192.168.203.77: icmp_seq=3 ttl=128 time=1.01 ms
+64 bytes from 192.168.203.77: icmp_seq=4 ttl=128 time=0.764 ms
+64 bytes from 192.168.203.77: icmp_seq=5 ttl=128 time=1.03 ms
+
+--- 192.168.203.77 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4004ms
+rtt min/avg/max/mdev = 0.764/0.932/1.031/0.112 ms
+[pbl@mail:~]$ 
+
+

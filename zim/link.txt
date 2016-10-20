@@ -1,0 +1,23 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+
+snortsam
+http://ubuntuforums.org/showthread.php?t=1497308
+http://doc.emergingthreats.net/bin/view/Main/SnortSamINSTALL
+http://doc.emergingthreats.net/bin/view/Main/SnortSamDocumentation
+http://bodhizazen.net/Tutorials/psad/
+
+installing of snortsam
+https://launchpad.net/~thomas-creutz/+archive/snort
+
+
+books on snort and snortsam
+Intrusion Detection with Snort
+By: Jack Koziol
+Publisher: Sams
+Pub. Date: May 20, 2003
+Print ISBN-10: 1-57870-281-X
+Print ISBN-13: 978-1-57870-281-7
+Pages in Print Edition: 360
+
+

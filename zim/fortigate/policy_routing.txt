@@ -1,0 +1,66 @@
+
+
+// when you do any policy route
+// then you have to have also allow them
+// in policy too.
+
+// that mean you have to put the entry on
+// router pan as well as the policy tab too.
+// enable the natting on policy pan also.
+// after the successful entry you can see the
+// log on policy monitor too.
+
+
+// one of the sample policy route entry is like below.
+// here is showing if any dns traffic reached at
+// port2 from 192.168.244.0/24 the it will go out 
+// of the port3 and the dns-server will be 4.2.2.0/30
+// ie 4.2.2.1 and 4.2.2.2 
+
+FortiGate # show router policy 
+config router policy
+    edit 1
+        set input-device "port2"
+        set src 192.168.244.0 255.255.255.0
+        set dst 4.2.2.0 255.255.255.252
+        set protocol 17
+        set gateway 192.168.10.1
+        set output-device "port3"
+        set comments "policy route for dns"
+    next
+end
+
+FortiGate # 
+
+// and the corresponding firewall policy are like below.
+// configuration is self explanatory.
+// the nat is enabled.
+
+
+FortiGate # show firewall policy 
+policyid    Policy ID.
+2  
+1  
+
+FortiGate # show firewall policy 2
+config firewall policy
+    edit 2
+        set srcintf "port2"
+        set dstintf "port3"
+        set srcaddr "insideBlock"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "DNS"
+        set logtraffic all
+        set nat enable
+    next
+end
+
+FortiGate # 
+
+// more interesting is that traffic redirection does 
+// require the policy routing. ie if we want 53 dns
+// traffic will leave port3 after entering port1 then
+// we just have to allow it in the policy that it.
+

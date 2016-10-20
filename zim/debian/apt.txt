@@ -1,0 +1,16 @@
+
+
+................ checking whether it is pulling from correct source ...............
+
+root@debian7:~# apt-cache policy docker
+docker:
+  Installed: 1.4-5
+  Candidate: 1.4-5
+  Version table:
+  *** 1.4-5 0
+   500 http://ftp.ca.debian.org/debian/ wheezy/main i386 Packages
+   100 /var/lib/dpkg/status
+root@debian7:~# 
+
+
+

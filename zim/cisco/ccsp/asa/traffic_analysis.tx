@@ -1,0 +1,14 @@
+
+
+........................ traffic_analysis_tools ...............................
+
+.. we use the packet tracer to test out operation in asa or for the troubleshooting
+.. purpose. and the syntax are like below.
+
+ciscoasa# packet-tracer input src_interface protocol src_addr src_port dest_addr dest_port [detailed] [xml]
+
+
+
+
+
+

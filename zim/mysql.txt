@@ -1,0 +1,48 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-27T13:31:42+06:00
+
+====== mysql ======
+Created Thursday 27 June 2013
+
+Do you need to change your web host or switch your database server? This is probably the only time when you really think of backing up your MySQL data. If you've got a website with a database or your custom database running for your applications, it is imperative that you make regular backups of the database. In this article, I will outline two easy ways of backing up and restoring databases in MySQL.
+
+The easiest way to backup your database would be to telnet to the your database server machine and use the mysqldump command to dump your whole database to a backup file. If you do not have telnet or shell access to your server, don't worry about it; I shall outline a method of doing so using the PHPMyAdmin web interface, which you can setup on any web server which executes PHP scripts.
+
+Playing with mysqldump
+
+If you have either a shell or telnet access to your database server, you can backup the database using mysqldump. By default, the output of the command will dump the contents of the database in SQL statements to your console. This output can then be piped or redirected to any location you want. If you plan to backup your database, you can pipe the output to a sql file, which will contain the SQL statements to recreate and populate the database tables when you wish to restore your database. There are more adventurous ways to use the output of mysqldump.
+
+A Simple Database Backup:
+
+You can use mysqldump to create a simple backup of your database using the following syntax.
+
+    mysqldump -u [username] -p [password] [databasename] > [backupfile.sql]
+
+        [username] - this is your database username
+        [password] - this is the password for your database
+        [databasename] - the name of your database
+        [backupfile.sql] - the file to which the backup should be written.
+         
+
+The resultant dump file will contain all the SQL statements needed to create the table and populate the table in a new database server. To backup your database 'Customers' with the username 'sadmin' and password 'pass21' to a file custback.sql, you would issue the command:
+
+    mysqldump -u sadmin -p pass21 Customers > custback.sql 
+
+You can also ask mysqldump to add a drop table command before every create command by using the option --add-drop-table. This option is useful if you would like to create a backup file which can rewrite an existing database without having to delete the older database manually first.
+
+    mysqldump --add-drop-table -u sadmin -p pass21 Customers > custback.sql 
+
+Backing up only specified tables
+
+If you'd like restrict the backup to only certain tables of your database, you can also specify the tables you want to backup. Let's say that you want to backup only customer_master & customer_details from the Customers database, you do that by issuing
+
+    mysqldump --add-drop-table -u sadmin -p pass21 Customers customer_master customer_details> custback.sql 
+
+So the syntax for the command to issue is:
+
+    mysqldump -u [username] -p [password] [databasename] [table1 table2 ....]
+
+        [tables] - This is a list of tables to backup. Each table is separated by a space. 
+
+Next: What about Multiple Databases? >>

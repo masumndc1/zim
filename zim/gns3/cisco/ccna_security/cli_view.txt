@@ -1,0 +1,202 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-11T02:01:11+06:00
+
+====== cli view ======
+Created Thursday 11 July 2013
+
+Router>ena
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#line con 0
+Router(config-line)# logging synchronous
+Router(config-line)#exit
+Router(config)#aaa new-model
+Router(config)#exit
+Enter configuration commands, one per line.  End with CNTL/Z.
+*Jul 11 01:45:18.247: %SYS-5-CONFIG_I: Configured from console by console
+Router#enable view
+Password: 
+% Authentication failed
+
+Router#enable view
+Password: 
+% Authentication failed
+
+Router#
+Router#
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+Router(config)#
+Router(config)#enable secret cisco
+Router(config)#
+Router(config)#exit
+Router#      
+*Jul 11 01:45:51.335: %SYS-5-CONFIG_I: Configured from console by console
+Router#
+Router#
+Router#
+Router#enable view
+Password: 
+
+Router#
+Router#
+Router#co
+*Jul 11 01:45:59.267: %PARSER-6-VIEW_SWITCH: successfully set to view 'root'.
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#
+Router(config)#
+Router(config)#
+Router(config)#parser view noc
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#
+*Jul 11 01:46:37.331: %PARSER-6-VIEW_CREATED: view 'noc' successfully created.
+Router(config-view)#
+Router(config-view)#secret 0 masum
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#?           
+View commands:
+  commands  Configure commands for a view
+  default   Set a command to its defaults
+  exit      Exit from view configuration mode
+  no        Negate a command or set its defaults
+  secret    Set a secret for the current view
+
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#commands exec ?     
+  exclude            Exclude the command from the view
+  include            Add command to the view
+  include-exclusive  Include in this view but exclude from others
+
+Router(config-view)#commands exec include ping
+Router(config-view)#commands exec include traceroute
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#do show run
+Building configuration...
+
+Current configuration : 781 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname Router
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$pjF9$AWxUptbu2Ecjlmz5yFy4i/
+!
+aaa new-model
+!
+
+!
+interface FastEthernet0/0
+ no ip address
+ shutdown
+ duplex half
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+logging alarm informational
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+gatekeeper
+ shutdown
+!         
+!
+line con 0
+ logging synchronous
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 3
+line vty 4
+**parser view noc**
+** secret 5 $1$d85Z$53gZDQVjpqpMH6PbXu262/**
+** commands exec include traceroute**
+** commands exec include ping**
+!
+!
+!
+end
+
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#
+Router(config-view)#exit
+Router(config)#
+Router(config)#
+Router(config)#exit
+Router#
+Router#
+Router#
+Router#exit
+*Jul 11 01:48:13.507: %SYS-5-CONFIG_I: Configured from console by console
+Router#enable view noc
+Password: 
+% Authentication failed
+
+Router#
+Router#
+Router#enable view noc
+Password: 
+% Authentication failed
+
+Router#
+Router#enable view noc
+Password: 
+
+Router#
+Router#
+Router#?
+Exec commands:
+  enable      Turn on privileged commands
+  exit        Exit from the EXEC
+  ping        Send echo messages
+  show        Show running system information
+  traceroute  Trace route to destination
+
+Router#
+*Jul 11 01:48:37.727: %PARSER-6-VIEW_SWITCH: successfully set to view 'noc'.
+Router#
+Router#
+Router#enable view noc
+% Already inside the view noc.
+
+Router#
+Router#
+Router#?
+Exec commands:
+  enable      Turn on privileged commands
+  exit        Exit from the EXEC
+  ping        Send echo messages
+  show        Show running system information
+  traceroute  Trace route to destination
+
+Router#

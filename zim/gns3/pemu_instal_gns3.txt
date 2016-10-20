@@ -1,0 +1,41 @@
+// download the package pemu from sourceforge
+
+https://sourceforge.net/projects/gns-3/files/
+
+// now untar in /usr/share/gns3 folder or
+// where the gns3 files are located.
+
+root@masum:/usr/share/gns3# cp /home/masum/Downloads/pemu_2008-03-03_bin.tar.bz2 .
+root@masum:/usr/share/gns3# ls
+gns3  GNS3-0.8.7.egg-info          qemuwrapper.py     vboxcontroller_4_1.py
+GNS3  pemu_2008-03-03_bin.tar.bz2  tcp_pipe_proxy.py  vboxwrapper.py
+root@masum:/usr/share/gns3# 
+root@masum:/usr/share/gns3# tar xvfj pemu_2008-03-03_bin.tar.bz2 
+pemu_2008-03-03_bin/
+pemu_2008-03-03_bin/ifup
+pemu_2008-03-03_bin/pemu
+pemu_2008-03-03_bin/README
+pemu_2008-03-03_bin/Changes
+pemu_2008-03-03_bin/ifup.ini
+pemu_2008-03-03_bin/pemu.ini
+root@masum:/usr/share/gns3# ls
+gns3  GNS3-0.8.7.egg-info  pemu_2008-03-03_bin.tar.bz2  tcp_pipe_proxy.py      vboxwrapper.py
+GNS3  pemu_2008-03-03_bin  qemuwrapper.py               vboxcontroller_4_1.py
+root@masum:/usr/share/gns3# 
+root@masum:/usr/share/gns3# cd pemu_2008-03-03_bin
+root@masum:/usr/share/gns3/pemu_2008-03-03_bin# ls
+Changes  ifup  ifup.ini  pemu  pemu.ini  README
+root@masum:/usr/share/gns3/pemu_2008-03-03_bin# 
+root@masum:/usr/share/gns3/pemu_2008-03-03_bin# cp pemu ..
+root@masum:/usr/share/gns3/pemu_2008-03-03_bin# ls
+Changes  ifup  ifup.ini  pemu  pemu.ini  README
+root@masum:/usr/share/gns3/pemu_2008-03-03_bin# cd ..
+root@masum:/usr/share/gns3# ls
+gns3  GNS3-0.8.7.egg-info  pemu_2008-03-03_bin          qemuwrapper.py     vboxcontroller_4_1.py
+GNS3  pemu                 pemu_2008-03-03_bin.tar.bz2  tcp_pipe_proxy.py  vboxwrapper.py
+root@masum:/usr/share/gns3# 
+root@masum:/usr/share/gns3# 
+root@masum:/usr/share/gns3# 
+
+// now in gns3 grafical interface test for qemu and this will show tha pemu 
+// also installed.:

@@ -1,0 +1,171 @@
+########################## allowing icmp traffic through asa
+
+1. create object group
+
+object-group icmp-type icmp-traffic
+ icmp-object echo
+ icmp-object echo-reply
+ icmp-object time-exceeded
+ icmp-object traceroute
+ icmp-object unreachable
+ciscoasa(config)# 
+
+2. create access-list and refence the created object-group in it.
+
+ciscoasa(config)# show run access-list 
+access-list www-allow extended permit tcp any host 10.10.10.10 eq www 
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq 2222 
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh 
+access-list www-allow extended permit icmp any any object-group icmp-traffic 
+access-list www-allow extended permit udp any any eq domain 
+ciscoasa(config)# 
+
+# the last line which indicates the domain is for dns resulation.
+# other wise dmz1 was able to ping 4.2.2.1 but not www.facebook.com
+# as we hav set up 4.2.2.1 for nameserver so we enable domain name
+# resulation by the last line.
+
+3. create access-group
+
+access-group icmp-allow in interface outside
+
+# this is the tricky part here. as we know that asa will prevent traffic going 
+# from lower security-level toward higher security level. 
+# as outside is security-level 0. so when icmp request is going from dmz1(sec-lev 50)
+# or inside(sec 100) it will allow to go outside (sec 0) but must prevent getting in.
+# therefore we cant see ping success. but actualy it happens if you see by wireshark.
+# 
+
+# so as ping is back from lower sec-level ie outside interface we need to put
+# the access-group inbound at outside interface.
+
+# the same rule is applicable for ping coming out of dmz1 toward inside(100).
+# so we need to apply the following access-group
+
+ciscoasa(config)# show run access-group 
+access-group www-allow in interface dmz1
+ciscoasa(config)#
+
+# this will make icmp successful from dmz1(50) to inside(100)
+
+4. verify
+# from host side
+
+root@debian7:~# traceroute www.facebook.com
+traceroute to www.facebook.com (31.13.75.8), 30 hops max, 60 byte packets
+ 1  10.10.10.1 (10.10.10.1)  21.184 ms  97.801 ms  98.037 ms
+ 2  192.168.43.1 (192.168.43.1)  107.881 ms  117.422 ms  127.067 ms
+ 3  * * *
+ 4  10.26.206.193 (10.26.206.193)  316.731 ms  324.297 ms  395.225 ms
+ 5  10.26.206.244 (10.26.206.244)  405.419 ms  414.035 ms  424.413 ms
+ 6  202.4.173.34 (202.4.173.34)  492.773 ms  172.824 ms  198.848 ms
+ 7  103.7.249.69 (103.7.249.69)  216.193 ms  298.688 ms  305.832 ms
+ 8  103.7.251.89 (103.7.251.89)  415.315 ms  406.068 ms  425.802 ms
+ 9  aes-static-189.137.144.59.airtel.in (59.144.137.189)  398.939 ms  498.963 ms  799.482 ms
+10  182.79.245.14 (182.79.245.14)  806.676 ms 182.79.245.53 (182.79.245.53)  1205.550 ms  1199.564 ms
+11  te0-7-0-25.ccr21.mrs01.atlas.cogentco.com (149.6.155.177)  816.645 ms te0-7-0-34.ccr21.mrs01.atlas.cogentco.com (149.6.155.181)  783.349 ms  626.615 ms
+12  149.6.155.42 (149.6.155.42)  793.676 ms  715.721 ms  618.951 ms
+13  psw01a.mrs1.tfbnw.net (173.252.64.155)  690.633 ms psw01d.mrs1.tfbnw.net (173.252.64.152)  580.900 ms psw01c.mrs1.tfbnw.net (173.252.64.153)  625.477 ms
+14  msw1ab.01.mrs1.tfbnw.net (204.15.23.156)  415.440 ms  418.234 ms  374.253 ms
+15  edge-star-shv-01-mrs1.facebook.com (31.13.75.8)  306.609 ms  307.813 ms  308.838 ms
+
+root@debian7:~# ping www.yahoo.com
+PING fd-fp3.wg1.b.yahoo.com (46.228.47.114) 56(84) bytes of data.
+64 bytes from ir2.fp.vip.ir2.yahoo.com (46.228.47.114): icmp_req=17 ttl=51 time=338 ms
+64 bytes from ir2.fp.vip.ir2.yahoo.com (46.228.47.114): icmp_req=18 ttl=51 time=311 ms
+64 bytes from ir2.fp.vip.ir2.yahoo.com (46.228.47.114): icmp_req=19 ttl=51 time=314 ms
+64 bytes from ir2.fp.vip.ir2.yahoo.com (46.228.47.114): icmp_req=20 ttl=51 time=315 ms
+^C
+--- fd-fp3.wg1.b.yahoo.com ping statistics ---
+20 packets transmitted, 4 received, 80% packet loss, time 18999ms
+rtt min/avg/max/mdev = 311.138/319.961/338.515/10.849 ms
+root@debian7:~# 
+
+#this was previously locked down
+
+4b. asa side
+
+ciscoasa(config)# show conn
+ICMP outside 46.228.47.115:0 dmz1 192.168.1.2:2884, idle 0:00:00, bytes 728
+
+
+4c. ping from inside to dmz1 and dmz1 to inside
+root@box:~# 
+root@box:~# ping 192.168.1.2
+PING 192.168.1.2 (192.168.1.2): 56 data bytes
+64 bytes from 192.168.1.2: seq=0 ttl=64 time=73.854 ms
+64 bytes from 192.168.1.2: seq=1 ttl=64 time=46.589 ms
+64 bytes from 192.168.1.2: seq=2 ttl=64 time=45.022 ms
+64 bytes from 192.168.1.2: seq=3 ttl=64 time=43.901 ms
+^C
+--- 192.168.1.2 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 43.901/52.341/73.854 ms
+root@box:~# traceroute 192.168.1.2
+traceroute to 192.168.1.2 (192.168.1.2), 30 hops max, 38 byte packets
+ 1  192.168.1.2 (192.168.1.2)  47.903 ms  11.319 ms  79.426 ms
+root@box:~# 
+
+
+#### deny and permit the icmp toward asa
+
+# we can do this by two possible options
+# 1. by acl which controls the icmp going through itself 
+#
+# 2. by acl which works in control-plane referred to as control-plane
+# filtering which actually used to control any types of traffic directed 
+# toward itself. we have to apply an acl and apply that acl with 
+# access-group. now instead of using this acl to any particular interace
+# we use it with control-plane
+
+# so we are restricting all kind of icmp coming at the interface outsite.
+
+ciscoasa(config)# icmp ?
+
+configure mode commands/options:
+  deny         Specify packets to reject
+  permit       Specify packets to forward
+  unreachable  Configure unreachable behavior
+
+ciscoasa(config)# icmp deny ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  Hostname or IP address of the host sending ICMP messages
+                       to the interface
+  any                  Any ip address and mask
+  host                 Host implies that the address mask is 255.255.255.255
+
+ciscoasa(config)# icmp deny any ?
+
+configure mode commands/options:
+  <0-255>        Enter ICMP type number (0 - 255)
+  echo           
+  echo-reply     
+  time-exceeded  
+  unreachable    
+Current available interface(s):
+  dmz1           Name of interface Ethernet2
+  inside         Name of interface Ethernet1
+  outside        Name of interface Ethernet0
+
+ciscoasa(config)# icmp deny any outside 
+
+ciscoasa(config)# show run icmp
+icmp unreachable rate-limit 1 burst-size 1
+icmp deny any outside
+ciscoasa(config)# 
+
+#now only permitting from host 192.168.202.36
+
+ciscoasa(config)# show run icmp
+icmp unreachable rate-limit 1 burst-size 1
+icmp permit host 192.168.202.36 outside
+icmp deny any outside
+ciscoasa(config)# 
+
+! caution
+
+# the command order is important here.
+# if we had set "icmp deny any outside" before
+# "icmp permit host 192.168.202.36 outside" 
+# no icmp would be allowed.

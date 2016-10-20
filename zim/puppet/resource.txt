@@ -1,0 +1,342 @@
+
+
+...... this is how we can locate a resource and its parameters ....
+...... and configure them in manifest.
+
+
+.. puppet help command will describe all possible subcommands
+..
+
+[root@localhost puppet]# puppet help
+
+Usage: puppet <subcommand> [options] <action> [options]
+
+Available subcommands:
+    
+  agent             The puppet agent daemon
+  apply             Apply Puppet manifests locally
+  ca                Local Puppet Certificate Authority management.
+  catalog           Compile, save, view, and convert catalogs.
+  cert              Manage certificates and requests
+  certificate       Provide access to the CA for certificate management.
+  certificate_request  Manage certificate requests.
+  certificate_revocation_list  Manage the list of revoked certificates.
+  config            Interact with Puppet's settings.
+  describe          Display help about resource types
+  device            Manage remote network devices
+  doc               Generate Puppet documentation and references
+  facts             Retrieve and store facts.
+  file              Retrieve and store files in a filebucket
+  filebucket        Store and retrieve files in a filebucket
+  help              Display Puppet help.
+  inspect           Send an inspection report
+  instrumentation_data  Manage instrumentation listener accumulated data. DEPRECATED.
+  instrumentation_listener  Manage instrumentation listeners. DEPRECATED.
+  instrumentation_probe  Manage instrumentation probes. Deprecated
+  key               Create, save, and remove certificate keys.
+  kick              Remotely control puppet agent
+  man               Display Puppet manual pages.
+  master            The puppet master daemon
+  module            Creates, installs and searches for modules on the Puppet Forge.
+  node              View and manage node definitions.
+  parser            Interact directly with the parser.
+  plugin            Interact with the Puppet plugin system.
+  queue             Deprecated queuing daemon for asynchronous storeconfigs
+  report            Create, display, and submit reports.
+  resource          The resource abstraction layer shell
+  resource_type     View classes, defined resource types, and nodes from all manifests.
+  secret_agent      Mimics puppet agent.
+  status            View puppet server status.
+
+See 'puppet help <subcommand> <action>' for help on a specific subcommand action.
+See 'puppet help <subcommand>' for help on a specific subcommand.
+Puppet v3.8.7
+[root@localhost puppet]# 
+
+.. then we have used describe sub command with puppet to see describe subcommand
+.. parameters.
+
+[root@localhost puppet]# puppet describe 
+
+puppet-describe(8) -- Display help about resource types
+========
+
+SYNOPSIS
+--------
+Prints help about Puppet resource types, providers, and metaparameters.
+
+
+USAGE
+-----
+puppet describe [-h|--help] [-s|--short] [-p|--providers] [-l|--list] [-m|--meta]
+
+
+OPTIONS
+-------
+* --help:
+  Print this help text
+
+* --providers:
+  Describe providers in detail for each type
+
+* --list:
+  List all types
+
+* --meta:
+  List all metaparameters
+
+* --short:
+  List only parameters without detail
+
+
+EXAMPLE
+-------
+    $ puppet describe --list
+    $ puppet describe file --providers
+    $ puppet describe user -s -m
+
+
+AUTHOR
+------
+David Lutterkort
+
+
+COPYRIGHT
+---------
+Copyright (c) 2011 Puppet Labs, LLC Licensed under the Apache 2.0 License
+
+[root@localhost puppet]# 
+
+.. the command puppet describe --list will show number of things 
+.. it can describe 
+
+[root@localhost puppet]# puppet describe --list
+These are the types known to puppet:
+augeas          - Apply a change or an array of changes to the  ...
+computer        - Computer object management using DirectorySer ...
+cron            - Installs and manages cron jobs
+exec            - Executes external commands
+file            - Manages files, including their content, owner ...
+filebucket      - A repository for storing and retrieving file  ...
+group           - Manage groups
+host            - Installs and manages host entries
+interface       - This represents a router or switch interface
+k5login         - Manage the `.k5login` file for a user
+macauthorization - Manage the Mac OS X authorization database
+mailalias       - .. no documentation ..
+maillist        - Manage email lists
+mcx             - MCX object management using DirectoryService  ...
+mount           - Manages mounted filesystems, including puttin ...
+nagios_command  - The Nagios type command
+nagios_contact  - The Nagios type contact
+nagios_contactgroup - The Nagios type contactgroup
+nagios_host     - The Nagios type host
+nagios_hostdependency - The Nagios type hostdependency
+nagios_hostescalation - The Nagios type hostescalation
+nagios_hostextinfo - The Nagios type hostextinfo
+nagios_hostgroup - The Nagios type hostgroup
+nagios_service  - The Nagios type service
+nagios_servicedependency - The Nagios type servicedependency
+nagios_serviceescalation - The Nagios type serviceescalation
+nagios_serviceextinfo - The Nagios type serviceextinfo
+nagios_servicegroup - The Nagios type servicegroup
+nagios_timeperiod - The Nagios type timeperiod
+notify          - .. no documentation ..
+package         - Manage packages
+resources       - This is a metatype that can manage other reso ...
+router          - .. no documentation ..
+schedule        - Define schedules for Puppet
+scheduled_task  - Installs and manages Windows Scheduled Tasks
+selboolean      - Manages SELinux booleans on systems with SELi ...
+selmodule       - Manages loading and unloading of SELinux poli ...
+service         - Manage running services
+ssh_authorized_key - Manages SSH authorized keys
+sshkey          - Installs and manages ssh host keys
+stage           - A resource type for creating new run stages
+tidy            - Remove unwanted files based on specific crite ...
+user            - Manage users
+vlan            - .. no documentation ..
+whit            - Whits are internal artifacts of Puppet's curr ...
+yumrepo         - The client-side description of a yum reposito ...
+zfs             - Manage zfs
+zone            - Manages Solaris zones
+zpool           - Manage zpools
+[root@localhost puppet]# 
+
+.. then we have taken notify to show its options and parameters.
+
+[root@localhost puppet]# puppet describe notify
+
+notify
+======
+Sends an arbitrary message to the agent run-time log.
+
+
+Parameters
+----------
+
+- **message**
+    The message to be sent to the log.
+
+- **name**
+    An arbitrary tag for your own reference; the name of the message.
+
+- **withpath**
+    Whether to show the full object path. Defaults to false.
+    Valid values are `true`, `false`. 
+[root@localhost puppet]# 
+
+.. example can be our first manifest
+
+[root@localhost puppet]# vi hello.pp
+[root@localhost puppet]# 
+[root@localhost puppet]# cat -n hello.pp
+     1	notify { greeting: 
+     2  message => 'hello, world!'
+     3	}
+[root@localhost puppet]# 
+
+.. when we need to list the options of any subcommands we do that following.
+.. say we need to know options of resource subcommand, we do that after issueing
+.. 'puppet help' then 'puppet resource --help or puppet resource -h'
+
+.. the following options is perticularly important.
+
+USAGE
+-----
+puppet resource [-h|--help] [-d|--debug] [-v|--verbose] [-e|--edit]
+  [-H|--host <host>] [-p|--param <parameter>] [-t|--types] <type>
+  [<name>] [<attribute>=<value> ...]
+
+.. the above command is particularly important
+.. # puppet resource --type 
+.. is a important command to see the all type of resources available
+
+[root@localhost puppet]# puppet resource --help
+
+puppet-resource(8) -- The resource abstraction layer shell
+========
+
+SYNOPSIS
+--------
+Uses the Puppet RAL to directly interact with the system.
+
+
+USAGE
+-----
+puppet resource [-h|--help] [-d|--debug] [-v|--verbose] [-e|--edit]
+  [-H|--host <host>] [-p|--param <parameter>] [-t|--types] <type>
+  [<name>] [<attribute>=<value> ...]
+
+
+DESCRIPTION
+-----------
+This command provides simple facilities for converting current system
+state into Puppet code, along with some ability to modify the current
+state using Puppet's RAL.
+
+By default, you must at least provide a type to list, in which case
+puppet resource will tell you everything it knows about all resources of
+that type. You can optionally specify an instance name, and puppet
+resource will only describe that single instance.
+
+If given a type, a name, and a series of <attribute>=<value> pairs,
+puppet resource will modify the state of the specified resource.
+Alternately, if given a type, a name, and the '--edit' flag, puppet
+resource will write its output to a file, open that file in an editor,
+and then apply the saved file as a Puppet transaction.
+
+
+OPTIONS
+-------
+Note that any setting that's valid in the configuration
+file is also a valid long argument. For example, 'ssldir' is a valid
+setting, so you can specify '--ssldir <directory>' as an
+argument.
+
+See the configuration file documentation at
+http://docs.puppetlabs.com/references/stable/configuration.html for the
+full list of acceptable parameters. A commented list of all
+configuration options can also be generated by running puppet with
+'--genconfig'.
+
+* --debug:
+  Enable full debugging.
+
+* --edit:
+  Write the results of the query to a file, open the file in an editor,
+  and read the file back in as an executable Puppet manifest.
+
+* --host:
+  When specified, connect to the resource server on the named host
+  and retrieve the list of resouces of the type specified.
+
+* --help:
+  Print this help message.
+
+* --param:
+  Add more parameters to be outputted from queries.
+
+* --types:
+  List all available types.
+
+* --verbose:
+  Print extra information.
+
+
+EXAMPLE
+-------
+This example uses `puppet resource` to return a Puppet configuration for
+the user `luke`:
+
+    $ puppet resource user luke
+    user { 'luke':
+     home => '/home/luke',
+     uid => '100',
+     ensure => 'present',
+     comment => 'Luke Kanies,,,',
+     gid => '1000',
+     shell => '/bin/bash',
+     groups => ['sysadmin','audio','video','puppet']
+    }
+
+
+AUTHOR
+------
+Luke Kanies
+
+
+COPYRIGHT
+---------
+Copyright (c) 2011 Puppet Labs, LLC Licensed under the Apache 2.0 License
+
+[root@localhost puppet]# 
+
+.. therefore if we want to know current configuration of a resource 'user' found 
+.. from the 'puppet resource --list' we do the following. 
+
+[root@localhost puppet]# puppet resource user root
+user { 'root':
+  ensure           => 'present',
+  comment          => 'root',
+  gid              => '0',
+  groups           => ['root', 'bin', 'daemon', 'sys', 'adm', 'disk', 'wheel'],
+  home             => '/root',
+  password         => '$6$jClLwmZ6$Wbsn/.qu5PoMwERbAoju4QSkEV9VVQNtO/aCAQljKK7DoL3yuzoe2DSO7/5278pALKBmYWWu2AGPWc8Lxu5DE/',
+  password_max_age => '99999',
+  password_min_age => '0',
+  shell            => '/bin/bash',
+  uid              => '0',
+}
+[root@localhost puppet]# 
+[root@localhost puppet]# 
+
+.. from the above command we can also see how to configure a resourse type and its 
+.. parameters. parameters as string, as array, as value, and notice here every 
+.. value ends with a comma. resource type has resource title, attributes are all
+.. in the curly brackets.
+
+
+
+
+

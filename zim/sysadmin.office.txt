@@ -1,0 +1,39 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-04-16T20:45:25+06:00
+
+====== sysadmin.office ======
+Created Monday 16 April 2012
+
+how to change the hostname in redhat5.
+
+[root@ sysconfig]# pwd
+/etc/sysconfig
+[root@ sysconfig]# vi network
+[root@ sysconfig]# cat -n network
+     1	NETWORKING=yes
+     2	NETWORKING_IPV6=no
+     3	HOSTNAME=mail.example.com
+[root@ sysconfig]# 
+
+how to change the hostname in debian/ubuntu
+
+pbl@pbl-OptiPlex-755:~$ cat /etc/hostname 
+pbl-OptiPlex-755
+pbl@pbl-OptiPlex-755:~$ 
+
+//The ip link command shows the network device's configurations that can be
+//changed with ip link set. This command is used to modify the device's proprieties
+//and not the IP address.
+
+//The IP addresses can be configured using the ip addr command. This command can
+//be used to add a primary or secondary (alias) IP address to a network device (ip
+addr add), to display the IP addresses for each network device (ip addr show), or to
+delete IP addresses from interfaces (ip addr del). IP addresses can also be flushed
+using different criteria, e.g. ip addr flush dynamic will flush all routes added to the
+kernel by a dynamic routing protocol.
+
+ip tunnel is used to manage tunneled connections. Tunnels can be gre, ipip, and
+sit. We will include an example later in the book on how to build IP tunnels.
+
+

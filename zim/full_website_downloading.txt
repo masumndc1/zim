@@ -1,0 +1,13 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-05-27T21:24:43+06:00
+
+====== full website downloading ======
+Created Monday 27 May 2013
+
+wget -c--recursive --no-clobber --page-requisites --html-extension --convert-links --restrict-file-names=windows --no-parent
+  http://www.nobiderkahini.at-tahreek.com/
+	--username=Primebank
+	--password=Primeit1234
+
+         https://tcsp.temenos.com/r12-clientuserguides/R12CU5.htm

@@ -1,0 +1,72 @@
+
+ciscoasa(config)# crypto key generate rsa modulus 1024
+INFO: The name for the keys will be: <Default-RSA-Key>
+Keypair generation process begin. Please wait...
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# ssh ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  The IP address of the host and/or network authorized to
+                       login to the system
+  X:X:X:X::X/<0-128>   IPv6 address/prefix authorized to login to the system
+  scopy                Secure Copy mode
+  timeout              Configure ssh idle timeout
+  version              Specify protocol version to be supported
+
+exec mode commands/options:
+  disconnect  Specify SSH session id to be disconnected after this keyword
+
+ciscoasa(config)# ssh version 2
+
+ciscoasa(config)# ssh 0 0 ?
+
+configure mode commands/options:
+Current available interface(s):
+  dmz1     Name of interface Ethernet2
+  inside   Name of interface Ethernet1
+  outside  Name of interface Ethernet0
+
+ciscoasa(config)# ssh 0 0 outside
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# aaa authentication ?
+
+configure mode commands/options:
+  enable              Enable
+  exclude             Exclude the service, local and foreign network which
+                      needs to be authenticated, authorized, and accounted
+  http                HTTP
+  include             Include the service, local and foreign network which
+                      needs to be authenticated, authorized, and accounted
+  listener            Configure an HTTP or HTTPS authentication listener
+  match               Specify this keyword to configure an ACL to match
+  secure-http-client  Specify this keyword to ensure HTTP client authentication
+                      is secured (over SSL)
+  serial              Serial
+  ssh                 SSH
+  telnet              Telnet
+
+exec mode commands/options:
+  active  transition a FAILED AAA server to ACTIVE
+  fail    transition an ACTIVE AAA server to FAILED
+ciscoasa(config)# aaa authentication ssh ?
+
+configure mode commands/options:
+  console  Specify this keyword to identify a server group for administrative
+           authentication
+ciscoasa(config)# aaa authentication ssh console ?
+
+configure mode commands/options:
+  LOCAL  Predefined server tag for AAA protocol 'local'
+  WORD   Name of RADIUS or TACACS+ aaa-server group for administrative
+         authentication
+ciscoasa(config)# aaa authentication ssh console LOCAL ?
+
+configure mode commands/options:
+  <cr>
+ciscoasa(config)# aaa authentication ssh console LOCAL 
+ciscoasa(config)# 
+ciscoasa(config)# username masum password masum03 privilege 15 
+ciscoasa(config)# 
+ciscoasa(config)# 

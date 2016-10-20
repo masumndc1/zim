@@ -1,0 +1,102 @@
+----To view the vg
+#lsvg
+
+----To view the active vg
+#lsvg -o
+
+----To view the information about the volume group
+#lsvg rootvg
+
+----To view the physical volumes in the vg
+#lsvg -p rootvg
+
+----To view the logical volumes in the vg
+#lsvg -l rootvg
+
+----To view the pvs
+#lspv
+
+----To create a vg
+# mkvg -s 16 -y anjvg hdisk1
+
+----To check
+#lsvg anjvg
+
+----To Deactivate a volume group
+#varyoffvg anjvg
+
+----To check
+#lsvg -o 
+#lsvg
+
+----To Activate a vg
+#varyonvg anjvg
+
+----To check
+#lsvg -o
+#lsvg
+
+----To view the pvs in a vg 
+
+#lsvg -p anjvg
+
+----To view the lvs in a vg
+
+#lsvg -l anjvg
+
+----To create a logical volume in sapvg
+
+# mklv -y anjlv anjvg 64m 
+#lsvg -l anjvg
+
+#mklv -t jfs2 -y anjlv1 anjvg 64m
+
+#lsvg -l anjvg|grep -i anjlv
+
+----To display the lv
+#lslv  anjlv
+
+#lslv -m anlv
+
+----To display all the lv in a anjvg
+
+#lsvg -l anjvg
+
+----To view the lv from pv
+
+#lspv -l hdisk1
+
+----To increase the no of pps' in a lv
+#extendlv anjlv 1
+
+
+----To view the map
+#lslv -m anjlv
+
+To add a filesystem in the volume group with mount point
+#crfs -v jfs -A yes -d /dev/anjlv -m /anjlv 
+
+#lsvg -l anjvg|grep anjlv    ----->showing close
+
+
+To mount the filesystem 
+#mount /anjlv
+
+#lsvg -l sapvg|grep newlv    ----->showing open
+
+To check the filesystem
+#df -m /anjlv
+
+#cat /etc/filesystems|grep -ip anjlv
+ 
+
+#lsfs
+
+
+To increase the size of the lv
+#chfs -a size=+32M /anjlv
+
+#lslv -m anjlv
+
+#df -m /anjlv
+

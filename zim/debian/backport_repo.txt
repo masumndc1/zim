@@ -1,0 +1,37 @@
+
+
+    For squeeze add this line
+
+    deb http://http.debian.net/debian-backports squeeze-backports(-sloppy) main
+
+    to your sources.list (or add a new file with the ".list" extension to /etc/apt/sources.list.d/). You can also find a list of other mirrors at http://backports.debian.org/Mirrors/
+
+    For wheezy add this line
+
+    deb http://http.debian.net/debian wheezy-backports main
+
+    to your sources.list (or add a new file with the ".list" extension to /etc/apt/sources.list.d/) You can also find a list of other mirrors at https://www.debian.org/mirror/list
+
+    For jessie add this line
+
+    deb http://http.debian.net/debian jessie-backports main
+
+    to your sources.list (or add a new file with the ".list" extension to /etc/apt/sources.list.d/) You can also find a list of other mirrors at https://www.debian.org/mirror/list
+
+    Run apt-get update
+
+and finally
+
+apt-get -t wheezy-backports install vlc
+
+
+Install a package from backports
+
+All backports are deactivated by default (i.e. the packages are pinned to 100 by using ButAutomaticUpgrades: yes in the Release files. If you want to install something from backports run:
+
+apt-get -t jessie-backports install "package"
+
+of course you can use aptitude as well:
+
+aptitude -t jessie-backports install "package"
+
