@@ -327,7 +327,9 @@ masum@masum:/media/masum/MASUM_32GB$ git add *.txt
 
 .. when we need to files or folder not to include with git we put the files and
 .. folder names in the .gitignore files like below in our working directory.
-
+.. when we need several txt file to be remove then we use like *.txt.
+.. the full structure of .gitignore can be found on 
+.. http://git-scm.com/docs/gitignore
 
 masum@masum:/media/masum/MASUM_32GB/zim$ ls -a
 bandwidth.monitor.txt      .gitignore                           nginx.0.7.67.txt           snmp.centos.txt
@@ -336,4 +338,55 @@ masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore
 masum@masum:/media/masum/MASUM_32GB/zim$ 
 
 .. lest try what happened now.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore 
+     1	text.txt
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   zim/.gitignore
+	modified:   zim/git.txt
+	modified:   zim/text.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+// output cut //
+
+masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
+[master 182eeb0] Fri Oct 21 21:56:36 NZDT 2016
+ 3 files changed, 11 insertions(+), 28 deletions(-)
+ rewrite zim/text.txt (100%)
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. now as we had included our file zim/text.txt before creating .gitignore
+.. and as zim/text.txt was already include with git therefore we have to 
+.. remove it from git manually like below.
+
+masum@masum:/media/masum/MASUM_32GB$ git rm --cached zim/text.txt
+rm 'zim/text.txt'
+masum@masum:/media/masum/MASUM_32GB$ git status | less
+
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        deleted:    zim/text.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   zim/git.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        .gitignore
+
+.. now commit and see what happened here.
+
 
