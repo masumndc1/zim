@@ -1,14 +1,3 @@
-masum@masum:/media/masum/MASUM_32GB$ git add zim
-masum@masum:/media/masum/MASUM_32GB$ cd .git
-masum@masum:/media/masum/MASUM_32GB/.git$ ls
-branches  COMMIT_EDITMSG  config  description  HEAD  hooks  index  info  logs  objects  refs
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ vi .gitignore
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ cat -n .gitignore 
-     1	zim/text.txt
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-masum@masum:/media/masum/MASUM_32GB/.git$ 
-
+masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore 
+     1	text.txt
+masum@masum:/media/masum/MASUM_32GB/zim$ 
