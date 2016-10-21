@@ -1,3 +1,0 @@
-masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore 
-     1	text.txt
-masum@masum:/media/masum/MASUM_32GB/zim$ 
