@@ -1,20 +1,14 @@
-masum@masum:/media/masum/MASUM_32GB$ git add -h
-usage: git add [options] [--] <pathspec>...
-
-    -n, --dry-run         dry run
-    -v, --verbose         be verbose
-
-    -i, --interactive     interactive picking
-    -p, --patch           select hunks interactively
-    -e, --edit            edit current diff and apply
-    -f, --force           allow adding otherwise ignored files
-    -u, --update          update tracked files
-    -N, --intent-to-add   record only the fact that the path will be added later
-    -A, --all             add changes from all tracked and untracked files
-    --ignore-removal      ignore paths removed in the working tree (same as --no-all)
-    --refresh             don't add, only refresh the index
-    --ignore-errors       just skip files which cannot be added because of errors
-    --ignore-missing      check if - even missing - files are ignored in dry run
-
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git add zim
+masum@masum:/media/masum/MASUM_32GB$ cd .git
+masum@masum:/media/masum/MASUM_32GB/.git$ ls
+branches  COMMIT_EDITMSG  config  description  HEAD  hooks  index  info  logs  objects  refs
+masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$ vi .gitignore
+masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$ cat -n .gitignore 
+     1	zim/text.txt
+masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$ 
 
