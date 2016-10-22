@@ -12,11 +12,6 @@
 .. web admin password 
 .. admin:admin
 
-.. my web portal for astaro
 
-.. https://myutm.sophos.com/homepage.php
-.. username: masumndc1@gmail.com
-.. password: Mymitu@123
-..
 
 

@@ -3,9 +3,9 @@ masumpen.pem
 masum@masum:~/Downloads$ chmod 400 masumpen.pem
 masum@masum:~/Downloads$ 
 masum@masum:~/Downloads$ 
-masum@masum:~/Downloads$ ssh -i masumpen.pem ec2-52-91-245-121.compute-1.amazonaws.com
+masum@masum:~/Downloads$ ssh -i ****.compute-1.amazonaws.com
 Permission denied (publickey).
-masum@masum:~/Downloads$ ssh -i masumpen.pem ec2-user@ec2-52-91-245-121.compute-1.amazonaws.com
+masum@masum:~/Downloads$ ssh -i masumpen.pem ****.compute-1.amazonaws.com
 
        __|  __|_  )
        _|  (     /   Amazon Linux AMI

@@ -389,4 +389,130 @@ Untracked files:
 
 .. now commit and see what happened here.
 
+.. we do the tag like below. this is important to find out something.
+
+masum@masum:/media/masum/MASUM_32GB$ git tag -a tag1 -m "important to test"
+
+.. creating branch and switch to new branch
+
+masum@masum:/media/masum/MASUM_32GB$ git branch
+* master
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git branch masum
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git branch
+* master
+  masum
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. * showing that out current branch is the master.
+
+masum@masum:/media/masum/MASUM_32GB$ git checkout masum
+M	zim/git.txt
+Switched to branch 'masum'
+masum@masum:/media/masum/MASUM_32GB$ git branch
+  master
+* masum
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. now it is the in the masum branch, newly created branch.
+
+masum@masum:/media/masum/MASUM_32GB$ touch zim/NewBranch.txt
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git add zim/NewBranch.txt 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git commit -m " for the new branch masum "
+[masum 637a03b]  for the new branch masum
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 zim/NewBranch.txt
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. this commit is for the new branch masum. not for the previous 
+.. branch master. we can also merge two branch together with the 
+.. command merge and also see the diffrerence with the subcommand
+.. diff with git like below.
+
+masum@masum:/media/masum/MASUM_32GB$ git merge masum 
+
+.. above command will merge masum branch with master branch
+
+masum@masum:/media/masum/MASUM_32GB$ git diff masum..master
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git diff master..masum
+diff --git a/zim/NewBranch.txt b/zim/NewBranch.txt
+new file mode 100644
+index 0000000..e69de29
+masum@masum:/media/masum/MASUM_32GB/zim$ git diff masum..master
+diff --git a/zim/NewBranch.txt b/zim/NewBranch.txt
+deleted file mode 100644
+index e69de29..0000000
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+.. for the git-gui run the command gitk from command line.
+.. another good command line options we have like below.
+
+masum@masum:/media/masum/MASUM_32GB$ git log --graph --decorate --pretty=oneline --abbrev-commit
+* 162b08c (HEAD, tag: tag1, master) Fri Oct 21 22:14:12 NZDT 2016
+* aa58b25 Fri Oct 21 22:13:27 NZDT 2016
+* 182eeb0 Fri Oct 21 21:56:36 NZDT 2016
+* 2ae2eba Fri Oct 21 21:51:20 NZDT 2016
+* d22a16b Fri Oct 21 21:45:44 NZDT 2016
+* 98e860b Fri Oct 21 21:45:01 NZDT 2016
+* 4d3fc23 Thu Oct 20 22:00:36 NZDT 2016
+* bd070d4 Thu Oct 20 20:23:56 NZDT 2016
+* dadd904 Thu Oct 20 20:23:12 NZDT 2016
+* f1530a9 Thu Oct 20 20:17:34 NZDT 2016
+* c9fa87a Thu Oct 20 20:17:02 NZDT 2016
+* 2db23a8 "$(date)"
+* 7c91652 Thu Oct 20 19:50:53 NZDT 2016
+* 018a6ef Thu Oct 20 19:48:28 NZDT 2016
+* 72b3967 20.10.2016
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. sometime typing a long line of command is boring as well as hard to remember so 
+.. we created an alias like below. we are creating an alias tree and that is done
+.. by alias.tree. and we recall it by the $ git tree command.
+
+masum@masum:/media/masum/MASUM_32GB$ git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev-commit"
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git tree
+* 162b08c (HEAD, tag: tag1, master) Fri Oct 21 22:14:12 NZDT 2016
+* aa58b25 Fri Oct 21 22:13:27 NZDT 2016
+* 182eeb0 Fri Oct 21 21:56:36 NZDT 2016
+* 2ae2eba Fri Oct 21 21:51:20 NZDT 2016
+* d22a16b Fri Oct 21 21:45:44 NZDT 2016
+* 98e860b Fri Oct 21 21:45:01 NZDT 2016
+* 4d3fc23 Thu Oct 20 22:00:36 NZDT 2016
+* bd070d4 Thu Oct 20 20:23:56 NZDT 2016
+* dadd904 Thu Oct 20 20:23:12 NZDT 2016
+* f1530a9 Thu Oct 20 20:17:34 NZDT 2016
+* c9fa87a Thu Oct 20 20:17:02 NZDT 2016
+* 2db23a8 "$(date)"
+* 7c91652 Thu Oct 20 19:50:53 NZDT 2016
+* 018a6ef Thu Oct 20 19:48:28 NZDT 2016
+* 72b3967 20.10.2016
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. if we need to upload our locally created git repository to github we do that
+.. following
+
+masum@masum:/media/masum/MASUM_32GB$ git remote add origin https://github.com/masumndc1/zim.git
+masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
+Username for 'https://github.com': masumndc1
+Password for 'https://masumndc1@github.com': 
+Counting objects: 835, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (800/800), done.
+Writing objects: 100% (835/835), 5.89 MiB | 61.00 KiB/s, done.
+Total 835 (delta 79), reused 0 (delta 0)
+remote: Resolving deltas: 100% (79/79), done.
+To https://github.com/masumndc1/zim.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+masum@masum:/media/masum/MASUM_32GB$ 
+
 
