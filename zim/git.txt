@@ -631,9 +631,11 @@ masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. on the other hand fetch will sync but not commit it.
 .. therefore we have to commit it. on the other hand pull and 
-.. push will sync and will not wait for commit.
+.. push will sync and will not wait for commit. git pull command
+.. is equal to git fetch and git merge together.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git fetch
+masum@masum:/media/masum/MASUM_32GB/zim$ git merge
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git status
 On branch master
@@ -651,6 +653,25 @@ Untracked files:
 .. after that commit it.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git commit -m "$(date)"
+
+.. we add remote repository to local as below.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git remote add origin https://github.com/masumndc1/zim.git
+
+.. which we can also find from below.
+
+masum@masum:/media/masum/MASUM_32GB$ git remote show origin
+* remote origin
+  Fetch URL: https://github.com/masumndc1/zim.git
+  Push  URL: https://github.com/masumndc1/zim.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+masum@masum:/media/masum/MASUM_32GB$ 
 
 
 
