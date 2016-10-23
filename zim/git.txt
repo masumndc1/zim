@@ -569,7 +569,8 @@ masum@masum:/media/masum/MASUM_32GB$
 .. the remote is configure to my git as by following. when we try to push or
 .. pull something to remote then origin means the default remote repository
 .. we are dealing with like below. we can edit,delete and add remote by the 
-.. command remote.
+.. command remote. when we use the push subcommand with git we will get sync
+.. corresponding remote branch.
 
 masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
 
@@ -585,7 +586,33 @@ From https://github.com/masumndc1/zim
  = [up to date]      master     -> origin/master
 masum@masum:/media/masum/MASUM_32GB$ 
 
+.. configuration related to remote origin
 
+masum@masum:/media/masum/MASUM_32GB$ git remote show origin 
+* remote origin
+  Fetch URL: https://github.com/masumndc1/zim.git
+  Push  URL: https://github.com/masumndc1/zim.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$ git remote show -n origin
+* remote origin
+  Fetch URL: https://github.com/masumndc1/zim.git
+  Push  URL: https://github.com/masumndc1/zim.git
+  HEAD branch: (not queried)
+  Remote branch: (status not queried)
+    master
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push' (status not queried):
+    (matching) pushes to (matching)
+masum@masum:/media/masum/MASUM_32GB$ 
 
 
 
