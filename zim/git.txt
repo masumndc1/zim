@@ -566,11 +566,27 @@ Password for 'https://masumndc1@github.com':
 Everything up-to-date
 masum@masum:/media/masum/MASUM_32GB$ 
 
-.. the remote is configure to my git as by following.
+.. the remote is configure to my git as by following. when we try to push or
+.. pull something to remote then origin means the default remote repository
+.. we are dealing with like below. we can edit,delete and add remote by the 
+.. command remote.
+
+masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
 
 masum@masum:/media/masum/MASUM_32GB$ git remote --verbose
 origin	https://github.com/masumndc1/zim.git (fetch)
 origin	https://github.com/masumndc1/zim.git (push)
 masum@masum:/media/masum/MASUM_32GB$ 
+
+.. the following command just sync with the local master with the remote
+
+masum@masum:/media/masum/MASUM_32GB$ git fetch --verbose
+From https://github.com/masumndc1/zim
+ = [up to date]      master     -> origin/master
+masum@masum:/media/masum/MASUM_32GB$ 
+
+
+
+
 
 
