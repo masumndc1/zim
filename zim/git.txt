@@ -673,6 +673,103 @@ masum@masum:/media/masum/MASUM_32GB$ git remote show origin
     master pushes to master (up to date)
 masum@masum:/media/masum/MASUM_32GB$ 
 
+... configuration of git. if you are in the repository directory following
+.. command will show you important info regarding the git configuration.
+.. in our case our repository is /media/masum/MASUM_32GB/zim
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --list
+user.email=masumndc1@gmail.com
+user.name=mohammad khabir uddin
+alias.tree=log --graph --decorate --pretty=oneline --abbrev-commit
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+remote.origin.url=https://github.com/masumndc1/zim.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --local
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+remote.origin.url=https://github.com/masumndc1/zim.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --global
+user.email=masumndc1@gmail.com
+user.name=mohammad khabir uddin
+alias.tree=log --graph --decorate --pretty=oneline --abbrev-commit
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --system
+fatal: unable to read config file '/etc/gitconfig': No such file or directory
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+.. configuration change in git is discourage.
+.. but we can change the configuraiton options like below
+.. configuration file is reside in our home directory like below.
+.. we have the auto correct option in git like below. we then do some change 
+.. in our configuration file.
+
+.. just notice here we had issued an alias command as well as used
+.. the git config --global auto.correct 10
+
+masum@masum:~$ pwd
+/home/masum
+masum@masum:~$ cat -n .gitconfig
+     1	[user]
+     2		email = masumndc1@gmail.com
+     3		name = mohammad khabir uddin
+     4	[alias]
+     5		tree = log --graph --decorate --pretty=oneline --abbrev-commit
+     6	[help]
+     7		autocorrect = 10
+masum@masum:~$ 
+masum@masum:~$ 
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global help.autocorrect 10
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ git checout
+WARNING: You called a Git command named 'checout', which does not exist.
+Continuing under the assumption that you meant 'checkout'
+in 1.0 seconds automatically...
+M	zim/git.txt
+Your branch is up-to-date with 'origin/master'.
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ git branch
+* master
+  masum
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+.. now it can detect the err and auto correct it.
+
+.. changing the editor.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global core.editor vim
+masum@masum:/media/masum/MASUM_32GB/zim$ cat /home/masum/.gitconfig 
+[user]
+	email = masumndc1@gmail.com
+	name = mohammad khabir uddin
+[alias]
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+[help]
+	autocorrect = 10
+[core]
+	editor = vim
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+.. various option in git config file can be found from https://git-scm.com/docs/git-config
+
+.. making shortcut of my command. we do that by following.
+
 
 
 
