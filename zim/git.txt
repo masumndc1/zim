@@ -794,7 +794,163 @@ masum@masum:~$ cat -n .gitconfig
 masum@masum:~$ 
 
 .. important thing inside the .gitconfig file of the line number 6. we place one bash command
-.. by placing command inside "" .
+.. by placing command inside "". 
+
+.. removing alias. we have included some of the alias command which is not working correctly
+.. therefore we need to remove them like below.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.ps 'push -u origin master'
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.echo !echo
+
+masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig 
+[user]
+	email = masumndc1@gmail.com
+	name = mohammad khabir uddin
+[alias]
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	cm = commit -m "$(date)"
+	ps = push -u origin master
+	echo = echo
+[help]
+	autocorrect = 10
+[core]
+	editor = vim
+
+.. now we remove the alias with the sub command --unset. after removing the alias
+.. it looks good in ~/.gitconfig file.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global --unset alias.ps
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global --unset alias.echo
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig 
+[user]
+	email = masumndc1@gmail.com
+	name = mohammad khabir uddin
+[alias]
+	tree = log --graph --decorate --pretty=oneline --abbrev-commit
+	cm = commit -m "$(date)"
+[help]
+	autocorrect = 10
+[core]
+	editor = vim
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+.. archiving repository. archive our repository like below.
+
+root@masum:/media/masum/MASUM_32GB# git archive master --format=zip --output=../repbck.zip
+root@masum:/media/masum/MASUM_32GB# cd ..
+
+root@masum:/media/masum# ls
+50B1-7338  5E09-35AF  B09C-19DE  MASUM_32GB  masum-testing  repbck.zip  
+root@masum:/media/masum/# unzip repbck.zip
+root@masum:/media/masum# cd zim
+root@masum:/media/masum/zim# ls
+adding_path_to_linux.txt   dradis-home.txt                      lxc.txt                    privoxy_tor.txt
+adding_proxy_to_sheel.txt  f5                                   making_laptop_hotspot.txt  privoxy.txt
+adding_proxy_to_shell.txt  filename_shorter.txt                 metasploit                 psad
+AIX                        firefox_in_debian.txt                metasploitable_nmap        puppet
+android                    firefox.txt                          metasploit_grafical        Qemu.txt
+apache2.txt                flash_player_in_linux.txt            metasploit_grafical.txt    quota.txt
+apache.dvl.txt             fonts.txt                            metasploit.txt             requires.txt
+ASA_gns3.txt               fortigate                            mysql.office.txt           route_command_linux.txt
+astaro                     freebsd-home.txt                     mysql.txt                  route_command.txt
+aws                        freeradius.office.txt                nagios4.txt                route_command_update.txt
+bandwidth.monitor.txt      full_website_downloading.txt         nagios.office.txt          sdn
+bandwidth.txt              git.txt                              nessus.txt                 security_home.txt
+c                          gns3                                 nginx.0.7.67.txt           smxemail.txt
+cacti.office.txt           gns3.txt                             NMON.txt                   snmp.centos.txt
+centos                     how_to_change_resulution_ubuntu.txt  notebook.zim               snort.txt
+checkpoint                 ifconfig.txt                         openflow                   sources.txt
+chm_2_pdf.txt              inputrc_file.txt                     openstack                  ssh.txt
+cisco                      iptables                             openvswitch                stunnel4.office.txt
+cpu_limit.txt              journalize_quota.txt                 packet_tracer.txt          sysadmin.office.txt
+crontab_in_ubuntu.txt      juniper                              paloalto                   tar.txt
+date_in_linux.txt          kernet_restoration.txt               pdf_editing_debian.txt     test_masum.txt
+debian                     khabir-testing                       pfsense                    Transparent_proxy.txt
+Desktop_1.ini              lamp_in_centos_6.txt                 playonlinux.txt            vim.txt
+Desktop_2.ini              layer7-netfilter.txt                 postfix.html               virtualbox.office.txt
+dns                        link.txt                             postfix.txt                vmware.txt
+dns.txt                    load_balancing_using_dns.txt         printing_linux.txt         Xen.office.txt
+root@masum:/media/masum/zim# 
+
+.. we found our whole repository like below.
+
+.. by using bundle subcommand we can take an snapshot of our repository and then
+.. can use it another computer when network is down. command is like below.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ git bundle create ../repo.bundle master
+Counting objects: 890, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (848/848), done.
+Writing objects: 100% (890/890), 5.90 MiB | 5.81 MiB/s, done.
+Total 890 (delta 104), reused 0 (delta 0)
+masum@masum:/media/masum/MASUM_32GB/zim$ cd ..
+masum@masum:/media/masum/MASUM_32GB$ sl
+bash: sl: command not found
+masum@masum:/media/masum/MASUM_32GB$ 
+
+.. the file repo.bunlde has been created by the command.
+
+masum@masum:/media/masum/MASUM_32GB$ ls rep*
+repo.bundle
+
+.. moving repo.bundle to the /tmp as like we are carrying our repo in pendrive
+.. to use it to different computer.
+
+masum@masum:/media/masum/MASUM_32GB$ mv repo.bundle /tmp
+masum@masum:/media/masum/MASUM_32GB$ cd /tmp
+masum@masum:/tmp$ 
+masum@masum:/tmp$ ls
+libgksu-pfpd2k  pulse-2L9K88eMlGn7  pulse-PKdhtXMmr18n  repo.bundle  ssh-ATYFw5JKAnEv  tracker-masum  VMwareDnD  vmware-root
+masum@masum:/tmp$ 
+
+.. now cloning our repository
+
+masum@masum:/tmp$ git clone repo.bundle repo -b master
+Cloning into 'repo'...
+Receiving objects: 100% (890/890), 5.90 MiB | 0 bytes/s, done.
+Resolving deltas: 100% (104/104), done.
+Checking connectivity... done.
+
+masum@masum:/tmp$ ls
+libgksu-pfpd2k  pulse-2L9K88eMlGn7  pulse-PKdhtXMmr18n  repo  repo.bundle  ssh-ATYFw5JKAnEv  tracker-masum  VMwareDnD  vmware-root
+
+masum@masum:/tmp$ cd repo
+masum@masum:/tmp/repo$ ls
+masum-testing  zim
+masum@masum:/tmp/repo$ cd zim/
+masum@masum:/tmp/repo/zim$ ls
+adding_path_to_linux.txt   dradis-home.txt                      lxc.txt                    privoxy_tor.txt
+adding_proxy_to_sheel.txt  f5                                   making_laptop_hotspot.txt  privoxy.txt
+adding_proxy_to_shell.txt  filename_shorter.txt                 metasploit                 psad
+AIX                        firefox_in_debian.txt                metasploitable_nmap        puppet
+android                    firefox.txt                          metasploit_grafical        Qemu.txt
+apache2.txt                flash_player_in_linux.txt            metasploit_grafical.txt    quota.txt
+apache.dvl.txt             fonts.txt                            metasploit.txt             requires.txt
+ASA_gns3.txt               fortigate                            mysql.office.txt           route_command_linux.txt
+astaro                     freebsd-home.txt                     mysql.txt                  route_command.txt
+aws                        freeradius.office.txt                nagios4.txt                route_command_update.txt
+bandwidth.monitor.txt      full_website_downloading.txt         nagios.office.txt          sdn
+bandwidth.txt              git.txt                              nessus.txt                 security_home.txt
+c                          gns3                                 nginx.0.7.67.txt           smxemail.txt
+cacti.office.txt           gns3.txt                             NMON.txt                   snmp.centos.txt
+centos                     how_to_change_resulution_ubuntu.txt  notebook.zim               snort.txt
+checkpoint                 ifconfig.txt                         openflow                   sources.txt
+chm_2_pdf.txt              inputrc_file.txt                     openstack                  ssh.txt
+cisco                      iptables                             openvswitch                stunnel4.office.txt
+cpu_limit.txt              journalize_quota.txt                 packet_tracer.txt          sysadmin.office.txt
+crontab_in_ubuntu.txt      juniper                              paloalto                   tar.txt
+date_in_linux.txt          kernet_restoration.txt               pdf_editing_debian.txt     test_masum.txt
+debian                     khabir-testing                       pfsense                    Transparent_proxy.txt
+Desktop_1.ini              lamp_in_centos_6.txt                 playonlinux.txt            vim.txt
+Desktop_2.ini              layer7-netfilter.txt                 postfix.html               virtualbox.office.txt
+dns                        link.txt                             postfix.txt                vmware.txt
+dns.txt                    load_balancing_using_dns.txt         printing_linux.txt         Xen.office.txt
+masum@masum:/tmp/repo/zim$ 
+
+.. we have found our repository exactly same. 
+
+
 
 
 
