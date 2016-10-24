@@ -769,11 +769,9 @@ masum@masum:/media/masum/MASUM_32GB/zim$
 .. various option in git config file can be found from https://git-scm.com/docs/git-config
 
 .. making shortcut of my command. we do that by following.
-.. important to note here from the following. we have place a bash command $(date) inside
-.. the alias. therefore we did that like placing ' ' inside " " like below.
+.. important to note here from the following. 
 
-
-masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.cm "commit -m '$(date)' "
+masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.cm "<COMMAND HERE>"
 masum@masum:/media/masum/MASUM_32GB/zim$ 
 masum@masum:/media/masum/MASUM_32GB/zim$ git cm
 [master 73a58df] Mon Oct 24 20:14:23 NZDT 2016
@@ -781,6 +779,22 @@ masum@masum:/media/masum/MASUM_32GB/zim$ git cm
 masum@masum:/media/masum/MASUM_32GB/zim$ 
 
 .. now see what we have inside the /home/masum/.gitconfig file. 
+
+masum@masum:~$ cat -n .gitconfig 
+     1	[user]
+     2		email = masumndc1@gmail.com
+     3		name = mohammad khabir uddin
+     4	[alias]
+     5		tree = log --graph --decorate --pretty=oneline --abbrev-commit
+     6		cm = commit -m "$(date)"
+     7	[help]
+     8		autocorrect = 10
+     9	[core]
+    10		editor = vim
+masum@masum:~$ 
+
+.. important thing inside the .gitconfig file of the line number 6. we place one bash command
+.. by placing command inside "" .
 
 
 
