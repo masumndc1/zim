@@ -1,0 +1,1442 @@
+<!doctype html>
+<html>
+	<head>
+		<title>internet_connectivity_and_bgp</title>
+	</head>
+
+	<body>
+	<h1>external BGP</h1>
+	<h2>esternal BGP for enterprise</h2>
+	there is similarities in BGP with OSPF and EIGRP as these first forms a neighbourship with other routers then exchange information
+
+	into a bgp table. then bgp computes algorithm to find the best route from bgp table into its routing tables.
+
+	<h2>configuring simple bgp</h2>
+
+	<pre>
+enterprise(config-if)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.1        YES manual up                    up      
+Serial1/1                  10.1.1.5        YES manual up                    up      
+Serial1/2                  192.168.1.1     YES manual up                    up      
+Serial1/3                  unassigned      YES unset  administratively down down    
+enterprise(config-if)#
+
+isp1(config)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.2        YES manual up                    up      
+Serial1/1                  10.1.1.6        YES manual up                    up      
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+isp1(config)#
+isp1(config)#
+
+isp3(config-line)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  192.168.1.2     YES manual up                    up      
+Serial1/1                  unassigned      YES unset  administratively down down    
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+isp3(config-line)#
+
+enterprise(config)#router bgp 11
+enterprise(config-router)#neighbor 10.1.1.2 ?
+
+  activate                 Enable the Address Family for this Neighbor
+  advertise-map            specify route-map for conditional advertisement
+  advertisement-interval   Minimum interval between sending BGP routing updates
+  allowas-in               Accept as-path with my AS present in it
+  capability               Advertise capability to the peer
+  default-originate        Originate default route to this neighbor
+  description              Neighbor specific description
+  disable-connected-check  One-hop away EBGP peer using loopback address
+  distribute-list          Filter updates to/from this neighbor
+  dmzlink-bw               Propagate the DMZ link bandwidth
+  ebgp-multihop            Allow EBGP neighbors not on directly connected
+                           networks
+  fall-over                session fall on peer route lost
+  filter-list              Establish BGP filters
+  inherit                  Inherit a template
+  local-as                 Specify a local-as number
+  maximum-prefix           Maximum number of prefixes accepted from this peer
+  next-hop-self            Disable the next hop calculation for this neighbor
+  next-hop-unchanged       Propagate the iBGP paths's next hop unchanged for
+                           this neighbor
+  password                 Set a password
+  peer-group               Member of the peer-group
+  prefix-list              Filter updates to/from this neighbor
+  remote-as                Specify a BGP neighbor
+  remove-private-as        Remove private AS number from outbound updates
+  route-map                Apply route map to neighbor
+  route-reflector-client   Configure a neighbor as Route Reflector client
+  send-community           Send Community attribute to this neighbor
+  send-label               Send NLRI + MPLS Label to this peer
+  shutdown                 Administratively shut down this neighbor
+  soft-reconfiguration     Per neighbor soft reconfiguration
+  timers                   BGP per neighbor timers
+  translate-update         Translate Update to MBGP format
+  transport                Transport options
+  ttl-security             BGP ttl security check
+  unsuppress-map           Route-map to selectively unsuppress suppressed
+                           routes
+  update-source            Source of routing updates
+  version                  Set the BGP version to match a neighbor
+  weight                   Set default weight for routes from this neighbor
+
+enterprise(config-router)#neighbor 10.1.1.2 remote-as 1
+enterprise(config-router)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+enterprise(config-router)#
+*Nov 18 07:46:45.887: %BGP-5-ADJCHANGE: neighbor 10.1.1.2 Up 
+enterprise(config-router)#
+
+isp1(config)#router bgp 1
+isp1(config-router)#neighbor 10.1.1.1 remote-as 11
+isp1(config-router)#
+isp1(config-router)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+isp1(config-router)#
+	</pre>
+	and the running configs are first in enterprise router then isp1
+<pre>
+enterprise(config-router)#do show run | begin bgp
+router bgp 11
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 10.1.1.2 remote-as 1
+ neighbor 10.1.1.6 remote-as 1
+ neighbor 192.168.1.2 remote-as 3
+ no auto-summary
+!
+
+isp1(config-router)#do show run | begin bgp
+router bgp 1
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 10.1.1.1 remote-as 11
+ neighbor 10.1.1.5 remote-as 11
+ no auto-summary
+!
+!
+
+isp3(config-router)#do show run | begin bgp
+router bgp 3
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 192.168.1.1 remote-as 11
+ no auto-summary
+!
+!
+</pre>
+now testing summary and neighbourship in each router.
+<pre>
+
+enterprise#show ip bgp neighbors 
+BGP neighbor is 10.1.1.2,  remote AS 1, external link
+  BGP version 4, remote router ID 10.1.1.6
+  BGP state = Established, up for 00:21:14
+  Last read 00:00:13, last write 00:00:13, hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    Route refresh: advertised and received(old & new)
+    Address family IPv4 Unicast: advertised and received
+  Message statistics:
+    InQ depth is 0
+    OutQ depth is 0
+                         Sent       Rcvd
+    Opens:                  1          1
+    Notifications:          0          0
+    Updates:                0          0
+    Keepalives:            23         23
+    Route Refresh:          0          0
+    Total:                 24         24
+  Default minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 1, neighbor version 1/0
+ Output queue size : 0
+  Index 1, Offset 0, Mask 0x2
+  1 update-group member
+                                 Sent       Rcvd
+  Prefix activity:               ----       ----
+    Prefixes Current:               0          0
+    Prefixes Total:                 0          0
+    Implicit Withdraw:              0          0
+    Explicit Withdraw:              0          0
+    Used as bestpath:             n/a          0
+    Used as multipath:            n/a          0
+
+                                   Outbound    Inbound
+  Local Policy Denied Prefixes:    --------    -------
+    Total:                                0          0
+  Number of NLRIs in the update sent: max 0, min 0
+
+  Connections established 1; dropped 0
+  Last reset never
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 1
+Local host: 10.1.1.1, Local port: 62501
+Foreign host: 10.1.1.2, Foreign port: 179
+
+Enqueued packets for retransmit: 0, input: 0  mis-ordered: 0 (0 bytes)
+
+Event Timers (current time is 0x1C44F4):
+Timer          Starts    Wakeups            Next
+Retrans            25          0             0x0
+TimeWait            0          0             0x0
+AckHold            23         22             0x0
+SendWnd             0          0             0x0
+KeepAlive           0          0             0x0
+GiveUp              0          0             0x0
+PmtuAger            0          0             0x0
+DeadWait            0          0             0x0
+
+iss: 2125387429  snduna: 2125387912  sndnxt: 2125387912     sndwnd:  15902
+irs: 1245215559  rcvnxt: 1245216042  rcvwnd:      15902  delrcvwnd:    482
+
+SRTT: 290 ms, RTTO: 373 ms, RTV: 83 ms, KRTT: 0 ms
+minRTT: 12 ms, maxRTT: 376 ms, ACK hold: 200 ms
+Flags: active open, nagle
+IP Precedence value : 6
+
+Datagrams (max data segment is 1460 bytes):
+Rcvd: 25 (out of order: 0), with data: 23, total data bytes: 482
+Sent: 48 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0), with data: 24, total data bytes: 482
+          
+BGP neighbor is 10.1.1.6,  remote AS 1, external link
+  BGP version 4, remote router ID 0.0.0.0
+  BGP state = Active
+  Last read 00:08:36, last write 00:08:36, hold time is 180, keepalive interval is 60 seconds
+  Message statistics:
+    InQ depth is 0
+    OutQ depth is 0
+                         Sent       Rcvd
+    Opens:                  0          0
+    Notifications:          0          0
+    Updates:                0          0
+    Keepalives:             0          0
+    Route Refresh:          0          0
+    Total:                  0          0
+  Default minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 1, neighbor version 0/0
+ Output queue size : 0
+  Index 1, Offset 0, Mask 0x2
+  1 update-group member
+                                 Sent       Rcvd
+  Prefix activity:               ----       ----
+    Prefixes Current:               0          0
+    Prefixes Total:                 0          0
+    Implicit Withdraw:              0          0
+    Explicit Withdraw:              0          0
+    Used as bestpath:             n/a          0
+    Used as multipath:            n/a          0
+
+                                   Outbound    Inbound
+  Local Policy Denied Prefixes:    --------    -------
+    Total:                                0          0
+  Number of NLRIs in the update sent: max 0, min 0
+
+  Connections established 0; dropped 0
+  Last reset never
+  No active TCP connection
+          
+BGP neighbor is 192.168.1.2,  remote AS 3, external link
+  BGP version 4, remote router ID 192.168.1.1
+  BGP state = Established, up for 00:10:02
+  Last read 00:00:01, last write 00:00:03, hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    Route refresh: advertised and received(old & new)
+    Address family IPv4 Unicast: advertised and received
+  Message statistics:
+    InQ depth is 0
+    OutQ depth is 0
+                         Sent       Rcvd
+    Opens:                  1          1
+    Notifications:          0          0
+    Updates:                0          0
+    Keepalives:            13         13
+    Route Refresh:          0          0
+    Total:                 14         14
+  Default minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 1, neighbor version 1/0
+ Output queue size : 0
+  Index 1, Offset 0, Mask 0x2
+  1 update-group member
+                                 Sent       Rcvd
+  Prefix activity:               ----       ----
+    Prefixes Current:               0          0
+    Prefixes Total:                 0          0
+    Implicit Withdraw:              0          0
+    Explicit Withdraw:              0          0
+    Used as bestpath:             n/a          0
+    Used as multipath:            n/a          0
+
+                                   Outbound    Inbound
+  Local Policy Denied Prefixes:    --------    -------
+    Total:                                0          0
+  Number of NLRIs in the update sent: max 0, min 0
+
+  Connections established 1; dropped 0
+  Last reset never
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 1
+Local host: 192.168.1.1, Local port: 32504
+Foreign host: 192.168.1.2, Foreign port: 179
+
+Enqueued packets for retransmit: 0, input: 0  mis-ordered: 0 (0 bytes)
+
+Event Timers (current time is 0x1C5828):
+Timer          Starts    Wakeups            Next
+Retrans            13          0             0x0
+TimeWait            0          0             0x0
+AckHold            12         11             0x0
+SendWnd             0          0             0x0
+KeepAlive           0          0             0x0
+GiveUp              0          0             0x0
+PmtuAger            0          0             0x0
+DeadWait            0          0             0x0
+
+iss:  175175625  snduna:  175175918  sndnxt:  175175918     sndwnd:  16092
+irs: 2481661940  rcvnxt: 2481662233  rcvwnd:      16092  delrcvwnd:    292
+
+SRTT: 273 ms, RTTO: 654 ms, RTV: 381 ms, KRTT: 0 ms
+minRTT: 180 ms, maxRTT: 564 ms, ACK hold: 200 ms
+Flags: active open, nagle
+IP Precedence value : 6
+
+Datagrams (max data segment is 1460 bytes):
+Rcvd: 25 (out of order: 0), with data: 12, total data bytes: 292
+Sent: 26 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0), with data: 13, total data bytes: 292
+enterprise#
+
+enterprise#show ip bgp summary 
+BGP router identifier 10.1.1.5, local AS number 11
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.1.2        4     1      24      24        1    0    0 00:21:44        0
+10.1.1.6        4     1       0       0        0    0    0 never    Active
+192.168.1.2     4     3      14      14        1    0    0 00:10:25        0
+enterprise#
+
+enterprise#show ip bgp update-group 
+BGP version 4 update-group 1, external, Address Family: IPv4 Unicast
+  BGP Update version : 1/0, messages 0
+  Update messages formatted 0, replicated 0
+  Number of NLRIs in the update sent: max 0, min 0
+  Minimum time between advertisement runs is 30 seconds
+  Has 3 members (* indicates the members currently being sent updates): 
+   10.1.1.2         10.1.1.6         192.168.1.2     
+
+enterprise#
+
+isp1(config-router)#do show ip bgp summary
+BGP router identifier 10.1.1.6, local AS number 1
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.1.1        4    11      27      27        1    0    0 00:24:27        0
+10.1.1.5        4    11       0       0        0    0    0 never    Active
+isp1(config-router)#
+
+isp3(config-router)#do show ip bgp summary
+BGP router identifier 192.168.1.1, local AS number 3
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+192.168.1.1     4    11      17      17        1    0    0 00:13:25        0
+isp3(config-router)#
+</pre>
+
+<h2>requirements forming eBGP neighbourship</h2>
+<ul>
+	<li>local routers asn must match with neighbor routers <strong>neighbor ip-address remote-as point-to-remote-asn</strong></li>
+	<li>peering routers remote-id will not be same</li>
+	<li>if configured MD5 must pass</li>
+	<li>must have a tcp connection with other router: actually this done not like other protocols unlike eigrp and ospf: the thing
+	is bgp routers first form a TCP connection first then they exchanges the bgp messages to track town when messages come and 
+	when they not.actually ios does not required any ip address explicitly configured for tcp as source address. it infact it does
+	like it took the interface ip address as source address when it needs to go to its neighbor.</li>
+</ul>
+<h2>router id</h2>
+a router choose its router-id by the following ways.
+<ul>
+	<li>if configured by the sub-command <strong>bgp router-id </strong> </li>
+	<li>if configured the loopback interface then the highest will be its router-id</li>
+	<li>if not configure any of them then the highest ip address will be its router id</li>
+</ul>
+
+<h3>configuring md5 authenticaion between two routers</h3>
+now back in requirements. we configure password on bgp by the sub-command of following
+
+<pre>
+enterprise(config-router)#neighbor 192.168.1.2 password cisco
+
+enterprise(config-router)#do show run | begin bgp
+router bgp 11
+ bgp log-neighbor-changes
+ neighbor 10.1.1.2 remote-as 1
+ neighbor 10.1.1.6 remote-as 1
+ neighbor 192.168.1.2 remote-as 3
+ neighbor 192.168.1.2 password 7 13061E010803
+ !
+
+isp3(config-router)#neighbor 192.168.1.1 password cisco     
+isp3(config-router)#
+isp3(config-router)#
+isp3(config-router)#do show run | begin bgp
+router bgp 3
+ bgp log-neighbor-changes
+ neighbor 192.168.1.1 remote-as 11
+ neighbor 192.168.1.1 password 7 1511021F0725
+ !
+
+isp3#clear ip bgp *
+isp3#
+*Nov 18 09:10:06.795: %BGP-5-ADJCHANGE: neighbor 192.168.1.1 Down User reset
+*Nov 18 09:10:08.007: %BGP-5-ADJCHANGE: neighbor 192.168.1.1 Up 
+isp3#
+
+
+enterprise(config-router)#
+*Nov 18 09:10:07.723: %BGP-5-ADJCHANGE: neighbor 192.168.1.2 Down Peer closed the session
+*Nov 18 09:10:08.399: %BGP-5-ADJCHANGE: neighbor 192.168.1.2 Up 
+</pre>
+
+<h3>issues when redundancy exists between eBGP neighbor</h3>
+if one router has two link towards a AS for redundancy then its ok however it will take more bandwidth and memore as the router will send 
+neighbor update for the both link as both neighborship will send bgp routes.
+<br /><br />
+one of the alternatives can be configuring loopback interface in routers and use this loopback interface as source of TCP communication.
+and omit the link interface in neighbor command and use this loopback in neighbour command whereas the two links will be remain same and
+still use as redundancy.
+
+<h4>lets configure following with loopback interface</h4>
+
+<ol>
+	<li>omit previous configuration first</li>
+	<li>configure loopback interface.</li>
+	<li>and then configure loopback interface of other router to indicate as neighbor address</li>
+	<li>configure static route to point other routers loopback along with exit interface</li>
+	<li>eBGP multihop configuration</li>
+</ol>
+
+<pre>
+enterprise(config-if)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.1        YES manual up                    up      
+Serial1/1                  10.1.1.5        YES manual up                    up      
+Serial1/2                  192.168.1.1     YES manual up                    up      
+Serial1/3                  unassigned      YES unset  administratively down down    
+Loopback1                  11.11.11.11     YES manual up                    up      
+enterprise(config-if)#
+
+isp1(config-if)#do show ip interface brief 
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.2        YES manual up                    up      
+Serial1/1                  10.1.1.6        YES manual up                    up      
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+Loopback2                  1.1.1.1         YES manual up                    up      
+isp1(config-if)#
+
+isp3(config-if)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  192.168.1.2     YES manual up                    up      
+Serial1/1                  unassigned      YES unset  administratively down down    
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+Loopback3                  3.3.3.3         YES manual up                    up      
+isp3(config-if)#
+
+
+enterprise(config)#router bgp 11
+enterprise(config-router)#neighbor 1.1.1.1 remote-as 1
+enterprise(config-router)#neighbor 1.1.1.1 password cisco
+enterprise(config-router)#exit
+enterprise(config)#
+enterprise(config)#ip route 1.1.1.1 255.255.255.255 serial 1/0
+enterprise(config)#ip route 1.1.1.1 255.255.255.255 serial 1/1
+enterprise(config)#
+
+
+enterprise(config)# do ping 1.1.1.1
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 4/56/92 ms
+enterprise(config)#
+
+enterprise(config)#do show ip bgp summary
+BGP router identifier 10.1.1.5, local AS number 11
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1       0       0        0    0    0 never    Idle
+192.168.1.2     4     3     141     150        1    0    0 01:01:40        0
+enterprise(config)#
+
+isp1(config)#router bgp 1
+isp1(config-router)#neighbor 11.11.11.11 remote-as 11
+isp1(config-router)#neighbor 11.11.11.11 password cisco
+isp1(config-router)#
+isp1(config-router)#exit
+isp1(config)#
+isp1(config)#ip route 11.11.11.11 255.255.255.255 serial 1/0
+isp1(config)#ip route 11.11.11.11 255.255.255.255 serial 1/1
+isp1(config)#
+
+isp1(config)#do ping 11.11.11.11
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 11.11.11.11, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 24/59/84 ms
+isp1(config)#do show ip bgp summary
+BGP router identifier 10.1.1.6, local AS number 1
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+11.11.11.11     4    11       0       0        0    0    0 never    Idle
+isp1(config)#
+</pre>
+
+<h2>eBGP multihop concept</h2>
+when sending a packet bgp by default set ttl=1 for which the packet does not reach up to loopback as receiving router decrease the ttl by 1 when
+its reach to its interface. there fore we need to instruct sending router to set ttl higher value toward receiving router by the command 
+<strong>ebgp multi-hop 2</strong> and thats why neighborship was not formed in previous example when we configured loopback interface and used
+loopback for its source ip. lets do it.
+
+<pre>
+
+enterprise(config-router)#neighbor 3.3.3.3 ebgp-multihop 2
+*Nov 18 10:50:18.587: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up 
+
+enterprise(config-router)#do show ip bgp summ
+BGP router identifier 11.11.11.11, local AS number 11
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1       6       6        1    0    0 00:02:12        0
+3.3.3.3         4     3       4       4        1    0    0 00:00:16        0
+enterprise(config-router)#
+
+!
+router bgp 11
+ bgp log-neighbor-changes
+ neighbor 1.1.1.1 remote-as 1
+ neighbor 1.1.1.1 ebgp-multihop 2
+ neighbor 1.1.1.1 password 7 05080F1C2243
+ neighbor 1.1.1.1 update-source Loopback1
+ neighbor 3.3.3.3 remote-as 3
+ neighbor 3.3.3.3 ebgp-multihop 2
+ neighbor 3.3.3.3 password 7 0822455D0A16
+ !
+ address-family ipv4
+ neighbor 1.1.1.1 activate
+ neighbor 3.3.3.3 activate
+ no auto-summary
+ no synchronization
+ exit-address-family
+!
+
+
+isp1(config-router)#do show ip bgp summary
+BGP router identifier 1.1.1.1, local AS number 1
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+11.11.11.11     4    11       6       6        1    0    0 00:02:18        0
+isp1(config-router)#
+
+isp3(config-router)#do show ip bgp summary
+BGP router identifier 3.3.3.3, local AS number 3
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+11.11.11.11     4    11       4       4        1    0    0 00:00:24        0
+isp3(config-router)#
+
+</pre>
+
+<h2>eBGP internal and verifying neighbor</h2>
+like ospf bgp neighborship goes under series of process and states. although finite state machine(FSM) for bgp has much more steps including handling
+exceptions, retires and failures, the overall steps are as follows.
+<ol>
+<li>bgp got the neighbor ip from the <strong>neighbor</strong> command and establish a tcp connection through 179 ports.</li>
+<li>the three-way handshake completed, then bgp send first bgp open message similar to ospf/eigrp hello message containing important information 
+related to becoming neighbor.</li>
+<li>when open message send and received and required information verified and two routers become neighbor with established state. bgp update
+message along with PA and prefix send after this established state</li>
+</ol>
+there can be different states that one bgp neighbor can hold.
+
+<table>
+<tr>
+<th>
+state
+</th>
+<th>
+typical reasons
+</th>
+</tr>
+
+<tr>
+<td>idle</td>
+<td>whether bgp is not running or administratively down or waiting for next retries</td>
+</tr>
+
+<tr>
+<td>connect</td>
+<td>bgp peer waiting to be tcp connection to complete but cannot be said that is completed</td>
+</tr>
+
+<tr>
+<td>active</td>
+<td>tcp connection is complete but no bgp messages has been send yet</td>
+</tr>
+
+<tr>
+<td>opensent</td>
+<td>open message has been send but reply message has not been received.</td>
+</tr>
+
+<tr>
+<td>openconfirm</td>
+<td>open message has been received now next to bgp keepalive message(confirm all neighbor related parameter matched) or bgp notification
+(neighbor related message mismatch) message</td>
+</tr>
+
+<tr>
+<td>established</td>
+<td>all parameter matched and bgp peer now can exchange the BGP update message</td>
+</tr>
+
+</table>
+
+a sample <strong>show ip bgp neighbor 3.3.3.3</strong> and <strong>show tcp brief</strong> command 
+
+<pre>
+
+enterprise#show ip bgp neighbors 3.3.3.3
+<strong>BGP neighbor is 3.3.3.3,  remote AS 3, external link</strong>
+<strong># indication of neighbor and its ASN and indicaiton that its a EBGP router by external link #</strong>
+  BGP version 4, remote router ID 3.3.3.3
+  BGP state = Established, up for 01:10:36
+  Last read 00:00:35, last write 00:00:35, hold time is 180, keepalive interval is 60 seconds
+  Neighbor capabilities:
+    <strong>Route refresh: advertised and received(old & new)</strong>
+
+    <strong>### route refresh enable which can do clearing the BGP neighbor</strong>
+
+    Address family IPv4 Unicast: advertised and received
+  Message statistics:
+    InQ depth is 0
+    OutQ depth is 0
+                         Sent       Rcvd
+    Opens:                  1          1
+    Notifications:          0          0
+    Updates:                0          0
+    Keepalives:            72         72
+    Route Refresh:          0          0
+    Total:                 73         73
+  Default minimum time between advertisement runs is 30 seconds
+
+ For address family: IPv4 Unicast
+  BGP table version 1, neighbor version 1/0
+  Output queue size: 0
+  Index 1, Offset 0, Mask 0x2
+  1 update-group member
+                                 Sent       Rcvd
+  Prefix activity:               ----       ----
+    Prefixes Current:               0          0
+    Prefixes Total:                 0          0
+    Implicit Withdraw:              0          0
+    Explicit Withdraw:              0          0
+    Used as bestpath:             n/a          0
+    Used as multipath:            n/a          0
+
+                                   Outbound    Inbound
+  Local Policy Denied Prefixes:    --------    -------
+    Total:                                0          0
+  Number of NLRIs in the update sent: max 0, min 0
+
+  Connections established 1; dropped 0
+  Last reset never
+  <strong>External BGP neighbor may be up to 2 hops away.</strong>
+
+  <strong>### neighbor 3.3.3.3 ebgp-multihop 2 command issued</strong>
+
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 2
+
+<strong>Local host: 11.11.11.11, Local port: 12062
+Foreign host: 3.3.3.3, Foreign port: 179</strong>
+
+<strong>### indicates the local ip and remote ip to communicate along with the ports. note here foreign port 179 as tcp</strong>
+
+Connection tableid (VRF): 0
+
+Enqueued packets for retransmit: 0, input: 0  mis-ordered: 0 (0 bytes)
+
+Event Timers (current time is 0x43EC44):
+Timer          Starts    Wakeups            Next
+Retrans            77          0             0x0
+TimeWait            0          0             0x0
+AckHold            75         72             0x0
+SendWnd             0          0             0x0
+KeepAlive           0          0             0x0
+GiveUp              0          0             0x0
+PmtuAger            0          0             0x0
+DeadWait            0          0             0x0
+Linger              0          0             0x0
+ProcessQ            0          0             0x0
+
+iss: 4038996153  snduna: 4038997624  sndnxt: 4038997624     sndwnd:  15966
+irs: 1846012204  rcvnxt: 1846013675  rcvwnd:      15966  delrcvwnd:    418
+          
+SRTT: 300 ms, RTTO: 303 ms, RTV: 3 ms, KRTT: 0 ms
+minRTT: 8 ms, maxRTT: 300 ms, ACK hold: 200 ms
+Status Flags: active open
+Option Flags: nagle, md5
+IP Precedence value : 6
+
+Datagrams (max data segment is 516 bytes):
+<strong>
+Rcvd: 79 (out of order: 0), with data: 75, total data bytes: 1470
+Sent: 152 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0), with data: 76, total data bytes: 1470
+</strong>
+
+<strong>### telling us how many packets are send and received</strong>
+ Packets received in fast path: 0, fast processed: 0, slow path: 0
+ fast lock acquisition failures: 0, slow path: 0
+enterprise# 
+
+enterprise#show tcp brief
+TCB       Local Address               Foreign Address             (state)
+65CA171C  11.11.11.11.27752           1.1.1.1.179                 ESTAB
+65E4D8F4  11.11.11.11.12062           3.3.3.3.179                 ESTAB
+enterprise#
+</pre>
+
+<h2>administratively controlling bgp neighbor</h2>
+first shutdown the 3.3.3.3 neighbor and then turn up again. before that lets enable debug to capture the message
+<pre>
+
+enterprise#debug ip bgp
+BGP debugging is on for address family: IPv4 Unicast
+enterprise#
+enterprise#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+enterprise(config)#
+enterprise(config)#router bgp 11
+<strong>enterprise(config-router)#neighbor 3.3.3.3 shutdown</strong> 
+enterprise(config-router)#
+*Nov 18 20:57:40.723: BGPNSF state: 3.3.3.3 went from nsf_not_active to nsf_not_active
+*Nov 18 20:57:40.723: BGP: 3.3.3.3 went from Established to Idle
+*Nov 18 20:57:40.723: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Down Admin. shutdown
+enterprise(config-router)#
+enterprise(config-router)#
+*Nov 18 20:57:40.727: BGP: 3.3.3.3 closing
+
+
+enterprise(config-router)#do show ip bgp summary
+BGP router identifier 11.11.11.11, local AS number 11
+BGP table version is 1, main routing table version 1
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1     101     101        1    0    0 01:38:53        0
+<strong>3.3.3.3         4     3     101     101        0    0    0 00:00:10 Idle (Admin)</strong>
+enterprise(config-router)#
+
+
+<strong>enterprise(config-router)#no neighbor 3.3.3.3 shutdown</strong>
+enterprise(config-router)#
+enterprise(config-router)#
+<strong>
+*Nov 18 20:59:56.719: BGP: 3.3.3.3 went from Idle to Active
+*Nov 18 20:59:56.719: BGP: 3.3.3.3 open active, local address 11.11.11.11
+*Nov 18 20:59:56.735: BGP: 3.3.3.3 went from Active to OpenSent
+*Nov 18 20:59:56.735: BGP: 3.3.3.3 sending OPEN, version 4, my as: 11, holdtime 180 seconds
+*Nov 18 20:59:56.735: BGP: 3.3.3.3 send message type 1, length (incl. header) 45
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcv message type 1, length (excl. header) 26
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcv OPEN, version 4, holdtime 180 seconds
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcv OPEN w/ OPTION parameter len: 16
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcvd OPEN w/ optional parameter type 2 (Capability) len 6
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has CAPABILITY code: 1, length 4
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has MP_EXT CAP for afi/safi: 1/1
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcvd OPEN w/ optional parameter type 2 (Capability) len 2
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has CAPABILITY code: 128, length 0
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has ROUTE-REFRESH capability(old) for all address-families
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 rcvd OPEN w/ optional parameter type 2 (Capability) len 2
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has CAPABILITY code: 2, length 0
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has ROUTE-REFRESH capability(new) for all address-families 
+BGP: 3.3.3.3 rcvd OPEN w/ remote AS 3
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 went from OpenSent to OpenConfirm
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 went from OpenConfirm to Established
+enterprise(config-router)#
+*Nov 18 20:59:56.755: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up 
+</strong>
+enterprise(config-router)#
+
+</pre>
+
+<h2>BGP message summary</h2>
+
+<table>
+<tr>
+<th>message type</th>
+<th>purpose </th>
+<th>similarities with EIGRP</th>
+</tr>
+
+<tr>
+<td>open </td>
+<td>used to establish neighborship and exchange basic information like ASN and MD5 authentication. </td>
+<td>hello</td>
+</tr>
+
+<tr>
+<td>keepalive </td>
+<td>to keep the connection with BGP peers any failed to receive keepalive after the hold down time has the
+tendency to drop the BGP peer </td>
+<td>hello</td>
+</tr>
+
+<tr>
+<td>update</td>
+<td>used to exchange the prefix/length and PA</td>
+<td>update</td>
+</tr>
+
+<tr>
+<td>notification</td>
+<td>used normally to indicate any error.</td>
+<td>no direct equivalent</td>
+</tr>
+
+</table>
+
+<h2>verifying the BGP table</h2>
+bgp calculates the best route from the BGP tables which includes prefix length and PA learnt from other routers.
+
+<h3>bgp update message</h3>
+BGP stores all the learnt update on route with prefix and PA in BGP table even about failed route or non-existing route. this table is pivotal
+as is used to calculate the best route.
+
+<h3>examine BGP table</h3>
+one of the key things to examine of BGP is to check it learnt all the prefix from neighbor is ok or corrent unless this is not filter by any
+inbound bgp filter by the command
+<br /><strong> enterprise(config-router)#neighbor 3.3.3.3 route-map #name of the map# </strong>
+<br /><br />
+<strong>as far as we did not any redistribution of static and connected route into our BGP now time to do that.</strong> and examine the bgp tables.
+along with bgp summary
+
+we will do that to our all router one by one.
+<pre>
+isp2(config)#router bgp 2 
+isp2(config-router)#redistribute ?      
+  bgp        Border Gateway Protocol (BGP)
+  connected  Connected
+  dvmrp      Redistribution of DVMRP into BGP IPv4 Multicast
+  eigrp      Enhanced Interior Gateway Routing Protocol (EIGRP)
+  isis       ISO IS-IS
+  iso-igrp   IGRP for OSI networks
+  mobile     Mobile routes
+  odr        On Demand stub Routes
+  ospf       Open Shortest Path First (OSPF)
+  rip        Routing Information Protocol (RIP)
+  static     Static routes
+
+isp2(config-router)#redistribute static
+
+isp2(config-router)#do show ip bgp
+BGP table version is 20, local router ID is 2.2.2.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 1.1.1.1/32       0.0.0.0                  0         32768 ?
+r  2.2.2.2/32       1.1.1.1                  0             0 1 ?
+r>                  3.3.3.3                  0             0 3 ?
+*> 3.3.3.3/32       0.0.0.0                  0         32768 ?
+*                   3.3.3.3                                0 3 4 ?
+*  4.4.4.4/32       1.1.1.1                                0 1 11 3 ?
+*>                  3.3.3.3                  0             0 3 ?
+*  11.11.11.11/32   1.1.1.1                  0             0 1 ?
+*>                  3.3.3.3                  0             0 3 ?
+*> 181.0.0.0/8      0.0.0.0                  0         32768 ?
+*> 182.0.0.0/8      0.0.0.0                  0         32768 ?
+*> 183.0.0.0/8      0.0.0.0                  0         32768 ?
+*> 184.0.0.0/8      0.0.0.0                  0         32768 ?
+*> 185.0.0.0/8      0.0.0.0                  0         32768 ?
+*> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
+isp2(config-router)#
+isp2(config-router)#
+isp2(config-router)#do show ip bgp summary
+
+BGP router identifier 2.2.2.2, local AS number 2
+BGP table version is 20, main routing table version 20
+11 network entries using 1320 bytes of memory
+15 path entries using 780 bytes of memory
+6/3 BGP path/bestpath attribute entries using 744 bytes of memory
+4 BGP AS-PATH entries using 96 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+Bitfield cache entries: current 1 (at peak 2) using 32 bytes of memory
+BGP using 2972 total bytes of memory
+BGP activity 13/2 prefixes, 17/2 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1      99      99       20    0    0 01:30:02        3
+3.3.3.3         4     3      82      86       20    0    0 00:30:43        5
+isp2(config-router)#
+
+
+isp3(config-router)#do show ip bgp
+BGP table version is 18, local router ID is 3.3.3.3
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*> 2.2.2.2/32       0.0.0.0                  0         32768 ?
+r  3.3.3.3/32       2.2.2.2                  0             0 2 ?
+r>                  4.4.4.4                  0             0 4 ?
+*> 4.4.4.4/32       0.0.0.0                  0         32768 ?
+*> 11.11.11.11/32   0.0.0.0                  0         32768 ?
+*  181.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  182.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  183.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  184.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  185.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 192.135.250.0/28 4.4.4.4                  0             0 4 ?
+isp3(config-router)#
+
+isp3(config-router)#do show ip bgp summary 
+
+BGP router identifier 3.3.3.3, local AS number 3
+BGP table version is 18, main routing table version 18
+11 network entries using 1320 bytes of memory
+19 path entries using 988 bytes of memory
+6/3 BGP path/bestpath attribute entries using 744 bytes of memory
+4 BGP AS-PATH entries using 96 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+Bitfield cache entries: current 1 (at peak 2) using 32 bytes of memory
+BGP using 3180 total bytes of memory
+BGP activity 13/2 prefixes, 21/2 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+2.2.2.2         4     2      82      82       18    0    0 00:35:24        7
+4.4.4.4         4     4      79      81       18    0    0 00:34:30        2
+11.11.11.11     4    11     101      99       18    0    0 00:35:24        7
+isp3(config-router)#
+
+
+isp1(config-router)#do show ip bgp
+BGP table version is 22, local router ID is 1.1.1.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+r> 1.1.1.1/32       2.2.2.2                  0             0 2 ?
+*> 2.2.2.2/32       0.0.0.0                  0         32768 ?
+*                   2.2.2.2                                0 2 3 ?
+*                   11.11.11.11                            0 11 3 ?
+*  3.3.3.3/32       11.11.11.11                            0 11 3 4 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  4.4.4.4/32       2.2.2.2                                0 2 3 ?
+*>                  11.11.11.11                            0 11 3 ?
+*> 11.11.11.11/32   0.0.0.0                  0         32768 ?
+*                   2.2.2.2                                0 2 3 ?
+*                   11.11.11.11                            0 11 3 ?
+*> 181.0.0.0/8      2.2.2.2                  0             0 2 ?
+*> 182.0.0.0/8      2.2.2.2                  0             0 2 ?
+*> 183.0.0.0/8      2.2.2.2                  0             0 2 ?
+*> 184.0.0.0/8      2.2.2.2                  0             0 2 ?
+*> 185.0.0.0/8      2.2.2.2                  0             0 2 ?
+*  192.135.250.0/28 11.11.11.11                            0 11 3 4 ?
+   Network          Next Hop            Metric LocPrf Weight Path
+*>                  2.2.2.2                                0 2 3 4 ?
+isp1(config-router)#
+isp1(config-router)#do show ip bgp summary
+BGP router identifier 1.1.1.1, local AS number 1
+BGP table version is 22, main routing table version 22
+11 network entries using 1320 bytes of memory
+19 path entries using 988 bytes of memory
+8/4 BGP path/bestpath attribute entries using 992 bytes of memory
+6 BGP AS-PATH entries using 144 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+Bitfield cache entries: current 1 (at peak 2) using 32 bytes of memory
+BGP using 3476 total bytes of memory
+BGP activity 13/2 prefixes, 23/4 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+2.2.2.2         4     2     104     104       22    0    0 01:35:50       11
+11.11.11.11     4    11     104     104       22    0    0 01:34:43        6
+isp1(config-router)#
+
+enterprise(config-router)#do show ip bgp summary
+BGP router identifier 11.11.11.11, local AS number 11
+BGP table version is 24, main routing table version 24
+11 network entries using 1320 bytes of memory
+23 path entries using 1196 bytes of memory
+8/4 BGP path/bestpath attribute entries using 992 bytes of memory
+6 BGP AS-PATH entries using 144 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+Bitfield cache entries: current 1 (at peak 2) using 32 bytes of memory
+BGP using 3684 total bytes of memory
+BGP activity 11/0 prefixes, 27/4 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1     104     104       24    0    0 01:34:12       10
+3.3.3.3         4     3      99     101       24    0    0 00:36:00       11
+enterprise(config-router)#
+
+enterprise(config-router)#do show ip bgp
+BGP table version is 24, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 1.1.1.1/32       0.0.0.0                  0         32768 ?
+*                   3.3.3.3                                0 3 2 ?
+*                   1.1.1.1                                0 1 2 ?
+*  2.2.2.2/32       1.1.1.1                  0             0 1 ?
+*>                  3.3.3.3                  0             0 3 ?
+*> 3.3.3.3/32       0.0.0.0                  0         32768 ?
+*                   1.1.1.1                                0 1 2 ?
+*                   3.3.3.3                                0 3 4 ?
+*> 4.4.4.4/32       3.3.3.3                  0             0 3 ?
+r  11.11.11.11/32   1.1.1.1                  0             0 1 ?
+r>                  3.3.3.3                  0             0 3 ?
+*  181.0.0.0/8      3.3.3.3                                0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  182.0.0.0/8      3.3.3.3                                0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  183.0.0.0/8      3.3.3.3                                0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  184.0.0.0/8      3.3.3.3                                0 3 2 ?
+   Network          Next Hop            Metric LocPrf Weight Path
+*>                  1.1.1.1                                0 1 2 ?
+*  185.0.0.0/8      3.3.3.3                                0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+*>                  3.3.3.3                                0 3 4 ?
+enterprise(config-router)#
+
+enterprise(config-router)#do show ip route    
+
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     1.0.0.0/32 is subnetted, 1 subnets
+S       1.1.1.1 is directly connected, Serial1/1
+                is directly connected, Serial1/0
+     2.0.0.0/32 is subnetted, 1 subnets
+B       2.2.2.2 [20/0] via 3.3.3.3, 00:21:12
+     3.0.0.0/32 is subnetted, 1 subnets
+S       3.3.3.3 is directly connected, Serial1/2
+     4.0.0.0/32 is subnetted, 1 subnets
+B       4.4.4.4 [20/0] via 3.3.3.3, 00:21:12
+     192.135.250.0/28 is subnetted, 1 subnets
+B       192.135.250.0 [20/0] via 3.3.3.3, 00:27:02
+     10.0.0.0/29 is subnetted, 1 subnets
+C       10.1.1.0 is directly connected, Serial1/0
+                 is directly connected, Serial1/1
+     11.0.0.0/32 is subnetted, 1 subnets
+C       11.11.11.11 is directly connected, Loopback1
+     192.168.1.0/30 is subnetted, 1 subnets
+C       192.168.1.0 is directly connected, Serial1/2
+B    185.0.0.0/8 [20/0] via 1.1.1.1, 00:24:54
+B    184.0.0.0/8 [20/0] via 1.1.1.1, 00:24:54
+B    183.0.0.0/8 [20/0] via 1.1.1.1, 00:24:54
+B    182.0.0.0/8 [20/0] via 1.1.1.1, 00:24:54
+B    181.0.0.0/8 [20/0] via 1.1.1.1, 00:24:54
+
+enterprise(config-router)#
+
+enterprise(config-router)#do show ip route bgp
+
+     2.0.0.0/32 is subnetted, 1 subnets
+B       2.2.2.2 [20/0] via 3.3.3.3, 00:20:51
+     4.0.0.0/32 is subnetted, 1 subnets
+B       4.4.4.4 [20/0] via 3.3.3.3, 00:20:51
+     192.135.250.0/28 is subnetted, 1 subnets
+B       192.135.250.0 [20/0] via 3.3.3.3, 00:26:41
+B    185.0.0.0/8 [20/0] via 1.1.1.1, 00:24:30
+B    184.0.0.0/8 [20/0] via 1.1.1.1, 00:24:30
+B    183.0.0.0/8 [20/0] via 1.1.1.1, 00:24:30
+B    182.0.0.0/8 [20/0] via 1.1.1.1, 00:24:30
+B    181.0.0.0/8 [20/0] via 1.1.1.1, 00:24:30
+
+
+enterprise#show ip route 192.135.250.0 255.255.255.240
+Routing entry for 192.135.250.0/28
+  Known via "bgp 11", distance 20, metric 0
+  Tag 3, type external
+  Last update from 3.3.3.3 00:43:34 ago
+  Routing Descriptor Blocks:
+  * 3.3.3.3, from 3.3.3.3, 00:43:34 ago
+      Route metric is 0, traffic share count is 1
+      AS Hops 2
+      Route tag 3
+
+enterprise#
+</pre>
+
+other <strong>show ip bgp </strong> related commands are
+<pre>
+
+enterprise#show ip bgp neighbors 1.1.1.1 ?
+  advertised-routes  Display the routes advertised to a BGP neighbor
+  dampened-routes    Display the dampened routes received from neighbor (eBGP
+                     peers only)
+  flap-statistics    Display flap statistics of the routes learned from
+                     neighbor (eBGP peers only)
+  paths              Display AS paths learned from neighbor
+  policy             Display neighbor polices per address-family
+  received           Display information received from a BGP neighbor
+  received-routes    Display the received routes from neighbor
+  routes             Display routes learned from neighbor
+  |                  Output modifiers
+  <cr>
+
+enterprise#show ip bgp neighbors 1.1.1.1 
+
+
+enterprise#show ip bgp neighbors 1.1.1.1 routes          
+BGP table version is 24, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       1.1.1.1                                0 1 2 ?
+*  2.2.2.2/32       1.1.1.1                  0             0 1 ?
+*  3.3.3.3/32       1.1.1.1                                0 1 2 ?
+r  11.11.11.11/32   1.1.1.1                  0             0 1 ?
+*> 181.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 182.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 184.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 185.0.0.0/8      1.1.1.1                                0 1 2 ?
+*  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+
+Total number of prefixes 10 
+
+enterprise#
+enterprise#show ip bgp neighbors 1.1.1.1 ?     
+  advertised-routes  Display the routes advertised to a BGP neighbor
+  dampened-routes    Display the dampened routes received from neighbor (eBGP
+                     peers only)
+  flap-statistics    Display flap statistics of the routes learned from
+                     neighbor (eBGP peers only)
+  paths              Display AS paths learned from neighbor
+  policy             Display neighbor polices per address-family
+  received           Display information received from a BGP neighbor
+  received-routes    Display the received routes from neighbor
+  routes             Display routes learned from neighbor
+  |                  Output modifiers
+  <cr>
+
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+
+BGP table version is 24, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 1.1.1.1/32       0.0.0.0                  0         32768 ?
+*> 2.2.2.2/32       3.3.3.3                  0             0 3 ?
+*> 3.3.3.3/32       0.0.0.0                  0         32768 ?
+*> 4.4.4.4/32       3.3.3.3                  0             0 3 ?
+r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
+*> 181.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 182.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 184.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 185.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
+
+Total number of prefixes 11 
+
+enterprise#
+
+enterprise#show ip bgp summary           
+BGP router identifier 11.11.11.11, local AS number 11
+BGP table version is 24, main routing table version 24
+11 network entries using 1320 bytes of memory
+23 path entries using 1196 bytes of memory
+8/4 BGP path/bestpath attribute entries using 992 bytes of memory
+6 BGP AS-PATH entries using 144 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+Bitfield cache entries: current 1 (at peak 2) using 32 bytes of memory
+BGP using 3684 total bytes of memory
+BGP activity 11/0 prefixes, 27/4 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+1.1.1.1         4     1     138     138       24    0    0 02:08:03       10
+3.3.3.3         4     3     133     135       24    0    0 01:09:51       11
+enterprise#
+
+</pre>
+
+<h2>injecting routes with the network command</h2>
+BGP also support network command but that is not like eigrp or ospf. actually it has no connection on interface like eigrp and ospd do.
+any internal route will be included into BGP tables only when that route is in routing tables as well as will be distributed if we like.
+
+Note: The preceding statement, and the remaining logic in this section, assumes a BGP default setting of no auto-summary. 
+
+so to advertise enterprise network 128.107.0.0/19 into BGP tables and advertise it to other router we do following.
+<ol>
+	<li>we add the 128.107.0.0/19 into routing table like bellow</li>
+	<pre>
+enterprise(config)#ip route 128.107.0.0 255.255.224.0 null0
+	</pre>
+	<li>then verify this into routing table</li>
+	<pre>
+enterprise(config)#do show ip route 
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     1.0.0.0/32 is subnetted, 1 subnets
+S       1.1.1.1 is directly connected, Serial1/1
+                is directly connected, Serial1/0
+     2.0.0.0/32 is subnetted, 1 subnets
+B       2.2.2.2 [20/0] via 3.3.3.3, 01:10:19
+     3.0.0.0/32 is subnetted, 1 subnets
+S       3.3.3.3 is directly connected, Serial1/2
+     4.0.0.0/32 is subnetted, 1 subnets
+B       4.4.4.4 [20/0] via 3.3.3.3, 01:10:19
+<strong>     128.107.0.0/19 is subnetted, 1 subnets 
+S       128.107.0.0 is directly connected, Null0</strong>
+     192.135.250.0/28 is subnetted, 1 subnets
+B       192.135.250.0 [20/0] via 3.3.3.3, 01:16:09
+     10.0.0.0/29 is subnetted, 1 subnets
+C       10.1.1.0 is directly connected, Serial1/0
+                 is directly connected, Serial1/1
+     11.0.0.0/32 is subnetted, 1 subnets
+C       11.11.11.11 is directly connected, Loopback1
+     192.168.1.0/30 is subnetted, 1 subnets
+C       192.168.1.0 is directly connected, Serial1/2
+B    185.0.0.0/8 [20/0] via 1.1.1.1, 01:13:59
+B    184.0.0.0/8 [20/0] via 1.1.1.1, 01:13:59
+B    183.0.0.0/8 [20/0] via 1.1.1.1, 01:13:59
+B    182.0.0.0/8 [20/0] via 1.1.1.1, 01:13:59
+B    181.0.0.0/8 [20/0] via 1.1.1.1, 01:13:59
+enterprise(config)#
+	</pre>
+	<li>then add this network into bgp so that it will advertise.</li>
+	<pre>
+enterprise(config-router)#network 128.107.0.0 mask 255.255.224.0
+	</pre>
+	<li>now test this route wheather included into other routers bgp tables</li>
+	<pre>
+isp3(config-router)#do show ip bgp
+BGP table version is 19, local router ID is 3.3.3.3
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       11.11.11.11              0             0 11 ?
+*>                  2.2.2.2                  0             0 2 ?
+*> 2.2.2.2/32       0.0.0.0                  0         32768 ?
+r  3.3.3.3/32       11.11.11.11              0             0 11 ?
+r                   2.2.2.2                  0             0 2 ?
+r>                  4.4.4.4                  0             0 4 ?
+*> 4.4.4.4/32       0.0.0.0                  0         32768 ?
+*> 11.11.11.11/32   0.0.0.0                  0         32768 ?
+<strong>
+*  128.107.0.0/19   2.2.2.2                                0 2 1 11 i
+*>                  11.11.11.11              0             0 11 i
+</strong>
+*  181.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  182.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  183.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*  184.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+   Network          Next Hop            Metric LocPrf Weight Path
+*>                  2.2.2.2                  0             0 2 ?
+*  185.0.0.0/8      11.11.11.11                            0 11 1 2 ?
+*>                  2.2.2.2                  0             0 2 ?
+*> 192.135.250.0/28 4.4.4.4                  0             0 4 ?
+isp3(config-router)#
+	</pre>
+</ol>
+this is way how network command is different from ospf and eigrp. the i in path column indicates it is a iBGP route.
+network 128.107.0.0 mask 255.255.224.0 that is /19 will be included into BGP table if exaclty this route appears in routing tables.
+so if we need to advertise 128.107.0.0/24 then we need to configure a static route with null0. also mask in the network command is needed
+other wise it will assume a full class-ful network like <strong>cisco(config-router)# network 9.0.0.0 </strong> will use 255.0.0.0 or 255.255.0.0
+for class B and 255.255.255.0 for class A.
+
+<h2>effect of auto-summary</h2>
+IOS from 12.3 comes with default no auto-summary. 
+additionally there is a change in logic only occured when <strong>mask </strong> is not used with 
+<strong>network</strong>. if mask is used explicitly then there is no change in logic.
+if network command add a network with no mask and with <strong>auto-summary</strong> configured, router then add the a route for that classful network
+to bgp table if
+
+<ul>
+	<li>exactly classful route in the routing table</li>
+	<li>or any subset route of that classful route is present in the routing table</li>
+</ul>
+
+In summary, of the two actions in the list, the first occurs regardless of the auto-summary
+setting, and the second occurs only if auto-summary is configured.
+
+For example, with network 9.0.0.0 configured, regardless of the auto-summary setting, if
+a route to 9.0.0.0/8 exists, the router adds 9.0.0.0/8 to the BGP table. However, if the
+network 9.0.0.0 (without the mask parameter) and the auto-summary commands were
+both configured, and if only a subset route exists (for example, 9.1.1.0/24), but no route
+for exactly 9.0.0.0/8 exists, then the router still adds a route for the classful network
+(9.0.0.0/8) to the BGP table. This second example demonstrates the additional logic that
+occurs with the auto-summary command configured.
+
+<h2>injecting route using redistribution</h2>
+<h3>suppressing route advertisement using aggregate-address</h3>
+say we have included 128.107.1.0/24, 128.107.2.0/24, 128.107.3.0/24 route to our routers and these falls into 128.107.0.0/19 and when advertise
+we dont want to list our subset route instead of our full /19. then we will use <strong> aggregate-address</strong> along with <strong>
+	summary-only</strong>
+like below.
+<ol>
+	<li>first configure static route for example purpose this can be done by IGP too</li>
+	<pre>
+!
+ip route 128.107.1.0 255.255.255.0 Null0
+ip route 128.107.2.0 255.255.255.0 Null0
+ip route 128.107.3.0 255.255.255.0 Null0
+!
+	</pre>
+	<li>then configure aggregate-address</li>
+	<pre>
+enterprise(config-router)#aggregate-address 128.107.0.0 255.255.224.0 ?
+  advertise-map  Set condition to advertise attribute
+  as-set         Generate AS set path information
+  attribute-map  Set attributes of aggregate
+  route-map      Set parameters of aggregate
+  summary-only   Filter more specific routes from updates
+  suppress-map   Conditionally filter more specific routes from updates
+  <cr>
+
+enterprise(config-router)#aggregate-address 128.107.0.0 255.255.224.0 summary-only
+	</pre>
+	<li>running config is </li>
+<pre>
+
+ !
+ redistribute static
+ no auto-summary
+ aggregate-address 128.107.0.0 255.255.224.0 summary-only
+!
+ip route 128.107.1.0 255.255.255.0 Null0
+ip route 128.107.2.0 255.255.255.0 Null0
+ip route 128.107.3.0 255.255.255.0 Null0
+!
+</pre>
+	<li>test the configuration in both router and its peer</li>
+<pre>
+enterprise(config-router)#do show ip route
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     128.107.0.0/16 is variably subnetted, 4 subnets, 2 masks
+S       128.107.3.0/24 is directly connected, Null0
+S       128.107.2.0/24 is directly connected, Null0
+S       128.107.1.0/24 is directly connected, Null0
+B       128.107.0.0/19 [200/0] via 0.0.0.0, 00:17:30, Null0
+enterprise(config-router)#
+
+enterprise#show ip bgp 128.107.0.0 255.255.224.0 longer-prefixes 
+BGP table version is 40, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+enterprise#
+</pre>
+	<li>s in the previous command states that this route will be suppressed while advertising to peer router</li>
+	<pre>
+isp1(config-router)#do show ip bgp
+BGP table version is 18, local router ID is 1.1.1.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 128.107.0.0/19   11.11.11.11              0             0 11 i
+*                   2.2.2.2                                0 2 3 11 i
+*>                  2.2.2.2                                0 2 3 4 ?
+isp1(config-router)#
+
+	</pre>
+
+
+
+
+
+
+
+
+</body>
+</html>
+

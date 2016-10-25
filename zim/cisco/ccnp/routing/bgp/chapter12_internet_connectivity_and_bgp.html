@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+	<head>
+		<title>internet_connectivity_and_bgp</title>
+	</head>
+
+	<body>
+	<h1>BGP</h1>
+	BGP or border gateway protocol is not must for enterprise network to connect itself to internet often used to learn, advertise and choose the
+	best path selection into global internet way. this is normal for ISPs to uses bgp to share their network connectivity.
+
+<h2>foundation topics</h2>
+
+<h3>reserved IPv4 space</h3>
+<ul>
+	<li>0.0.0.0/8: self indentification on a local subnet</li>
+	<li>127.0.0.0/8: loopback testing</li>
+	<li>169.254.0.0/16: this is used when DHCP fails</li>
+	<li>192.0.2.0/24: for documentation and example code</li>
+	<li>192.88.99.0/24: used for ipv6 to ipv4 relay</li>
+	<li>198.18.0.0/15: Benchmark testing for internet device</li>
+</ul>
+
+<h2>BGP basics</h2>
+though the protocols used by BGP are much more different from those used by IGP but they have some similarities like below.
+<ul>
+	<li>bgp advertise ip4 prefix with it routing update and also establishes the peer with other router before 
+	so that best path selection can be made
+	within numerous possible route.</li>
+	<li>bgp does not need its neighbour should be placed in the same subnet which can be place in another subnet. bgp routers use tcp (port 179)
+	to send bgp messages to its neighbour which may be placed in different subnet which is more common.its neighbour can be placed several
+	router away.neighbour ip address is explicitely configured.</li>
+	<li>bgp also send prefix/length like IGP but this is called Network layer Reachability Information(NLRI)</li>
+	<li>igp advertises metric info wherease bgp uses variety of path attributes(PA) instead of metric to choose the best path selection</li>
+	<li>fast scalibility which is main theme of bgp, fast convergence is for igp</li>
+	<li>path vector logic similar to distance vector is used</li>
+</ul>
+
+<h2>BGP ASN and the AS_SEQ path attribute</h2>
+there are plenty of Path attributes(PA) used by BGP for various purpose. if there is no pa is used explicitely then bgp uses AS_PATH (autonomous
+system path) to choose the best path. one of sub components of as_path is AS_Seq(AS sequence). a route with shortest as_path is choosen.
+another things to keep in mind is when a router receive a packet which inclued a ASN of its own the router then ignore that packet to avoid 
+looping occured.
+
+<h2>internal and external BGP</h2>
+a bgp router can have two types of peers. internal bgp(iBGP) and external BGP(eBGP). the former has peers within the same asn while later has peers
+on another ASN. this two types of peer have some differences, one of many is as_path inclusion on route update done by ebgp peers while as_path
+inclusion is not included with ibgp updates.
+
+<h2>private and public ASN</h2>
+<ul>
+	<li>0: reserved</li>
+	<li>1-64495: assigned by IANA for public use</li>
+	<li>64496-65511: reserved for only documentation</li>
+	<li>64512-65534: private use</li>
+	<li>65535: reserved</li>
+</ul>
+an AS can use private ASN if the AS has only one connection to other AS as there is no possibility of occuring loops.
+
+<h2>outbound routing toward internet comparing default route and BGP</h2>
+two options to connect to internet for enterprise can be default routing and BGP.we can configure BGP when we have two connections toward internet
+and we want to influence packets to choose path over another one based on some criteria or next hop availability.
+
+<h2>dual home</h2>
+this sort of connectivity has two link toward same isp. this may be two links or two router.dual home provides
+<ul>
+	<li>choice over one link to others and makes other link as redundant</li>
+	<li>consider two links equal and load balance them and one link can be redundant if other downs</li>
+</ul>
+say we have two router with link of 100Mbps and 10Mbps respectively towar internet. and we also like to direct our packets alway on 100mbps over 10mbps
+and also like other routers as well as 10mpbps gateway router send their traffic to 100mbps router we configure by the following.
+
+<pre>
+<h4>this one with 100mbps speed</h4>
+! Configuration on router E1 - note that the configuration uses
+! a hostname instead of I1-1s IP address
+ip route 0.0.0.0 0.0.0.0 I1-1
+router eigrp 1
+redistribute static metric 100000 1 255 1 1500
+
+
+<h4>this one with 10mbps speed</h4>
+! Configuration on router E1 - note that the configuration uses
+! Configuration on router E2 - note that the configuration uses
+! a hostname instead of I2-1s IP address
+ip route 0.0.0.0 0.0.0.0 I2-1
+router eigrp 1
+redistribute static metric 10000 100000 255 1 1500
+</pre>
+we must set lower value in delay in our prefered router than the other router.
+
+<h2>choosing one path over other using BGP</h2>
+this big beuty of using BGP is to choose link for a perticular destination. the engineers of enterprise must discuss with isp to choose carefully 
+PA as well as additional attributes to choose the destination additional with running ibgp on several router inside enterprise network.
+
+<h2>partiall and full update BGP</h2>
+BGP router with its routing table needs RAM and processors to deal with it and this routing table has huge entries and as several other routers
+need to behave as iBGP pair they also need ram and processor and exhanging routing information consumes the bandwidth too.
+to deal with this high memory problems we can choose one of following three tacks can be followed and isp can give me three options.
+<ul>
+	<li>only default routes: isp can give me only the default routes associated with BGP no others routes</li>
+	<li>full update: isp sends me the entire bgp tables</li>
+	<li>partial updates: isp send us the partial bgp tables which may be required to pass through their traffic along with a defaul route.</li>
+</ul>
+among the three some commented partial along with default is better than single default route. in that situation BGP will use that partial table for 
+known route and use default route for unknown destination.
+
+
+<h2>single multi homed</h2>
+this means enter prise has multiple links towards mulitple isps but this may with a single link or multi link toward each isp. this also can be
+from a single route or multiple router from enterprise.
+
+<h2>dual multihome</h2>
+this is like single multihomed where two or more isp has connection with enterprise but this time each router has multiple link towards isp.
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

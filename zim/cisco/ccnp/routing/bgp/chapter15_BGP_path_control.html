@@ -1,0 +1,1334 @@
+<!doctype html>
+<html>
+	<head>
+		<title>internl_bgp_and_BGP_route_filtering</title>
+		<style type="text/css">
+			body {
+				padding: 10px 30px 10px 50px;
+				font-family: 'gasparregular';
+				font-size: 20px;
+			}
+
+			h1,h2,h3,h4 {
+				font-family: 'archistico' ;
+				color: red;
+			}
+
+			pre {
+				font-size:1.2em;
+				box-shadow: 2px 2px 2px 2px blue;
+				padding: 10px 10px 10px 20px;
+			}
+
+
+
+@font-face {
+    font-family: 'gasparregular';
+    src: url('Gaspar_Regular-webfont.eot');
+    src: url('Gaspar_Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Gaspar_Regular-webfont.woff') format('woff'),
+         url('Gaspar_Regular-webfont.ttf') format('truetype'),
+         url('Gaspar_Regular-webfont.svg#gasparregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'existencelight';
+    src: url('Existence-Light-webfont.eot');
+    src: url('Existence-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Existence-Light-webfont.woff') format('woff'),
+         url('Existence-Light-webfont.ttf') format('truetype'),
+         url('Existence-Light-webfont.svg#existencelight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+		</style>
+	</head>
+
+	<body>
+	<h1>BGP Path Attributes and Best Path Algorithm</h1>
+	BGP has lots of PA related to differents aspect of BGP. some of them related to best path calculation, other controls preference and 
+	many more.
+	among them bgp path attributes is our main concern.
+
+	<h1>our topology</h1>
+	
+	<p>
+	<img src="./bgp.png" alt="topology" />
+	</p>
+
+	<h2>BGP path attribute</h2>
+
+	bgp use autonomous system path AS_PATH PA with each route it learn. if bgp route learns a route and found its AS number included then 
+	this route
+	is ignored to avoid loop. also this PA is used to calculate AS_PATH length which is a step to best path calculation.
+
+	<h2>next hop ip address</h2>
+	next hop ip address is another PA which included with route advertisement.o
+
+	<h3>different important PAs of BGP</h3>
+
+	<table>
+		<tr>
+			<th>PA </th>
+			<th>Description </th>
+			<th>Enterprise route direction </th>
+		</tr>
+
+		<tr>
+			<td>NEXT_HOP </td>
+		       	<td>list next hop ip address to reach to a prefix </td>
+			<td>N/A </td>
+		</tr>
+
+		<tr>
+			<td>WEIGHT</td>
+			<td>set by router when receiving route, is a numerical value ranging from 0-2^16 -1. though this is not a BGP PA but
+			       	this more 
+				act like a PA and this is cisco property.</td>
+			<td>outbound </td>
+		</tr>
+		
+		<tr>
+			<td>local preference(LOCAL_PREF)</td>
+			<td>is number of range 2^32 - 1 throughout in a single AS and not advertise to any BGP(eBGP) peer </td>
+			<td>outbound</td>
+		</tr>
+
+		<tr>
+			<td>AS_PATH length</td>
+			<td>the number of ASN in the AS_PATH PA </td>
+			<td>outbound, inbound </td>
+		</tr>
+		
+		<tr>
+			<td>origin</td>
+			<td>indication of from where the route was injected into BGP whether it is I(IGP), E(EGP) or ?(incomplete) </td>
+			<td>outbound </td>
+		</tr>
+
+		<tr>
+			<td>multi exit Discriminator (MED) often called metric</td>
+			<td>this is set by one router and its influence bgp decision of one router into other AS </td>
+			<td>inbound </td>
+		</tr>
+
+	</table>
+
+	<h1>effects of PAs on best route selection</h1>
+
+	before going deep into these above PA we should talk some more on following.
+	<ul>
+		<li>BGP origin PA: this one indicates from where a route is collected. I(IGP), E(EGP), ?(incomplete).</li>
+		<li>neighbor type: iBGP, eBGP. router chooses eBGP over iBGP choosing best route and it is difficult to use this PA to alter the
+	       	best 
+		path selection because ASN is fixed by BGP design.</li>
+		<li>IGP metric of next_hop_address: lower value of igp metric to next hop address is choosen.</li>
+	</ul>
+
+	the whole BGP best path selection process can be describe with the following.
+
+	<ul>
+		<li><strong>N </strong>: which is next-hop address dictates reachability of next hop address</li>
+
+		<li><strong>WLLA</strong>: Refers to the three steps that an engineer might use to influence outbound
+		routes: Weight, Local_Pref, and AS_Path length. (Additionally, the second L, in
+		WLLA for Step 3, represents the “Locally injected routes” choice.)</li>
+
+		<li><strong>OMNI</strong>: the letters represent Origin (I or ?), MED, neighbor
+		type (eBGP over iBGP), and IGP metric to Next-hop.</li>
+	</ul>
+
+	<br />PAs and its inflences to route inbound and outbond is give bellow.
+
+	<ul>
+		<li>W weight = outbound</li>
+		<li>L local pref = outbound</li>
+		<li>A AS_PATH PA = outbound</li>
+		<li>M MED or metric = inbound</li>
+	</ul>
+	
+	<h2>concentration on weight, local_pref, as_path_length, med</h2>
+
+	<h3>influencing an outbound route by using local_pref, as_path_length and weight</h3>
+
+	<p>
+	WEIGHT: cisco router can manipulate the weight of a route to other router that means outbound route. this manipulation can be done to a single 
+	route, or whole route collected from a single router. router then compute the best route selection based on bigger weight. a router configured
+	to alter weight can only significance to that router. and also to set weight in an incoming update message a router must be configured to read
+	those incoming message as in that incoming message no field will be for weight setting.
+	<br /> some key features are given below.
+
+	<table>
+		<tr>
+			<th>feature  </th>
+			<th>descriptions </th>
+		</tr>
+
+		<tr>
+			<td>is it a PA </td>
+			<td>no cisco proprietory feature </td>
+		</tr>
+
+		<tr>
+			<td>purpose </td>
+			<td>indentifies the single routers best route </td>
+		</tr>
+
+		<tr>
+			<td>scope </td>
+			<td>set on inbound route and only effects on that routers decision</td>
+		</tr>
+
+		<tr>
+			<td>range </td>
+			<td>0-65535 </td>
+		</tr>
+
+		<tr>
+			<td>which is best</td>
+			<td><strong>bigger is better </strong></td>
+		</tr>
+
+		<tr>
+			<td>default </td>
+			<td>0 for learnt route, 32768 for locally injected route </td>
+		</tr>
+		<tr>
+			<td>defining a new route </td>
+			<td> not supported</td>
+		</tr>
+		<tr>
+			<td> configuration</td>
+			<td><strong> neighbor route-map (per prefix)</strong> <br />
+				<strong>neighbor weight (all route learned from a particular router)</strong></td>
+		</tr>
+
+	</table>
+	let examine a bgp table output.
+	</p>
+	<pre>
+enterprise(config)#do show ip bgp
+BGP table version is 23, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       192.168.1.2                            0 3 2 ?
+*                   1.1.1.1                                0 1 2 ?
+*>                  0.0.0.0                  0         32768 ?
+*  2.2.2.2/32       192.168.1.2              0             0 3 ?
+*>                  1.1.1.1                  0             0 1 ?
+*  3.3.3.3/32       192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*> 4.4.4.4/32       192.168.1.2              0             0 3 ?
+*                   1.1.1.1                                0 1 2 3 ?
+r  11.11.11.11/32   192.168.1.2                            0 3 2 1 ?
+r>                  1.1.1.1                  0             0 1 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+*  181.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+<strong>*  182.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?</strong>
+*  183.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  184.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*  185.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*> 192.135.250.0/28 192.168.1.2                            0 3 4 ?
+*                   1.1.1.1                                0 1 2 3 4 ?
+enterprise(config)#
+
+
+enterprise#show ip bgp 182.0.0.0/8 longer-prefixes 
+BGP table version is 23, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  182.0.0.0/8      192.168.1.2                            0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+enterprise#
+	</pre>
+	on the above output the best route is choosen to 182.0.0.0/8 through next hop 1.1.1.1. now question is how this happens as the followings are
+	equal.
+	<ul>
+		<li>AS_PATH_length are equal</li>
+		<li>weight of both route is 0 which is default</li>
+		<li>localref is also same. default is 100</li>
+		<li>MED or metric is also equal which is default 0 for learned route</li>
+	</ul>
+	the answer is oldest route is learned which has next-hop 1.1.1.1. though the output command does not reveal that 1.1.1.1 is oldest but as we
+	know IOS shows the newest route first and oldest later.
+	<br /> <br />
+	now to support our oldest and newest route concept lest clear bgp router 1.1.1.1 and examine the output again for same route.
+<pre>
+enterprise#clear ip bgp 1.1.1.1
+
+enterprise#show ip bgp 
+BGP table version is 32, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       1.1.1.1                                0 1 2 ?
+*                   192.168.1.2                            0 3 2 ?
+*>                  0.0.0.0                  0         32768 ?
+*  2.2.2.2/32       1.1.1.1                  0             0 1 ?
+*>                  192.168.1.2              0             0 3 ?
+*  3.3.3.3/32       1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+*  4.4.4.4/32       1.1.1.1                                0 1 2 3 ?
+*>                  192.168.1.2              0             0 3 ?
+r> 11.11.11.11/32   1.1.1.1                  0             0 1 ?
+r                   192.168.1.2                            0 3 2 1 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+*  181.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+<strong>
+*  182.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+</strong>
+*  183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+*  184.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+*  185.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+*  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+*>                  192.168.1.2                            0 3 4 ?
+enterprise#
+
+enterprise#show ip bgp 182.0.0.0/8 longer-prefixes 
+BGP table version is 32, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  182.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+enterprise#
+</pre>
+	now this indicating best route for 182.0.0.0/8 through isp3(192.168.1.2)
+
+	<h2>setting BGP admininstrative weight by using route-map command</h2>
+<p>
+<img src="./iBGP.png" alt="internal BGP" />
+</p>
+	the BGP subcommand <strong>neighbor neighbor-ip route-map in</strong> tells the router to filter all bgp update from a particular router.
+	this route-map can also be used to change PAs by using the set command. we will demonstrate this by example
+
+	<pre>
+enterprise#show ip bgp 183.0.0.0/8 longer-prefixes 
+BGP table version is 32, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+enterprise#
+	</pre>
+	as we can see 183.0.0.0/8 is best reachable by 192.168.1.2 through 1sp3 but we want it go through 1.1.1.1 by setting its weight. lets do it.
+	step by step
+
+	<ol>
+		<li> let set one prefix list matching 183.0.0.0/8 on enterprise</li> 
+	<pre>
+
+enterprise#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+enterprise(config)#ip prefix-list ?
+  WORD             Name of a prefix list
+  sequence-number  Include/exclude sequence numbers in NVGEN
+
+enterprise(config)#ip prefix-list match-183 ?
+  deny         Specify packets to reject
+  description  Prefix-list specific description
+  permit       Specify packets to forward
+  seq          sequence number of an entry
+
+enterprise(config)#ip prefix-list match-183 permit ?
+
+  A.B.C.D/nn  IP prefix <network>/<length>, e.g., 35.0.0.0/8
+
+enterprise(config)#ip prefix-list match-183 permit 183.0.0.0/8 ?
+  ge  Minimum prefix length to be matched
+  le  Maximum prefix length to be matched
+  <cr>
+enterprise(config)#ip prefix-list match-183 permit 183.0.0.0/8 
+enterprise(config)#
+
+!
+ip prefix-list match-183 seq 5 permit 183.0.0.0/8
+logging alarm informational
+!
+
+	</pre>
+		<li>now set a route-map indicating our prefix-list <strong>match-183</strong></li> 
+		<pre>
+enterprise(config)#route-map ?
+  WORD  Route map tag
+
+enterprise(config)#route-map set-weight-50 ?
+
+  <0-65535>  Sequence to insert to/delete from existing route-map entry
+  deny       Route map denies set operations
+  permit     Route map permits set operations
+  <cr>
+
+enterprise(config)#route-map set-weight-50 permit ?
+  <0-65535>  Sequence to insert to/delete from existing route-map entry
+  <cr>
+
+enterprise(config)#route-map set-weight-50 permit 10
+<strong> ### this sequence number is to place this entry to existing route-map on line number 10</strong> 
+
+enterprise(config-route-map)#?
+
+Route Map configuration commands:
+  continue     Continue on a different entry within the route-map
+  default      Set a command to its defaults
+  description  Route-map comment
+  exit         Exit from route-map configuration mode
+  help         Description of the interactive help system
+  match        Match values from routing table
+  no           Negate a command or set its defaults
+  set          Set values in destination routing protocol
+
+enterprise(config-route-map)#match ?
+  as-path           Match BGP AS path list
+  clns              CLNS information
+  community         Match BGP community list
+  extcommunity      Match BGP/VPN extended community list
+  interface         Match first hop interface of route
+  ip                IP specific information
+  length            Packet length
+  local-preference  Local preference for route
+  metric            Match metric of route
+  mpls-label        Match routes which have MPLS labels
+  policy-list       Match IP policy list
+  route-type        Match route-type of route
+  source-protocol   Match source-protocol of route
+  tag               Match tag of route
+
+enterprise(config-route-map)#match ip ?
+
+  address       Match address of route or match packet
+  next-hop      Match next-hop address of route
+  route-source  Match advertising source address of route
+
+enterprise(config-route-map)#match ip address ?
+
+  <1-199>      IP access-list number
+  <1300-2699>  IP access-list number (expanded range)
+  WORD         IP access-list name
+  prefix-list  Match entries of prefix-lists
+  <cr>
+
+enterprise(config-route-map)#match ip address prefix-list ?
+  WORD  IP prefix-list name
+  <cr>
+
+enterprise(config-route-map)#match ip address prefix-list match-183 ?
+  WORD  IP prefix-list name
+  <cr>
+
+enterprise(config-route-map)#match ip address prefix-list match-183 
+<strong>enterprise(config-route-map)#set weight 50</strong>
+enterprise(config-route-map)#do copy run start
+
+!
+ip prefix-list match-183 seq 5 permit 183.0.0.0/8
+logging alarm informational
+route-map set-weight-50 permit 10
+ match ip address prefix-list match-183
+ set weight 50
+!
+		</pre>
+		<li>now clear bgp for 1.1.1.1 and see the effect before and after</li>
+
+	<pre>
+enterprise#show ip bgp 183.0.0.0/8 longer-prefixes 
+BGP table version is 32, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*>                  192.168.1.2                            0 3 2 ?
+enterprise#
+	</pre>
+
+	<pre>
+enterprise(config-route-map)#do show ip bgp 183.0.0.0/8 longer-prefix
+BGP table version is 34, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 183.0.0.0/8      1.1.1.1                               50 1 2 ?
+*                   192.168.1.2                            0 3 2 ?
+enterprise(config-route-map)#
+	</pre>
+	</ol>
+	which clearly has shown that weight 50 has been set and 1.1.1.1 is choosen best next-path.
+
+	<h2>setting weight using neighbor weight command</h2>
+	now setting weight using following for all routes learned from it. 
+
+	<pre>
+enterprise(config)#router bgp 11
+
+enterprise(config-router)#neighbor 192.168.1.2 ?
+
+  weight                   Set default weight for routes from this neighbor
+
+enterprise(config-router)#neighbor 192.168.1.2 weight ?
+  <0-65535>  default weight
+
+enterprise(config-router)#neighbor 192.168.1.2 weight 60
+
+enterprise(config-router)#
+
+
+!
+router bgp 11
+ bgp log-neighbor-changes
+ neighbor 1.1.1.1 remote-as 1
+ neighbor 1.1.1.1 ebgp-multihop 2
+ neighbor 1.1.1.1 password 7 05080F1C2243
+ neighbor 1.1.1.1 update-source Loopback1
+ neighbor 192.168.1.2 remote-as 3
+ neighbor 192.168.1.2 password cisco
+ !
+ address-family ipv4
+ redistribute static
+ neighbor 1.1.1.1 activate
+ neighbor 1.1.1.1 route-map set-weight-50 in
+ neighbor 192.168.1.2 activate
+ neighbor 192.168.1.2 weight 60
+ no auto-summary
+ no synchronization
+ aggregate-address 128.107.0.0 255.255.224.0 summary-only
+ exit-address-family
+!
+	</pre>
+	and verify the output
+
+	<pre>
+enterprise#show ip bgp
+BGP table version is 42, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       192.168.1.2                           60 3 2 ?
+*>                  0.0.0.0                  0         32768 ?
+*> 2.2.2.2/32       192.168.1.2              0            60 3 ?
+*> 3.3.3.3/32       192.168.1.2                           60 3 2 ?
+*> 4.4.4.4/32       192.168.1.2              0            60 3 ?
+r> 11.11.11.11/32   192.168.1.2                           60 3 2 1 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+*> 181.0.0.0/8      192.168.1.2                           60 3 2 ?
+*> 182.0.0.0/8      192.168.1.2                           60 3 2 ?
+*> 183.0.0.0/8      192.168.1.2                           60 3 2 ?
+*                   1.1.1.1                               50 1 2 ?
+*> 184.0.0.0/8      192.168.1.2                           60 3 2 ?
+*> 185.0.0.0/8      192.168.1.2                           60 3 2 ?
+*> 192.135.250.0/28 192.168.1.2                           60 3 4 ?
+enterprise# 
+	</pre>
+	all the routes learned from 192.168.1.2 are of weight 60.
+
+	<h2>setting local preference</h2>
+	a eBGP router can set local preference of an inbound route learned from other eBGP router and distribute among iBGP router in a single 
+	AS so that
+	iBGP routers can make choice on a particular route or routes. features of local_pref is given below.
+
+	<table>
+
+		<tr><th>Feature</th> <th>Description</th>
+		</tr>
+		<tr><td>PA?</td><td> Yes</td></tr>
+		<tr><td>Purpose</td> <td>Identifies the best exit point from the AS to reach a given prefix,</td></tr>
+</tr><td>Scope</td><td> Throughout the AS in which it was set; not advertised to eBGP peers</td></tr>
+<tr><td>Range</td> <td>0 through 4,294,967,295 (2^32 -1)</td></tr>
+<tr><td>Which is best?</td><td> Higher values are better</td></tr>
+
+
+<tr><td>Default</td><td> 100</td></tr>
+<tr><td>Changing default </td><td>the Using the bgp default local-preference <0-4294967295> BGP sub-command</td></tr>
+<tr><td>Configuration</td><td> Via neighbor route-map command; in option is required for updates
+		from an eBGP peer</td></tr>
+</table>
+
+an example of bgp table showing localPrf is 100 for 184.0.0.0/8,185.0.0.0/8 when it is learned from iBGP router 10.100.1.2 and no local_pref 
+when same
+route is learned from 1.1.1.1 as local_pref is not included with a route when it is learned from an eBGP router.
+moreover BGP does not allow a router to advertise iBGP-learned routes to iBGP peers.
+
+
+<ol>
+	<li>first set the ip block to which local_pref to be applied</li>
+<pre>
+enterprise1#show ip bgp         
+BGP table version is 392, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i1.1.1.1/32       10.100.1.2               0    100      0 3 2 ?
+*>                  0.0.0.0                  0         32768 ?
+* i2.2.2.2/32       10.100.1.2               0    100      0 3 ?
+*>                  1.1.1.1                  0             0 1 ?
+* i3.3.3.3/32       10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i4.4.4.4/32       10.100.1.2               0    100      0 3 ?
+*                   1.1.1.1                                0 1 2 3 ?
+r i10.100.1.1/32    10.100.1.2               0    100      0 3 2 1 ?
+r>                  1.1.1.1                  0             0 1 ?
+*  10.100.1.2/32    1.1.1.1                                0 1 2 3 ?
+*>i                 10.100.1.2               0    100      0 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+* i181.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i182.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i183.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>   		    1.1.1.1                                0 1 2 ?
+<strong>
+* i184.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i185.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>     		    1.1.1.1                                0 1 2 ?
+</strong>
+*  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+*>i                 10.100.1.2               0    100      0 3 4 ?
+enterprise1#
+</pre>
+
+	<li>change the local_pref value and set 150 for 185.0.0.0/8 through route-map in enterprise1. and examine what 
+	happens.</li>
+	<li>create prefix-list first</li>
+
+<pre>
+enterprise1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+enterprise1(config)#ip prefix-list match-185 permit ?
+  A.B.C.D  IP prefix <network>/<length>, e.g., 35.0.0.0/8
+
+enterprise1(config)#ip prefix-list match-185 permit 185.0.0.0/8 
+
+</pre>
+
+	<li>now set the route-map for both prefix-list. now here we will create a single route-map for both prefix list. <strong>interesting
+	</strong></li>
+
+<pre>
+enterprise1(config)#route-map ?
+  WORD  Route map tag
+
+enterprise1(config)#route-map set-lp 11
+enterprise1(config-route-map)#
+enterprise1(config-route-map)#match ip address 185.0.0.0/8
+enterprise1(config-route-map)#set local-preference 150
+enterprise1(config-route-map)#exit
+</pre>
+
+<li>apply the route-map to bgp process</li>
+
+<pre>
+enterprise1(config)#router bgp 11
+enterprise1(config-router)#
+enterprise1(config-router)#neighbor 1.1.1.1 route-map ?  
+  WORD  Name of route map
+
+enterprise1(config-router)#neighbor 1.1.1.1 route-map set-lp ?
+  in   Apply map to incoming routes
+  out  Apply map to outbound routes
+
+enterprise1(config-router)#neighbor 1.1.1.1 route-map set-lp in
+enterprise1(config-router)#
+enterprise1(config-router)#
+enterprise1(config-router)#do copy run start
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+</pre>
+
+<li>equivalent running-config</li>
+
+<pre>
+!
+ip prefix-list match-185 seq 5 permit 185.0.0.0/8
+!         
+route-map set-lp permit 11
+ match ip address match-185
+ set local-preference 150
+!
+
+</pre>
+
+<li>now see the difference</li>
+
+### before
+<pre>
+enterprise1#show ip bgp         
+BGP table version is 392, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i1.1.1.1/32       10.100.1.2               0    100      0 3 2 ?
+*>                  0.0.0.0                  0         32768 ?
+* i2.2.2.2/32       10.100.1.2               0    100      0 3 ?
+*>                  1.1.1.1                  0             0 1 ?
+* i3.3.3.3/32       10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i4.4.4.4/32       10.100.1.2               0    100      0 3 ?
+*                   1.1.1.1                                0 1 2 3 ?
+r i10.100.1.1/32    10.100.1.2               0    100      0 3 2 1 ?
+r>                  1.1.1.1                  0             0 1 ?
+*  10.100.1.2/32    1.1.1.1                                0 1 2 3 ?
+*>i                 10.100.1.2               0    100      0 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+* i181.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i182.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i183.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>   		    1.1.1.1                                0 1 2 ?
+<strong>
+* i184.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i185.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>     		    1.1.1.1                                0 1 2 ?
+</strong>
+*  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+*>i                 10.100.1.2               0    100      0 3 4 ?
+enterprise1#
+
+### same thing on enterprise2
+
+
+enterprise2#show ip bgp 
+BGP table version is 205, local router ID is 10.100.1.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i1.1.1.1/32       10.100.1.1               0    100      0 ?
+*>                  3.3.3.3                                0 3 2 ?
+* i2.2.2.2/32       10.100.1.1               0    100      0 1 ?
+*>                  3.3.3.3                  0             0 3 ?
+r i3.3.3.3/32       10.100.1.1               0    100      0 1 2 ?
+r>                  3.3.3.3                                0 3 2 ?
+* i10.100.1.1/32    10.100.1.1               0    100      0 1 ?
+*>                  3.3.3.3                                0 3 2 1 ?
+r> 10.100.1.2/32    3.3.3.3                  0             0 3 ?
+* i128.107.0.0/19   10.100.1.1               0    100      0 i
+* i181.0.0.0/8      10.100.1.1               0    100      0 1 2 ?
+*>                  3.3.3.3                                0 3 2 ?
+* i182.0.0.0/8      10.100.1.1               0    100      0 1 2 ?
+*>                  3.3.3.3                                0 3 2 ?
+* i183.0.0.0/8      10.100.1.1               0    100      0 1 2 ?
+*>                  3.3.3.3                                0 3 2 ?
+<strong>
+* i184.0.0.0/8      10.100.1.1               0    100      0 1 2 ?
+*>                  3.3.3.3                                0 3 2 ?
+* i185.0.0.0/8      10.100.1.1               0    100      0 1 2 ?
+*>                  3.3.3.3                                0 3 2 ?
+</strong>
+
+enterprise2#
+
+</pre>
+
+<li>verify</li>
+
+<pre>
+enterprise1(config)#do show ip bgp
+BGP table version is 21, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 1.1.1.1/32       0.0.0.0                  0         32768 ?
+*                   1.1.1.1                       150      0 1 2 ?
+*> 2.2.2.2/32       1.1.1.1                  0    150      0 1 ?
+*> 3.3.3.3/32       1.1.1.1                       150      0 1 2 ?
+r> 10.100.1.1/32    1.1.1.1                  0    150      0 1 ?
+*> 10.100.1.2/32    1.1.1.1                       150      0 1 2 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+*> 181.0.0.0/8      1.1.1.1                       150      0 1 2 ?
+*> 182.0.0.0/8      1.1.1.1                       150      0 1 2 ?
+*> 183.0.0.0/8      1.1.1.1                       150      0 1 2 ?
+*> 184.0.0.0/8      1.1.1.1                       150      0 1 2 ?
+*> 185.0.0.0/8      1.1.1.1                       150      0 1 2 ?
+enterprise1(config)#
+
+enterprise2#show ip bgp
+BGP table version is 1124, local router ID is 10.100.1.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*>i1.1.1.1/32       10.100.1.1               0    100      0 ?
+*                   3.3.3.3                                0 3 2 ?
+*>i2.2.2.2/32       10.100.1.1               0    150      0 1 ?
+*                   3.3.3.3                  0             0 3 ?
+r>i3.3.3.3/32       10.100.1.1               0    150      0 1 2 ?
+r                   3.3.3.3                                0 3 2 ?
+*>i10.100.1.1/32    10.100.1.1               0    150      0 1 ?
+*                   3.3.3.3                                0 3 2 1 ?
+r>i10.100.1.2/32    10.100.1.1               0    150      0 1 2 3 ?
+r                   3.3.3.3                  0             0 3 ?
+*>i128.107.0.0/19   10.100.1.1               0    100      0 i
+*>i181.0.0.0/8      10.100.1.1               0    150      0 1 2 ?
+*                   3.3.3.3                                0 3 2 ?
+*>i182.0.0.0/8      10.100.1.1               0    150      0 1 2 ?
+*                   3.3.3.3                                0 3 2 ?
+*>i183.0.0.0/8      10.100.1.1               0    150      0 1 2 ?
+*                   3.3.3.3                                0 3 2 ?
+*>i184.0.0.0/8      10.100.1.1               0    150      0 1 2 ?
+*                   3.3.3.3                                0 3 2 ?
+*>i185.0.0.0/8      10.100.1.1               0    150      0 1 2 ?
+*                   3.3.3.3                                0 3 2 ?
+enterprise2#
+</pre>
+<li>now 185.0.0.0/8 is going through 10.100.1.1 as it local_pref is 150</li>
+
+</ol>
+
+<h2>AS_PATH length</h2>
+
+<ul>
+	<li>Routing Table Manager(RTM): after calculation BGP does not put best path directly into routing table. rather its gives best
+	route to RTM.
+	</li>
+	<li>Route can be found from many sources like IGP,BGP,static or connected route. all these routes are then input into
+	RTM which then compute the best route considering many competing factors.</li>
+</ul>
+An enterprise router should not consider routes which are both learned BGP and IGP or connected. In spite of this is very common with MPLS
+VPN with BGP/IGP redistribution.<br /><br />
+<strong>show ip bgp rib-failure</strong> shows route which is choosen the best by BGP but RTM did not placed them into Routing information
+Base, another name for ip routing table.
+
+<pre>
+enterprise1#show ip bgp ?
+
+  rib-failure        Display bgp routes that failed to install in the routing
+                     table (RIB)
+  route-map          Display routes matching the route-map
+
+enterprise1#show ip bgp rib-failure 
+Network            Next Hop                      RIB-failure   RIB-NH Matches
+10.100.1.1/32      1.1.1.1                    Own IP address              n/a
+10.100.1.2/32      10.100.1.2          Higher admin distance              n/a
+
+enterprise1#
+</pre>
+
+<h2>Increasing the Length of the AS_Path Using AS_Path Prepend</h2>
+AS_Path length is simply the number of ASNs listed in the AS_Path. AS_PATH prepend is a way to increase the AS_PATH by adding ASN,however 
+this adding does not impact the loop prevention as well as stave off route to be best routes. this is done by adding ASN which is already
+added. adding ASN can also be local ASN. lets have an example below.
+
+<ol>
+	<li>in our example below, 192.135.250.0/28 route is prefered best through 10.100.1.2, which is enterprise2. now we want to make
+	this route should go through enterprise1. </li>
+
+<pre>
+enterprise1(config-router)#do show ip bgp
+BGP table version is 22, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       1.1.1.1                                0 1 2 ?
+*>                  0.0.0.0                  0         32768 ?
+* i2.2.2.2/32       10.100.1.2               0    100      0 3 ?
+*>                  1.1.1.1                  0             0 1 ?
+* i3.3.3.3/32       10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i4.4.4.4/32       10.100.1.2               0    100      0 3 ?
+r> 10.100.1.1/32    1.1.1.1                  0             0 1 ?
+r>i10.100.1.2/32    10.100.1.2               0    100      0 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+* i181.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i182.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i183.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i184.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i185.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i192.135.250.0/28 10.100.1.2               0    100      0 3 4 ?
+enterprise1(config-router)#
+</pre>
+
+	<li>now prepend as_path to enterprise2 with the help of route-map</li>
+
+<pre>
+
+enterprise2(config)#route-map set-prepend 10
+enterprise2(config-route-map)#set as-path prepend 3 3 3 3
+enterprise2(config-route-map)#
+enterprise2(config-route-map)#exit
+enterprise2(config)#
+enterprise2(config)#
+enterprise2(config)#router bgp 11
+enterprise2(config-router)#neighbor 3.3.3.3 route-map set-prepend in
+enterprise2(config-router)# do copy run start
+
+### running-config of enterprise2
+!
+router bgp 11
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 3.3.3.3 remote-as 3
+ neighbor 3.3.3.3 password cisco
+ neighbor 3.3.3.3 ebgp-multihop 2
+ neighbor 3.3.3.3 update-source Loopback1
+ neighbor 3.3.3.3 route-map set-prepend in
+ no auto-summary
+!
+!
+route-map set-prepend permit 10
+ set as-path prepend 3 3 3 3
+!
+
+</pre>
+
+	<li>now verify them</li>
+
+	<pre>
+### before
+
+
+enterprise1#show ip bgp
+BGP table version is 22, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       1.1.1.1                                0 1 2 ?
+*>                  0.0.0.0                  0         32768 ?
+* i2.2.2.2/32       10.100.1.2               0    100      0 3 ?
+*>                  1.1.1.1                  0             0 1 ?
+* i3.3.3.3/32       10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i4.4.4.4/32       10.100.1.2               0    100      0 3 ?
+r> 10.100.1.1/32    1.1.1.1                  0             0 1 ?
+r>i10.100.1.2/32    10.100.1.2               0    100      0 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+* i181.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i182.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i183.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i184.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+* i185.0.0.0/8      10.100.1.2               0    100      0 3 2 ?
+*>                  1.1.1.1                                0 1 2 ?
+*>i192.135.250.0/28 10.100.1.2               0    100      0 3 4 ?
+enterprise1#
+
+### after 
+
+enterprise2(config)#do show ip bgp
+BGP table version is 17, local router ID is 10.100.1.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  1.1.1.1/32       3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 ?
+*  2.2.2.2/32       3.3.3.3                  0             0 3 3 3 3 3 ?
+*>i                 10.100.1.1               0    100      0 1 ?
+r  3.3.3.3/32       3.3.3.3                                0 3 3 3 3 3 2 ?
+r>i                 10.100.1.1               0    100      0 1 2 ?
+*  4.4.4.4/32       3.3.3.3                  0             0 3 3 3 3 3 ?
+*>i                 10.100.1.1               0    100      0 1 2 3 ?
+r  10.100.1.1/32    3.3.3.3                                0 3 3 3 3 3 2 1 ?
+r>i                 10.100.1.1               0    100      0 1 ?
+r  10.100.1.2/32    3.3.3.3                  0             0 3 3 3 3 3 ?
+r>i                 10.100.1.1               0    100      0 1 2 3 ?
+*>i128.107.0.0/19   10.100.1.1               0    100      0 i
+<strong>
+*  181.0.0.0/8      3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 1 2 ?
+*  182.0.0.0/8      3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 1 2 ?
+*  183.0.0.0/8      3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 1 2 ?
+*  184.0.0.0/8      3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 1 2 ?
+*  185.0.0.0/8      3.3.3.3                                0 3 3 3 3 3 2 ?
+*>i                 10.100.1.1               0    100      0 1 2 ?
+*  192.135.250.0/28 3.3.3.3                                0 3 3 3 3 3 4 ?
+*>i                 10.100.1.1               0    100      0 1 2 3 4 ?
+</strong>
+enterprise2(config)#
+
+
+enterprise1#show ip bgp 
+BGP table version is 28, local router ID is 11.11.11.11
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 1.1.1.1/32       0.0.0.0                  0         32768 ?
+*                   1.1.1.1                                0 1 2 ?
+*> 2.2.2.2/32       1.1.1.1                  0             0 1 ?
+*> 3.3.3.3/32       1.1.1.1                                0 1 2 ?
+*> 4.4.4.4/32       1.1.1.1                                0 1 2 3 ?
+r> 10.100.1.1/32    1.1.1.1                  0             0 1 ?
+*> 10.100.1.2/32    1.1.1.1                                0 1 2 3 ?
+*> 128.107.0.0/19   0.0.0.0                            32768 i
+s> 128.107.1.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.2.0/24   0.0.0.0                  0         32768 ?
+s> 128.107.3.0/24   0.0.0.0                  0         32768 ?
+*> 181.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 182.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 183.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 184.0.0.0/8      1.1.1.1                                0 1 2 ?
+*> 185.0.0.0/8      1.1.1.1                                0 1 2 ?
+<strong>
+*> 192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
+</strong>
+enterprise1#
+	</pre>
+	<li>which is showing the output exactly we desired</li>
+	</ol>
+
+
+	<h2>Influencing an Enterprises Inbound Routes with MED</h2>
+	An Enterprise which is dual-homed,which has two links to a single isp, can tell isp one of which route is the best setting the multi 
+	exit discriminator (MED) so that ISP can discriminate to which link packets should be prefered over.
+
+	<table>
+		<tr>
+			<th>feature  </th>
+			<th>descriptions </th>
+		</tr>
+
+		<tr>
+			<td>is it a PA </td>
+			<td>yes </td>
+		</tr>
+
+		<tr>
+			<td>purpose </td>
+			<td>it instructs remote as to send packet to local through the best way </td>
+		</tr>
+
+		<tr>
+			<td>scope </td>
+			<td> Advertised by one AS into another, propagated inside the AS, but not sent to any other autonomous systems.</td>
+		</tr>
+
+		<tr>
+			<td>range </td>
+			<td>0- 4,294,967,295 (2^32 - 1).</li>
+		</tr>
+
+		<tr>
+			<td>which is best</td>
+			<td><strong>smaller is better </strong></td>
+		</tr>
+
+		<tr>
+			<td>default </td>
+			<td>0 </td>
+		</tr>
+
+		<tr>
+			<td>configuration</td>
+			<td><strong>via neighbor route-map out command, using the set metric command inside the route map.</strong></li>
+		</tr>
+
+	</table>
+	<p>
+	<img src="./iBGP_MED.png" alt="multi exit descriminator" />
+	</p>
+	an example on setting MED step by step.
+
+	<ol>
+		<li>configuring interface</li>
+		<pre>
+
+enterprise1#show ip interface brief   
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.1        YES manual up                    up      
+Serial1/1                  10.1.1.5        YES manual up                    up      
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+enterprise1#
+
+isp1(config-router)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            172.16.1.1      YES manual up                    up      
+FastEthernet0/1            unassigned      YES unset  administratively down down    
+Serial1/0                  10.1.1.2        YES manual up                    up      
+Serial1/1                  unassigned      YES unset  administratively down down    
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+isp1(config-router)#
+
+iBGP_isp1(config-router)#do show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            172.16.1.2      YES manual up                    up      
+FastEthernet0/1            unassigned      YES unset  administratively down down    
+Serial1/0                  unassigned      YES unset  administratively down down    
+Serial1/1                  10.1.1.6        YES manual up                    up      
+Serial1/2                  unassigned      YES unset  administratively down down    
+Serial1/3                  unassigned      YES unset  administratively down down    
+iBGP_isp1(config-router)#
+		</pre>
+
+		<li>configure the bgp neighborship among routers. enterprise-isp1 ebgp, enterprise1-iBGP_isp1 ebgp, isp1-iBGP_isp1 ibgp</li>
+
+	<pre>
+#### enterprise1
+!
+router bgp 11
+ no synchronization
+ bgp log-neighbor-changes
+ redistribute static
+ neighbor 10.1.1.2 remote-as 1
+ neighbor 10.1.1.2 route-map set-med-10 out
+ neighbor 10.1.1.6 remote-as 1
+ neighbor 10.1.1.6 route-map set-med-20 out
+ no auto-summary
+!
+#### isp1
+!
+router bgp 1
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 10.1.1.1 remote-as 11
+ neighbor 172.16.1.2 remote-as 1
+ no auto-summary
+!
+#### isp2
+!
+router bgp 1
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor 10.1.1.5 remote-as 11
+ neighbor 172.16.1.1 remote-as 1
+ no auto-summary
+!
+	</pre>
+	<li>now test the bgp neighborship</li>
+<pre>
+#### enterprise1
+
+enterprise1#show ip bgp summary
+BGP router identifier 10.1.1.5, local AS number 11
+BGP table version is 2, main routing table version 2
+1 network entries using 117 bytes of memory
+1 path entries using 52 bytes of memory
+2/1 BGP path/bestpath attribute entries using 248 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 417 total bytes of memory
+BGP activity 2/1 prefixes, 2/1 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.1.2        4     1      30      32        2    0    0 00:12:34        0
+10.1.1.6        4     1      30      32        2    0    0 00:12:34        0
+enterprise1#
+
+#### isp1
+
+isp1(config-router)#do show ip bgp summary
+BGP router identifier 172.16.1.1, local AS number 1
+BGP table version is 12, main routing table version 12
+1 network entries using 117 bytes of memory
+2 path entries using 104 bytes of memory
+3/1 BGP path/bestpath attribute entries using 372 bytes of memory
+1 BGP AS-PATH entries using 24 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 617 total bytes of memory
+BGP activity 4/3 prefixes, 8/6 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.1.1        4    11      32      30       12    0    0 00:12:49        1
+172.16.1.2      4     1      44      44       12    0    0 00:36:38        1
+isp1(config-router)#
+
+#### iBGP_isp1 
+iBGP_isp1(config-router)#do show ip bgp summary
+BGP router identifier 172.16.1.2, local AS number 1
+BGP table version is 12, main routing table version 12
+1 network entries using 117 bytes of memory
+2 path entries using 104 bytes of memory
+3/1 BGP path/bestpath attribute entries using 372 bytes of memory
+1 BGP AS-PATH entries using 24 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 617 total bytes of memory
+BGP activity 5/4 prefixes, 8/6 paths, scan interval 60 secs
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.1.1.5        4    11      32      30       12    0    0 00:12:57        1
+172.16.1.1      4     1      44      44       12    0    0 00:36:45        1
+iBGP_isp1(config-router)#
+</pre>
+
+	<li>configure a static route we will redistribute this static route into bgp process later</li>
+	<pre>
+!
+ip route 128.107.0.0 255.255.224.0 Null0
+!
+	</pre>
+	<li>configure a prefix list and route-map </li>
+
+<pre>
+!
+ip prefix-list match-128 seq 5 permit 128.107.0.0/19
+!
+route-map set-med-20 permit 20
+ match ip address prefix-list match-128
+ set metric 20
+!
+route-map set-med-10 permit 10
+ match ip address prefix-list match-128
+ set metric 10
+!         
+</pre>
+	<li>now apply them in bgp process in enterprise1</li>
+<pre>
+!
+router bgp 11
+ no synchronization
+ bgp log-neighbor-changes
+ redistribute static
+ neighbor 10.1.1.2 remote-as 1
+ neighbor 10.1.1.2 route-map set-med-10 out
+ neighbor 10.1.1.6 remote-as 1
+ neighbor 10.1.1.6 route-map set-med-20 out
+ no auto-summary
+!
+</pre>
+	<li>and verify the med in isp1 and iBGP_isp1 router</li>
+
+<pre>
+#### isp1
+
+isp1(config-router)#do show ip bgp
+BGP table version is 14, local router ID is 172.16.1.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i128.107.0.0/19   10.1.1.5                20    100      0 11 ?
+*>                  10.1.1.1                10             0 11 ?
+isp1(config-router)#
+
+
+#### iBGP_isp1
+
+iBGP_isp1(config-router)#do show ip bgp 
+BGP table version is 14, local router ID is 172.16.1.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+* i128.107.0.0/19   10.1.1.1                10    100      0 11 ?
+*>                  10.1.1.5                20             0 11 ?
+iBGP_isp1(config-router)#
+</pre>
+	<li>see the med for received-route in isp1 and iBGP_isp1</li>
+
+<pre>
+
+isp1#show ip bgp neighbors 10.1.1.1 received-routes 
+BGP table version is 14, local router ID is 172.16.1.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 128.107.0.0/19   10.1.1.1                10             0 11 ?
+
+Total number of prefixes 1 
+isp1#
+
+iBGP_isp1#show ip bgp neighbors 10.1.1.5 received-routes 
+BGP table version is 14, local router ID is 172.16.1.2
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*> 128.107.0.0/19   10.1.1.5                20             0 11 ?
+
+Total number of prefixes 1 
+iBGP_isp1#
+</pre>
+
+	</ol>	
+
+</body>
+</html>
