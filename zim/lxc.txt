@@ -414,4 +414,160 @@ PID:            5341
 CPU use:        0.51 seconds
 root@masum:~# 
 
+.. which type of lxc we can configure in our system we can find from below.
+
+root@masum:/usr/share/lxc# ls
+config  hooks  lxc.functions  lxc-patch.py  __pycache__  selinux  templates
+root@masum:/usr/share/lxc# cd templates/
+root@masum:/usr/share/lxc/templates# ls
+lxc-alpine    lxc-archlinux  lxc-centos  lxc-debian    lxc-fedora  lxc-openmandriva  lxc-oracle  lxc-sshd    lxc-ubuntu-cloud
+lxc-altlinux  lxc-busybox    lxc-cirros  lxc-download  lxc-gentoo  lxc-opensuse      lxc-plamo   lxc-ubuntu
+root@masum:/usr/share/lxc/templates# 
+
+.. that means we can install centos type of lxc by the following command
+
+root@masum:/usr/share/lxc/templates# lxc-create -n mycentos -t centos
+
+.. few on configuration file of lxc
+.. for all system related configuration.
+
+root@masum:/usr/share/lxc# 
+root@masum:/usr/share/lxc# cd config/
+root@masum:/usr/share/lxc/config# ls
+centos.common.conf  debian.userns.conf  gentoo.moresecure.conf  plamo.common.conf         ubuntu-cloud.userns.conf
+centos.userns.conf  fedora.common.conf  gentoo.userns.conf      plamo.userns.conf         ubuntu.common.conf
+common.seccomp      fedora.userns.conf  oracle.common.conf      ubuntu-cloud.common.conf  ubuntu.lucid.conf
+debian.common.conf  gentoo.common.conf  oracle.userns.conf      ubuntu-cloud.lucid.conf   ubuntu.userns.conf
+root@masum:/usr/share/lxc/config# 
+root@masum:/usr/share/lxc/config# 
+root@masum:/usr/share/lxc/config# cat debian.userns.conf 
+# CAP_SYS_ADMIN in init-user-ns is required for cgroup.devices
+lxc.cgroup.devices.deny =
+lxc.cgroup.devices.allow =
+
+# Extra bind-mounts for userns
+lxc.mount.entry = /dev/console dev/console none bind,create=file 0 0
+lxc.mount.entry = /dev/full dev/full none bind,create=file 0 0
+lxc.mount.entry = /dev/null dev/null none bind,create=file 0 0
+lxc.mount.entry = /dev/random dev/random none bind,create=file 0 0
+lxc.mount.entry = /dev/tty dev/tty none bind,create=file 0 0
+lxc.mount.entry = /dev/urandom dev/urandom none bind,create=file 0 0
+lxc.mount.entry = /dev/zero dev/zero none bind,create=file 0 0
+
+# Default seccomp policy is not needed for unprivileged containers, and
+# non-root users cannot use seccmp without NNP anyway.
+lxc.seccomp =
+root@masum:/usr/share/lxc/config# 
+
+.. individual system related configuration 
+
+root@masum:/usr/share/lxc/config# cd /var/lib/lxc/
+root@masum:/var/lib/lxc# ls
+--logfile  lxc-monitord.log  masum
+root@masum:/var/lib/lxc# 
+root@masum:/var/lib/lxc# cd masum/
+root@masum:/var/lib/lxc/masum# ls
+config  config.bak  fstab  masum.log  rootfs  rootfs.dev
+root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum# cat config
+# Template used to create this container: /usr/share/lxc/templates/lxc-debian
+# Parameters passed to the template:
+# For additional config options, please look at lxc.container.conf(5)
+
+.. this file is particularly important to operate container perfectly.
+
+lxc.utsname = masum
+lxc.network.type = veth
+lxc.network.flags = up
+
+.. the following line is important this eth0 interface will be created
+.. in lxc with the following ip address
+
+lxc.network.name = eth0
+lxc.network.link = br0
+lxc.network.ipv4 = 192.168.20.10/24
+lxc.network.ipv4.gateway = 192.168.20.2
+#lxc.network.hwaddr = 00:1E:62:CH:NG:ME
+
+.. this line is important to commit off if we need our container
+.. should start at boot time. the delay line will wait for 9 
+.. before other linux container boots up. cool feature.
+
+#lxc.start.auto = 1
+#lxc.start.delay = 9
+lxc.rootfs = /var/lib/lxc/masum/rootfs
+
+# Common configuration
+lxc.include = /usr/share/lxc/config/debian.common.conf
+
+# Container specific configuration
+lxc.mount = /var/lib/lxc/masum/fstab
+lxc.utsname = masum
+lxc.arch = i386
+lxc.autodev = 1
+lxc.kmsg = 0
+root@masum:/var/lib/lxc/masum# 
+
+.. as soon as started our lxc debian jessie we issued the following command 
+.. it.
+
+root@masum:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr ba:19:aa:5a:da:a7  
+          inet addr:192.168.20.10  Bcast:192.168.20.255  Mask:255.255.255.0
+          inet6 addr: fe80::b819:aaff:fe5a:daa7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:35016 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:20381 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:42036316 (40.0 MiB)  TX bytes:1998708 (1.9 MiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+root@masum:~# 
+
+root@masum:~# apt-get install iputils-ping
+root@masum:~# apt-get install inetutils-ping
+root@masum:~# apt-get install vim
+
+.. when our lxc is running we found the following from host pc
+
+root@masum:/var/lib/lxc/masum# lxc-info -n masum
+Name:           masum
+State:          RUNNING
+PID:            5120
+IP:             192.168.20.10
+CPU use:        60.04 seconds
+Link:           vethX3900V
+ TX bytes:      1.96 MiB
+ RX bytes:      40.13 MiB
+ Total bytes:   42.09 MiB
+root@masum:/var/lib/lxc/masum# 
+
+.. we can do work on our container without running sometimes just like 
+.. below.
+ 
+root@masum:/var/lib/lxc/masum/rootfs# chroot .
+root@masum:/# ifconfig
+Warning: cannot open /proc/net/dev (No such file or directory). Limited output.
+root@masum:/# 
+root@masum:/# pwd
+/
+root@masum:/# ls
+bin   dev  home  media	opt   root  sbin     srv  tmp  var
+boot  etc  lib	 mnt	proc  run   selinux  sys  usr
+root@masum:/# 
+root@masum:/# passwd 
+
+.. like this way we can also change the password for any user like root 
+.. also.
+
+
+
+
 

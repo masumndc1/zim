@@ -1,0 +1,234 @@
+
+
+......................... bridge configuration in linux................
+
+.. in centos/redhat
+
+.. root@localhost # cat /etc/sysconfig/network/ifcfg-br0
+
+11.2.6. Network Bridge
+A network bridge is a Link Layer device which forwards traffic between networks based on MAC addresses and is therefore also referred to as a Layer 2 device. It makes forwarding decisions based on tables of MAC addresses which it builds by learning what hosts are connected to each network. A software bridge can be used within a Linux host in order to emulate a hardware bridge, for example in virtualization applications for sharing a NIC with one or more virtual NICs. This case will be illustrated here as an example.
+To create a network bridge, create a file in the /etc/sysconfig/network-scripts/ directory called ifcfg-brN, replacing N with the number for the interface, such as 0.
+The contents of the file is similar to whatever type of interface is getting bridged to, such as an Ethernet interface. The differences in this example are as follows:
+
+    The DEVICE directive is given an interface name as its argument in the format brN, where N is replaced with the number of the interface.
+    The TYPE directive is given an argument Bridge. This directive determines the device type and the argument is case sensitive.
+    The bridge interface configuration file now has the IP address and the physical interface has only a MAC address.
+    An extra directive, DELAY=0, is added to prevent the bridge from waiting while it monitors traffic, learns where hosts are located, and builds a table of MAC addresses on which to base its filtering decisions. The default delay of 15 seconds is not needed if no routing loops are possible.
+    The NM_CONTROLLED=no should be added to the Ethernet interface to prevent NetworkManager from altering the file. It can also be added to the bridge configuration file in case future versions of NetworkManager support bridge configuration. 
+
+The following is a sample bridge interface configuration file using a static IP address:
+⁠
+
+Example 11.4. Sample ifcfg-br0 interface configuration file
+
+DEVICE=br0
+TYPE=Bridge
+IPADDR=192.168.1.1
+NETMASK=255.255.255.0
+ONBOOT=yes
+BOOTPROTO=none
+NM_CONTROLLED=no
+DELAY=0
+
+To complete the bridge another interface is created, or an existing interface is modified, and pointed to the bridge interface. The following is a sample Ethernet interface configuration file pointing to a bridge interface. Configure your physical interface in /etc/sysconfig/network-scripts/ifcfg-ethX, where X is a unique number corresponding to a specific interface, as follows:
+⁠
+
+Example 11.5. Sample ifcfg-ethX interface configuration file
+
+DEVICE=ethX
+TYPE=Ethernet
+HWADDR=AA:BB:CC:DD:EE:FF
+BOOTPROTO=none
+ONBOOT=yes
+NM_CONTROLLED=no
+BRIDGE=br0
+
+Note
+For the DEVICE directive, almost any interface name could be used as it does not determine the device type. Other commonly used names include tap, dummy and bond for example. TYPE=Ethernet is not strictly required. If the TYPE directive is not set, the device is treated as an Ethernet device (unless its name explicitly matches a different interface configuration file.)
+You can see Section 11.2, “Interface Configuration Files” for a review of the directives and options used in network interface config files.
+
+Warning
+If you are configuring bridging on a remote host, and you are connected to that host over the physical NIC you are configuring, please consider the implications of losing connectivity before proceeding. You will lose connectivity when restarting the service and may not be able to regain connectivity if any errors have been made. Console, or out-of-band access is advised.
+Restart the networking service, in order for the changes to take effect, as follows:
+
+ service network restart 
+
+⁠11.2.6.1. Network Bridge with Bond
+An example of a network bridge formed from two or more bonded Ethernet interfaces will now be given as this is another common application in a virtualization environment. If you are not very familiar with the configuration files for bonded interfaces then please see Section 11.2.4, “Channel Bonding Interfaces”
+Create or edit two or more Ethernet interface configuration files, which are to be bonded, as follows:
+
+DEVICE=ethX
+TYPE=Ethernet
+USERCTL=no
+SLAVE=yes
+MASTER=bond0
+BOOTPROTO=none
+HWADDR=AA:BB:CC:DD:EE:FF
+NM_CONTROLLED=no
+
+Note
+Using ethX as the interface name is common practice but almost any name could be used. Names such as tap, dummy and bond are commonly used.
+Create or edit one interface configuration file, /etc/sysconfig/network-scripts/ifcfg-bond0, as follows:
+
+DEVICE=bond0
+ONBOOT=yes
+BONDING_OPTS='mode=1 miimon=100'
+BRIDGE=br0
+NM_CONTROLLED=no
+
+For further instructions and advice on configuring the bonding module and to view the list of bonding parameters, see Section 30.8.1, “Using Channel Bonding”.
+Create or edit one interface configuration file, /etc/sysconfig/network-scripts/ifcfg-br0, as follows:
+
+DEVICE=br0
+ONBOOT=yes
+TYPE=Bridge
+IPADDR=192.168.1.1
+NETMASK=255.255.255.0
+NM_CONTROLLED=no
+
+⁠
+⁠A network bridge consisting of two bonded Ethernet interfaces.
+
+Figure 11.1. A network bridge consisting of two bonded Ethernet interfaces.
+We now have two or more interface configuration files with the MASTER=bond0 directive. These point to the configuration file named /etc/sysconfig/network-scripts/ifcfg-bond0, which contains the DEVICE=bond0 directive. This ifcfg-bond0 in turn points to the /etc/sysconfig/network-scripts/ifcfg-br0 configuration file, which contains the IP address, and acts as an interface to the virtual networks inside the host.
+To bring up the new or recently configured interfaces, issue a command as root in the following format:
+
+ifup device
+
+Alternatively, restart the networking service, in order for the changes to take effect, as follows:
+
+~]# service network restart
+
+⁠11.2.6.2. Network Bridge with Bonded VLAN
+Virtualization servers that intend to have distinct subnets for its guests while still ensuring availability in the event of a NIC failure will often combine bonds, VLANs, and bridges. An example of this configuration will now be given. By creating a bridge on the VLAN instead of the underlying device we allow VLAN tagging to be handled entirely through the host with no need to configure the guests' interfaces.
+
+    Ensure the bond and VLAN have been configured as outlined in Section 11.2.5, “Configuring a VLAN over a Bond”.
+    Create the bridge's configuration file, ifcfg-br0:
+
+    ~]# vi /etc/sysconfig/network-scripts/ifcfg-br0
+    DEVICE=br0
+    ONBOOT=yes
+    TYPE=Bridge
+    IPADDR=192.168.10.1
+    NETMASK=255.255.255.0
+    NM_CONTROLLED=no
+
+    Adjust the VLAN's configuration file, ifcfg-bond0.192 from the earlier example, to use the newly created br0 as its master:
+
+    ~]# vi /etc/sysconfig/network-scripts/ifcfg-bond0.192
+    DEVICE=bond0.192
+    BOOTPROTO=none
+    #BOOTPROTO=static
+    ONPARENT=yes
+    #IPADDR=192.168.10.1
+    #NETMASK=255.255.255.0
+    VLAN=yes
+    NM_CONTROLLED=no
+    BRIDGE=br0
+
+    To bring up the new or recently configured interfaces, issue a command as root in the following format:
+
+    ifup device
+
+    Alternatively, restart the networking service, in order for the changes to take effect, as follows:
+
+    ~]# service network restart
+
+.. https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/s2-networkscripts-interfaces_network-bridge.html
+
+.. another way to do in centos
+
+Setup bridge device on CentOS
+16 Replies	
+
+Howto setup a bridge device on CentOS or Fedora.
+
+If you need to bring your KVM VM’s into the same local area network like your host is in you need to configure a bridge device.
+
+1. Install all needed packages:
+
+    yum install bridge-utils
+
+    yum install tunctl
+
+2. Disable NetworkManager and enable network at boot time:
+
+    chkconfig NetworkManager off
+
+    chkconfig –levels 35 network on
+
+    /etc/init.d/NetworkManager stop
+
+    /etc/init.d/network restart
+
+3. Create br0 configuration
+
+    vi /etc/sysconfig/network-scripts/ifcfg-br0
+
+Change following configuration to your needs.
+
+    DEVICE=br0
+    TYPE=Bridge
+    BOOTPROTO=static
+    DNS1=192.168.0.1
+    GATEWAY=192.168.0.1
+    IPADDR=192.168.0.100
+    NETMASK=255.255.255.0
+    ONBOOT=yes
+    SEARCH=”example.com”
+
+4. Modify eth0 configuration:
+
+    vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+    DEVICE=eth0
+    HWADDR=00:1e:90:f3:f0:02
+    ONBOOT=yes
+    TYPE=Ethernet
+    IPV6INIT=no
+    USERCTL=no
+    BRIDGE=br0
+
+5. Restart network or reboot machine to see if everything is configured persistent
+
+    /etc/init.d/network restart
+
+or
+
+    reboot
+
+.. bridge configuraiton in debian/ubuntu distribution.
+
+root@masum:/var/lib/lxc/masum# cat /etc/network/interfaces
+
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static
+        bridge_ports vmnet3
+	bridge_fd 0
+	bridge_maxwait 0
+	address 192.168.20.2
+	netmask 255.255.255.0
+
+root@masum:/var/lib/lxc/masum# 
+
+root@masum:/var/lib/lxc/masum# ifconfig vmnet3
+vmnet3    Link encap:Ethernet  HWaddr 00:50:56:c0:00:03  
+          inet addr:192.168.20.1  Bcast:192.168.20.255  Mask:255.255.255.0
+          inet6 addr: fe80::250:56ff:fec0:3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@masum:/var/lib/lxc/masum# 
+
+
