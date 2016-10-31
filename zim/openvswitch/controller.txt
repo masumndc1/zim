@@ -1,0 +1,100 @@
+
+
+
+
+................... controller ............................
+
+.. we are setting controller like below.
+.. the ruls is setting the options where the ovsdb is running
+.. in our instance the db is running on the same ip where
+.. the openvswitch is running on. therefore we are configuring 
+.. like below. this ip is the same ip where the db running and
+.. the host also.
+
+root@mininet-vm:~# ovs-vsctl set-controller s2 tcp:192.168.244.148:6633
+root@mininet-vm:~# ovs-vsctl set-controller s1 tcp:192.168.10.129:6633
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s2"
+        Controller "tcp:192.168.244.148:6633"
+            is_connected: true
+
+.. the above line is showing that controller is connected with the
+.. parameter is true.
+
+        fail_mode: standalone
+        Port "s2"
+            Interface "s2"
+                type: internal
+        Port "eth1"
+            tag: 1
+            Interface "eth1"
+    Bridge "s1"
+        Controller "tcp:192.168.10.129:6633"
+        fail_mode: standalone
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "eth2"
+            tag: 1
+            Interface "eth2"
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+
+root@mininet-vm:~# ovs-vsctl list controller
+_uuid               : 913c36cc-4234-4ca7-95e9-ad26f9d4f0dc
+connection_mode     : []
+controller_burst_limit: []
+controller_rate_limit: []
+enable_async_messages: []
+external_ids        : {}
+inactivity_probe    : []
+is_connected        : true
+
+.. this is also showing true
+
+local_gateway       : []
+local_ip            : []
+local_netmask       : []
+max_backoff         : []
+other_config        : {}
+role                : other
+status              : {sec_since_connect="62", state=ACTIVE}
+target              : "tcp:192.168.244.148:6633"
+
+_uuid               : da037f3a-3cb4-4c32-b5a6-1587c97c2e58
+connection_mode     : []
+controller_burst_limit: []
+controller_rate_limit: []
+enable_async_messages: []
+external_ids        : {}
+inactivity_probe    : []
+is_connected        : false
+local_gateway       : []
+local_ip            : []
+local_netmask       : []
+max_backoff         : []
+other_config        : {}
+role                : other
+status              : {last_error="End of file", sec_since_connect="1", sec_since_disconnect="1", state=BACKOFF}
+target              : "tcp:192.168.10.129:6633"
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+
+
+
+
+
+

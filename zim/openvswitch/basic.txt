@@ -421,7 +421,10 @@ root@mininet-vm:~#
 .. 
 .. host1(192.168.10.2)----- s1(192.168.10.129)------ host2(192.168.10.153) 
 
-.. adding controller with the command below
+.. adding controller with the command below. the rule here is we are setting 
+.. options to an ip where the ovsdb is running. in our instance the database
+.. is running on the same ip where the openvswitch is running. that means
+.. the host ip. therefore we are configuring like below ip and port.
 
 root@mininet-vm:~# ovs-vsctl set-controller s1 tcp:192.168.10.129:6633
 
@@ -477,6 +480,42 @@ root@mininet-vm:~# ovs-vsctl show
 root@mininet-vm:~# 
 
 .. therefore the controller is removed.
+
+.. enabling the spanning-tree protocols and the openflow version 1.0, 1.2, 1.3
+.. as well as the 
+
+root@mininet-vm:~# ovs-vsctl set Bridge s1 stp_enable=true
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl set bridge s1 protocols=OpenFlow10,OpenFlow12,OpenFlow13
+
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:192.168.10.1:6633"
+        fail_mode: standalone
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "eth2"
+            Interface "eth2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+
+.. full options can be found from the man ovs-vsctl 
+
+
 
 ovs-controller ptcp:6633 --detach
 ovs-vswitchd --detach etc.

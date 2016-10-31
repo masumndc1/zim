@@ -1,0 +1,153 @@
+
+
+
+............. here we will show some few more configuration fact ...........
+..
+.. as openvswitch supports the openflow protocols, it is an enhanchment of the 
+.. standard bridge module of the linux kernal. switch functionality can be broken 
+.. down into two plane. control plan and data plan. control plan which does the path finding,
+.. flow control, discovery and communication among other switch can be controlled
+.. centrally by openflow,using software control rather than hardware control . hence the term software
+.. define networking comes.
+
+.. of the openvswitch the log files are reside in the following directory.
+
+root@mininet-vm:/var/log/openvswitch# ls
+ovs-ctl.log  ovsdb-server.log  ovs-pki.log  ovs-vswitchd.log
+root@mininet-vm:/var/log/openvswitch# 
+
+.. as our openvswitch is up and running we will now configure the openflow controller
+..
+
+root@mininet-vm:~# vi /etc/resolv.conf 
+root@mininet-vm:~# ping yahoo.com
+^C
+root@mininet-vm:~# ping 4.2.2.1
+PING 4.2.2.1 (4.2.2.1) 56(84) bytes of data.
+64 bytes from 4.2.2.1: icmp_seq=1 ttl=48 time=138 ms
+^C
+--- 4.2.2.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 138.430/138.430/138.430/0.000 ms
+
+root@mininet-vm:~# vi /etc/resolv.conf 
+
+root@mininet-vm:~# ping yahoo.com
+PING yahoo.com (98.139.183.24) 56(84) bytes of data.
+64 bytes from ir2.fp.vip.bf1.yahoo.com (98.139.183.24): icmp_seq=1 ttl=44 time=215 ms
+^C
+--- yahoo.com ping statistics ---
+2 packets transmitted, 1 received, 50% packet loss, time 1000ms
+rtt min/avg/max/mdev = 215.536/215.536/215.536/0.000 ms
+
+root@mininet-vm:~# git clone https://github.com/noxrepo/pox
+Cloning into 'pox'...
+remote: Counting objects: 10938, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 10938 (delta 0), reused 0 (delta 0), pack-reused 10936
+Receiving objects: 100% (10938/10938), 4.49 MiB | 8.00 KiB/s, done.
+Resolving deltas: 100% (6821/6821), done.
+Checking connectivity... done.
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# pwd
+/root
+root@mininet-vm:~# ls
+pox
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# cd pox/
+root@mininet-vm:~/pox# ls
+debug-pox.py  ext  LICENSE  NOTICE  pox  pox.py  README  setup.cfg  tests  tools
+root@mininet-vm:~/pox# 
+
+root@mininet-vm:~/pox# ./pox.py --help
+POX 0.2.0 (carp) / Copyright 2011-2013 James McCauley, et al.
+POX is a Software Defined Networking controller framework.
+
+The commandline of POX is like:
+pox.py [POX options] [C1 [C1 options]] [C2 [C2 options]] ...
+
+Notable POX options include:
+  --verbose       Print more debugging information (especially useful for
+                  problems on startup)
+  --no-openflow   Don't automatically load the OpenFlow module
+  --log-config=F  Load a Python log configuration file (if you include the
+                  option without specifying F, it defaults to logging.cfg)
+
+C1, C2, etc. are component names (e.g., Python modules).  Options they
+support are up to the module.  As an example, you can load a learning
+switch app that listens on a non-standard port number by specifying an
+option to the of_01 component, and loading the l2_learning component like:
+  ./pox.py --verbose openflow.of_01 --port=6634 forwarding.l2_learning
+
+The 'help' component can give help for other components.  Start with:
+  ./pox.py help --help
+root@mininet-vm:~/pox# 
+
+.. some more info related to the pox and the options are given below.
+
+root@mininet-vm:~/pox# cd pox/
+root@mininet-vm:~/pox/pox# ls
+boot.py   core.py   datapaths   help.py       info         __init__.pyc  log        misc      proto  samples  topology
+boot.pyc  core.pyc  forwarding  host_tracker  __init__.py  lib           messenger  openflow  py.py  tk.py    web
+root@mininet-vm:~/pox/pox# 
+root@mininet-vm:~/pox/pox# cd openflow/
+root@mininet-vm:~/pox/pox/openflow# ls
+debug.py      flow_table.py  keepalive.py        nicira_ext.py  of_01.pyc      spanning_tree.py  util.pyc
+debug.pyc     __init__.py    libopenflow_01.py   nicira.py      of_json.py     topology.py       webservice.py
+discovery.py  __init__.pyc   libopenflow_01.pyc  of_01.py       of_service.py  util.py
+root@mininet-vm:~/pox/pox/openflow# cd ..
+root@mininet-vm:~/pox/pox# ls
+boot.py   core.py   datapaths   help.py       info         __init__.pyc  log        misc      proto  samples  topology
+boot.pyc  core.pyc  forwarding  host_tracker  __init__.py  lib           messenger  openflow  py.py  tk.py    web
+root@mininet-vm:~/pox/pox# 
+root@mininet-vm:~/pox/pox# cd forwarding/
+root@mininet-vm:~/pox/pox/forwarding# ls
+hub.py       l2_flowvisor.py  l2_multi.py  l2_nx_self_learning.py  l3_learning.py
+__init__.py  l2_learning.py   l2_nx.py     l2_pairs.py             topo_proactive.py
+root@mininet-vm:~/pox/pox/forwarding# cd ..
+root@mininet-vm:~/pox/pox# ls
+boot.py   core.py   datapaths   help.py       info         __init__.pyc  log        misc      proto  samples  topology
+boot.pyc  core.pyc  forwarding  host_tracker  __init__.py  lib           messenger  openflow  py.py  tk.py    web
+root@mininet-vm:~/pox/pox# cd ..
+root@mininet-vm:~/pox# ls
+debug-pox.py  ext  LICENSE  NOTICE  pox  pox.py  README  setup.cfg  tests  tools
+root@mininet-vm:~/pox# 
+
+.. after running pox controller we are bellow instructing the bridge to run standalone
+.. if it loses the connection with the controller. as soon as it loses the connection
+.. the bridge s1 will run standalone.
+
+root@mininet-vm:~# ovs-vsctl set-fail-mode s1 standalone
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:192.168.10.129:6633"
+        fail_mode: standalone
+        Port "tap2"
+
+	// output cut //
+
+root@mininet-vm:~# 
+
+.. how ever if we set up fallback mode to secure like below, the bridge loses its ability
+.. to forward packets as soon as it loses the connection with controller.
+
+root@mininet-vm:~# ovs-vsctl set-fail-mode s1 secure
+
+.. setting up the speed of a port
+
+root@masum# ovs-vsctl add-port s1 eth2 vlan_mode=access tag=1 -- set Interface eth2 options:link_speed=1G
+
+.. to add management traffic toward the switch to control plane we got the following
+.. full options of the ovs-ofctl refers to the man page.
+.. we are doing this for our two switches s1 and the s2.
+
+root@mininet-vm:~# ovs-ofctl add-flow s1 priority=65300,in_port=local,actions=all
+root@mininet-vm:~# ovs-ofctl add-flow s2 priority=65300,in_port=local,actions=all
+root@mininet-vm:~# 
+
+
