@@ -1,0 +1,14 @@
+
+
+
+.............. troubleshooting ........................
+
+.. if we having problem runng wireshark in X forwaring mode.
+.. we can install a window manager in vmware like below.
+
+$ sudo apt-get update && sudo apt-get install xinit flwm
+$ startx
+
+.. now we can run the wireshark & command it will pops up
+.. in the vmware.
+
