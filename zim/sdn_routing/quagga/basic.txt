@@ -1,0 +1,391 @@
+
+
+
+................... installation of quagga .....................
+
+root@debian7:~# apt-cache search quagga
+quagga - BGP/OSPF/RIP routing daemon
+quagga-dbg - BGP/OSPF/RIP routing daemon (debug symbols)
+quagga-doc - documentation files for quagga
+netscript-2.4 - Linux 2.4/2.6 router/firewall/VM host network config. system.
+olsrd-plugins - various plugins to enhance olsrd
+root@debian7:~# 
+root@debian7:~# apt-get install quagga
+
+.. after installation we have to configure which protocol to start
+.. say we want to start zebra, ospfd, bgpd then we will say
+.. "yes" after the service name in /etc/quagga/daemons files.
+
+root@debian7:~# 
+
+root@debian7:~# cd /etc/quagga/
+root@debian7:/etc/quagga# ls
+bgpd.conf  daemons  debian.conf  ospfd.conf  zebra.conf
+root@debian7:/etc/quagga# 
+root@debian7:/etc/quagga# 
+root@debian7:/etc/quagga# cat -n daemons 
+     1	# This file tells the quagga package which daemons to start.
+     2	#
+     3	# Entries are in the format: <daemon>=(yes|no|priority)
+     4	#   0, "no"  = disabled
+     5	#   1, "yes" = highest priority
+     6	#   2 .. 10  = lower priorities
+     7	# Read /usr/share/doc/quagga/README.Debian for details.
+     8	#
+     9	# Sample configurations for these daemons can be found in
+    10	# /usr/share/doc/quagga/examples/.
+    11	#
+    12	# ATTENTION: 
+    13	#
+    14	# When activation a daemon at the first time, a config file, even if it is
+    15	# empty, has to be present *and* be owned by the user and group "quagga", else
+    16	# the daemon will not be started by /etc/init.d/quagga. The permissions should
+    17	# be u=rw,g=r,o=.
+    18	# When using "vtysh" such a config file is also needed. It should be owned by
+    19	# group "quaggavty" and set to ug=rw,o= though. Check /etc/pam.d/quagga, too.
+    20	#
+    21	# The watchquagga daemon is always started. Per default in monitoring-only but
+    22	# that can be changed via /etc/quagga/debian.conf.
+    23	#
+
+.. here we are putting yes instead of no after the service name.
+
+    24	zebra=yes
+    27	bgpd=yes
+    29	ospfd=yes
+
+.. other services below are remain off as it has the no at last.   
+
+    30	ospf6d=no
+    31	ripd=no
+    32	ripngd=no
+    33	isisd=no
+    34	babeld=no
+
+root@debian7:/etc/quagga# 
+
+.. now we need some initial config file to quagga service to start. otherwise 
+.. it will fail to start. some build-in config files can be found from following.
+
+root@debian7:/usr/share/doc# cd quagga/
+root@debian7:/usr/share/doc/quagga# ls
+changelog.Debian.gz  changelog.gz  copyright  examples	README.Debian.gz  tools
+root@debian7:/usr/share/doc/quagga# 
+root@debian7:/usr/share/doc/quagga# cd examples/
+root@debian7:/usr/share/doc/quagga/examples# pwd
+/usr/share/doc/quagga/examples
+root@debian7:/usr/share/doc/quagga/examples# ls
+babeld.conf.sample  bgpd.conf.sample2  ospf6d.conf.sample  ripd.conf.sample    vtysh.conf.sample
+bgpd.conf.sample    isisd.conf.sample  ospfd.conf.sample   ripngd.conf.sample  zebra.conf.sample
+root@debian7:/usr/share/doc/quagga/examples# 
+
+root@debian7:/usr/share/doc/quagga/examples# cp bgpd.conf.sample /etc/quagga/bgpd.conf
+
+root@debian7:/usr/share/doc/quagga/examples# cd /etc/quagga/
+root@debian7:/etc/quagga# ls
+bgpd.conf  daemons  debian.conf  ospfd.conf  zebra.conf
+root@debian7:/etc/quagga# 
+root@debian7:/etc/quagga# 
+root@debian7:/etc/quagga# ls -la
+total 14
+drwxrwxr-x   2 quagga quaggavty 1024 Nov  4 02:05 .
+drwxr-xr-x 132 root   root      7168 Nov  4 01:26 ..
+-rw-r--r--   1 root   root       582 Nov  4 01:44 bgpd.conf
+-rw-r-----   1 quagga quagga    1022 Nov  4 01:38 daemons
+-rw-r-----   1 quagga quagga     945 Oct 18 05:34 debian.conf
+-rw-r--r--   1 root   root       182 Nov  4 01:44 ospfd.conf
+-rw-r--r--   1 root   root       385 Nov  4 01:45 zebra.conf
+root@debian7:/etc/quagga# chown quagga:quagga bgpd.conf 
+root@debian7:/etc/quagga# chown quagga:quagga ospfd.conf 
+root@debian7:/etc/quagga# chown quagga:quagga zebra.conf 
+root@debian7:/etc/quagga# ls -la
+total 14
+drwxrwxr-x   2 quagga quaggavty 1024 Nov  4 02:05 .
+drwxr-xr-x 132 root   root      7168 Nov  4 01:26 ..
+-rw-r--r--   1 quagga quagga     582 Nov  4 01:44 bgpd.conf
+-rw-r-----   1 quagga quagga    1022 Nov  4 01:38 daemons
+-rw-r-----   1 quagga quagga     945 Oct 18 05:34 debian.conf
+-rw-r--r--   1 quagga quagga     182 Nov  4 01:44 ospfd.conf
+-rw-r--r--   1 quagga quagga     385 Nov  4 01:45 zebra.conf
+root@debian7:/etc/quagga# 
+
+.. now we start like below
+
+root@debian7:/etc/quagga# /etc/init.d/quagga restart
+Stopping Quagga monitor daemon: watchquagga.
+Stopping Quagga daemons (prio:0): (waiting) .. bgpd (ospfd) zebra (ripd) (ripngd) (ospf6d) (isisd) (babeld).
+Removing all routes made by zebra.
+Loading capability module if not yet done.
+Starting Quagga daemons (prio:10): zebra bgpd ospfd.
+Starting Quagga monitor daemon: watchquagga.
+root@debian7:/etc/quagga# 
+
+.. the following output showing that zebra is running 2601 and
+.. bgpd is running 2606 port and ospfd is running on 2604. so we did following
+
+root@debian7:/etc/quagga# netstat -antp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 127.0.0.1:2601          0.0.0.0:*               LISTEN      8217/zebra      
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*               LISTEN      3236/mysqld     
+tcp        0      0 127.0.0.1:2604          0.0.0.0:*               LISTEN      8225/ospfd      
+tcp        0      0 127.0.0.1:2605          0.0.0.0:*               LISTEN      8221/bgpd       
+tcp        0      0 0.0.0.0:48109           0.0.0.0:*               LISTEN      2098/rpc.statd  
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      2067/rpcbind    
+tcp        0      0 0.0.0.0:179             0.0.0.0:*               LISTEN      8221/bgpd       
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      4172/sshd       
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      3904/exim4      
+tcp        0      0 192.168.35.132:22       192.168.35.1:39953      ESTABLISHED 8081/3          
+tcp        0      0 192.168.35.132:22       192.168.35.1:39941      ESTABLISHED 8031/1          
+tcp        0      0 192.168.35.132:22       192.168.35.1:39909      ESTABLISHED 7932/0          
+tcp6       0      0 :::111                  :::*                    LISTEN      2067/rpcbind    
+tcp6       0      0 :::80                   :::*                    LISTEN      2630/apache2    
+tcp6       0      0 :::179                  :::*                    LISTEN      8221/bgpd       
+tcp6       0      0 :::22                   :::*                    LISTEN      4172/sshd       
+tcp6       0      0 ::1:25                  :::*                    LISTEN      3904/exim4      
+tcp6       0      0 :::51003                :::*                    LISTEN      2098/rpc.statd  
+root@debian7:/etc/quagga# 
+
+
+root@debian7:~# telnet localhost 2601
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+Hello, this is Quagga (version 0.99.22.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+
+User Access Verification
+
+Password: 
+Router> ena
+Password: 
+Router# 
+Router# 
+% [ZEBRA] Unknown command: we
+Router# wr
+
+.. the configuration files in /etc/quagga/*.conf should have owner 
+.. and group permission quagga othersiwe quaaga will fail to save
+.. the configuration files.
+
+Configuration saved to /etc/quagga/zebra.conf
+Router# 
+Router# 
+Router# show running-config 
+
+Current configuration:
+!
+hostname Router
+password 8 HJ1HoCBklf.Y2
+enable password 8 1TjIkYT2.Dt8o
+service password-encryption
+!
+interface eth0
+ ipv6 nd suppress-ra
+!
+interface eth1
+ ipv6 nd suppress-ra
+!
+interface eth2
+ ipv6 nd suppress-ra
+!
+interface eth3
+ ipv6 nd suppress-ra
+!
+interface lo
+!
+!
+!
+line vty
+!
+end
+Router# show ip rout
+Router# show ip route 
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, A - Babel,
+       > - selected route, * - FIB route
+
+K>* 0.0.0.0/0 via 192.168.35.1, eth0
+C>* 127.0.0.0/8 is directly connected, lo
+C>* 192.168.10.0/24 is directly connected, eth2
+C>* 192.168.35.0/24 is directly connected, eth0
+C>* 192.168.244.0/24 is directly connected, eth1
+Router# 
+Router# 
+
+.. for ospfd 
+
+root@debian7:~# telnet localhost 2604
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+Hello, this is Quagga (version 0.99.22.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+
+User Access Verification
+
+Password: 
+ospfd> ena
+ospfd# 
+ospfd# show 
+  debugging       Debugging functions (see also 'undebug')
+  history         Display the session command history
+  ip              IP information
+  ipv6            IPv6 information
+  logging         Show current logging configuration
+  memory          Memory statistics
+  mpls-te         MPLS-TE information
+  route-map       route-map information
+  running-config  running configuration
+  startup-config  Contentes of startup configuration
+  thread          Thread information
+  version         Displays zebra version
+  work-queues     Work Queue information
+ospfd# show me
+ospfd# show memory 
+System allocator statistics:
+  Total heap allocated:  552 KiB
+  Holding block headers: 0 bytes
+  Used small blocks:     0 bytes
+  Used ordinary blocks:  422 KiB
+  Free small blocks:     16 bytes
+  Free ordinary blocks:  130 KiB
+  Ordinary blocks:       3
+  Small blocks:          1
+  Holding blocks:        0
+(see system documentation for 'mallinfo' for meaning)
+-----------------------------
+Temporary memory              :          2
+String vector                 :       6292
+Vector                        :       3117
+Vector index                  :       3117
+Link List                     :         22
+Link Node                     :         20
+Thread                        :         12
+Thread master                 :          1
+Thread stats                  :          9
+VTY                           :          6
+VTY history                   :          5
+Interface                     :          5
+Connected                     :          8
+Buffer                        :          4
+Buffer data                   :          1
+Stream                        :          3
+Stream data                   :          3
+Prefix                        :         11
+Hash                          :          1
+Hash Bucket                   :          9
+Hash Index                    :          1
+Route table                   :         28
+Command desc                  :       3154
+Privilege information         :          2
+Logging                       :          1
+Zclient                       :          1
+Host config                   :          3
+-----------------------------
+OSPF top                      :          1
+OSPF LSDB                     :          1
+OSPF if info                  :          5
+OSPF if params                :          5
+-----------------------------
+ospfd# 
+
+.. for bgpd 
+
+root@debian7:~# telnet localhost 2605
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+Hello, this is Quagga (version 0.99.22.4).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+
+
+User Access Verification
+
+Password: 
+bgpd> ena
+bgpd# show run
+
+Current configuration:
+!
+hostname bgpd
+password zebra
+log stdout
+!
+router bgp 7675
+ bgp router-id 192.168.244.132
+!
+line vty
+!
+end
+bgpd# 
+
+bgpd# wr
+Configuration saved to /etc/quagga/bgpd.conf
+bgpd# 
+
+.. lets see what is content of the config files /etc/quagga/
+
+root@debian7:~# cd /etc/quagga/
+root@debian7:/etc/quagga# ls
+bgpd.conf  bgpd.conf.sav  daemons  debian.conf	ospfd.conf  zebra.conf	zebra.conf.sav
+root@debian7:/etc/quagga# 
+root@debian7:/etc/quagga# cat -n zebra.conf
+     1	!
+     2	! Zebra configuration saved from vty
+     3	!   2016/11/04 22:32:26
+     4	!
+     5	hostname Router
+     6	password 8 HJ1HoCBklf.Y2
+
+.. password is here zebra but showing encrypted because of
+.. service password encryption.
+
+     7	enable password 8 1TjIkYT2.Dt8o
+     8	service password-encryption
+     9	!
+    10	interface eth0
+    11	 ipv6 nd suppress-ra
+    12	!
+    13	interface eth1
+    14	 ipv6 nd suppress-ra
+    15	!
+    16	interface eth2
+    17	 ipv6 nd suppress-ra
+    18	!
+    19	interface eth3
+    20	 ipv6 nd suppress-ra
+    21	!
+    22	interface lo
+    23	!
+    24	!
+    25	!
+    26	line vty
+    27	!
+root@debian7:/etc/quagga# cat -n bgpd.conf
+     1	!
+     2	! Zebra configuration saved from vty
+     3	!   2016/11/04 22:39:09
+     4	!
+     5	hostname bgpd
+     6	password zebra
+     7	log stdout
+     8	!
+     9	router bgp 7675
+    10	 bgp router-id 192.168.244.132
+    11	!
+    12	line vty
+    13	!
+root@debian7:/etc/quagga# 
+
+
+
+
