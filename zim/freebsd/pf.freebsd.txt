@@ -1,0 +1,227 @@
+
+
+
+
+....................... packet filtering pf ..............................
+
+.. freebsd
+ 
+root@masum:~ # pfctl -d
+pfctl: pf not enabled
+root@masum:~ # 
+
+.. we enable it like below.
+
+root@masum:~ # pfctl -e
+pf enabled
+root@masum:~ # 
+
+.. ok now we got pf enabled in both of our freebsd as well as openbsd.
+
+.. on freebsd file we can manually disable enable pf by editing the 
+.. /etc/local/rc.local file like below.
+
+root@masum:/etc/defaults # pwd
+/etc/defaults
+root@masum:/etc/defaults # ls
+bluetooth.device.conf	devfs.rules		periodic.conf		rc.conf
+root@masum:/etc/defaults # vi rc.conf 
+
+// output cut //
+
+#pf_enable="NO"                 # Set to YES to enable packet filter (pf)
+pf_enable="YES"                 # Set to YES to enable packet filter (pf)
+pf_rules="/etc/pf.conf"         # rules definition file for pf
+pf_program="/sbin/pfctl"        # where the pfctl program lives
+pf_flags=""                     # additional flags for pfctl
+#pflog_enable="NO"              # Set to YES to enable packet filter logging
+pflog_enable="YES"              # Set to YES to enable packet filter logging
+pflog_logfile="/var/log/pflog"  # where pflogd should store the logfile
+pflog_program="/sbin/pflogd"    # where the pflogd program lives
+pflog_flags=""                  # additional flags for pflogd
+
+// output cut //
+
+.. now as we enabled the pf in /etc/default/rc.local file 
+.. now can start/stop/status by /etc/rc.d/pf start|stop|status
+
+root@masum:/etc/rc.d # ./pf status
+Status: Enabled for 0 days 00:14:34           Debug: Urgent
+
+State Table                          Total             Rate
+  current entries                        0               
+  searches                            1426            1.6/s
+  inserts                                0            0.0/s
+  removals                               0            0.0/s
+Counters
+  match                               1426            1.6/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  map-failed                             0            0.0/s
+root@masum:/etc/rc.d # 
+
+.. other options are 
+
+root@masum:/etc/rc.d # ./pf 
+Usage: ./pf [fast|force|one|quiet](start|stop|restart|rcvar|enabled|describe|extracommands|check|reload|resync|status|poll)
+root@masum:/etc/rc.d # ./pf reload
+Reloading pf rules.
+pfctl: /etc/pf.conf: No such file or directory
+pfctl: cannot open the main config file!: No such file or directory
+root@masum:/etc/rc.d # ./pf poll
+root@masum:/etc/rc.d # ./pf enabled
+root@masum:/etc/rc.d # ./pf describe
+Packet filter
+root@masum:/etc/rc.d # 
+
+.. in freebsd /etc/rc.d/pf script requires pf_enable="YES" line in /etc/rc.conf 
+.. as well as /etc/pf.conf file like below.
+
+root@masum:/etc # pwd
+/etc
+root@masum:/etc # cat -n rc.conf
+     1	hostname="masum"
+     2	ifconfig_em0="DHCP"
+     3	sshd_enable="YES"
+     4	moused_enable="YES"
+     5	powerd_enable="YES"
+     6	# Set dumpdev to "AUTO" to enable crash dumps, "NO" to disable
+     7	dumpdev="AUTO"
+     8	dbus_enable="YES"
+     9	hald_enable="YES"
+    10	kdm4_enable="YES"
+    11	pf_enable="YES"
+root@masum:/etc # 
+
+.. as when we try to start pf like below it has error like below as it 
+.. does not have the /etc/pf.conf file. so we create the file /etc/pf.conf
+.. file like below.
+
+root@masum:/etc # /etc/rc.d/pf stop
+Disabling pf.
+root@masum:/etc # /etc/rc.d/pf start
+/etc/rc.d/pf: WARNING: /etc/pf.conf is not readable.
+root@masum:/etc # touch pf.conf
+
+.. now it starts with an empty /etc/pf.conf file.
+
+root@masum:/etc # /etc/rc.d/pf start
+Enabling pf.
+root@masum:/etc # cat pf.conf
+root@masum:/etc # 
+
+.. another option can be use a prestored pf.conf to /etc/ location.
+
+root@masum:/etc # cp /usr/share/examples/pf/pf.conf pf.conf 
+root@masum:/etc # 
+root@masum:/etc # cat -n pf.
+pf.conf  pf.os    
+root@masum:/etc # cat -n pf.conf 
+     1	#	$FreeBSD: releng/11.0/share/examples/pf/pf.conf 293862 2016-01-14 01:32:17Z kevlo $
+     2	#	$OpenBSD: pf.conf,v 1.34 2007/02/24 19:30:59 millert Exp $
+     3	#
+     4	# See pf.conf(5) and /usr/share/examples/pf for syntax and examples.
+     5	# Remember to set gateway_enable="YES" and/or ipv6_gateway_enable="YES"
+     6	# in /etc/rc.conf if packets are to be forwarded between interfaces.
+     7	
+     8	#ext_if="ext0"
+     9	#int_if="int0"
+    10	
+    11	#table <spamd-white> persist
+    12	
+    13	#set skip on lo
+    14	
+    15	#scrub in
+    16	
+    17	#nat-anchor "ftp-proxy/*"
+    18	#rdr-anchor "ftp-proxy/*"
+    19	#nat on $ext_if inet from !($ext_if) -> ($ext_if:0)
+    20	#rdr pass on $int_if proto tcp to port ftp -> 127.0.0.1 port 8021
+    21	#no rdr on $ext_if proto tcp from <spamd-white> to any port smtp
+    22	#rdr pass on $ext_if proto tcp from any to any port smtp \
+    23	#	-> 127.0.0.1 port spamd
+    24	
+    25	#anchor "ftp-proxy/*"
+    26	#block in
+    27	#pass out
+    28	
+    29	#pass quick on $int_if no state
+    30	#antispoof quick for { lo $int_if }
+    31	
+    32	#pass in on $ext_if proto tcp to ($ext_if) port ssh
+    33	#pass in log on $ext_if proto tcp to ($ext_if) port smtp
+    34	#pass out log on $ext_if proto tcp from ($ext_if) to port smtp
+    35	#pass in on $ext_if inet proto icmp from any to ($ext_if) icmp-type { unreach, redir, timex }
+root@masum:/etc # 
+
+root@masum:/etc # vi pf.conf
+
+block in all
+pass proto tcp to port 22
+pass proto icmp 
+pass out all keep state
+
+root@masum:~ # 
+
+.. now we will use the macro more like below.
+
+root@masum:~ # vi /etc/pf.conf
+
+#       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
+#
+# See pf.conf(5) and /etc/examples/pf.conf
+
+set skip on lo
+
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+
+.. these services can be found from /etc/services
+
+block all
+
+.. in bsd OS rules order is important. say if we place block all in
+.. last line in our pf.conf file then all the service will be locked
+.. down as we know the pf rules are checked from top to bottom.
+..
+.. therefore we need to place it at top of starting of our rules set.
+.. like here.
+
+pass proto tcp to port $tcp_services
+pass proto udp to port $udp_services
+pass proto $icmp_services
+
+pass out all keep state
+
+#block return   # block stateless traffic
+#pass           # establish keep-state
+
+# By default, do not permit remote connections to X11
+
+root@masum:~ # vi /etc/pf.conf
+
+.. now load like below
+
+root@masum:~ # /etc/rc.d/pf restart
+
+.. checking the rules without loading while -F will flushes all the rules.
+.. flushing rules is good for the test as soon as the rules flushes it
+.. will permits the all traffic. 
+
+root@masum:~ # pfctl -nf /etc/pf.conf
+
+
+

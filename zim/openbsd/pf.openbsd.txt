@@ -1,0 +1,206 @@
+
+
+
+
+....................... packet filtering pf ..............................
+
+.. to disable pf we do like below
+.. openbsd
+
+bash-4.3# pfctl -d
+pf disabled
+bash-4.3# 
+
+.. enable it like below
+
+bash-4.3# pfctl -ef /etc/pf.conf 
+pf enabled
+bash-4.3# 
+
+bash-4.3# pfctl -e 
+pf enabled
+bash-4.3# 
+
+
+.. freebsd
+ 
+root@masum:~ # pfctl -d
+pfctl: pf not enabled
+root@masum:~ # 
+
+.. we enable it like below.
+
+root@masum:~ # pfctl -e
+pf enabled
+root@masum:~ # 
+
+.. if we like to run the pflog then we do that like below
+
+
+root@masum:~ # cat -n /etc/rc.conf
+
+      pflogd_flags=""         # add more flags, e.g. "-s 256"
+
+root@masum:~ # 
+   
+.. simple configuraiton rule of pf
+ 
+root@masum:~ # vi /etc/pf.conf
+   
+#       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
+#
+# See pf.conf(5) and /etc/examples/pf.conf
+
+set skip on lo
+
+block in all
+
+.. the above line saying block all the traffinc incoming to the pf
+.. pf reads the rules from top to bottom. the last line applied 
+.. which match the rule set.
+
+pass out all keep state
+
+.. the above rule say to keep state all the outgoing traffic. outgoing
+.. traffic is allowed.
+
+#block return    # block stateless traffic
+#pass            # establish keep-state
+
+# By default, do not permit remote connections to X11
+block return in on ! lo0 proto tcp to port 6000:6010
+
+.. on this point every new incoming traffic will be rejected but
+.. exiting connection will be enabled as we said keep state. 
+.. openbsd will keep track of the connection. it will keep active
+.. any new packet which matches the existing connection.
+
+.. now we will just allow 22 80 443 port service like below.
+
+-bash-4.3# cat /etc/pf.conf 
+
+set skip on lo
+
+block in all
+pass proto tcp to port { 22 80 443 }
+pass out all keep state
+
+#block return   # block stateless traffic
+#pass           # establish keep-state
+
+# By default, do not permit remote connections to X11
+block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+-bash-4.3# cat /etc/pf.conf 
+
+block in all
+pass proto tcp to port 22
+pass proto icmp 
+pass out all keep state
+
+root@masum:~ # 
+
+.. we are using macro here. we could also use like below using the
+.. macro/variable.
+
+root@masum:~ # vi /etc/pf.conf
+
+# See pf.conf(5) and /etc/examples/pf.conf
+
+set skip on lo
+
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+
+.. these services can be found from /etc/services file
+
+block all
+
+.. in bsd OS rules order is important. say if we place block all in 
+.. last line in our pf.conf file then all the service will be locked 
+.. down as we know the pf rules are checked from top to bottom.
+..
+.. therefore we need to place it at top of starting of our rules set.
+.. like here.
+
+pass proto tcp to port $tcp_services
+pass proto udp to port $udp_services
+pass proto $icmp_services
+
+pass out all keep state
+
+#block return   # block stateless traffic
+#pass           # establish keep-state
+
+# By default, do not permit remote connections to X11
+
+.. now restart it like below.
+
+-bash-4.3# pfctl -vf /etc/pf.conf 
+set skip on { lo }
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+block drop all
+pass proto tcp from any to any port = 22 flags S/SA
+pass proto tcp from any to any port = 25 flags S/SA
+pass proto tcp from any to any port = 53 flags S/SA
+pass proto tcp from any to any port = 80 flags S/SA
+pass proto tcp from any to any port = 110 flags S/SA
+pass proto tcp from any to any port = 113 flags S/SA
+pass proto tcp from any to any port = 443 flags S/SA
+pass proto tcp from any to any port = 995 flags S/SA
+pass proto udp from any to any port = 53
+pass proto icmp all
+pass out all flags S/SA
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+-bash-4.3# 
+-bash-4.3# ping yahoo.com
+PING yahoo.com (98.139.183.24): 56 data bytes
+64 bytes from 98.139.183.24: icmp_seq=0 ttl=43 time=211.480 ms
+--- yahoo.com ping statistics ---
+1 packets transmitted, 1 packets received, 0.0% packet loss
+round-trip min/avg/max/std-dev = 211.480/211.480/211.480/0.000 ms
+-bash-4.3# 
+
+.. checking our rules without loading for the error. -F will flush 
+.. all the rules. flushing rules is good as it will permit all
+.. traffic and it will be used to test the connectivity.  
+
+root@masum:~ # pfctl -nf /etc/pf.conf
+root@masum:~ # 
+
+-bash-4.3# pfctl -s info
+Status: Disabled for 0 days 00:20:04             Debug: err
+
+State Table                          Total             Rate
+  current entries                        3               
+  searches                           85321           70.9/s
+  inserts                              844            0.7/s
+  removals                             841            0.7/s
+Counters
+  match                               1070            0.9/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  translate                              0            0.0/s
+  no-route                               0            0.0/s
+-bash-4.3# 
+-bash-4.3# 
+
+
+
+

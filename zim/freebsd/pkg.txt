@@ -1,0 +1,56 @@
+
+
+root@masum:~ # pkg delete -fx kde
+Checking integrity... done (0 conflicting)
+Deinstallation has been requested for the following 43 packages (of 0 packages in the universe):
+
+Installed packages to be REMOVED:
+	kcm-polkit-kde-0.0.20121008_3
+	kde-base-artwork-4.14.3
+	kde-baseapps-4.14.3_1
+	kde-dev-scripts-4.14.3
+	kde-dev-utils-4.14.3_1
+	kde-runtime-4.14.3_3
+	kde-wallpapers-4.14.3
+	kde-workspace-4.11.21_2
+	kde4-icons-oxygen-4.14.3
+	kde4-wallpapers-freebsd-1.0
+	kde4-xdg-env-1.1_1
+	kdeaccessibility-4.14.3
+	kdeadmin-4.14.3
+	kdeartwork-4.14.3
+	kdeedu-4.14.3
+	kdegames-4.14.3
+	kdegraphics-4.14.3
+	kdegraphics-mobipocket-4.14.3_1
+	kdegraphics-strigi-analyzer-4.14.3
+	kdegraphics-svgpart-4.14.3
+	kdegraphics-thumbnailers-4.14.3
+	kdelibs-4.14.10_7
+	kdemultimedia-4.14.3
+	kdemultimedia-ffmpegthumbs-4.14.3
+	kdenetwork-4.14.3
+	kdenetwork-filesharing-4.14.3
+	kdenetwork-strigi-analyzers-4.14.3
+	kdepim-4.14.10
+	kdepim-runtime-4.14.10
+	kdepimlibs-4.14.10_2
+	kdeplasma-addons-4.14.3_1
+	kdesdk-4.14.3
+	kdesdk-kioslaves-4.14.3
+	kdesdk-strigi-analyzers-4.14.3
+	kdesdk-thumbnailers-4.14.3
+	kdetoys-4.14.3
+	kdeutils-4.14.3
+	kdewebdev-4.14.3_1
+	libkdeedu-4.14.3_1
+	libkdegames-4.14.3_1
+	pam_kde-1.0
+	polkit-kde-0.99.1_3
+	py27-pykde4-4.14.3_2
+
+Number of packages to be removed: 43
+
+The operation will free 593 MiB.
+
+
