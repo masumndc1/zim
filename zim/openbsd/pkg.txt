@@ -35,7 +35,9 @@ ja-jvim-2.0rp2-wnn
 ja-jvim-2.0rp2-wnn-canna
 vim-7.4.1467p1-gtk2
 
+.. more on package management
 
+https://www.openbsd.org/faq/faq15.html#PkgInstall
 
 
 

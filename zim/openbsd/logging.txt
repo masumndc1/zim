@@ -1,0 +1,547 @@
+
+
+
+...................... logging .........................
+
+.. pf logging collected by the pflogd daemon and stored
+.. in the /var/log/pflog file in the binary format for the
+.. tcpdump. we can see the content of the file by 
+.. tcpdump -r /var/log/pflog 
+
+.. our rules are follows
+
+-bash-4.3# cat -n pf.conf 
+     5  set skip on lo
+     6  ext_if = em0
+     7  int_if = vic0
+     8  
+     9  localnet = $int_if:network
+    10  
+    11  table <webserver> persist { 192.168.244.132, 192.168.244.147 }
+    12  
+    14  udp_services = "{ domain, ntp }"
+    16  client_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    17  
+    18  block all
+    21  pass log (all) inet proto tcp from $localnet to port $client_services
+    22  pass log (all) quick inet proto { tcp, udp } from $localnet to port $udp_services
+    23  pass log (all) inet proto icmp from $localnet
+    24  pass log (all) inet proto tcp to port ssh 
+    25  
+    37  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+
+-bash-4.3# tcpdump -n -ttt -r /var/log/pflog
+
+Nov 10 03:18:31.030081 192.168.244.132.53236 > 4.2.2.1.53: 40881+[|domain] (DF)
+Nov 10 03:18:31.030112 192.168.244.132.53236 > 4.2.2.1.53: 40881+[|domain] (DF)
+Nov 10 03:18:32.014937 192.168.244.132.59978 > 4.2.2.1.53: 41989+[|domain] (DF)
+Nov 10 03:18:32.014969 192.168.244.132.59978 > 4.2.2.1.53: 41989+[|domain] (DF)
+Nov 10 03:18:33.017099 192.168.244.132.34848 > 4.2.2.1.53: 64479+[|domain] (DF)
+Nov 10 03:18:33.017130 192.168.244.132.34848 > 4.2.2.1.53: 64479+[|domain] (DF)
+Nov 10 03:20:49.541240 192.168.244.147 > 4.2.2.1: icmp: echo request (DF)
+Nov 10 03:20:49.541278 192.168.244.147 > 4.2.2.1: icmp: echo request (DF)
+Nov 10 03:20:56.545980 192.168.244.147 > 206.190.36.45: icmp: echo request (DF)
+Nov 10 03:20:56.546021 192.168.244.147 > 206.190.36.45: icmp: echo request (DF)
+
+-bash-4.3# 
+
+-bash-4.3# tcpdump -nettti pflog0
+tcpdump: WARNING: snaplen raised from 116 to 160
+tcpdump: listening on pflog0, link-type PFLOG
+Nov 10 03:24:35.067671 rule 11/(match) pass in on vic0: 192.168.244.132.43360 > 4.2.2.1.53: 36696+ A? yahoo.com. (27) (DF)
+Nov 10 03:24:35.067737 rule 11/(match) pass out on em0: 192.168.244.132.43360 > 4.2.2.1.53: 36696+ A? yahoo.com. (27) (DF)
+Nov 10 03:24:35.381778 rule 13/(match) pass in on vic0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+Nov 10 03:24:35.381815 rule 13/(match) pass out on em0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+Nov 10 03:24:35.823963 rule 11/(match) pass in on vic0: 192.168.244.132.53519 > 4.2.2.1.53: 21239+[|domain] (DF)
+Nov 10 03:24:35.823996 rule 11/(match) pass out on em0: 192.168.244.132.53519 > 4.2.2.1.53: 21239+[|domain] (DF)
+Nov 10 03:24:36.597369 rule 11/(match) pass in on vic0: 192.168.244.132.58891 > 4.2.2.1.53: 15148+[|domain] (DF)
+Nov 10 03:24:36.597403 rule 11/(match) pass out on em0: 192.168.244.132.58891 > 4.2.2.1.53: 15148+[|domain] (DF)
+Nov 10 03:24:37.718917 rule 11/(match) pass in on vic0: 192.168.244.132.38236 > 4.2.2.1.53: 25627+[|domain] (DF)
+Nov 10 03:24:37.718949 rule 11/(match) pass out on em0: 192.168.244.132.38236 > 4.2.2.1.53: 25627+[|domain] (DF)
+Nov 10 03:24:38.687587 rule 11/(match) pass in on vic0: 192.168.244.132.42256 > 4.2.2.1.53: 623+[|domain] (DF)
+Nov 10 03:24:38.687622 rule 11/(match) pass out on em0: 192.168.244.132.42256 > 4.2.2.1.53: 623+[|domain] (DF)
+Nov 10 03:24:39.773810 rule 11/(match) pass in on vic0: 192.168.244.132.33985 > 4.2.2.1.53: 37007+[|domain] (DF)
+Nov 10 03:24:39.773844 rule 11/(match) pass out on em0: 192.168.244.132.33985 > 4.2.2.1.53: 37007+[|domain] (DF)
+Nov 10 03:24:40.714519 rule 11/(match) pass in on vic0: 192.168.244.132.55548 > 4.2.2.1.53: 24153+[|domain] (DF)
+Nov 10 03:24:40.714553 rule 11/(match) pass out on em0: 192.168.244.132.55548 > 4.2.2.1.53: 24153+[|domain] (DF)
+Nov 10 03:24:41.637275 rule 11/(match) pass in on vic0: 192.168.244.132.34111 > 4.2.2.1.53: 34659+[|domain] (DF)
+Nov 10 03:24:41.637308 rule 11/(match) pass out on em0: 192.168.244.132.34111 > 4.2.2.1.53: 34659+[|domain] (DF)
+^C
+20 packets received by filter
+0 packets dropped by kernel
+-bash-4.3# 
+
+.. to see packets only related to ssh 
+
+-bash-4.3# tcpdump -n -ttt -i pflog0 port ssh
+
+
+.... logging send to another machine over the network
+
+.. first we have to disable the pf loggin to local machine like below.
+
+-bash-4.3# cat -n rc.local.conf | grep -i pf  
+
+    48  pflogd_flags="-f /dev/null"             # add more flags, e.g. "-s 256"
+    90  pf=YES                  # Packet filter / NAT
+
+-bash-4.3# 
+
+.. in freebsd we do that like below
+
+root@masum:/etc # cat -n rc.conf | grep -i pf
+    11	pf_enable="YES"
+    15	pflog_logfile="/dev/null"
+root@masum:/etc # 
+
+.. now we change the setting in syslog.conf file to instruct our remote
+.. syslog server
+
+-bash-4.3# cat -n syslog.conf | grep -i local2
+    40  local2.info                                                     @192.168.244.147
+-bash-4.3# 
+
+.. and restart the syslog daemon
+
+-bash-4.3# /etc/rc.d/syslogd status
+usage: /etc/rc.d/syslogd [-df] start|stop|restart|reload|check
+-bash-4.3# /etc/rc.d/syslogd restart
+syslogd(ok)
+syslogd(ok)
+-bash-4.3# 
+
+.. and finally reload the pf 
+
+-bash-4.3# pf -d
+-bash-4.3# pf -evf /etc/pf.conf
+
+.. and convert the binary file format of the pflog file with the tcpdump 
+.. and logger option and send it to the syslog daemon.
+
+-bash-4.3# nohup tcpdump -lnettti pflog0 | logger -t pf -p local2.info &
+
+.. and it now will send all the pf related log to the syslog server.
+.. our syslog server is as follows
+
+root@deb-7:/var/spool/rsyslog# ifconfig eth1
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:47  
+          inet addr:192.168.244.147  Bcast:192.168.244.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe8c:8e47/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:5858 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:6097 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:593520 (579.6 KiB)  TX bytes:569223 (555.8 KiB)
+          Interrupt:16 Base address:0x2080 
+
+root@deb-7:/var/spool/rsyslog# 
+root@deb-7:/var/spool/rsyslog# cat /etc/rsyslog.conf
+
+#local4.*                                           /var/spool/rsyslog/asa.log
+local6.*                                           /var/spool/rsyslog/asa.log
+local2.*                                           /var/spool/rsyslog/asa.log
+*.*                                                /var/spool/rsyslog/pfsense.log
+root@deb-7:~# 
+
+root@deb-7:/var/spool/rsyslog# cat -n pfsense.log 
+     1	
+     2	Nov  9 15:22:17 deb-7 sshd[3700]: Accepted password for root from 192.168.35.1 port 58217 ssh2
+     3	Nov  9 15:22:17 deb-7 sshd[3700]: pam_unix(sshd:session): session opened for user root by (uid=0)
+     4	Nov  9 15:23:45 deb-7 dhclient: DHCPREQUEST on eth1 to 192.168.244.254 port 67
+     5	Nov  9 15:23:45 deb-7 dhclient: DHCPACK from 192.168.244.254
+     6	Nov  9 15:23:45 deb-7 dhclient: bound to 192.168.244.147 -- renewal in 726 seconds.
+     7	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.196575 rule 13/(match) pass in on vic0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+     8	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.196604 rule 13/(match) pass out on em0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+     9	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.367007 rule 11/(match) pass in on vic0: 192.168.244.132.56656 > 4.2.2.1.53: 25487+[|domain] (DF)
+    10	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.367121 rule 11/(match) pass out on em0: 192.168.244.132.56656 > 4.2.2.1.53: 25487+[|domain] (DF)
+    11	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.196575 rule 13/(match) pass in on vic0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+    12	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.196604 rule 13/(match) pass out on em0: 192.168.244.132 > 206.190.36.45: icmp: echo request (DF)
+    13	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.367007 rule 11/(match) pass in on vic0: 192.168.244.132.56656 > 4.2.2.1.53: 25487+[|domain] (DF)
+    14	Nov 10 04:43:15 192.168.244.10 pf: Nov 10 04:43:14.367121 rule 11/(match) pass out on em0: 192.168.244.132.56656 > 4.2.2.1.53: 25487+[|domain] (DF)
+root@deb-7:/var/spool/rsyslog# ls -la
+total 16
+drwxr-xr-x 2 root root 4096 Sep  7 08:19 .
+drwxr-xr-x 6 root root 4096 Aug 16 11:32 ..
+-rw-r----- 1 root adm  1185 Nov  9 15:24 asa.log
+-rw-r----- 1 root adm  1602 Nov  9 15:24 pfsense.log
+root@deb-7:/var/spool/rsyslog# 
+
+.. and it is working
+
+.... loggin info and rule related statistic
+
+-bash-4.3# pfctl -vs rules
+block drop all
+  [ Evaluations: 8681      Packets: 8605      Bytes: 1790772     States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 22 flags S/SA
+  [ Evaluations: 8681      Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 25 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 80 flags S/SA
+  [ Evaluations: 56        Packets: 1708      Bytes: 139814      States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 56    ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 110 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 113 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 443 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto tcp from 192.168.244.0/24 to any port = 995 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) quick inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) quick inet proto tcp from 192.168.244.0/24 to any port = 123 flags S/SA
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) quick inet proto udp from 192.168.244.0/24 to any port = 53
+  [ Evaluations: 8681      Packets: 36        Bytes: 2196        States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 18    ]
+pass log (all) quick inet proto udp from 192.168.244.0/24 to any port = 123
+  [ Evaluations: 8600      Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+pass log (all) inet proto icmp from 192.168.244.0/24 to any
+  [ Evaluations: 8658      Packets: 314       Bytes: 26376       States: 2     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 2     ]
+pass log (all) inet proto tcp from any to any port = 22 flags S/SA
+  [ Evaluations: 8663      Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+  [ Evaluations: 56        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 47583 State Creations: 0     ]
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# 
+
+... using the keyword label with pass rule and see the statistics
+
+-bash-4.3# cat -n pf.conf
+
+    20  #pass from { $localnet }
+    21  pass log (all) inet proto tcp from $localnet to port $client_services label "pass in"
+    22  pass log (all) quick inet proto { tcp, udp } from $localnet to port $udp_services label "dns"
+    23  pass log (all) inet proto icmp from $localnet label "icmp"
+    24  pass log (all) inet proto tcp to port ssh 
+    25  
+-bash-4.3# 
+
+.. to see the label we have the following
+
+-bash-4.3# pfctl -vsl
+pass in 64 0 0 0 0 0 0 0
+pass in 9 0 0 0 0 0 0 0
+pass in 9 0 0 0 0 0 0 0
+pass in 9 0 0 0 0 0 0 0
+pass in 9 0 0 0 0 0 0 0
+pass in 9 0 0 0 0 0 0 0
+pass in 9 182 9198 91 4599 91 4599 2
+pass in 9 0 0 0 0 0 0 0
+dns 9 0 0 0 0 0 0 0
+dns 9 0 0 0 0 0 0 0
+dns 64 54 3846 27 1923 27 1923 52
+dns 0 0 0 0 0 0 0 0
+icmp 11 48 4032 24 2016 24 2016 2
+-bash-4.3# 
+-bash-4.3# 
+
+.. various command to test my network connectivity
+
+-bash-4.3# systat state
+
+
+    3 users    Load 4.13 4.08 3.98 (1-28 of 130)       Thu Nov 10 06:13:46 2016
+
+PR    DIR SRC                   DEST                  STATE       AGE       EXP   PKTS  BYTES  RATE  PEAK   AVG RU GW
+tcp   In  192.168.35.1:53669    192.168.35.20:22       4:4   04:42:26  19:46:58   1872 182996                10  *
+tcp   In  192.168.35.1:53670    192.168.35.20:22       4:4   04:42:11  23:59:59   4837 573248                33  *
+tcp   In  192.168.35.1:54165    192.168.35.20:22       4:4   02:56:05  23:59:59  14111  2746K               266  *
+tcp   In  192.168.35.1:54258    192.168.35.20:22       4:4   02:35:11  23:25:19    181  20584                 2  *
+icmp  In  192.168.244.132:8851  98.138.253.109:8       0:0   01:08:32  00:00:07   3978 334152                81 13
+icmp  Out 192.168.244.132:8851  98.138.253.109:8       0:0   01:08:32  00:00:07   3978 334152                81 13
+icmp  In  192.168.244.147:4246  98.139.183.24:8        0:0   00:01:44  00:00:09    109   9156                88 13
+icmp  Out 192.168.244.147:4246  98.139.183.24:8        0:0   00:01:44  00:00:09    109   9156                88 13
+udp   In  192.168.244.132:40405 4.2.2.1:53             0:1   00:01:05  00:00:00      1     73                 1 11
+udp   Out 192.168.244.132:40405 4.2.2.1:53             1:0   00:01:05  00:00:00      1     73                 1 11
+udp   In  192.168.244.132:52091 4.2.2.1:53             0:1   00:01:04  00:00:00      1     73                 1 11
+udp   Out 192.168.244.132:52091 4.2.2.1:53             1:0   00:01:04  00:00:00      1     73                 1 11
+udp   In  192.168.244.132:48672 4.2.2.1:53             0:1   00:01:03  00:00:00      1     73                 1 11
+udp   Out 192.168.244.132:48672 4.2.2.1:53             1:0   00:01:03  00:00:00      1     73                 1 11
+udp   In  192.168.244.132:34228 4.2.2.1:53             0:1   00:01:02  00:00:00      1     73                 1 11
+udp   Out 192.168.244.132:34228 4.2.2.1:53             1:0   00:01:02  00:00:00      1     73                 1 11
+udp   In  192.168.244.132:58473 4.2.2.1:53             0:1   00:01:01  00:00:00      1     73                 1 11
+udp   Out 192.168.244.132:58473 4.2.2.1:53             1:0   00:01:01  00:00:00      1     73                 1 11
+udp   In  192.168.244.132:45121 4.2.2.1:53             0:1   00:00:58  00:00:02      1     73                 1 11
+udp   Out 192.168.244.132:45121 4.2.2.1:53             1:0   00:00:58  00:00:02      1     73                 1 11
+udp   In  192.168.244.132:48668 4.2.2.1:53             0:1   00:00:57  00:00:03      1     73                 1 11
+udp   Out 192.168.244.132:48668 4.2.2.1:53             1:0   00:00:57  00:00:03      1     73                 1 11
+udp   In  192.168.244.132:37189 4.2.2.1:53             0:1   00:00:56  00:00:04      1     73                 1 11
+udp   Out 192.168.244.132:37189 4.2.2.1:53             1:0   00:00:56  00:00:04      1     73                 1 11
+udp   In  192.168.244.132:57210 4.2.2.1:53             0:1   00:00:55  00:00:05      1     73                 1 11
+udp   Out 192.168.244.132:57210 4.2.2.1:53             1:0   00:00:55  00:00:05      1     73                 1 11
+udp   In  192.168.244.132:33228 4.2.2.1:53             0:1   00:00:54  00:00:06      1     73                 1 11
+udp   Out 192.168.244.132:33228 4.2.2.1:53             1:0   00:00:54  00:00:06      1     73                 1 11
+
+
+-bash-4.3# systat rule
+
+    3 users    Load 4.04 4.06 3.98                     Thu Nov 10 06:15:42 2016
+
+RULE  ACTION   DIR LOG Q IF     PR        K     PKTS    BYTES   STATES   MAX INFO
+   0  Block    Any                               308    24464        0       drop all
+   1  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = ssh
+   2  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = smtp
+   3  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = domain
+   4  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = www
+   5  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = pop3
+   6  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = auth
+   7  Pass     Any              tcp       K      182     9198        2       inet from 192.168.244.0/24 to any port = https
+   8  Pass     Any              tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = pop3s
+   9  Pass     Any     Q        tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = domain
+  10  Pass     Any     Q        tcp       K        0        0        0       inet from 192.168.244.0/24 to any port = ntp
+  11  Pass     Any     Q        udp       K     8190   597774     8168       inet from 192.168.244.0/24 to any port = domain
+  12  Pass     Any     Q        udp       K        0        0        0       inet from 192.168.244.0/24 to any port = ntp
+  13  Pass     Any              icmp      K     8636   725424        4       inet from 192.168.244.0/24 to any
+  14  Pass     Any              tcp       K        0        0        0       inet from any to any port = ssh
+  15  Block    In        !lo0   tcp                0        0        0       return from any to any port 6000:6010
+
+... pftop
+
+-bash-4.3# pftop
+
+pfTop: Up State 1-29/51, View: default, Order: none, Cache: 10000                                                              06:37:58
+
+PR        DIR SRC                           DEST                                   STATE                AGE       EXP     PKTS    BYTES
+tcp       In  192.168.35.1:53669            192.168.35.20:22              ESTABLISHED:ESTABLISHED  05:06:38  19:22:46     1872   182996
+tcp       In  192.168.35.1:53670            192.168.35.20:22              ESTABLISHED:ESTABLISHED  05:06:23  23:48:25     8792   948788
+tcp       In  192.168.35.1:54165            192.168.35.20:22              ESTABLISHED:ESTABLISHED  03:20:17  24:00:00    15633  2971700
+tcp       In  192.168.35.1:54258            192.168.35.20:22              ESTABLISHED:ESTABLISHED  02:59:23  23:01:07      181    20584
+icmp      Out 192.168.35.20:8039            98.139.183.24:8                         0:0            00:06:15  00:00:09      375    31500
+udp       In  192.168.244.132:33182         4.2.2.1:53                     NO_TRAFFIC:SINGLE       00:01:04  00:00:00        1       55
+udp       Out 192.168.244.132:33182         4.2.2.1:53                         SINGLE:NO_TRAFFIC   00:01:04  00:00:00        1       55
+udp       In  192.168.244.147:34618         4.2.2.1:53                     NO_TRAFFIC:SINGLE       00:00:23  00:00:07        2      126
+udp       Out 192.168.244.147:34618         4.2.2.1:53                         SINGLE:NO_TRAFFIC   00:00:23  00:00:07        2      126
+udp       In  192.168.244.147:59345         4.2.2.1:53                     NO_TRAFFIC:SINGLE       00:00:23  00:00:07        2      130
+udp       Out 192.168.244.147:59345         4.2.2.1:53                         SINGLE:NO_TRAFFIC   00:00:23  00:00:07        2      130
+udp       In  192.168.244.147:39099         4.2.2.1:53                     NO_TRAFFIC:SINGLE       00:00:23  00:00:07        2      120
+udp       Out 192.168.244.147:39099         4.2.2.1:53                         SINGLE:NO_TRAFFIC   00:00:23  00:00:07        2      120
+tcp       In  192.168.244.147:47676         128.31.0.63:80                     CLOSED:CLOSING      00:00:23  00:00:07       23     4303
+tcp       Out 192.168.244.147:47676         128.31.0.63:80                    CLOSING:CLOSED       00:00:23  00:00:07       23     4303
+tcp       In  192.168.244.147:34629         130.89.148.12:80                   CLOSED:CLOSING      00:00:23  00:00:07       11     1795
+tcp       Out 192.168.244.147:34629         130.89.148.12:80                  CLOSING:CLOSED       00:00:23  00:00:07       11     1795
+tcp       In  192.168.244.147:42108         192.175.120.168:80                 CLOSED:CLOSING      00:00:23  00:00:07        5      485
+tcp       Out 192.168.244.147:42108         192.175.120.168:80                CLOSING:CLOSED       00:00:23  00:00:07        5      485
+tcp       In  192.168.244.147:42109         192.175.120.168:80                 CLOSED:CLOSING      00:00:22  00:00:08        5      497
+tcp       Out 192.168.244.147:42109         192.175.120.168:80                CLOSING:CLOSED       00:00:22  00:00:08        5      497
+tcp       In  192.168.244.147:42110         192.175.120.168:80                 CLOSED:CLOSING      00:00:22  00:00:08        5      497
+
+.. few more command to know pf activity
+
+-bash-4.3# pfctl -s timeout
+tcp.first                   120s
+tcp.opening                  30s
+tcp.established           86400s
+tcp.closing                 900s
+tcp.finwait                  45s
+tcp.closed                   90s
+tcp.tsdiff                   30s
+udp.first                    60s
+udp.single                   30s
+udp.multiple                 60s
+icmp.first                   20s
+icmp.error                   10s
+other.first                  60s
+other.single                 30s
+other.multiple               60s
+frag                         60s
+interval                     10s
+adaptive.start             6000 states
+adaptive.end              12000 states
+src.track                     0s
+-bash-4.3#  
+-bash-4.3# 
+-bash-4.3# pfctl -sm limit 
+pfctl: unknown command line argument: limit ...
+usage: pfctl [-deghnPqrvz] [-a anchor] [-D macro=value] [-F modifier]
+        [-f file] [-i interface] [-K host | network]
+        [-k host | network | label | id] [-L statefile] [-o level] [-p device]
+        [-S statefile] [-s modifier [-R id]] [-t table -T command [address ...]]
+        [-x level]
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# pfctl -sm      
+states        hard limit    10000
+src-nodes     hard limit    10000
+frags         hard limit     1536
+tables        hard limit     1000
+table-entries hard limit   200000
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# pfctl -si
+Status: Enabled for 0 days 00:53:36              Debug: err
+
+State Table                          Total             Rate
+  current entries                        6               
+  searches                          131749           41.0/s
+  inserts                            21494            6.7/s
+  removals                           21488            6.7/s
+Counters
+  match                              51635           16.1/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                        31            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  translate                              0            0.0/s
+  no-route                               0            0.0/s
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# pfctl -sr
+block drop all
+pass log (all) proto tcp from any to any port = 21 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 22 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 25 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 53 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 80 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 110 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 113 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 443 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 995 flags S/SA label "pass in"
+pass log (all) quick inet proto tcp from any to any port = 53 flags S/SA label "dns"
+pass log (all) quick inet proto tcp from any to any port = 123 flags S/SA label "dns"
+pass log (all) quick inet proto udp from any to any port = 53 label "dns"
+pass log (all) quick inet proto udp from any to any port = 123 label "dns"
+pass log (all) proto icmp all keep state (pflow) label "icmp"
+pass log (all) proto icmp all
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# pfctl -vvsr
+@0 block drop all
+  [ Evaluations: 10        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@1 pass log (all) proto tcp from any to any port = 21 flags S/SA label "pass in"
+  [ Evaluations: 10        Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@2 pass log (all) proto tcp from any to any port = 22 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@3 pass log (all) proto tcp from any to any port = 25 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@4 pass log (all) proto tcp from any to any port = 53 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@5 pass log (all) proto tcp from any to any port = 80 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 1738      Bytes: 1467457     States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 3     ]
+@6 pass log (all) proto tcp from any to any port = 110 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@7 pass log (all) proto tcp from any to any port = 113 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@8 pass log (all) proto tcp from any to any port = 443 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@9 pass log (all) proto tcp from any to any port = 995 flags S/SA label "pass in"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@10 pass log (all) quick inet proto tcp from any to any port = 53 flags S/SA label "dns"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@11 pass log (all) quick inet proto tcp from any to any port = 123 flags S/SA label "dns"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@12 pass log (all) quick inet proto udp from any to any port = 53 label "dns"
+  [ Evaluations: 10        Packets: 12        Bytes: 1179        States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 6     ]
+@13 pass log (all) quick inet proto udp from any to any port = 123 label "dns"
+  [ Evaluations: 1         Packets: 2         Bytes: 152         States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 1     ]
+@14 pass log (all) proto icmp all keep state (pflow) label "icmp"
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@15 pass log (all) proto icmp all
+  [ Evaluations: 0         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+@16 block return in on ! lo0 proto tcp from any to any port 6000:6010
+  [ Evaluations: 3         Packets: 0         Bytes: 0           States: 0     ]
+  [ Inserted: uid 0 pid 81319 State Creations: 0     ]
+-bash-4.3# 
+-bash-4.3# 
+
+... netflow.
+
+.. netflow allows us to collect the data travers unidirectional direction in connection.
+.. pf allow to netflow with the special interfac pflow. it works like as it send the 
+.. data to the collector which then stores and illustrated for the view.
+.. to activate the netflow data we need a pass rule with pflow key. 
+
+.. if we want to send netflow data from 192.168.244.10 to be send to collector 192.168.244.1
+.. on udp port 3301 we do that like below.
+
+.. 192.168.244.10 --> 192.168.244.1:3301 (collector)
+
+-bash-4.3# ifconfig pflow0 create flowsrc 192.168.244.10 flowdst 192.168.244.1:3301
+-bash-4.3# 
+-bash-4.3# ifconfig pflow0
+pflow0: flags=41<UP,RUNNING> mtu 1492
+        index 8 priority 0 llprio 3
+        pflow: sender: 192.168.244.10 receiver: 192.168.244.1:3301 version: 5
+        groups: pflow
+-bash-4.3# 
+
+.. or can place in a file /etc/hostname.pflow0 below
+
+flowsrc 192.168.244.10 flowdst 192.168.244.1:3301
+
+.. then we place following in /etc/pf.conf with (pflow) key word.
+
+pass log (all) proto icmp label "icmp" keep state (pflow)
+
+.. The OpenBSD packages system offers three NetFlow collector and
+.. analysis packages: flow-tools , flowd , and nfdump .
+
+.. we are using flowd
+
+-bash-4.3# pkg_add flowd
+quirks-2.241 signed on 2016-07-29T15:39:09Z
+flowd-0.9.1.20140828: ok
+-bash-4.3# 
+-bash-4.3# 
+-bash-4.3# pwd   
+/etc
+-bash-4.3# vi flowd.conf 
+-bash-4.3# cp flowd.conf flowd.conf.bak
+-bash-4.3# vi flowd.conf
+-bash-4.3# 
+-bash-4.3# cat -n flowd.conf
+     1  logfile "/var/log/flowd"
+     2  listen on 192.168.244.1:3301
+     3  flow source 192.168.244.10
+     4  store ALL
+-bash-4.3# 
+
+
