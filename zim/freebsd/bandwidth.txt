@@ -1,0 +1,70 @@
+
+
+
+............................. bandwidth management ..............................
+
+.. the traffic shaping system used in openbsd is ALTQ or alternate traffic queue.
+
+.. queue concept.
+.. queue is the buffer for the network packets. in other way holding place for the 
+.. network packets. this queue holds packet untill either they dropped or send to 
+.. specific destination. queue is attached to interface and the bandwidth to inter
+.. face then subdivided. 
+
+.. these queue can be allocated with bandwidth. some queue are served with priority
+.. that means these queues will be processed with shorter delay before other. these
+.. queues can be sub child of the other queues. some queues are combination of 
+.. bandwidth and the priority.
+
+.. with no altq place, tcp/ip stack processes the packet as they appears like fifo
+.. first in first out ie in order. there are three queue schedular algorithms. they
+.. are priq, cbq and hfsc.
+
+.. priq
+.. the priority based queue gives the preference over other queue based on number
+.. starting from 0 to 15. the higher is better.
+
+.. cbq 
+.. cbq is the fixed based queue management where measurement is done on available
+.. bandwidth in kilobit,megabit,gigabit wise. the queues in cbq can be also 
+.. subqueues with priority from 0 to 7. same as priq, cbq of higher priority will
+.. served first than queue with lower priority.
+
+.. hfsc 
+.. hierarchical fair service curve, ensures the fair allocation of bandwith among
+.. the queues. as it has tunable parameters but most altq practioners like to 
+.. keep them simple. it has also priority number 0 to 7.
+
+.. setting up the priority based priq queue.
+
+.. priority queue has the following format
+
+-bash-4.3# man 5 pf.conf
+
+.. we can find the all options related to pf.conf in openbsd6
+
+altq on interface type [options ... ] main_queue { sub_q1, sub_q2 ..}
+  queue sub_q1 [ options ... ]
+  queue sub_q2 [ options ... ]
+[...]
+pass [ ... ] queue sub_q1
+pass [ ... ] queue sub_q2
+
+.. courtesy: https://home.nuug.no/~peter/pf/en/altqintro.html
+
+.. and one sample queue configuraiton like below. match the sample 
+.. with the format.
+
+ext_if="kue0"
+
+altq on $ext_if priq bandwidth 100Kb queue { q_pri, q_def }
+	queue q_pri priority 7
+	queue q_def priority 1 priq(default)
+
+pass out on $ext_if proto tcp from $ext_if queue (q_def, q_pri)
+pass in on $ext_if proto tcp to $ext_if queue (q_def, q_pri)
+
+.. my pf.conf file has the following configuration.
+
+
+

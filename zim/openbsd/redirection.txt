@@ -117,3 +117,33 @@ Nov 10 17:40:51.492452 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 97
 Nov 10 17:40:51.492471 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 972 <nop,nop,timestamp 26641959 14812159> (DF)
 
 
+... redirection using the relayed.
+
+.. the previous method of redirection does not detect the availability of servers
+.. from the pools. rather it keep trying to hit on a out of reach of the servers.
+.. this problem can be resolved by the service relayed comes with bsd. relayd 
+.. monitors the hosts from the pools and staves it off when it is down. 
+.. it can add or minus the host from the table of host from pf configuration.
+.. it interact with pf configuration by special purpose of anchor relayd.
+
+.. first check the relayd daemon
+
+-bash-4.3# relayd -n
+pushfile: /etc/relayd.conf: No such file or directory
+-bash-4.3# 
+
+-bash-4.3# relayd -n
+no actions, nothing to do
+-bash-4.3# cat -n /etc/relayd.conf 
+     1  web1="192.168.244.132"
+     2  web2="192.168.244.147"
+-bash-4.3# 
+-bash-4.3# relayd -n
+no actions, nothing to do
+-bash-4.3# 
+
+... will be done later...in complete....
+
+
+
+

@@ -1,0 +1,165 @@
+
+
+
+.. courtesy http://daemon-notes.com/articles/network/pf
+
+#
+# pf.conf by ross at daemon-notes.com
+# v2.7
+#
+
+# Interfaces (external and internal)
+ext_if="re0"
+int_if="re1"
+
+# Ports open to the Internet
+# Note: 51413 - transmission daemon
+ext_tcp_ports="{ ssh, smtp, smtps, imaps, http, https, 51413 }"
+ext_udp_ports="{ 51413 }"
+
+# NATed ports
+nat_tcp_ports="{ domain, ntp, ssh, ftp, http, https, >= 1024 }"
+nat_udp_ports="{ domain, ntp, >= 1024 }"
+
+# External interface bandwidth (megabits)
+# Note: set it to 97% of outgoing bandwidth
+ext_bw="97Mb"
+
+# High priority traffic server ports
+high_ports="{ http, https }"
+
+# Top priority traffic server ports (icmp traffic is also here)
+top_ports="{ ssh }"
+
+# States.
+mod_state="flags S/SA modulate state"
+syn_state="flags S/SA synproxy state"
+
+# Stateful Tracking Options.
+# To clear <blocked_hosts> add to root's crontab:
+# * * * * * /sbin/pfctl -t blocked_hosts -T expire 600 > /dev/null 2>&1
+# This will block bad hosts for 10-11 minutes
+sto_ext_ports="(max-src-conn-rate 500/10, overload <blocked_hosts> flush global)"
+sto_nat_ports="(max-src-conn-rate 100/1)"
+
+
+#
+# Tables
+#
+
+# create or touch /etc/pf.abusers
+table <abusers> persist file "/etc/pf.abusers"
+table <ossec_fwtable> persist
+table <blocked_hosts> persist
+# http://en.wikipedia.org/wiki/Reserved_IP_addresses
+table <blocked_nets> { 0.0.0.0/8, \
+                       10.0.0.0/8, \
+                       127.0.0.1/8, \
+                       169.254.0.0/16, \
+                       172.16.0.0/12, \
+                       192.0.2.0/24, \
+                       192.88.99.0/24, \
+                       192.168.0.0/16, \
+                       198.18.0.0/15, \
+                       198.51.100.0/24, \
+                       203.0.113.0/24, \
+                       224.0.0.0/4, \
+                       240.0.0.0/4 }
+
+
+#
+# Options
+#
+
+set block-policy drop
+set debug urgent
+set limit { frags 10000, states 30000 }
+set loginterface $ext_if
+set optimization normal
+set ruleset-optimization none
+set skip on lo
+set state-policy if-bound
+
+
+#
+# Traffic normalization
+#
+
+scrub in all no-df min-ttl 100 max-mss 1440 fragment reassemble
+
+
+#
+# Queueing
+#
+
+altq on $ext_if hfsc bandwidth $ext_bw queue { normal, high, top }
+queue normal bandwidth 30% hfsc(default upperlimit 99%)
+queue high   bandwidth 50% hfsc(upperlimit 99%)
+queue top    bandwidth 20% hfsc(realtime 20% upperlimit 99%)
+
+
+#
+# Translation
+#
+
+#rdr pass on $ext_if proto { tcp, udp } from any to port 6881:6889 -> 192.168.10.10
+#rdr pass on $ext_if proto { tcp, udp } from any to port 59683 -> 192.168.10.10
+
+nat on $ext_if from $int_if:network to any -> ($ext_if)
+
+
+#
+# Packet Filtering
+#
+
+# Block invalid packets
+block in log quick on $ext_if from no-route
+block in log quick on $ext_if from urpf-failed
+
+
+# Incoming traffic on $ext_if
+block drop in on $ext_if all
+
+# Allow ICMP pings and traffic to open ports
+pass in on $ext_if inet proto icmp to ($ext_if) icmp-type 8 code 0 keep state
+pass in on $ext_if proto tcp to ($ext_if) port $ext_tcp_ports $syn_state $sto_ext_ports
+pass in on $ext_if proto udp to ($ext_if) port $ext_udp_ports keep state $sto_ext_ports
+
+# Check src/dst of packets coming from outside
+block in log on $ext_if from <abusers>
+block in log on $ext_if from <ossec_fwtable>
+block in log on $ext_if from <blocked_hosts>
+block in log on $ext_if from <blocked_nets>
+block in log on $ext_if to   255.255.255.255
+block in log on $ext_if to   !($ext_if)
+
+
+# Outgoing traffic on $ext_if
+pass out on $ext_if keep state queue normal
+pass out on $ext_if proto { tcp, udp } from ($ext_if) port $high_ports keep state queue high
+pass out on $ext_if proto { tcp, udp } from ($ext_if) port $top_ports keep state queue top
+pass out on $ext_if proto icmp all keep state queue top
+
+
+# Incoming traffic on $int_if
+block return in on $int_if all
+
+# Pass packets sent to me on local interface
+pass in on $int_if from $int_if:network to ($int_if) keep state
+
+# Allow broadcasts on internal interface
+pass in on $int_if proto udp to 255.255.255.255 keep state
+pass in on $int_if proto udp to $int_if:broadcast keep state
+
+# Filter LAN ---> Inet traffic
+pass in on $int_if proto icmp from $int_if:network to any keep state
+pass in on $int_if proto tcp from $int_if:network to any port $nat_tcp_ports $mod_state $sto_nat_ports
+pass in on $int_if proto udp from $int_if:network to any port $nat_udp_ports keep state $sto_nat_ports
+
+# Accept LAN ---> My external interface
+pass in on $int_if proto tcp from $int_if:network to ($ext_if) $mod_state $sto_nat_ports
+pass in on $int_if proto udp from $int_if:network to ($ext_if) keep state $sto_nat_ports
+
+
+# Outgoing traffic on $int_if
+pass out on $int_if all keep state

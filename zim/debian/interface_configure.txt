@@ -4,7 +4,9 @@ file : /etc/network/interfaces
 formate 
 
 auto eth0
-iface eth0 inet dhcp or
+iface eth0 inet dhcp
+
+... or ...
 
 auto eth0
 iface eth0 inet static
@@ -16,4 +18,50 @@ iface eth0 inet static
 	network
 	
 	
+.. also when the interface getting ip netmask default gateway from 
+.. dhcp server we can control what it will get by following.
+
+root@deb-7:/etc/dhcp# cat -n dhclient.conf
+     1	# Configuration file for /sbin/dhclient, which is included in Debian's
+     2	#	dhcp3-client package.
+     3	#
+     4	# This is a sample configuration file for dhclient. See dhclient.conf's
+     5	#	man page for more information about the syntax of this file
+     6	#	and a more comprehensive list of the parameters understood by
+     7	#	dhclient.
+     8	#
+     9	# Normally, if the DHCP server provides reasonable information and does
+    10	#	not leave anything out (like the domain name, for example), then
+    11	#	few changes must be made to this file, if any.
+    12	#
+    13	
+    14	option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
+    15	
+    16	#send host-name "andare.fugue.com";
+    17	send host-name = gethostname();
+    18	#send dhcp-client-identifier 1:0:a0:24:ab:fb:9c;
+    19	#send dhcp-lease-time 3600;
+    20	#supersede domain-name "fugue.com home.vix.com";
+    21	#prepend domain-name-servers 127.0.0.1;
+
+.. the following two lines were important for me
+
+    22	prepend domain-name-servers 4.2.2.1, 4.2.2.2;
+    23	request subnet-mask, broadcast-address, time-offset, routers,
+    24		domain-name, domain-search, host-name,
+    25		dhcp6.name-servers, dhcp6.domain-search,
+    26		netbios-name-servers, netbios-scope, interface-mtu,
+    27		rfc3442-classless-static-routes, ntp-servers;
+
+.. here i have commented out the domain-name-server portion from the request 
+
+root@deb-7:/etc/dhcp# 
+
+root@deb-7:/etc/dhcp# cat /etc/resolv.conf 
+domain localdomain
+search localdomain
+nameserver 4.2.2.1
+nameserver 4.2.2.2
+root@deb-7:/etc/dhcp#
+
 
