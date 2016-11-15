@@ -64,7 +64,179 @@ altq on $ext_if priq bandwidth 100Kb queue { q_pri, q_def }
 pass out on $ext_if proto tcp from $ext_if queue (q_def, q_pri)
 pass in on $ext_if proto tcp to $ext_if queue (q_def, q_pri)
 
-.. my pf.conf file has the following configuration.
+.. my pf.conf file has the following configuration regarding the queueing 
+.. concept as well as priority value.
+
+root@masum:/etc # cat -n pf.conf 
+     1	#	$FreeBSD: releng/11.0/share/examples/pf/pf.conf 293862 2016-01-14 01:32:17Z kevlo $
+     2	#	$OpenBSD: pf.conf,v 1.34 2007/02/24 19:30:59 millert Exp $
+     3	#
+     4	# See pf.conf(5) and /usr/share/examples/pf for syntax and examples.
+     5	# Remember to set gateway_enable="YES" and/or ipv6_gateway_enable="YES"
+     6	# in /etc/rc.conf if packets are to be forwarded between interfaces.
+     7	
+     8	ext_if="em0"
+     9	int_if="le0"
+    10	
+    11	#table <spamd-white> persist
+    12	
+    13	set skip on lo
+    14	
+    15	#scrub in
+    16	
+    17	#nat-anchor "ftp-proxy/*"
+    18	#rdr-anchor "ftp-proxy/*"
+    19	#nat on $ext_if inet from !($ext_if) -> ($ext_if:0)
+    20	#rdr pass on $int_if proto tcp to port ftp -> 127.0.0.1 port 8021
+    21	#no rdr on $ext_if proto tcp from <spamd-white> to any port smtp
+    22	#rdr pass on $ext_if proto tcp from any to any port smtp \
+    23	#	-> 127.0.0.1 port spamd
+    24	
+    25	#anchor "ftp-proxy/*"
+    26	#block in
+    27	#pass out
+    28	
+    29	#pass quick on $int_if no state
+    30	#antispoof quick for { lo $int_if }
+    31	
+    32	#pass in on $ext_if proto tcp to ($ext_if) port ssh
+    33	#pass in log on $ext_if proto tcp to ($ext_if) port smtp
+    34	#pass out log on $ext_if proto tcp from ($ext_if) to port smtp
+    35	#pass in on $ext_if inet proto icmp from any to ($ext_if) icmp-type { unreach, redir, timex }
+
+.. our main concern is below here we have enabled the priority queue priq
+.. and set up the bandwidth 100Kb with two subqueue q_pri, q_def with
+.. priority 7 and priority 1 respectively and last one is our default 
+.. priority. ordering is important here.
+
+    36	
+    37	###### queueing 
+    38	altq on $ext_if priq bandwidth 100Kb queue { q_pri, q_def }
+    39	queue q_pri priority 7
+    40	queue q_def priority 1 priq(default)
+    41	
+    42	#pass out on $ext_if proto tcp from $ext_if queue (q_def, q_pri)
+    43	#pass in on $ext_if proto tcp to $ext_if queue (q_def, q_pri)
+    44	
+    45	icmp_services = "{ icmp }"
+    46	udp_services = "{ domain }"
+    47	tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+
+    48	table <webserver> persist { 192.168.244.132, 192.168.244.147 }
+
+.. our nat and the redirect rules are like that
+
+    50	nat on $ext_if inet from $int_if:network -> ($ext_if)
+    51	rdr pass on $ext_if proto tcp to port { www, https } -> <webserver> 
+
+..
+
+    52	block all
+    53	pass log (all) proto tcp to port $tcp_services
+
+.. placing the queue with a pass rule. when any ssh traffic incoming to
+.. ext_if interface em0 it will go through the queue previously defined
+.. q_def and q_pri. 
+
+    54	pass on $ext_if proto tcp to ($ext_if) port ssh queue (q_def, q_pri)
+    55	pass log (all) proto udp to port $udp_services
+    56	
+    59	pass log (all) proto icmp 
+    60	pass out all keep state
+    61	
+    62	####
+root@masum:/etc # 
+
+root@masum:/etc # pfctl -d ; pfctl -evf /etc/pf.conf 
+pf disabled
+ext_if = "em0"
+int_if = "le0"
+set skip on { lo }
+altq on em0 priq bandwidth 100Kb tbrsize 1500 queue { q_pri q_def }
+queue q_pri priority 7 
+queue q_def priq( default ) 
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+table <webserver> persist { 192.168.244.132 192.168.244.147 }
+nat on em0 inet from 192.168.244.0/24 to any -> (em0) round-robin
+rdr pass on em0 proto tcp from any to any port = http -> <webserver> round-robin
+rdr pass on em0 proto tcp from any to any port = https -> <webserver> round-robin
+block drop all
+pass log (all) proto tcp from any to any port = ssh flags S/SA keep state
+pass log (all) proto tcp from any to any port = smtp flags S/SA keep state
+pass log (all) proto tcp from any to any port = domain flags S/SA keep state
+pass log (all) proto tcp from any to any port = http flags S/SA keep state
+pass log (all) proto tcp from any to any port = pop3 flags S/SA keep state
+pass log (all) proto tcp from any to any port = auth flags S/SA keep state
+pass log (all) proto tcp from any to any port = https flags S/SA keep state
+pass log (all) proto tcp from any to any port = pop3s flags S/SA keep state
+
+.. after enabling queueing is placed to following rules
+
+pass on em0 proto tcp from any to (em0) port = ssh flags S/SA keep state queue(q_def, q_pri)
+pass log (all) proto udp from any to any port = domain keep state
+pass log (all) proto icmp all keep state
+pass out all flags S/SA keep state
+pf enabled
+root@masum:/etc # 
+
+.. packet captured by queue just we have created.
+
+root@masum:/etc # pfctl -vs queue
+queue q_pri on em0 priority 7 
+  [ pkts:         26  bytes:       3436  dropped pkts:      0 bytes:      0 ]
+  [ qlength:   0/ 50 ]
+queue q_def on em0 priq( default ) 
+  [ pkts:       2191  bytes:     206090  dropped pkts:      0 bytes:      0 ]
+  [ qlength:   0/ 50 ]
+root@masum:/etc # 
+
+.... class based queueing, cbq ....
+
+.. my configuration regarding cbq on pf.conf is follows.
+
+###### cbq
+altq on $ext_if cbq bandwidth 5Mb queue { mainq, webq, udpq, sshq, icmpq }
+queue mainq bandwidth 18% cbq(default borrow red)
+queue udpq bandwidth 30% cbq(borrow red)
+queue webq bandwidth 20% cbq(borrow red)
+queue sshq bandwidth 20% cbq(borrow red) { ssh_interactive, ssh_bulk }
+       queue ssh_interactive priority 7 bandwidth 20%
+       queue ssh_bulk priority 0 bandwidth 80%
+queue icmpq bandwidth 2% cbq
+
+.. and pass rules regarding cbq are belows.
+
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+
+pass log (all) proto tcp to port $tcp_services queue mainq 
+pass log (all) proto tcp to port { www, https } $tcp_services queue webq
+pass on $ext_if proto tcp to ($ext_if) port ssh queue (ssh_bulk, ssh_interactive)
+pass log (all) proto udp to port $udp_services queue udpq
+pass log (all) proto icmp queue icmpq
+
+.. but my cbq rules have failed with following error
+.. on web people suggesting following for the remedy.
+
+ALTQ : pfctl: DIOCADDALTQ: Cannot allocate memory 
+
+.. on the following files or any altq.c file found
+
+/usr/include/altq/altq_hfsc.h
+/usr/src/sbin/pfctl/missing/altq/altq_hfsc.h
+/usr/src/sys/contrib/altq/altq/altq_hfsc.h
+
+.. put the following 1024 line instead of 64 line.
+
+#define HFSC_MAX_CLASSES 1024 
+#define HFSC_MAX_CLASSES 64 
+
+then recompile kernel.
+
+.... hfsc based traffic shaping.
 
 
 
