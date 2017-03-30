@@ -1,0 +1,8 @@
+root@masum:~# cat /etc/issue
+Debian GNU/Linux 8 \n \l
+
+root@masum:~# uname -a
+Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686 GNU/Linux
+root@masum:~# 
+root@masum:~# 
+

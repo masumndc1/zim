@@ -6,7 +6,11 @@ configuring pat dynamic nat and static nat in asa
 ciscoasa(config)# show run global 
 global (outside) 1 interface
 
+<<<<<<< HEAD
 # this means for nat the outside interfacew will be used
+=======
+# this means for nat the outside interfacew ill  be used
+>>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
 # the numerial 1 means a reference which will be used by
 # nat later.
 

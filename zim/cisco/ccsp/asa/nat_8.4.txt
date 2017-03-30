@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 .... natting in asa os version 8.3 or later
 
 
@@ -99,4 +100,10 @@ Auto NAT Policies (Section 2)
     translate_hits = 0, untranslate_hits = 0
     Source - Origin: 172.16.4.24/32, Translated: 123.49.33.44/32
 DC-Core-FW1(config-network-object)#
+=======
+
+// we are here to configure the nat using the version of 8.4
+// and the using of the object concept here.
+
+>>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
 

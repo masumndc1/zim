@@ -1,5 +1,6 @@
 
 
+<<<<<<< HEAD
 ... package management in freebsd
 
 ... pkg installation
@@ -41,6 +42,8 @@ root@masum:/home/masum/test #
 
 
 
+=======
+>>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
 root@masum:~ # pkg delete -fx kde
 Checking integrity... done (0 conflicting)
 Deinstallation has been requested for the following 43 packages (of 0 packages in the universe):
@@ -94,6 +97,7 @@ Number of packages to be removed: 43
 
 The operation will free 593 MiB.
 
+<<<<<<< HEAD
 ... installed pkg information:
 ... info switch of pkg utility will give the information
 ... regarding the package.
@@ -162,4 +166,6 @@ be run as root.
 WWW: http://www.ex-parrot.com/~pdw/iftop/
 root@masum:/home/masum/test # 
 
+=======
+>>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
 

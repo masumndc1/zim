@@ -1,0 +1,12 @@
+[root@localhost:NO LICENSE] ucs # cat cs_backup_rotate.conf 
+# logrotate configuration file
+
+/var/local/ucs/cs_backup.ucs {
+   rotate 4
+   nocompress
+   nomail
+   nocreate
+}
+
+[root@localhost:NO LICENSE] ucs # 
+

@@ -110,7 +110,11 @@ asa is flexible to do so.
  asa(config)# global (DMZ) 5 172.16.0.254 netmask 255.255.255.255
  asa(config)# nat (DMZ) 5 172.16.0.0 255.255.255.0 tcp 0 0 udp 0
 
+<<<<<<< HEAD
 note here in first two line of configuration. inside interfaces IP are being
+=======
+note here in first two line of configuration. inside interfaces ips are being
+>>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
 natted to outside interface ( no matter what will be the ips of that interface).
 in that case port will be used for as the single ip of outside interface.
 
