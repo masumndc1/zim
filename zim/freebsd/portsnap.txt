@@ -1,0 +1,85 @@
+
+
+......................... portsnap .........................
+
+... portsnap is the utility to update the port tree.
+... it has some advantages over the cvsup like portsnap update
+... is encrypted. like cvsup the update is also incremental and
+... port tree snapshot updates every hour.
+
+root@masum:~ # uname -a
+FreeBSD masum 11.0-RELEASE-p1 FreeBSD 11.0-RELEASE-p1 #0: root@masum:/usr/obj/usr/src/sys/GENERIC  i386
+root@masum:~ # 
+
+... downloading the ports tree
+
+root@masum:~ # portsnap fetch
+Looking up portsnap.FreeBSD.org mirrors... 6 mirrors found.
+Fetching snapshot tag from ec2-eu-west-1.portsnap.freebsd.org... done.
+Fetching snapshot metadata... done.
+Fetching snapshot generated at Sun Mar 12 13:12:21 NZDT 2017:
+cbd55748f2e32e2cc91fcaa7c4edb18b070db1aabbbde3100% of   75 MB  173 kBps 07m23s
+Extracting snapshot... done.
+Verifying snapshot integrity... done.
+Fetching snapshot tag from ec2-eu-west-1.portsnap.freebsd.org... done.
+Fetching snapshot metadata... done.
+Updating from Sun Mar 12 13:12:21 NZDT 2017 to Sun Mar 12 19:47:26 NZDT 2017.
+Fetching 5 metadata patches... done.
+Applying metadata patches... done.
+Fetching 0 metadata files... done.
+Fetching 5 patches. 
+(5/5) 100.00%  done.                             
+done.
+Applying patches... 
+done.
+Fetching 1 new ports or files... done.
+
+root@masum:~ # 
+
+... current live ports tree resides in 
+
+root@masum:~ # ls /usr/ports/
+CHANGES          Tools/           cad/             french/          lang/            polish/          vietnamese/
+CONTRIBUTING.md  UIDs             chinese/         ftp/             mail/            ports-mgmt/      www/
+COPYRIGHT        UPDATING         comms/           games/           math/            portuguese/      x11-clocks/
+GIDs             accessibility/   converters/      german/          misc/            print/           x11-drivers/
+Keywords/        arabic/          databases/       graphics/        multimedia/      russian/         x11-fm/
+LEGAL            archivers/       deskutils/       hebrew/          net-im/          science/         x11-fonts/
+MOVED            astro/           devel/           hungarian/       net-mgmt/        security/        x11-servers/
+Makefile         audio/           dns/             irc/             net-p2p/         shells/          x11-themes/
+Mk/              base/            editors/         japanese/        net/             sysutils/        x11-toolkits/
+README           benchmarks/      emulators/       java/            news/            textproc/        x11-wm/
+Templates/       biology/         finance/         korean/          palm/            ukrainian/       x11/
+
+root@masum:~ # ls /usr/ports/
+
+... now extract the ports tree to update the port tree in /usr/ports this command
+... will take some time. after extracting we can update the ports tree using
+... the command portsnap update command.
+
+root@masum:~ # portsnap extract
+
+... when we run portsnap for the first time it will download a compressed port
+... tree on /var/db/portsnap. next download will be just one or more different
+... but not the full hence minimize the time and network bandwidth.
+
+root@masum:/var/db/portsnap # ls
+6cc0f0ebb955f91bacaaaa52c6d76d8bf90c27d8d78419217837408b58d59954.tgz
+INDEX
+files
+pub.ssl
+serverlist
+serverlist_full
+serverlist_tried
+tINDEX
+tag
+root@masum:/var/db/portsnap # pwd
+/var/db/portsnap
+root@masum:/var/db/portsnap # 
+
+root@masum:/usr/ports/security # portsnap update
+Ports tree is already up to date.
+
+root@masum:/usr/ports/security # 
+
+

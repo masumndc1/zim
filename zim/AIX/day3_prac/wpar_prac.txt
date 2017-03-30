@@ -1,0 +1,110 @@
+hostname
+
+----To create a system wpar
+
+#mkwpar -n anj_wpar1
+#hostname
+#lsvg -l rootvg
+
+#mount 
+ 
+----To view the wpar
+#lswpar
+
+----To start a wpar
+#startwpar -v wpar1
+
+----To view the active wpar
+#lswpar
+
+----To login in the wpar
+#clogin wpar1
+
+	#mount
+	#df -m
+	#hostname
+	#lslpp -l|more
+
+	#mkuser anjanw
+
+chwpar -N address=127.0.0.10 wpar1
+open another putty 
+lswpar
+
+	#exit
+
+----From the global
+
+#hosname
+
+----To stop the wpar
+
+#stopwpar -F wpar1
+
+#lswpar
+rmwpar wpar1
+
+
+
+# crfs -v jfs2 -g rootvg -u wpar1 -A no -a size=10M -m /wpars/wpar1/newfs
+#mount /wpars/wpar1/newfs
+#startwpar wpar1
+#clogin wpar1
+#df -m
+
+mkdir /wb
+
+savewpar -f /wb/back1 -i wpar1
+
+rmwpar wpar1
+
+
+restwpar -f /wb/back1
+
+-----To create a rootvg wpar
+
+ mkwpar -n wpar2 -D devname=hdisk3 rootvg=yes
+
+startwpar wpar2 
+
+clogin wpar2
+
+lspv
+
+lsvg
+
+exit
+
+hostname
+
+lspv
+
+stopwpar -F wpar2
+
+lswpar
+
+rmwpar wpar2
+
+cfgmgr
+
+cfgmgr
+
+lspv
+
+
+
+
+
+
+
+
+
+chwpar -R CPU=0%-10%,10% shares_CPU=1 wpar1
+chwpar -R CPU=0%-10%,10% shares_CPU=2 wpar2
+
+
+-----To run a application wapr
+
+#wparexec -n anjapp /usr/bin/sleep 10 &
+
+#lswpar     

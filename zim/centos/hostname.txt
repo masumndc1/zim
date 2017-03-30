@@ -1,0 +1,17 @@
+
+
+
+......................... hostname and domain name ....................
+
+
+[root@localhost sysconfig]# pwd
+/etc/sysconfig
+[root@localhost sysconfig]# vi network
+[root@localhost sysconfig]# 
+[root@localhost sysconfig]# 
+[root@localhost sysconfig]# cat -n network
+     1	NETWORKING=yes
+     2	NETWORKING_IPV6=no
+     3	HOSTNAME=masum.masum.com
+[root@localhost sysconfig]# 
+

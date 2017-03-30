@@ -1,0 +1,95 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-08-27T01:27:10+06:00
+
+====== snmp.centos ======
+Created Monday 27 August 2012
+
+1. Installation
+
+Run command yum install net-snmp-utils
+
+[root@dull etc]# yum install net-snmp-utils
+Loading "fastestmirror" plugin
+Loading "dellsysidplugin" plugin
+...
+...
+Dependencies Resolved
+
+=============================================================================
+ Package                 Arch       Version          Repository        Size
+=============================================================================
+Installing:
+ net-snmp-utils          i386       1:5.3.1-24.el5_2.2  updates           182 k
+Installing for dependencies:
+ net-snmp                i386       1:5.3.1-24.el5_2.2  updates           698 k
+
+Transaction Summary
+=============================================================================
+Install      2 Package(s)
+Update       0 Package(s)
+Remove       0 Package(s)
+
+Total download size: 879 k
+Is this ok [y/N]: y
+
+Answer y
+
+Downloading Packages:
+
+(1/2): net-snmp-utils-5.3 100% |=========================| 182 kB    00:02
+(2/2): net-snmp-5.3.1-24. 100% |=========================| 698 kB    00:06
+Running rpm_check_debug
+Running Transaction Test
+Finished Transaction Test
+Transaction Test Succeeded
+Running Transaction
+ Installing: net-snmp                     ######################### [1/2]
+  Installing: net-snmp-utils               ######################### [2/2]
+Installed: net-snmp-utils.i386 1:5.3.1-24.el5_2.2
+Dependency Installed: net-snmp.i386 1:5.3.1-24.el5_2.2
+Complete!
+
+
+Now it is installed
+
+ 
+
+ 
+2. Configure
+
+I’m careful so I do a backup of the snmpd config file.
+
+[root@dull ~]# mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.org 
+
+Create a new config file.
+
+[root@dull ~]# vi /etc/snmp/snmpd.conf
+
+rocommunity  public
+syslocation  "PDC, Peters DataCenter"
+syscontact  peter@it-slav.net
+
+Start the snmpd service
+
+[root@dull ~]# /etc/init.d/snmpd start
+
+Do a snmpwalk to make sure it is working
+
+[root@dull ~]# snmpwalk -v 1 -c public -O e 127.0.0.1
+SNMPv2-MIB::sysDescr.0 = STRING: Linux dull 2.6.18-92.1.17.el5 #1 SMP Tue Nov 4 13:45:01 EST 2008 i686
+SNMPv2-MIB::sysObjectID.0 = OID: NET-SNMP-MIB::netSnmpAgentOIDs.10
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (16748) 0:02:47.48
+SNMPv2-MIB::sysContact.0 = STRING: peter@it-slav.net
+SNMPv2-MIB::sysName.0 = STRING: dull
+SNMPv2-MIB::sysLocation.0 = STRING: "PDC, Peters DataCentral"
+SNMPv2-MIB::sysORLastChange.0 = Timeticks: (1) 0:00:00.01
+...
+
+...
+
+Yes, it is working
+
+And finally, make sure snmpd starts next time you restart your machine.
+
+[root@dull ~]# chkconfig snmpd on

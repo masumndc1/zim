@@ -1,0 +1,18 @@
+----To start or stop the services displayed by
+
+lssrc -T 
+
+
+example ftp
+
+ cat /etc/inetd.conf|grep "ftp"
+
+startsrc -t ftp
+
+cat /etc/inetd.conf|grep "ftp"
+
+ stopsrc -t ftp
+
+ cat /etc/inetd.conf|grep "ftp"
+
+refresh -s inetd

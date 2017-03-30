@@ -1,0 +1,13 @@
+
+
+
+
+.......................... dnat ..........................
+..
+.. our scenarios like below
+.. 
+.. outside --> pfsense --> local network (webserver1/webserver2)
+..
+..
+
+

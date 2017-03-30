@@ -1,0 +1,130 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+
+# the line that start with # is the comment. be careful
+# dont be fool with the line start with #
+# this is the step by step transparent proxy configuration for
+# fedora and red hat enterprise linux 5.
+# change the setting accordingly to your own configuration. dont be confused to type as follows your configuration will be different.
+
+# dont be confuse with the following line
+
+[root@localhost etc]#
+
+# user : root
+# ur hostname : localhost 
+# ur current directory : etc
+
+# user as root at the hostname of the computer localhost and you
+# are at the etc directory.
+
+# for the further help go to 
+# www.linuxhomenetworking.com 
+# or the book linux bible..
+# here you will need some iptables firewall
+# to have go to the www.linuxhomenetworking.com
+
+
+[root@localhost etc]#vi /etc/hostname
+
+192.168.1.1	shourov.localdomain	sourov
+
+:x!
+
+[root@localhost etc]#vi /etc/squid/squid.conf
+
+# dont be fool enough to change this according to your 
+# need and the according place at the /etc/squid/squid.conf file
+# this following change at any where will work but it is good practise to
+# have this change according to the appropiate portion of the file.
+
+
+visible_hostname sourov
+http_port 3128 transparent
+acl localnet src 192.168.1.0/29
+http_access allow localnet
+
+cache_dir ufs /var/spool/squid 4100 16 256
+cache_mem 128 MB
+
+
+# the following lines are optional
+
+cache_store_log /var/log/store/store.log
+cache_mgr sourov@yahoo.com
+
+# suppose you want to restrict browsing by the time and day
+# of the week.
+
+acl busineeshour time S M T W T F 9:00-17:00
+http_access allow localnet busineeshour
+
+# now create the swap space by the following command
+
+[root@localhost etc]#squid -z
+
+
+# restriction the web site 
+
+[root@localhost etc]#touch /usr/local/etc/restrictedsite.squid
+[root@localhost etc]#chmod 755 /usr/local/etc/restrictedsite.squid
+[root@localhost etc]#vi /usr/local/etc/restrictedsite.squid
+
+# write one website per line.
+www.facebook.com
+www.naughtyamerica.com
+www.bangbros.com
+www.dsebd.org
+
+:x!
+
+[root@localhost etc]#vi /etc/squid/squid.conf
+
+acl badsite dstdomain "/usr/local/etc/restrictedsite.squid"
+http_access deny badsite localnet busineeshour
+
+# the above lines means these site will not be available
+# at the time 9:00 morning to 17:00 evening at the week 
+# sunday, monday, tuesday, wednesday, thursday and friday.
+# other time they will be accessible.
+
+# to do some check browse from a LAN side computer using the 
+# and at the same time at ur proxy server check it is working or not.
+
+[root@localhost etc]#tail -f /var/log/squid/access.log
+
+# by the command u will see lot of line while browsing like 
+# TCP_MISS OR TCP_HIT 
+
+
+# now go to the www.linuxhomenetworking.com
+# for the iptables firewal for transparent proxy.
+
+# you may need ip forwarding One way to allow this is to change the value of net.ipv4.ip_forward to 1
+#in the /etc/sysctl.conf file. Open that file as root user with any text editor and
+#change the line to appear as follows:
+net.ipv4.ip_forward = 1
+
+# if you are using modem then you have various ip each time you connect the modem then you need following MASQUERADE  rules.
+#Here is an example of a MASQUERADE rule:
+root@localhost# iptables –t nat –A POSTROUTING –o ppp0 –j MASQUERADE
+
+# if you are having fixed ip from ISP then you need following SNAT rules. Use either MASQUERADE or SNAT rules based on you configuration but not both.
+#Here is an example of a SNAT rule:
+root@localhost# iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 12.12.12.12
+
+# transparent proxy
+#The following is an example of a set of command-line options to the iptables command
+that causes a request for Web service (port 80) to be directed to a proxy service (port 3128):
+root@localhost# iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3128
+ 
+
+# If this document is not clear to u
+# communicate with 
+# or  01190 676840
+# or if both number is not availabe then
+# @ 01717 614976
+
+
+
+

@@ -1,0 +1,41 @@
+
+
+// to configure two f5 servers to be in active/standby mode we have configure them several things step by step.
+
+1. to configure two f5 servers for the active/standby mode the servers must have the followings.
+
+a. management interface configured.
+b. modules are licensed and provisioned.
+c. valid device certificates are configured.
+d. fqdn cofigured.
+e. server clock is synchronised. ie ntp should be configured.
+f. networking like vlan and the self ip should be configured.
+g. admin username and passwords.
+h. should take the backup.
+
+// many of the tasks have to configured using the setup utility.
+
+// normaly we can use the existing vlan for the ha configuration but f5 recommends that we use the 
+// separate vlan for that. for the simulating purpose we will do with one of the existing vlan. 
+
+// setup utility/ high availability network configuration/ and select the existing vlan and the type 
+// internal select the ip like 172.16.1.31/16. vlan interface 1.1 and untagged one.
+// when we press the next tab it will go to the configsync configuration.
+
+// on the configsync configuration we will not select the floating ip. we will not do that.
+// we will select the self ip which one is the fixed one. remember not to select the floating ip.
+
+// on the failover unicast configuration we will have 172.16.1.31 as internal vlan ip and 
+// 192.168.1.31 as the management ip address. management ip address will use communication when
+// the vlan ip is not functional. 
+
+// next thing is the mirroring. on the tab we will select the self 172.16.1.31 not floating ip address 
+// 
+
+
+
+
+
+
+
+

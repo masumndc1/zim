@@ -1,0 +1,89 @@
+
+
+
+// access control using the asa
+// here we will see some output of few commands and describe what happens
+
+
+ciscoasa# show local-host 192.168.244.132
+
+Interface dmz1: 0 active, 1 maximum active, 0 denied
+Interface inside: 1 active, 1 maximum active, 0 denied
+local host: <192.168.244.132>,
+    TCP flow count/limit = 13/unlimited
+    TCP embryonic count to host = 0
+    TCP intercept watermark = unlimited
+    UDP flow count/limit = 0/unlimited
+
+  Xlate:
+    PAT Global 10.10.10.10(1076) Local 192.168.244.132(50326) 
+    PAT Global 10.10.10.10(1075) Local 192.168.244.132(50169) 
+    PAT Global 10.10.10.10(1074) Local 192.168.244.132(34869) 
+    PAT Global 10.10.10.10(1073) Local 192.168.244.132(57282) 
+    PAT Global 10.10.10.10(1072) Local 192.168.244.132(49987) 
+    PAT Global 10.10.10.10(1071) Local 192.168.244.132(34807) 
+    PAT Global 10.10.10.10(1070) Local 192.168.244.132(53400) 
+    PAT Global 10.10.10.10(1069) Local 192.168.244.132(34370) 
+    PAT Global 10.10.10.10(1068) Local 192.168.244.132(49977) 
+    PAT Global 10.10.10.10(1161) Local 192.168.244.132(45391) 
+    PAT Global 10.10.10.10(1067) Local 192.168.244.132(43794) 
+    PAT Global 10.10.10.10(1160) Local 192.168.244.132(36056) 
+    PAT Global 10.10.10.10(1066) Local 192.168.244.132(33291) 
+    PAT Global 10.10.10.10(1159) Local 192.168.244.132(49882) 
+    PAT Global 10.10.10.10(1158) Local 192.168.244.132(49881) 
+    PAT Global 10.10.10.10(1157) Local 192.168.244.132(49880) 
+    PAT Global 10.10.10.10(1156) Local 192.168.244.132(49879) 
+    PAT Global 10.10.10.10(1155) Local 192.168.244.132(44963) 
+    PAT Global 10.10.10.10(1065) Local 192.168.244.132(56604) 
+    PAT Global 10.10.10.10(1154) Local 192.168.244.132(39674) 
+    PAT Global 10.10.10.10(1153) Local 192.168.244.132(44961) 
+    PAT Global 10.10.10.10(1064) Local 192.168.244.132(36451) 
+    PAT Global 10.10.10.10(1152) Local 192.168.244.132(34729) 
+    PAT Global 10.10.10.10(1151) Local 192.168.244.132(49378) 
+    PAT Global 10.10.10.10(1150) Local 192.168.244.132(34727) 
+    PAT Global 10.10.10.10(1063) Local 192.168.244.132(57583) 
+    PAT Global 10.10.10.10(1149) Local 192.168.244.132(48275) 
+    PAT Global 10.10.10.10(1062) Local 192.168.244.132(37104) 
+    PAT Global 10.10.10.10(1148) Local 192.168.244.132(48274) 
+    PAT Global 10.10.10.10(1061) Local 192.168.244.132(49330) 
+    PAT Global 10.10.10.10(1060) Local 192.168.244.132(40657) 
+    PAT Global 10.10.10.10(1139) Local 192.168.244.132(39271) 
+    PAT Global 10.10.10.10(1138) Local 192.168.244.132(39270) 
+    PAT Global 10.10.10.10(1137) Local 192.168.244.132(39269) 
+    PAT Global 10.10.10.10(1136) Local 192.168.244.132(39268) 
+    PAT Global 10.10.10.10(1135) Local 192.168.244.132(39267) 
+    PAT Global 10.10.10.10(1134) Local 192.168.244.132(39266) 
+    PAT Global 10.10.10.10(1133) Local 192.168.244.132(54180) 
+    PAT Global 10.10.10.10(1132) Local 192.168.244.132(54179) 
+    PAT Global 10.10.10.10(1131) Local 192.168.244.132(54178) 
+    PAT Global 10.10.10.10(1130) Local 192.168.244.132(54177) 
+    PAT Global 10.10.10.10(1129) Local 192.168.244.132(54176) 
+    PAT Global 10.10.10.10(1128) Local 192.168.244.132(54175) 
+    PAT Global 10.10.10.10(1125) Local 192.168.244.132(56065) 
+    PAT Global 10.10.10.10(2) Local 192.168.244.132 ICMP id 7329 
+    PAT Global 10.10.10.10(1114) Local 192.168.244.132(34689) 
+    PAT Global 10.10.10.10(1104) Local 192.168.244.132(33110) 
+    PAT Global 10.10.10.10(1103) Local 192.168.244.132(50264) 
+    PAT Global 10.10.10.10(1089) Local 192.168.244.132(38829) 
+
+  Conn:
+    TCP out 64.233.187.84:443 in 192.168.244.132:36056 idle 0:00:24 bytes 5893 flags UIO
+    TCP out 172.217.25.67:443 in 192.168.244.132:49879 idle 0:00:23 bytes 90150 flags UIO
+    TCP out 173.194.72.102:443 in 192.168.244.132:39674 idle 0:00:24 bytes 5553 flags UIO
+    TCP out 216.58.199.110:443 in 192.168.244.132:44961 idle 0:00:24 bytes 33752 flags UIO
+    TCP out 216.58.199.14:443 in 192.168.244.132:34729 idle 0:00:25 bytes 25863 flags UIO
+    TCP out 216.58.203.46:443 in 192.168.244.132:49378 idle 0:00:24 bytes 18221 flags UIO
+    TCP out 216.58.199.14:443 in 192.168.244.132:34727 idle 0:00:23 bytes 87690 flags UIO
+    TCP out 204.155.149.139:80 in 192.168.244.132:39271 idle 0:00:27 bytes 70581 flags UIO
+    TCP out 204.155.149.31:80 in 192.168.244.132:54176 idle 0:00:00 bytes 279026 flags UfIO
+    TCP out 199.101.134.235:80 in 192.168.244.132:56065 idle 0:00:23 bytes 15921 flags UIO
+    ICMP out 98.138.253.109:0 in 192.168.244.132:7329 idle 0:00:00 bytes 10136
+    TCP out 216.58.199.14:443 in 192.168.244.132:34689 idle 0:00:25 bytes 66819 flags UIO
+    TCP out 64.233.189.120:443 in 192.168.244.132:50264 idle 0:00:23 bytes 11021 flags UIO
+    TCP out 74.125.203.100:80 in 192.168.244.132:38829 idle 0:00:24 bytes 6081 flags UIO
+    ICMP out 98.138.253.109:0 in 192.168.244.132:7329 idle 0:00:01 bytes 0
+Interface outside: 12 active, 20 maximum active, 0 denied
+ciscoasa#  
+
+
+

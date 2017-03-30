@@ -1,0 +1,19 @@
+
+
+... say we want to implement the transparent proxy in BSD.
+... then we need to divert one port to another port on locat pc.
+
+... port diversion has following syntax
+
+pass in inet proto tcp from lan:network to any port 80 divert-to 127.0.0.1 port 3129
+
+... on BSD the squid servers works on 3129 can be installed from
+... ports from /usr/ports/www/squid.
+
+... the rule has the human readable easy syntax like any packets 
+... destined to 80 port from lan following through BSD firewall
+... will be divert to 3129 port on firewall machine itself.
+... on that port squid chaching proxy server is working.
+
+
+

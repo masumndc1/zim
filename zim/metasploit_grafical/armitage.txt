@@ -1,0 +1,33 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-29T01:54:52+06:00
+
+====== armitage ======
+Created Monday 29 July 2013
+
+root@masum-K42JZ:~# wget -c http://fastandeasyhacking.com/download/armitage20130605.tgz
+root@masum-K42JZ:~# tar xvfz [[http://fastandeasyhacking.com/download/armitage20130605.tgz|armitage20130605.tgz]]
+root@masum-K42JZ:~/armitage# ls
+armitage  armitage.jar  armitage-logo.png  cortana.jar  readme.txt  teamserver  whatsnew.txt
+root@masum-K42JZ:~/armitage# 
+root@masum-K42JZ:~/armitage# 
+root@masum-K42JZ:~/armitage# cd ..
+root@masum-K42JZ:~# ls
+armitage  armitage20130605.tgz  batb  cpulimit_script.sh  hardware.txt  hotspot  PacketTracer533_i386_installer-deb.bin  router.sh  usage.sh
+root@masum-K42JZ:~# 
+root@masum-K42JZ:~# 
+root@masum-K42JZ:~# cd armitage/
+root@masum-K42JZ:~/armitage# ls
+armitage  armitage.jar  armitage-logo.png  cortana.jar  readme.txt  teamserver  whatsnew.txt
+root@masum-K42JZ:~/armitage# 
+root@masum-K42JZ:~/armitage# 
+root@masum-K42JZ:~/armitage# java -jar armitage.jar
+Starting msfrpcd for you.
+[*] MSGRPC starting on 127.0.0.1:55553 (NO SSL):Msg...
+Setting up menu builder: cortana.gui.MenuBuilder@4a2dd4
+Warning: Used the tab method: 10.1.165.59 at util.sl:268
+Warning: Remote Exploits Synced at menus.sl:320
+Warning: Starting Cortana on 10.1.165.59 at util.sl:183
+Warning: Creating a default reverse handler... 0.0.0.0:14423 at util.sl:171
+
+//then click on yes.and now with windo will come...//

@@ -1,0 +1,802 @@
+
+
+........................ inspecting_traffic ................................
+
+.. modular policy framework or MPF is used to take action on specific traffic.
+.. the traffics are identified first then action taken on them by the following.
+..
+.. service policy: which is applied on interface.
+.. class map: is the set of traffic matched.
+.. policy map: is the set of actions on class maps.
+.. 
+.. and they are all modular like service policy can hold several policy maps
+.. and policy maps can hold several class maps.
+
+ciscoasa(config)# show run service-policy
+service-policy global_policy global
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# show run policy-map global_policy
+!
+policy-map global_policy
+ class inspection_default
+  inspect dns maximum-length 512 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny 
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip 
+  inspect xdmcp 
+!
+ciscoasa(config)# 
+
+.. example of the default service-policy and global-policy is given
+.. above. note here, that policy-map has a class which is used to indentify
+.. the traffics. and the policy map must has one or severals class. class
+.. key word actually references other class-maps defined previous.
+.. and the inspect key word also reference the matched traffics.
+
+.. and finally the class-map inspection_default is matching default-inspection-traffic
+.. there can be several matching traffic depending on requirement.
+
+ciscoasa(config)# show running-config class-map inspection_default
+!
+class-map inspection_default
+ match default-inspection-traffic
+!
+ciscoasa(config)# 
+
+.. so when configuring the policy-map in asa I have found the following 
+.. order is quite convenient. like 
+
+.. 1. create the class-map
+.. 2. create the policy-map and reference the created class-map
+.. 3. finally create the service-policy and reference the policy-map created.
+.. note: we should also consider the default global policy when configuring
+.. the policy-map.
+.. note: each interface can have only one service policy. and the global
+.. policy to all of the interfaces. therefore,we can add several class map
+.. into a policy-map and attach is to the service policy. 
+
+.. when configuring a policy we can consider the following
+ 
+.. Class map: Which traffic will be matched?
+.. Policy map: What action will be taken on each class of traffic?
+.. Service policy: Where will the policy map be applied?
+
+ciscoasa(config)# class-map class-dmz1
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# ?
+
+MPF class-map configuration commands:
+  description  Specify class-map description
+  exit         Exit from MPF class-map configuration mode
+  help         Help for MPF class-map configuration commands
+  match        Configure classification criteria
+  no           Negate or set default values of a command
+  rename       Rename this class-map
+ciscoasa(config-cmap)# mat
+ciscoasa(config-cmap)# match ?
+
+mpf-class-map mode commands/options:
+  access-list                 Match an Access List
+  any                         Match any packet
+  default-inspection-traffic  Match default inspection traffic: 
+                              ctiqbe----tcp--2748      dns-------udp--53       
+                              ftp-------tcp--21        gtp-------udp--2123,3386
+                              h323-h225-tcp--1720      h323-ras--udp--1718-1719
+                              http------tcp--80        icmp------icmp          
+                              ils-------tcp--389       mgcp------udp--2427,2727
+                              netbios---udp--137-138   rpc-------udp--111      
+                              rsh-------tcp--514       rtsp------tcp--554      
+                              sip-------tcp--5060      sip-------udp--5060     
+                              skinny----tcp--2000      smtp------tcp--25       
+                              sqlnet----tcp--1521      tftp------udp--69       
+                              xdmcp-----udp--177      
+
+  dscp                        Match IP DSCP (DiffServ CodePoints)
+  flow                        Flow based Policy
+  port                        Match TCP/UDP port(s)
+  precedence                  Match IP precedence
+  rtp                         Match RTP port numbers
+  tunnel-group                Match a Tunnel Group
+ciscoasa(config-cmap)# match port ?
+
+mpf-class-map mode commands/options:
+  tcp  This keyword specifies TCP port(s)
+  udp  This keyword specifies UDP port(s)
+ciscoasa(config-cmap)# match port tcp ?
+
+mpf-class-map mode commands/options:
+  eq     Port equal to operator
+  range  Port range operator
+ciscoasa(config-cmap)# match port tcp eq ?
+
+mpf-class-map mode commands/options:
+  <1-65535>  Enter port number (1 - 65535)
+ciscoasa(config-cmap)# match port tcp eq 23 ?
+
+mpf-class-map mode commands/options:
+  <cr>
+ciscoasa(config-cmap)# match port tcp eq 23 
+
+.. these are the options we have when configuring the class-map.
+..
+
+................. policy-map ..................................
+
+.. the sample class map are given here.. 
+.. 
+
+ciscoasa(config)# show run policy-map
+!
+policy-map class-dmz1
+policy-map global_policy
+ class inspection_default
+  inspect dns maximum-length 512 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny 
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip 
+  inspect xdmcp 
+policy-map policy-shape-dmz1
+ class class-default
+policy-map policy-dmz1
+ class class-dmz1
+!
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# policy-map class-dmz1
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# show run class-map
+!
+class-map class-dmz1
+ match access-list access-list-dmz1
+class-map inspection_default
+ match default-inspection-traffic
+class-map class-map-masum
+ description testing class map
+ match access-list www-allow
+!
+ciscoasa(config-pmap)# class  class-dmz1
+ciscoasa(config-pmap-c)# 
+ciscoasa(config-pmap-c)# 
+ciscoasa(config-pmap-c)# ?
+
+MPF policy-map class configuration commands:
+  exit      Exit from MPF class action configuration mode
+  help      Help for MPF policy-map configuration commands
+  inspect   Protocol inspection services
+  no        Negate or set default values of a command
+  police    Rate limit traffic for this class
+  priority  Strict scheduling priority for this class
+  set       Set connection values
+ciscoasa(config-pmap-c)#   
+
+.. these are some of the options we have when configuring the policy-map
+.. and their action on matching traffics.
+
+ciscoasa(config-pmap-c)# set ?
+
+mpf-policy-map-class mode commands/options:
+  connection  Configure connection parameters
+
+ciscoasa(config-pmap-c)# set connection ?
+
+mpf-policy-map-class mode commands/options:
+  advanced-options        Configure advanced connection parameters
+  conn-max                Keyword to set the maximum number of all simultaneous
+                          connections that are allowed.  Default is 0 which
+                          means unlimited connections.
+  embryonic-conn-max      Keyword to set the maximum number of TCP embryonic
+                          connections that are allowed.  Default is 0 which
+                          means unlimited connections.
+  random-sequence-number  Enable/disable TCP sequence number randomization. 
+                          Default is to enable TCP sequence number
+                          randomization
+  timeout                 Configure connection timeout parameters
+
+ciscoasa(config-pmap-c)# set connection advanced-options ?
+
+mpf-policy-map-class mode commands/options:
+  WORD  Enter TCP map name
+ciscoasa(config-pmap-c)# set connection advanced-options 
+
+.. inspect keyword with its options
+
+ciscoasa(config-pmap-c)# ?
+
+MPF policy-map class configuration commands:
+  exit      Exit from MPF class action configuration mode
+  help      Help for MPF policy-map configuration commands
+  inspect   Protocol inspection services
+  no        Negate or set default values of a command
+  police    Rate limit traffic for this class
+  priority  Strict scheduling priority for this class
+  set       Set connection values
+ciscoasa(config-pmap-c)# 
+ciscoasa(config-pmap-c)# inspect ?
+
+mpf-policy-map-class mode commands/options:
+  ctiqbe           
+  dns              
+  esmtp            
+  ftp              
+  gtp              
+  h323             
+  http             
+  icmp             
+  ils              
+  ipsec-pass-thru  
+  mgcp             
+  netbios          
+  pptp             
+  rsh              
+  rtsp             
+  sip              
+  skinny           
+  snmp             
+  sqlnet           
+  sunrpc           
+  tftp             
+  xdmcp            
+ciscoasa(config-pmap-c)# inspect icmp ?
+
+mpf-policy-map-class mode commands/options:
+  error  Enable NAT on icmp error messages
+  <cr>
+ciscoasa(config-pmap-c)# inspect icmp error ?
+
+mpf-policy-map-class mode commands/options:
+  <cr>
+ciscoasa(config-pmap-c)# inspect icmp error 
+
+.......... now configuring the multiple class-map in a single policy-map .........
+
+ciscoasa(config)# 
+ciscoasa(config)# class-map class-ssh-masum
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# ?
+
+MPF class-map configuration commands:
+  description  Specify class-map description
+  exit         Exit from MPF class-map configuration mode
+  help         Help for MPF class-map configuration commands
+  match        Configure classification criteria
+  no           Negate or set default values of a command
+  rename       Rename this class-map
+
+ciscoasa(config-cmap)# description class to inspect the ssh
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# ?
+
+MPF class-map configuration commands:
+  description  Specify class-map description
+  exit         Exit from MPF class-map configuration mode
+  help         Help for MPF class-map configuration commands
+  match        Configure classification criteria
+  no           Negate or set default values of a command
+  rename       Rename this class-map
+
+ciscoasa(config-cmap)# match ?
+
+mpf-class-map mode commands/options:
+  access-list                 Match an Access List
+  any                         Match any packet
+  default-inspection-traffic  Match default inspection traffic: 
+                              ctiqbe----tcp--2748      dns-------udp--53       
+                              ftp-------tcp--21        gtp-------udp--2123,3386
+                              h323-h225-tcp--1720      h323-ras--udp--1718-1719
+                              http------tcp--80        icmp------icmp          
+                              ils-------tcp--389       mgcp------udp--2427,2727
+                              netbios---udp--137-138   rpc-------udp--111      
+                              rsh-------tcp--514       rtsp------tcp--554      
+                              sip-------tcp--5060      sip-------udp--5060     
+                              skinny----tcp--2000      smtp------tcp--25       
+                              sqlnet----tcp--1521      tftp------udp--69       
+                              xdmcp-----udp--177      
+
+  dscp                        Match IP DSCP (DiffServ CodePoints)
+  flow                        Flow based Policy
+  port                        Match TCP/UDP port(s)
+  precedence                  Match IP precedence
+  rtp                         Match RTP port numbers
+  tunnel-group                Match a Tunnel Group
+ciscoasa(config-cmap)# match port ?
+
+mpf-class-map mode commands/options:
+  tcp  This keyword specifies TCP port(s)
+  udp  This keyword specifies UDP port(s)
+ciscoasa(config-cmap)# match port tcp ?
+
+mpf-class-map mode commands/options:
+  eq     Port equal to operator
+  range  Port range operator
+ciscoasa(config-cmap)# match port tcp eq 22 
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# exit
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# class-map class-https-masum
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# ?
+
+ciscoasa(config-cmap)# description https inspections class
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# ?
+
+MPF class-map configuration commands:
+  description  Specify class-map description
+  exit         Exit from MPF class-map configuration mode
+  help         Help for MPF class-map configuration commands
+  match        Configure classification criteria
+  no           Negate or set default values of a command
+  rename       Rename this class-map
+ciscoasa(config-cmap)# match ?
+
+ciscoasa(config-cmap)# match port ?
+
+mpf-class-map mode commands/options:
+  tcp  This keyword specifies TCP port(s)
+  udp  This keyword specifies UDP port(s)
+ciscoasa(config-cmap)# match port tcp ?
+
+mpf-class-map mode commands/options:
+  eq     Port equal to operator
+  range  Port range operator
+ciscoasa(config-cmap)# match port tcp eq ?
+
+mpf-class-map mode commands/options:
+  <1-65535>  Enter port number (1 - 65535)
+ciscoasa(config-cmap)# match port tcp eq 443
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# 
+ciscoasa(config-cmap)# exit
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# show run clas
+ciscoasa(config)# show run class-map 
+!
+class-map class-dmz1
+ match access-list access-list-dmz1
+class-map class-ssh-masum
+ description class to inspect the ssh
+ match port tcp eq ssh
+class-map class-https-masum
+ description https inspections class
+ match port tcp eq https
+class-map inspection_default
+ match default-inspection-traffic
+class-map class-map-masum
+ description testing class map
+ match access-list www-allow
+ match default-inspection-traffic
+!
+ciscoasa(config)# show run policy-map 
+!
+policy-map class-dmz1
+ class class-dmz1
+policy-map global_policy
+ class inspection_default
+  inspect dns maximum-length 512 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny 
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip 
+  inspect xdmcp 
+policy-map policy-map-masum
+ class class-map-masum
+policy-map policy-shape-dmz1
+ class class-default
+policy-map policy-dmz1
+ class class-dmz1
+!             
+ciscoasa(config)# policy-map policy-map-masum
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# show run class-map
+!
+class-map class-dmz1
+ match access-list access-list-dmz1
+class-map class-ssh-masum
+ description class to inspect the ssh
+ match port tcp eq ssh
+class-map class-https-masum
+ description https inspections class
+ match port tcp eq https
+class-map inspection_default
+ match default-inspection-traffic
+class-map class-map-masum
+ description testing class map
+ match access-list www-allow
+ match default-inspection-traffic
+!
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# class class-ssh-masum
+ciscoasa(config-pmap-c)# exit
+ciscoasa(config-pmap)# class class-https-masum
+ciscoasa(config-pmap-c)# exit
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# 
+ciscoasa(config-pmap)# show run policy-map
+!
+policy-map class-dmz1
+ class class-dmz1
+policy-map global_policy
+ class inspection_default
+  inspect dns maximum-length 512 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny 
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip 
+  inspect xdmcp 
+policy-map policy-map-masum
+ class class-map-masum
+ class class-ssh-masum
+ class class-https-masum
+policy-map policy-shape-dmz1
+ class class-default
+policy-map policy-dmz1
+ class class-dmz1
+!
+ciscoasa(config-pmap)# 
+
+.. asa will perform the policy-map acction more specific when it found two similar
+.. action needed on the same traffic. say if the http is permitted in one policy
+.. the connection timeout will performed as it is more specific. moreover, when
+.. passing through asa, asa will performed the inspection traffic only once but not
+.. multiple time entering and leaving through the interfaces.
+
+.. now place it to one of the interface or configure it as global. asa has only one
+.. global policy-map but can edit it or delete it and reconfigure it.
+
+ciscoasa(config)# service-policy policy-map-masum ?
+
+configure mode commands/options:
+  global     Enter this keyword to specify a global policy
+  interface  Enter this keyword to specify an interface policy
+ciscoasa(config)# service-policy policy-map-masum interface ?
+
+.. the global keyword apply the service policy to all of the interface
+.. globally but asa can have only one global policy. but we can delete
+.. edit and reconfigure the global policy map. global policy-map has
+.. only one direction toward or inbound passing through asa.
+.. other policy-map has bidirectional but normally inbound.
+
+configure mode commands/options:
+Current available interface(s):
+  dmz1     Name of interface Ethernet2
+  inside   Name of interface Ethernet1
+  outside  Name of interface Ethernet0
+ciscoasa(config)# service-policy policy-map-masum interface outside ?
+
+configure mode commands/options:
+  <cr>
+ciscoasa(config)# service-policy policy-map-masum interface outside 
+ciscoasa(config)# 
+ciscoasa(config)# show run service-policy 
+service-policy global_policy global
+service-policy policy-map-masum interface outside
+service-policy policy-dmz1 interface inside
+service-policy policy-dmz1 interface dmz1
+ciscoasa(config)# 
+
+.......... inspecting TCP Parameters with the TCP Normalizer .............
+
+.. when a crafted tcp packed or malformed tcp packet reached to asa and 
+.. headed to a host passing through asa we can stop or normalize it by
+.. tcp normalizer. first we can configure tcp normalizer with tcp-map 
+.. command then reference it to any predefined class. like below.
+.. there are several options and all are self-explanatory.
+
+ciscoasa(config)# tcp-map tcp-map-masum
+ciscoasa(config-tcp-map)# 
+ciscoasa(config-tcp-map)# ?
+
+TCP-map configuration commands:
+  check-retransmission    Check retransmit data, disabled by default
+  checksum-verification   Verify TCP checksum, disabled by default
+  default                 Set a command to its defaults
+  exceed-mss              Packet that exceed the Maximum Segment Size set by
+                          peer, default is to drop packet
+  no                      Negate a command or set its defaults
+  reserved-bits           Reserved bits in TCP header are set, default is to
+                          allow packet
+  syn-data                TCP SYN packets that contain data, default is to
+                          allow packet
+  tcp-options             Options in TCP header
+  ttl-evasion-protection  Protection against time to live (TTL) attacks,
+                          enabled by default
+  urgent-flag             Urgent flag and urgent offset set, default is to
+                          clear flag and offset
+  window-variation        Unexpected window size variation, default is to allow
+                          connection
+
+ciscoasa(config-tcp-map)# check-retransmission ?
+
+tcp-map mode commands/options:
+  <cr>
+ciscoasa(config-tcp-map)# check-retransmission 
+
+ciscoasa(config-tcp-map)# tcp-options ?
+
+tcp-map mode commands/options:
+  range          Range of TCP options, default is to clear options
+  selective-ack  Selective acknowledgement TCP option, default is to allow this
+                 option
+  timestamp      Timestamp TCP option, default is to allow this option
+  window-scale   Window scale TCP option, default is to allow this option
+ciscoasa(config-tcp-map)# tcp-options tim
+ciscoasa(config-tcp-map)# tcp-options timestamp ?
+
+tcp-map mode commands/options:
+  allow  Allow packet with timestamp option
+  clear  Clear timestamp option and allow packet
+
+ciscoasa(config-tcp-map)# tcp-options timestamp allow ?
+
+tcp-map mode commands/options:
+  <cr>
+ciscoasa(config-tcp-map)# tcp-options timestamp allow 
+ciscoasa(config-tcp-map)# 
+
+.. now reference it to the policy-map like below inside a class-map.
+
+ciscoasa(config-pmap-c)# show run tcp-map
+!
+tcp-map tcp-map-masum
+  check-retransmission 
+  exceed-mss allow
+!
+ciscoasa(config-pmap-c)# show run policy-map policy-map-masum
+!
+policy-map policy-map-masum
+ class class-map-masum
+ class class-ssh-masum
+  set connection advanced-options tcp-map-masum
+ class class-https-masum
+  set connection conn-max 2 
+!
+ciscoasa(config-pmap-c)# 
+
+.. note: our tcp-map tcp-map-masum is inside policy-map policy-map-masum
+.. within the class of class-map class-ssh-masum with the option set
+.. like above. and note here the syntax how it is constructed
+.. moreover using the default keyword we can revert ourself to the default
+.. setting of any options like below.
+
+ciscoasa(config-tcp-map)# default ?
+
+tcp-map mode commands/options:
+  check-retransmission    Check retransmit data, disabled by default
+  checksum-verification   Verify TCP checksum, disabled by default
+  exceed-mss              Packet that exceed the Maximum Segment Size set by
+                          peer, default is to drop packet
+  reserved-bits           Reserved bits in TCP header are set, default is to
+                          allow packet
+  syn-data                TCP SYN packets that contain data, default is to
+                          allow packet
+  tcp-options             Options in TCP header
+  ttl-evasion-protection  Protection against time to live (TTL) attacks,
+                          enabled by default
+  urgent-flag             Urgent flag and urgent offset set, default is to
+                          clear flag and offset
+  window-variation        Unexpected window size variation, default is to allow
+                          connection
+
+ciscoasa(config-tcp-map)# default check-retransmission  
+
+.. the command default check-retransmission will revert to its default value.
+.. this is the good thing.
+
+.. when we need asa not to monitor or inspect statefull connection then we can
+.. bypass that like below.
+
+ciscoasa(config-pmap-c)# set connection advanced-options tcp-state-bypass
+
+.. this is usefull when one direction goes through asa but not return to it.
+
+
+.................... configuring icmp inspection .........................
+
+.. icmp protocol is not stateful at all but asa can put enough options to make it
+.. looks like stateful. asa can open selectively connection and allow one response
+.. per connection. when icmp inspection is activated the sequence number between
+.. echo and echo-reply must match each other. moreover asa torn down icmp conn
+.. and the xlate as soon as the reply is received. 
+
+ciscoasa(config)# show run policy-map policy-map-masum
+!
+policy-map policy-map-masum
+ class class-map-masum
+  inspect icmp 
+ class class-ssh-masum
+  set connection advanced-options tcp-map-masum
+ class class-https-masum
+  set connection conn-max 2 
+!
+ciscoasa(config)# 
+
+.. this is how we configure the icpm inspection. normally asa dont allow icmp error
+.. message because error message can be comes from other host rather than legitimaze
+.. host but we can enable it from cli.
+
+.. interesting fact it is tcp and udp inspection enabled by default and cant be 
+.. disabled. udp connections timeout after 2mintues but dns traffic does not falls
+.. into this rules as dns is handled by different engine.
+
+.. interestingly we can add our inspection to default policy-map like following.
+
+ciscoasa(config)# policy-map global_policy
+ciscoasa(config-pmap)# class inspection_default
+ciscoasa(config-pmap-c)# ?
+
+MPF policy-map class configuration commands:
+  exit      Exit from MPF class action configuration mode
+  help      Help for MPF policy-map configuration commands
+  inspect   Protocol inspection services
+  no        Negate or set default values of a command
+  police    Rate limit traffic for this class
+  priority  Strict scheduling priority for this class
+  set       Set connection values
+ciscoasa(config-pmap-c)# inspect ?
+
+mpf-policy-map-class mode commands/options:
+  ctiqbe           
+  dns              
+  esmtp            
+  ftp              
+  gtp              
+  h323             
+  http             
+  icmp             
+  ils              
+  ipsec-pass-thru  
+  mgcp             
+  netbios          
+  pptp             
+  rsh              
+  rtsp             
+  sip              
+  skinny           
+  snmp             
+  sqlnet           
+  sunrpc           
+  tftp             
+  xdmcp            
+ciscoasa(config-pmap-c)# inspect http 
+
+ciscoasa(config-pmap-c)# show run policy-map global_policy
+!
+policy-map global_policy
+ class inspection_default
+  inspect dns maximum-length 512 
+  inspect ftp 
+  inspect h323 h225 
+  inspect h323 ras 
+  inspect netbios 
+  inspect rsh 
+  inspect rtsp 
+  inspect skinny 
+  inspect esmtp 
+  inspect sqlnet 
+  inspect sunrpc 
+  inspect tftp 
+  inspect sip 
+  inspect xdmcp 
+  inspect http 
+!
+ciscoasa(config-pmap-c)# 
+
+.. see http inspection added which was not here before. from now all the http
+.. traffic will be inspected. the following command shows the interesting 
+.. statistics of all the traffic inspected by the asa for both the global
+.. policy as well as custom policy. these statistics will be produced
+.. when we browse or do ping or dns query from inside to outside or outside
+.. to inside.
+
+ciscoasa(config-pmap-c)# show service-policy 
+
+Global policy: 
+  Service-policy: global_policy
+    Class-map: inspection_default
+      Inspect: dns maximum-length 512, packet 110, drop 2, reset-drop 0
+      Inspect: ftp, packet 0, drop 0, reset-drop 0
+      Inspect: h323 h225, packet 0, drop 0, reset-drop 0
+      Inspect: h323 ras, packet 0, drop 0, reset-drop 0
+      Inspect: netbios, packet 0, drop 0, reset-drop 0
+      Inspect: rsh, packet 0, drop 0, reset-drop 0
+      Inspect: rtsp, packet 0, drop 0, reset-drop 0
+      Inspect: skinny, packet 0, drop 0, reset-drop 0
+      Inspect: esmtp, packet 0, drop 0, reset-drop 0
+      Inspect: sqlnet, packet 0, drop 0, reset-drop 0
+      Inspect: sunrpc, packet 0, drop 0, reset-drop 0
+      Inspect: tftp, packet 0, drop 0, reset-drop 0
+      Inspect: sip, packet 0, drop 0, reset-drop 0
+      Inspect: xdmcp, packet 0, drop 0, reset-drop 0
+      Inspect: http, packet 808, drop 0, reset-drop 0
+      Inspect: icmp, packet 0, drop 0, reset-drop 0
+
+Interface outside:
+  Service-policy: policy-map-masum
+    Class-map: class-map-masum
+      Inspect: icmp, packet 123, drop 14, reset-drop 0
+    Class-map: class-ssh-masum
+      Set connection policy:         
+      Set connection advanced-options: tcp-map-masum
+        Retransmission drops: 0               TCP checksum drops : 0          
+        Exceeded MSS drops  : 0               SYN with data drops: 0          
+        Out-of-order packets: 0               No buffer drops    : 0          
+        Reserved bit cleared: 0               Reserved bit drops : 0          
+        IP TTL modified     : 0               Urgent flag cleared: 0          
+        Window varied resets: 0          
+        TCP-options:
+          Selective ACK cleared: 0            Timestamp cleared  : 0          
+          Window scale cleared : 0          
+          Other options cleared: 0          
+          Other options drops: 0          
+    Class-map: class-https-masum
+      Set connection policy: conn-max 2 
+        current conns 0, drop 0
+    Class-map: class-http-masum
+      Set connection policy: conn-max 2 
+        current conns 1, drop 2
+      Set connection advanced-options: tcp-map-masum
+        Retransmission drops: 0               TCP checksum drops : 0          
+        Exceeded MSS drops  : 0               SYN with data drops: 0          
+        Out-of-order packets: 68              No buffer drops    : 46         
+        Reserved bit cleared: 0               Reserved bit drops : 0          
+        IP TTL modified     : 0               Urgent flag cleared: 0          
+        Window varied resets: 0          
+        TCP-options:
+          Selective ACK cleared: 0            Timestamp cleared  : 0          
+          Window scale cleared : 0          
+          Other options cleared: 0          
+          Other options drops: 0          
+ciscoasa(config-pmap-c)# 
+
+
+
+
+
+
+
+
+
+
+

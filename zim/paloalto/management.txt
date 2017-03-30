@@ -1,0 +1,55 @@
+
+// first time login and ip address
+// the default username and password
+// admin and admin
+
+
+admin@PA-VM# set deviceconfig system ip-address 192.168.201.234 netmask 255.255.252.0 dns-setting servers primary 4.2.2.1 secondary 4.2.2.2 
+
+// setting some additional info to device.
+
+
+admin@PA-VM# set deviceconfig system hostname 
+admin@PA-VM# check pending-changes 
+
+yes
+[edit]                                                                                                                                                        
+admin@PA-VM#
+
+admin@PA-VM# commit 
+> force      force 
+> partial    partial 
+> validate   validate 
+  <Enter>    Finish input
+
+admin@PA-VM# commit partial 
++ device-and-network   device-and-network 
++ policy-and-objects   policy-and-objects 
+  <Enter>              Finish input
+
+admin@PA-VM# commit validate 
+
+
+......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
+Configuration is valid
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+admin@PA-VM# commit 
+
+
+....55%75%99%.......100%
+Configuration committed successfully
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+admin@testpa# 
+
+
+// office pa has 
+// user masum 
+// pass masum03
+// user admin
+// pass admin@pa

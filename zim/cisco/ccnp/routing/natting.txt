@@ -1,0 +1,127 @@
+
+
+.... natting in cisco router.
+
+Router(config)#do show ip inter brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            10.10.10.2      YES manual up                    up      
+FastEthernet0/1            192.168.244.10  YES manual up                    up      
+NVI0                       unassigned      NO  unset  up                    up      
+Router(config)#
+
+... FastEthernet0/0 is my outgoing interface going to out world.
+... FastEthernet0/1 is my lan interface
+
+... the routing is as follows
+
+Router(config)#ip route 0.0.0.0 0.0.0.0 10.10.10.1
+
+... this will route to 10.10.10.1 for any unknown traffic
+... now do the access-list.
+
+Router(config)# access-list 30 permit 192.168.244.0 0.0.0.255
+
+... now do the natting
+
+Router(config)# ip nat inside source list 30 interface FastEthernet0/0 overload
+
+... we have to place "ip nat outside" to the outgoing interface
+... and we have to place "ip nat inside" to the incoming interface
+
+... as fastethernet0/0 is my outgoing interface
+
+interface FastEthernet0/0
+ ip address 10.10.10.2 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+
+... as fastethernet0/1 is my incoming interface for lan
+
+interface FastEthernet0/1
+ ip address 192.168.244.10 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+
+... testing...when i ping outside or browse at any host from my local
+
+... when i do ping
+
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.2:3351   192.168.244.147:3351 4.2.2.1:3351     4.2.2.1:3351
+Router#
+Router#show ip nat st
+Router#show ip nat statistics 
+Total active translations: 1 (0 static, 1 dynamic; 1 extended)
+Outside interfaces:
+  FastEthernet0/0
+Inside interfaces: 
+  FastEthernet0/1
+Hits: 881  Misses: 163
+CEF Translated packets: 829, CEF Punted packets: 423
+Expired translations: 232
+Dynamic mappings:
+-- Inside Source
+[Id: 2] access-list 30 interface FastEthernet0/0 refcount 1
+Appl doors: 0
+Normal doors: 0
+Queued Packets: 0
+Router# 
+Router#
+
+... when i do the traceroute from any host from my lan pc i do 
+... the following.
+
+Router#show ip nat statistics 
+Total active translations: 57 (0 static, 57 dynamic; 57 extended)
+Outside interfaces:
+  FastEthernet0/0
+Inside interfaces: 
+  FastEthernet0/1
+Hits: 960  Misses: 216
+CEF Translated packets: 915, CEF Punted packets: 514
+Expired translations: 232
+Dynamic mappings:
+-- Inside Source
+[Id: 2] access-list 30 interface FastEthernet0/0 refcount 57
+Appl doors: 0
+Normal doors: 0
+Queued Packets: 0
+Router#
+Router#
+Router#show ip nat translations 
+Pro Inside global      Inside local       Outside local      Outside global
+icmp 10.10.10.2:3351   192.168.244.147:3351 4.2.2.1:3351     4.2.2.1:3351
+udp 10.10.10.2:33000   192.168.244.147:33000 4.2.2.1:33466   4.2.2.1:33466
+udp 10.10.10.2:33339   192.168.244.147:33339 4.2.2.1:33499   4.2.2.1:33499
+udp 10.10.10.2:33494   192.168.244.147:33494 4.2.2.1:53      4.2.2.1:53
+udp 10.10.10.2:34955   192.168.244.147:34955 4.2.2.1:33445   4.2.2.1:33445
+udp 10.10.10.2:35379   192.168.244.147:35379 4.2.2.1:53      4.2.2.1:53
+udp 10.10.10.2:35524   192.168.244.147:35524 4.2.2.1:33453   4.2.2.1:33453
+udp 10.10.10.2:35549   192.168.244.147:35549 4.2.2.1:33438   4.2.2.1:33438
+udp 10.10.10.2:35815   192.168.244.147:35815 4.2.2.1:33439   4.2.2.1:33439
+udp 10.10.10.2:36116   192.168.244.147:36116 4.2.2.1:33451   4.2.2.1:33451
+udp 10.10.10.2:36263   192.168.244.147:36263 4.2.2.1:33437   4.2.2.1:33437
+udp 10.10.10.2:36282   192.168.244.147:36282 4.2.2.1:33470   4.2.2.1:33470
+udp 10.10.10.2:37151   192.168.244.147:37151 4.2.2.1:33460   4.2.2.1:33460
+udp 10.10.10.2:37656   192.168.244.147:37656 4.2.2.1:33458   4.2.2.1:33458
+udp 10.10.10.2:38430   192.168.244.147:38430 4.2.2.1:33482   4.2.2.1:33482
+udp 10.10.10.2:38701   192.168.244.147:38701 4.2.2.1:33494   4.2.2.1:33494
+udp 10.10.10.2:38761   192.168.244.147:38761 4.2.2.1:33480   4.2.2.1:33480
+udp 10.10.10.2:39695   192.168.244.147:39695 4.2.2.1:33493   4.2.2.1:33493
+udp 10.10.10.2:39769   192.168.244.147:39769 4.2.2.1:33463   4.2.2.1:33463
+udp 10.10.10.2:41043   192.168.244.147:41043 4.2.2.1:33490   4.2.2.1:33490
+udp 10.10.10.2:41625   192.168.244.147:41625 4.2.2.1:33464   4.2.2.1:33464
+udp 10.10.10.2:41718   192.168.244.147:41718 4.2.2.1:53      4.2.2.1:53
+          
+Router#
+
+
+
+
+

@@ -1,0 +1,194 @@
+#################### this is for configuring vtp, vlan, and testing the
+connectiviy between host in same vlan.
+
+
+#### first configure vtp  and vlan
+#### we have two router R1 and R2. between them f1/0 port is for trunking.
+
+R1-SW#show vtp status 
+VTP Version                     : 2
+Configuration Revision          : 3
+Maximum VLANs supported locally : 36
+Number of existing VLANs        : 7
+VTP Operating Mode              : Server
+VTP Domain Name                 : masum
+VTP Pruning Mode                : Enabled
+VTP V2 Mode                     : Enabled
+VTP Traps Generation            : Disabled
+MD5 digest                      : 0xBE 0x27 0x8F 0x58 0x00 0x68 0x47 0x95 
+Configuration last modified by 0.0.0.0 at 3-1-02 00:46:41
+Local updater ID is 10.10.10.2 on interface Vl3 (lowest numbered VLAN interface found)
+R1-SW#
+R1-SW#
+R1-SW#show vtp coun
+R1-SW#show vtp counters 
+VTP statistics:
+Summary advertisements received    : 2
+Subset advertisements received     : 0
+Request advertisements received    : 1
+Summary advertisements transmitted : 5
+Subset advertisements transmitted  : 2
+Request advertisements transmitted : 0
+Number of config revision errors   : 0
+Number of config digest errors     : 0
+Number of V1 summary errors        : 0
+
+
+VTP pruning statistics:
+
+Trunk            Join Transmitted Join Received    Summary advts received from
+                                                   non-pruning-capable device
+---------------- ---------------- ---------------- ---------------------------
+Fa1/0               303              302              0        
+R1-SW#
+R1-SW#
+R1-SW#
+
+
+
+R2-SW#show vtp status 
+VTP Version                     : 2
+Configuration Revision          : 3
+Maximum VLANs supported locally : 36
+Number of existing VLANs        : 7
+VTP Operating Mode              : Client
+VTP Domain Name                 : masum
+VTP Pruning Mode                : Enabled
+VTP V2 Mode                     : Enabled
+VTP Traps Generation            : Disabled
+MD5 digest                      : 0xBE 0x27 0x8F 0x58 0x00 0x68 0x47 0x95 
+Configuration last modified by 0.0.0.0 at 3-1-02 00:46:41
+R2-SW# 
+R2-SW#
+R2-SW#show vtp coun
+R2-SW#show vtp counters 
+VTP statistics:
+Summary advertisements received    : 4
+Subset advertisements received     : 1
+Request advertisements received    : 0
+Summary advertisements transmitted : 3
+Subset advertisements transmitted  : 0
+Request advertisements transmitted : 1
+Number of config revision errors   : 0
+Number of config digest errors     : 0
+Number of V1 summary errors        : 0
+
+
+VTP pruning statistics:
+
+Trunk            Join Transmitted Join Received    Summary advts received from
+                                                   non-pruning-capable device
+---------------- ---------------- ---------------- ---------------------------
+Fa1/0               314              315              0        
+R2-SW#
+R2-SW#
+
+R1-SW#show vlan-switch brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+                                                Fa1/5, Fa1/6, Fa1/7, Fa1/8
+                                                Fa1/9, Fa1/10, Fa1/11, Fa1/12
+2    VLAN0002                         active    Fa1/13
+3    VLAN0003                         active    Fa1/14, Fa1/15
+1002 fddi-default                     active    
+1003 trcrf-default                    active    
+1004 fddinet-default                  active    
+1005 trbrf-default                    active    
+R1-SW#
+
+########### R1 will advertise the vlan information to its clients. and R2 will
+get and store it automatically. 
+
+
+2. now configure the interface which will be member of vlan2 and vlan3.
+along with configure the ip address in vlan(s).
+
+R1-SW#
+!
+interface FastEthernet1/13
+ switchport access vlan 2
+ duplex full
+ speed 100
+!
+interface FastEthernet1/14
+ switchport access vlan 3
+ duplex full
+ speed 100
+!
+interface FastEthernet1/15
+ switchport access vlan 3
+ duplex full
+ speed 100
+!
+
+interface Vlan3
+ ip address 10.10.10.2 255.255.255.0
+!
+
+
+R2-SW#
+!
+interface FastEthernet1/13
+ switchport access vlan 2
+ duplex full
+ speed 100
+!
+interface FastEthernet1/14
+ switchport access vlan 3
+ duplex full
+ speed 100
+!
+interface FastEthernet1/15
+ switchport access vlan 3
+ duplex full
+ speed 100
+!
+interface Vlan3
+ ip address 10.10.10.3 255.255.255.0
+!
+
+3. finally on this port attach a host and put an ip of same range which was 
+configured in vlan and test connectivity like below.
+
+R5 is a client of multi-layer switch R1.
+
+
+R5#show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            10.10.10.5      YES manual up                    up      
+FastEthernet0/1            unassigned      YES unset  administratively down down    
+R5#
+
+R5#ping 10.10.10.3 repeat 100
+
+Type escape sequence to abort.
+Sending 100, 100-byte ICMP Echos to 10.10.10.3, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Success rate is 100 percent (100/100), round-trip min/avg/max = 4/13/24 ms
+
+
+R6 is a client of multi-layer switch R2
+
+R6#show ip interface brief
+Interface                  IP-Address      OK? Method Status                Protocol
+FastEthernet0/0            10.10.10.4      YES manual up                    up      
+FastEthernet0/1            unassigned      YES unset  administratively down down    
+
+R6#.
+Sending 500, 100-byte ICMP Echos to 10.10.10.5, timeout is 2 seconds:
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!
+Success rate is 100 percent (500/500), round-trip min/avg/max = 8/21/128 ms
+R6#
+
+so connectivity is ok among same vlan.
+

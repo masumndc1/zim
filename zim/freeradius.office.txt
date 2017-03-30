@@ -1,0 +1,66 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-05-17T21:13:10+06:00
+
+====== freeradius.office ======
+Created Thursday 17 May 2012
+
+
+to install freeradius type following.
+
+CentOS
+#> yum install freeradius2 freeradius2-utils
+	
+SUSE
+#> zypper in freeradius-server freeradius-server-utils freeradius-server-doc
+	
+Ubuntu
+$> sudo apt-get install freeradius
+
+if it is centos6 then type 
+# yum install freeradius freeradius-utils
+
+__login-time attribute:__
+user file configuration.
+ Login-Time defines the time span a user may login to the system. The
+  format of a so-called time string is like the format used by UUCP.
+  A time string may be a list of simple time strings separated by "|" or ",".
+
+  Each simple time string must begin with a day definition. That can be just
+  one day, multiple days, or a range of days separated by a hyphen. A
+  day is Mo, Tu, We, Th, Fr, Sa or Su, or Wk for Mo-Fr. "Any" or "Al"
+  means all days.
+
+  After that a range of hours follows in hhmm-hhmm format.
+
+  For example, "Wk2305-0855,Sa,Su2305-1655".
+
+  Radiusd calculates the number of seconds left in the time span, and
+  sets the Session-Timeout to that number of seconds. So if someones
+  Login-Time is "Al0800-1800" and she logs in at 17:30, Session-Timeout
+  is set to 1800 seconds so that she is kicked off at 18:00.
+
+How do I use Login-Time for groups, not for users?
+
+Limit logons between 08:00am and 08:00pm for Unix group "daysonly"
+
+DEFAULT Group == "daysonly", Login-Time := "0800-2000"
+or
+
+DEFAULT Group == "daysonly", Login-Time := "Any0800-2000"
+Limit logons between 08:00am and 08:00pm, from Monday to Friday for Unix group "weekdays"
+
+DEFAULT Group == "weekdays", Login-Time := "Wk0800-2000"
+Limit logons between 08:00am and 08:00pm, in Saturday and Sunday for Unix group "weekends"
+
+DEFAULT Group == "weekends", Login-Time := "Sa-Su0800-2000"
+
+
+**centos**__:__
+
+In the /etc/shadow file's second field the following special characters may be
+found:
+	 NP or ! or null (No password)
+	 LK or * (Account is locked)
+	 !! (Password expired)
+

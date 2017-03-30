@@ -1,0 +1,185 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-04-01T15:12:57+06:00
+
+====== dns.ubuntu.slave ======
+Created Sunday 01 April 2012
+
+root@masum-K42JZ:/etc/bind# **cat named.conf**
+// This is the primary configuration file for the BIND DNS server named.
+//
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// this configuration file.
+//
+// If you are just adding zones, please do that in /etc/bind/named.conf.local
+
+include "/etc/bind/named.conf.options";
+include "/etc/bind/named.conf.local";
+include "/etc/bind/named.conf.default-zones";
+//include "/etc/bind/rndc.key";
+include "/etc/bind/tsig.key";
+
+root@masum-K42JZ:/etc/bind# 
+
+root@masum-K42JZ:/etc/bind# **cat named.conf.local** 
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "example.com" {
+        type slave;
+        file "/var/cache/bind/db.example.com.zone";
+        masters {192.168.1.254;};
+};
+
+zone "1.168.192.in-addr.arpa" {
+        type slave;
+        file "/var/cache/bind/1.168.192.in-addr.arpa.zone";
+        masters { 192.168.1.254 ; } ;
+};
+
+
+zone "bob.com" {
+        type slave;
+        file "/var/cache/bind/bob.com.zone";
+        masters {192.168.1.254;};
+};
+
+
+zone "mike.com" {
+        type slave;
+        file "/var/cache/bind/mike.com.zone";
+        masters {192.168.1.254;};
+};
+
+root@masum-K42JZ:/etc/bind# 
+
+root@masum-K42JZ:/etc/bind# **cat tsig.key **
+key "masum" {
+	algorithm hmac-md5;
+	secret "4brKEyQdyhAQClHOkgKp4Q==";
+};
+
+# master server ip
+
+server 192.168.1.254 {
+	keys {
+		masum;
+	};
+
+};
+root@masum-K42JZ:/etc/bind# 
+
+
+root@masum-K42JZ:/var/cache/bind# **ls**
+1.168.192.in-addr.arpa.zone  bob.com.zone  db.example.com.zone	mike.com.zone
+root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind# 
+
+
+root@masum-K42JZ:/var/cache/bind# **cat 1.168.192.in-addr.arpa.zone** 
+$ORIGIN .
+$TTL 86400	; 1 day
+1.168.192.in-addr.arpa	IN SOA	ns1.example.com. root.example.com. (
+				2012031807 ; serial
+				10800      ; refresh (3 hours)
+				900        ; retry (15 minutes)
+				604800     ; expire (1 week)
+				86400      ; minimum (1 day)
+				)
+			NS	ns1.example.com.
+			NS	ns2.example.com.
+$ORIGIN 1.168.192.in-addr.arpa.
+1			PTR	ns2.example.com.
+10			PTR	www.example.com.
+20			PTR	ftp.example.com.
+22			PTR	ns1.bob.com.
+23			PTR	ns2.bob.com.
+25			PTR	mail.bob.com.
+254			PTR	ns1.example.com.
+27			PTR	ftp.bob.com.
+30			PTR	www.bob.com.
+5			PTR	mail.example.com.
+52			PTR	ns1.mike.com.
+53			PTR	ns2.mike.com.
+55			PTR	mail.mike.com.
+57			PTR	ftp.mike.com.
+60			PTR	www.mike.com.
+7			PTR	masum.example.com.
+root@masum-K42JZ:/var/cache/bind# 
+
+root@masum-K42JZ:/var/cache/bind# **cat bob.com.zone **
+$ORIGIN .
+$TTL 86400	; 1 day
+bob.com			IN SOA	bob.com. root.bob.com. (
+				2012031802 ; serial
+				10800      ; refresh (3 hours)
+				900        ; retry (15 minutes)
+				604800     ; expire (1 week)
+				86400      ; minimum (1 day)
+				)
+			NS	ns1.bob.com.
+			A	192.168.1.30
+$ORIGIN bob.com.
+ftp			A	192.168.1.27
+mail			A	192.168.1.25
+ns1			A	192.168.1.22
+ns2			A	192.168.1.23
+www			A	192.168.1.30
+root@masum-K42JZ:/var/cache/bind# 
+
+
+root@masum-K42JZ:/var/cache/bind# **cat db.example.com.zone** 
+$ORIGIN .
+$TTL 86400	; 1 day
+example.com		IN SOA	example.com. root.example.com. (
+				2012031807 ; serial
+				10800      ; refresh (3 hours)
+				900        ; retry (15 minutes)
+				604800     ; expire (1 week)
+				86400      ; minimum (1 day)
+				)
+			NS	ns1.example.com.
+			NS	ns2.example.com.
+			A	192.168.1.10
+			MX	10 mail.example.com.
+$ORIGIN example.com.
+ftp			A	192.168.1.20
+mail			A	192.168.1.5
+masum			A	192.168.1.7
+ns1			A	192.168.1.254
+ns2			A	192.168.1.1
+www			A	192.168.1.10
+root@masum-K42JZ:/var/cache/bind# 
+
+root@masum-K42JZ:/var/cache/bind# **cat mike.com.zone** 
+$ORIGIN .
+$TTL 86400	; 1 day
+mike.com		IN SOA	mike.com. root.mike.com. (
+				2012031802 ; serial
+				10800      ; refresh (3 hours)
+				900        ; retry (15 minutes)
+				604800     ; expire (1 week)
+				86400      ; minimum (1 day)
+				)
+			NS	ns1.mike.com.
+			A	192.168.1.60
+$ORIGIN mike.com.
+ftp			A	192.168.1.57
+mail			A	192.168.1.55
+ns1			A	192.168.1.52
+ns2			A	192.168.1.53
+www			A	192.168.1.60
+root@masum-K42JZ:/var/cache/bind# 
+
+
+root@masum-K42JZ:/etc/bind# **cat /etc/resolv.conf**
+search mike.com bob.com example.com
+nameserver 192.168.1.254  # primary dns
+nameserver 192.168.1.1	  # secondary dns	
+root@masum-K42JZ:/etc/bind# 

@@ -1,0 +1,31 @@
+
+
+.................... vmware password ......................
+
+
+mininet-vm login: mininet
+Password: mininet
+
+
+.. auto-login configuraiton ...............................
+
+Set up SSH auto-login
+
+These steps let you log in via ssh without needing to enter a password. If you use the console from your virtualization software natively, then this step isn’t needed.
+
+Check for ~/.ssh/id_rsa or ~/.ssh/id_dsa. If you can’t find either of these files, then you’ll want to generate an SSH key.
+
+On a unix-like system (OS X or Linux - you’ll need other instructions for Windows) - on the host, not the VM:
+
+ssh-keygen -t rsa
+
+To speed up future SSH connections, add your host’s public key to the new VM. Also on the host, not the VM:
+
+scp ~/.ssh/id_rsa.pub openflow@openflow:~/
+
+Now, on the VM (SSH in first):
+
+cd ~/ && mkdir -p .ssh && chmod 700 .ssh && cd .ssh && touch authorized_keys2 && chmod 600 authorized_keys2 \
+&& cat ../id_rsa.pub >> authorized_keys2 && rm ../id_rsa.pub && cd ..
+
+..

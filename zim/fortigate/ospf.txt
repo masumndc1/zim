@@ -1,0 +1,167 @@
+
+
+// after doing the ospf configuration in from
+// router/dynamic/ospf and setting all the required
+// info like router-id, areas, networks
+
+// we gonna test the ospf activities like below.
+
+// our sample configuration of ospf like below
+
+FortiGate # show router ospf 
+config router ospf
+        config area
+            edit 0.0.0.0
+            next
+        end
+    set default-information-originate enable
+        config network
+            edit 1
+                set prefix 192.168.35.0 255.255.255.0
+            next
+            edit 2
+                set prefix 192.168.244.0 255.255.255.0
+            next
+            edit 3
+                set prefix 192.168.10.0 255.255.255.0
+            next
+        end
+        config redistribute "connected"
+        end
+        config redistribute "static"
+        end
+        config redistribute "rip"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "isis"
+        end
+    set router-id 192.168.35.151
+end
+
+FortiGate # 
+
+
+// now we will test it like below
+//
+
+
+FortiGate # get router info ospf neighbor
+
+OSPF process 0:
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+
+
+FortiGate # 
+
+// we dont have any neighbor as we did not configured any 
+// we will connect it with one of the cisco routers.
+//
+
+
+
+FortiGate # get router info ospf interface
+
+port1 is up, line protocol is up
+  Internet Address 192.168.35.139/24, Area 0.0.0.0, MTU 1500
+  Process ID 0, Router ID 192.168.35.151, Network Type BROADCAST, Cost: 1
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router (ID) 192.168.35.151, Interface Address 192.168.35.139
+  No backup designated router on this network
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:06
+  Neighbor Count is 0, Adjacent neighbor count is 0
+  Crypt Sequence Number is 39
+  Hello received 0 sent 1828, DD received 0 sent 0
+  LS-Req received 0 sent 0, LS-Upd received 0 sent 0
+  LS-Ack received 0 sent 0, Discarded 0
+
+port2 is up, line protocol is up
+  Internet Address 192.168.244.135/24, Area 0.0.0.0, MTU 1500
+  Process ID 0, Router ID 192.168.35.151, Network Type BROADCAST, Cost: 1
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router (ID) 192.168.35.151, Interface Address 192.168.244.135
+  No backup designated router on this network
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:01
+  Neighbor Count is 0, Adjacent neighbor count is 0
+  Crypt Sequence Number is 39
+  Hello received 0 sent 1827, DD received 0 sent 0
+  LS-Req received 0 sent 0, LS-Upd received 0 sent 0
+  LS-Ack received 0 sent 0, Discarded 0
+
+port3 is up, line protocol is up
+  Internet Address 192.168.10.10/24, Area 0.0.0.0, MTU 1500
+  Process ID 0, Router ID 192.168.35.151, Network Type BROADCAST, Cost: 1
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router (ID) 192.168.35.151, Interface Address 192.168.10.10
+  No backup designated router on this network
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    Hello due in 00:00:06
+  Neighbor Count is 0, Adjacent neighbor count is 0
+  Crypt Sequence Number is 39
+  Hello received 0 sent 1827, DD received 0 sent 0
+  LS-Req received 0 sent 0, LS-Upd received 0 sent 0
+  LS-Ack received 0 sent 0, Discarded 0
+
+FortiGate # 
+
+// we configured there network ie interface associated with it and 
+// we have it as above.
+
+
+
+FortiGate # get router info ospf status
+
+ Routing Process "ospf 0" with ID 192.168.35.151
+ Process uptime is 5 hours 6 minutes
+ Process bound to VRF default
+ Conforms to RFC2328, and RFC1583Compatibility flag is disabled
+ Supports only single TOS(TOS0) routes
+ Supports opaque LSA
+ Do not support Restarting
+ This router is an ASBR (injecting external routing information)
+ SPF schedule delay 5 secs, Hold time between two SPFs 10 secs
+ Refresh timer 10 secs
+ Number of incomming current DD exchange neighbors 0/5
+ Number of outgoing current DD exchange neighbors 0/5
+ Number of external LSA 1. Checksum 0x00BE58
+ Number of opaque AS LSA 0. Checksum 0x000000
+ Number of non-default external LSA 0
+ External LSA database is unlimited.
+ Number of LSA originated 2
+ Number of LSA received 0
+ Number of areas attached to this router: 1
+    Area 0.0.0.0 (BACKBONE)
+        Number of interfaces in this area is 3(3)
+        Number of fully adjacent neighbors in this area is 0
+        Area has no authentication
+        SPF algorithm last executed 05:06:22.790 ago
+        SPF algorithm executed 2 times
+        Number of LSA 1. Checksum 0x007604
+
+FortiGate # 
+
+// the router status
+
+
+
+FortiGate # get router info routing-table all
+Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
+       O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default
+
+S*      0.0.0.0/0 [10/0] via 192.168.35.1, port1
+C       192.168.10.0/24 is directly connected, port3
+C       192.168.35.0/24 is directly connected, port1
+C       192.168.244.0/24 is directly connected, port2
+
+
+FortiGate # 
+
+// routing tables
+
+

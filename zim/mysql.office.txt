@@ -1,0 +1,27 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-05-03T20:35:49+06:00
+
+====== mysql.office ======
+Created Thursday 03 May 2012
+
+changing the mysql root password
+
+If you are using CentOS 6 (maybe others too). To reset the root password use the following steps:-
+
+1) sudo service mysqld stop
+2) sudo service mysqld startsos
+3) mysql -u root
+4) Now you will be at mysql prompt. Here type:-
+4.1) UPDATE mysql.user SET Password=PASSWORD('NewPassHere') WHERE User='root';
+4.2) FLUSH PRIVILEGES;
+4.3) quit;
+5) sudo service mysqld restart
+
+im using **admin@data** for the database root password. like UPDATE mysql.user SET Password=PASSWORD('admin@data') WHERE User='root';
+
+im using admin@cacti for the cacti database at mysql.
+
+installing mysql in ubuntu
+
+# apt-get install mysql-server

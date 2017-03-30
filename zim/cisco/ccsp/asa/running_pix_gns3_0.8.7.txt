@@ -1,0 +1,45 @@
+
+#################### this is tricky and require to do so step by step 
+#################### therefore be careful
+
+1. download pemu and extract it. 
+
+http://sourceforge.net/projects/gns-3/files/Pemu/2008-03-03/
+pemu_2008-03-03_bin.tar.bz2
+
+# tar xvfz pemu_2008-03-03_bin.tar.bz2
+# ls
+root@masum:/media/21_GB/pemu/pemu_2008-03-03_bin# ls
+Changes  ifup  ifup.ini  pemu  pemu.ini  README
+root@masum:/media/21_GB/pemu/pemu_2008-03-03_bin# 
+root@masum:/media/21_GB/pemu/pemu_2008-03-03_bin# 
+
+2. simply compy pemu to the directory where the qemuwrapper.py is located.
+
+root@masum:/media/21_GB/pemu/pemu_2008-03-03_bin# locate qemuwrapper.py
+/usr/share/gns3/qemuwrapper.py
+root@masum:/media/21_GB/pemu/pemu_2008-03-03_bin# 
+
+3. change the permision of pemu to 755 by the command "chmod +x pemu"
+
+root@masum:/usr/share/gns3# ls
+GNS3      pemu            qemuwrapper.pyc    tcp_pipe_proxy.pyc     vboxcontroller_4_1.pyc  vboxwrapper.pyc
+gns3.pyw  qemuwrapper.py  tcp_pipe_proxy.py  vboxcontroller_4_1.py  vboxwrapper.py
+root@masum:/usr/share/gns3# 
+root@masum:/usr/share/gns3# ls -la pemu
+-rwx--x--x 1 root root 701996 Oct  7 23:25 pemu
+root@masum:/usr/share/gns3# 
+
+4. install required package for the architecture
+
+# dpkg --add-architecture i386 && apt-get update 
+
+and now we can install :
+
+apt-get install libc6-i386 lib32z1
+
+5. now just run the gns3 and test the qemu it should say all the component has started
+including pemu now configure pix.
+
+enjoy!
+

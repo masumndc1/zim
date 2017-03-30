@@ -1,0 +1,181 @@
+
+##### copy running-config file to tftp
+##### 
+
+###################### topology
+
+
+asa------tftp server (linuxcore-4.7.7 in gns3 0.8.7) 
+
+asa: ethernet0 : 192.168.1.1
+
+tftp: ethernet0: 192.168.1.2
+
+### assuming the connectivity ok
+
+
+
+
+############################### on asa
+
+
+pixfirewall# copy running-config tftp:
+
+Source filename [running-config]? 
+
+Address or name of remote host []? 192.168.1.2
+
+Destination filename [running-config]? 
+Cryptochecksum: 571317af 54e21ff7 fb94de3a 8aaf2ad2 
+!
+1620 bytes copied in 0.940 secs
+pixfirewall# 
+
+"! indicates writing is ok"
+
+### configuring the tftp server
+
+
+root@box:/etc/init.d/services# ls
+crond  dhcp   tftpd
+root@box:/etc/init.d/services# 
+root@box:/etc/init.d/services# tftpd start
+BusyBox v1.20.2 (2012-08-07 01:31:01 UTC) multi-call binary.
+
+Usage: tftpd [-cr] [-u USER] [DIR]
+
+Transfer a file on tftp client's request
+
+tftpd should be used as an inetd service.
+tftpd's line for inetd.conf:
+	69 dgram udp nowait root tftpd tftpd -l /files/to/serve
+It also can be ran from udpsvd:
+	udpsvd -vE 0.0.0.0 69 tftpd /files/to/serve
+
+	-r	Prohibit upload
+	-c	Allow file creation via upload
+	-u	Access files as USER
+	-l	Log to syslog (inetd mode requires this)
+
+root@box:/etc/init.d/services# cd /root
+root@box:~# ls
+root@box:~# 
+
+root@box:~# udpsvd -vE 0.0.0.0 69 tftpd -c /root
+
+udpsvd: listening on 0.0.0.0:69, starting
+udpsvd: start 1917 192.168.1.2:69-192.168.1.1:37777
+udpsvd: status 1/30
+udpsvd: end 1917 exit 0
+udpsvd: status 0/30
+udpsvd: start 1925 192.168.1.2:69-192.168.1.1:44520
+udpsvd: status 1/30
+udpsvd: end 1925 exit 0
+udpsvd: status 0/30
+udpsvd: start 1932 192.168.1.2:69-192.168.1.1:12378
+udpsvd: status 1/30
+udpsvd: end 1932 exit 0
+udpsvd: status 0/30
+udpsvd: got signal 2, exit
+
+root@box:~# ls
+
+running-config
+
+root@box:~# pwd
+/root
+root@box:~# 
+root@box:~# 
+root@box:~# cat running-config 
+: Saved
+: Written by enable_15 at 18:15:45.568 UTC Wed Oct 7 2015
+!
+PIX Version 8.0(4)28 
+!
+hostname pixfirewall
+enable password 8Ry2YjIyt7RRXU24 encrypted
+passwd 2KFQnbNIdI.2KYOU encrypted
+names
+!
+interface Ethernet0
+ nameif inside
+ security-level 100
+ ip address 192.168.1.1 255.255.255.0 
+!
+interface Ethernet1
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+interface Ethernet2
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+interface Ethernet3
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+interface Ethernet4
+ shutdown
+ no nameif
+ no security-level
+ no ip address
+!
+ftp mode passive
+pager lines 24
+mtu inside 1500
+no failover
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+timeout xlate 3:00:00
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+dynamic-access-policy-record DfltAccessPolicy
+no snmp-server location
+no snmp-server contact
+snmp-server enable traps snmp authentication linkup linkdown coldstart
+crypto ipsec security-association lifetime seconds 28800
+crypto ipsec security-association lifetime kilobytes 4608000
+telnet timeout 5
+ssh timeout 5
+console timeout 0
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+!
+!
+prompt hostname context 
+Cryptochecksum:571317af54e21ff7fb94de3a8aaf2ad2
+: end
+root@box:~# 
+root@box:~# 
+
+root@box:~# tcpdump -v -i eth0
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 68 bytes
+18:23:49.127030 IP (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 313) 0.0.0.0.bootpc > 255.255.255.255.bootps: BOOTP/DHCP, Request [|bootp]
+18:23:52.131332 IP (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 313) 0.0.0.0.bootpc > 255.255.255.255.bootps: BOOTP/DHCP, Request [|bootp]
+18:23:58.942404 IP (tos 0x0, ttl 255, id 18733, offset 0, flags [none], proto UDP (17), length 51) 192.168.1.1.57394 > 192.168.1.2.tftp:  23 WRQ "running-config" [|tftp]
+18:23:59.007592 IP (tos 0x0, ttl 64, id 39631, offset 0, flags [DF], proto UDP (17), length 32) 192.168.1.2.tftp > 192.168.1.1.57394:  4 ACK block 0
+18:23:59.016591 IP (tos 0x0, ttl 255, id 11263, offset 0, flags [none], proto UDP (17), length 544) 192.168.1.1.57394 > 192.168.1.2.tftp:  516 DATA block 1
+18:23:59.023439 IP (tos 0x0, ttl 64, id 39632, offset 0, flags [DF], proto UDP (17), length 32) 192.168.1.2.tftp > 192.168.1.1.57394:  4 ACK block 1
+18:23:59.026556 IP (tos 0x0, ttl 255, id 17967, offset 0, flags [none], proto UDP (17), length 544) 192.168.1.1.57394 > 192.168.1.2.tftp:  516 DATA block 2
+18:23:59.028297 IP (tos 0x0, ttl 64, id 39633, offset 0, flags [DF], proto UDP (17), length 32) 192.168.1.2.tftp > 192.168.1.1.57394:  4 ACK block 2
+18:23:59.036443 IP (tos 0x0, ttl 255, id 24681, offset 0, flags [none], proto UDP (17), length 544) 192.168.1.1.57394 > 192.168.1.2.tftp:  516 DATA block 3
+18:23:59.036986 IP (tos 0x0, ttl 64, id 39634, offset 0, flags [DF], proto UDP (17), length 32) 192.168.1.2.tftp > 192.168.1.1.57394:  4 ACK block 3
+18:23:59.046516 IP (tos 0x0, ttl 255, id 31566, offset 0, flags [none], proto UDP (17), length 116) 192.168.1.1.57394 > 192.168.1.2.tftp:  88 DATA block 4
+18:23:59.047087 IP (tos 0x0, ttl 64, id 39635, offset 0, flags [DF], proto UDP (17), length 32) 192.168.1.2.tftp > 192.168.1.1.57394:  4 ACK block 4
+18:24:04.020716 arp who-has 192.168.1.1 tell 192.168.1.2
+18:24:04.026233 arp reply 192.168.1.1 is-at 00:ab:bf:fb:c4:00 (oui Unknown)
+18:24:15.194756 IP (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 313) 0.0.0.0.bootpc > 255.255.255.255.bootps: BOOTP/DHCP, Request [|bootp]
+
+
+

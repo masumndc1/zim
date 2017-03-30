@@ -1,0 +1,28 @@
+
+
+
+.................... gateway ...........................
+..
+.. enabling the packet forwarding in freebsd like below.
+.. 
+root@masum:/etc # cat -n rc.conf
+     1	hostname="masum"
+     2	ifconfig_em0="DHCP"
+     3	sshd_enable="YES"
+     4	moused_enable="YES"
+     5	powerd_enable="YES"
+     6	# Set dumpdev to "AUTO" to enable crash dumps, "NO" to disable
+     7	dumpdev="AUTO"
+     8	dbus_enable="YES"
+     9	hald_enable="YES"
+    10	kdm4_enable="YES"
+    11	pf_enable="YES"
+
+.. last two lines are important
+
+    12	gateway_enable="YES"  		# for ipv4 packet forwarding
+    13	ipv6_gateway_enable="YES"	# for ipv6 packet forwarding
+root@masum:/etc # 
+
+
+

@@ -1,0 +1,29 @@
+
+
+.. deleting existing route table
+
+root@mininet-vm:~# ip route del
+root@mininet-vm:~# 
+root@mininet-vm:~# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+192.168.10.0    0.0.0.0         255.255.255.0   U     0      0        0 eth2
+192.168.35.0    0.0.0.0         255.255.255.0   U     0      0        0 eth0
+192.168.244.0   0.0.0.0         255.255.255.0   U     0      0        0 eth1
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+
+.. now adding the route again
+
+root@mininet-vm:~# route add default gw 192.168.35.1 eth0
+
+root@mininet-vm:~# ping 4.2.2.1
+PING 4.2.2.1 (4.2.2.1) 56(84) bytes of data.
+64 bytes from 4.2.2.1: icmp_seq=1 ttl=48 time=394 ms
+64 bytes from 4.2.2.1: icmp_seq=2 ttl=48 time=137 ms
+^C
+--- 4.2.2.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 137.852/265.976/394.101/128.125 ms
+root@mininet-vm:~# 
+

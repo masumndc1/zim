@@ -1,0 +1,54 @@
+
+
+........................... multiple tap interface .......................
+
+.. here is how we configure multiple tap interface in linux
+.. here we are adding tap interface tap1,tap2,tap3.
+
+root@masum:~# ip tuntap add mode tap tap1
+root@masum:~# ip tuntap add mode tap tap2
+root@masum:~# ip tuntap add mode tap tap3
+
+.. now bringing up the tap1 interface 
+..
+root@masum:~# ifconfig tap1 up
+root@masum:~# ifconfig
+
+tap1      Link encap:Ethernet  HWaddr 6e:ac:34:53:5c:96  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+.. bringing the other two interfaces.
+
+root@masum:~# ifconfig tap2 up
+root@masum:~# ifconfig tap3 up
+
+
+root@masum:~# ifconfig | grep tap
+tap1      Link encap:Ethernet  HWaddr 6e:ac:34:53:5c:96  
+tap2      Link encap:Ethernet  HWaddr be:9c:72:d1:87:5b  
+tap3      Link encap:Ethernet  HWaddr 66:23:39:75:87:40  
+
+root@masum:~# ifconfig tap1
+tap1      Link encap:Ethernet  HWaddr 6e:ac:34:53:5c:96  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@masum:~# 
+
+.. this way we can configure multiple tap interface. 
+.. also we can configure tap type interface of any 
+.. kind of name like below.
+
+root@masum:~# ip tuntap add mode tap masum1 
+root@masum:~# ip tuntap add mode tap masum2 
+root@masum:~# ip tuntap add mode tap masum3 
+
+
+

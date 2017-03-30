@@ -1,0 +1,531 @@
+
+
+......................... openvswitch ......................
+.. 
+.. installing the openvswitch in kali
+
+masum@masum:/media/masum/MASUM_32GB/zim/openvswitch$ lsb_release -a
+No LSB modules are available.
+Distributor ID:	Kali
+Description:	Kali GNU/Linux 2.0
+Release:	2.0
+Codename:	sana
+masum@masum:/media/masum/MASUM_32GB/zim/openvswitch$ 
+
+apt-get install bridge-utils
+apt-get install openvswitch-common 
+apt-get install openvswitch-switch
+apt-get install openvswitch-datapath-source
+apt-get install openvswitch-brcompat
+module-assistant auto-install openvswitch-datapath-source 
+
+
+root@mininet-vm:~# /etc/init.d/openvswitch-
+openvswitch-controller  openvswitch-switch      
+
+root@mininet-vm:~# /etc/init.d/openvswitch-switch status
+ovsdb-server is running with pid 919
+ovs-vswitchd is running with pid 929
+root@mininet-vm:~# 
+root@mininet-vm:~# /etc/init.d/openvswitch-switch restart
+ * Killing ovs-vswitchd (929)
+ * Killing ovsdb-server (919)
+ * Starting ovsdb-server
+ * Configuring Open vSwitch system IDs
+ * Starting ovs-vswitchd
+ * Enabling remote OVSDB managers
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# dpkg -l | grep openvswitch
+ii  openvswitch-common                  2.0.2-0ubuntu0.14.04.1               i386         Open vSwitch common components
+ii  openvswitch-controller              2.0.2-0ubuntu0.14.04.1               i386         Open vSwitch controller implementation
+ii  openvswitch-datapath-dkms           2.0.2-0ubuntu0.14.04.1               all          Open vSwitch datapath module source - DKMS version
+ii  openvswitch-pki                     2.0.2-0ubuntu0.14.04.1               all          Open vSwitch public key infrastructure dependency package
+ii  openvswitch-switch                  2.0.2-0ubuntu0.14.04.1               i386         Open vSwitch switch implementations
+root@mininet-vm:~# 
+
+
+    ovs-vsctl : Used for configuring the ovs-vswitchd configuration database (known as ovs-db)
+    ovs-ofctl : A command line tool for monitoring and administering OpenFlow switches
+    ovs-dpctl : Used to administer Open vSwitch datapaths
+    ovs−appctl : Used for querying and controlling Open vSwitch daemons
+
+.. some commands related to ovs are shown below.
+
+root@mininet-vm:~# ovs
+ovs-appctl           ovs-controller       ovsdb-tool           ovs-ofctl            ovs-pki              ovs-vsctl
+ovs-benchmark        ovsdb-client         ovs-dpctl            ovs-parse-backtrace  ovs-tcpundump        ovs-vswitchd
+ovs-bugtool          ovsdb-server         ovs-dpctl-top        ovs-pcap             ovs-vlan-test        
+root@mininet-vm:~# ovs
+
+.. now we are configuring the openvswitch. the main packages are installed in mininet-vm. for connectivity
+.. we are using two vmware hosts. 
+
+.. few initial commands to get used to it.
+
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+
+.. adding bridge s1 
+
+root@mininet-vm:~# ovs-vsctl add-br s1
+root@mininet-vm:~# 
+
+.. assigning the interface eth1 to the bridge s1
+
+root@mininet-vm:~# ovs-vsctl add-port s1 eth1
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Port "eth1"
+            Interface "eth1"
+        Port "s1"
+            Interface "s1"
+                type: internal
+    ovs_version: "2.0.2"
+
+.. from following we can see the bridge s1 appears as interface
+
+root@mininet-vm:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0c:29:25:55:13  
+          inet addr:192.168.244.148  Bcast:192.168.244.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:654 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:559 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:65304 (65.3 KB)  TX bytes:59927 (59.9 KB)
+          Interrupt:16 Base address:0x2000 
+
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+          inet addr:192.168.10.129  Bcast:192.168.10.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:274 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:305 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:30829 (30.8 KB)  TX bytes:26122 (26.1 KB)
+          Interrupt:17 Base address:0x2080 
+
+eth2      Link encap:Ethernet  HWaddr 00:0c:29:25:55:27  
+          inet addr:192.168.20.128  Bcast:192.168.20.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:279 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:304 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:31339 (31.3 KB)  TX bytes:25978 (25.9 KB)
+          Interrupt:19 Base address:0x2400 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:217 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:217 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:17348 (17.3 KB)  TX bytes:17348 (17.3 KB)
+
+s1        Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+.. now we will remove ip address from eth1 interface and
+.. assign that interface to bridge s1
+
+root@mininet-vm:~# ifconfig eth1 0
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# dhclient s1
+
+root@mininet-vm:~# ifconfig s1
+s1        Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+          inet addr:192.168.10.129  Bcast:192.168.10.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:45 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:16 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:4148 (4.1 KB)  TX bytes:1770 (1.7 KB)
+
+.. from above interface we could see s1 got the ip address
+.. now we can see that we can ping the gateway
+
+root@mininet-vm:~# ping 192.168.10.1
+PING 192.168.10.1 (192.168.10.1) 56(84) bytes of data.
+64 bytes from 192.168.10.1: icmp_seq=1 ttl=64 time=0.605 ms
+64 bytes from 192.168.10.1: icmp_seq=2 ttl=64 time=0.386 ms
+64 bytes from 192.168.10.1: icmp_seq=3 ttl=64 time=0.322 ms
+64 bytes from 192.168.10.1: icmp_seq=4 ttl=64 time=0.460 ms
+64 bytes from 192.168.10.1: icmp_seq=5 ttl=64 time=0.464 ms
+^C
+--- 192.168.10.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4000ms
+rtt min/avg/max/mdev = 0.322/0.447/0.605/0.096 ms
+root@mininet-vm:~# 
+
+.. now we can ping this bridge s1 from another host
+
+root@deb-7:~# ifconfig eth2
+eth2      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:51  
+          inet addr:192.168.10.2  Bcast:192.168.10.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe8c:8e51/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:22077 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:11223 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1546340 (1.4 MiB)  TX bytes:785684 (767.2 KiB)
+          Interrupt:19 Base address:0x2400 
+
+root@deb-7:~# ping -c 2 192.168.10.129
+PING 192.168.10.129 (192.168.10.129) 56(84) bytes of data.
+64 bytes from 192.168.10.129: icmp_req=1 ttl=64 time=1.54 ms
+64 bytes from 192.168.10.129: icmp_req=2 ttl=64 time=0.693 ms
+
+--- 192.168.10.129 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.693/1.116/1.540/0.424 ms
+root@deb-7:~# 
+
+.. and can also ssh our bride s1 from host 
+
+root@deb-7:~# ssh root@192.168.10.129
+root@192.168.10.129's password: 
+Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-24-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+Last login: Sun Oct  9 08:48:26 2016 from 192.168.10.2
+root@mininet-vm:~# 
+
+root@mininet-vm:~# ovs-vsctl list interface
+_uuid               : d208b1d5-02c2-4c56-87b5-0ab89e804adb
+admin_state         : up
+bfd                 : {}
+bfd_status          : {}
+cfm_fault           : []
+cfm_fault_status    : []
+cfm_health          : []
+cfm_mpid            : []
+cfm_remote_mpids    : []
+cfm_remote_opstate  : []
+duplex              : []
+external_ids        : {}
+ifindex             : 12
+ingress_policing_burst: 0
+ingress_policing_rate: 0
+lacp_current        : []
+link_resets         : 2
+link_speed          : []
+link_state          : up
+mac                 : []
+mac_in_use          : "00:0c:29:25:55:1d"
+mtu                 : 1500
+name                : "s1"
+ofport              : 65534
+ofport_request      : []
+options             : {}
+other_config        : {}
+statistics          : {collisions=0, rx_bytes=42326, rx_crc_err=0, rx_dropped=0, rx_errors=0, rx_frame_err=0, rx_over_err=0, rx_packets=333, tx_bytes=84947, tx_dropped=0, tx_errors=0, tx_packets=1122}
+status              : {driver_name=openvswitch}
+type                : internal
+
+_uuid               : 78df208f-810d-4517-9e25-8349fce1ca28
+admin_state         : up
+bfd                 : {}
+bfd_status          : {}
+cfm_fault           : []
+cfm_fault_status    : []
+cfm_health          : []
+cfm_mpid            : []
+cfm_remote_mpids    : []
+cfm_remote_opstate  : []
+duplex              : []
+external_ids        : {}
+ifindex             : 3
+ingress_policing_burst: 0
+ingress_policing_rate: 0
+lacp_current        : []
+link_resets         : 0
+link_speed          : []
+link_state          : up
+mac                 : []
+mac_in_use          : "00:0c:29:25:55:1d"
+mtu                 : 1500
+name                : "eth1"
+ofport              : 1
+ofport_request      : []
+options             : {}
+other_config        : {}
+statistics          : {collisions=0, rx_bytes=84947, rx_crc_err=0, rx_dropped=0, rx_errors=0, rx_frame_err=0, rx_over_err=0, rx_packets=1122, tx_bytes=42326, tx_dropped=0, tx_errors=0, tx_packets=333}
+status              : {driver_name="pcnet32", driver_version="1.35", firmware_version=""}
+type                : ""
+root@mininet-vm:~# 
+
+root@mininet-vm:~# ovs-ofctl dump-ports s1
+OFPST_PORT reply (xid=0x2): 2 ports
+  port  1: rx pkts=1303, bytes=98020, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=378, bytes=46260, drop=0, errs=0, coll=0
+  port LOCAL: rx pkts=378, bytes=46260, drop=0, errs=0, frame=0, over=0, crc=0
+           tx pkts=1303, bytes=98020, drop=0, errs=0, coll=0
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-ofctl dump-ports-desc s1
+OFPST_PORT_DESC reply (xid=0x2):
+ 1(eth1): addr:00:0c:29:25:55:1d
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+ LOCAL(s1): addr:00:0c:29:25:55:1d
+     config:     0
+     state:      0
+     speed: 0 Mbps now, 0 Mbps max
+root@mininet-vm:~# 
+root@mininet-vm:~# ifconfig eth1
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1626 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:711 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:131789 (131.7 KB)  TX bytes:73816 (73.8 KB)
+          Interrupt:17 Base address:0x2080 
+
+root@mininet-vm:~# 
+
+.. the above command just showing the mac addresses are same
+
+root@mininet-vm:~# 
+
+.. now we are going to add some tap interfaces and adding them 
+.. into our bridge s1 and assign vlan to them
+
+root@mininet-vm:~# ip tuntap add mode tap tap1
+root@mininet-vm:~# ip tuntap add mode tap tap2
+root@mininet-vm:~# ip tuntap add mode tap tap3
+root@mininet-vm:~# ip tuntap add mode tap tap4
+root@mininet-vm:~# 
+root@mininet-vm:~# ifconfig tap1 up
+root@mininet-vm:~# ifconfig tap2 up
+root@mininet-vm:~# ifconfig tap3 up
+root@mininet-vm:~# ifconfig tap4 up
+
+root@mininet-vm:~# ifconfig
+
+s1        Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+          inet addr:192.168.10.129  Bcast:192.168.10.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:1621 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:499 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:120968 (120.9 KB)  TX bytes:57013 (57.0 KB)
+
+tap1      Link encap:Ethernet  HWaddr 7e:f3:a0:a2:93:b0  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+tap2      Link encap:Ethernet  HWaddr 6a:4d:92:89:ec:32  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+tap3      Link encap:Ethernet  HWaddr 8e:7a:29:19:ed:e7  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+tap4      Link encap:Ethernet  HWaddr 76:7f:01:20:ae:28  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:500 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@mininet-vm:~#  
+
+.. now we assign tap1 and tap4 to vlan 100
+.. and tap2 and tap3 to vlan 200
+
+root@mininet-vm:~# ovs-vsctl add-port s1 tap1 tag=100 -- add-port s1 tap4 tag=100
+root@mininet-vm:~# ovs-vsctl add-port s1 tap2 tag=200 -- add-port s1 tap3 tag=200
+
+root@mininet-vm:~# ovs-vsctl show
+
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Port "eth1"
+            Interface "eth1"
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+
+.. few more commands are below
+
+ovs-vsctl add-br <bridge> : Creates a bridge in the switch database.
+ovs-vsctl add-port <bridge> <interface> : Binds an interface (physical or virtual) to a bridge.
+ovs-vsctl add-port <bridge> <interface> tag=<VLAN number> : Converts port to an access port on specified VLAN 
+(by default all OVS ports are VLAN trunks).
+ovs-vsctl set interface <interface> type=patch options:peer=<interface> : Used to create patch ports to connect 
+two or more bridges together.
+
+.. our bridge s1 learned the mac address when the host ping it
+
+root@mininet-vm:~# ovs-appctl fdb/show s1
+ port  VLAN  MAC                Age
+    1     0  00:50:56:c0:00:02  185
+LOCAL     0  00:0c:29:25:55:1d    0
+    1     0  00:0c:29:c8:cc:2f    0
+    1     0  00:0c:29:8c:8e:51    0
+root@mininet-vm:~# 
+
+root@mininet-vm:~# 
+root@mininet-vm:~# arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.244.254          ether   00:50:56:ff:34:b0   C                     eth0
+192.168.10.2             ether   00:0c:29:8c:8e:51   C                     s1
+192.168.10.153           ether   00:0c:29:c8:cc:2f   C                     s1
+192.168.20.1             ether   00:50:56:c0:00:03   C                     eth2
+192.168.10.254           ether   00:50:56:eb:11:64   C                     s1
+192.168.10.1             ether   00:50:56:c0:00:02   C                     s1
+192.168.244.1            ether   00:50:56:c0:00:01   C                     eth0
+192.168.20.254           ether   00:50:56:ef:ad:b0   C                     eth2
+root@mininet-vm:~# 
+
+root@mininet-vm:~# arp 192.168.10.2
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.10.2             ether   00:0c:29:8c:8e:51   C                     s1
+root@mininet-vm:~# 
+
+.. therefore our network is something like below
+.. 
+.. host1(192.168.10.2)----- s1(192.168.10.129)------ host2(192.168.10.153) 
+
+.. adding controller with the command below. the rule here is we are setting 
+.. options to an ip where the ovsdb is running. in our instance the database
+.. is running on the same ip where the openvswitch is running. that means
+.. the host ip. therefore we are configuring like below ip and port.
+
+root@mininet-vm:~# ovs-vsctl set-controller s1 tcp:192.168.10.129:6633
+
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:192.168.10.129:6633"
+        Port "eth1"
+            Interface "eth1"
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+
+.. and delete the example controller like below
+
+root@mininet-vm:~# ovs-vsctl del-controller s1 
+root@mininet-vm:~# 
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Port "eth1"
+            Interface "eth1"
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+
+.. therefore the controller is removed.
+
+.. enabling the spanning-tree protocols and the openflow version 1.0, 1.2, 1.3
+.. as well as the 
+
+root@mininet-vm:~# ovs-vsctl set Bridge s1 stp_enable=true
+root@mininet-vm:~# 
+root@mininet-vm:~# ovs-vsctl set bridge s1 protocols=OpenFlow10,OpenFlow12,OpenFlow13
+
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:192.168.10.1:6633"
+        fail_mode: standalone
+        Port "tap2"
+            tag: 200
+            Interface "tap2"
+        Port "eth2"
+            Interface "eth2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "tap3"
+            tag: 200
+            Interface "tap3"
+        Port "tap4"
+            tag: 100
+            Interface "tap4"
+        Port "tap1"
+            tag: 100
+            Interface "tap1"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+
+.. full options can be found from the man ovs-vsctl 
+
+
+
+ovs-controller ptcp:6633 --detach
+ovs-vswitchd --detach etc.
+/etc/init.d/network restart
+	ifconfig eth1 0.0.0.0
+	ifconfig eth2 0.0.0.0
+	ifconfig br0 192.168.1.1
+
+subnet test: 192.168.1.188 - 192.168.1.198
+
+
+
+

@@ -1,0 +1,82 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-03-05T18:28:46+06:00
+
+====== lamp in centos 6 ======
+Created Tuesday 05 March 2013
+1.stalling apache2 in centos.
+[root@localhost etc]#yum update ; yum install httpd
+[root@localhost etc]#cp /etc/httpd/conf/httpd.conf [[~/httpd.conf.backup]]
+[root@localhost etc]#vi /etc/httpd/conf.d/vhost.conf
+
+NameVirtualHost *:80
+
+<VirtualHost *:80>
+     ServerAdmin webmaster@example.com
+     ServerName example.com
+     ServerAlias www.example.com
+     DocumentRoot /srv/www/example.com/public_html/
+     ErrorLog /srv/www/example.com/logs/error.log
+     CustomLog /srv/www/example.com/logs/access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+     ServerAdmin webmaster@example.org
+     ServerName example.org
+     ServerAlias www.example.org
+     DocumentRoot /srv/www/example.org/public_html/
+     ErrorLog /srv/www/example.org/logs/error.log
+     CustomLog /srv/www/example.org/logs/access.log combined
+</VirtualHost>
+[root@localhost etc]#/etc/init.d/httpd start
+[root@localhost etc]#/sbin/chkconfig --levels 235 httpd on
+
+2 Installing MySQL 5
+To install MySQL, we do this:
+[root@localhost etc]#yum install mysql mysql-server
+Then we create the system startup links for MySQL (so that MySQL starts automatically whenever the system boots) and start the MySQL server:
+[root@localhost etc]#chkconfig --levels 235 mysqld on
+[root@localhost etc]#/etc/init.d/mysqld start
+Set passwords for the MySQL root account:
+[root@localhost etc]#mysql_secure_installation
+
+4 Installing PHP5
+We can install PHP5 and the Apache PHP5 module as follows:
+[root@localhost etc]#yum install php
+We must restart Apache afterwards:
+[root@localhost etc]#/etc/init.d/httpd restart
+
+[root@localhost etc]#File excerpt:/etc/php.ini
+
+error_reporting = E_COMPILE_ERROR|E_RECOVERABLE_ERROR|E_ERROR|E_CORE_ERROR
+display_errors = Off
+log_errors = On
+error_log = /var/log/php.log
+max_execution_time = 300
+memory_limit = 64M
+register_globals = Off
+
+5 Testing PHP5 / Getting Details About Your PHP5 Installation
+The document root of the default web site is /var/www/html. We will now create a small PHP file (info.php) in that directory and call it in a browser. The file will display lots of useful details about our PHP installation, such as the installed PHP version.
+
+[root@localhost etc]# vi /var/www/html/info.php
+
+<?php
+phpinfo();
+?>
+
+6 Getting MySQL Support In PHP5
+To get MySQL support in PHP, we can install the php-mysql package. It's a good idea to install some other PHP5 modules as well as you might need them for your applications. You can search for available PHP5 modules like this:
+[root@localhost etc]#yum search php
+Pick the ones you need and install them like this:
+
+[root@localhost etc]#yum install php-mysql php-gd php-imap php-ldap php-mbstring php-odbc php-pear php-xml php-xmlrpc
+
+Now restart Apache2:
+
+[root@localhost etc]#/etc/init.d/httpd restart
+
+Now reload http://192.168.0.100/info.php in your browser and scroll down to the modules section again. You should now find lots of new modules there, including the MySQL module: 
+
+http://www.howtoforge.com/installing-apache2-with-php5-and-mysql-support-on-centos-6.1-lamp
+

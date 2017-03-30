@@ -1,0 +1,49 @@
+
+
+
+.... kernet compilation for the altq
+
+.. on freebsd altq is not enabled by default in freebsd
+.. therefore we need to compile them in kernel by following.
+.. accordingly https://www.freebsd.org/doc/handbook/kernelconfig-config.html
+
+# cd /usr/src/sys/`uname -m`/conf
+# cp GENERIC MYKERNEL
+
+.. on MYKERNEL file put the following lines
+ 
+# vi MYKERNEL
+
+device pf
+device pflog
+device pfsync
+ 
+options         ALTQ
+options         ALTQ_CBQ        # Class Bases Queuing (CBQ)
+options         ALTQ_RED        # Random Early Detection (RED)
+options         ALTQ_RIO        # RED In/Out
+options         ALTQ_HFSC       # Hierarchical Packet Scheduler (HFSC)
+options         ALTQ_PRIQ       # Priority Queuing (PRIQ)
+options         ALTQ_NOPCC      # Required for SMP build
+
+.. now compile the kernel for new MYKERNEL
+
+# cd /usr/src/sys/`uname -m`/conf && make LINT
+
+# cd /usr/src
+
+Compile the new kernel by specifying the name of the custom kernel configuration file:
+
+# make buildkernel KERNCONF=MYKERNEL
+
+Install the new kernel associated with the specified kernel configuration file. This command will copy the new kernel 
+to /boot/kernel/kernel and save the old kernel to /boot/kernel.old/kernel:
+
+# make installkernel KERNCONF=MYKERNEL
+
+.. reboot into the new kernel.
+
+.. now we can use altq on pf.conf file.
+
+
+

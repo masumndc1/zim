@@ -1,0 +1,16 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-29T03:05:35+06:00
+
+====== postgresql ======
+Created Monday 29 July 2013
+
+root@masum-K42JZ:~#** /etc/init.d/metasploit start**
+LOG:  database system was shut down at 2013-07-03 22:19:18 BDT
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+/opt/metasploit/postgresql/scripts/ctl.sh : postgresql  started at port **7337**
+prosvc is running
+>> Deleting stale PID file log/thin.pid
+metasploit is running
+root@masum-K42JZ:~# 

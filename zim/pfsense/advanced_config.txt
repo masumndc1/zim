@@ -1,0 +1,144 @@
+
+
+.................. virtual ip ......................
+
+.. the virtual ip can be configured in firewall/virtual ip
+.. tab we are going to configue other type of virtual ip and
+.. putting the parameters as our requirement.
+
+.. the other type of virtual ip, vip has the following properties
+.. 
+.. a. traffic can only be forwared to this type of vip. pfsense cant 
+.. use this type of vip as its own services.
+.. b. ping is not allowed to this vip.
+.. c. vip can be in different subnet than its interface.
+.. 
+.. there are other types of vip as follows.
+..
+.. CARP
+.. Can be used or forwarded by the firewall
+.. Uses Layer 2 traffic
+.. Should be used in firewall fail-over or load-balancing scenarios
+.. Must be in the same subnet as the interface
+.. Will respond to pings if configured properly
+..
+.. Proxy ARP
+.. Can only be forwarded by the firewall
+.. Uses Layer 2 traffic
+.. Can be in a different subnet than the interface
+.. Cannot respond to pings
+..
+.. Other
+.. Can only be forwarded by the firewall
+.. Can be in a different subnet than the interface
+.. Cannot respond to pings
+.. IP Alias
+.. 
+.. New to pfSense 2.0
+.. Can be used or forwarded by the firewall
+.. Allows extra IP addresses to be added to an interface
+
+.. you dont have to memorize them all. when you need just come here
+.. see for a while.
+
+... here we configure the virtual ip address 
+
+.. configuring the proxyarp virtual ip address.
+.. in firewall/virtual ip and type is proxyarp. 
+.. interface:lan2 where the request coming to.
+.. address: the virtual ip we just configured as proxyarp.
+.. and save and apply.
+
+.. then configuration firewall/nat 1:1 natting where we will put our just
+.. configured virtual ip (proxyarp). 
+
+.. interface: lan2
+.. external ip: 192.168.10.123 why this one is external? because all 
+.. our request will come to this interface and finally be redirected 
+.. to internal ip
+.. internal ip: 192.168.244.147 (this is most crucial here because we 
+.. we have to configure it accordingly otherwise this will fail. 
+.. we are using our internal ip address as the incoming request at lan2 
+.. will go to internal address). 
+.. nat reflection: use system default
+
+.. and finally we have to allow the incoming packets to its destination
+.. in firewall/rule. we do it like firewall/rule/lan2 and clicking 
+.. related log up right corner and allow it just clicking the plus sign.
+
+.. and now browse http://192.168.10.123 and ssh root@192.168.10.123 from
+.. user host(say kali 192.168.10.1).it will redirect the traffic from 
+.. 192.168.10.123 to 192.168.244.147. 
+
+... outbound nat
+
+.. say we are now dealing with a problem like say one server located at
+.. dmz site has two interfaces lan2 and dmz1. when it receive the http
+.. request to server on its dmz1 interface its serves back by its dmz1 
+.. interface but problem it is when we try
+.. to connect the server with ssh(22) port then it goes by its lan interface 
+.. but try to come back by dmz1 interface which is eventually timed out.
+.. we can solve this kind of problem with outbound nat rule.
+
+.. as our server has two interface lan2 and dmz1. so we configure like 
+.. below. firewall/nat/outbound 
+.. interface: lan2
+.. protocol: tcp
+.. source: any
+.. destination: network and 192.168.244.147 port 22 ( this is the server
+.. ip where the request will be passed). 
+.. translation address: interface address (this is the interesting point
+.. here. as we want return traffic should come from lan2 interface not from 
+.. dmz1. incoming request come to lan2 and its ok and we want return traffic
+.. should come from lan2 not from dmz1)
+
+... gateway/static route
+
+.. we can configure the gateway and static route from system/routing.
+.. and all the settings are self explanatory.
+
+... captive portal 
+
+.. this is the most internesting things. we do that by service/captive
+.. portal. and all the things are self explanatory. and when we try to 
+.. connect by browser pfsense will show portal for the authentication.
+
+.. and we capture the request from radius server like below
+
+root@deb-7:~# tcpdump -i eth1 -n -n -v -v port 1812
+tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+01:33:49.682060 IP (tos 0x0, ttl 64, id 34749, offset 0, flags [none], proto UDP (17), length 157)
+    192.168.35.152.12400 > 192.168.35.147.1812: [udp sum ok] RADIUS, length: 129
+	Access Request (1), id: 0xf8, Authenticator: 3c6976ed2238650dccfee85105a7f29a
+	  NAS IP Address Attribute (4), length: 6, Value: 192.168.35.152
+	    0x0000:  c0a8 2398
+	  NAS ID Attribute (32), length: 19, Value: pfsense.masum.com
+	    0x0000:  7066 7365 6e73 652e 6d61 7375 6d2e 636f
+	    0x0010:  6d
+	  Username Attribute (1), length: 7, Value: masum
+	    0x0000:  6d61 7375 6d
+	  Password Attribute (2), length: 18, Value: 
+	    0x0000:  8b8a 17f0 11c6 4200 b870 ec30 6da6 1712
+	  Service Type Attribute (6), length: 6, Value: Login
+	    0x0000:  0000 0001
+	  NAS Port Type Attribute (61), length: 6, Value: Ethernet
+	    0x0000:  0000 000f
+	  NAS Port Attribute (5), length: 6, Value: 2000
+	    0x0000:  0000 07d0
+	  Framed IP Address Attribute (8), length: 6, Value: 192.168.10.1
+	    0x0000:  c0a8 0a01
+	  Called Station Attribute (30), length: 16, Value: 192.168.35.152
+	    0x0000:  3139 322e 3136 382e 3335 2e31 3532
+	  Calling Station Attribute (31), length: 19, Value: 00:50:56:c0:00:02
+	    0x0000:  3030 3a35 303a 3536 3a63 303a 3030 3a30
+	    0x0010:  32
+01:33:49.682664 IP (tos 0x0, ttl 64, id 1127, offset 0, flags [none], proto UDP (17), length 48)
+    192.168.35.147.1812 > 192.168.35.152.12400: [udp sum ok] RADIUS, length: 20
+	Access Accept (2), id: 0xf8, Authenticator: 722bff393aa8a839ccd966ba770b97a3
+
+
+
+
+
+

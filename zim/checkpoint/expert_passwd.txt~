@@ -1,0 +1,35 @@
+
+// setting expert password
+
+
+masum> 
+masum> expert
+Expert password has not been defined. To set expert password, use the command "set expert-password". 
+masum> 
+masum> set expert-password 
+masum> set expert-password 
+Set Expert password by either plain text or md5 salted hash
+
+masum> set expert-password        
+CLINFR0519  Configuration lock present. Can not execute this command. To acquire the lock use the command 'lock database override'.
+
+masum> lock database override
+
+masum> set expert-password
+Enter new expert password: 
+Enter new expert password (again): 
+
+masum> 
+masum> set expert-password
+Enter new expert password: 
+Enter new expert password (again): 
+masum> 
+masum> 
+masum> expert
+Enter expert password:
+
+Warning! All configuration should be done through clish
+You are in expert mode now.
+ 
+[Expert@masum:0]# 
+masum> 

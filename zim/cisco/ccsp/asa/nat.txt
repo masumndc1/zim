@@ -1,0 +1,169 @@
+configuring pat dynamic nat and static nat in asa
+
+
+1. configure globl pool address
+
+ciscoasa(config)# show run global 
+global (outside) 1 interface
+
+# this means for nat the outside interfacew will be used
+# the numerial 1 means a reference which will be used by
+# nat later.
+
+global (dmz1) 2 interface
+
+# here the interface is used for pat configuration
+# also the same is used for the global dmz1 interface
+
+ciscoasa(config)# 
+
+2. now configure the access-list command if required
+
+ciscoasa(config)# show access-list
+access-list ssh-allow extended permit tcp host 172.16.1.2 host 192.168.1.2 eq ssh log
+
+# my aim is to allow ssh connection from inside interface 172.16.1.2 to dmz1 host
+# 192.168.1.2 for management and the connecion purpuse. and just ssh is allowed
+# and this will be used in my nat
+
+#dynamic nat is same just to define the pool of which range of ip to be used. 
+#we just define here the range 
+
+ciscoasa(config)# global (outside) 1 200.200.200.10-200.200.200.254 netmask 255.255.255.0
+
+3. now configure nat. there is my pat nat configuration. 
+
+ciscoasa(config)# show run nat
+nat (inside) 2 access-list ssh-allow
+
+# above is we are using acl with nat. and that is for to allow only ssh to be natted
+# toward dmz1 if the connection is made from the inside host 172.16.1.2. other wise 
+# all the connection will be go to outer world through outside interface.
+# for host from inside
+
+nat (inside) 1 0.0.0.0 0.0.0.0
+
+# above we are natting all inside host to be natted through outside interface because 
+# of numerical 1 is referencing the global (outside) 1 interface command .
+
+nat (dmz1) 1 192.168.1.2 255.255.255.255
+
+# also above the host 192.168.1.2 of dmz will go outer world by using global (outside) 1 interface.
+
+ciscoasa(config)# 
+
+# natting from inside to dmz1 can be done by above acl or following two commands
+
+4. also im planning to nat all internal host to dmz site by these two command.
+
+ciscoasa(config)# show run nat
+nat (inside) 1 0.0.0.0 0.0.0.0
+
+ciscoasa(config)# show run global 
+global (dmz1) 1 interface
+ciscoasa(config)# 
+
+# the above two commands the inside host will be natted when they are trying to reach
+# dmz1 by dmz1's interface and it will be pat.
+ 
+5. now verification 
+
+a. ciscoasa(config)# show xlate 
+1 in use, 11867 most used
+PAT Global 10.10.10.10(12948) Local 172.16.1.2(40908) 
+ciscoasa(config)# 
+
+b. ciscoasa(config)# show conn
+2 in use, 10437 most used
+TCP outside 10.10.10.1:22 inside 172.16.1.2:40908, idle 0:05:55, bytes 4404, flags UIO
+ciscoasa(config)#
+
+c. ciscoasa(config)# show nat
+
+NAT policies on Interface inside:
+  match tcp inside host 172.16.1.2 outside host 192.168.1.2 eq 22
+    dynamic translation to pool 2 (No matching global)
+    translate_hits = 0, untranslate_hits = 0
+  match tcp inside host 172.16.1.2 inside host 192.168.1.2 eq 22
+    dynamic translation to pool 2 (No matching global)
+    translate_hits = 0, untranslate_hits = 0
+  match tcp inside host 172.16.1.2 dmz1 host 192.168.1.2 eq 22
+    dynamic translation to pool 2 (192.168.1.1 [Interface PAT])
+    translate_hits = 6, untranslate_hits = 0
+  match ip inside any outside any
+    dynamic translation to pool 1 (10.10.10.10 [Interface PAT])
+    translate_hits = 4, untranslate_hits = 130
+  match ip inside any inside any
+    dynamic translation to pool 1 (No matching global)
+    translate_hits = 0, untranslate_hits = 0
+  match ip inside any dmz1 any
+    dynamic translation to pool 1 (No matching global)
+    translate_hits = 11, untranslate_hits = 0
+  match ip inside any outside any
+    no translation group, implicit deny
+    policy_hits = 0
+  match ip inside any dmz1 any
+    no translation group, implicit deny
+    policy_hits = 0
+
+NAT policies on Interface dmz1:
+  match ip dmz1 host 192.168.1.2 outside any
+    dynamic translation to pool 1 (10.10.10.10 [Interface PAT])
+    translate_hits = 4, untranslate_hits = 0
+  match ip dmz1 host 192.168.1.2 dmz1 any
+    dynamic translation to pool 1 (No matching global)
+    translate_hits = 0, untranslate_hits = 0
+  match ip dmz1 any outside any
+    no translation group, implicit deny
+    policy_hits = 0
+ciscoasa(config)# 
+
+# after commanding apt-get update at my dmz1 debian pc i got following output
+
+ciscoasa(config)# show nat
+
+NAT policies on Interface dmz1:
+  match ip dmz1 host 192.168.1.2 outside any
+    dynamic translation to pool 1 (10.10.10.10 [Interface PAT])
+    translate_hits = 7, untranslate_hits = 0
+  match ip dmz1 host 192.168.1.2 dmz1 any
+    dynamic translation to pool 1 (No matching global)
+    translate_hits = 0, untranslate_hits = 0
+  match ip dmz1 any outside any
+    no translation group, implicit deny
+    policy_hits = 0
+ciscoasa(config)# 
+ciscoasa(config)# show conn 
+4 in use, 10437 most used
+TCP outside 10.10.10.1:22 inside 172.16.1.2:40908, idle 0:06:53, bytes 4404, flags UIO
+UDP outside 4.2.2.1:53 dmz1 192.168.1.2:45940, idle 0:00:03, bytes 228, flags -
+TCP outside 70.38.0.135:80 dmz1 192.168.1.2:55554, idle 0:00:00, bytes 239, flags UO
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# show xlate 
+21 in use, 11867 most used
+PAT Global 10.10.10.10(33215) Local 192.168.1.2(55555) 
+PAT Global 10.10.10.10(46614) Local 192.168.1.2(55554) 
+PAT Global 10.10.10.10(3880) Local 192.168.1.2(55553) 
+PAT Global 10.10.10.10(15420) Local 192.168.1.2(55552) 
+PAT Global 10.10.10.10(45019) Local 192.168.1.2(55551) 
+PAT Global 10.10.10.10(35173) Local 192.168.1.2(55550) 
+PAT Global 10.10.10.10(42395) Local 192.168.1.2(55549) 
+PAT Global 10.10.10.10(58437) Local 192.168.1.2(55548) 
+PAT Global 10.10.10.10(7502) Local 192.168.1.2(55547) 
+PAT Global 10.10.10.10(53760) Local 192.168.1.2(55546) 
+PAT Global 10.10.10.10(60218) Local 192.168.1.2(55545) 
+PAT Global 10.10.10.10(29018) Local 192.168.1.2(55544) 
+PAT Global 10.10.10.10(37403) Local 192.168.1.2(55543) 
+PAT Global 10.10.10.10(59700) Local 192.168.1.2(55542) 
+PAT Global 10.10.10.10(55033) Local 192.168.1.2(55541) 
+PAT Global 10.10.10.10(18226) Local 192.168.1.2(55540) 
+PAT Global 10.10.10.10(13377) Local 192.168.1.2(55539) 
+PAT Global 10.10.10.10(36202) Local 192.168.1.2(55538) 
+PAT Global 10.10.10.10(16538) Local 192.168.1.2(55537) 
+PAT Global 10.10.10.10(17846) Local 192.168.1.2(45940) 
+PAT Global 10.10.10.10(12948) Local 172.16.1.2(40908) 
+ciscoasa(config)# 
+
+
+

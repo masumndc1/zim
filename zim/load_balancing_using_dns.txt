@@ -1,0 +1,11 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-09-12T21:20:16+06:00
+
+====== load balancing using dns ======
+Created Wednesday 12 September 2012
+
+www1 IN A 192.168.0.10
+www2 IN A 192.168.0.20
+www IN CNAME www1
+www IN CNAME www2

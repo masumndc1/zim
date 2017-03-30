@@ -1,0 +1,263 @@
+this file is for only the basic commands availble to manage a asa
+
+
+1. clear command
+
+ciscoasa(config)# clear configure ?
+
+configure mode commands/options:
+  access-list                   Clear configured access control elements
+  all                           Clear all configuration
+
+how ever if clear configure all is issued it will remove all the configuration. to clear only a particular portion then should use like
+
+ciscoasa(config)# clear access-list acl_name/number
+
+to clear something or reset a command is best to use the no command at first.
+
+2.configuring dns server and testing the connectivity with outer world
+
+2a. first enable dns lookup and set dns server
+
+configure mode commands/options:
+  domain-lookup  Enable/Disable DNS host-to-address translation
+  name-server    Specify DNS servers
+  retries        Configure DNS retries
+  server-group   Configure a DNS server group
+  timeout        Configure DNS query timeout
+
+ciscoasa(config)# dns domain-lookup ?
+
+ciscoasa(config)# dns domain-lookup outside ?
+
+configure mode commands/options:
+  <cr>
+ciscoasa(config)# dns domain-lookup outside 
+ciscoasa(config)# 
+ciscoasa(config)# dns ?
+
+configure mode commands/options:
+  domain-lookup  Enable/Disable DNS host-to-address translation
+  name-server    Specify DNS servers
+  retries        Configure DNS retries
+  server-group   Configure a DNS server group
+  timeout        Configure DNS query timeout
+
+ciscoasa(config)# dns name-server 4.2.2.1
+
+ciscoasa(config)# ping 4.2.2.1
+
+
+2b. now configure default route 
+
+ciscoasa(config)# route ?
+
+ciscoasa(config)# route outside ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  The foreign network for this route, 0 means default
+
+ciscoasa(config)# route outside 0 ?
+
+configure mode commands/options:
+  A.B.C.D  The netmask for the destined foreign network
+
+ciscoasa(config)# route outside 0 0 ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  The address of the gateway by which the foreign network
+                       is reached.
+ciscoasa(config)# route outside 0 0 10.10.10.1
+
+2c. now test the connectivity and voila
+
+ciscoasa(config)# ping 4.2.2.1                
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 4.2.2.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 250/436/850 ms
+
+ciscoasa(config)# ping www.facebook.com
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 179.60.192.3, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 290/358/590 ms
+ciscoasa(config)# 
+
+3. in asa to setting ip procedure is the same. 
+
+ciscoasa(config)# show ip
+System IP Addresses:
+Interface                Name                   IP address      Subnet mask     Method 
+Ethernet0                outside                10.10.10.10     255.255.255.0   CONFIG
+Current IP Addresses:
+Interface                Name                   IP address      Subnet mask     Method 
+Ethernet0                outside                10.10.10.10     255.255.255.0   CONFIG
+ciscoasa(config)# 
+
+3a. dhcp configuration for interface to get ip from a dhcp server
+
+
+ciscoasa(config)# interface e1
+ciscoasa(config-if)# ip address dhcp
+ciscoasa(config-if)# nameif inside
+
+ciscoasa(config-if)# show interface e1
+Interface Ethernet1 "inside", is up, line protocol is up
+  Hardware is i82559, BW 100 Mbps, DLY 100 usec
+	Auto-Duplex(Full-duplex), Auto-Speed(100 Mbps)
+	MAC address 00ab.609a.ac01, MTU 1500
+	IP address 192.168.35.130, subnet mask 255.255.255.0
+	7 packets input, 0 bytes, 0 no buffer
+	Received 3 broadcasts, 0 runts, 0 giants
+	0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort
+	0 L2 decode drops
+	5 packets output, 0 bytes, 0 underruns
+	0 output errors, 0 collisions, 0 interface resets
+	0 babbles, 0 late collisions, 0 deferred
+	0 lost carrier, 0 no carrier
+	input queue (curr/max packets): hardware (0/1) software (0/1)
+	output queue (curr/max packets): hardware (0/1) software (0/1)
+  Traffic Statistics for "inside":
+	7 packets input, 902 bytes
+	5 packets output, 1256 bytes
+	1 packets dropped
+      1 minute input rate 0 pkts/sec,  0 bytes/sec
+      1 minute output rate 0 pkts/sec,  0 bytes/sec
+      1 minute drop rate, 0 pkts/sec
+      5 minute input rate 0 pkts/sec,  0 bytes/sec
+      5 minute output rate 0 pkts/sec,  0 bytes/sec
+      5 minute drop rate, 0 pkts/sec
+ciscoasa(config-if)# 
+ciscoasa(config-if)# show ip
+System IP Addresses:
+Interface                Name                   IP address      Subnet mask     Method 
+Ethernet0                outside                10.10.10.10     255.255.255.0   CONFIG
+Ethernet1                inside                 192.168.35.130  255.255.255.0   DHCP  
+Current IP Addresses:
+Interface                Name                   IP address      Subnet mask     Method 
+Ethernet0                outside                10.10.10.10     255.255.255.0   CONFIG
+Ethernet1                inside                 192.168.35.130  255.255.255.0   DHCP  
+ciscoasa(config-if)# 
+
+
+ciscoasa(config-if)# show ip address inside dhcp lease 
+
+Temp IP addr: 192.168.35.130  for peer on Interface: inside
+Temp  sub net mask: 255.255.255.0
+   DHCP Lease server: 192.168.35.254, state: 3 Bound
+   DHCP transaction id: 0x56785B6
+   Lease: 1800 secs,  Renewal: 900 secs,  Rebind: 1575 secs
+   Temp default-gateway addr: 192.168.35.2
+   Next timer fires after: 713 seconds
+   Retry count: 0  Client-ID: cisco-00ab.609a.ac01-inside-ciscoasa
+   Proxy: FALSE
+   Hostname: ciscoasa
+ciscoasa(config-if)# 
+ciscoasa(config-if)# show ip address inside dhcp server ?
+
+exec mode commands/options:
+  |  Output modifiers
+  <cr>
+ciscoasa(config-if)# show ip address inside dhcp server 
+
+   DHCP server: ANY (255.255.255.255)
+    Leases:   1
+    Offers:   0      Requests: 0     Acks: 0     Naks: 0
+    Declines: 0      Releases: 0     Bad:  0
+
+   DHCP server: 192.168.35.254
+    Leases:   1
+    Offers:   1      Requests: 1     Acks: 1     Naks: 0
+    Declines: 0      Releases: 0     Bad:  0
+    DNS0:   192.168.35.2,   DNS1:  0.0.0.0
+    WINS0:  192.168.35.2,   WINS1: 0.0.0.0
+    Subnet: 255.255.255.0   DNS Domain: localdomain
+ciscoasa(config-if)# 
+ciscoasa(config-if)# 
+
+
+4. telnet and ssh
+
+
+ciscoasa(config)# enable password masum
+ciscoasa(config)# 
+ciscoasa(config)# wr
+Building configuration...
+Cryptochecksum: 69a18e42 18d68e00 e25cdb5b 4e1c5e15 
+
+1651 bytes copied in 0.700 secs
+[OK]
+
+ciscoasa(config)# show run telnet 
+telnet 0.0.0.0 0.0.0.0 outside
+telnet timeout 5
+ciscoasa(config)# 
+ciscoasa(config)# telnet 0 0 inside
+
+ciscoasa(config)# who
+	0: 192.168.35.128
+ciscoasa(config)# kill 0 to terminate 0
+ 
+4a.ssh
+
+ciscoasa(config)# show crypto key mypubkey rsa 
+Key pair was generated at: 22:36:50 UTC Sep 8 2015
+Key name: <Default-RSA-Key>
+ Usage: General Purpose Key
+ Modulus Size (bits): 1024
+ Key Data:
+
+  30819f30 0d06092a 864886f7 0d010101 05000381 8d003081 89028181 00b924d9 
+  f39f9b7f bd8d61d8 34d04054 e7355fd5 fac98514 b46ed1c6 65062434 07fc080c 
+  62995fc2 c4754d3b 0108bb67 bd142ee5 1dad1c92 9dff9fd9 9b979f4f 7dfedca1 
+  50f05c67 dd2753de 6371ab71 5079e7dd 822745d2 4bf92725 15411e0d 922b7536 
+  27c848ba 27dc61a0 bc7a5f50 b999d77e 661a8620 75f238c1 d6620020 a5020301 0001
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# show crypto key mypubkey rsa 
+Key pair was generated at: 22:36:50 UTC Sep 8 2015
+Key name: <Default-RSA-Key>
+ Usage: General Purpose Key
+ Modulus Size (bits): 1024
+ Key Data:
+
+  30819f30 0d06092a 864886f7 0d010101 05000381 8d003081 89028181 00b924d9 
+  f39f9b7f bd8d61d8 34d04054 e7355fd5 fac98514 b46ed1c6 65062434 07fc080c 
+  62995fc2 c4754d3b 0108bb67 bd142ee5 1dad1c92 9dff9fd9 9b979f4f 7dfedca1 
+  50f05c67 dd2753de 6371ab71 5079e7dd 822745d2 4bf92725 15411e0d 922b7536 
+  27c848ba 27dc61a0 bc7a5f50 b999d77e 661a8620 75f238c1 d6620020 a5020301 0001
+ciscoasa(config)# 
+
+
+ciscoasa(config)# ssh version 1  
+ERROR: SSH version 1 requires a VPN-DES or VPN-3DES-AES activation key.
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# 
+ciscoasa(config)# ssh ?
+
+configure mode commands/options:
+  Hostname or A.B.C.D  The IP address of the host and/or network authorized to
+                       login to the system
+  X:X:X:X::X/<0-128>   IPv6 address/prefix authorized to login to the system
+  scopy                Secure Copy mode
+  timeout              Configure ssh idle timeout
+  version              Specify protocol version to be supported
+
+exec mode commands/options:
+  disconnect  Specify SSH session id to be disconnected after this keyword
+
+ciscoasa(config)# ssh 0 0 inside
+ciscoasa(config)# ssh 0 0 outside 
+ciscoasa(config)# 
+
+
+5. mischelinious
+
+ciscoasa(config)# show arp
+	outside 10.10.10.1 0646.8f60.7942 214
+	inside 192.168.35.128 00ab.cee5.0000 82
+	inside 192.168.35.254 0050.56fa.c0b0 1740
+ciscoasa(config)# 

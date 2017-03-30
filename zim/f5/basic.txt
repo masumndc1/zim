@@ -1,0 +1,29 @@
+
+
+// after installing vmware instance you have to come to console
+// username:password root/default
+// 
+
+// then to setup ip. write config on the console. on a pop up box enter ip/mask
+// and then you can ssh and web browse the device. like below.
+
+root@masum:~# ssh 192.168.35.151
+The authenticity of host '192.168.35.151 (192.168.35.151)' can't be established.
+RSA key fingerprint is 6d:eb:f2:0f:13:7c:fb:84:f3:ca:d9:ab:ab:bf:af:8a.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.35.151' (RSA) to the list of known hosts.
+
+Password: default
+
+Last login: Fri Jul 22 23:49:35 2016
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # una
+unalias  uname    
+[root@localhost:NO LICENSE] config # uname -a
+Linux localhost.localdomain 2.6.18-164.11.1.el5.1.0.f5app #1 SMP Mon Mar 5 11:47:55 PST 2012 i686 i686 i386 GNU/Linux
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # 
+
+ 

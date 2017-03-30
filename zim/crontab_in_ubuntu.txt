@@ -1,0 +1,43 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-09-12T03:50:20+06:00
+
+====== crontab in ubuntu ======
+Created Thursday 12 September 2013
+
+masum@masum-K42JZ:~/test$ crontab -l
+no crontab for masum
+masum@masum-K42JZ:~/test$ crontab -e
+no crontab for masum - using an empty one
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        <---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 
+No modification made
+masum@masum-K42JZ:~/test$ crontab -e
+no crontab for masum - using an empty one
+No modification made
+masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$ crontab -e
+no crontab for masum - using an empty one
+No modification made
+masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$ select-editor
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        <---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 3
+Choose 1-4 [2]: 3
+masum@masum-K42JZ:~/test$ crontab -e
+no crontab for masum - using an empty one
+No modification made
+masum@masum-K42JZ:~/test$ 

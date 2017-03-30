@@ -1,0 +1,77 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-11-05T19:13:15-05:00
+
+====== flash player in linux ======
+Created Tuesday 05 November 2013
+
+two flash player for linux is **gnash** and **Lightspark**. these twos are alternative for the adobe flash player.
+
+**root@masum:/tmp# apt-get -y install --force-yes gnash** 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  baobab caribou caribou-antler dnsmasq-base empathy empathy-common fonts-cantarell gcalctool gdm3 gnome-backgrounds gnome-dictionary gnome-disk-utility
+  gnome-font-viewer gnome-icon-theme-extras gnome-packagekit gnome-packagekit-data gnome-screenshot gnome-system-log gucharmap libavahi-gobject0
+  libavahi-ui-gtk3-0 libcaribou-gtk-module libcaribou-gtk3-module libchamplain-0.12-0 libchamplain-gtk-0.12-0 libgdict-1.0-6 libgdict-common libgdu-gtk0
+  libgeocode-glib0 libmozjs18d libtelepathy-farstream2 libunique-3.0-0 mobile-broadband-provider-info modemmanager nautilus-sendto-empathy network-manager
+  network-manager-gnome sound-theme-freedesktop telepathy-gabble telepathy-logger telepathy-salut vino wpasupplicant xulrunner-18.0
+Use 'apt-get autoremove' to remove them.
+The following extra packages will be installed:
+  gnash-common libboost-program-options1.49.0
+The following NEW packages will be installed:
+  gnash gnash-common libboost-program-options1.49.0
+0 upgraded, 3 newly installed, 0 to remove and 360 not up
+
+**root@masum:/tmp# apt-get install lightspark**
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  baobab caribou caribou-antler dnsmasq-base empathy empathy-common fonts-cantarell gcalctool gdm3 gnome-backgrounds gnome-dictionary gnome-disk-utility
+  gnome-font-viewer gnome-icon-theme-extras gnome-packagekit gnome-packagekit-data gnome-screenshot gnome-system-log gucharmap libavahi-gobject0
+  libavahi-ui-gtk3-0 libcaribou-gtk-module libcaribou-gtk3-module libchamplain-0.12-0 libchamplain-gtk-0.12-0 libgdict-1.0-6 libgdict-common libgdu-gtk0
+  libgeocode-glib0 libmozjs18d libtelepathy-farstream2 libunique-3.0-0 mobile-broadband-provider-info modemmanager nautilus-sendto-empathy network-manager
+  network-manager-gnome sound-theme-freedesktop telepathy-gabble telepathy-logger telepathy-salut vino wpasupplicant xulrunner-18.0
+Use 'apt-get autoremove' to remove them.
+The following extra packages will be installed:
+  libxml++2.6-2 lightspark-common
+The following NEW packages will be installed:
+  libxml++2.6-2 lightspark lightspark-common
+0 upgraded, 3 newly installed, 0 to remove and 360 not upgraded.
+Need to get 5,012 kB of archives.
+After this operation, 13.1 MB of additional disk space will be used.
+Do you want to continue [Y/n]? 
+
+**flash player from debian source site.**
+
+**Installation**
+
+Open a terminal and edit the file /etc/apt/sources.list using a text editor and make sure following line exists:
+
+__deb ftp://ftp.debian.org/debian stable main contrib non-free__
+
+Save and close the file. Type the following command:
+
+$ sudo apt-get update
+
+Next, type the following apt-get command to install flash player plugin:
+
+$ sudo apt-get install flashplugin-nonfree
+
+OR
+
+# apt-get install flashplugin-nonfree
+
+
+another way to install the flash player.
+
+**root@masum:/etc/apt# apt-cache search flashplugin**
+flashplugin-nonfree - Adobe Flash Player - browser plugin
+flashplugin-nonfree-extrasound - Adobe Flash Player platform support library for Esound and OSS
+mint-flashplugin-10.2 - Adobe Flash plugin 10.2
+mint-flashplugin-10.3 - Adobe Flash plugin 10.3 Beta 2
+mint-flashplugin-11 - Adobe Flash plugin 11
+adobe-flashplugin - Adobe Flash Player plugin version 11
+**root@masum:/etc/apt#** 

@@ -1,0 +1,40 @@
+
+1. 
+// basic installation configuration.
+system: basic memory 1500MB
+display: 64MB
+network1: bridge network : tap0 or nat (vmware)
+
+// enter same network ip of tap0 and
+// enter tap0 ip as gateway
+
+2. first install gaia R76 on vmware. 
+
+// networking
+
+// for gaia
+set eth0 on nat network
+set eth1 on bridge with vmnet1 and carefull with to see both interface are up using
+show interface eth0 command
+
+// for xp
+set xp on virtual box and set interface eth0 on bridge with vmnet1.
+and use a ip of same range of vmnet1. 
+
+then start smart dash board on xp.
+you can also try demo mode for education.
+
+
+3. // if you want to remove all the initial file then
+for the first time login again
+you have to remove the file 
+
+gw > expert
+gw # rm -i /etc/.wizard
+
+// note that this is a empty file we have to 
+// remove this thing and reboot to prompt
+// us the first time auto installation.
+
+my expert password at home : admin123
+

@@ -1,0 +1,144 @@
+
+
+// we want to load balance our incoming request like below.
+// /nagios will served by one server while 
+// /webapp will be served by other.
+
+// so we have written the pp file like below.
+
+[root@masum manifests]# pwd
+/etc/puppet/modules/loadbalancer/manifests
+[root@masum manifests]# 
+[root@masum manifests]# ls
+init.pp
+[root@masum manifests]# 
+[root@masum manifests]# 
+[root@masum manifests]# cat init.pp 
+
+#
+class loadbalancer {
+        include apache
+        apache::vhost {'loadbalancer':
+        ip => $::ipaddress_eth10,
+        docroot => '/var/www/html',
+        proxy_pass => [
+        {'path' => '/nagios', 'url' => 'http://192.168.35.145/nagios'},
+        {'path' => '/webapp', 'url' => 'http://192.168.35.144/'},
+        ]
+}
+}
+
+// now run it like below.
+
+[root@masum manifests]# puppet apply init.pp 
+
+Notice: Compiled catalog for masum.puppet.com in environment production in 0.07 seconds
+Notice: Finished catalog run in 0.07 seconds
+
+[root@masum manifests]# 
+
+// however we could write the init.pp file like below.
+// 
+
+
+class loadbalancer ( $nagios_path = '/nagios',
+			$nagios_url = 'http://192.168.35.145/nagios', 
+			$webapp_path = '/webapp',
+			$webapp_url = 'http://192.168.35.144/webapp' ) 
+ 	{
+        include apache
+        apache::vhost {'loadbalancer':
+        ip => $::ipaddress_eth10,
+        docroot => '/var/www/html',
+        proxy_pass => [
+        {'path' => '$nagios_path', 'url' => '$nagios_url'},
+        {'path' => '$webapp_path', 'url' => '$webapp_url'},
+        ]
+}
+}
+
+
+// now we can apply like following like bellow with the above parameterized 
+// pp file.
+
+
+Then, apply the loadbalancer class with class parameters using the -e option:
+
+# puppet apply --modulepath=./ -e "class { 'loadbalancer': webapp_path => '/web' }"
+
+When Puppet run is completed successfully, the default path value /webapp will
+stop working and you should be able to access the web server interface using the
+URL http://192.168.56.10/web .
+
+To pass two or more parameters to the class, you can provide a comma separated list
+of parameters in following way:
+
+# puppet apply --modulepath=./ -e "class { 'loadbalancer': nagios_path => '/', nagios_url => 'http://192.168.56.11/nagios/' }"
+
+This command configures the root resource ( / ) to point to nagios server interface
+After the command has been applied, you should now be able to access the nagios
+web interface in the URL http://192.168.56.10 :
+
+
+If you want to revert the configuration to the default, just use the same command
+syntax without passing any parameters to the class. Here's the example command:
+
+# puppet apply --modulepath=./ -e "class { 'loadbalancer': }".
+
+
+The same command in simpler format using the include keyword looks like this:
+
+# puppet apply --modulepath=./ -e "include loadbalancer"
+
+
+
+///////////////// horizontal scalling of the services //////////////
+
+// to include the additional servers to the cluster we have following 
+// scripts. 
+
+
+class loadbalancer ( $nagios_path = '/nagios',
+			$nagios_url = 'http://192.168.35.145/nagios', 
+			$webapp_path = '/webapp',
+			$webapp_url = 'http://192.168.35.144/webapp' ) 
+ 	{
+        include apache
+
+// these there lines we are going to add additionally
+ 
+	$balancer_name = 'webapp'
+	$balancer_url = "balancer://${balancer_name}"
+	include loadbalancer::create
+
+// the above lines we are going to add
+// we gonna create aditional files in that we will declare loadbalancer::create
+//  
+        apache::vhost {'loadbalancer':
+        ip => $::ipaddress_eth10,
+        docroot => '/var/www/html',
+        proxy_pass => [
+        {'path' => '$nagios_path', 'url' => '$nagios_url'},
+        {'path' => '$webapp_path', 'url' => '$balancer_url'},
+        ]
+}
+}
+
+// we will write another file create.pp file like below
+// 
+
+class loadbalancer::create {
+	apache::balancer { $::loadbalancer::balancer_name: 
+	collect_exported => false;
+	}
+	apache::balancermember { "web1":
+	balancer_cluster => $::loadbalancer::balancer_name,
+	url		=> 'http://192.168.56.12/',
+	}
+	apache::balancermember { "web2":
+	balancer_cluster => $::loadbalancer::balancer_name,
+	url		=> 'http://192.168.56.13/',
+	}
+}
+
+

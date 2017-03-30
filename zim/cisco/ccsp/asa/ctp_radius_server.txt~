@@ -1,0 +1,111 @@
+
+####################### ctp configuruation 
+####################### radius configuration
+
+
+# first configure a radius server in linux( debian/ubuntu/centos)
+
+1. then in linux server u just have to configure the client in the client file
+
+root@debian7:/etc/freeradius# ls
+acct_users		attrs.accounting_response  clients.conf.bak   hints	    policy.conf     radiusd.conf     sqlippool.conf
+attrs			attrs.pre-proxy		   dictionary	      huntgroups    policy.txt	    sites-available  templates.conf
+attrs.access_challenge	certs			   eap.conf	      ldap.attrmap  preproxy_users  sites-enabled    users
+attrs.access_reject	clients.conf		   experimental.conf  modules	    proxy.conf	    sql.conf	     users.bak
+root@debian7:/etc/freeradius# vi client.conf 
+
+client asa {
+        ipaddr  = 192.168.1.1
+        secret  = testing123
+        nastype = cisco
+}
+
+2. configure the user in the users file
+
+root@debian7:/etc/freeradius# vi users
+
+"masum" Cleartext-Password := "masum03"
+        Reply-Message = "Hello, %{User-Name}"
+
+
+3. now configure related information in the asa
+
+ciscoasa(config)# show run aaa-server
+aaa-server radius_server protocol radius
+aaa-server radius_server (dmz1) host 192.168.1.3
+ key testing123
+ authentication-port 1812
+ciscoasa(config)# 
+
+4. now configure user in asa and instruct asa what to do when authenticating
+user
+
+ciscoasa(config)# show run aaa
+aaa authentication ssh console LOCAL 
+aaa authentication telnet console radius_server 
+aaa authentication enable console radius_server LOCAL
+ciscoasa(config)# 
+
+
+ciscoasa(config)# show run telnet 
+telnet 0.0.0.0 0.0.0.0 outside
+telnet 0.0.0.0 0.0.0.0 dmz1
+telnet timeout 20
+ciscoasa(config)# 
+
+5. now verify both at asa and radius server
+
+
+ciscoasa(config)# show aaa-server 
+Server Group:	 LOCAL
+Server Protocol: Local database
+Server Address:	 None
+Server port:	 None
+Server status:	 ACTIVE, Last transaction at 19:58:19 UTC Thu Sep 17 2015
+Number of pending requests		0
+Average round trip time			0ms
+Number of authentication requests	2
+Number of authorization requests	0
+Number of accounting requests		0
+Number of retransmissions		0
+Number of accepts			2
+Number of rejects			0
+Number of challenges			0
+Number of malformed responses		0
+Number of bad authenticators		0
+Number of timeouts			0
+Number of unrecognized responses	0
+
+Server Group:	 radius_server
+Server Protocol: radius
+Server Address:	 192.168.1.3
+Server port:	 1812(authentication), 1646(accounting)
+Server status:	 ACTIVE, Last transaction at 21:09:41 UTC Thu Sep 17 2015
+Number of pending requests		0
+Average round trip time			413ms
+Number of authentication requests	53
+Number of authorization requests	0
+Number of accounting requests		0
+Number of retransmissions		0
+Number of accepts			12
+Number of rejects			8
+Number of challenges			0
+Number of malformed responses		0
+Number of bad authenticators		0
+Number of timeouts			33
+Number of unrecognized responses	0
+
+ciscoasa(config)#  
+
+5a. now verify that at server the server is responsing in the udp port 1812
+for authentication
+
+root@debian7:/etc/freeradius# tcpdump -n -n port 1812
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:10:09.650567 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x33 length: 121
+14:10:09.651152 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x33 length: 34
+14:10:29.294574 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x34 length: 121
+14:10:29.295148 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x34 length: 34
+
+

@@ -1,0 +1,9 @@
+
+
+// first time loging
+
+
+https://<chckpoint_ip>
+
+// and then enter some value for the first time configuration.
+//

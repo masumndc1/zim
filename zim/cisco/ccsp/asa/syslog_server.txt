@@ -1,0 +1,150 @@
+1. set option is asa and set syslog server.
+
+ciscoasa(config)# show run loggin
+logging enable
+logging timestamp
+logging trap informational
+logging history informational
+logging facility 22
+logging host dmz1 192.168.1.2
+logging class sys trap debugging 
+ciscoasa(config)# 
+
+
+2.then in syslog server set the following
+On the Linux box, in /etc/rsyslog.conf
+  $ModLoad imudp
+  $UDPServerRun 514
+  local6.*                                           /var/spool/rsyslogd/asa.log
+  
+The point of specifying the facility (22 aka local6) is to allow the firewall logs to be easily segregated from other logs.
+
+3. then see the log passing and storing it 
+
+root@debian7:~# cd /var/spool/rsyslog/
+root@debian7:/var/spool/rsyslog# ls
+asa.log
+root@debian7:/var/spool/rsyslog# ls -la
+total 24
+drwxr-xr-x 2 root root  4096 Sep 10 21:13 .
+drwxr-xr-x 5 root root  4096 Sep 10 09:22 ..
+-rw-r----- 1 root adm  15734 Sep 10 21:35 asa.log
+root@debian7:/var/spool/rsyslog# 
+
+
+root@debian7:/var/spool/rsyslog# cat asa.log 
+Sep 10 22:34:16 192.168.1.1 %PIX-5-111008: User 'enable_15' executed the 'logging trap informational' command.
+Sep 10 22:34:16 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 95 for dmz1:192.168.1.2/514 (192.168.1.2/514) to identity:192.168.1.1/514 (192.168.1.1/514)
+Sep 10 22:34:16 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/37830 to outside:10.10.10.10/17004
+Sep 10 22:34:16 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 96 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/37830 (10.10.10.10/17004)
+Sep 10 22:34:18 192.168.1.1 %PIX-6-302015: Built inbound UDP connection 97 for inside:172.16.1.2/68 (172.16.1.2/68) to identity:172.16.1.1/67 (172.16.1.1/67)
+Sep 10 22:34:18 192.168.1.1 %PIX-6-604103: DHCP daemon interface inside:  address granted 0100.abce.e500.00 (172.16.1.2)
+Sep 10 22:34:20 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/43032 to outside:10.10.10.10/22295
+Sep 10 22:34:20 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 98 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/43032 (10.10.10.10/22295)
+Sep 10 22:34:24 192.168.1.1 %PIX-6-604103: DHCP daemon interface inside:  address granted 0100.abce.e500.00 (172.16.1.2)
+Sep 10 22:34:24 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/43911 to outside:10.10.10.10/39588
+Sep 10 22:34:24 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 99 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/43911 (10.10.10.10/39588)
+Sep 10 22:34:28 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/39153 to outside:10.10.10.10/44157
+Sep 10 22:34:28 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 100 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/39153 (10.10.10.10/44157)
+Sep 10 22:34:32 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/39817 to outside:10.10.10.10/32842
+Sep 10 22:34:32 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 101 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/39817 (10.10.10.10/32842)
+Sep 10 22:34:36 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/41114 to outside:10.10.10.10/11377
+Sep 10 22:34:36 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 102 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/41114 (10.10.10.10/11377)
+Sep 10 22:34:40 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/58131 to outside:10.10.10.10/52991
+Sep 10 22:34:40 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 103 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/58131 (10.10.10.10/52991)
+Sep 10 22:34:41 192.168.1.1 %PIX-5-111008: User 'enable_15' executed the 'logging trap informational' command.
+Sep 10 22:34:44 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/42637 to outside:10.10.10.10/23612
+Sep 10 22:34:44 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 104 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/42637 (10.10.10.10/23612)
+Sep 10 22:34:46 192.168.1.1 %PIX-5-111008: User 'enable_15' executed the 'logging trap informational' command.
+Sep 10 22:34:48 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/34925 to outside:10.10.10.10/13457
+Sep 10 22:34:48 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 105 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/34925 (10.10.10.10/13457)
+Sep 10 22:34:50 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/51323 to outside:10.10.10.10/18316
+Sep 10 22:34:50 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 106 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/51323 (10.10.10.10/18316)
+Sep 10 22:34:52 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/44991 to outside:10.10.10.10/59315
+Sep 10 22:34:52 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 107 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/44991 (10.10.10.10/59315)
+Sep 10 22:34:56 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/37799 to outside:10.10.10.10/26021
+Sep 10 22:34:56 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 108 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/37799 (10.10.10.10/26021)
+Sep 10 22:34:59 192.168.1.1 %PIX-5-111008: User 'enable_15' executed the 'logging history informational' command.
+Sep 10 22:35:00 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/59767 to outside:10.10.10.10/10096
+Sep 10 22:35:00 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 109 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/59767 (10.10.10.10/10096)
+Sep 10 22:35:04 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/44644 to outside:10.10.10.10/58007
+Sep 10 22:35:04 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 110 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/44644 (10.10.10.10/58007)
+Sep 10 22:35:08 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/48225 to outside:10.10.10.10/3777
+Sep 10 22:35:08 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 111 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/48225 (10.10.10.10/3777)
+Sep 10 22:35:11 192.168.1.1 %PIX-6-302015: Built inbound UDP connection 112 for inside:0.0.0.0/68 (0.0.0.0/68) to identity:255.255.255.255/67 (255.255.255.255/67)
+Sep 10 22:35:11 192.168.1.1 %PIX-6-604103: DHCP daemon interface inside:  address granted 0100.abce.e500.00 (172.16.1.2)
+Sep 10 22:35:12 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/34041 to outside:10.10.10.10/42777
+Sep 10 22:35:12 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 113 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/34041 (10.10.10.10/42777)
+Sep 10 22:35:16 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/58601 to outside:10.10.10.10/2932
+Sep 10 22:35:16 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 114 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/58601 (10.10.10.10/2932)
+Sep 10 22:35:20 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:20 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:20 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/54668 to outside:10.10.10.10/3244
+Sep 10 22:35:20 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 116 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/54668 (10.10.10.10/3244)
+Sep 10 22:35:20 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:20 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:21 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:21 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:21 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:21 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:22 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:23 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:23 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:23 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:23 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/60092 to outside:10.10.10.10/5793
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 127 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/60092 (10.10.10.10/5793)
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:24 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:25 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:25 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:25 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:25 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:26 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:27 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:27 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:27 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:27 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/52004 to outside:10.10.10.10/63125
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 138 for outside:192.168.43.1/53 (192.168.43.1/53) to dmz1:192.168.1.2/52004 (10.10.10.10/63125)
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:28 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:29 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:29 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:29 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:29 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:30 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:31 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:31 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:31 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:31 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:32 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:32 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:32 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:32 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
+Sep 10 22:35:32 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/54900 to outside:10.10.10.10/50977
+root@debian7:/var/spool/rsyslog# 
+root@debian7:/var/spool/rsyslog# 

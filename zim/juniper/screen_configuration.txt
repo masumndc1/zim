@@ -1,0 +1,149 @@
+root@12.1X47-D10.4#
+flow {
+    traceoptions {
+        file syn-cookie-log;
+        flag basic-datapath;
+        trace-level {
+            brief;
+        }
+    }
+    syn-flood-protection-mode syn-cookie;
+    aging {
+        early-ageout 20;
+        low-watermark 70;
+        high-watermark 90;
+    }
+}
+icmp {
+    ip-sweep threshold 1000000;
+    ping-death;
+}
+ip {
+    source-route-option;
+    tear-drop;
+}
+tcp {
+    syn-ack-ack-proxy threshold 200;
+    syn-flood {
+        alarm-threshold 1024;
+        attack-threshold 200;
+        source-threshold 1024;
+        destination-threshold 2048;
+        queue-size 2000; ## Warning: 'queue-size' is deprecated
+        timeout 20;
+    }
+    land;
+    tcp-sweep threshold 1000000;
+}
+udp {
+    udp-sweep threshold 1000000;
+}
+limit-session {
+    source-ip-based 10;
+    destination-ip-based 2000;
+}
+
+[edit security screen ids-option untrust-screen]
+root@12.1X47-D10.4# 
+
+
+root@12.1X47-D10.4# show | display set 
+set security screen ids-option untrust-screen alarm-without-drop
+set security screen ids-option untrust-screen icmp ip-sweep threshold 1000000
+set security screen ids-option untrust-screen icmp ping-death
+set security screen ids-option untrust-screen ip source-route-option
+set security screen ids-option untrust-screen ip tear-drop
+set security screen ids-option untrust-screen tcp syn-ack-ack-proxy threshold 200
+set security screen ids-option untrust-screen tcp syn-flood alarm-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood attack-threshold 200
+set security screen ids-option untrust-screen tcp syn-flood source-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood destination-threshold 2048
+set security screen ids-option untrust-screen tcp syn-flood queue-size 2000
+set security screen ids-option untrust-screen tcp syn-flood timeout 20
+set security screen ids-option untrust-screen tcp land
+set security screen ids-option untrust-screen tcp tcp-sweep threshold 1000000
+set security screen ids-option untrust-screen udp udp-sweep threshold 1000000
+set security screen ids-option untrust-screen limit-session source-ip-based 10
+set security screen ids-option untrust-screen limit-session destination-ip-based 2000
+set security flow aging early-ageout 20
+set security flow aging low-watermark 70
+set security flow aging high-watermark 90
+
+
+root@12.1X47-D10.4> show security screen ids-option untrust-screen 
+Screen object status:
+
+Name                                         Value
+  ICMP address sweep threshold               1000000    
+  TCP sweep threshold                        1000000    
+  UDP sweep threshold                        1000000    
+  IP tear drop                               enabled    
+  TCP SYN flood attack threshold             200        
+  TCP SYN flood alarm threshold              1024       
+  TCP SYN flood source threshold             1024       
+  TCP SYN flood destination threshold        2048       
+  TCP SYN flood timeout                      20         
+  ICMP ping of death                         enabled    
+  IP source route option                     enabled    
+  TCP land attack                            enabled    
+  TCP SYN-ACK-ACK proxy threshold            200        
+  Session source limit threshold             10         
+  Session destination limit threshold        2000       
+  Alarm without drop                         enabled    
+
+root@12.1X47-D10.4> 
+
+
+
+root@12.1X47-D10.4> show security screen statistics zone untrust    
+Screen statistics:
+
+IDS attack type                              Statistics
+  ICMP flood                                 0
+  UDP flood                                  0
+  TCP winnuke                                0
+  TCP port scan                              0
+  UDP port scan                              0
+  ICMP address sweep                         0
+  TCP sweep                                  0
+  UDP sweep                                  0
+  IP tear drop                               0
+  TCP SYN flood                              0
+  IP spoofing                                0
+  ICMP ping of death                         0
+  IP source route option                     0
+  TCP land attack                            0
+  TCP SYN fragment                           0
+  TCP no flag                                0
+  IP unknown protocol                        0
+  IP bad options                             0
+  IP record route option                     0
+  IP timestamp option                        0
+  IP security option                         0
+  IP loose source route option               0
+  IP strict source route option              0
+  IP stream option                           0
+  ICMP fragment                              0
+  ICMP large packet                          0
+  TCP SYN FIN                                0
+  TCP FIN no ACK                             0
+  Source session limit                       30
+  TCP SYN-ACK-ACK proxy                      0
+  IP block fragment                          0
+  Destination session limit                  0
+  IPv6 extension header                      0
+  IPv6 extension hop by hop option           0
+  IPv6 extension destination option          0
+  IPv6 extension header limit                0
+  IPv6 malformed header                      0
+  ICMPv6 malformed packet                    0
+                                        
+root@12.1X47-D10.4> 
+
+root@12.1X47-D10.4> 
+root@12.1X47-D10.4> show security idp security-package-version 
+  Attack database version:N/A(N/A)
+  Detector version :12.6.130121210
+  Policy template version :N/A
+
+root@12.1X47-D10.4> 

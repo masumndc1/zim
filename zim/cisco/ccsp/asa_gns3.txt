@@ -1,0 +1,15 @@
+
+
+
+initrd : /media/5E09-35AF/IOS/ASA842/asa842-initrd.gz
+kernel : /media/5E09-35AF/IOS/ASA842/asa842-vmlinuz
+
+
+these followings two lines are so damn important to set. othewise asa will not boot.
+
+qemu options: -vnc none -vga none -icount auto -hdachs 980,16,32 -cpu coreduo -nographic
+kernel cmd line: ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536 ide1=noprobe no-hlt
+RAM: 1024 MiB
+NIC model: e1000
+
+

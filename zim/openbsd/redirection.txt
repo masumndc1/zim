@@ -1,0 +1,149 @@
+
+
+
+............................ redirection ...........................
+
+
+-bash-4.3# cat -n pf.conf 
+     1  #       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
+     2  #
+     3  # See pf.conf(5) and /etc/examples/pf.conf
+     4  
+     5  set skip on lo
+     6  ext_if = em0
+     7  int_if = vic0
+     8  
+     9  localnet = $int_if:network
+    10  
+    11  table <webserver> persist { 192.168.244.132, 192.168.244.147 }
+    12  
+    14  udp_services = "{ domain, ntp }"
+    16  client_services = "{ ftp, ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    17  
+    18  block all
+
+.. these following two lines, line no 19 and line no.20 are important. the first line 
+.. is telling to redirect the
+.. traffic matched incoming to tcp www and https to ext_if outside) interface to be
+.. redirect to <webserver> pools.
+
+.. and the second line, number 20 is allowing that traffic to pass.
+ 
+    19  match in on $ext_if proto tcp to port { www, https } rdr-to <webserver> round-robin
+    20  pass on $ext_if proto tcp to port { www, https }
+
+..
+
+    21  #pass out on $ext_if proto tcp to port { www, https }
+    22  #match out on $ext_if from $localnet nat-to ($ext_if)
+    23  #pass from { $localnet }
+    24  pass log (all) proto tcp to port $client_services label "pass in"
+    25  pass log (all) quick inet proto { tcp, udp } to port $udp_services label "dns"
+    26  pass log (all) proto icmp label "icmp" keep state (pflow)
+    27  #pass log (all) proto tcp to port ssh 
+    28  pass log (all) proto icmp 
+    29  
+    30  #pass proto tcp from vic0:network to port $tcp_services
+    31  #pass proto udp from vic0:network to port $udp_services
+    32  #pass proto $icmp_services from vic0:network
+    33  
+    34  #pass out all keep state
+    35  
+    36  #block return   # block stateless traffic
+    37  #pass           # establish keep-state
+    38  
+    39  #table <masum> persist file "/etc/hosts"
+    40  # By default, do not permit remote connections to X11
+    41  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+-bash-4.3# 
+-bash-4.3# pfctl -d 
+pf disabled
+-bash-4.3# pfctl -evf /etc/pf.conf 
+set skip on { lo }
+ext_if = "em0"
+int_if = "vic0"
+localnet = "vic0:network"
+table <webserver> persist { 192.168.244.132 192.168.244.147 }
+udp_services = "{ domain, ntp }"
+client_services = "{ ftp, ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+block drop all
+
+....
+
+match in on em0 proto tcp from any to any port = 80 rdr-to <webserver> round-robin
+match in on em0 proto tcp from any to any port = 443 rdr-to <webserver> round-robin
+pass on em0 proto tcp from any to any port = 80 flags S/SA
+pass on em0 proto tcp from any to any port = 443 flags S/SA
+
+...
+
+pass log (all) proto tcp from any to any port = 21 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 22 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 25 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 53 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 80 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 110 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 113 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 443 flags S/SA label "pass in"
+pass log (all) proto tcp from any to any port = 995 flags S/SA label "pass in"
+pass log (all) quick inet proto tcp from any to any port = 53 flags S/SA label "dns"
+pass log (all) quick inet proto tcp from any to any port = 123 flags S/SA label "dns"
+pass log (all) quick inet proto udp from any to any port = 53 label "dns"
+pass log (all) quick inet proto udp from any to any port = 123 label "dns"
+pass log (all) proto icmp all keep state (pflow) label "icmp"
+pass log (all) proto icmp all
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+pf enabled
+-bash-4.3# 
+-bash-4.3# 
+
+.. corresponding tcpdump traffic when we browse http://192.168.35.20 which is ext_if
+.. external ip of the openbsd. also it round robin the webpage.
+
+-bash-4.3# tcpdump -n -ttt -i pflog0 port 80
+tcpdump: WARNING: snaplen raised from 116 to 160
+tcpdump: listening on pflog0, link-type PFLOG
+Nov 10 17:40:51.487295 192.168.35.1.47890 > 192.168.244.132.80: S 3014820043:3014820043(0) win 14600 <mss 1460,sackOK,timestamp 14812159 0,nop,wscale 4> (DF)
+Nov 10 17:40:51.487333 192.168.35.1.47890 > 192.168.244.132.80: S 3014820043:3014820043(0) win 14600 <mss 1460,sackOK,timestamp 14812159 0,nop,wscale 4> (DF)
+Nov 10 17:40:51.488006 192.168.244.132.80 > 192.168.35.1.47890: S 3426905663:3426905663(0) ack 3014820044 win 14480 <mss 1460,sackOK,timestamp 26641959 14812159,nop,wscale 4> (DF)
+Nov 10 17:40:51.488023 192.168.244.132.80 > 192.168.35.1.47890: S 3426905663:3426905663(0) ack 3014820044 win 14480 <mss 1460,sackOK,timestamp 26641959 14812159,nop,wscale 4> (DF)
+Nov 10 17:40:51.488177 192.168.35.1.47890 > 192.168.35.20.80: . ack 3426905664 win 913 <nop,nop,timestamp 14812159 26641959> (DF)
+Nov 10 17:40:51.488191 192.168.35.1.47890 > 192.168.244.132.80: . ack 1 win 913 <nop,nop,timestamp 14812159 26641959> (DF)
+Nov 10 17:40:51.489071 192.168.35.1.47890 > 192.168.35.20.80: P 0:427(427) ack 1 win 913 <nop,nop,timestamp 14812159 26641959> (DF)
+Nov 10 17:40:51.489092 192.168.35.1.47890 > 192.168.244.132.80: P 1:428(427) ack 1 win 913 <nop,nop,timestamp 14812159 26641959> (DF)
+Nov 10 17:40:51.492452 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 972 <nop,nop,timestamp 26641959 14812159> (DF)
+Nov 10 17:40:51.492471 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 972 <nop,nop,timestamp 26641959 14812159> (DF)
+
+
+... redirection using the relayed.
+
+.. the previous method of redirection does not detect the availability of servers
+.. from the pools. rather it keep trying to hit on a out of reach of the servers.
+.. this problem can be resolved by the service relayed comes with bsd. relayd 
+.. monitors the hosts from the pools and staves it off when it is down. 
+.. it can add or minus the host from the table of host from pf configuration.
+.. it interact with pf configuration by special purpose of anchor relayd.
+
+.. first check the relayd daemon
+
+-bash-4.3# relayd -n
+pushfile: /etc/relayd.conf: No such file or directory
+-bash-4.3# 
+
+-bash-4.3# relayd -n
+no actions, nothing to do
+-bash-4.3# cat -n /etc/relayd.conf 
+     1  web1="192.168.244.132"
+     2  web2="192.168.244.147"
+-bash-4.3# 
+-bash-4.3# relayd -n
+no actions, nothing to do
+-bash-4.3# 
+
+... will be done later...in complete....
+
+
+
+

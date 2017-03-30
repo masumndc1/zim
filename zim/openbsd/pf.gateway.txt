@@ -1,0 +1,285 @@
+
+
+
+
+.................. packet forwarding .......................
+..
+.. by default the packet forwarding is disabled. therefore
+.. enable the packet forwarding first
+
+-bash-4.3# sysctl net.inet.ip.forwarding=1
+net.inet.ip.forwarding: 0 -> 1
+-bash-4.3# 
+
+.. for ipv6 forwarding 
+
+bash-4.3# sysctl net.inet6.ip6.forwarding=1
+
+.. as this command will not stay valid after the reboot
+.. we are going to make it valid after reboot.
+
+-bash-4.3# pwd
+/etc
+-bash-4.3# vi sysctl.conf 
+-bash-4.3# cat -n sysctl.conf 
+     1  machdep.allowaperture=2 # See xf86(4)
+     2  net.inet.ip.forwarding=1
+     3  net.inet6.ip6.forwarding=1
+-bash-4.3# 
+
+.. now this will remain permanent after the reboot.
+
+-bash-4.3# cat -n pf.conf 
+     6  
+     7  #localnet = 192.168.244.0/24
+     8  icmp_services = "{ icmp }"
+     9  udp_services = "{ domain }"
+    10  tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    11  
+    12  block all
+    13  
+    14  pass proto { tcp, udp } from vic0:network to port $tcp_services
+    15  #pass proto udp from vic0:network to port $udp_services
+    16  pass proto $icmp_services from vic0:network
+    17  
+    18  pass out all keep state
+    19  
+    20  #block return   # block stateless traffic
+    21  #pass           # establish keep-state
+    22  
+    23  # By default, do not permit remote connections to X11
+    24  block return in on ! lo0 proto tcp to port 6000:6010
+
+-bash-4.3#   
+
+.. also can be written as below as simple without using the macro
+
+-bash-4.3# cat -n pf.conf 
+     1  #       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
+     2  #
+     3  # See pf.conf(5) and /etc/examples/pf.conf
+     4  
+     5  set skip on lo
+     6  
+     7  #localnet = 192.168.244.0/24
+     8  icmp_services = "{ icmp }"
+     9  udp_services = "{ domain }"
+    10  tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    11  
+    12  block all
+    13  
+    14  pass proto tcp from vic0:network to port $tcp_services
+    15  pass proto udp from vic0:network to port $udp_services
+    16  pass proto $icmp_services from vic0:network
+    17  
+    18  pass out all keep state
+    19  
+    20  #block return   # block stateless traffic
+    21  #pass           # establish keep-state
+    22  
+    23  # By default, do not permit remote connections to X11
+    24  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+-bash-4.3# pfctl -d 
+pf disabled
+-bash-4.3# pfctl -vef /etc/pf.conf 
+set skip on { lo }
+icmp_services = "{ icmp }"
+udp_services = "{ domain }"
+tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+block drop all
+pass inet proto tcp from 192.168.244.0/24 to any port = 22 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 25 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 80 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 110 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 113 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 443 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 995 flags S/SA
+pass inet proto udp from 192.168.244.0/24 to any port = 53
+pass inet proto icmp from 192.168.244.0/24 to any
+pass out all flags S/SA
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+pf enabled
+-bash-4.3# 
+
+.. now making it gateway more using the macros and using the natting.
+
+-bash-4.3# cat -n pf.conf 
+     4  
+     5  set skip on lo
+     6  ext_if = em0
+     7  int_if = vic0
+     8  
+     9  localnet = $int_if:network
+    10  
+    11  #icmp_services = "{ icmp }"
+    12  #udp_services = "{ domain }"
+    13  #tcp_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    14  
+    15  block all
+    
+.. this line we use when we dont need any traffic to be block or pass
+.. just to match them.
+
+    16  match out on $ext_if from $localnet nat-to ($ext_if)
+    17  pass from { $localnet }
+    18  
+    29  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+.. alternatively we can also do like below.
+
+-bash-4.3# cat -n pf.conf 
+     1  #       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
+     2  #
+     3  # See pf.conf(5) and /etc/examples/pf.conf
+     4  
+     5  set skip on lo
+     6  #ext_if = em0
+     7  int_if = vic0
+     8  
+     9  localnet = $int_if:network
+    10  
+    12  udp_services = "{ domain }"
+    14  client_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    15  
+    16  block all
+    19  pass inet proto tcp from $localnet to port $client_services
+    20  pass inet proto udp from $localnet to port $udp_services
+    21  pass inet proto icmp from $localnet
+    22  
+    33  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+-bash-4.3# pfctl -d
+pf disabled
+-bash-4.3# pfctl -evf /etc/pf.conf 
+set skip on { lo }
+int_if = "vic0"
+localnet = "vic0:network"
+udp_services = "{ domain }"
+client_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+block drop all
+pass inet proto tcp from 192.168.244.0/24 to any port = 22 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 25 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 80 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 110 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 113 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 443 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 995 flags S/SA
+pass inet proto udp from 192.168.244.0/24 to any port = 53
+pass inet proto icmp from 192.168.244.0/24 to any
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+pf enabled
+-bash-4.3# 
+
+.. another useful command i need to ssh to the system like below.
+
+   22  pass in proto tcp to port ssh
+
+.. and if we only allow to external interfac then we do like below.
+
+   22  pass in proto tcp on $ext_if to port ssh
+
+.. another interesting keyword is quick. we know pf search from top
+.. to bottom and last one is applied. when quick is placed then 
+.. as soon as it found the quick it stops at that point and applied
+.. that rules. it is sometime time savvy. 
+
+   22  pass quick inet proto { tcp, udp } from $localnet to port $udp_services
+
+.. therefore after applying the quick keyword we found the following 
+.. rules in our pf.conf file.
+
+-bash-4.3# cat -n pf.
+
+-bash-4.3# cat -n pf.conf 
+     4  
+     5  set skip on lo
+     6  ext_if = em0
+     7  int_if = vic0
+     8  
+     9  localnet = $int_if:network
+    10  
+    12  udp_services = "{ domain, ntp }"
+    14  client_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+    15  
+    16  block all
+    19  pass inet proto tcp from $localnet to port $client_services
+    20  pass quick inet proto { tcp, udp } from $localnet to port $udp_services
+    21  pass inet proto icmp from $localnet
+    22  pass in proto tcp to port ssh
+    23  
+    34  block return in on ! lo0 proto tcp to port 6000:6010
+-bash-4.3# 
+
+-bash-4.3# pfctl -evf /etc/pf.conf 
+set skip on { lo }
+int_if = "vic0"
+localnet = "vic0:network"
+udp_services = "{ domain, ntp }"
+client_services = "{ ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+block drop all
+pass inet proto tcp from 192.168.244.0/24 to any port = 22 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 25 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 80 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 110 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 113 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 443 flags S/SA
+pass inet proto tcp from 192.168.244.0/24 to any port = 995 flags S/SA
+pass quick inet proto tcp from 192.168.244.0/24 to any port = 53 flags S/SA
+pass quick inet proto tcp from 192.168.244.0/24 to any port = 123 flags S/SA
+pass quick inet proto udp from 192.168.244.0/24 to any port = 53
+pass quick inet proto udp from 192.168.244.0/24 to any port = 123
+pass inet proto icmp from 192.168.244.0/24 to any
+pass in proto tcp from any to any port = 22 flags S/SA
+block return in on ! lo0 proto tcp from any to any port 6000:6010
+pf enabled
+-bash-4.3# 
+
+.. all loaded good.
+
+.. use of table with pf.conf. taking this example from another book
+
+table <clients> persist { 192.168.2.0/24, !192.168.2.5 }
+
+.. Here, the network 192.168.2.0/24 is part of the table with one exception:
+.. The address 192.168.2.5 is excluded using the ! operator (logical NOT). The
+.. keyword persist makes sure the table itself will exist, even if no rules currently
+.. refer to it.
+
+.. It is also possible to load tables from files where each item is on a separate
+.. line, such as the file /etc/clients:
+
+	192.168.2.0/24
+	!192.168.2.5
+
+.. This, in turn, is used to initialize the table in /etc/pf.conf:
+
+table <clients> persist file "/etc/clients"
+
+pass inet proto tcp from <clients> to any port $client_out
+
+.. With this in hand, you can manipulate the table’s contents live, like this:
+
+bash-4.3 # pfctl -t clients -T add 192.168.1/16
+
+.. Note that this changes the in-memory copy of the table only, meaning
+.. that the change will not survive a power failure or reboot, unless you arrange
+.. to store your changes.
+.. You might opt to maintain the on-disk copy of the table using a cron job
+.. that dumps the table content to disk at regular intervals, using a command
+.. such as the following:
+
+bash-4.3 #  pfctl -t clients -T show > /etc/clients
+
+.. Alternatively, you could edit the /etc/clients file and replace the in-memory
+.. table contents with the file data:
+
+bash-4.3 #  pfctl -t clients -T replace -f /etc/clients
+
+

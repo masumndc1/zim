@@ -1,0 +1,192 @@
+
+
+// this is the basic cli configuration of fortigate
+// we will allow following.
+
+
+FortiGate-VM # config system interface 
+FortiGate-VM (interface) # 
+
+FortiGate-VM # show system interface port1
+config system interface
+    edit "port1"
+        set vdom "root"
+        set ip 192.168.35.139 255.255.255.0
+        set allowaccess ping https ssh http telnet
+        set type physical
+        set snmp-index 1
+    next
+end
+
+FortiGate-VM # 
+
+// which we have done is allow the http,https,ping,ssh and telnet
+// now we will be allowed to do these.
+
+// now we will connect the device via http the configure key and
+// then will connect using ssh and https.
+
+// now browse like http://192.168.35.139
+
+// for example we want to disable dst (daylight saving time) by cli
+// we do like below, dst enabled by default. here also note the
+// travelsal of cli to cli
+// 
+
+
+FortiGate login: admin
+Password: 123456
+Welcome !
+
+FortiGate # 
+FortiGate # 
+FortiGate # 
+FortiGate # 
+FortiGate # 
+FortiGate # config 
+antivirus              AntiVirus configuration.
+application            Application control configuration.
+client-reputation      Client reputation tracking configuration
+dlp                    DLP configuration.
+endpoint-control       Endpoint control configuration.
+firewall               Firewall configuration.
+ftp-proxy              FTP proxy configuration.
+gui                    GUI configuration.
+icap                   ICAP client configuration.
+imp2p                  IM & P2P policy configuration.
+ips                    IPS configuration.
+log                    Log configuration.
+netscan                Network vulnerability scanner configuration.
+report                 Report configuration.
+router                 Router configuration.
+spamfilter             AntiSpam configuration.
+system                 System operation configuration.
+user                   Authentication configuration.
+voip                   VoIP configuration.
+vpn                    VPN configuration.
+wanopt                 WAN optimization configuration.
+web-proxy              Web proxy configuration.
+webfilter              Web filter configuration.
+wireless-controller    Wireless access point configuration.
+ 
+FortiGate # config Connection closed by foreign host.
+masum@masum:~$ 
+
+
+FortiGate # config system global 
+ <Enter>
+
+FortiGate # config system global 
+
+FortiGate (global) # 
+set         Modify value.
+unset       Set to default value.
+select      Select multi-option values.
+unselect    Unselect multi-option values.
+append      Append values to multi-option.
+clear       Clear multi-option values.
+get         Get dynamic and system information.
+show        Show configuration.
+abort       End and discard last config.
+end         End and save last config.
+ 
+
+ 
+FortiGate (global) # set dst 
+
+disable    Disable daylight saving time.
+enable     Enable daylight saving time.
+ 
+FortiGate (global) # set dst disable 
+
+FortiGate (global) # 
+
+
+// default gateway configuration
+// we want to enable the internet of our router
+// and will use it like a nat router. ok fine
+// to do so we will set the default gateway like below
+// and test the connectivity.
+// first we configure our port1 as external (192.168.35.139/24)
+// therefore our gateway will be 192.168.35.1
+// and will mark this interface as outside.
+// we will also configure dns name also. and 
+// test like below.
+
+// we will set parameters from system/network tab
+// and select the interface port1 and click and
+// enter parameters there.
+
+// now configure the static route 
+// router/static/static routes 
+// and add a default route (0/0) with the following parameter
+// and gateway 192.168.35.1 interface port1
+
+// example
+// same way we can also add other static route like
+// 172.16.1.0/24 will go through port7 with the ip 17.35.1.1
+// and test it like below.
+
+
+
+
+FortiGate # 
+FortiGate # 
+FortiGate # execute ping 4.2.2.1
+PING 4.2.2.1 (4.2.2.1): 56 data bytes
+64 bytes from 4.2.2.1: icmp_seq=0 ttl=48 time=461.0 ms
+64 bytes from 4.2.2.1: icmp_seq=1 ttl=48 time=253.1 ms
+64 bytes from 4.2.2.1: icmp_seq=2 ttl=48 time=150.8 ms
+
+--- 4.2.2.1 ping statistics ---
+4 packets transmitted, 3 packets received, 25% packet loss
+round-trip min/avg/max = 150.8/288.3/461.0 ms
+
+FortiGate # execute ping yahoo.com
+PING yahoo.com (98.138.253.109): 56 data bytes
+64 bytes from 98.138.253.109: icmp_seq=0 ttl=43 time=223.5 ms
+64 bytes from 98.138.253.109: icmp_seq=1 ttl=43 time=205.6 ms
+
+--- yahoo.com ping statistics ---
+3 packets transmitted, 2 packets received, 33% packet loss
+round-trip min/avg/max = 205.6/214.5/223.5 ms
+
+FortiGate # 
+
+
+// time out value settings. we are setting idle-timeout is 
+// 60minutes.
+
+
+FortiGate # config user setting 
+
+FortiGate (setting) # set 
+auth-blackout-time        Authentication blackout time (0 - 3600 s).
+auth-cert                 HTTPS server certificate for policy authentication.
+auth-http-basic           Enable/disable use of HTTP BASIC for HTTP authentication.
+auth-invalid-max          Number of invalid auth tries allowed before blackout.
+auth-lockout-duration     Lockout period in seconds after too many login failures.
+auth-lockout-threshold    Maximum number of failed login attempts before lockout (1 - 10).
+auth-multi-group          Enable/disable to retrieve all groups a user belongs to.
+auth-secure-http          Enable/disable use of HTTPS for HTTP authentication.
+auth-timeout              Firewall user authentication time-out.
+auth-timeout-type         Authenticated policy expiration behavior.
+auth-type                 Allowed firewall policy authentication methods.
+radius-ses-timeout-act    RADIUS session timeout behavior.
+ 
+FortiGate (setting) # set auth-timeout-type 
+
+hard-timeout    Hard timeout.
+idle-timeout    Idle timeout.
+new-session     New session timeout.
+ 
+FortiGate (setting) # set auth-timeout 
+
+<timeout_interger>    The auth time-out range is 1-1440 minutes(24 hours)
+
+FortiGate (setting) # set auth-timeout 60
+
+FortiGate (setting) # end
+
+FortiGate # 
+

@@ -1,0 +1,41 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-07T05:08:52+06:00
+
+====== quota ======
+Created Friday 07 June 2013
+
+to enable quota. following should be done.
+
+1. Edit the /etc/fstab file.
+2. Create quota files.
+3. Create and start a quota startup script.
+4. Create quota rules.
+5. Check quotas.
+
+1. edit the [[/etc/fstab]] file
+ 
+[[/dev/sda2]] [[/home]] ext3 defaults,usrquota,grpquota 1 2
+
+and reboot the system if creating for / partition or umount or mount command to affect the usrquota on other partition.
+
+
+
+
+root@mail:~# cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid -o value -s UUID' to print the universally unique identifier
+# for a device; this may be used with UUID= as a more robust way to name
+# devices that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc            /proc           proc    nodev,noexec,nosuid 0       0
+# / was on /dev/sda4 during installation
+UUID=d7f08be2-1e16-444a-97da-e1f0f733b401 /               ext3    errors=remount-ro 0       1
+# swap was on /dev/sda6 during installation
+UUID=3951cf89-f10b-4c0f-916b-fe8faaf27f30 none            swap    sw              0       0
+/dev/scd0       /media/floppy0  auto    rw,user,noauto,exec,utf8 0       0
+root@mail:~# 
+
+

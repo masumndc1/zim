@@ -1,0 +1,19 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-15T22:45:11+06:00
+
+====== adding path to linux ======
+Created Monday 15 July 2013
+
+You can type above command at the terminal or add it to your .bashrc (for BASH/sh shell) or .cshrc (for chs / tcsh shell) so that PATH can be set each time you login into box. For example add /usr/local/bin to your path under BASH, enter:
+
+**#export PATH=$PATH:/usr/local/bin**
+
+Or add as follows to your .bashrc file:
+**#echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc**
+
+If you are using CSH / TCSH, enter:
+**#echo 'set PATH = ($PATH /usr/local/bin /scripts/admin)' >> ~/.cshrc**
+
+To display path settings, enter:
+**$ echo $PATH**

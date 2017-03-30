@@ -1,0 +1,370 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-04-15T00:56:40+06:00
+
+====== dns.ubuntu.master ======
+Created Sunday 15 April 2012
+
+root@masum-desktop:~# **cd /etc/bind**
+root@masum-desktop:/etc/bind# ls
+1                            db.0      db.example.com.zone       Krndc.key.+157+15702.private  named.conf.default-zones  rndc.key
+1.168.192.in-addr.arpa.zone  db.127    db.local                  mike.com.zone                 named.conf.dpkg-old       tsig.key
+bind.keys                    db.255    db.root                   named.conf                    named.conf.local          zones.rfc1918
+bob.com.zone                 db.empty  Krndc.key.+157+15702.key  named.conf.bak                named.conf.options
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat 1.168.192.in-addr.arpa.zone **
+;
+; BIND reverse data file for local loopback interface
+;
+;
+$TTL	86400
+@	IN	SOA	ns1.example.com. root.example.com. (
+			 2012031807	; Serial
+			 3H		; Refresh
+			 15M		; Retry
+			 1W		; Expiry
+			 1D	) 	; Negative Cache TTL
+
+	IN	NS	ns1.example.com.
+	IN	NS 	ns2.example.com.
+;
+254	IN	PTR	ns1.example.com.
+7	IN	PTR	masum.example.com.
+5	IN	PTR	mail.example.com.
+10	IN	PTR	www.example.com.
+20	IN	PTR	ftp.example.com.
+1	IN	PTR	ns2.example.com.
+
+; bob.com
+22	IN      PTR	ns1.bob.com.
+23	IN      PTR	ns2.bob.com.
+25	IN      PTR	mail.bob.com.
+27	IN      PTR	ftp.bob.com.
+30	IN      PTR	www.bob.com.
+
+; mike.com
+52	IN      PTR	ns1.mike.com.
+53	IN      PTR	ns2.mike.com.
+55	IN      PTR	mail.mike.com.
+57	IN      PTR	ftp.mike.com.
+60	IN      PTR 	www.mike.com.
+
+
+; EOF
+root@masum-desktop:/etc/bind# 
+
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat bob.com.zone** 
+;
+; BIND data file for local loopback interface
+;
+$TTL	86400
+@	IN	SOA	bob.com. root.bob.com. (
+			 2012031802	; Serial
+			 3H		; Refresh
+			 15M		; Retry
+			 1W		; Expiry
+			 1D	) 	; Negative Cache TTL
+;
+
+	IN	NS	ns1.bob.com.
+
+ns1 	IN 	A 	192.168.1.22
+ns2 	IN	A 	192.168.1.23	
+mail	IN	A	192.168.1.25
+www	IN	A 	192.168.1.30
+ftp	IN	A	192.168.1.27
+bob.com.	IN A	192.168.1.30
+; EOF
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat named.conf**
+// This is the primary configuration file for the BIND DNS server named.
+//
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// this configuration file.
+//
+// If you are just adding zones, please do that in /etc/bind/named.conf.local
+
+include "/etc/bind/named.conf.options";
+include "/etc/bind/named.conf.local";
+include "/etc/bind/named.conf.default-zones";
+//include "/etc/bind/rndc.key";
+include "/etc/bind/tsig.key";
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat named.conf.local** 
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "example.com" {
+        type master;
+        file "/etc/bind/db.example.com.zone";
+        allow-update { none; };
+        notify yes;
+        allow-transfer {key masum;};
+};
+
+
+zone "1.168.192.in-addr.arpa" {
+        type master;
+        file "/etc/bind/1.168.192.in-addr.arpa.zone";
+        notify yes;
+        allow-transfer {key masum;};
+};
+
+
+zone "bob.com" {
+        type master;
+        file "/etc/bind/bob.com.zone";
+        allow-update { none; };
+        notify yes;
+        allow-transfer {key masum;};
+};
+
+
+zone "mike.com" {
+        type master;
+        file "/etc/bind/mike.com.zone";
+        allow-update { none; };
+        notify yes;
+        allow-transfer {key masum;};
+};
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat tsig.key** 
+key "masum" {
+	algorithm hmac-md5;
+	secret "4brKEyQdyhAQClHOkgKp4Q==";
+};
+# slave server ip
+
+server 192.168.1.1 {
+	keys {
+		masum;
+	};
+};
+
+root@masum-desktop:/etc/bind# 
+
+root@masum-desktop:/etc/bind# **cat db.example.com.zone **
+;
+; BIND data file for local loopback interface
+;
+$TTL	86400
+@	IN	SOA	example.com. root.example.com. (
+			 2012031807	; Serial
+			 3H		; Refresh
+			 15M		; Retry
+			 1W		; Expiry
+			 1D	) 	; Negative Cache TTL
+;
+	IN	NS	ns1.example.com.
+	IN	NS	ns2.example.com.
+;
+	IN	MX 10 	mail.example.com.
+
+ns1 	IN 	A 	192.168.1.254
+ns2 	IN	A 	192.168.1.1	
+masum	IN	A 	192.168.1.7
+mail	IN	A	192.168.1.5
+www	IN	A 	192.168.1.10
+ftp	IN	A	192.168.1.20
+example.com. IN	A	192.168.1.10
+; EOF
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat mike.com.zone** 
+;
+; BIND data file for local loopback interface
+;
+$TTL	86400
+@	IN	SOA	mike.com. root.mike.com. (
+			 2012031802	; Serial
+			 3H		; Refresh
+			 15M		; Retry
+			 1W		; Expiry
+			 1D	) 	; Negative Cache TTL
+;
+	IN	NS	ns1.mike.com.
+
+ns1 	IN 	A 	192.168.1.52
+ns2 	IN	A 	192.168.1.53	
+mail	IN	A	192.168.1.55
+www	IN	A 	192.168.1.60
+ftp	IN	A	192.168.1.57
+mike.com.	IN A	192.168.1.60
+; EOF
+
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat Krndc.key.+157+15702.key**
+rndc.key. IN KEY 512 3 157 4brKEyQdyhAQClHOkgKp4Q==
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **cat Krndc.key.+157+15702.private**
+Private-key-format: v1.2
+Algorithm: 157 (HMAC_MD5)
+Key: 4brKEyQdyhAQClHOkgKp4Q==
+Bits: AAA=
+root@masum-desktop:/etc/bind# 
+root@mail:/home/pbl/html# cd /etc/bind
+root@mail:/etc/bind# ls
+202.168.192.in-addr.arpa.zone  bob.com.zone  db.empty             mike.com.zone             named.conf.dpkg-old  tsig.key
+Krndc.key.+157+15702.key       db.0          db.example.com.zone  named.conf                named.conf.local     zones.rfc1918
+Krndc.key.+157+15702.private   db.127        db.local             named.conf.bak            named.conf.options
+bind.keys                      db.255        db.root              named.conf.default-zones  rndc.key
+root@mail:/etc/bind# 
+root@mail:/etc/bind# 
+root@mail:/etc/bind# **cat tsig.key** 
+key "masum" {
+	algorithm hmac-md5;
+	secret "4brKEyQdyhAQClHOkgKp4Q==";
+};
+# slave server ip
+
+server 192.168.1.1 {
+	keys {
+		masum;
+	};
+};
+
+root@mail:/etc/bind# **cat rndc.key **
+key "rndc-key" {
+	algorithm hmac-md5;
+#	secret "4brKEyQdyhAQClHOkgKp4Q==";
+	secret "4Z9DX5GQUHaVuC96fpjqlw==";
+};
+
+root@mail:/etc/bind# **cat bind.keys** 
+managed-keys {
+        # NOTE: This key is current as of October 2009.
+        # If it fails to initialize correctly, it may have expired;
+        # see https://www.isc.org/solutions/dlv for a replacement.
+	dlv.isc.org. initial-key 257 3 5 "BEAAAAPHMu/5onzrEE7z1egmhg/WPO0+juoZrW3euWEn4MxDCE1+lLy2 brhQv5rN32RKtMzX6Mj70jdzeND4XknW58dnJNPCxn8+jAGl2FZLK8t+ 1uq4W+nnA3qO2+DL+k6BD4mewMLbIYFwe0PG73Te9fZ2kJb56dhgMde5 ymX4BI/oQ+cAK50/xvJv00Frf8kw6ucMTwFlgPe+jnGxPPEmHAte/URk Y62ZfkLoBAADLHQ9IrS2tryAe7mbBZVcOwIeU/Rw/mRx/vwwMCTgNboM QKtUdvNXDrYJDSHZws3xiRXF1Rf+al9UmZfSav/4NWLKjHzpT59k/VSt TDN0YUuWrBNh";
+};
+root@mail:/etc/bind# 
+
+
+root@masum-desktop:/etc/bind# **ls**
+1                            db.0      db.example.com.zone       Krndc.key.+157+15702.private  named.conf.default-zones  rndc.key
+1.168.192.in-addr.arpa.zone  db.127    db.local                  mike.com.zone                 named.conf.dpkg-old       tsig.key
+bind.keys                    db.255    db.root                   named.conf                    named.conf.local          zones.rfc1918                bob.com.zone                        db.empty                      Krndc.key.+157+15702.key  named.conf.bak               named.conf.options
+root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind# **tail -f /var/log/syslog**
+Apr 14 14:55:14 masum-desktop named[836]: error (network unreachable) resolving 'changelogs.ubuntu.com/A/IN': 2001:7fd::1#53
+Apr 14 14:55:20 masum-desktop named[836]: error (network unreachable) resolving 'ntp.ubuntu.com/A/IN': 2001:500:1::803f:235#53
+Apr 14 14:55:29 masum-desktop ntpdate[1025]: can't find host ntp.ubuntu.com
+Apr 14 14:55:29 masum-desktop ntpdate[1025]: no servers can be used, exiting
+Apr 14 14:55:36 masum-desktop kernel: [   92.710090] eth0: Link up
+Apr 14 14:55:36 masum-desktop kernel: [   92.710394] eth0: Link changed: 100Mbps, full duplex
+Apr 14 14:56:22 masum-desktop NetworkManager[860]: <error> [1334429782.393838] [nm-manager.c:1317] user_proxy_init(): could not init user settings proxy: (3) Could not get owner of name 'org.freedesktop.NetworkManagerUserSettings': no such name
+Apr 14 14:56:22 masum-desktop NetworkManager[860]: <error> [1334429782.409969] [nm-manager.c:1317] user_proxy_init(): could not init user settings proxy: (3) Could not get owner of name 'org.freedesktop.NetworkManagerUserSettings': no such name
+Apr 14 14:59:34 masum-desktop anacron[824]: Job `cron.daily' started
+Apr 14 14:59:34 masum-desktop anacron[1566]: Updated timestamp for job `cron.daily' to 2012-04-14
+Apr 14 15:02:14 masum-desktop named[836]: client 192.168.1.1#40057: transfer of '1.168.192.in-addr.arpa/IN': AXFR started: TSIG masum
+Apr 14 15:02:14 masum-desktop named[836]: client 192.168.1.1#40057: transfer of '1.168.192.in-addr.arpa/IN': AXFR ended
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#49650: transfer of 'example.com/IN': AXFR started: TSIG masum
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#49650: transfer of 'example.com/IN': AXFR ended
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#55024: transfer of 'mike.com/IN': AXFR started: TSIG masum
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#55024: transfer of 'mike.com/IN': AXFR ended
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#46947: transfer of 'bob.com/IN': AXFR started: TSIG masum
+Apr 14 15:02:15 masum-desktop named[836]: client 192.168.1.1#46947: transfer of 'bob.com/IN': AXFR ended
+Apr 14 15:02:19 masum-desktop named[836]: client 192.168.1.1#52806: received notify for zone 'example.com': TSIG 'masum'
+
+
+**secondary dns log**
+root@masum-K42JZ:~# **tail -f /var/log/syslog**
+Apr 15 01:02:08 masum-K42JZ postfix/qmgr[4299]: 72C2B1E4646: removed
+Apr 15 01:03:33 masum-K42JZ inetd[2598]: tftp/udp4: bind: Address already in use
+Apr 15 01:05:20 masum-K42JZ named[4533]: client 192.168.1.254#23056: received notify for zone '1.168.192.in-addr.arpa': TSIG 'masum'
+Apr 15 01:05:20 masum-K42JZ named[4533]: zone 1.168.192.in-addr.arpa/IN: notify from 192.168.1.254#23056: zone is up to date
+Apr 15 01:05:21 masum-K42JZ named[4533]: client 192.168.1.254#26327: received notify for zone 'example.com': TSIG 'masum'
+Apr 15 01:05:21 masum-K42JZ named[4533]: zone example.com/IN: Transfer started.
+Apr 15 01:05:21 masum-K42JZ named[4533]: transfer of 'example.com/IN' from 192.168.1.254#53: connected using 192.168.1.1#48327
+Apr 15 01:05:21 masum-K42JZ named[4533]: zone example.com/IN: transferred serial 2012041507: TSIG 'masum'
+Apr 15 01:05:21 masum-K42JZ named[4533]: transfer of 'example.com/IN' from 192.168.1.254#53: Transfer completed: 1 messages, 12 records, 364 bytes, 0.003 secs (121333 bytes/sec)
+Apr 15 01:05:21 masum-K42JZ named[4533]: zone example.com/IN: sending notifies (serial 2012041507)
+Apr 15 01:08:28 masum-K42JZ named[4533]: client 192.168.1.254#1733: received notify for zone '1.168.192.in-addr.arpa': TSIG 'masum'
+Apr 15 01:08:28 masum-K42JZ named[4533]: zone 1.168.192.in-addr.arpa/IN: notify from 192.168.1.254#1733: zone is up to date
+Apr 15 01:08:29 masum-K42JZ named[4533]: client 192.168.1.254#19731: received notify for zone 'example.com': TSIG 'masum'
+Apr 15 01:08:29 masum-K42JZ named[4533]: zone example.com/IN: notify from 192.168.1.254#19731: zone is up to date
+
+**primary dns log**
+
+root@masum-desktop:~# **tail -f /var/log/syslog**
+Apr 14 15:05:36 masum-desktop named[1958]: managed-keys-zone ./IN: loading from master file managed-keys.bind failed: file not found
+Apr 14 15:05:36 masum-desktop named[1958]: managed-keys-zone ./IN: loaded serial 0
+Apr 14 15:05:36 masum-desktop named[1958]: running
+Apr 14 15:05:36 masum-desktop named[1958]: zone 1.168.192.in-addr.arpa/IN: sending notifies (serial 2012031807)
+Apr 14 15:05:36 masum-desktop named[1958]: zone example.com/IN: sending notifies (serial 2012041507)
+Apr 14 15:05:36 masum-desktop named[1958]: zone mike.com/IN: sending notifies (serial 2012031802)
+Apr 14 15:05:36 masum-desktop named[1958]: zone bob.com/IN: sending notifies (serial 2012031802)
+Apr 14 15:05:37 masum-desktop named[1958]: client 192.168.1.1#48327: transfer of 'example.com/IN': AXFR-style IXFR started: TSIG masum
+Apr 14 15:05:37 masum-desktop named[1958]: client 192.168.1.1#48327: transfer of 'example.com/IN': AXFR-style IXFR ended
+Apr 14 15:05:37 masum-desktop named[1958]: client 192.168.1.1#6818: received notify for zone 'example.com': TSIG 'masum'
+Apr 14 15:07:40 masum-desktop NetworkManager[860]:    SCPlugin-Ifupdown: update_system_hostname
+Apr 14 15:07:40 masum-desktop NetworkManager[860]: <info> Setting system hostname to 'mail.example.com#012#012#masum-desktop' (from system configuration)
+Apr 14 15:07:40 masum-desktop NetworkManager[860]: <info> Updating /etc/hosts with new system hostname
+Apr 14 15:07:40 masum-desktop nm-dispatcher.action: nm_dispatcher_action: Invalid connection: '(null)' / 'connection setting not found' invalid: 1
+Apr 14 15:07:40 masum-desktop nm-dispatcher.action: Script '/etc/NetworkManager/dispatcher.d/01ifupdown' exited with error status 1.
+Apr 14 15:08:43 masum-desktop named[1958]: received control channel command 'stop -p'
+Apr 14 15:08:43 masum-desktop named[1958]: shutting down: flushing changes
+Apr 14 15:08:43 masum-desktop named[1958]: stopping command channel on 127.0.0.1#953
+Apr 14 15:08:43 masum-desktop named[1958]: stopping command channel on ::1#953
+Apr 14 15:08:43 masum-desktop named[1958]: no longer listening on ::#53
+Apr 14 15:08:43 masum-desktop named[1958]: no longer listening on 127.0.0.1#53
+Apr 14 15:08:43 masum-desktop named[1958]: no longer listening on 192.168.1.254#53
+Apr 14 15:08:43 masum-desktop named[1958]: exiting
+Apr 14 15:08:44 masum-desktop named[2032]: starting BIND 9.7.1-P2 -u bind
+Apr 14 15:08:44 masum-desktop named[2032]: built with '--prefix=/usr' '--mandir=/usr/share/man' '--infodir=/usr/share/info' '--sysconfdir=/etc/bind' '--localstatedir=/var' '--enable-threads' '--enable-largefile' '--with-libtool' '--enable-shared' '--enable-static' '--with-openssl=/usr' '--with-gssapi=/usr' '--with-gnu-ld' '--with-dlz-postgres=no' '--with-dlz-mysql=no' '--with-dlz-bdb=yes' '--with-dlz-filesystem=yes' '--with-dlz-ldap=yes' '--with-dlz-stub=yes' '--with-geoip=/usr' '--enable-ipv6' 'CFLAGS=-fno-strict-aliasing -DDIG_SIGCHASE -O2' 'LDFLAGS=-Wl,-Bsymbolic-functions' 'CPPFLAGS='
+Apr 14 15:08:44 masum-desktop named[2032]: adjusted limit on open files from 1024 to 1048576
+Apr 14 15:08:44 masum-desktop named[2032]: found 1 CPU, using 1 worker thread
+Apr 14 15:08:44 masum-desktop named[2032]: using up to 4096 sockets
+Apr 14 15:08:44 masum-desktop named[2032]: loading configuration from '/etc/bind/named.conf'
+Apr 14 15:08:44 masum-desktop named[2032]: reading built-in trusted keys from file '/etc/bind/bind.keys'
+Apr 14 15:08:44 masum-desktop named[2032]: using default UDP/IPv4 port range: [1024, 65535]
+Apr 14 15:08:44 masum-desktop named[2032]: using default UDP/IPv6 port range: [1024, 65535]
+Apr 14 15:08:44 masum-desktop named[2032]: listening on IPv6 interfaces, port 53
+Apr 14 15:08:44 masum-desktop named[2032]: listening on IPv4 interface lo, 127.0.0.1#53
+Apr 14 15:08:44 masum-desktop named[2032]: listening on IPv4 interface eth0, 192.168.1.254#53
+Apr 14 15:08:44 masum-desktop named[2032]: generating session key for dynamic DNS
+Apr 14 15:08:44 masum-desktop named[2032]: set up managed keys zone for view _default, file 'managed-keys.bind'
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 254.169.IN-ADDR.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 2.0.192.IN-ADDR.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 100.51.198.IN-ADDR.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 113.0.203.IN-ADDR.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 255.255.255.255.IN-ADDR.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: D.F.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 8.E.F.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 9.E.F.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: A.E.F.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: B.E.F.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 8.B.D.0.1.0.0.2.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: automatic empty zone: 0.1.1.0.0.2.IP6.ARPA
+Apr 14 15:08:44 masum-desktop named[2032]: command channel listening on 127.0.0.1#953
+Apr 14 15:08:44 masum-desktop named[2032]: command channel listening on ::1#953
+Apr 14 15:08:44 masum-desktop named[2032]: zone 0.in-addr.arpa/IN: loaded serial 1
+Apr 14 15:08:44 masum-desktop named[2032]: zone 127.in-addr.arpa/IN: loaded serial 1
+Apr 14 15:08:44 masum-desktop named[2032]: zone 1.168.192.in-addr.arpa/IN: loaded serial 2012031807
+Apr 14 15:08:44 masum-desktop named[2032]: zone 255.in-addr.arpa/IN: loaded serial 1
+Apr 14 15:08:44 masum-desktop named[2032]: zone bob.com/IN: loaded serial 2012031802
+Apr 14 15:08:44 masum-desktop named[2032]: zone example.com/IN: loaded serial 2012041507
+Apr 14 15:08:44 masum-desktop named[2032]: zone mike.com/IN: loaded serial 2012031802
+Apr 14 15:08:44 masum-desktop named[2032]: zone localhost/IN: loaded serial 2012031401
+Apr 14 15:08:44 masum-desktop named[2032]: managed-keys-zone ./IN: loading from master file managed-keys.bind failed: file not found
+Apr 14 15:08:44 masum-desktop named[2032]: managed-keys-zone ./IN: loaded serial 0
+Apr 14 15:08:44 masum-desktop named[2032]: running
+Apr 14 15:08:44 masum-desktop named[2032]: zone 1.168.192.in-addr.arpa/IN: sending notifies (serial 2012031807)
+Apr 14 15:08:44 masum-desktop named[2032]: zone example.com/IN: sending notifies (serial 2012041507)
+Apr 14 15:08:44 masum-desktop named[2032]: zone mike.com/IN: sending notifies (serial 2012031802)
+Apr 14 15:08:44 masum-desktop named[2032]: zone bob.com/IN: sending notifies (serial 2012031802)
+

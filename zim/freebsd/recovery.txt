@@ -1,0 +1,15 @@
+
+
+... recovery from one dead kernel
+...
+... we have to reboot the computer and stop to load the current kernel
+... To load the previous kernel, you should stop the system from booting the current
+... kernel by choosing the Escape to loader prompt from the loader menu during the
+... boot up process. Once the loader prompt appears, you should unload the existing
+... modules and load the previous kernel, and then continue the boot process:
+
+# unload
+# load /boot/kernel.old/kernel
+# boot
+
+

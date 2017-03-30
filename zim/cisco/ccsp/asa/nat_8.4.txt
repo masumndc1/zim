@@ -1,0 +1,102 @@
+
+.... natting in asa os version 8.3 or later
+
+
+DC-Core-FW1(config-network-object)# show run object
+object network obj_any
+ subnet 0.0.0.0 0.0.0.0
+object network mailsvr-pub
+ host 123.49.33.35
+object network mailsvr-pri
+ host 172.16.0.81
+object network sslvpn
+ host 123.49.33.40
+object network sslvpn-pri
+ host 10.10.10.137
+object network saesvr-pub
+ host 123.49.33.36
+object network saesvr-pri
+ host 172.16.0.31
+object network erfsvr-pub
+ host 123.49.33.37
+object network erfsvr-pri
+ host 172.16.0.32
+object network ibasvr-pub
+ host 123.49.33.38
+object network ibasvr-pri
+ host 172.16.0.74
+object network vdocon-pub
+ host 123.49.33.44
+object network vdocon-pri
+ host 172.16.4.24
+object network orasvr-pub
+ host 123.49.33.39
+object network orasvr-pri
+ host 172.15.100.20
+DC-Core-FW1(config-network-object)#
+
+
+DC-Core-FW1(config-network-object)#
+DC-Core-FW1(config-network-object)#
+DC-Core-FW1(config-network-object)# show run nat
+!
+object network mailsvr-pri
+ nat (serverfarm,isaproxy) static mailsvr-pub
+object network sslvpn-pri
+ nat (corerouter,isaproxy) static sslvpn
+object network saesvr-pri
+ nat (serverfarm,isaproxy) static saesvr-pub
+object network erfsvr-pri
+ nat (serverfarm,isaproxy) static erfsvr-pub
+object network ibasvr-pri
+ nat (serverfarm,isaproxy) static ibasvr-pub
+object network vdocon-pri
+ nat (serverfarm,isaproxy) static vdocon-pub
+object network orasvr-pri
+ nat (serverfarm,isaproxy) static orasvr-pub
+DC-Core-FW1(config-network-object)#
+
+
+DC-Core-FW1(config-network-object)# show nat
+
+1 (corerouter) to (isaproxy) source static sslvpn-pri sslvpn
+    translate_hits = 0, untranslate_hits = 0
+2 (serverfarm) to (isaproxy) source static orasvr-pri orasvr-pub
+    translate_hits = 0, untranslate_hits = 0
+3 (serverfarm) to (isaproxy) source static saesvr-pri saesvr-pub
+    translate_hits = 0, untranslate_hits = 0
+4 (serverfarm) to (isaproxy) source static erfsvr-pri erfsvr-pub
+    translate_hits = 0, untranslate_hits = 0
+5 (serverfarm) to (isaproxy) source static ibasvr-pri ibasvr-pub
+    translate_hits = 0, untranslate_hits = 0
+6 (serverfarm) to (isaproxy) source static mailsvr-pri mailsvr-pub
+    translate_hits = 0, untranslate_hits = 0
+7 (serverfarm) to (isaproxy) source static vdocon-pri vdocon-pub
+    translate_hits = 0, untranslate_hits = 0
+DC-Core-FW1(config-network-object)#
+DC-Core-FW1(config-network-object)# show nat detail
+
+Auto NAT Policies (Section 2)
+1 (corerouter) to (isaproxy) source static sslvpn-pri sslvpn
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 10.10.10.137/32, Translated: 123.49.33.40/32
+2 (serverfarm) to (isaproxy) source static orasvr-pri orasvr-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.15.100.20/32, Translated: 123.49.33.39/32
+3 (serverfarm) to (isaproxy) source static saesvr-pri saesvr-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.16.0.31/32, Translated: 123.49.33.36/32
+4 (serverfarm) to (isaproxy) source static erfsvr-pri erfsvr-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.16.0.32/32, Translated: 123.49.33.37/32
+5 (serverfarm) to (isaproxy) source static ibasvr-pri ibasvr-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.16.0.74/32, Translated: 123.49.33.38/32
+6 (serverfarm) to (isaproxy) source static mailsvr-pri mailsvr-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.16.0.81/32, Translated: 123.49.33.35/32
+7 (serverfarm) to (isaproxy) source static vdocon-pri vdocon-pub
+    translate_hits = 0, untranslate_hits = 0
+    Source - Origin: 172.16.4.24/32, Translated: 123.49.33.44/32
+DC-Core-FW1(config-network-object)#
+

@@ -1,0 +1,89 @@
+
+
+// some tmsh commands line here.
+// first to show the number of the options 
+// you have you have to press the ? 
+// after the tmsh commands like below.
+// and the all the options are comes out.
+
+
+[root@localhost:NO LICENSE] config # tmsh ?
+Modules:
+  /            TMOS Command Line Interface
+  auth         User accounts and authentication
+  cli          Local user settings and configuration transactions
+  gtm          Global Traffic Manager
+  ltm          Local Traffic Manager
+  net          Network configuration
+  sys          General system configuration
+  util         Utility programs that can be run from within tmsh
+  wom          WAN Optimization
+Commands:
+  create       Create new configuration items
+  delete       Remove configuration items
+  edit         Update configuration using a text editor
+  exit         Exit the current command mode
+  help         View tmsh man pages
+  install      Install an image or hotfix to a volume
+  list         View configuration and settings
+  load         Replace running configuration with configuration files
+  modify       Update existing configuration items
+  quit         Quit tmsh
+  reboot       Reboot the system
+  reset-stats  Reset runtime statistics
+  restart      Restart BIG-IP services
+  run          Run an external program
+  save         Save the running configuration to configuration files
+  show         View runtime information, statistics and status
+  start        Start BIG-IP services
+  stop         Stop BIG-IP services
+  submit       Submit a batched transaction
+[root@localhost:NO LICENSE] config # 
+
+// when we gonna list the optinos related to 
+// the system we use the key word list after the tmsh
+
+
+
+[root@localhost:NO LICENSE] config # tmsh list ?
+Modules:
+  auth                    User accounts and authentication
+  cli                     Local user settings and configuration transactions
+  gtm                     Global Traffic Manager
+  ltm                     Local Traffic Manager
+  net                     Network configuration
+  sys                     General system configuration
+  wom                     WAN Optimization
+Options:
+  all-properties          Display all properties for the specified items
+  current-module          Do not recurse into sub-modes
+  non-default-properties  Display properties that have non-default values
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config # 
+
+// an example can be when we try to see the what is the 
+// management ip then we type the following like below.
+
+[root@localhost:NO LICENSE] config # tmsh list sys management-ip
+sys management-ip 192.168.35.151/24 { 
+	}
+[root@localhost:NO LICENSE] config # 
+
+
+
+[root@localhost:NO LICENSE] config # tmsh list sys management-ip
+sys management-ip 192.168.35.151/24 { }
+[root@localhost:NO LICENSE] config # 
+
+// if we want to enter the tmos 
+// shell from linux config shell
+// we do that like below.
+
+[root@localhost:NO LICENSE] config # tmsh
+root@localhost(NO LICENSE)(tmos)# 
+root@localhost(NO LICENSE)(tmos)# 
+
+// the list of available syntax are like below
+
+

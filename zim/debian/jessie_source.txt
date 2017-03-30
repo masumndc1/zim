@@ -1,0 +1,19 @@
+root@masum:~# cat /etc/apt/sources.list
+#Security Updates
+
+#/etc/apt/sources.list :
+deb http://security.debian.org/ jessie/updates main contrib non-free
+deb-src http://security.debian.org/ jessie/updates main contrib non-free
+
+
+
+#Australia Mirror
+
+# /etc/apt/sources.list :
+deb http://ftp.au.debian.org/debian/ jessie main contrib non-free
+deb-src http://ftp.au.debian.org/debian/ jessie main contrib non-free
+
+deb http://http.debian.net/debian jessie main
+root@masum:~# 
+
+

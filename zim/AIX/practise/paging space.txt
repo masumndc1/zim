@@ -1,0 +1,42 @@
+			Paging Space
+----To view the paging space
+#lsps -a
+
+----To check the total ram
+# lsattr -El sys0 -a realmem
+#prtconf|grep -i memory
+#bootinfo -r
+
+----To check the active paging space
+# cat /etc/swapspaces
+
+----To create a paging space
+# mkps -s 4 -n -a mohvg
+#topas --- from another terminal
+****The size of paging space is 4096 bytes i.e ppsize * 4
+#lsvg -l scalevg
+
+----To check the active paging space
+# cat /etc/swapspaces
+
+----To increase the size of paging space
+# chps -s 2 paging00
+
+#lsps -a
+
+----To deactive a paging space
+# swapoff /dev/paging00
+#lsps -a
+
+----To activate a paging space
+# swapon /dev/paging00
+#lsps -a
+#topas --- from another terminal
+----To decrease the size of paging space
+# chps -d 1 paging00
+#lsps -a
+
+----To delete or remove a inactive paging space
+#rmps paging00
+
+

@@ -1,0 +1,143 @@
+####################### vlan trunk
+
+
+since trunk passes frames for the multiple vlan therefore frames needed to 
+distinguse among them for which vlan the frames belongs to. to do so there
+are protocols. 
+
+1. inter-switch-link(ISL) protocol which is the cisco proprietary.
+2. ieee 802.1q protocol
+
+
+3. configuration of trunking
+
+
+R1-SW(config)#interface fastEthernet 1/0
+
+R1-SW(config-if)#switchport 
+
+R1-SW(config-if)#switchport mode ?
+  access  Set trunking mode to ACCESS unconditionally
+  trunk   Set trunking mode to TRUNK unconditionally
+
+R1-SW(config-if)#switchport mode trunk ?
+  <cr>
+
+*Mar  1 02:24:43.767: %DTP-5-TRUNKPORTON: Port Fa1/0 has become dot1q trunk
+*Mar  1 02:24:44.267: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan2, changed state to up
+
+R1-SW(config-if)#switchport ?
+  access    Set access mode characteristics of the interface
+  mode      Set trunking mode of the interface
+  priority  Set 802.1p priorities
+  trunk     Set trunking characteristics of the interface
+  voice     Voice appliance attributes
+  <cr>
+
+R1-SW(config-if)#switchport trunk ?
+  allowed        Set allowed VLAN characteristics when interface is in trunking
+                 mode
+  encapsulation  Set trunking encapsulation when interface is in trunking mode
+  native         Set trunking native characteristics when interface is in
+                 trunking mode
+
+R1-SW(config-if)#switchport trunk encapsulation ?
+  dot1q  Interface uses only 802.1q trunking encapsulation when trunking
+
+R1-SW(config-if)#switchport trunk encapsulation dot1q ?
+  <cr>
+
+R1-SW(config-if)#switchport trunk encapsulation dot1q 
+
+R1-SW(config-if)#switchport trunk ?
+  allowed        Set allowed VLAN characteristics when interface is in trunking
+                 mode
+  encapsulation  Set trunking encapsulation when interface is in trunking mode
+  native         Set trunking native characteristics when interface is in
+                 trunking mode
+
+R1-SW(config-if)#switchport trunk native ?
+  vlan  Set native VLAN when interface is in trunking mode
+
+R1-SW(config-if)#switchport trunk native vlan ?
+  <1-1005>  VLAN ID of the native VLAN when this port is in trunking mode
+
+R1-SW(config-if)#switchport trunk native vlan 1
+
+R1-SW(config-if)#switchport trunk ?      
+  allowed        Set allowed VLAN characteristics when interface is in trunking
+                 mode
+  encapsulation  Set trunking encapsulation when interface is in trunking mode
+  native         Set trunking native characteristics when interface is in
+                 trunking mode
+
+R1-SW(config-if)#switchport trunk allowed vlan ?
+  WORD    VLAN IDs of the allowed VLANs when this port is in trunking mode
+  add     add VLANs to the current list
+  all     all VLANs
+  except  all VLANs except the following
+  remove  remove VLANs from the current list
+
+R1-SW(config-if)#                              
+
+4. verify
+
+
+R1-SW#show interfaces fastEthernet 1/0 trunk 
+
+Port      Mode         Encapsulation  Status        Native vlan
+Fa1/0     on           802.1q         trunking      1
+
+Port      Vlans allowed on trunk
+Fa1/0     1-1005
+
+Port      Vlans allowed and active in management domain
+Fa1/0     1-4
+
+Port      Vlans in spanning tree forwarding state and not pruned
+Fa1/0     1-4
+R1-SW#
+
+
+R1-SW#show interfaces status 
+
+Port    Name               Status       Vlan       Duplex Speed Type
+Fa1/0                      connected    trunk        full     100 10/100BaseTX
+Fa1/1                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/2                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/3                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/4                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/5                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/6                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/7                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/8                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/9                      notconnect   1            auto    auto 10/100BaseTX
+Fa1/10                     notconnect   1            auto    auto 10/100BaseTX
+Fa1/11                     notconnect   1            auto    auto 10/100BaseTX
+Fa1/12                     notconnect   1            auto    auto 10/100BaseTX
+Fa1/13                     notconnect   1            auto    auto 10/100BaseTX
+Fa1/14                     notconnect   2            auto    auto 10/100BaseTX
+Fa1/15                     notconnect   2            auto    auto 10/100BaseTX
+
+R1-SW# 
+
+R1-SW#show interfaces fastEthernet 1/0 switchport 
+
+Name: Fa1/0
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+Negotiation of Trunking: Disabled
+Access Mode VLAN: 0 ((Inactive))
+Trunking Native Mode VLAN: 1 (default)
+Trunking VLANs Enabled: ALL
+Trunking VLANs Active: 1-4
+Priority for untagged frames: 0
+Override vlan tag priority: FALSE
+Voice VLAN: none 
+Appliance trust: none
+
+R1-SW#
+

@@ -1,0 +1,26 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-05-04T00:34:01+06:00
+
+====== virtualbox.office ======
+Created Friday 04 May 2012
+
+# apt-get install dkms
+# apt-get install build-essential
+
+hard-disk location is [[/home/pbl/.VirtualBox/HardDisks/centos.vdi]]
+
+for install the guest addition of 
+
+root@mail:/home/pbl/my_work/virtualbox# wget -c http://download.virtualbox.org/virtualbox/3.2.8/VBoxGuestAdditions_3.2.8.iso
+--2012-05-04 01:45:10--  http://download.virtualbox.org/virtualbox/3.2.8/VBoxGuestAdditions_3.2.8.iso
+Connecting to 10.100.100.103:3128... connected.
+Proxy request sent, awaiting response... 302 Moved Temporarily
+Location: http://dlc.sun.com.edgesuite.net/virtualbox/3.2.8/VBoxGuestAdditions_3.2.8.iso [following]
+--2012-05-04 01:45:16--  http://dlc.sun.com.edgesuite.net/virtualbox/3.2.8/VBoxGuestAdditions_3.2.8.iso
+Connecting to 10.100.100.103:3128... connected.
+Proxy request sent, awaiting response... 200 OK
+Length: 33566720 (32M) [application/octet-stream]
+Saving to: `VBoxGuestAdditions_3.2.8.iso'
+
+

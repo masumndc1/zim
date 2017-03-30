@@ -1,0 +1,38 @@
+
+
+............... package management..................
+...
+... quering the packages.
+
+-bash-4.3# pkg_info -Q apache
+apache-activemq-5.13.3
+apache-ant-1.9.7
+apache-couchdb-1.6.1p6
+apache-httpd-2.4.23 (installed)
+apache-httpd-common-2.4.23 (installed)
+apachetop-0.12.6p0
+p5-Apache-DB-0.14p6
+p5-Apache-DBI-1.12
+p5-Apache-Gallery-1.0.2p4v0
+p5-Apache-LogFormat-Compiler-0.32
+p5-Apache-MP3-3.05p4
+p5-Apache-Session-1.83p2
+p5-Apache-Session-Generate-UUID-0.2p0
+p5-Apache-Session-Memcached-0.03p1
+p5-Catalyst-Engine-Apache-1.16p1
+p5-Config-ApacheFormat-1.2p0
+-bash-4.3# 
+
+... installing and deleting a package are done by 
+... pkg_add and pkg_delete command.
+
+To upgrade your installed packages, use pkg_add with the -i and -u flags.
+
+# pkg_add -iu
+quirks-1.73->1.77: ok
+apr-1.4.6->1.4.6p0: ok
+apr-util-1.4.1-ldap:cyrus-sasl-2.1.25p3->2.1.25p3: ok
+apr-util-1.4.1-ldap:openldap-client-2.4.31->2.4.31: ok
+apr-util-1.4.1-ldap:libiconv-1.14->1.14: ok
+
+

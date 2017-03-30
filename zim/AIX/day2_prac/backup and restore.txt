@@ -1,0 +1,149 @@
+			Backup and restore
+
+----Create a vg
+
+#mkvg -s 16 -y anjvg1 hdisk2
+
+----To create another filesystem with mount pount point
+
+#crfs -v jfs2 -g anjvg1 -a size=32M  -m /fs2
+
+#mount /fs2
+
+#df -m
+
+#touch /fs2/file1
+
+#touch /fs2/file2
+
+----To take the backup of a vg into amother vg's file
+
+#mkdir /tmp/anjan
+
+#savevg -f /tmp/anjan/bkup -i anjvg1
+
+To delete the vg
+
+#umount /fs2
+
+#reducevg -df anjvg1 hdisk2
+
+To view the vg
+#lsvg
+
+To restore the vg 
+# restvg -q -f /tmp/anjan/bkup hdisk2
+
+To check the proper restore
+#lsvg -l anjvg1
+#ls /fs2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+****By the above command the sapvg is restored and the pvs are mounted automatically
+
+
+To view the information about the backup and restore of the sapvg are in
+
+
+#ls -l /tmp/vgdata
+
+
+# cat /tmp/vgdata/sapvg/sapvg.data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To backup the files in the filesystem
+
+create a file
+
+mkdir /m1
+cat>/m1/f1
+
+cat>/m1/f2
+
+
+cat>lf
+/m1/f1
+/m1/f2
+save it
+
+Then give the command
+# backup -iqvf anj<lf
+****the files in lf are backed up in anj file.
+ or
+#smit backfile
+
+rm -rf /m1
+
+To view the files which are backed up
+# restore -Tvf anj
+
+To restore the file in their original directory
+# restore -xvf anj
+
+ls /m1
+
+To take a selective restore
+#restore -xvf anj /m1/f2
+****here only file anjan will be restored,i.e selective restore
+
+for incremental backup use 
+
+smit backfilesys
+
+
+#backup -f /anjan/bkp -0 
+
+
+
+
+
+
+
+

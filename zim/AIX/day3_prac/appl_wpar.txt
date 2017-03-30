@@ -1,0 +1,20 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+
+----To create a application wpar with a particular process
+ 
+wparexec -n temp -h temporary /usr/bin/sleep 300
+
+----To access the wpar from other terminal
+
+lswpar
+
+clogin temp
+
+ps -ef
+
+****We can see the particular process for that wpar only.
+
+
+
+

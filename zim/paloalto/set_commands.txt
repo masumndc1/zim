@@ -1,0 +1,51 @@
+
+// adding user to the device
+
+admin@testpa# set mgt-config users masum password
++ password-profile   password-profile 
+  password           password 
+  <Enter>            Finish input
+
+admin@testpa# set mgt-config users masum password 
+  <Enter>  Finish input
+
+admin@testpa# set mgt-config users masum password 
+Enter password   : 
+Confirm password : 
+
+[edit]                                                                                                                                                        
+admin@testpa# set mgt-config users masum 
++ authentication-profile    authentication-profile 
++ client-certificate-only   Is client certificate authentication enough?
++ password-profile          password-profile 
++ public-key                Public RSA/DSA
+> permissions               permissions 
+> phash                     phash 
+> preferences               preferences 
+  password                  password 
+  <Enter>                   Finish input
+
+admin@testpa# set mgt-config users masum permissions 
+> role-based   role-based 
+  <Enter>      Finish input
+
+admin@testpa# set mgt-config users masum permissions role-based 
+> custom         custom 
+> deviceadmin    deviceadmin 
+> devicereader   devicereader 
+> superreader    superreader 
+> superuser      superuser 
+  <Enter>        Finish input
+
+admin@testpa# set mgt-config users masum permissions role-based superuser 
+  yes   yes 
+
+admin@testpa# set mgt-config users masum permissions role-based superuser yes 
+  <Enter>  Finish input
+
+admin@testpa# set mgt-config users masum permissions role-based superuser yes 
+
+[edit]                                                                                                                                                        
+admin@testpa# 
+
+

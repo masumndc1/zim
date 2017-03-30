@@ -1,0 +1,30 @@
+
+
+// big ip uses say two vlan like vlan internal and other is vlan external.
+// and also say vlan external has two ips like below.
+
+vlan-external: 
+self ip: 10.10.1.31/16
+floating self ip: 10.10.1.33/16
+
+vlan-internal:
+self ip: 172.16.1.31/16
+floating self ip: 172.16.1.33/16
+
+now during auto map big ip uses one of the self ip as its for the source
+ip translation. its depends on how the traffic is destined.  
+on other words one of the self ip is used in the time of auto mapping.
+
+// now what happens when a request comes from client for the service.
+
+say client 10.10.1.30:55555 send a request to virtual server ip
+10.10.1:100:80 then f5 will send the request to the internal servers
+at that time the source ip will be 172.16.1.33 cz it is on the virtual
+internal side and the destination will be one of the pools like
+172.16.20.1:80. 
+
+and reverse happens from server side to the clients side. like
+source: 172.16.20.1 destination: virtual-internal self ip: 172.16.1.33
+as the term of server side.
+
+and the client side will be source: 10.10.1.100:80 to client: 10.10.1.30:55555 

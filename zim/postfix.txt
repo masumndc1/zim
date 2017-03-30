@@ -1,0 +1,314 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-04-16T21:31:10+06:00
+
+====== postfix ======
+Created Monday 16 April 2012
+
+# telnet localhost 143
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+* OK [CAPABILITY IMAP4rev1 UIDPLUS CHILDREN NAMESPACE THREAD=ORDEREDSUBJECT THRE
+AD=REFERENCES SORT QUOTA IDLE ACL ACL2=UNION STARTTLS] Courier-IMAP ready. Copyr
+ight 1998-2005 Double Precision, Inc.  See COPYING for distribution information.
+a login wilma@example.com boing
+a OK LOGIN Ok.
+a select inbox
+* FLAGS (\Draft \Answered \Flagged \Deleted \Seen \Recent)
+* OK [PERMANENTFLAGS (\* \Draft \Answered \Flagged \Deleted \Seen)] Limited
+* 1 EXISTS
+* 1 RECENT
+* OK [UIDVALIDITY 1110891662] Ok
+* OK [MYRIGHTS "cdilrsw"] ACL
+a OK [READ-WRITE] Ok
+a fetch 1 rfc822
+* 1 FETCH (RFC822 {362}
+Return-path: <>
+Envelope-to: wilma@example.com
+Delivery-date: Tue, 15 Mar 2005 12:47:35 +0000
+Received: from localhost ([127.0.0.1]:51793 helo=test)
+        by billdog.local.linnet.org (localhost [127.0.0.1]:25)
+        with esmtp id 1DBBSK-0000wa-Ek (Exim 4.50) for wilma@example.com
+        (return-path <>); Tue, 15 Mar 2005 12:47:35 +0000
+subject: test
+
+this is a test
+)
+a OK FETCH completed.
+a logout
+* BYE Courier-IMAP server shutting down
+a OK LOGOUT completed
+Connection closed by foreign host.
+
+# telnet localhost 110
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
++OK Hello there.
+user fred@example.com
++OK Password required.
+pass wibble
++OK logged in.
+stat
++OK 1 515
+retr 1
++OK 515 octets follow.
+Return-path: <root@billdog.local.linnet.org>
+Envelope-to: fred@example.com
+Delivery-date: Tue, 15 Mar 2005 12:43:12 +0000
+Received: from root by billdog.local.linnet.org (localhost)
+        with local id 1DBBO8-0000wC-El (Exim 4.50) for fred@example.com
+        (return-path <root@billdog.local.linnet.org>); Tue, 15 Mar 2005
+12:43:12 +0000
+Subject: test
+Message-Id: <E1DBBO8-0000wC-El@billdog.local.linnet.org>
+From: Charlie Root <root@billdog.local.linnet.org>
+Date: Tue, 15 Mar 2005 12:43:10 +0000
+
+this is a test
+.
+quit
++OK Bye-bye.
+Connection closed by foreign host.
+&prompt;
+
+
+[squirrelmail connection problem]
+
+[root@mail config]# setsebool httpd_can_network_connect=1
+[root@mail config]# setsebool -P httpd_can_network_connect=1  ; for permanent at the boot time.
+# it will solve the problem related to error login to imap server permission denied related issue.
+
+// complete squirrelmail configuration. in redhat 5.
+
+//first install dovecot which comes with redhat5. and edit [[/etc/dovecot.conf]] file.
+[root@mail ~]# vi /etc/dovecot.conf 
+[root@mail ~]# 
+#Protocols we want to be serving: imap imaps pop3 pop3s
+# If you only want to use dovecot-auth, you can set this to "none".
+#protocols = imap imaps pop3 pop3s
+protocols = imap imaps pop3 pop3s
+
+// and test the setting. 
+
+[root@mail ~]# telnet localhost 143
+Trying 127.0.0.1...
+Connected to localhost.example.com (127.0.0.1).
+Escape character is '^]'.
+* OK Dovecot ready.
+
+[root@mail ~]# telnet localhost 110
+Trying 127.0.0.1...
+Connected to localhost.example.com (127.0.0.1).
+Escape character is '^]'.
++OK Dovecot ready.
+
+// so the dove cot is ready for the both the imap and pop3 setting. now come to the point to the squirrelmail setting.
+//
+
+[root@mail ~]# cd /usr/share/squirrelmail/
+[root@mail squirrelmail]# ls
+class  config  functions  help  images  include  index.php  locale  plugins  src  themes
+[root@mail squirrelmail]# cd src
+[root@mail src]# ls
+addrbook_popup.php        empty_trash.php             image.php               options_order.php            search.php
+addrbook_search_html.php  folders_create.php          index.php               options.php                  signout.php
+addrbook_search.php       folders_delete.php          left_main.php           printer_friendly_bottom.php  vcard.php
+addressbook.php           folders.php                 login.php               printer_friendly_main.php    view_header.php
+compose.php               folders_rename_do.php       mailto.php              printer_friendly_top.php     view_text.php
+configtest.php            folders_rename_getname.php  move_messages.php       read_body.php                webmail.php
+delete_message.php        folders_subscribe.php       options_highlight.php   redirect.php
+download.php              help.php                    options_identities.php  right_main.php
+[root@mail src]# 
+[root@mail config]# ./conf.pl
+SquirrelMail Configuration : Read: config.php (1.4.0)
+---------------------------------------------------------
+Main Menu --
+1.  Organization Preferences
+2.  Server Settings
+3.  Folder Defaults
+4.  General Options
+5.  Themes
+6.  Address Books
+7.  Message of the Day (MOTD)
+8.  Plugins
+9.  Database
+10. Languages
+
+D.  Set pre-defined settings for specific IMAP servers
+
+C   Turn color on
+S   Save data
+Q   Quit
+
+Command >> D
+// press D so we can set out dovecot here..
+
+SquirrelMail Configuration : Read: config.php
+---------------------------------------------------------
+While we have been building SquirrelMail, we have discovered some
+preferences that work better with some servers that don't work so
+well with others.  If you select your IMAP server, this option will
+set some pre-defined settings for that server.
+
+Please note that you will still need to go through and make sure
+everything is correct.  This does not change everything.  There are
+only a few settings that this will change.
+
+Please select your IMAP server:
+    bincimap    = Binc IMAP server
+    courier     = Courier IMAP server
+    cyrus       = Cyrus IMAP server
+    dovecot     = Dovecot Secure IMAP server
+    exchange    = Microsoft Exchange IMAP server
+    hmailserver = hMailServer
+    macosx      = Mac OS X Mailserver
+    mercury32   = Mercury/32
+    uw          = University of Washington's IMAP server
+
+    quit        = Do not change anything
+Command >> dovecot
+
+// return to main menu pressing R and press 2 to set the server related setting.
+
+SquirrelMail Configuration : Read: config.php (1.4.0)
+---------------------------------------------------------
+Server Settings
+
+General
+-------
+1.  Domain                 : example.com
+2.  Invert Time            : false
+3.  Sendmail or SMTP       : Sendmail
+
+A.  Update IMAP Settings   : localhost:143 (dovecot)
+B.  Change Sendmail Config : /usr/sbin/sendmail
+
+R   Return to Main Menu
+C   Turn color on
+S   Save data
+Q   Quit
+
+Command >> 
+
+// now back to main menu pressing 4 the general settings. leave this page if u dont need to change anything.
+ 
+SquirrelMail Configuration : Read: config.php (1.4.0)
+---------------------------------------------------------
+General Options
+1.  Data Directory              : /var/lib/squirrelmail/prefs/
+2.  Attachment Directory        : /var/spool/squirrelmail/attach/
+3.  Directory Hash Level        : 0
+4.  Default Left Size           : 150
+5.  Usernames in Lowercase      : true
+6.  Allow use of priority       : true
+7.  Hide SM attributions        : false
+8.  Allow use of receipts       : true
+9.  Allow editing of identity   : true
+    Allow editing of name       : true
+    Remove username from header : false
+10. Allow server thread sort    : true
+11. Allow server-side sorting   : true
+12. Allow server charset search : true
+13. Enable UID support          : true
+14. PHP session name            : SQMSESSID
+15. Location base               : 
+
+R   Return to Main Menu
+C   Turn color on
+S   Save data
+Q   Quit
+
+Command >> 
+
+// installing spamassassin 
+
+# apt-get install spamassassin spamc
+
+
+
+-bash-3.2$ pwd
+/home/bob
+-bash-3.2$ ls -la
+total 104
+drwxr-x---  5 bob  apache  4096 Mar 16 14:34 .
+drwxr-xr-x  5 root root    4096 Mar 14 18:14 ..
+-rw-------  1 bob  bob      566 Mar 16 12:48 .bash_history
+-rw-r--r--  1 root root      69 Mar 14 20:01 index.html
+drwx------  3 bob  bob     4096 Mar 16 03:11 mail
+drwx------ 10 bob  bob     4096 Mar 16 14:33 Maildir
+-rw-r--r--  1 bob  bob       82 Mar 16 11:54 mas.txt
+-rw-------  1 bob  bob    17393 Mar 16 14:33 procmail.log
+-rw-r--r--  1 bob  bob      371 Mar 16 14:34 .procmailrc
+-rw-------  1 bob  bob     2823 Mar 16 14:34 .viminfo
+drwxr-xr-x  3 root apache  4096 Mar 14 19:15 web
+-bash-3.2$ vi .procmailrc 
+#
+#        Here we assign variables
+#
+PATH=/usr/bin: /usr/local/bin:
+MAILDIR=$HOME/Maildir
+DEFAULT=$MAILDIR/
+LOGFILE=$HOME/procmail.log
+LOG="
+"
+VERBOSE=yes
+# Make sure it exists
+# Trailing / indicates maildir
+#
+#        This is the only rule within the file
+#
+:0:
+#* ^From:_<root@mail.example.com>
+* ^TO_root@mail.example.com
+#* ^Subject: *hello world
+masum/
+#TEST-HelloWorld
+
+//The special rule ^TO_ is intended to search all the destination headers
+//available. The rule must be written as exactly four characters with no spaces and
+//with both T and O in capitals. The phrase being matched must follow immediately
+//after the _ again without a space.
+//:0:
+//* ^TO_do-not-reply@freelancers.net
+//freelancers/
+
+
+[root@mail bob]# pwd
+/home/bob
+[root@mail bob]# ls
+index.html  mail  Maildir  mas.txt  procmail.log  web
+[root@mail bob]# tail -f procmail.log 
+procmail: [12360] Fri Mar 16 14:32:15 2012
+procmail: Match on "(^((Original-)?(Resent-)?(To|Cc|Bcc)|(X-Envelope|Apparently(-Resent)?)-To):(.*[^-a-zA-Z0-9_.])?)root@mail.example.com"
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD.PqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:32:23 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD,PqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:32:31 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD+PqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:32:39 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD%PqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:32:47 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD.vqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:32:55 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD,vqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:33:03 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD+vqvYPB.mail.example.com"
+procmail: [12360] Fri Mar 16 14:33:11 2012
+procmail: Locking "masum/.lock"
+procmail: Error while writing to "masum/_IBD%vqvYPB.mail.example.com"
+procmail: Lock failure on "masum/.lock"
+procmail: Assigning "LASTFOLDER=masum/new/1331886791.12360_0.mail.example.com"
+procmail: Notified comsat: "bob@0:/home/bob/Maildir/masum/new/1331886791.12360_0.mail.example.com"
+From root@mail.example.com  Fri Mar 16 14:32:15 2012
+ Subject: what is this
+  Folder: masum/new/1331886791.12360_0.mail.example.com		
+~                              

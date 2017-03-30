@@ -1,0 +1,164 @@
+
+// basic commands practise
+
+admin@PA-VM> show system info 
+
+hostname: PA-VM
+ip-address: 192.168.201.234
+netmask: 255.255.252.0
+default-gateway: 
+ipv6-address: unknown
+ipv6-link-local-address: fe80::20c:29ff:fea2:e590/64
+ipv6-default-gateway: 
+mac-address: 00:0c:29:a2:e5:90
+time: Thu Mar 10 21:23:39 2016
+uptime: 0 days, 4:34:12
+family: vm
+model: PA-VM
+serial: unknown
+vm-mac-base: BA:DB:EE:FB:AD:00
+vm-mac-count: 255
+vm-uuid: 564D9DE1-5D8A-B67D-D031-5C5B33A2E590
+vm-cpuid: 120F6000FFFB8B17
+vm-license: none
+vm-mode: 
+sw-version: 6.1.0
+global-protect-client-package-version: 0.0.0
+app-version: 451-2337
+app-release-date: unknown
+av-version: 0
+av-release-date: unknown
+threat-version: 0
+threat-release-date: unknown
+wf-private-version: 0
+wf-private-release-date: unknown
+url-db: paloaltonetworks
+wildfire-version: 0
+wildfire-release-date: unknown
+url-filtering-version: 0000.00.00.000
+global-protect-datafile-version: 0
+global-protect-datafile-release-date: unknown
+logdb-version: 6.1.3
+platform-family: vm
+vpn-disable-mode: off
+multi-vsys: off
+operational-mode: normal
+
+admin@PA-VM> 
+
+// | and match will display particular of something.
+
+admin@PA-VM> show system info | match model
+model: PA-VM
+
+admin@PA-VM> show system info | match sw
+sw-version: 6.1.0
+
+admin@PA-VM> 
+
+
+admin@testpa> set cli config-output-format set 
+admin@testpa> 
+admin@testpa> 
+admin@testpa> 
+admin@testpa> 
+admin@testpa> configure 
+Entering configuration mode
+[edit]                                                                                                                                                        
+admin@testpa# 
+[edit]                                                                                                                                                        
+admin@testpa# 
+[edit]                                                                                                                                                        
+admin@testpa# check pending-changes 
+
+yes
+[edit]                                                                                                                                                        
+admin@testpa# 
+[edit]                                                                                                                                                        
+admin@testpa# 
+[edit]                                                                                                                                                        
+admin@testpa# commit validate 
+
+
+......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
+Configuration is valid
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+admin@testpa# commit 
+
+
+....55%75%99%.......100%
+Configuration committed successfully
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+
+admin@testpa> show running application setting 
+
+Application setting:
+Application cache             : yes
+Supernode                     : yes
+Heuristics                    : yes
+Cache Threshold               : 16
+Bypass when exceeds queue limit: yes
+Traceroute appid              : yes
+Traceroute TTL threshold      : 30
+Use cache for appid           : no
+Unknown capture               : on
+Max. unknown sessions         : 5000
+Current unknown sessions      : 0
+Application capture           : off
+
+Current APPID Signature       
+   Signagure Usage            : 21  MB (Max. 32  MB)
+      TCP 1 C2S               : 15896  states
+      TCP 1 S2C               : 5288   states
+      TCP 2 C2S               : 2314   states
+      TCP 2 S2C               : 741    states
+      UDP 1 C2S               : 11374  states
+      UDP 1 S2C               : 3063   states
+      UDP 2 C2S               : 763    states
+      UDP 2 S2C               : 256    states
+
+
+admin@testpa> 
+
+
+
+
+
+masum@testpa> show wildfire status 
+
+Connection info: 
+  Wildfire cloud:                public cloud
+  Status:                        Disabled due to configuration
+  Best server:                   
+  Device registered:             no
+  Valid wildfire license:        no
+  Service route IP address:      192.168.201.234
+  Signature verification:        enable
+  Server selection:              enable
+  Through a proxy:               no
+
+File size limit info: 
+  pe                                           2 MB
+  apk                                         10 MB
+  pdf                                        200 KB
+  ms-office                                  500 KB
+  jar                                          1 MB
+  flash                                        5 MB
+
+Forwarding info: 
+  file idle time out (second):                          90
+  total file forwarded:                                  0
+  file forwarded in last minute:                         0
+  concurrent files:                                      0
+
+
+masum@testpa> 
+masum@testpa> 
+masum@testpa> 
+

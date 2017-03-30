@@ -1,0 +1,38 @@
+
+
+
+............. vagrant ..............
+..
+.. vagrant installation
+
+
+root@debian7:~# apt-cache search vagrant
+vagrant - Tool for building and distributing virtualized development environments
+root@debian7:~# 
+root@debian7:~# apt-get install vagrant 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+vagrant is already the newest version.
+The following packages were automatically installed and are no longer required:
+  accountsservice apg at-spi2-core baobab caribou caribou-antler cheese-common crda dconf-tools dnsmasq-base empathy empathy-commo
+  fonts-cantarell gcalctool gdm3 gir1.2-atspi-2.0 gnome-backgrounds gnome-control-center-data gnome-dictionary gnome-disk-utility
+  gnome-font-viewer gnome-icon-theme-extras gnome-online-accounts gnome-packagekit gnome-packagekit-data gnome-screenshot
+  gnome-system-log gnome-system-monitor gstreamer0.10-nice gucharmap libatk-adaptor libatk-bridge2.0-0 libatkmm-1.6-1 libatspi2.0-
+  libavahi-ui-gtk3-0 libcairomm-1.0-1 libcaribou-gtk-module libcaribou-gtk3-module libcgroup1 libchamplain-0.12-0
+  libchamplain-gtk-0.12-0 libcheese-gtk21 libcheese3 libclutter-imcontext-0.1-0 libcluttergesture-0.0.2-0 libfarstream-0.1-0
+  libgail-common libgail18 libgdict-1.0-6 libgdict-common libgdu-gtk0 libgeocode-glib0 libglibmm-2.4-1c2a libgssdp-1.0-3
+  libgtkmm-3.0-1 libgucharmap-2-90-7 libgupnp-1.0-4 libgupnp-igd-1.0-4 libmx-1.0-2 libmx-common libnetfilter-conntrack3 libnice10
+  libnm-glib-vpn1 libnm-gtk-common libnm-gtk0 libpangomm-1.4-1 libsocialweb-client2 libsocialweb-common libtelepathy-farstream2
+  libunique-3.0-0 libwireshark2 libwiretap2 libwsutil2 mobile-broadband-provider-info modemmanager mousetweaks network-manager
+  network-manager-gnome python-pyatspi python-pyatspi2 sound-theme-freedesktop telepathy-logger vino wireless-regdb wpasupplicant
+  xulrunner-10.0
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 210 not upgraded.
+root@debian7:~# 
+
+
+
+
+
+

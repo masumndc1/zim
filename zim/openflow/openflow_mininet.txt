@@ -1,0 +1,367 @@
+
+
+
+
+....................... we are using the mininet for openflow tutorial ...............
+
+.. at first we are creating our topology by the following.
+.. here we are instructing to creat a single topology with three
+.. hosts. with automatic mac and controller will be localhost
+
+root@mininet-vm:~# mn --topo single,3 --mac --switch ovsk --controller remote
+*** Creating network
+*** Adding controller
+Unable to contact the remote controller at 127.0.0.1:6633
+*** Adding hosts:
+h1 h2 h3 
+*** Adding switches:
+s1 
+*** Adding links:
+(h1, s1) (h2, s1) (h3, s1) 
+*** Configuring hosts
+h1 h2 h3 
+*** Starting controller
+c0 
+*** Starting 1 switches
+s1 
+*** Starting CLI:
+mininet> 
+mininet> nodes
+available nodes are: 
+c0 h1 h2 h3 s1
+mininet> 
+
+.. certainly the our topology has controller c0, three hosts h1,h2,h3
+.. and one switch s1.
+.. and after the command the switch has the following configuration.
+
+root@mininet-vm:~# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "tcp:127.0.0.1:6633"
+        Controller "ptcp:6634"
+        fail_mode: secure
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "s1-eth2"
+            Interface "s1-eth2"
+        Port "s1-eth1"
+            Interface "s1-eth1"
+        Port "s1-eth3"
+            Interface "s1-eth3"
+    ovs_version: "2.0.2"
+root@mininet-vm:~# 
+root@mininet-vm:~# ifconfig 
+
+s1        Link encap:Ethernet  HWaddr ce:18:be:32:fb:4f  
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+s1-eth1   Link encap:Ethernet  HWaddr 82:c1:86:10:d6:73  
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:828 (828.0 B)  TX bytes:0 (0.0 B)
+
+s1-eth2   Link encap:Ethernet  HWaddr 9a:bd:7f:34:fc:56  
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:816 (816.0 B)  TX bytes:0 (0.0 B)
+
+s1-eth3   Link encap:Ethernet  HWaddr 42:7c:91:b7:a2:c2  
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:828 (828.0 B)  TX bytes:0 (0.0 B)
+
+root@mininet-vm:~# 
+
+.. mininet help menu is like below.
+
+mininet> help
+
+Documented commands (type help <topic>):
+========================================
+EOF    gterm  iperfudp  nodes        pingpair      py      switch
+dpctl  help   link      noecho       pingpairfull  quit    time  
+dump   intfs  links     pingall      ports         sh      x     
+exit   iperf  net       pingallfull  px            source  xterm 
+
+You may also send a command to a node using:
+  <node> command {args}
+For example:
+  mininet> h1 ifconfig
+
+The interpreter automatically substitutes IP addresses
+for node names when a node is the first arg, so commands
+like
+  mininet> h2 ping h3
+should work.
+
+Some character-oriented interactive commands require
+noecho:
+  mininet> noecho h2 vi foo.py
+However, starting up an xterm/gterm is generally better:
+  mininet> xterm h2
+
+mininet> 
+
+.. the utility dpctl is used to control the flow table of switch.
+.. this also can be used for debugging such as to see the flow table
+.. and the flow counter. as most switch listen on the port 6634 we 
+.. can use this port to see the flow status and the flow counter.
+.. here the show command connect to the switch on this port as our 
+.. switch is listening to localhost:6634 we could easily see its
+.. flow and flow counter.
+
+root@mininet-vm:~# dpctl show tcp:127.0.0.1:6634
+features_reply (xid=0x9c7ef540): ver:0x1, dpid:1
+n_tables:254, n_buffers:256
+features: capabilities:0xc7, actions:0xfff
+ 1(s1-eth1): addr:82:c1:86:10:d6:73, config: 0, state:0
+     current:    10GB-FD COPPER 
+ 2(s1-eth2): addr:9a:bd:7f:34:fc:56, config: 0, state:0
+     current:    10GB-FD COPPER 
+ 3(s1-eth3): addr:42:7c:91:b7:a2:c2, config: 0, state:0
+     current:    10GB-FD COPPER 
+ LOCAL(s1): addr:46:77:91:15:6f:01, config: 0x1, state:0x1
+get_config_reply (xid=0x2aea1b3): miss_send_len=0
+root@mininet-vm:~#
+ 
+.. another useful command is follows. upto this is empty as we did not
+.. started any controller.
+
+root@mininet-vm:~# dpctl dump-flows tcp:127.0.0.1:6634
+stats_reply (xid=0x77eeae02): flags=none type=1(flow)
+root@mininet-vm:~# 
+
+.. now ping test 
+
+mininet> h1 ping h2
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+From 10.0.0.1 icmp_seq=1 Destination Host Unreachable
+From 10.0.0.1 icmp_seq=2 Destination Host Unreachable
+From 10.0.0.1 icmp_seq=3 Destination Host Unreachable
+^C
+--- 10.0.0.2 ping statistics ---
+5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4006ms
+pipe 3
+mininet> 
+
+.. ping test failed because it does not know where to pass the packets
+.. and we dont have any controller running. lets try this.
+
+root@mininet-vm:~# dpctl add-flow tcp:127.0.0.1:6634 in_port=1,actions=output:2
+root@mininet-vm:~# dpctl add-flow tcp:127.0.0.1:6634 in_port=2,actions=output:1
+
+.. here we are telling that to add a flow comming to interface 1 to pass traffic to
+.. interface 2 and vice versa. localhost:6634 is instructing the switch s1.
+.. now see the difference.
+..
+.. note: we have to careful regarding these above two commands. as timeout is 60 
+.. second for the above command with now packet flowing. within this 60 seconds
+.. we have to test the ping. other wise we can increase our timeout value like 
+.. below. ie 120 seconds.
+
+root@mininet-vm# dpctl add-flow tcp:127.0.0.1:6634 in_port=1,idle_timeout=120,actions=output:2
+root@mininet-vm# dpctl add-flow tcp:127.0.0.1:6634 in_port=2,idle_timeout=120,actions=output:1
+
+root@mininet-vm:~# dpctl dump-flows tcp:127.0.0.1:6634
+stats_reply (xid=0x666bfbf): flags=none type=1(flow)
+  cookie=0, duration_sec=15s, duration_nsec=503000000s, table_id=0, priority=32768, n_packets=14, n_bytes=1260, idle_timeout=60,hard_timeout=0,in_port=1,actions=output:2
+  cookie=0, duration_sec=14s, duration_nsec=536000000s, table_id=0, priority=32768, n_packets=14, n_bytes=1260, idle_timeout=60,hard_timeout=0,in_port=2,actions=output:1
+root@mininet-vm:~# 
+
+mininet> h1 ping h2
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=3.16 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=0.161 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=0.076 ms
+64 bytes from 10.0.0.2: icmp_seq=4 ttl=64 time=0.083 ms
+64 bytes from 10.0.0.2: icmp_seq=5 ttl=64 time=0.076 ms
+64 bytes from 10.0.0.2: icmp_seq=6 ttl=64 time=0.082 ms
+
+.. yes it has the ping.
+
+.. now starting the controller like below
+
+root@mininet-vm:~# controller ptcp:
+
+.. now if we run tcpdump on interface localhost lo as it switch is listening
+.. to localhost we found the following.
+
+root@mininet-vm:~# tcpdump -i lo -p 
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on lo, link-type EN10MB (Ethernet), capture size 65535 bytes
+16:15:52.301273 IP localhost.48533 > localhost.6633: Flags [P.], seq 1812916748:1812916756, ack 4044551752, win 86, options [nop,nop,TS val 1037250 ecr 1036000], length 8: OpenFlow
+	version 1.0, type ECHO_REQUEST, length 8, xid 0x00000000
+16:15:52.301489 IP localhost.6633 > localhost.48533: Flags [P.], seq 1:9, ack 8, win 88, options [nop,nop,TS val 1037250 ecr 1037250], length 8: OpenFlow
+	version 1.0, type ECHO_REPLY, length 8, xid 0x00000000
+16:15:52.301519 IP localhost.48533 > localhost.6633: Flags [.], ack 9, win 86, options [nop,nop,TS val 1037250 ecr 1037250], length 0
+16:15:57.301338 IP localhost.48533 > localhost.6633: Flags [P.], seq 8:16, ack 9, win 86, options [nop,nop,TS val 1038500 ecr 1037250], length 8: OpenFlow
+	version 1.0, type ECHO_REQUEST, length 8, xid 0x00000000
+16:15:57.301614 IP localhost.6633 > localhost.48533: Flags [P.], seq 9:17, ack 16, win 88, options [nop,nop,TS val 1038500 ecr 1038500], length 8: OpenFlow
+	version 1.0, type ECHO_REPLY, length 8, xid 0x00000000
+16:15:57.301644 IP localhost.48533 > localhost.6633: Flags [.], ack 17, win 86, options [nop,nop,TS val 1038500 ecr 1038500], length 0
+16:16:02.301334 IP localhost.48533 > localhost.6633: Flags [P.], seq 16:24, ack 17, win 86, options [nop,nop,TS val 1039750 ecr 1038500], length 8: OpenFlow
+	version 1.0, type ECHO_REQUEST, length 8, xid 0x00000000
+16:16:02.301545 IP localhost.6633 > localhost.48533: Flags [P.], seq 17:25, ack 24, win 88, options [nop,nop,TS val 1039750 ecr 1039750], length 8: OpenFlow
+	version 1.0, type ECHO_REPLY, length 8, xid 0x00000000
+16:16:02.301574 IP localhost.48533 > localhost.6633: Flags [.], ack 25, win 86, options [nop,nop,TS val 1039750 ecr 1039750], length 0
+16:16:07.301232 IP localhost.48533 > localhost.6633: Flags [P.], seq 24:32, ack 25, win 86, options [nop,nop,TS val 1041000 ecr 1039750], length 8: OpenFlow
+	version 1.0, type ECHO_REQUEST, length 8, xid 0x00000000
+16:16:07.301433 IP localhost.6633 > localhost.48533: Flags [P.], seq 25:33, ack 32, win 88, options [nop,nop,TS val 1041000 ecr 1041000], length 8: OpenFlow
+	version 1.0, type ECHO_REPLY, length 8, xid 0x00000000
+16:16:07.301463 IP localhost.48533 > localhost.6633: Flags [.], ack 33, win 86, options [nop,nop,TS val 1041000 ecr 1041000], length 0
+
+.. benchmarking between hosts. the test showing the speed between these
+.. two hosts is 5.31Gbits/sec.
+
+mininet> iperf
+*** Iperf: testing TCP bandwidth between h1 and h2
+Waiting for iperf to start up...*** Results: ['5.31 Gbits/sec', '5.31 Gbits/sec']
+mininet> 
+
+..ping all test
+
+mininet> pingall
+*** Ping: testing ping reachability
+h1 -> h2 
+h2 -> h1 
+*** Results: 0% dropped (2/2 received)
+mininet> 
+
+.. running controller different than the localhost. this ip is the one of the interface
+.. of my mininet vmware.
+
+root@mininet-vm:~# mn --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.10.129
+*** Creating network
+*** Adding controller
+Unable to contact the remote controller at 192.168.10.129:6633
+*** Adding hosts:
+h1 h2 h3 
+*** Adding switches:
+s1 
+*** Adding links:
+(h1, s1) (h2, s1) (h3, s1) 
+*** Configuring hosts
+h1 h2 h3 
+*** Starting controller
+c0 
+*** Starting 1 switches
+s1 
+*** Starting CLI:
+mininet> 
+mininet> nodes
+available nodes are: 
+c0 h1 h2 h3 s1
+mininet>
+
+root@mininet-vm:/# 
+root@mininet-vm:/# ovs-vsctl show
+8945dad2-35b4-4549-9122-23d5558992e7
+    Bridge "s1"
+        Controller "ptcp:6634"
+        Controller "tcp:192.168.10.129:6633"
+        fail_mode: secure
+        Port "s1-eth2"
+            Interface "s1-eth2"
+        Port "s1"
+            Interface "s1"
+                type: internal
+        Port "s1-eth3"
+            Interface "s1-eth3"
+        Port "s1-eth1"
+            Interface "s1-eth1"
+    ovs_version: "2.0.2"
+root@mininet-vm:/# 
+
+
+root@mininet-vm:/# dpctl show tcp:192.168.10.129:6634
+features_reply (xid=0x71f5c679): ver:0x1, dpid:1
+n_tables:254, n_buffers:256
+features: capabilities:0xc7, actions:0xfff
+ 1(s1-eth1): addr:62:d8:6f:37:f5:9d, config: 0, state:0
+     current:    10GB-FD COPPER 
+ 2(s1-eth2): addr:ba:66:31:b8:01:97, config: 0, state:0
+     current:    10GB-FD COPPER 
+ 3(s1-eth3): addr:06:cc:03:0d:62:e4, config: 0, state:0
+     current:    10GB-FD COPPER 
+ LOCAL(s1): addr:4a:91:55:d0:62:4e, config: 0, state:0
+get_config_reply (xid=0x2c5d42d9): miss_send_len=0
+root@mininet-vm:/# 
+root@mininet-vm:/# 
+
+.. tcpdump output 
+
+root@mininet-vm:/# tcpdump -XX -n -i s1-eth1
+tcpdump: WARNING: s1-eth1: no IPv4 address assigned
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on s1-eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+19:53:36.559479 IP 10.0.0.1 > 10.0.0.2: ICMP echo request, id 7579, seq 196, length 64
+	0x0000:  0000 0000 0002 0000 0000 0001 0800 4500  ..............E.
+	0x0010:  0054 cd08 4000 4001 599e 0a00 0001 0a00  .T..@.@.Y.......
+	0x0020:  0002 0800 4f0a 1d9b 00c4 30b2 1658 5089  ....O.....0..XP.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:36.559546 IP 10.0.0.2 > 10.0.0.1: ICMP echo reply, id 7579, seq 196, length 64
+	0x0000:  0000 0000 0001 0000 0000 0002 0800 4500  ..............E.
+	0x0010:  0054 f009 0000 4001 769d 0a00 0002 0a00  .T....@.v.......
+	0x0020:  0001 0000 570a 1d9b 00c4 30b2 1658 5089  ....W.....0..XP.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:37.559500 IP 10.0.0.1 > 10.0.0.2: ICMP echo request, id 7579, seq 197, length 64
+	0x0000:  0000 0000 0002 0000 0000 0001 0800 4500  ..............E.
+	0x0010:  0054 cd09 4000 4001 599d 0a00 0001 0a00  .T..@.@.Y.......
+	0x0020:  0002 0800 3809 1d9b 00c5 31b2 1658 6689  ....8.....1..Xf.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:37.559562 IP 10.0.0.2 > 10.0.0.1: ICMP echo reply, id 7579, seq 197, length 64
+	0x0000:  0000 0000 0001 0000 0000 0002 0800 4500  ..............E.
+	0x0010:  0054 f00a 0000 4001 769c 0a00 0002 0a00  .T....@.v.......
+	0x0020:  0001 0000 4009 1d9b 00c5 31b2 1658 6689  ....@.....1..Xf.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:38.559481 IP 10.0.0.1 > 10.0.0.2: ICMP echo request, id 7579, seq 198, length 64
+	0x0000:  0000 0000 0002 0000 0000 0001 0800 4500  ..............E.
+	0x0010:  0054 cd0a 4000 4001 599c 0a00 0001 0a00  .T..@.@.Y.......
+	0x0020:  0002 0800 4b08 1d9b 00c6 32b2 1658 5289  ....K.....2..XR.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:38.559546 IP 10.0.0.2 > 10.0.0.1: ICMP echo reply, id 7579, seq 198, length 64
+	0x0000:  0000 0000 0001 0000 0000 0002 0800 4500  ..............E.
+	0x0010:  0054 f00b 0000 4001 769b 0a00 0002 0a00  .T....@.v.......
+	0x0020:  0001 0000 5308 1d9b 00c6 32b2 1658 5289  ....S.....2..XR.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+19:53:39.559502 IP 10.0.0.1 > 10.0.0.2: ICMP echo request, id 7579, seq 199, length 64
+	0x0000:  0000 0000 0002 0000 0000 0001 0800 4500  ..............E.
+	0x0010:  0054 cd0b 4000 4001 599b 0a00 0001 0a00  .T..@.@.Y.......
+	0x0020:  0002 0800 3d07 1d9b 00c7 33b2 1658 5f89  ....=.....3..X_.
+	0x0030:  0800 0809 0a0b 0c0d 0e0f 1011 1213 1415  ................
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+
+
+

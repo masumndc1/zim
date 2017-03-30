@@ -1,0 +1,30 @@
+
+
+
+....................... various yum commands will be here......
+
+
+
+[root@localhost sysconfig]# yum repolist
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+ * base: centos.uberglobalmirror.com
+ * extras: mirror.optus.net
+ * rpmfusion-free-updates: kartolo.sby.datautama.net.id
+ * rpmfusion-free-updates-debuginfo: kartolo.sby.datautama.net.id
+ * rpmfusion-free-updates-source: kartolo.sby.datautama.net.id
+ * updates: mirror.optus.net
+repo id                                                    repo name                                                 status
+base                                                       CentOS-6 - Base                                           5,062
+extras                                                     CentOS-6 - Extras                                         39
+puppetlabs-pc1                                             Puppet Labs PC1 Repository el 7 - i386                    60
+rpmfusion-free-updates                                     RPM Fusion for EL 6 - Free - Updates                      217
+rpmfusion-free-updates-debuginfo                           RPM Fusion for EL 6 - Free - Updates Debug                64
+rpmfusion-free-updates-source                              RPM Fusion for EL 6 - Free - Updates Source               0
+updates                                                    CentOS-6 - Updates                                        419
+repolist: 5,861
+[root@localhost sysconfig]# 
+
+
+
+

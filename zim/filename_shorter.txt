@@ -1,0 +1,33 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-27T18:17:08+06:00
+
+====== filename shorter ======
+Created Saturday 27 July 2013
+
+root@mail:/home/pbl/html# **cat /bin/fileshorter **
+#!/bin/bash -x
+
+if [ $# -lt 1 ] ; then
+	echo -e "usage: $0 filename"
+
+else 
+	a=$1
+	b=${a#*_}
+	mv $a $b
+	c=${b%_*}
+	mv $b $c.mp3
+fi
+root@mail:/home/pbl/html# 
+
+root@mail:/home/pbl/html# **fileshorter Bhoot-FM_2013-07-26_\(Bhoot-FM.com\).mp3 **
++ '[' 1 -lt 1 ']'
++ a='Bhoot-FM_2013-07-26_(Bhoot-FM.com).mp3'
++ b='2013-07-26_(Bhoot-FM.com).mp3'
++ mv 'Bhoot-FM_2013-07-26_(Bhoot-FM.com).mp3' '2013-07-26_(Bhoot-FM.com).mp3'
++ c=2013-07-26
++ mv '2013-07-26_(Bhoot-FM.com).mp3' 2013-07-26.mp3
+root@mail:/home/pbl/html# **ls**
+**2013-07-26.mp3**
+root@mail:/home/pbl/html# 
+

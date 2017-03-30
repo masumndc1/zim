@@ -1,0 +1,269 @@
+
+
+########################## fragment the packet size
+
+by default 1500 byte of packet is allowed in a LAN
+to travel which is called maximum transmission unit(mtu)
+but this is varied vendor to vendor and this can
+be adjustable. in an ASA this parameter is set like below
+
+ciscoasa(config)# mtu <interface> <byte>
+
+
+when a big size packet is arrived in an interface
+the packet size must be fragmented to transmit
+and ressemble again at to receiving end.
+
+ASA can do it nicely. it has fragment parameters like below.
+
+ciscoasa(config)# fragment ?
+
+configure mode commands/options:
+  chain       Configure maximum number of elements in a fragment set
+  reassembly  Configure reassembly option
+  size        Configure maximum number of blocks in database
+  timeout     Configure number of seconds to assemble a fragment set
+ciscoasa(config)# fragment 
+
+ciscoasa(config)# show fragment 
+Interface: outside
+    Size: 200, Chain: 24, Timeout: 5, Reassembly: virtual
+    Queue: 0, Assembled: 0, Fail: 0, Overflow: 0
+Interface: inside
+    Size: 200, Chain: 24, Timeout: 5, Reassembly: virtual
+    Queue: 0, Assembled: 25, Fail: 14, Overflow: 0
+Interface: dmz1
+    Size: 200, Chain: 24, Timeout: 5, Reassembly: virtual
+    Queue: 0, Assembled: 0, Fail: 0, Overflow: 0
+
+
+################ prioritizing traffic
+
+asa send packets outward of an interface with best available
+possible way. to do that it place all the packets in a best
+effort queue(BEQ). beside this ASA has also another type of
+queue called low latency queue (LLQ) which is used to send
+packet prioriting over BEQ. 
+
+by default ASA do not use LLQ to send it packet unless or until
+it configured to do so.
+
+both BEQ and LLQ are software based. asa has physical queue
+called transmit ring. when time come to send asa first looks at
+LLQ if any packet there then it looks to BEQ to pull packet and 
+places them into its transmit ring queue to transmit.
+
+to use llq we have to enable the priority queue on an interface.
+as soon as we enable this, the calculated default value which is
+depend on interface speed is set. this value is some what of 256
+byte of packets but maximum number of packet is always 2048 in 500
+ms time frame. 
+
+on the other hand tramit ring value is also set which is minimum
+3 to maximum some value depends on interface speed. 
+
+my current configuration of all interfaces is like below
+
+ciscoasa(config)# show priority-queue config 
+
+Priority-Queue Config interface outside
+		current		default		range
+queue-limit	0		2048		0 - 2048
+tx-ring-limit	-1		80		3 - 128
+
+Priority-Queue Config interface inside
+		current		default		range
+queue-limit	0		2048		0 - 2048
+tx-ring-limit	-1		80		3 - 128
+
+Priority-Queue Config interface dmz1
+		current		default		range
+queue-limit	0		2048		0 - 2048
+tx-ring-limit	-1		80		3 - 128
+ciscoasa(config)# 
+
+note here currently the queue-limit is 0 and tx-ring-limit is -1 that
+means this is not enabled yet. 
+
+let enable it on dmz1 interface.
+
+ciscoasa(config)# priority-queue dmz1 
+
+  no             Remove an object from pq
+  queue-limit    Enter Max number of packets queued at the priority-queues.
+  tx-ring-limit  Enter Max allowed number of packets queued at the tx-ring for
+                 the priority-queues.
+
+ciscoasa(config-priority-queue)# queue-limit 2048 
+ciscoasa(config-priority-queue)# tx-ring-limit 80 ?
+
+ciscoasa(config-priority-queue)# show priority-queue config 
+
+Priority-Queue Config interface outside
+		current		default		range
+queue-limit	0		2048		0 - 2048
+tx-ring-limit	-1		80		3 - 128
+
+Priority-Queue Config interface inside
+		current		default		range
+queue-limit	0		2048		0 - 2048
+tx-ring-limit	-1		80		3 - 128
+
+Priority-Queue Config interface dmz1
+		current		default		range
+queue-limit	2048		2048		0 - 2048
+tx-ring-limit	80		80		3 - 128
+ciscoasa(config-priority-queue)# 
+
+
+now configure class type of traffic to our newly configured llq. 
+
+1. first configure an access-list to allow icmp type traffic to its priority
+
+ciscoasa(config)# show access-list 
+access-list access-list-icmp line 1 extended permit icmp host 172.16.1.2 host 192.168.1.2 
+ciscoasa(config)# 
+
+2. configure class-map and place the access-list to its match.
+
+ciscoasa(config)# class-map class-dmz1
+ciscoasa(config-cmap)# match access-list access-list-icmp 
+ciscoasa(config-cmap)# exit
+
+3. configure policy-map and reference the class-map
+
+ciscoasa(config)# policy-map policy-dmz1 
+ciscoasa(config-pmap)# class class-dmz1 
+ciscoasa(config-pmap-c)# priority 
+ciscoasa(config-pmap-c)# exit
+ciscoasa(config-pmap)# 
+
+4. configure service policy.
+ciscoasa(config)# service-policy policy-dmz1 interface dmz1 
+ciscoasa(config)# 
+
+### now testing
+
+
+ciscoasa(config)# show priority-queue statistics 
+
+Priority-Queue Statistics interface inside
+
+Queue Type         = BE
+Tail Drops         = 0
+Reset Drops        = 0
+Packets Transmit   = 293
+Packets Enqueued   = 418
+Current Q Length   = 184
+Max Q Length       = 214
+
+Queue Type         = LLQ
+Tail Drops         = 0
+Reset Drops        = 0
+Packets Transmit   = 0
+Packets Enqueued   = 0
+Current Q Length   = 0
+Max Q Length       = 0
+
+Priority-Queue Statistics interface dmz1
+
+Queue Type         = BE
+Tail Drops         = 0
+Reset Drops        = 0
+Packets Transmit   = 1169
+Packets Enqueued   = 0
+Current Q Length   = 0
+Max Q Length       = 0
+              
+Queue Type         = LLQ
+Tail Drops         = 0
+Reset Drops        = 0
+Packets Transmit   = 0
+Packets Enqueued   = 0
+Current Q Length   = 0
+Max Q Length       = 0
+ciscoasa(config)# 
+ciscoasa(config)# show ser
+ciscoasa(config)# show service-policy 
+
+Interface inside:
+  Service-policy: policy-dmz1
+    Class-map: class-dmz1
+      Priority:
+        Interface inside: aggregate drop 0, aggregate transmit 0
+    Class-map: class-default
+
+      Default Queueing
+Interface dmz1:
+  Service-policy: policy-dmz1
+    Class-map: class-dmz1
+      Priority:
+        Interface dmz1: aggregate drop 0, aggregate transmit 0
+    Class-map: class-default
+
+ciscoasa(config)# 
+
+
+#### traffic controlling 
+
+1. traffic policing
+ciscoasa(config)# policy-map policy-dmz1
+ciscoasa(config-pmap)# class class-dmz1
+ciscoasa(config-pmap-c)# police ?
+
+mpf-policy-map-class mode commands/options:
+  input   Police traffic in input direction
+  output  Police traffic in output direction
+
+ciscoasa(config-pmap-c)# police input 8000 conform-action transmit exceed-action drop
+
+ciscoasa(config-pmap-c)# wr
+
+ciscoasa(config-pmap-c)# show service-policy 
+
+Interface inside:
+  Service-policy: policy-dmz1
+    Class-map: class-dmz1
+      Input police Interface inside:
+        cir 8000 bps, bc 1000 bytes
+        conformed 0 packets, 0 bytes; actions:  transmit
+        exceeded 0 packets, 0 bytes; actions:  drop
+        conformed 0 bps, exceed 0 bps
+
+Interface dmz1:
+  Service-policy: policy-dmz1
+    Class-map: class-dmz1
+      Input police Interface dmz1:
+        cir 8000 bps, bc 1000 bytes
+        conformed 0 packets, 0 bytes; actions:  transmit
+        exceeded 0 packets, 0 bytes; actions:  drop
+        conformed 0 bps, exceed 0 bps
+ciscoasa(config-pmap-c)# 
+
+2. traffic shaping
+
+traffic shaping only work with class type class-default
+
+ciscoasa(config)# policy-map policy-shape-dmz1
+ciscoasa(config-pmap)# class class-default
+ciscoasa(config-pmap-c)# shape average 64000 ?
+
+mpf-policy-map-class mode commands/options:
+  <2048-154400000>  bits per interval, sustained. Needs to be multiple of 128. 
+                    Recommend not to configure it, the algorithm will find out
+                    the best value
+  <cr>
+ciscoasa(config-pmap-c)# shape average 64000 
+ciscoasa(config-pmap-c)# 
+ciscoasa(config-pmap-c)# wr
+Building configuration...
+Cryptochecksum: 57ca5cc8 82d13c9a 2a0ee98f d2f8b2fc 
+
+4326 bytes copied in 1.270 secs (4326 bytes/sec)
+[OK]
+ciscoasa(config-pmap-c)# exit
+ciscoasa(config-pmap)# 
+
+
+
+

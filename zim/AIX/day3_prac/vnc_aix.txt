@@ -1,0 +1,28 @@
+
+lslpp -l|grep -i vnc
+
+lslpp -l|grep -i zlib
+
+
+configuring vnc after it is installed
+
+PATH=$PATH:/usr/local/bin/
+
+echo $PATH
+
+vncserver
+
+5833
+5834
+
+./usr/local/bin/vncserver :33
+
+enter vnc password ibmaix
+
+
+open either open vnc client or firefox
+
+http://10.6.59.111:5834
+
+vnc client
+10.6.59.111:33

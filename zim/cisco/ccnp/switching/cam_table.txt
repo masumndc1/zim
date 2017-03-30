@@ -1,0 +1,126 @@
+
+############################# cam table #################################
+
+1. by default a mac address in a switch is stored 300 seconds. after that 
+if no frame is seen in a port then the mac address is deleted. we can 
+change this defult timeout value by this.
+
+R1-SW(config)#mac aging-time ?
+  <10-1000000>  Maximum age in seconds
+
+R1-SW(config)#mac aging-time 
+
+2. also switches are by default learn the mac address dynamically.
+but we can set a mac address manually by following.
+
+R1-SW(config)#mac static 1111.2222.3333 interface fastEthernet 1/0 ?
+  vlan  vlan name
+  <cr>
+
+R1-SW(config)#mac static 1111.2222.3333 interface fastEthernet 1/0 
+
+
+3. to view the mac address table
+
+R1-SW#show mac ?
+  address     mac address name
+  aging-time  Show address aging time
+  count       Show address count
+  dynamic     Show 802.1d dynamic addresses
+  interface   interface name
+  multicast   Show multicast addresses for selected wildcard
+  secure      Show secure addresses
+  self        Show system self addresses
+  static      Show static addresses
+  vlan        vlan name
+  |           Output modifiers
+  <cr>
+
+R1-SW#show mac-address-table ?
+  address     mac address name
+  aging-time  Show address aging time
+  count       Show address count
+  dynamic     Show 802.1d dynamic addresses
+  interface   interface name
+  multicast   Show multicast addresses for selected wildcard
+  secure      Show secure addresses
+  self        Show system self addresses
+  static      Show static addresses
+  vlan        vlan name
+  |           Output modifiers
+  <cr>
+
+R1-SW#show mac-address-table 
+
+# note here both the "show mac" and "show mac-address-table" is applicable.
+
+.. when we need to know the size of the cam table we run the following command
+
+
+Router#show mac-address-table count 
+
+NM Slot: 1
+--------------
+
+Dynamic Address Count:                 0
+Secure Address (User-defined) Count:   0
+Static Address (User-defined) Count:   0
+System Self Address Count:             1
+Total MAC addresses:                   1
+Maximum MAC addresses:                 8192
+Router#
+
+.. from here we can see that max mumber of mac address can be stored is 8192
+.. for this cam table
+
+.. define macro as follows. 
+
+Router(config)#define interface-range masum-macro FastEthernet0/1 , FastEthernet1/2 - 3
+
+Router(config)#interface range macro masum-macro
+Router(config-if-range)#?
+Router(config-if-range)# show run
+
+!
+define interface-range masum-macro FastEthernet0/1 , FastEthernet1/2 - 3
+!
+
+4. error detection 
+by default a switch is enable to detect the error so that port can disable itself
+for the any configured cause happen. this can be configured for the following causes.
+also this default can be disabled by palcing a no at the front.
+
+
+R1-SW(config)#errdisable detect cause ?   
+
+  all        Enable error detection on all cases
+  bpduguard  Enable error detection on bpdu-guard
+  dtp-flap   Enable error detection on dtp-flapping
+  link-flap  Enable error detection on linkstate-flapping
+  pagp-flap  Enable error detection on pagp-flapping
+  rootguard  Enable error detection on root-guard
+  udld       Enable error detection on udld
+
+
+R1-SW(config)#errdisable detect cause 
+
+4a. also we can configure the automatic recovery from a disable port to active.
+which had to recover by manually. which will be applied to the every ports.
+
+R1-SW(config)#errdisable recovery cause ?
+  all        Enable timer to recover from all causes
+  bpduguard  Enable timer to recover from bpdu-guard error disable state
+  dtp-flap   Enable timer to recover from dtp-flap error disable state
+  link-flap  Enable timer to recover from link-flap error disable state
+  pagp-flap  Enable timer to recover from pagp-flap error disable state
+  rootguard  Enable timer to recover from root-guard error disable state
+  udld       Enable timer to recover from udld error disable state
+
+R1-SW(config)#errdisable recovery interval ?
+  <30-86400>  timer-interval(sec)
+
+R1-SW(config)#errdisable recovery interval 
+
+
+
+

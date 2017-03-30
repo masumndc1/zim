@@ -1,0 +1,135 @@
+
+***************************************************************
+This is a normal Router with a SW module inside (NM-16ESW)
+It has been preconfigured with hard-code speed and duplex
+
+To create vlans use the command "vlan database" from exec mode
+After creating all desired vlans use "exit" to apply the config
+
+To view existing vlans use the command "show vlan-switch brief"
+
+Warning: You are using an old IOS image for this router.
+Please update the IOS to enable the "macro" command!
+***************************************************************
+
+
+By de-fault, all switch ports are assigned to VLAN 1, 
+VLAN type of Ethernet, and have a maximum transmission unit (MTU)
+size of 1500 bytes.
+
+# vlan in gns3
+
+R1-SW#vlan database 
+
+R1-SW(vlan)#?
+VLAN database editing buffer manipulation commands:
+  abort  Exit mode without applying the changes
+  apply  Apply current changes and bump revision number
+  exit   Apply changes, bump revision number, and exit mode
+  no     Negate a command or set its defaults
+  reset  Abandon current changes and reread current database
+  show   Show database information
+  vlan   Add, delete, or modify values associated with a single VLAN
+  vtp    Perform VTP administrative functions.
+
+R1-SW(vlan)#vlan ?
+  <1-1005>  ISL VLAN index
+
+
+R1-SW(vlan)#vlan 2 
+VLAN 2 added:
+    Name: VLAN0002
+
+R1-SW(vlan)#vlan 3
+VLAN 3 added:
+    Name: VLAN0003
+
+R1-SW(vlan)#vlan 4
+VLAN 4 added:
+    Name: VLAN0004
+
+R1-SW(vlan)#exit
+
+APPLY completed.
+Exiting....
+R1-SW#
+R1-SW#
+R1-SW#show vlan-switch brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/0, Fa1/1, Fa1/2, Fa1/3
+                                                Fa1/4, Fa1/5, Fa1/6, Fa1/7
+                                                Fa1/8, Fa1/9, Fa1/10, Fa1/11
+                                                Fa1/12, Fa1/13, Fa1/14, Fa1/15
+2    VLAN0002                         active    
+3    VLAN0003                         active    
+4    VLAN0004                         active    
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+R1-SW#
+
+# the preconfigured vlans are below
+
+
+R1-SW(config)#do show vlan-switch brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/0, Fa1/1, Fa1/2, Fa1/3
+                                                Fa1/4, Fa1/5, Fa1/6, Fa1/7
+                                                Fa1/8, Fa1/9, Fa1/10, Fa1/11
+                                                Fa1/12, Fa1/13, Fa1/14, Fa1/15
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+R1-SW(config)#
+
+R1-SW#
+
+
+5. configuring port to the vlan
+
+R1-SW(config)#interface fastEthernet 1/15
+
+R1-SW(config-if)#switchport 
+
+****
+The initial switchport command configures the port for Layer 2 operation. By default,
+every Catalyst IOS switch port is ready for Layer 3 operation, something that doesnt 
+coexits with layer2 vlan.
+****
+
+R1-SW(config-if)#switchport mode access 
+R1-SW(config-if)#switchport access vlan 2
+R1-SW(config-if)#
+
+# after assigning the two port in vlan2
+
+R1-SW(config-if)#do show vlan
+% Ambiguous command:  "show vlan"
+R1-SW(config-if)#
+R1-SW(config-if)#do show vlan-switch brief
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/0, Fa1/1, Fa1/2, Fa1/3
+                                                Fa1/4, Fa1/5, Fa1/6, Fa1/7
+                                                Fa1/8, Fa1/9, Fa1/10, Fa1/11
+                                                Fa1/12, Fa1/13
+****
+2    VLAN0002                         active    Fa1/14, Fa1/15
+****
+3    VLAN0003                         active    
+4    VLAN0004                         active    
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+R1-SW(config-if)#
+
+
+

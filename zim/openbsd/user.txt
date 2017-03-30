@@ -1,0 +1,87 @@
+
+
+.... user management
+
+... adding user
+-bash-4.3# adduser 
+Use option ``-silent'' if you don't want to see all warnings and questions.
+
+Reading /etc/shells
+Check /etc/master.passwd
+Check /etc/group
+
+Ok, let's go.
+Don't worry about mistakes. There will be a chance later to correct any input.
+Enter username []: khabir
+Enter full name []: md khabir uddin
+Enter shell bash csh ksh nologin sh [bash]: bash
+Uid [1001]: 
+Login group khabir [khabir]: 
+Login group is ``khabir''. Invite khabir into other groups: guest no 
+[no]: 
+Login class authpf bgpd daemon default pbuild staff unbound 
+[default]: 
+Enter password []: 
+Enter password again []: 
+
+Name:        khabir
+Password:    ****
+Fullname:    md khabir uddin
+Uid:         1001
+Gid:         1001 (khabir)
+Groups:      khabir 
+Login Class: default
+HOME:        /home/khabir
+Shell:       /usr/local/bin/bash
+OK? (y/n) [y]: 
+Added user ``khabir''
+Copy files from /etc/skel to /home/khabir
+Add another user? (y/n) [y]: n
+Goodbye!
+-bash-4.3# 
+
+... removing user
+-bash-4.3# rmuser khabir
+Matching password entry:
+
+khabir:$2b$08$cCrVRXSWQvKlGdDv25hpfuZodw3OA8XQRsvpm0KjTPgzr0l35hSo.:1001:1001::0:0:md khabir uddin:/home/khabir:/usr/local/bin/bas
+
+Is this the entry you wish to remove? 
+Please answer (y)es or (n)o.
+Is this the entry you wish to remove? yes
+Remove user's home directory (/home/khabir)? 
+Please answer (y)es or (n)o.
+Remove user's home directory (/home/khabir)? yes
+Updating password file, updating databases, done.
+Updating group file:Removing group khabir -- personal group is empty
+ done.
+Removing user's home directory (/home/khabir): done.
+-bash-4.3# 
+
+... editing the user 
+... user can change his informatin by him self.
+$ chpass
+$ Changing user database information for mwlucas.
+Shell: /usr/local/bin/tcsh
+Full Name: mwlucas
+Office Location:
+Office Phone:
+Home Phone:
+
+... or root can do it.
+# chpass mwlucas
+# Changing user database information for mwlucas.
+Login: mwlucas
+Encrypted password: $2a$08$s2EVX.cAhYHskOaHk/4C5eLn76atAmGPU7z5DqRKAYe/V.OGgWXVi
+Uid [#]: 1000
+Gid [# or name]: 1000
+Change [month day year]:
+Expire [month day year]:
+Class: staff
+Home directory: /home/mwlucas
+Shell: /usr/local/bin/tcsh
+Full Name: mwlucas
+Office Location:
+Office Phone:
+
+

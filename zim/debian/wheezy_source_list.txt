@@ -1,0 +1,15 @@
+
+
+1. Security Updates
+
+# /etc/apt/sources.list :
+deb http://security.debian.org/ wheezy/updates main contrib non-free
+deb-src http://security.debian.org/ wheezy/updates main contrib non-free
+
+2. Australia Mirror
+# /etc/apt/sources.list :
+deb http://ftp.au.debian.org/debian/ wheezy main contrib non-free
+deb-src http://ftp.au.debian.org/debian/ wheezy main contrib non-free
+
+
+

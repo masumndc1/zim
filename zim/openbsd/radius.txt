@@ -1,0 +1,54 @@
+
+
+.... enabling radius authentication in openbsd
+
+... we have to do the following step by step.
+
+
+-bash-4.3# mkdir /etc/raddb/
+-bash-4.3# chgrp _radius /etc/raddb/
+-bash-4.3# chmod 755 /etc/raddb/
+
+-bash-4.3# ls -la /etc/raddb/
+total 12
+drwxr-xr-x   2 root  _radius   512 Mar 17 10:50 .
+drwxr-xr-x  24 root  wheel    2048 Mar 17 11:03 ..
+-rw-r--r--   1 root  _radius    26 Mar 17 11:06 servers
+-bash-4.3# 
+-bash-4.3# ls -la /etc/raddb/servers 
+-rw-r--r--  1 root  _radius  26 Mar 17 11:06 /etc/raddb/servers
+-bash-4.3# 
+
+-bash-4.3# cat /etc/raddb/servers 
+192.168.35.147  testing123
+
+-bash-4.3# cat -n /etc/login.conf 
+     9  #
+    10  # passwd        Use only the local password file
+    11  # chpass        Do not authenticate, but change users password (change
+    12  #               the YP password if the user has one, else change the
+    13  #               local password)
+    14  # lchpass       Do not login; change user's local password instead
+    15  # radius        Use radius authentication
+    16  # reject        Use rejected authentication
+    17  # skey          Use S/Key authentication
+    18  # activ         ActivCard X9.9 token authentication
+    19  # crypto        CRYPTOCard X9.9 token authentication
+    20  # snk           Digital Pathways SecureNet Key authentication
+    21  # tis           TIS Firewall Toolkit authentication
+    22  # token         Generic X9.9 token authentication
+    23  # yubikey       YubiKey authentication
+    24  #
+    25  
+    26  # Default allowed authentication styles
+    27  #auth-defaults:auth=passwd,skey:
+    28  auth-defaults:auth=radius:radius-port=1812:radius-server=192.168.35.147,passwd,skey:
+    29  
+    30  # Default allowed authentication styles for authentication type ftp
+    31  auth-ftp-defaults:auth-ftp=passwd:
+    32  
+
+
+
+
+

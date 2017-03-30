@@ -1,0 +1,279 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-03-31T16:08:24+06:00
+
+====== nginx.0.7.67 ======
+Created Saturday 31 March 2012
+
+To check for available hardware SSL accelerators, run this command from the shell:
+
+**root@pbl-OptiPlex-755:/etc/nginx# openssl engine -t**
+**(padlock) VIA PadLock (no-RNG, no-ACE)**
+**     [ unavailable ]**
+**(dynamic) Dynamic engine loading support**
+**     [ unavailable ]**
+**root@pbl-OptiPlex-755:/etc/nginx#**
+
+**root@pbl-OptiPlex-755:/var/log/nginx# tail -f error.log**
+**2012/03/31 16:12:15 [error] 5278#0: *7 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: ::1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost"**
+
+to get rid of this type of favicon.ico or robot.txt error add log_not_found at the http core module in nginx.conf file...
+
+**root@pbl-OptiPlex-755:/etc/nginx# vi nginx.conf**
+**http {**
+**    include       /etc/nginx/mime.types;**
+
+**    access_log  /var/log/nginx/access.log;**
+
+**    sendfile        on;**
+**    #tcp_nopush     on;**
+
+**    #keepalive_timeout  0;**
+**    keepalive_timeout  65;**
+**    tcp_nodelay        on;**
+
+**    gzip  on;**
+**    gzip_disable "MSIE [1-6]\.(?!.*SV1)";**
+
+**    include /etc/nginx/conf.d/*.conf;**
+**    include /etc/nginx/sites-enabled/*;**
+
+**######################### added by me ##############################**
+**   log_not_found off;  **
+**}**
+**root@pbl-OptiPlex-755:/etc/nginx# nginx -t**
+**the configuration file /etc/nginx/nginx.conf syntax is ok**
+**configuration file /etc/nginx/nginx.conf test is successful**
+**root@pbl-OptiPlex-755:/etc/nginx#** 
+
+do not add **log_not_found **at any other place other than** http core module. **if log_not_found is added to any other place then error is generated like following.
+
+**root@pbl-OptiPlex-755:/etc/nginx# nginx -t**
+**[emerg]: unknown directive "log_not_found" in /etc/nginx/nginx.conf:10**
+**configuration file /etc/nginx/nginx.conf test failed**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+
+**root@pbl-OptiPlex-755:/etc/nginx/sites-enabled# pwd**
+**/etc/nginx/sites-enabled**
+**root@pbl-OptiPlex-755:/etc/nginx/sites-enabled# vi defalts**
+**server {**
+
+**	listen   80; ## listen for ipv4**
+**	listen   [::]:80 default ipv6only=on; ## listen for ipv6**
+
+**	server_name  localhost;**
+
+**	access_log  /var/log/nginx/localhost.access.log;**
+
+**	location / {**
+**		root   /var/www;**
+**		index  index.html index.htm;**
+**	}**
+
+**	location /doc {**
+**		root   /usr/share;**
+**		autoindex on;**
+**		allow 127.0.0.1;**
+**		deny all;**
+**	}**
+
+**	location /images {**
+**		root   /usr/share;**
+**		autoindex on;**
+**	}**
+**root@pbl-OptiPlex-755:/etc/nginx/sites-enabled#**
+
+note here if you browse for http://localhost/images then according to this file images will be searched from [[/usr/share/images]]
+similarly [[/usr/share/doc]] will be searched for http://localhost/doc. similarly i have created the following one 
+
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available# vi default **
+ 
+
+**       location /angry {**
+**                root /home/pbl;**
+**                index angry.html;**
+
+**        }**
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available# **
+
+note here how i created the angry folder following folder and i have placed the angry.html file at there.
+
+**pbl@pbl-OptiPlex-755:~/angry$ pwd**
+**/home/pbl/angry**
+**pbl@pbl-OptiPlex-755:~/angry$ ls**
+**angry.html**
+**pbl@pbl-OptiPlex-755:~/angry$ **
+
+
+for bench marking of the server install the httperf .
+
+**root@pbl-OptiPlex-755:/etc/nginx# apt-get install httperf**
+**root@pbl-OptiPlex-755:/etc/nginx#httperf --server localhost --port 80 --uri index.html --rate 300 --num-conn 30000 --num-call 1 --timeout 5**
+
+**Maximum connect burst length: 3**
+
+**Total: connections 30000 requests 30000 replies 30000 test-duration 99.997 s**
+
+**Connection rate: 300.0 conn/s (3.3 ms/conn, <=5 concurrent connections)**
+**Connection time [ms]: min 0.0 avg 0.1 max 13.4 median 0.5 stddev 0.5**
+**Connection time [ms]: connect 0.0**
+**Connection length [replies/conn]: 1.000**
+
+**Request rate: 300.0 req/s (3.3 ms/req)**
+**Request size [B]: 72.0**
+
+**Reply rate [replies/s]: min 299.8 avg 300.0 max 300.0 stddev 0.1 (20 samples)**
+**Reply time [ms]: response 0.1 transfer 0.0**
+**Reply size [B]: header 155.0 content 169.0 footer 0.0 (total 324.0)**
+**Reply status: 1xx=0 2xx=0 3xx=0 4xx=30000 5xx=0**
+
+**CPU time [s]: user 31.06 system 68.80 (user 31.1% system 68.8% total 99.9%)**
+**Net I/O: 116.0 KB/s (1.0*10^6 bps)**
+
+**Errors: total 0 client-timo 0 socket-timo 0 connrefused 0 connreset 0**
+**Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+
+now download autobench and install it.
+
+**pbl@pbl-OptiPlex-755:~$ wget -c http://www.xenoclast.org/autobench/downloads/debian/autobench_2.1.2_i386.deb **
+**pbl@pbl-OptiPlex-755:~$ autobench --single_host --host1 localhost --uri1 /index.html --quiet --low_rate 20 --high_rate 200 --rate_step 20 --num_call 10 --num_conn 5000 --timeout 5 --file results.tsv**
+
+
+finding the master process of the nginx and binary location.
+
+**root@pbl-OptiPlex-755:~# ps x | grep nginx | grep master**
+**20742 ?        Ss     0:00 nginx: master process /usr/sbin/nginx**
+**root@pbl-OptiPlex-755:~# **
+
+**root@pbl-OptiPlex-755:/usr/sbin# ls ngin***
+**nginx**
+**root@pbl-OptiPlex-755:/usr/sbin# **
+**root@pbl-OptiPlex-755:/usr/sbin# **
+
+module and directives in perticulars error_page, index, rewrite, try_files, add_before_body, add_after_body 
+
+**root@pbl-OptiPlex-755:/etc/nginx# openssl genrsa -out secure.localhost.com.key 1024**
+**Generating RSA private key, 1024 bit long modulus**
+**....++++++**
+**.................................................++++++**
+**e is 65537 (0x10001)**
+**root@pbl-OptiPlex-755:/etc/nginx# ls**
+**conf.d  fastcgi_params  koi-utf  koi-win  mime.types  nginx.conf  secure.localhost.com.key  sites-available  sites-enabled  win-utf**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# openssl req -new -key secure.localhost.com.key -out secure.localhost.com.csr**
+**You are about to be asked to enter information that will be incorporated**
+**into your certificate request.**
+**What you are about to enter is what is called a Distinguished Name or a DN.**
+**There are quite a few fields but you can leave some blank**
+**For some fields there will be a default value,**
+**If you enter '.', the field will be left blank.**
+**-----**
+**Country Name (2 letter code) [AU]:BD**
+**State or Province Name (full name) [Some-State]:DHAKA**
+**Locality Name (eg, city) []:DHAKA**
+**Organization Name (eg, company) [Internet Widgits Pty Ltd]:Masum securities Ltd**
+**Organizational Unit Name (eg, section) []:IT**
+**Common Name (eg, YOUR name) []:masum**
+**Email Address []:masumndc1@gmail.com**
+
+**Please enter the following 'extra' attributes**
+**to be sent with your certificate request**
+**A challenge password []:masum**
+**An optional company name []:IT**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# ls**
+**conf.d          koi-utf  mime.types  secure.localhost.com.csr  sites-available  win-utf**
+**fastcgi_params  koi-win  nginx.conf  secure.localhost.com.key  sites-enabled**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# openssl x509 -req -days 365 -in secure.localhost.com.csr -signkey secure.localhost.com.key -out secure.localhost.com.crt**
+**root@pbl-OptiPlex-755:/etc/nginx# openssl x509 -req -days 365 -in secure.localhost.com.csr -signkey secure.localhost.com.key -out secure.localhost.com.crt**
+**Signature ok**
+**subject=/C=BD/ST=DHAKA/L=DHAKA/O=Masum securities Ltd/OU=IT/CN=masum/emailAddress=masumndc1@gmail.com**
+**Getting Private key**
+**root@pbl-OptiPlex-755:/etc/nginx# ls**
+**conf.d          koi-utf  mime.types  secure.localhost.com.crt  secure.localhost.com.key  sites-enabled**
+**fastcgi_params  koi-win  nginx.conf  secure.localhost.com.csr  sites-available           win-utf**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx# cat secure.localhost.com.crt **
+**-----BEGIN CERTIFICATE-----**
+**MIICkzCCAfwCCQDnoKaDhKU0fzANBgkqhkiG9w0BAQUFADCBjTELMAkGA1UEBhMC**
+**QkQxDjAMBgNVBAgTBURIQUtBMQ4wDAYDVQQHEwVESEFLQTEdMBsGA1UEChMUTWFz**
+**dW0gc2VjdXJpdGllcyBMdGQxCzAJBgNVBAsTAklUMQ4wDAYDVQQDEwVtYXN1bTEi**
+**MCAGCSqGSIb3DQEJARYTbWFzdW1uZGMxQGdtYWlsLmNvbTAeFw0xMjA0MDQxNTQ2**
+**NTVaFw0xMzA0MDQxNTQ2NTVaMIGNMQswCQYDVQQGEwJCRDEOMAwGA1UECBMFREhB**
+**S0ExDjAMBgNVBAcTBURIQUtBMR0wGwYDVQQKExRNYXN1bSBzZWN1cml0aWVzIEx0**
+**ZDELMAkGA1UECxMCSVQxDjAMBgNVBAMTBW1hc3VtMSIwIAYJKoZIhvcNAQkBFhNt**
+**YXN1bW5kYzFAZ21haWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDI**
+**Y4FfH1aOD3n8y4gRENb1vx4Ve3HA81ha2P+Ak9guMFax/DaFMiw7aN5Oe2P/NoYK**
+**1EgJLCnhxPCl1Q8gebS6CGLwA1gd3YZONFvowYbP8TR5ivK9wgDpO8OnUK34aDAj**
+**j886otaBdN9Ex5o5EhlebYFEQaOTaQMenzee+rBK/QIDAQABMA0GCSqGSIb3DQEB**
+**BQUAA4GBAK+8zfXk5Q55V9KK0Fo5/4kXftzonnG/juN5oDOqPNjFCv/0Yw/kY0Db**
+**MmOivJ84JgVloGoxMGjtSY95MCG2UttBS1b5hsChW/smrxS14LK2aK40WZ57cwIu**
+**EKKha+gYANFqcR5hoG/2cQ0vRNb1KXbOj9lDlWNBB5P0byCGL5cj**
+**-----END CERTIFICATE-----**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+**root@pbl-OptiPlex-755:/etc/nginx/sites-enabled# vi default **
+**# HTTPS server**
+**#**
+**server {**
+**listen   443;**
+**server_name  localhost;**
+
+**ssl  on;**
+**ssl_certificate  /etc/nginx/secure.localhost.com.crt;**
+**#ssl_certificate  cert.pem;**
+**ssl_certificate_key  /etc/nginx/secure.localhost.com.key;**
+**#ssl_certificate_key  cert.key;**
+
+**#ssl_session_timeout  5m;**
+
+**#ssl_protocols  SSLv3 TLSv1;**
+**#ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;**
+**#ssl_prefer_server_ciphers   on;**
+
+**location / {**
+**root   html;**
+**index  index.html index.htm;**
+**}**
+**}**
+**root@pbl-OptiPlex-755:/etc/nginx/sites-enabled#**
+**root@pbl-OptiPlex-755:/etc/nginx# ls**
+**conf.d          koi-utf  mime.types  secure.localhost.com.crt  secure.localhost.com.key  sites-enabled**
+**fastcgi_params  koi-win  nginx.conf  secure.localhost.com.csr  sites-available           win-utf**
+**root@pbl-OptiPlex-755:/etc/nginx#  **
+
+the 3lines of command make the necessary files needed for the secure web server configuraion.
+
+**root@pbl-OptiPlex-755:/etc/nginx# openssl genrsa -out secure.localhost.com.key 1024**
+**root@pbl-OptiPlex-755:/etc/nginx# openssl req -new -key secure.localhost.com.key -out secure.localhost.com.csr**
+**root@pbl-OptiPlex-755:/etc/nginx# openssl x509 -req -days 365 -in secure.localhost.com.csr -signkey secure.localhost.com.key -out secure.localhost.com.crt**
+**root@pbl-OptiPlex-755:/etc/nginx# ls**
+**conf.d          koi-utf  mime.types  secure.localhost.com.crt  secure.localhost.com.key  sites-enabled**
+**fastcgi_params  koi-win  nginx.conf  secure.localhost.com.csr  sites-available           win-utf**
+**root@pbl-OptiPlex-755:/etc/nginx# **
+
+**root@pbl-OptiPlex-755:/usr/local# openssl ciphers**
+**DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:RC4-SHA:RC4-MD5:RC4-MD5:EDH-RSA-DES-CBC-SHA:EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-RC4-MD5:EXP-RC4-MD5**
+**root@pbl-OptiPlex-755:/usr/local# **
+
+to install php for nginx 
+
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available# apt-get install php5-fpm**
+
+
+django 
+
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available#**tar xzvf Django-1.4.tar.gz
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available#**cd Django-1.4
+**root@pbl-OptiPlex-755:/etc/nginx/sites-available#**sudo python setup.py install
+
+
+
+
+
+
+
+ 

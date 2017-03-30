@@ -1,0 +1,9 @@
+wget -c https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2015.3.14.tgz
+
+
+tar zxvf ntfs-3g_ntfsprogs-2015.3.14.tgz
+./configure
+make 
+make install
+
+

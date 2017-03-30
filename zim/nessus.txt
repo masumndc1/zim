@@ -1,0 +1,10 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-01-29T00:27:31+06:00
+
+====== nessus ======
+Created Tuesday 29 January 2013
+
+[[localhsot:8834]]
+u can also put securitycenter in the field of nessus
+[[/opt/nessus/etc/nessus/nessus-fetch.rc]]

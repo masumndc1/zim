@@ -1,0 +1,87 @@
+
+
+// now we are going to install a nagios package which
+// is nrpe(nagios remote plugin executor) package. this 
+// package listen on tcp/5666 port for the request coming
+// from clients.  
+
+// to do so we have written a script like below.
+
+[root@masum manifests]# 
+[root@masum manifests]# cat client.pp 
+class nagios::client {
+	package { ['nagios-nrpe']: 
+	ensure => installed,
+	}
+	exec { 'allowed-hosts':
+	command => '/bin/sed -i s/^allowed_hosts=127.0.0.1//g /etc/nagios/nrpe.cfg',
+	onlyif => '/bin/grep ^allowed_hosts=127.0.0.1 /etc/nagios/nrpe.cfg',
+	notify => Service['nrpe'],
+	require => Package['nagios-nrpe'];
+	}
+	service { 'nrpe':
+	ensure => running,
+	enable => true;
+	}
+}
+[root@masum manifests]# 
+
+
+// look at here... we have writter like package name like 'package [ 'nagios-nrpe' ] 
+// which we have found from the command "yum search nrpe" and put the name on it.
+
+// now we are going to configure our server to check the status of the web server
+// server(192.168.35.144) to client(192.168.35.145). to do so we are lucky that
+// we have puppet resource like nagios_host to configure the host. and to check 
+// the status we got nagios_service. monitoring checks in nagios are called the 
+// services. 
+
+// we gonna write a file like resources.pp like below. we are creating file
+// for nagios_hosts, nagios_services, and file.
+  
+[root@masum manifests]# pwd
+/etc/puppet/modules/nagios/manifests
+[root@masum manifests]# ls
+client.pp  init.pp  resources.pp  server.pp
+[root@masum manifests]# 
+[root@masum manifests]# 
+[root@masum manifests]# cat -n resources.pp 
+     1	class nagios::resources {
+     2	
+     3	nagios_host { 'web_server':
+     4	address => '192.168.35.145',
+     5	host_name => 'web_server',
+     6	use => 'linux-server',
+     7	target => '/etc/nagios/conf.d/host.cfg',
+     8	notify => File['/etc/nagios/conf.d'],
+     9	require => Package['nagios'],
+    10	}
+    11	
+    12	nagios_service { 'HTTP':
+    13	host_name => 'web_server',
+    14	service_description => 'HTTP', 
+    15	check_command => 'check_http',
+    16	use => 'local-service',
+    17	target => '/etc/nagios/conf.d/services.cfg',
+    18	notify => File['/etc/nagios/conf.d'],
+    19	require => Package['nagios'],
+    20	}
+    21	
+    22	file { '/etc/nagios/conf.d':
+    23	recurse => true,
+    24	owner => 'nagios',
+    25	require => Package['nagios'],
+    26	notify => Service['nagios'];
+    27	}
+    28	}
+[root@masum manifests]# 
+
+// now include the class nagios::resources to ../tests/init.pp file
+// 
+
+#include nagios
+include nagios::server
+include nagios::client
+include nagios::resources
+~                                                                                                                                      
+~       

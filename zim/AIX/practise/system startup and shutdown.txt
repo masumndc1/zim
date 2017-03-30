@@ -1,0 +1,84 @@
+		system startup and shutdown 
+To view the architecture type
+# bootinfo -p
+
+To view the bit of the system
+#bootinfo -y
+
+To view the ram size
+#bootinfo -r
+
+To view the bootlog
+#alog -o -t boot
+or
+#smit alog (select the log item)
+
+To view the inittab file
+#cat /etc/inittab|more
+
+To send the aix in single user mode
+#shutdowm -m
+
+To return from single user mode to multi user mod
+#telinit 2
+
+**** In aix 0-9 runlevels are present but 0,1 are reserver,2 is for multiuser mode,3-9 can be used by the administrator.
+
+To view the src running in the system
+#lssrc -a
+To view a particular src
+#lssrc -a|grep -i spooler
+or
+# lssrc -g spooler
+or
+# lssrc -s lpd
+
+To start a src
+#startsrc -s lpd
+To start a src group
+#startsrc -g spooler
+
+To stop the src
+
+#stopsrc -g spooler
+or
+#stopsrc -s lpd
+
+To shutdown the machine faster and immediately
+#shutdown -F
+
+To reboot the machine
+#shutdown -r
+
+To proxy the shutdown,it means that to all users that the machine is about to shutdown,
+but no shutdown actually occurs.
+#shutdown -k
+
+To shut down the system to single-user mode
+#shutdown -m
+
+To change the system enviourment and settings
+
+#smit system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

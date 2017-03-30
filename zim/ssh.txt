@@ -1,0 +1,16 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-05-16T23:16:21+06:00
+
+====== ssh ======
+Created Thursday 16 May 2013
+
+
+pbl@mail:~$ ssh root@192.168.163.179
+Read from socket failed: Connection reset by peer
+
+__if you ever found problem like this then simple first__
+__remove and then install the ssh packege.__
+
+root@bt:~# apt-get remove openssh-server openssh-client
+root@bt:~# apt-get install openssh-server openssh-client

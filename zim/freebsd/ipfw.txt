@@ -1,0 +1,65 @@
+
+
+
+................. ipfw syntax 
+
+... at first we are enabling the ipfw in freebsd. to do so we are
+... putting entry on /etc/rc.conf. the default behaviour of ipfw is
+... to deny all traffic therefore we have to configure the traffic.
+
+root@masum:~ # cat -n /etc/rc.conf
+     1	hostname="masum"
+     2	ifconfig_em0="DHCP"
+     3	sshd_enable="YES"
+     4	moused_enable="YES"
+     5	powerd_enable="YES"
+     6	# Set dumpdev to "AUTO" to enable crash dumps, "NO" to disable
+     7	dumpdev="AUTO"
+     8	dbus_enable="YES"
+     9	hald_enable="YES"
+    10	kdm4_enable="YES"
+    11	# enabling the ipfw firewall
+    12	firewall_enable="YES"
+    13	firewall_logging="YES"
+    14	#pf_enable="YES"
+    15	ifconfig_le0="inet 192.168.244.20 netmask 255.255.255.0"
+    16	gateway_enable="YES"  		# for ipv4 packet forwarding
+    17	ipv6_gateway_enable="YES"	# for ipv6 packet forwarding
+    18	#pf_rules="/etc/pf.conf"         # rules definition file for pf
+    19	#pf_flags=""                     # additional flags for pfctl startup
+    20	#pflog_enable="YES"              # start pflogd(8)
+    21	#pflog_logfile="/var/log/pflog"  # where pflogd should store the logfile
+    22	#pflog_flags=""                  # additional flags for pflogd startup
+root@masum:~ # 
+
+root@masum:~ # ipfw add 100 permit ip from 192.168.35.0/24 to any
+root@masum:~ # ipfw add permit icmp from any to 192.168.35.155/24
+
+root@masum:~ # ipfw show
+00100   4    336 allow ip from any to any via lo0
+00100 627 101545 allow ip from 192.168.35.0/24 to any
+00200   0      0 deny ip from any to 127.0.0.0/8
+00300   0      0 deny ip from 127.0.0.0/8 to any
+00400   0      0 deny ip from any to ::1
+00500   0      0 deny ip from ::1 to any
+00600   0      0 allow ipv6-icmp from :: to ff02::/16
+00700   0      0 allow ipv6-icmp from fe80::/10 to fe80::/10
+00800   0      0 allow ipv6-icmp from fe80::/10 to ff02::/16
+00900   0      0 allow ipv6-icmp from any to any ip6 icmp6types 1
+01000   0      0 allow ipv6-icmp from any to any ip6 icmp6types 2,135,136
+01100   0      0 allow ip from 192.168.35.155 to any
+01200   0      0 allow icmp from any to 192.168.35.0/24
+65535  67   4854 deny ip from any to any
+root@masum:~ # 
+root@masum:~ # ping 4.2.2.1
+PING 4.2.2.1 (4.2.2.1): 56 data bytes
+64 bytes from 4.2.2.1: icmp_seq=1 ttl=48 time=1297.769 ms
+64 bytes from 4.2.2.1: icmp_seq=0 ttl=48 time=2298.766 ms
+64 bytes from 4.2.2.1: icmp_seq=2 ttl=48 time=309.892 ms
+64 bytes from 4.2.2.1: icmp_seq=3 ttl=48 time=392.919 ms
+^C
+--- 4.2.2.1 ping statistics ---
+4 packets transmitted, 4 packets received, 0.0% packet loss
+round-trip min/avg/max/stddev = 309.892/1074.836/2298.766/805.893 ms
+root@masum:~ # 
+

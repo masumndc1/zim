@@ -1,0 +1,242 @@
+
+
+
+......................... sflow tools ....................
+
+
+root@masum:~# git clone https://github.com/sflow/sflowtool
+Cloning into 'sflowtool'...
+remote: Counting objects: 123, done.
+remote: Total 123 (delta 0), reused 0 (delta 0), pack-reused 123
+Receiving objects: 100% (123/123), 113.83 KiB | 66.00 KiB/s, done.
+Resolving deltas: 100% (62/62), done.
+Checking connectivity... done.
+root@masum:~# cd
+root@masum:~# ls
+~                            font_html.sh                   nmap                             pt               test.txt
+c7200_i0_log.txt             gns3_0.8.4-1~1_all.deb         ntfs-3g_ntfsprogs-2015.3.14      Public           usage.sh
+cpulimit_gns.sh              GNS3-0.8.7-src.zip             ntfs-3g_ntfsprogs-2015.3.14.tgz  sdm_command.txt  usage_usb.sh
+cpulimit_vmware.sh           gns3-legacy-GNS3-0.8.7         openvswitch-2.5.0                sflowtool        Videos
+Desktop                      http-google-email.nse          openvswitch-2.5.0.tar.gz         slitaz4          VirtualBox VMs
+docker                       iptables.sh                    openvswitch-2.6.0                slitaz5          vpcs_0.5b2-1_i386.deb
+Documents                    locale.conf                    openvswitch-2.6.0.tar.gz         startup.vpc      vpcs.hist
+Downloads                    midori_0.5.11-0_i386_.deb      pemu_2008-03-03_bin              startup.vpc.bak
+dynamips_0.2.8-1~1_i386.deb  move_font.sh                   pemu_2008-03-03_bin.tar.bz2      tap_con.sh
+example.lua                  Music                          pib.enum.txt                     target.txt
+font.html                    Nessus-5.2.6-debian6_i386.deb  Pictures                         Templates
+root@masum:~# 
+root@masum:~# 
+root@masum:~# cd sflowtool/
+root@masum:~/sflowtool# ls
+AUTHORS    config.h.in   INSTALL          NEWS       scripts         sflowtool.vcxproj          src
+boot.sh    configure.ac  INSTALL.Windows  README     sflowtool.sln   sflowtool.vcxproj.filters
+ChangeLog  COPYING       Makefile.am      README.md  sflowtool.spec  sflowtool.vcxproj.user
+root@masum:~/sflowtool# 
+root@masum:~/sflowtool# 
+root@masum:~/sflowtool# ./boot.sh 
+./boot.sh: line 1: autoreconf: command not found
+root@masum:~/sflowtool# apt-get install autoreconf
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+E: Unable to locate package autoreconf
+root@masum:~/sflowtool# 
+root@masum:~/sflowtool# apt-cache search autoreconf
+autoconf2.13 - automatic configure script builder (obsolete version)
+dh-autoreconf - debhelper add-on to call autoreconf and clean up after the build
+dh-dist-zilla - debhelper add-on to call dzil build and clean up after the build
+root@masum:~/sflowtool# apt-get install autoconf2.13
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following extra packages will be installed:
+  autoconf automake autotools-dev
+Suggested packages:
+  autoconf-archive gnu-standards autoconf-doc libtool
+The following NEW packages will be installed:
+  autoconf autoconf2.13 automake autotools-dev
+0 upgraded, 4 newly installed, 0 to remove and 370 not upgraded.
+Need to get 1,393 kB of archives.
+After this operation, 5,017 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://ftp.ca.debian.org/debian/ jessie/main autoconf all 2.69-8 [340 kB]
+Get:2 http://ftp.ca.debian.org/debian/ jessie/main autoconf2.13 all 2.13-63 [258 kB]
+Get:3 http://ftp.ca.debian.org/debian/ jessie/main autotools-dev all 20140911.1 [70.5 kB]
+Get:4 http://ftp.ca.debian.org/debian/ jessie/main automake all 1:1.14.1-4+deb8u1 [724 kB]
+Fetched 1,393 kB in 9s (149 kB/s)                                                                                                     
+Selecting previously unselected package autoconf.
+(Reading database ... 396399 files and directories currently installed.)
+Preparing to unpack .../autoconf_2.69-8_all.deb ...
+Unpacking autoconf (2.69-8) ...
+Selecting previously unselected package autoconf2.13.
+Preparing to unpack .../autoconf2.13_2.13-63_all.deb ...
+Adding 'diversion of /usr/bin/autoconf to /usr/bin/autoconf2.50 by autoconf2.13'
+Adding 'diversion of /usr/share/man/man1/autoconf.1.gz to /usr/share/man/man1/autoconf2.50.1.gz by autoconf2.13'
+Adding 'diversion of /usr/bin/autoheader to /usr/bin/autoheader2.50 by autoconf2.13'
+Adding 'diversion of /usr/share/man/man1/autoheader.1.gz to /usr/share/man/man1/autoheader2.50.1.gz by autoconf2.13'
+Adding 'diversion of /usr/bin/autoreconf to /usr/bin/autoreconf2.50 by autoconf2.13'
+Adding 'diversion of /usr/share/man/man1/autoreconf.1.gz to /usr/share/man/man1/autoreconf2.50.1.gz by autoconf2.13'
+Unpacking autoconf2.13 (2.13-63) ...
+Selecting previously unselected package autotools-dev.
+Preparing to unpack .../autotools-dev_20140911.1_all.deb ...
+Unpacking autotools-dev (20140911.1) ...
+Selecting previously unselected package automake.
+Preparing to unpack .../automake_1%3a1.14.1-4+deb8u1_all.deb ...
+Unpacking automake (1:1.14.1-4+deb8u1) ...
+Processing triggers for man-db (2.7.0.2-5) ...
+/usr/bin/mandb: can't open /usr/local/man/man1/gns3.1: Permission denied
+Processing triggers for doc-base (0.10.6) ...
+Processing 2 added doc-base files...
+Registering documents with scrollkeeper...
+Processing triggers for install-info (5.2.0.dfsg.1-6) ...
+Setting up autoconf (2.69-8) ...
+Setting up autoconf2.13 (2.13-63) ...
+Setting up autotools-dev (20140911.1) ...
+Setting up automake (1:1.14.1-4+deb8u1) ...
+update-alternatives: using /usr/bin/automake-1.14 to provide /usr/bin/automake (automake) in auto mode
+root@masum:~/sflowtool# ./boot.sh 
+configure.ac:8: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:
+configure.ac:8: http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation
+configure.ac:13: installing './compile'
+configure.ac:17: installing './config.guess'
+configure.ac:17: installing './config.sub'
+configure.ac:8: installing './install-sh'
+configure.ac:8: installing './missing'
+src/Makefile.am: installing './depcomp'
+root@masum:~/sflowtool# ls
+aclocal.m4      ChangeLog     config.h.in~  COPYING     INSTALL.Windows  NEWS       sflowtool.sln              sflowtool.vcxproj.user
+AUTHORS         compile       config.sub    depcomp     Makefile.am      README     sflowtool.spec             src
+autom4te.cache  config.guess  configure     INSTALL     Makefile.in      README.md  sflowtool.vcxproj
+boot.sh         config.h.in   configure.ac  install-sh  missing          scripts    sflowtool.vcxproj.filters
+root@masum:~/sflowtool# ./configure 
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking netdb.h usability... yes
+checking netdb.h presence... yes
+checking for netdb.h... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking for unistd.h... (cached) yes
+checking for an ANSI C-conforming const... yes
+checking whether time.h and sys/time.h may both be included... yes
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking for sys/socket.h... (cached) yes
+checking types of arguments for select... int,fd_set *,struct timeval *
+checking for strftime... yes
+checking for vprintf... yes
+checking for _doprnt... no
+checking for getaddrinfo... yes
+checking for memset... yes
+checking for select... yes
+checking for socket... yes
+checking for strdup... yes
+checking for strerror... yes
+checking for strspn... yes
+checking for strtol... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating src/Makefile
+config.status: creating config.h
+config.status: executing depfiles commands
+
+root@masum:~/sflowtool#  make && make install
+
+root@masum:~/sflowtool# sflowtool --help
+Copyright (c) InMon Corporation 2000-2011 ALL RIGHTS RESERVED
+This software provided with NO WARRANTY WHATSOEVER
+
+Usage: sflowtool [-p port]
+
+sflowtool version: 3.39
+
+usage:
+   -h | -?            -  this help message
+
+forwarding:
+   -f host/port       -  (forward sflow to another collector
+                      -   ...repeat for multiple collectors)
+
+txt output:
+   -l                 -  (output in line-by-line CSV format)
+   -g                 -  (output in 'grep-friendly' format)
+   -H                 -  (output HTTP common log file format)
+
+tcpdump output:
+   -t                 -  (output in binary tcpdump(1) format)
+   -r file            -  (read binary tcpdump(1) format)
+   -x                 -  (remove all IPV4 content)
+
+NetFlow output:
+   -c hostname_or_IP  -  (netflow collector host)
+   -d port            -  (netflow collector UDP port)
+   -e                 -  (netflow collector peer_as (default = origin_as))
+   -s                 -  (disable scaling of netflow output by sampling rate)
+   -S                 -  spoof source of netflow packets to input agent IP
+
+Filters:
+   +v <vlans>         -  include vlans (e.g. +v 0-20,4091)
+   -v <vlans>         -  exclude vlans
+   -4                 -  listen on IPv4 socket only
+   -6                 -  listen on IPv6 socket only
+   +4                 -  listen on both IPv4 and IPv6 sockets
+
+General options:
+   -k                 -  keep going on non-signal errors rather than aborting
+
+=============== Advanced Tools ==============================================
+| sFlow-RT (real time)  - http://sflow-rt.com                               |
+| sFlowTrend (FREE)     - http://www.inmon.com/products/sFlowTrend.php      |
+| Traffic Sentinel      - http://www.inmon.com/support/sentinel_release.php |
+=============================================================================
+root@masum:~/sflowtool# 
+
+
+
+
+

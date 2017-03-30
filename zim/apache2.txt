@@ -1,0 +1,147 @@
+
+
+
+....................configuration of a apache2 webserver ........................
+
+.. this is a simple web server configuration. line starts with two dot .. is 
+.. considered as comments.
+
+root@deb-7:~# uname -a
+Linux deb-7 3.2.0-4-686-pae #1 SMP Debian 3.2.81-1 i686 GNU/Linux
+root@deb-7:~# 
+
+.. this is a debian linux server running on vmware workstation.
+
+root@deb-7:~# ifconfig eth0
+eth0      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:3d  
+          inet addr:192.168.35.147  Bcast:192.168.35.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe8c:8e3d/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:11773 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:6272 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1779362 (1.6 MiB)  TX bytes:1013517 (989.7 KiB)
+          Interrupt:19 Base address:0x2000 
+
+
+root@deb-7:~# apt-get install apache2
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+apache2 is already the newest version.
+The following package was automatically installed and is no longer required:
+  libelf1
+  Use 'apt-get autoremove' to remove it.
+  0 upgraded, 0 newly installed, 0 to remove and 16 not upgraded.
+
+root@deb-7:~# dpkg -l | grep apache2
+ii  apache2                              2.2.22-13+deb7u7               i386         Apache HTTP Server metapackage
+ii  apache2-mpm-worker                   2.2.22-13+deb7u7               i386         Apache HTTP Server - high speed threaded model
+ii  apache2-utils                        2.2.22-13+deb7u7               i386         utility programs for webservers
+ii  apache2.2-bin                        2.2.22-13+deb7u7               i386         Apache HTTP Server common binary files
+ii  apache2.2-common                     2.2.22-13+deb7u7               i386         Apache HTTP Server common files
+root@deb-7:~# 
+
+.. as we can see the apache is already installed and version is 2.2.22
+.. now cheching whether it is running or not.
+
+root@deb-7:~# 
+root@deb-7:~# /etc/init.d/apache2 status
+Apache2 is NOT running.
+root@deb-7:~# 
+root@deb-7:~# 
+root@deb-7:~# /etc/init.d/apache2 start
+[ ok ] Starting web server: apache2.
+root@deb-7:~# 
+root@deb-7:~# /etc/init.d/apache2 restart
+[ ok ] Restarting web server: apache2 ... waiting .
+root@deb-7:~# 
+
+.. now the apache2 is running.
+.. as I dont have my own domain name therefore i am using masum.com 
+.. as my own domain name.
+.. pointing this in debian system as www.masum.com
+
+root@deb-7:/etc/apache2/sites-enabled# cat /etc/hosts 
+127.0.0.1	localhost
+127.0.1.1	www.masum.com
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+.. all the configuration files reside in /etc/apache2 directory.
+
+root@deb-7:/etc# cd apache2/
+root@deb-7:/etc/apache2# ls
+apache2.conf  conf.d  envvars  magic  mods-available  mods-enabled  ports.conf	sites-available  sites-enabled
+root@deb-7:/etc/apache2# cd sites-enabled
+root@deb-7:/etc/apache2/sites-enabled# ls
+000-default  masum
+root@deb-7:/etc/apache2/sites-enabled# 
+root@deb-7:/etc/apache2/sites-enabled# cat masum 
+<VirtualHost www.masum.com:80>
+	ServerAdmin webmaster@masum.com
+
+	DocumentRoot /var/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+	<Directory "/usr/lib/cgi-bin">
+		AllowOverride None
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+root@deb-7:/etc/apache2/sites-enabled# 
+
+.. here im pointing my www.masum.com webserver which will listen to 80 port and its document root is /var/www
+.. where the server will look for the index.html file that is default webpage. lets see what is inside
+.. /var/www/index.html 
+
+root@deb-7:/var/www# cat index.html 
+<html><body><h1>It works!</h1>
+<p>this is created by mohammad khabir uddin masum.</p>
+<p>The web server software is running but no content has been added, yet.</p>
+<p>this is one of the basic setup</p>
+</body></html>
+root@deb-7:/var/www# 
+
+.. now when we run the following command it shows like below
+.. alternatively we could also run firefox www.masum.com
+
+root@deb-7:/etc/apache2/sites-enabled# lynx www.masum.com
+
+                                                               It works!
+
+   this is created by mohammad khabir uddin masum.
+
+   The web server software is running but no content has been added, yet.
+
+   this is one of the basic setup
+
+
+Commands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.
+
+.............................................................................
+
+

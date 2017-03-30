@@ -1,0 +1,115 @@
+
+
+............ few command related to networking
+
+... networking restart can be done
+# /etc/rc.d/netif restart
+
+... routing can be done
+# /etc/rc.d/routing restart
+
+... default routing
+root@masum:~ # route add default 192.168.35.1
+add net default: gateway 192.168.35.1
+root@masum:~ # 
+
+... changing the default gateway
+# route change default 192.168.0.21
+
+... display regarding the route.
+root@masum:~ # route get default
+   route to: default
+destination: default
+       mask: default
+    gateway: 192.168.35.1
+        fib: 0
+  interface: em0
+      flags: <UP,GATEWAY,DONE,STATIC>
+ recvpipe  sendpipe  ssthresh  rtt,msec    mtu        weight    expire
+       0         0         0         0      1500         1         0 
+root@masum:~ # 
+
+... list of sockets.
+root@masum:~ # sockstat -l
+USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS      
+haldaemon hald      1275  9  stream /var/run/hald/dbus-4FTGhXKXtG
+haldaemon hald      1275  11 stream /var/run/hald/dbus-sHnExBtaUK
+root     sendmail   1198  3  tcp4   127.0.0.1:25          *:*
+root     sshd       1180  3  tcp6   *:22                  *:*
+root     sshd       1180  4  tcp4   *:22                  *:*
+messagebus dbus-daemo1120 3  stream /var/run/dbus/system_bus_socket
+root     syslogd    997   4  dgram  /var/run/log
+root     syslogd    997   5  dgram  /var/run/logpriv
+root     syslogd    997   6  udp6   *:514                 *:*
+root     syslogd    997   7  udp4   *:514                 *:*
+root     devd       828   4  stream /var/run/devd.pipe
+root     devd       828   5  seqpac /var/run/devd.seqpacket.pipe
+root@masum:~ # 
+
+root@masum:~ # sockstat -c
+USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS      
+root     sshd       55813 3  tcp4   192.168.35.155:22     192.168.35.1:59326
+root     hald-addon 1303  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
+root     hald-addon 1303  4  stream -> /var/run/dbus/system_bus_socket
+root     hald-addon 1295  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
+root     hald-addon 1292  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
+root     hald-addon 1286  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
+root     hald-addon 1286  4  stream -> /var/run/dbus/system_bus_socket
+root     hald-addon 1285  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
+root     hald-runne 1280  3  stream -> /var/run/hald/dbus-sHnExBtaUK
+polkitd  polkitd    1279  4  stream -> ??
+polkitd  polkitd    1279  5  stream -> ??
+polkitd  polkitd    1279  9  stream -> /var/run/dbus/system_bus_socket
+polkitd  polkitd    1279  18 dgram  -> ??
+root     console-ki 1277  7  stream -> /var/run/dbus/system_bus_socket
+root     console-ki 1277  9  stream -> /var/run/dbus/system_bus_socket
+haldaemon hald      1275  10 stream -> /var/run/dbus/system_bus_socket
+haldaemon hald      1275  14 stream /var/run/hald/dbus-sHnExBtaUK
+haldaemon hald      1275  47 stream -> /var/run/devd.pipe
+haldaemon hald      1275  48 stream /var/run/hald/dbus-4FTGhXKXtG
+haldaemon hald      1275  49 stream /var/run/hald/dbus-4FTGhXKXtG
+haldaemon hald      1275  50 stream /var/run/hald/dbus-4FTGhXKXtG
+haldaemon hald      1275  51 stream /var/run/hald/dbus-4FTGhXKXtG
+haldaemon hald      1275  52 stream /var/run/hald/dbus-4FTGhXKXtG
+root     login      1263  3  dgram  -> ??
+smmsp    sendmail   1211  3  dgram  -> ??
+root     sendmail   1198  4  dgram  -> ??
+messagebus dbus-daemo1120 7  stream -> ??
+messagebus dbus-daemo1120 8  stream -> ??
+messagebus dbus-daemo1120 9  stream /var/run/dbus/system_bus_socket
+messagebus dbus-daemo1120 10 dgram  -> ??
+messagebus dbus-daemo1120 11 stream /var/run/dbus/system_bus_socket
+messagebus dbus-daemo1120 12 stream /var/run/dbus/system_bus_socket
+messagebus dbus-daemo1120 13 stream /var/run/dbus/system_bus_socket
+messagebus dbus-daemo1120 14 stream /var/run/dbus/system_bus_socket
+messagebus dbus-daemo1120 15 stream /var/run/dbus/system_bus_socket
+_pflogd  pflogd     845   5  stream -> ??
+root     pflogd     840   4  stream -> ??
+root     pflogd     840   5  dgram  -> ??
+root     devd       828   7  dgram  -> ??
+root     devd       828   8  stream /var/run/devd.pipe
+root@masum:~ # 
+
+... tcpdump 
+
+root@masum:~ # tcpdump -i em0 -c 10 -n
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on em0, link-type EN10MB (Ethernet), capture size 262144 bytes
+15:24:47.218791 IP 192.168.35.1.59326 > 192.168.35.155.22: Flags [.], ack 3232103682, win 2641, options [nop,nop,TS val 3593366 ecr 4158724360], length 0
+15:24:47.218813 IP 192.168.35.155.22 > 192.168.35.1.59326: Flags [P.], seq 4294967181:1, ack 0, win 1026, options [nop,nop,TS val 4158724360 ecr 3593362], length 116
+15:24:47.219227 IP 192.168.35.1.59326 > 192.168.35.155.22: Flags [.], ack 117, win 2641, options [nop,nop,TS val 3593366 ecr 4158724361], length 0
+15:24:47.219241 IP 192.168.35.155.22 > 192.168.35.1.59326: Flags [P.], seq 1:117, ack 0, win 1026, options [nop,nop,TS val 4158724361 ecr 3593366], length 116
+15:24:47.247820 IP 192.168.35.1.59326 > 192.168.35.155.22: Flags [.], ack 313, win 2641, options [nop,nop,TS val 3593373 ecr 4158724389], length 0
+15:24:47.247839 IP 192.168.35.155.22 > 192.168.35.1.59326: Flags [P.], seq 117:313, ack 0, win 1026, options [nop,nop,TS val 4158724389 ecr 3593366], length 196
+15:24:47.248356 IP 192.168.35.1.59326 > 192.168.35.155.22: Flags [.], ack 1149, win 2641, options [nop,nop,TS val 3593374 ecr 4158724390], length 0
+15:24:47.248375 IP 192.168.35.155.22 > 192.168.35.1.59326: Flags [P.], seq 313:1149, ack 0, win 1026, options [nop,nop,TS val 4158724390 ecr 3593373], length 836
+15:24:47.248772 IP 192.168.35.1.59326 > 192.168.35.155.22: Flags [.], ack 1505, win 2641, options [nop,nop,TS val 3593374 ecr 4158724390], length 0
+15:24:47.248796 IP 192.168.35.155.22 > 192.168.35.1.59326: Flags [P.], seq 1149:1505, ack 0, win 1026, options [nop,nop,TS val 4158724390 ecr 3593374], length 356
+10 packets captured
+10 packets received by filter
+0 packets dropped by kernel
+root@masum:~ # 
+
+
+
+

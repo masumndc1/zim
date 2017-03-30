@@ -1,0 +1,66 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-06-30T15:34:03+06:00
+
+====== making laptop hotspot ======
+Created Sunday 30 June 2013
+
+
+root@masum-K42JZ:/etc/hostapd# apt-get install hostapd
+root@masum-K42JZ:/etc/hostapd# apt-get install dhcp3-server
+root@masum-K42JZ:/etc/dhcp# dpkg -l | grep hostap
+ii  hostapd                                1:0.7.3-4ubuntu1                                    user space IEEE 802.11 AP and IEEE 802.1X/WPA/WPA2/EAP Authenticator
+root@masum-K42JZ:/etc/dhcp# 
+root@masum-K42JZ:/etc/dhcp# dpkg -l | grep dhcp
+ii  dhcp3-server                           4.1.ESV-R4-0ubuntu5.8                               ISC DHCP server (transitional package)
+
+root@masum-K42JZ:/etc/hostapd# cat hostapd.conf 
+interface=wlan0
+driver=nl80211
+ssid=my_hotspot
+channel=1
+hw_mode=g
+auth_algs=1
+wpa=3
+wpa_passphrase=wifi@m@sum
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP CCMP
+rsn_pairwise=CCMP
+
+root@masum-K42JZ:/root# cat hotspot
+#!/bin/bash
+
+hostapd /etc/hostapd/hostapd.conf
+iptables -t nat -F
+iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
+root@masum-K42JZ:~# 
+
+root@masum-K42JZ:/etc/dhcp# pwd
+/etc/dhcp
+root@masum-K42JZ:/etc/dhcp# 
+root@masum-K42JZ:/etc/dhcp# ls
+dhclient.conf  dhclient-enter-hooks.d  dhclient-exit-hooks.d  dhcpd.conf  dhcpd.conf.bak
+root@masum-K42JZ:/etc/dhcp# 
+root@masum-K42JZ:/etc/dhcp# cat dhcpd.conf
+//---- output omitted for simplicity----//
+#  }
+#}
+subnet 192.168.1.0 netmask 255.255.255.0 {
+        range 192.168.1.2 192.168.1.16;
+#        option domain-name-servers 117.18.224.146, 8.8.4.4 ;
+        option routers 192.168.1.1;
+}
+root@masum-K42JZ:/etc/dhcp# 
+//---- assign ip to wlan0----//
+
+root@masum-K42JZ:/etc/dhcp# ifconfig wlan0 192.168.1.1 netmask 255.255.255.0 up
+root@masum-K42JZ:/etc/dhcp# ifconfig wlan0
+wlan0     Link encap:Ethernet  HWaddr e0:b9:a5:7f:56:1d  
+          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+root@masum-K42JZ:/etc/dhcp#

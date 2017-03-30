@@ -1,0 +1,99 @@
+
+
+
+................... firewall ...........................
+
+.. alias
+
+.. when creating alias, which is the nice thing to organize
+.. the whole lot of things. can be treat a container of 
+.. human readable ips and host instead of ip address.
+
+.. when creating url tables(IPs) we can put upto 30000
+.. we site in a file and point it here. i have created one
+.. like below. 
+
+.. a. we have a webserver in http://192.168.35.147. so we
+.. created a file restricted.txt in /var/www/
+.. b. put my restricted websites inside the 
+.. /var/www/restricted.txt file.
+.. c. now points the files in pfsense from firewall/aliases/
+.. edit.  
+
+.. port forward
+
+.. for the port forward we have to configure the both nat rule
+.. as well as the firewall rule. firewall rule is most important
+.. thing to configure other was firewall will block the traffic.
+
+.. a. for the portward rule we can configure like firewall/nat/portforward
+.. then configure the rule clicking the add button and putting the
+.. required parameters to it. we configure the nat rules by providing
+.. parameters.
+
+.. our parameters in firewall/nat/portforward tab as interface:wan
+.. destination:wan_address and destination port: 8080 and redirect
+.. address: 192.168.244.147 and redirect port:80 and save and click 
+.. apply. normally pfsense will automatically configure nat rules for 
+.. us. if not we have to configure the rules by ourself.  
+
+.. the moto of this configuration is when request to http://192.168.35.152:8080
+.. then pfsense will redirect to dmz1 website 192.168.244.147:80. 
+
+.. same way we have created another nat rule which says when an tcp request
+.. to wan interface(192.168.35.152) comes at 29 port it will be redirected to dmz1 site's
+.. 192.168.244.147 ssh(22) port.
+
+.. b. for the rule click firewall/rules and select the interface 
+.. where the rule will be placed. our example rule will be placed in wan
+.. interface. and source will be any. for the destination, host is
+.. 192.168.244.147 and the port is 80 in rule settings. 
+.. we will aslo check box the log options.
+
+.. at our webserver we can see that incoming and outgoing connection 
+.. for the request coming from 192.168.35.1 when we run the tcpdump
+.. command.
+
+root@deb-7:~# ifconfig
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:47  
+          inet addr:192.168.244.147  Bcast:192.168.244.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe8c:8e47/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4866 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:3849 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:473306 (462.2 KiB)  TX bytes:425743 (415.7 KiB)
+          Interrupt:16 Base address:0x2080 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:707 (707.0 B)  TX bytes:707 (707.0 B)
+root@deb-7:~# 
+
+root@deb-7:~# tcpdump -i eth1 -n -n -v -v port 80
+tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+
+16:56:53.630422 IP (tos 0x0, ttl 63, id 56455, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.35.1.46278 > 192.168.244.147.80: Flags [F.], cksum 0xa2c2 (correct), seq 1206615180, ack 4184217745, win 980, options [nop,nop,TS val 240422 ecr 9568254], length 0
+16:56:53.630740 IP (tos 0x0, ttl 64, id 59456, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.244.147.80 > 192.168.35.1.46278: Flags [F.], cksum 0x990c (incorrect -> 0x9282), seq 1, ack 1, win 3888, options [nop,nop,TS val 9569505 ecr 240422], length 0
+16:56:53.631318 IP (tos 0x0, ttl 63, id 56456, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.35.1.46278 > 192.168.244.147.80: Flags [.], cksum 0x9ddd (correct), seq 1, ack 2, win 980, options [nop,nop,TS val 240423 ecr 9569505], length 0
+16:56:54.630972 IP (tos 0x0, ttl 63, id 32347, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.35.1.46279 > 192.168.244.147.80: Flags [F.], cksum 0xa9ef (correct), seq 4057716953, ack 121044065, win 913, options [nop,nop,TS val 240673 ecr 9568314], length 0
+16:56:54.631314 IP (tos 0x0, ttl 64, id 64775, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.244.147.80 > 192.168.35.1.46279: Flags [F.], cksum 0x990c (incorrect -> 0x99ba), seq 1, ack 1, win 3620, options [nop,nop,TS val 9569755 ecr 240673], length 0
+16:56:54.632436 IP (tos 0x0, ttl 63, id 32348, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.35.1.46279 > 192.168.244.147.80: Flags [.], cksum 0xa44d (correct), seq 1, ack 2, win 913, options [nop,nop,TS val 240673 ecr 9569755], length 0
+
+.. we can see easily that request coming and going and passing.
+
+
+
+

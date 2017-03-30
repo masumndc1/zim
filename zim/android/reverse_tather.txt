@@ -1,0 +1,58 @@
+
+first install adb
+
+
+#apt-get install android-tools-adb android-tools-fastboot
+	
+
+Android reverse tethering steps:
+
+Note: Works only in a rooted Android phone.
+
+    Connect Android device via USB.
+
+    Enable USB tethering. To do so, go to Settings → More... → Tethering & mobile hotspot → Usb tethering.
+
+    On host machine, type:
+
+    $ ifconfig usb0 10.42.0.1 netmask 255.255.255.0 
+    $ echo 1 > /proc/sys/net/ipv4/ip_forward 
+
+    Command for sudo will be:
+
+    $ sudo 'echo 1 > /proc/sys/net/ipv4/ip_forward' 
+
+    On Android device (for this step you must install ADB on host PC), type:
+
+    $ adb shell 
+    $ su 
+    $ netcfg rndis0 dhcp
+
+    If it does'nt get the IP address then assign it manually:
+
+    $ netcfg rndis0 10.42.0.2 netmask 255.255.255.0 
+    $ route add default gw 10.42.0.1 dev rndis0 
+
+Now internet would be working in the Android phone.
+
+To check , try the command ping www.google.com.
+
+It works for me.
+
+
+// error 
+
+pbl@masum:~$ adb usb
+error: insufficient permissions for device
+pbl@masum:~$ 
+pbl@masum:~$ su -
+Password: 
+root@masum:~# adb kill-server
+root@masum:~# adb start-server
+* daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+root@masum:~# adb devices
+List of devices attached 
+0123456789ABCDEF	device
+
+root@masum:~# 

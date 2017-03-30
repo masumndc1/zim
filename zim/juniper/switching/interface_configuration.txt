@@ -1,0 +1,510 @@
+
+#################### interface configuration
+
+there are two different ways to configure an interface in mx serious router and switches.
+
+1. service provider style 
+
+[edit interfaces]
+root# show 
+ge-0/0/0 {
+    unit 0 {
+        family bridge {
+            interface-mode trunk;
+            vlan-id-list [ 100 200 ];
+        }
+    }
+}
+ge-0/0/1 {
+    unit 0 {
+        family bridge {
+            interface-mode trunk;
+            vlan-id-list [ 100 200 ];
+        }
+    }
+}
+
+[edit interfaces]
+
+######### defining bridging is important
+
+root# top show bridge-domains 
+vlan-100 {
+    vlan-id 100;
+}
+vlan-200 {
+    vlan-id 200;
+}
+
+[edit interfaces]
+root# 
+
+### this is a way how to configure trunk interface but as i will access this port with
+### a node therefore i will configure this two with access port like below.
+
+root# show interfaces    
+ge-0/0/0 {
+    unit 0 {
+        family bridge {
+            interface-mode access;
+            vlan-id 100;
+        }
+    }
+}
+ge-0/0/1 {
+    unit 0 {
+        family bridge {
+            interface-mode access;
+            vlan-id 200;
+        }
+    }
+}
+
+[edit]
+root# show bridge-domains 
+vlan-100 {
+    vlan-id 100;
+}
+vlan-200 {
+    vlan-id 200;
+}
+
+[edit]
+root# 
+
+root# run show configuration | display set 
+
+set interfaces ge-0/0/0 unit 0 family bridge interface-mode access
+set interfaces ge-0/0/0 unit 0 family bridge vlan-id 100
+set interfaces ge-0/0/1 unit 0 family bridge interface-mode access
+set interfaces ge-0/0/1 unit 0 family bridge vlan-id 200
+set bridge-domains vlan-100 vlan-id 100
+set bridge-domains vlan-200 vlan-id 200
+
+[edit]
+
+
+2. service provider style
+
+root# top show interfaces 
+ge-0/0/0 {
+    vlan-tagging;
+    encapsulation extended-vlan-bridge;
+    unit 100 {
+        vlan-id 100;
+    }
+    unit 200 {
+        vlan-id 200;
+    }
+}
+ge-0/0/1 {
+    vlan-tagging;
+    encapsulation extended-vlan-bridge;
+    unit 100 {
+        vlan-id 100;
+    }
+    unit 200 {
+        vlan-id 200;
+    }
+}
+
+[edit bridge-domains]
+
+######### defining bridging is important
+
+[edit bridge-domains]
+root# show 
+vlan-100 {
+    vlan-id 100;
+    interface ge-0/0/0.100;
+    interface ge-0/0/1.100;
+}
+vlan-200 {
+    vlan-id 200;
+    interface ge-0/0/0.200;
+    interface ge-0/0/1.200;
+}
+
+[edit bridge-domains]
+root# 
+
+root# top commit check 
+configuration check succeeds
+
+[edit bridge-domains]
+
+### going deep through service provider style
+###
+
+
+# tagging
+
+the most basic types of tagging is vanilla ieee 802.1q tagging
+
+# vlan-id-range when a single unit is part of numerous vlan. then
+we can include them below from a single to other.
+
+ge-0/0/2 {
+    vlan-tagging;
+    encapsulation extended-vlan-bridge;
+    unit 0 {                            
+        vlan-id-range 100-200;
+    }
+}
+
+### note here you have to configure this with bridge-domain vlan-id all option
+
+[edit interfaces]
+root# 
+
+# stacked vlan tagging
+# this one we need when to define ieee 802.1QinQ. in other word when to
+define outer and inner tag.
+
+
+ge-0/0/3 {
+    stacked-vlan-tagging;
+    encapsulation extended-vlan-bridge;
+    unit 1000 {
+        vlan-tags outer 100 inner 1000;
+    }
+    unit 2000 {
+        vlan-tags outer 100 inner 2000;
+    }
+    unit 3000 {
+        vlan-tags outer 100 inner 3000;
+    }
+}
+
+[edit interfaces ge-0/0/3]
+root# 
+
+and finally we can combine all the tagging together with flexible-vlan-tagging
+
+ge-0/0/3 {
+    flexible-vlan-tagging;
+    encapsulation extended-vlan-bridge;
+    native-vlan-id 300;
+    unit 100 {
+        vlan-id 100;
+    }
+    unit 1000 {
+        vlan-tags outer 100 inner 1000;
+    }
+    unit 2000 {
+        vlan-tags outer 100 inner 2000;
+    }
+    unit 3000 {
+        vlan-tags outer 100 inner 3000;
+    }
+}
+
+[edit interfaces]
+root# 
+
+root# top show bridge-domains 
+vlan-100 {
+    vlan-id 100;
+    interface ge-0/0/0.100;
+    interface ge-0/0/1.100;
+}
+vlan-200 {
+    vlan-id 200;
+    interface ge-0/0/0.200;
+    interface ge-0/0/1.200;
+}
+vlan-300 {
+    vlan-id 300;
+    interface ge-0/0/2.100;
+    interface ge-0/0/3.1000;
+    interface ge-0/0/3.2000;
+    interface ge-0/0/3.3000;
+}
+
+
+### encapsulation
+
+# ethernet-bridge which needs only for access port
+
+root# show 
+encapsulation ethernet-bridge;
+unit 0;
+
+[edit interfaces ge-0/0/4]
+root# 
+
+# and doing the bride-domain like this
+
+root# show 
+vlan-4000 {
+    domain-type bridge;
+    vlan-id 4000;
+    interface ge-0/0/4.0;
+}
+                                        
+[edit bridge-domains]
+root# 
+
+### other type of encapsulation covered above is extended-vlan-bridge.
+
+### and finally the encapsulation type flexible-ethernet-services; which is pretty
+# interesting.
+
+root# show 
+flexible-vlan-tagging;
+encapsulation flexible-ethernet-services;
+unit 20 {
+    encapsulation vlan-bridge;
+    vlan-id 20;
+}
+unit 30 {
+    encapsulation vlan-vpls;
+    vlan-id 30;
+}
+unit 40 {
+    encapsulation vlan-bridge;
+    vlan-tags outer 50 inner 60;
+}
+unit 70 {
+    vlan-id 70;
+    family inet {
+        address 192.168.1.2/24;
+    }
+}
+
+[edit interfaces ge-0/0/5]
+
+
+2. enterprise style configuration
+
+enterprise style configurations are very basic and easier to configure as 
+they are just attached to a host or providing a trunk to other switch.
+
+mx series router with enterprise style actually provides the basic bridging
+functionality with simplified configuration.
+
+the basic configuration also lacks some advanced feature like vlan normalization but
+the big advantage is we dont have to worry about the proper vlan tagging or
+encapsulization options as this is upto juniper itself to provide proper
+vlan tagging automatically. even also we dont have to worry about proper bride domain 
+configuration.
+
+now showing simple configuration of enterprise style.
+
+
+root# set interfaces ge-0/0/0 unit 0 family bridge interface-mode access vlan-id 100
+root# set bridge-domains masum-vlan vlan-id 100    
+
+and configuration like below.
+
+root# show interfaces 
+ge-0/0/0 {
+    unit 0 {
+        family bridge {
+            interface-mode access;
+            vlan-id 100;
+        }
+    }
+}
+
+[edit]
+root# 
+
+
+[edit]
+root# show bridge-domains 
+masum-vlan {
+    vlan-id 100;
+}
+
+[edit]
+root# 
+
+its indicating the vlan-id 100 is from bride-domain masum-vlan and finally its belong to
+interface ge-0/0/0 unit 0. and lastly interface-mode is access. other options is trunk. 
+
+root# set interfaces ge-0/0/0 unit 0 family bridge interface-mode ?
+Possible completions:
+  access               Interface mode is access
+  trunk                Interface mode is trunk
+[edit]
+root# set interfaces ge-0/0/0 unit 0 family bridge interface-mode 
+
+in case of trunk options we have to use vlan-id-list options like below.
+
+
+
+root# set interfaces ge-0/0/1 unit 0 family bridge interface-mode trunk 
+
+root# set interfaces ge-0/0/1 unit 0 family bridge vlan-id-list 1-4094 
+
+root# show interface 
+
+ge-0/0/1 {
+    unit 0 {
+        family bridge {
+            interface-mode trunk;
+            vlan-id-list 1-4094;
+        }
+    }
+}
+
+[edit]
+root# 
+
+root# show bridge-domains 
+VLAN-200 {
+    vlan-id 200;
+}
+masum-vlan {
+    vlan-id 100;
+}
+
+[edit]
+root#
+
+
+enterprise style also support the dual tagging. S-TAG indicates by vlan-id
+and C-TAG indicates by inner-vlan-id-list like below.
+
+root# run show configuration | display set    
+
+set interfaces ge-0/0/2 flexible-vlan-tagging
+set interfaces ge-0/0/2 unit 0 vlan-id 100
+set interfaces ge-0/0/2 unit 0 family bridge interface-mode trunk
+set interfaces ge-0/0/2 unit 0 family bridge inner-vlan-id-list 1000
+set interfaces ge-0/0/2 unit 0 family bridge inner-vlan-id-list 2000
+
+set bridge-domains VLAN-1000 vlan-id 1000
+set bridge-domains VLAN-2000 vlan-id 2000
+
+[edit]
+root# show interfaces ge-0/0/2  
+flexible-vlan-tagging;
+unit 0 {
+    vlan-id 100;
+    family bridge {
+        interface-mode trunk;
+        inner-vlan-id-list [ 1000 2000 ];
+    }
+}
+
+[edit]
+root# show bridge-domains 
+VLAN-1000 {
+    vlan-id 1000;
+}
+VLAN-200 {
+    vlan-id 200;
+}
+VLAN-2000 {
+    vlan-id 2000;
+}
+masum-vlan {
+    vlan-id 100;
+}
+
+[edit]
+root# 
+
+same here as before its upto juniper how to apply the tagging when its 
+search the IFL trees.
+
+///802.1q and 802.1QinQ combined.
+
+we can also combine them 
+
+root# set interfaces ge-0/0/2 unit 200 family bridge interface-mode trunk
+root# set interfaces ge-0/0/2 unit 200 family bridge vlan-id-list 200
+
+root# show interfaces ge-0/0/2  
+flexible-vlan-tagging;
+unit 0 {
+    vlan-id 100;
+    family bridge {
+        interface-mode trunk;
+        inner-vlan-id-list [ 1000 2000 ];
+    }
+}
+unit 200 {
+    family bridge {
+        interface-mode trunk;
+        vlan-id-list 200;
+    }
+}
+
+[edit]
+
+root# show bridge-domains 
+VLAN-1000 {
+    vlan-id 1000;
+}
+VLAN-200 {
+    vlan-id 200;
+}
+VLAN-2000 {
+    vlan-id 2000;
+}
+masum-vlan {
+    vlan-id 100;
+}
+
+[edit]
+root# 
+
+IFL will automatically be placed into bridge domains based off the C-TAG(s)
+not the S-TAG.  
+
+root# run show bridge domain 
+
+Routing instance        Bridge domain            VLAN ID     Interfaces
+default-switch          VLAN-1000                1000     
+                                                     ge-0/0/1.0
+                                                     ge-0/0/2.0
+default-switch          VLAN-200                 200      
+                                                     ge-0/0/1.0
+                                                     ge-0/0/2.200
+default-switch          VLAN-2000                2000     
+                                                     ge-0/0/1.0
+                                                     ge-0/0/2.0
+default-switch          masum-vlan               100      
+                                                     ge-0/0/0.0
+                                                     ge-0/0/1.0
+
+[edit]
+root# 
+
+
+/// vlan rewriting or vlan normalization 
+enterprise style do allow vlan normalization but very basic and its only
+allow the outer-tag. let see when we need to change vlan id 100 to 500 and
+vice versa.
+
+
+root# run show configuration | display set 
+
+set interfaces ge-0/0/3 unit 0 family bridge interface-mode trunk
+set interfaces ge-0/0/3 unit 0 family bridge vlan-id-list 500
+set interfaces ge-0/0/3 unit 0 family bridge vlan-rewrite translate 100 500
+
+[edit]
+root# 
+root# show interfaces ge-0/0/3  
+unit 0 {
+    family bridge {
+        interface-mode trunk;
+        vlan-id-list 500;
+        vlan-rewrite {
+            translate 100 500;
+        }
+    }
+}
+
+[edit]
+root# commit 
+commit complete
+
+[edit]
+
+
+

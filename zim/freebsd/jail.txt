@@ -1,0 +1,33 @@
+
+
+........................ jail configuration in freebsd .....................
+
+... at first we are creating the home directory and jail's hostname.
+
+root@masum:/usr # export D=/usr/jails/khabir
+export: Command not found.
+
+... that means we are not using the bourne shell.
+... instead may be we are using C shell or its variants.
+
+root@masum:/usr # setenv D /usr/jails/khabir
+root@masum:/usr # 
+
+... here khabir will be jail servers home directory name as well as
+... hostname of the jail server.
+... now we will build the jail for us. any typo will lead to a broken
+... host system
+
+... this command may take some time to finish. if we have one machince
+... previously made then we can skip "make buildworld" to save our time.
+... to make one new jail we can do the following
+
+# setenv D /usr/jails/anotherjail
+# mkdir –p $D
+# cd /usr/src
+# make installworld DESTDIR=$D
+# make distribution DESTDIR=$D
+
+... now mount the devfs of jail like below.
+
+# mount –t devfs devfs $D/dev

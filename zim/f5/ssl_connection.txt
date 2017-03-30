@@ -1,0 +1,52 @@
+
+
+// what we are going to do is creating ssl connection
+// from our client to f5 server. that means the encrypting
+// the connections. though from the server to the f5 will be
+// unencrypted. to do so we are going to do following steps.
+
+1. creating the pools all are https 443 connections as well as
+http 80 port connections.
+
+local trafic/ pool/ pool list/ new pool then create two pool
+list one for the 80 ports and another for the 443 pool 
+and name them and port them.
+
+2. now we will create the virtual server 10.10.1.100 for both
+normal http and https connections. and connect with the associated
+pool.
+
+3. now create the ssl_client and connect it with the virtual server
+and the port 443.
+
+system/ file management/ ssl certificate list/ and create for the new 
+certificates.
+
+new certificate name: testcertificates.
+and keep the all the default value for this example but we can 
+change as our need and click on finished and create the one.
+
+4. create a new ssl profile and connect our newly testcertificate with it.
+
+name: masum_new_certificate 
+parentprofile: clientssl
+
+click on custom and select 
+certificate: testcertificate which is newly just created
+key: testcertificate too (optional)
+
+now assoicate this masum_new_certificate to virtuals server for 443 port
+
+5. now one more interesting thing to consider as we place masum_new_certificate
+with client side to f5 and no cert from f5 to server side then we will not 
+get the connections. therefore we have to remedy of this things.
+
+the remedy is to select the http_pool(80) from the resource pool.
+local traffic/virtualserver/ virtual list/ vs_ssl click on it
+then select http_pool from the resource tab and update. 
+
+now try to connect from 10.10.1.100 it will be ok. client 10.10.1.30 to f5
+10.10.1.100 is encrypted and 10.10.1.100 to server pools(172.16.20.1-3) is
+un encrypted. 
+
+***

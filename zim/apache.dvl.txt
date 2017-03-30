@@ -1,0 +1,8 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-08-26T22:50:52+06:00
+
+====== apache.dvl ======
+Created Sunday 26 August 2012
+
+apache on dvl has the document root on the following location.   **/usr/local/apache/htdocs**

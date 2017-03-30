@@ -1,0 +1,68 @@
+
+
+
+............................... radius server ..........................
+
+.. user administration using radius server with pfsense does the following.
+.. we configure the radius server in pfsense like below.
+.. on gui system/user manager/authentication server. click on add
+.. and provide the required parameters.  
+
+.. on radius server 192.168.35.147 we have the following settings.
+
+root@deb-7:/etc/freeradius# pwd
+/etc/freeradius
+root@deb-7:/etc/freeradius# ls
+acct_users		attrs.accounting_response  dictionary	      huntgroups    policy.txt	    sites-available  templates.con
+attrs			attrs.pre-proxy		   eap.conf	      ldap.attrmap  preproxy_users  sites-enabled    users
+attrs.access_challenge	certs			   experimental.conf  modules	    proxy.conf	    sql.conf
+attrs.access_reject	clients.conf		   hints	      policy.conf   radiusd.conf    sqlippool.conf
+
+root@deb-7:/etc/freeradius# cat client.conf
+
+client 192.168.35.152 {
+#       # secret and password are mapped through the "secrets" file.
+        secret      = testing123
+#       shortname   = liv1
+#       # the following three fields are optional, but may be used by
+#       # checkrad.pl for simultaneous usage checks
+#       nastype     = livingston
+#       login       = !root
+#       password    = someadminpas
+}
+   
+.. on radius_server we have the following output on port 1812
+.. when user masum:masum03 log in pf by using the browser. 
+
+root@deb-7:~# tcpdump -n -n -v -v port 1812
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+Message from syslogd@pfSense at Sep  6 01:54:31 ...
+pfSense php-fpm[303]: /index.php: Successful login for user 'masum' from: 192.168.244.1
+12:35:07.683739 IP (tos 0x0, ttl 64, id 10313, offset 0, flags [none], proto UDP (17), length 98)
+    192.168.35.152.46774 > 192.168.35.147.1812: [udp sum ok] RADIUS, length: 70
+	Access Request (1), id: 0x59, Authenticator: 270e0e593ecc48b1225ae95f14bc4e85
+	  NAS IP Address Attribute (4), length: 6, Value: 0.0.0.0
+	    0x0000:  0000 0000
+	  NAS ID Attribute (32), length: 19, Value: pfsense.masum.com
+	    0x0000:  7066 7365 6e73 652e 6d61 7375 6d2e 636f
+	    0x0010:  6d
+	  Username Attribute (1), length: 7, Value: masum
+	    0x0000:  6d61 7375 6d
+	  Password Attribute (2), length: 18, Value: 
+	    0x0000:  d63e 9f2b 9b72 4662 755a 3c0a 7e99 a99b
+12:35:07.688743 IP (tos 0x0, ttl 64, id 29313, offset 0, flags [none], proto UDP (17), length 48)
+    192.168.35.147.1812 > 192.168.35.152.46774: [udp sum ok] RADIUS, length: 20
+	Access Accept (2), id: 0x59, Authenticator: d1b023fb84a91935b61225ff149c1e31
+
+.. output from the syslog of pfsense like below.
+
+Message from syslogd@pfSense at Sep  6 01:54:31 ...
+pfSense php-fpm[303]: /index.php: Successful login for user 'masum' from: 192.168.244.1
+
+.. moreover we can authenticate our users to configured radius server by 
+.. diagnostics/authentication tab providing the username and the corresponding
+.. password. 
+
+
+

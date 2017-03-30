@@ -1,0 +1,80 @@
+Display your current routing table
+
+Open the Terminal or login to server using ssh/console. Type the following command to display routing table:
+# route
+OR
+# route -n
+Sample outputs:
+Fig.01: Display routing table using route command
+
+Fig.01: Display routing table using route command
+
+# ip route show
+OR
+# ip route list
+Sample outputs:
+Fig.02: ip command in action
+
+Fig.02: ip command in action
+
+Linux add a default route using route command
+
+Route all traffic via 192.168.1.254 gateway connected via eth0 network interface:
+# route add default gw 192.168.1.254 eth0
+Linux add a default gateway (route) using ip command
+
+Route all traffic via 192.168.1.254 gateway connected via eth0 network interface:
+# ip route add 192.168.1.0/24 dev eth0
+Verify newly added route ip in the Linux kernel routing table
+
+To verify new routing table, enter:
+# ip route list
+OR
+# route -n
+Verify new route
+
+Use the ping command to verify connectivity to your router or external network:
+# ping your-router-ip-here
+# ping your-ISPs-Gateway-ip-here
+# ping 192.168.1.254
+# ping www.cyberciti.biz
+How do I make routing changes persistent across reboots?
+
+To make route entry persistent in the Linux kernel routing table, you need to modify config file as per your Linux distributions.
+RHEL/CentOS/Fedora/Scientific Linux persistent routing configuration
+
+Edit /etc/sysconfig/network and set default gateway IP address:
+# vi /etc/sysconfig/network
+Sample outputs:
+
+ 
+GATEWAY=192.168.1.254
+ 
+
+You can add additional static route for eth0 by editing /etc/sysconfig/network-scripts/route-eth0 file as follows:
+
+10.0.0.0/8 via 10.10.29.65
+
+The above config sets static routing for network 10.0.0.0/8 via 10.9.38.65 router.
+Debian / Ubuntu Linux persistence static routing configuration
+
+Edit /etc/network/interfaces file, enter:
+# vi /etc/network/interfaces
+Append the following in eth0 section:
+
+up route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.254
+down route del -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.254
+
+Save and close the file.
+Generic method to add persistent static routing on Linux
+
+The following method works with almost all Linux distributions.
+
+Edit /etc/rc.d/rc.local or /etc/rc.local, enter
+# vi /etc/rc.local
+Append the following line:
+
+/sbin/ip route add 192.168.1.0/24 dev eth0
+
+Save and close the file.
+Recommended readings

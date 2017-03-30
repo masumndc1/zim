@@ -1,0 +1,14 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2012-09-30T02:50:41+06:00
+
+====== fonts ======
+Created Sunday 30 September 2012
+
+easy ways to add fonts
+  # cp *.TTF /usr/share/fonts/
+  # cp *.TTF [[/usr/local/share/fonts]]
+
+some time following needed
+
+  # cp *.TTF /home/<username>/.fonts

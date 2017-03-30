@@ -1,0 +1,67 @@
+
+
+
+........................... limit connection ..........................
+
+.. our sample pf configuration is like below.
+
+-bash-4.3# 
+-bash-4.3# cat -n pf.conf 
+
+    31  table <bruteforce> persist
+    32  
+    34  block quick from <bruteforce>
+    37  
+    44  pass log (all) proto tcp to port $client_services label "pass in" \
+    45  keep state ( max-src-conn 100, max-src-conn-rate 15/5, overload <bruteforce> \
+    46  flush global)
+    47  
+-bash-4.3# 
+
+.. on line 31 we define a new table bruteforce.
+.. on line 34 our blocking rule will block every ip from brutefore table.
+.. on line 44 we are saying maximum source connection will be 100, 
+.. maximum connection per 5seconds will be 15. if any host ip cross this
+.. limit will be overloaded to bruteforce table and all the conncetion will
+.. be flushed. and this ip will be include permanently to bruteforce table.
+.. this bruteforce table will be persist after the pf configuration reload.
+
+.. other options related to keep state are below.
+
+    35  match in on $ext_if proto tcp to port { www, https } rdr-to <webserver> round-robin 
+    36  pass on $ext_if proto tcp to port { www, https } \
+    37  keep state ( max 1500, max-src-conn 500 ) 
+
+.. here we are controlling the max state 1500 and maximum connection is 500 to our 
+.. webserver load balancer. this rule is saying after redirection of web traffic 
+.. the maximum state will be not more than 1500 and max connection will be 500 
+.. from a host.
+
+-bash-4.3# pfctl -d
+pf disabled
+-bash-4.3# pfctl -evf /etc/pf.conf 
+
+... tableshooting.
+
+table <webserver> persist { 192.168.244.132 192.168.244.147 }
+udp_services = "{ domain, ntp }"
+client_services = "{ ftp, ssh, smtp, domain, www, pop3, auth, https, pop3s }"
+table <bruteforce> persist
+
+.. mistakenly keep placed with match keyword but it should be with
+.. pass rules. this is showing by the following.
+
+/etc/pf.conf:36: keep state is great, but only for pass rules
+/etc/pf.conf:36: skipping rule due to errors
+/etc/pf.conf:36: keep state is great, but only for pass rules
+/etc/pf.conf:36: skipping rule due to errors
+/etc/pf.conf:36: rule expands to no valid combination
+pfctl: Syntax error in config file: pf rules not loaded
+-bash-4.3#    
+
+.. following command will flush the statistics of the table bruteforce 
+.. after 86400 second. in other way which is 86400s old.
+
+-bash-4.3# pfctl -t bruteforce -T expire 86400
+
+

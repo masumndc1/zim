@@ -1,0 +1,19 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-11-26T13:36:29-05:00
+
+====== gns3 ======
+Created Tuesday 26 November 2013
+
+installing gns3 in debian
+# apt-get install gns3 qemu
+# updatedb
+# locate qemuwraper.py
+# locate qemu
+# locate qemu-img
+
+if qemuwraper.py not found then download gns3-0.8.tar.gz and then untar 
+it and then on extract folder qemuwrapper.py can be found.
+
+{{~/my_work/gns3/Workspace 1_004.png}}
+

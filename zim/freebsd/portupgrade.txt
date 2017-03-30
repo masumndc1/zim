@@ -1,0 +1,97 @@
+
+
+... portupgrade which is the utility to install port 
+
+root@masum:/usr/ports # 
+root@masum:/usr/ports # make search name=portupgrade
+Port:	portupgrade-2.4.14,2
+Path:	/usr/ports/ports-mgmt/portupgrade
+Info:	FreeBSD ports/packages administration and management tool suite
+Maint:	bdrewery@FreeBSD.org
+B-deps:	indexinfo-0.2.6 libedit-3.1.20150325_2,1 libffi-3.2.1 libyaml-0.1.6_2 ruby-2.3.3_2,1
+R-deps:	db5-5.3.28_6 indexinfo-0.2.6 libedit-3.1.20150325_2,1 libffi-3.2.1 libyaml-0.1.6_2 ruby-2.3.3_2,1 ruby23-bdb-0.6.6_5
+WWW:	http://pkgtools.github.com/
+
+Port:	portupgrade-devel-20150514_3,3
+Path:	/usr/ports/ports-mgmt/portupgrade-devel
+Info:	FreeBSD ports/packages management tool (devel version)
+Maint:	bdrewery@FreeBSD.org
+B-deps:	indexinfo-0.2.6 libedit-3.1.20150325_2,1 libffi-3.2.1 libyaml-0.1.6_2 ruby-2.3.3_2,1
+R-deps:	db5-5.3.28_6 indexinfo-0.2.6 libedit-3.1.20150325_2,1 libffi-3.2.1 libyaml-0.1.6_2 ruby-2.3.3_2,1 ruby23-bdb-0.6.6_5
+WWW:	http://pkgtools.github.com/
+
+root@masum:/usr/ports # cd /usr/ports/ports-mgmt/portupgrade
+root@masum:/usr/ports/ports-mgmt/portupgrade # ls
+Makefile	distinfo	pkg-descr	pkg-plist
+root@masum:/usr/ports/ports-mgmt/portupgrade # 
+root@masum:/usr/ports/ports-mgmt/portupgrade # 
+root@masum:/usr/ports/ports-mgmt/portupgrade # make install
+===> Building/installing dialog4ports as it is required for the config dialog
+===>  Cleaning for dialog4ports-0.1.6
+===>  License BSD2CLAUSE accepted by the user
+===>   dialog4ports-0.1.6 depends on file: /usr/local/sbin/pkg - found
+=> dialog4ports-0.1.6.tar.gz doesn't seem to exist in /usr/ports/distfiles/.
+=> Attempting to fetch http://m1cro.me/dialog4ports/dialog4ports-0.1.6.tar.gz
+dialog4ports-0.1.6.tar.gz                     100% of   10 kB   35 kBps 00m01s
+===> Fetching all distfiles required by dialog4ports-0.1.6 for building
+===>  Extracting for dialog4ports-0.1.6
+
+... installing a port using portinstall, a package utility from portupgrade
+
+root@masum:~ # portinstall -i iftop
+--->  Session started at: Mon, 13 Mar 2017 16:33:55 +1300
+[Updating the portsdb <format:bdb_btree> in /usr/ports ... - 26870 port entries found .........1000.........2000.........3000.........4000.........5000.........6000.........7000.........8000.........9000.........10000.........11000.........12000.........13000.........14000.........15000.........16000.........17000.........18000.........19000.........20000.........21000.........22000.........23000.........24000.........25000.........26000........ ..... done]
+[Reading data from pkg(8) ... - 721 packages found - done]
+Install 'net-mgmt/iftop'? [yes] y
+--->  Fresh installation of net-mgmt/iftop started at: Mon, 13 Mar 2017 16:34:14 +1300
+--->  Installing 'iftop-1.0.p4' from a port (net-mgmt/iftop)
+--->  Build of net-mgmt/iftop started at: Mon, 13 Mar 2017 16:34:14 +1300
+--->  Building '/usr/ports/net-mgmt/iftop'
+===>  Cleaning for iftop-1.0.p4
+===>  License GPLv2 accepted by the user
+===>   iftop-1.0.p4 depends on file: /usr/local/sbin/pkg - found
+===> Fetching all distfiles required by iftop-1.0.p4 for building
+===>  Extracting for iftop-1.0.p4
+=> SHA256 Checksum OK for iftop-1.0pre4.tar.gz.
+===>  Patching for iftop-1.0.p4
+===>  Configuring for iftop-1.0.p4
+configure: loading site script /usr/ports/Templates/config.site
+checking build system type... i386-portbld-freebsd11.0
+
+... command portupgrade -a will upgrade all of the installed package
+
+... portversion utilities to check between installed packages and
+... ports in the repositories.
+
+root@masum:~ # portversion -voL =
+[Reading data from pkg(8) ... - 722 packages found - done]
+graphics/ImageMagick        <  needs updating (port has 6.9.6.4,1) 
+graphics/OpenEXR            <  needs updating (port has 2.2.0_6) 
+databases/akonadi           <  needs updating (port has 1.13.0_2) 
+audio/alsa-plugins          <  needs updating (port has 1.1.1_1) 
+devel/apr1                  <  needs updating (port has 1.5.2.1.5.4_2) 
+graphics/argyllcms          <  needs updating (port has 1.9.2) 
+science/avogadro            <  needs updating (port has 1.1.1_5) 
+shells/bash                 <  needs updating (port has 4.4.12_1) 
+devel/binutils              <  needs updating (port has 2.27_5,1) 
+devel/boost-libs            <  needs updating (port has 1.63.0_1) 
+
+... portclean utility to clean the garbage files after the installation
+... of packages
+
+root@masum:~ #  portsclean -CDL
+Cleaning out /usr/ports/*/*/work...
+Delete /usr/ports/misc/help2man/work
+Delete /usr/ports/devel/autoconf-wrapper/work
+Delete /usr/ports/devel/automake-wrapper/work
+Delete /usr/ports/devel/gmake/work
+Delete /usr/ports/devel/autoconf/work
+Delete /usr/ports/devel/p5-Locale-gettext/work
+Delete /usr/ports/devel/m4/work
+Delete /usr/ports/devel/automake/work
+Delete /usr/ports/print/texinfo/work
+Delete /usr/ports/ports-mgmt/portupgrade/work
+Delete /usr/ports/databases/ruby-bdb/work
+
+...
+

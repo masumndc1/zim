@@ -1,0 +1,103 @@
+
+// normally following happens with psad when we restart it
+// depending on the configuration it has set in it.
+
+root@debian:/etc/psad# /etc/init.d/psad restart
+[info] Stopping the psadwatchd process.
+[info] Stopping the kmsgsd process.
+[info] Stopping the psad process.
+[ ok ] Stopping Port Scan Attack Detector: psad.
+[ ok ] Starting Port Scan Attack Detector: psad.
+root@debian:/etc/psad# 
+
+root@debian:/var/log/psad# cd ..
+root@debian:/var/log# tail -f messages | grep psad
+Jun 16 19:19:11 debian psad: imported valid icmp types and codes
+Jun 16 19:19:11 debian psad: imported valid icmp6 types and codes
+Jun 16 19:19:11 debian psad: imported p0f-based passive OS fingerprinting signatures
+Jun 16 19:19:11 debian psad: imported TOS-based passive OS fingerprinting signatures
+Jun 16 19:19:11 debian psad: imported original Snort rules in /etc/psad/snort_rules/ for reference info
+Jun 16 19:19:11 debian psad: imported 205 psad Snort signatures from /etc/psad/signatures
+Jun 16 19:19:12 debian psad: imported 3 scanning IP addresses from previous psad instance
+
+
+// here will we scan the system with different scanning options
+// and consider the relevent psad log from the target system.
+
+root@masum:~# nmap -sT -n deb --max-rtt-timeout 500ms
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2016-06-17 08:06 BDT
+Nmap scan report for deb (192.168.35.132)
+Host is up (0.00075s latency).
+Not shown: 999 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+MAC Address: 00:0C:29:25:09:32 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 4.78 seconds
+root@masum:~# 
+
+
+// and the corresponding log from targetted system
+
+Jun 16 19:07:05 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: [1-63331] flags: SYN tcp pkts: 369 DL: 5
+
+// note here that the log is showing that the scanning is coming from 192.168.35.1 and 1-63331 ports have been scanned and due
+// to this the attacker has send 369 of packets and the lastly psad consider this scanning with a danger level of 5.
+// danger level of 5 with only 369 packets? because i have put 192.168.25.1 in the auto_dl packet to show that 
+// if scanning coming from this ip on port 22 ie ssh will be market as danger level 5
+// portion of the auto_dl file is given below.
+
+// file /etc/psad/auto_dl
+// 192.168.35.0/24    5    tcp/22;   # Assign danger level 5 if protocol is tcp and port is 22
+
+// and now the danger level is 4 as to be 4 number of packet needed to be over 1500.
+
+Jun 16 19:24:48 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: [1-65389] flags: SYN tcp pkts: 1918 DL: 4
+
+
+// now scan the targeted system with the xmas scan
+// 
+
+root@masum:~# nmap -sX  -n deb --max-rtt-timeout 500ms
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2016-06-17 16:02 BDT
+Nmap scan report for deb (192.168.35.132)
+Host is up (0.00078s latency).
+All 1000 scanned ports on deb (192.168.35.132) are open|filtered
+MAC Address: 00:0C:29:25:09:32 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 21.15 seconds
+root@masum:~# 
+
+
+// when we scan the system with nmap xmas scan the following output appeared at 
+// log output. note here all the URG PSH FIN flags are set on.
+
+Jun 17 03:02:12 debian psad: src: 192.168.35.1 signature match: "SCAN nmap XMAS" (sid: 1228) tcp port: 110
+Jun 17 03:02:12 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: [21-8888] flags: URG PSH FIN tcp pkts: 40 DL: 5
+Jun 17 03:02:17 debian psad: src: 192.168.35.1 signature match: "SCAN nmap XMAS" (sid: 1228) tcp port: 125
+Jun 17 03:02:17 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: [1-65000] flags: URG PSH FIN tcp pkts: 500 DL: 5
+
+
+// now consider the udp scanning
+
+root@masum:~# nmap -sU -n deb --max-rtt-timeout 500ms
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2016-06-17 16:06 BDT
+Nmap scan report for deb (192.168.35.132)
+Host is up (0.00075s latency).
+All 1000 scanned ports on deb (192.168.35.132) are open|filtered
+MAC Address: 00:0C:29:25:09:32 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 21.16 seconds
+root@masum:~# 
+
+// and the output related to psad is like below.
+//
+
+Jun 17 03:07:05 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [9-64590] udp pkts: 530 DL: 5
+Jun 17 03:07:10 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [19-64727] udp pkts: 530 DL: 5
+Jun 17 03:07:15 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [2-64080] udp pkts: 440 DL: 5
+
+

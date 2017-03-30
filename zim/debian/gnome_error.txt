@@ -1,0 +1,48 @@
+
+
+###### ############
+if gnome broken after kali or other type update
+then we can do the following.
+
+1. try to install xorg
+
+# apt-get install xorg
+
+2. try to install gnome-session purging the previous
+
+# apt-get purge gnome-session
+# apt-get install gnome-session
+
+# startx
+
+3. if not solve then try to install another x-window
+manager like lightdm which will then prompt you
+to choose which x-window manager to use gdm3 or
+lightdm. choose lightdm instead as gdm3 is not working.
+
+# apt-get install lightdm 
+
+4. now we can use another x-window manage like xfce4 or
+lxde like below.
+
+# apt-get install xfce4
+
+or 
+
+# apt-get install lxde
+
+and then try to load x-window manager. if it is ok then
+try to isntall full environment like
+
+# apt-get install task-lxde-desktop 
+
+or 
+
+# apt-get install task-xfce-desktop
+
+
+# if you have time try to install kde hope
+# this will solve the issue.
+
+
+# apt-get install task-kde-desktop

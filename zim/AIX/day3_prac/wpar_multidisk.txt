@@ -1,0 +1,3 @@
+ 
+
+mkwpar -n wpar2 -D devname=hdisk3 -D devname=hdisk4 rootvg=yes

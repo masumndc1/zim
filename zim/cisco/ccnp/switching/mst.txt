@@ -1,0 +1,62 @@
+
+
+
+..... multiple spanning tree.....
+
+.. for multiple spanning tree (MST) we first need to determine
+.. a. how many instance we need. 
+.. b. and map of vlan per instance
+
+.. to configure mst two switches must have the same things
+.. mst configuration name
+.. mst configuration revision number
+.. mst instance-to-vlan mapping
+
+.. mst bpdus contain configuration attributes. if the attributes
+.. match it will be seen as within the region. if not it will 
+.. be in boundary between region or be in boundary in which 
+.. traditional 802.1d starts.
+
+.. cisco support maximum 16 mst instance in a region.
+
+.. now configure the mst
+
+.. Enable MST on the switch:
+
+R3(config)# spanning-tree mode mst
+
+.. Enter the MST configuration mode:
+
+R3(config)# spanning-tree mst configuration
+
+.. Assign a region configuration name (up to 32 characters):
+
+R3(config-mst)# name name
+
+.. Assign a region configuration revision number (0 to 65,535):
+
+R3(config-mst)# revision version
+
+.. The configuration revision number gives you a means of tracking changes to
+.. the MST region configuration. Each time you make changes to the configura-
+.. tion, you should increase the number by one. Remember that the region con-
+.. figuration (including the revision number) must match on all switches in the
+.. region. Therefore, you also need to update the revision numbers on the other
+.. switches to match.
+
+.. Map VLANs to an MST instance:
+
+R3(config-mst)# instance instance-id vlan vlan-list
+
+.. The instance-id (0 to 15) carries topology information for the VLANs listed in
+.. vlan-list.
+
+R3(config-mst)# show pending
+
+.. After MST is enabled and configured, PVST+ operation stops and the switch changes to
+.. RSTP operation. A switch cannot run both MST and PVST+ at the same time.
+
+
+
+
+

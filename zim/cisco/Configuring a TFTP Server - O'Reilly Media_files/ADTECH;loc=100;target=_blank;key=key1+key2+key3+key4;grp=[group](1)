@@ -1,0 +1,21 @@
+document.write("<scr"+"ipt type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'>\n");
+document.write("</scr"+"ipt>\n");
+document.write("\n");
+document.write("<scr"+"ipt type='text/javascript'>\n");
+document.write("GS_googleAddAdSenseService(\"ca-pub-4136420132070439\");\n");
+document.write("GS_googleEnableAllServices();\n");
+document.write("</scr"+"ipt>\n");
+document.write("\n");
+document.write("<scr"+"ipt type='text/javascript'>\n");
+document.write("GA_googleAddSlot(\"ca-pub-4136420132070439\", \"OReilly_RON_728x15\");\n");
+document.write("</scr"+"ipt>\n");
+document.write("\n");
+document.write("<scr"+"ipt type='text/javascript'>\n");
+document.write("GA_googleFetchAds();\n");
+document.write("</scr"+"ipt>\n");
+document.write("</head>\n");
+document.write("<scr"+"ipt type='text/javascript'>\n");
+document.write("GA_googleFillSlot(\"OReilly_RON_728x15\");\n");
+document.write("</scr"+"ipt>\n");
+
+

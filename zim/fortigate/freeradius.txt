@@ -1,0 +1,28 @@
+
+
+## the simple freeradius we do like below.
+
+root@deb-7:~# cd /etc/freeradius/
+root@deb-7:/etc/freeradius# ls
+acct_users		attrs.accounting_response  dictionary	      huntgroups    policy.txt	    sites-available  templates.con
+attrs			attrs.pre-proxy		   eap.conf	      ldap.attrmap  preproxy_users  sites-enabled    users
+attrs.access_challenge	certs			   experimental.conf  modules	    proxy.conf	    sql.conf
+attrs.access_reject	clients.conf		   hints	      policy.conf   radiusd.conf    sqlippool.conf
+root@deb-7:/etc/freeradius# 
+root@deb-7:/etc/freeradius# 
+root@deb-7:/etc/freeradius# vi clients.conf
+
+client 192.168.35.139 {
+        secret      = fortigate123
+}
+
+root@deb-7:/etc/freeradius# vi users
+
+masum   Cleartext-Password := "masum03"
+
+## that it. now configure the radius server ip and secret password.
+
+
+                                                
+
+

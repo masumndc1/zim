@@ -1,0 +1,34 @@
+sudo apt-get install xinetd tftpd tftp
+
+Create /etc/xinetd.d/tftp
+
+sudo nano /etc/xinetd.d/tftp
+
+and put this entry
+
+service tftp
+{
+protocol        = udp
+port            = 69
+socket_type     = dgram
+wait            = yes
+user            = nobody
+server          = /usr/sbin/in.tftpd
+server_args     = /tftpboot
+disable         = no
+}
+Create a folder /tftpboot this should match whatever you gave in server_args. mostly it will be tftpboot
+
+sudo mkdir /tftpboot
+sudo chmod -R 777 /tftpboot
+sudo chown -R nobody /tftpboot
+Restart the xinetd service.
+
+sudo /etc/init.d/xinetd restart
+You must allow udp port 69 in firewall.
+
+also u must comment out any entry related to tftp in previously configured tftp
+
+also verify the connectivity with 
+
+#netstat -anu  u for udp and t for tcp

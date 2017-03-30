@@ -1,0 +1,258 @@
+
+
+............................... monitoring .....................
+
+.. pftop command will show you all the connection related info 
+.. like below. 
+
+[root@pfsense ~]# pftop
+
+pfTop: Up State 1-29/43, View: default, Order: none, Cache: 10000                                                              22:00:58
+
+PR        DIR SRC                           DEST                                   STATE                AGE       EXP     PKTS    BYTES
+icmp      Out 192.168.35.152:10344          192.168.35.1:10344                      0:0            00:16:00  00:00:10     3752   105056
+udp       Out 192.168.244.152:57161         239.255.255.250:1900               SINGLE:NO_TRAFFIC   00:15:53  00:00:08      704   338496
+udp       Out 192.168.35.152:40289          192.168.35.147:514                 SINGLE:NO_TRAFFIC   00:02:40  00:00:28       69    21199
+tcp       In  192.168.244.1:42136           192.168.244.152:22            ESTABLISHED:ESTABLISHED  00:01:51  24:00:00      761    77024
+tcp       In  192.168.244.1:37211           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:35  00:00:10       15     3297
+tcp       In  192.168.244.1:37212           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:32  00:00:10       15     3325
+tcp       In  192.168.244.1:37213           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:30  00:00:10       15     3299
+tcp       In  192.168.244.1:37214           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:27  00:00:10       15     3317
+tcp       In  192.168.244.1:37215           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:25  00:00:10       15     3314
+tcp       In  192.168.244.1:37216           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:22  00:00:10       15     3304
+tcp       In  192.168.244.1:37217           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:20  00:00:25       15     3290
+tcp       In  192.168.244.1:37218           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:17  00:00:25       15     3313
+tcp       In  192.168.244.1:37219           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:15  00:00:25       15     3318
+tcp       In  192.168.244.1:37220           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:12  00:00:25       15     3297
+tcp       In  192.168.244.1:37223           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:10  00:00:25       15     3299
+tcp       In  192.168.244.1:37224           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:07  00:00:25       15     3302
+tcp       In  192.168.244.1:37227           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:05  00:00:40       15     3305
+tcp       In  192.168.244.1:37228           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:02  00:00:40       15     3319
+tcp       In  192.168.244.1:37229           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:01:00  00:00:40       15     3284
+tcp       In  192.168.244.1:37230           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:57  00:00:40       15     3312
+tcp       In  192.168.244.1:37231           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:55  00:00:40       15     3306
+tcp       In  192.168.244.1:37232           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:52  00:00:40       15     3312
+tcp       In  192.168.244.1:37233           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:50  00:00:55       15     3299
+tcp       In  192.168.244.1:37234           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:47  00:00:55       15     3291
+tcp       In  192.168.244.1:37235           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:45  00:00:55       15     3268
+tcp       In  192.168.244.1:37236           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:42  00:00:55       15     3319
+tcp       In  192.168.244.1:37237           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:40  00:00:55       15     3298
+tcp       In  192.168.244.1:37238           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:37  00:00:55       15     3320
+[root@pfsense ~]# 168.244.1:37239           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:35  00:01:10       15     3310
+[root@pfsense ~]# 
+
+.. the gui command diagnostic/pfinfo will also show you the all
+.. packet coming and going out.
+
+Output
+Status: Enabled for 0 days 00:19:11           Debug: Urgent
+
+Hostid:   0x74710cd9
+Checksum: 0x4b22c92736dfb7f082575d0343d9771b
+
+Interface Stats for le0               IPv4             IPv6
+  Bytes In                          395925                0
+  Bytes Out                        1913948              232
+  Packets In
+    Passed                            2704                0
+    Blocked                              0                0
+  Packets Out
+    Passed                            3660                2
+    Blocked                              0                0
+
+State Table                          Total             Rate
+  current entries                       40               
+  searches                           12258           10.6/s
+  inserts                              530            0.5/s
+  removals                             489            0.4/s
+Source Tracking Table
+  current entries                        0               
+  searches                               0            0.0/s
+  inserts                                0            0.0/s
+  removals                               0            0.0/s
+Counters
+  match                                536            0.5/s
+  bad-offset                             0            0.0/s
+  fragment                               0            0.0/s
+  short                                  0            0.0/s
+  normalize                              0            0.0/s
+  memory                                 0            0.0/s
+  bad-timestamp                          0            0.0/s
+  congestion                             0            0.0/s
+  ip-option                              0            0.0/s
+  proto-cksum                            0            0.0/s
+  state-mismatch                         0            0.0/s
+  state-insert                           0            0.0/s
+  state-limit                            0            0.0/s
+  src-limit                              0            0.0/s
+  synproxy                               0            0.0/s
+  divert                                 0            0.0/s
+Limit Counters
+  max states per rule                    0            0.0/s
+  max-src-states                         0            0.0/s
+  max-src-nodes                          0            0.0/s
+  max-src-conn                           0            0.0/s
+  max-src-conn-rate                      0            0.0/s
+  overload table insertion               0            0.0/s
+  overload flush states                  0            0.0/s
+states        hard limit    47000
+src-nodes     hard limit    47000
+frags         hard limit     5000
+table-entries hard limit   200000
+tcp.first                   120s
+tcp.opening                  30s
+tcp.established           86400s
+tcp.closing                 900s
+tcp.finwait                  45s
+tcp.closed                   90s
+tcp.tsdiff                   30s
+udp.first                    60s
+udp.single                   30s
+udp.multiple                 60s
+icmp.first                   20s
+icmp.error                   10s
+other.first                  60s
+other.single                 30s
+other.multiple               60s
+frag                         30s
+interval                     10s
+adaptive.start            28200 states
+adaptive.end              56400 states
+src.track                     0s
+all
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  2                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+em0
+	Cleared:     Wed Sep  7 21:45:06 2016
+	References:  20                
+	In4/Pass:    [ Packets: 2588               Bytes: 225921             ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 3166               Bytes: 261971             ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 7                  Bytes: 508                ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+enc
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+enc0
+	Cleared:     Wed Sep  7 21:45:08 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+le0
+	Cleared:     Wed Sep  7 21:45:08 2016
+	References:  8                 
+	In4/Pass:    [ Packets: 2704               Bytes: 395925             ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 3660               Bytes: 1913948            ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 2                  Bytes: 232                ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+le1
+	Cleared:     Wed Sep  7 21:45:08 2016
+	References:  6                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 4                  Bytes: 344                ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+lo
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+lo0
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  4                 
+	In4/Pass:    [ Packets: 52                 Bytes: 4960               ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 52                 Bytes: 4960               ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 3                  Bytes: 168                ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+pflog
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+pflog0
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+pfsync
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+pfsync0 (skip)
+	Cleared:     Wed Sep  7 21:58:19 2016
+	References:  0                 
+	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+
+.. this is the long output of the gui command dianostic/pfinfo.
+
+
+

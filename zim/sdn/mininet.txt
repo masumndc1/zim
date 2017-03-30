@@ -1,0 +1,71 @@
+
+
+
+
+................... mininet .............................
+
+
+root@debian7:~# pwd
+/root
+root@debian7:~# ls
+barnayard2.bak		  dns_as.sh	dns.sh			ipscript_reset.sh  oflops	   pox
+community-rules		  dns_orig.sh	Image_Canvas-0.3.5.tgz	ipscript.sh	   oftest	   route.sh
+community-rules.tar.gz	  dns_pf.sh	Image_Color-1.0.4.tgz	masum.txt	   openflow	   Vagrantfile
+debian_script_office.txt  dns_route.sh	Image_Graph-0.8.0.tgz	mininet		   openvswitch.sh
+root@debian7:~# 
+
+root@debian7:~# 
+root@debian7:~# git clone git://github.com/mininet/mininet
+fatal: destination path 'mininet' already exists and is not an empty directory.
+root@debian7:~# 
+root@debian7:~# cd mininet/
+root@debian7:~/mininet# git tag
+1.0.0
+2.0.0
+2.1.0
+2.1.0p1
+2.1.0p2
+2.2.0
+2.2.1
+2.2.2b1
+2.2.2b2
+cs244-spring-2012-final
+root@debian7:~/mininet# 
+root@debian7:~/mininet# git checkout -b 2.2.1
+fatal: A branch named '2.2.1' already exists.
+root@debian7:~/mininet# 
+root@debian7:~/mininet# cd ..
+root@debian7:~# 
+root@debian7:~# mininet/util/install.sh 
+
+.. options are following
+
+    -a: install everything that is included in the Mininet VM, including dependencies like Open vSwitch as well the additions 
+    like the OpenFlow wireshark dissector and POX. By default these tools will be built in directories created in your home 
+    directory.
+
+    -nfv: install Mininet, the OpenFlow reference switch, and Open vSwitch
+
+    -s mydir: use this option before other options to place source/build trees in a specified directory rather than in 
+    your home directory.
+
+.. therefore i have used the -a options like below to install the everything.
+
+root@debian7:~# mininet/util/install.sh -a
+
+.. this command will install everything we need for now.
+.. after installation we will see severals packages have been installed like
+.. openvswitch,openflow etc.
+
+root@debian7:~# ovs
+ovs-appctl       ovs-bugtool      ovsdb-server     ovs-ofctl        ovs-pki          ovs-vsctl        
+ovs-benchmark    ovs-controller   ovsdb-tool       ovs-parse-leaks  ovs-tcpundump    ovs-vswitchd     
+ovs-brcompatd    ovsdb-client     ovs-dpctl        ovs-pcap         ovs-vlan-test    
+root@debian7:~# 
+
+root@debian7:~# /etc/init.d/openvswitch start
+
+.. we should have one running instance of openvswitch.
+
+
+

@@ -1,0 +1,20 @@
+
+W: GPG error: http://ppa.launchpad.net trusty Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 9A2FD067A2E3EF7B
+
+W: GPG error: http://security.kali.org sana/updates InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY ED444FF07D8D0BF6
+W: There is no public key available for the following key IDs:
+8B48AD6246925553
+ NO_PUBKEY 6FB2A1C265FFB764
+
+W: GPG error: http://security.debian.org wheezy/updates InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 9D6D8F6BC857C906 NO_PUBKEY 8B48AD6246925553
+
+W: GPG error: http://security.debian.org jessie/updates InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 9D6D8F6BC857C906 NO_PUBKEY 8B48AD6246925553
+
+W: GPG error: https://deb.nodesource.com wheezy InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 1655A0AB68576280
+
+W: GPG error: http://http.kali.org kali InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY ED444FF07D8D0BF6
+W: There is no public key available for the following key IDs:
+8B48AD6246925553
+ NO_PUBKEY CBF8D6FD518E17E1
+
+W: GPG error: http://http.kali.org sana InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY ED444FF07D8D0BF6

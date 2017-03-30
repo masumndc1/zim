@@ -1,0 +1,151 @@
+i have two juniper routers. i want to set up tunnel between them.
+
+
+adding routing option which is the lan ip for one router
+set routing-options static route 192.168.4.0/24 next-hop st0.0
+
+
+
+setting ike configuration
+set security ike traceoptions file traffic-log
+set security ike traceoptions flag all
+set security ike proposal srx2-proposal authentication-method pre-shared-keys
+set security ike proposal srx2-proposal dh-group group2
+set security ike proposal srx2-proposal authentication-algorithm sha1
+set security ike proposal srx2-proposal encryption-algorithm 3des-cbc
+set security ike policy srx2-policy mode main
+set security ike policy srx2-policy proposals srx2-proposal
+set security ike policy srx2-policy pre-shared-key ascii-text
+"$9$Z3j.5n6A0ORn/u1IEKv" # was 'secret'
+set security ike gateway srx2-gateway ike-policy srx2-policy
+set security ike gateway srx2-gateway address 10.10.10.9
+set security ike gateway srx2-gateway external-interface ge-0/0/1.0
+
+
+
+setting ipsec configuration
+set security ipsec proposal srx2-proposal protocol esp
+set security ipsec proposal srx2-proposal authentication-algorithm hmac-sha1-96
+set security ipsec proposal srx2-proposal encryption-algorithm 3des-cbc
+set security ipsec policy srx2-policy perfect-forward-secrecy keys group5
+set security ipsec policy srx2-policy proposals srx2-proposal
+set security ipsec vpn srx2-ipsec-vpn bind-interface st0.0
+set security ipsec vpn srx2-ipsec-vpn df-bit clear
+set security ipsec vpn srx2-ipsec-vpn vpn-monitor optimized
+set security ipsec vpn srx2-ipsec-vpn ike gateway srx2-gateway
+set security ipsec vpn srx2-ipsec-vpn ike ipsec-policy srx2-policy
+set security ipsec vpn srx2-ipsec-vpn establish-tunnels on-traffic
+
+
+
+and zone configuration
+
+
+set security policies from-zone vpn-zone to-zone internet policy allow-traffic match source-address any
+set security policies from-zone vpn-zone to-zone internet policy allow-traffic match destination-address any
+set security policies from-zone vpn-zone to-zone internet policy allow-traffic match application any
+set security policies from-zone vpn-zone to-zone internet policy allow-traffic then permit
+set security policies from-zone internet to-zone vpn-zone policy allow-traffic match source-address any
+set security policies from-zone internet to-zone vpn-zone policy allow-traffic match destination-address any
+set security policies from-zone internet to-zone vpn-zone policy allow-traffic match application any
+set security policies from-zone internet to-zone vpn-zone policy allow-traffic then permit
+
+these two lines are important
+set security zones security-zone internet interfaces ge-0/0/1.0 host-inbound-traffic system-services ike
+set security zones security-zone vpn-zone interfaces st0.0
+
+
+ike and ipsec verification
+
+
+root> show security ike security-associations detail ? 
+Possible completions:
+  <[Enter]>            Execute this command
+  <peer-address>       IP address of the peer
+  family               Show IKE security association by family
+  index                Index of security association
+  |                    Pipe through a command
+
+root> show security ike security-associations detail    
+IKE peer 10.10.10.9, Index 7799571, Gateway Name: srx2-gateway
+  Role: Responder, State: UP
+  Initiator cookie: 655a71a5a60bc556, Responder cookie: 2db1d034a4fc449c
+  Exchange type: Main, Authentication method: Pre-shared-keys
+  Local: 10.10.10.10:500, Remote: 10.10.10.9:500
+  Lifetime: Expires in 22677 seconds
+  Peer ike-id: 10.10.10.9
+  Xauth assigned IP: 0.0.0.0
+  Algorithms:
+   Authentication        : hmac-sha1-96 
+   Encryption            : 3des-cbc
+   Pseudo random function: hmac-sha1
+   Diffie-Hellman group  : DH-group-2
+  Traffic statistics:
+   Input  bytes  :                 1964
+   Output bytes  :                 1520
+   Input  packets:                   11
+   Output packets:                    6
+  Flags: IKE SA is created 
+  IPSec security associations: 3 created, 2 deleted
+  Phase 2 negotiations in progress: 0
+
+    Negotiation type: Quick mode, Role: Responder, Message ID: 0
+    Local: 10.10.10.10:500, Remote: 10.10.10.9:500
+    Local identity: 10.10.10.10         
+    Remote identity: 10.10.10.9
+    Flags: IKE SA is created
+
+
+root> 
+
+root> 
+
+root> 
+
+root> show security ipsec security-associations detail  
+  ID: 131073 Virtual-system: root, VPN Name: srx2-ipsec-vpn
+  Local Gateway: 10.10.10.10, Remote Gateway: 10.10.10.9
+  Local Identity: ipv4_subnet(any:0,[0..7]=0.0.0.0/0)
+  Remote Identity: ipv4_subnet(any:0,[0..7]=0.0.0.0/0)
+  Version: IKEv1
+    DF-bit: clear
+    Bind-interface: st0.0
+
+  Port: 500, Nego#: 3, Fail#: 0, Def-Del#: 0 Flag: 0x600a29 
+  Last Tunnel Down Reason: Delete payload received
+    Direction: inbound, SPI: 2ed006d, AUX-SPI: 0
+                              , VPN Monitoring: UP
+    Hard lifetime: Expires in 3274 seconds
+    Lifesize Remaining:  Unlimited
+    Soft lifetime: Expires in 2696 seconds
+    Mode: Tunnel(10 10), Type: dynamic, State: installed
+    Protocol: ESP, Authentication: hmac-sha1-96, Encryption: 3des-cbc
+    Anti-replay service: counter-based enabled, Replay window size: 64
+
+    Direction: outbound, SPI: f84ddcaf, AUX-SPI: 0
+                              , VPN Monitoring: UP
+    Hard lifetime: Expires in 3274 seconds
+    Lifesize Remaining:  Unlimited
+    Soft lifetime: Expires in 2696 seconds
+    Mode: Tunnel(10 10), Type: dynamic, State: installed
+    Protocol: ESP, Authentication: hmac-sha1-96, Encryption: 3des-cbc
+    Anti-replay service: counter-based enabled, Replay window size: 64
+
+
+root> 
+
+root> show security ipsec statistics                                       
+ESP Statistics:
+  Encrypted bytes:          2981968
+  Decrypted bytes:          1958120
+  Encrypted packets:          19691
+  Decrypted packets:          19691
+AH Statistics:
+  Input bytes:                    0
+  Output bytes:                   0
+  Input packets:                  0
+  Output packets:                 0
+Errors:
+  AH authentication failures: 0, Replay errors: 0
+  ESP authentication failures: 0, ESP decryption failures: 0
+  Bad headers: 0, Bad trailers: 0

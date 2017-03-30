@@ -1,0 +1,86 @@
+
+
+// creating a zone is much easier like below
+
+admin@PA-VM# set zone outside 
++ enable-user-identification   enable-user-identification 
+> network                      Zone network configuration
+> user-acl                     User ACL configuration
+  <Enter>                      Finish input
+
+admin@PA-VM# set zone outside 
+
+[edit]                                                                                                                                                        
+admin@PA-VM# 
+[edit]                                                                                                                                                        
+admin@PA-VM# commit validate 
+
+
+......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
+Configuration is valid
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+admin@PA-VM# 
+[edit]                                                                                                                                                        
+admin@PA-VM# commit 
+
+
+....55%75%.98%.......100%
+Configuration committed successfully
+Interface ethernet1/2 has no virtual-router configuration.
+Interface ethernet1/3 has no virtual-router configuration.
+
+[edit]                                                                                                                                                        
+admin@PA-VM# 
+
+
+admin@PA-VM# show zone 
+zone {
+  DMZ {
+    network {
+      layer3 ethernet1/2;
+    }
+    enable-user-identification yes;
+  }
+  inside {
+    network {
+      layer3 ethernet1/3;
+    }
+  }
+  outside;
+}
+[edit]                                                                                                                                                        
+admin@PA-VM# 
+
+
+// creating zone with options
+
+admin@PA-VM# set zone 
+  DMZ      DMZ
+  inside   inside
+  <name>   <name>
+
+admin@PA-VM# set zone outside 
++ enable-user-identification   enable-user-identification 
+> network                      Zone network configuration
+> user-acl                     User ACL configuration
+  <Enter>                      Finish input
+
+admin@PA-VM# set zone outside network 
++ log-setting               Log setting for forwarding scan logs
++ zone-protection-profile   Zone protection profile
+> layer2                    Layer2 interfaces
+> layer3                    Layer3 interfaces
+> tap                       Tap mode interfaces
+> virtual-wire              Virtual-wire interfaces
+  <Enter>                   Finish input
+
+
+admin@PA-VM# set zone outside network layer3 
+  [          Start a list of values.
+  loopback   loopback loopback
+  tunnel     tunnel tunnel
+  vlan       vlan vlan
+  <value>    member value

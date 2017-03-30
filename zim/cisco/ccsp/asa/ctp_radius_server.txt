@@ -1,0 +1,232 @@
+
+####################### ctp configuruation 
+####################### radius configuration
+
+
+# first configure a radius server in linux( debian/ubuntu/centos)
+
+1. then in linux server u just have to configure the client in the client file
+
+root@debian7:/etc/freeradius# ls
+acct_users		attrs.accounting_response  clients.conf.bak   hints	    policy.conf     radiusd.conf     sqlippool.conf
+attrs			attrs.pre-proxy		   dictionary	      huntgroups    policy.txt	    sites-available  templates.conf
+attrs.access_challenge	certs			   eap.conf	      ldap.attrmap  preproxy_users  sites-enabled    users
+attrs.access_reject	clients.conf		   experimental.conf  modules	    proxy.conf	    sql.conf	     users.bak
+root@debian7:/etc/freeradius# vi client.conf 
+
+client asa {
+        ipaddr  = 192.168.1.1
+        secret  = testing123
+        nastype = cisco
+}
+
+2. configure the user in the users file
+
+root@debian7:/etc/freeradius# vi users
+
+"masum" Cleartext-Password := "masum03"
+        Reply-Message = "Hello, %{User-Name}"
+
+
+3. now configure related information in the asa
+
+ciscoasa(config)# show run aaa-server
+aaa-server radius_server protocol radius
+aaa-server radius_server (dmz1) host 192.168.1.3
+ key testing123
+ authentication-port 1812
+ciscoasa(config)# 
+
+4. now configure user in asa and instruct asa what to do when authenticating
+user
+
+ciscoasa(config)#  show run username
+username masum password qv0ddXXa95bgn38c encrypted privilege 15
+ciscoasa(config)# 
+
+ciscoasa(config)# show run aaa
+aaa authentication ssh console LOCAL 
+aaa authentication telnet console radius_server 
+aaa authentication enable console radius_server LOCAL
+ciscoasa(config)# 
+
+
+ciscoasa(config)# show run telnet 
+telnet 0.0.0.0 0.0.0.0 outside
+telnet 0.0.0.0 0.0.0.0 dmz1
+telnet timeout 20
+ciscoasa(config)# 
+
+5. now verify both at asa and radius server
+
+
+ciscoasa(config)# show aaa-server 
+Server Group:	 LOCAL
+Server Protocol: Local database
+Server Address:	 None
+Server port:	 None
+Server status:	 ACTIVE, Last transaction at 19:58:19 UTC Thu Sep 17 2015
+Number of pending requests		0
+Average round trip time			0ms
+Number of authentication requests	2
+Number of authorization requests	0
+Number of accounting requests		0
+Number of retransmissions		0
+Number of accepts			2
+Number of rejects			0
+Number of challenges			0
+Number of malformed responses		0
+Number of bad authenticators		0
+Number of timeouts			0
+Number of unrecognized responses	0
+
+Server Group:	 radius_server
+Server Protocol: radius
+Server Address:	 192.168.1.3
+Server port:	 1812(authentication), 1646(accounting)
+Server status:	 ACTIVE, Last transaction at 21:09:41 UTC Thu Sep 17 2015
+Number of pending requests		0
+Average round trip time			413ms
+Number of authentication requests	53
+Number of authorization requests	0
+Number of accounting requests		0
+Number of retransmissions		0
+Number of accepts			12
+Number of rejects			8
+Number of challenges			0
+Number of malformed responses		0
+Number of bad authenticators		0
+Number of timeouts			33
+Number of unrecognized responses	0
+
+ciscoasa(config)#  
+
+5a. now verify that at server the server is responsing in the udp port 1812
+for authentication
+
+root@debian7:/etc/freeradius# tcpdump -n -n port 1812
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+14:10:09.650567 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x33 length: 121
+14:10:09.651152 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x33 length: 34
+14:10:29.294574 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x34 length: 121
+14:10:29.295148 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x34 length: 34
+
+
+############################## ctp configuration: allowing connection through the asa
+
+
+1. configure the proxy-limit first. this is optional as the default value is 16. 
+
+
+ciscoasa(config)# aaa proxy-limit ?
+
+configure mode commands/options:
+  <1-128>  Number of concurrent proxy connections allowed per user (1 - 128),
+           default is 16
+  disable  Disable concurrent proxy connections
+
+exec mode commands/options:
+  active  transition a FAILED AAA server to ACTIVE
+  fail    transition an ACTIVE AAA server to FAILED
+
+ciscoasa(config)# aaa proxy-limit 14
+
+ciscoasa(config)# show run aaa
+aaa authentication enable console radius_server LOCAL
+aaa authentication ssh console radius_server LOCAL
+aaa authentication telnet console radius_server LOCAL
+
+aaa proxy-limit 14
+ciscoasa(config)# 
+
+
+2. configure auth-promt which is also optional
+
+ciscoasa(config)# show run auth-prompt 
+auth-prompt prompt full searching will be 
+auth-prompt accept greetings! 
+auth-prompt reject you were close 
+ciscoasa(config)#
+
+3. configure the timeout value for both inactivity and absolute
+
+ciscoasa(config)# timeout uauth ?
+
+configure mode commands/options:
+  <0:0:0> - <1193:0:0>  Idle time after which an authentication will no longer
+                        be cached and the user will need to re-authenticate on
+                        their connection, default is 0:05:00. The default uauth
+                        timer is absolute.
+
+ciscoasa(config)# timeout uauth 0:2:0 inactivity 
+
+ciscoasa(config)# show run timeout
+timeout xlate 3:00:00
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute uauth 0:02:00 inactivity
+timeout tcp-proxy-reassembly 0:01:00
+ciscoasa(config)# 
+
+# this output is showing the timeout value for different connection.
+# note here the timeout value for the absolute and inactivity.
+
+4. now configure the cut-through proxy like below.
+
+ciscoasa(config)# show run aaa
+aaa authentication match www-allow outside radius_server
+aaa proxy-limit 14
+ciscoasa(config)# 
+ciscoasa(config)# 
+
+# here we wanted to use a previously cofigured access-list to define the services 
+# and the host to be authenticated. and the access-lists are like below.
+
+ciscoasa(config)# 
+ciscoasa(config)# show run access-list 
+access-list www-allow extended permit icmp any any object-group icmp-traffic 
+access-list www-allow extended permit udp any any eq domain 
+access-list www-allow extended permit tcp any any eq www 
+access-list www-allow extended permit tcp any any eq ssh 
+access-list www-allow extended permit tcp any any eq ftp 
+ciscoasa(config)# 
+ciscoasa(config)# 
+
+# alternatively we could configure like below our cut-throug proxy.
+
+aaa authentication include ftp outside 192.168.1.3 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
+aaa authentication include ssh outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
+aaa authentication include http outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
+aaa authentication include ssh inside 192.168.1.0 255.255.255.248 172.168.1.2 255.255.255.255 radius_server 
+aaa authentication include ftp inside 192.168.1.3 255.255.255.255 172.16.1.2 255.255.255.255 radius_server  
+
+# the third line means for any http request at outside interface destinated to 192.168.1.3 will be 
+# authenticated at radius_server and prompted for the username and password.
+
+
+5. finally verify.
+
+5a. at asa
+
+ciscoasa(config)# show uauth
+			Current	   Most Seen
+Authenticated Users	  1	     1
+Authen In Progress 	  0	     3
+user 'masum' at 10.10.10.1, authenticated
+   absolute   timeout: 0:05:00
+   inactivity timeout: 0:02:00
+ciscoasa(config)# 
+
+5b. at radius server . when we tried to access a http page located at 192.168.1.3 we got prompt to enter
+the password and username. and got the bellow output for the radius server authentication.
+
+root@debian7:~# tcpdump -n -n port 1812
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+16:23:56.689206 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x20 length: 119
+16:23:56.690104 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x20 length: 34
+
+

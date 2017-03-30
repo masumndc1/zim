@@ -1,0 +1,23 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-11-06T00:40:21-05:00
+
+====== pdf editing debian ======
+Created Wednesday 06 November 2013
+
+
+    Use calibre Install calibre to convert the pdf file to rtf.
+    Open the rtf file in OpenOffice.
+    Make changes and then create a pdf out of it.
+
+Option 2:
+
+    PDF Studio is a complete PDF editor.But you have to pay for the developers as it is a commercial software.
+
+Option 3:
+
+    Use scribus Install scribus it might be useful for complex visual edits.
+
+Option 4:
+
+    xournal Install xournal

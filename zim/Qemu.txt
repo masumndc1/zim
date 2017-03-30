@@ -1,0 +1,42 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-04T14:00:13+06:00
+
+====== Qemu ======
+Created Thursday 04 July 2013
+
+go to  http://www.gns3.net/qemu/ then download the Qemu from http://sourceforge.net/projects/gns-3/files/Qemu/Linux/QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz/download
+
+masum@masum-K42JZ:~$ ls 
+ QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz
+masum@masum-K42JZ:~$ tar -zxvf QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz  
+masum@masum-K42JZ:~$ cp -fr QEMU-0.14.1-GNS3-Ubuntu-Linux qemu
+masum@masum-K42JZ:~$ ls
+batb                        Documents              list         Public                              Templates
+C:\nppdf32Log\debuglog.txt  Downloads              Music        qemu                                Ubuntu One
+CX Release.doc              examples.desktop       Pictures     QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz  Videos
+Desktop                     libpeerconnection.log  playonlinux  QEMU-0.14.1-GNS3-Ubuntu-Linux       VirtualBox VMs
+masum@masum-K42JZ:~$ rm -fr QEMU-0.14.1-GNS3-Ubuntu-Linux/
+masum@masum-K42JZ:~$ ls
+qemu                             
+masum@masum-K42JZ:~$
+masum@masum-K42JZ:~/qemu/install/bin$ pwd
+/home/masum/qemu/install/bin
+masum@masum-K42JZ:~/qemu/install/bin$ ls
+qemu  qemu-img  qemu-io  qemu-nbd  qemu-system-i386  qemu-system-x86_64
+masum@masum-K42JZ:~/qemu/install/bin$
+
+{{~/Pictures/masum.png}}
+
+
+now configure qemu host to run the image.
+
+download** linux-microcore-3.8.2.img **from http://garr.dl.sourceforge.net/project/gns-3/Qemu%20Appliances/linux-microcore-3.8.2.img and set setting as follows.
+
+{{~/Pictures/masum_1.jpg}}
+
+
+
+
+and now qemu image will boot...
+

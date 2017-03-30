@@ -1,0 +1,251 @@
+
+
+
+
+#################################### vtp
+
+
+a switch can only belongs to only one vtp domain.
+informations are shared with other switches in a single domain
+by vtp advertisement.
+
+
+a switch can be three mode of operation like below.
+
+a) server mode: which can add delete modify the vlan informaion and
+send those changes to its client. a switch is by default in server mode.
+
+b) client mode: which then receive update from server and also can
+relay these new information to other switches. more over it does not
+allow administrator to modify its vlan information instead it relies
+on server to get vlan information.
+
+c) transparent mode: which do not participate in any of the receiving.
+but it could only relay information in vtp version 1 if the vtp domain
+and the vtp version number are same. but in vtp version 2 it relays
+the info regardless of vtp domain and version number.
+
+################# vtp configuration revision number
+
+switches in a single vtp domain uses vtp configuration revision number
+to detect the received advertisement is newer than its locally stored
+number. initially revision number is 0. its important to reset this
+value to 0 other wise it may not receive any update if its locally
+stored number is greater than currently using revision number in vtp
+domain.
+
+there is two ways to reset the number into 0.
+
+a) first set transparent mode then set back to server mode. or
+b) first set a bogus vtp domain name then set back to actual vtp domain.
+
+a switch of higher revision number than present as server or client
+can cause havoc in a production switching environment. therefore its
+always save to place a switch in transparent mode then back in server
+or client
+
+vtp informations are stored in nvrad other than other information in
+a switch. on the other hand vlan and vtp data are stored in the "vlan.dat"
+in the flash memory.
+
+vtp advertisement can occurs in two forms like 
+
+a) summary advertisement which also in 300 seconds by default
+b) subset advertisement only changes occur.
+
+
+########################## vtp configuration 
+
+a) at first you hav to configure the interface which will be your trunk 
+interface.
+
+R1-SW# 
+!
+interface FastEthernet1/0
+ switchport mode trunk
+ duplex full
+ speed 100
+!
+
+R1-SW#vlan database 
+
+R1-SW(vlan)#vtp ?
+  client       Set the device to client mode.
+  domain       Set the name of the VTP administrative domain.
+  password     Set the password for the VTP administrative domain.
+  pruning      Set the administrative domain to permit pruning.
+  server       Set the device to server mode.
+  transparent  Set the device to transparent mode.
+  v2-mode      Set the administrative domain to V2 mode.
+
+R1-SW(vlan)#vtp 
+
+# now verify 
+
+
+R1-SW#show interfaces fastEthernet 1/0 trunk
+
+Port      Mode         Encapsulation  Status        Native vlan
+Fa1/0     on           802.1q         trunking      1
+
+Port      Vlans allowed on trunk
+Fa1/0     1-1005
+
+Port      Vlans allowed and active in management domain
+Fa1/0     1-4
+
+Port      Vlans in spanning tree forwarding state and not pruned
+Fa1/0     1-4
+R1-SW#
+R1-SW#show interfaces fastEthernet 1/0 switchport 
+Name: Fa1/0
+Switchport: Enabled
+Administrative Mode: trunk
+Operational Mode: trunk
+Administrative Trunking Encapsulation: dot1q
+Operational Trunking Encapsulation: dot1q
+Negotiation of Trunking: Disabled
+Access Mode VLAN: 0 ((Inactive))
+Trunking Native Mode VLAN: 1 (default)
+Trunking VLANs Enabled: ALL
+Trunking VLANs Active: 1-4
+Priority for untagged frames: 0
+Override vlan tag priority: FALSE
+Voice VLAN: none 
+Appliance trust: none
+R1-SW#
+
+
+R1-SW#show vtp status 
+
+VTP Version                     : 2
+Configuration Revision          : 1
+Maximum VLANs supported locally : 36
+Number of existing VLANs        : 8
+VTP Operating Mode              : Server
+VTP Domain Name                 : 
+VTP Pruning Mode                : Disabled
+VTP V2 Mode                     : Disabled
+VTP Traps Generation            : Disabled
+MD5 digest                      : 0xB0 0x8A 0x50 0x79 0x98 0x6F 0xB3 0x2E 
+Configuration last modified by 192.168.3.1 at 3-1-02 01:27:28
+Local updater ID is 192.168.3.1 on interface Vl1 (lowest numbered VLAN interface found)
+
+R1-SW#
+
+
+### now configure the vlans 
+
+R1-SW#show vlan-switch 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+                                                Fa1/5, Fa1/6, Fa1/7, Fa1/8
+                                                Fa1/9, Fa1/10, Fa1/11, Fa1/12
+2    VLAN0002                         active    Fa1/13, Fa1/14, Fa1/15
+3    VLAN0003                         active    
+4    VLAN0004                         active    
+1002 fddi-default                     active    
+1003 trcrf-default                    active    
+1004 fddinet-default                  active    
+1005 trbrf-default                    active    
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        1002   1003
+2    enet  100002     1500  -      -      -        -    -        0      0   
+3    enet  100003     1500  -      -      -        -    -        0      0   
+4    enet  100004     1500  -      -      -        -    -        0      0   
+1002 fddi  101002     1500  -      -      -        -    -        1      1003
+1003 trcrf 101003     4472  1005   3276   -        -    srb      1      1002
+1004 fdnet 101004     1500  -      -      1        ibm  -        0      0   
+1005 trbrf 101005     4472  -      -      15       ibm  -        0      0   
+          
+VLAN AREHops STEHops Backup CRF
+          
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+---- ------- ------- ----------
+1003 7       7       off
+R1-SW#
+
+
+##### now before attaching client switch to the trunk link configure its as
+client, vtp password, domain, version 2 (v2-mode) and then attch it. 
+
+##### on client switch
+
+
+R2-SW#show vtp status 
+VTP Version                     : 2
+Configuration Revision          : 2
+Maximum VLANs supported locally : 36
+Number of existing VLANs        : 8
+VTP Operating Mode              : Client
+VTP Domain Name                 : masum
+VTP Pruning Mode                : Disabled
+VTP V2 Mode                     : Enabled
+VTP Traps Generation            : Disabled
+MD5 digest                      : 0x7E 0x60 0x52 0x83 0x7C 0x0E 0xF3 0x9F 
+Configuration last modified by 0.0.0.0 at 3-1-02 00:05:21
+R2-SW#
+R2-SW#show vtp counters 
+VTP statistics:
+Summary advertisements received    : 8
+Subset advertisements received     : 4
+Request advertisements received    : 0
+Summary advertisements transmitted : 7
+Subset advertisements transmitted  : 6
+Request advertisements transmitted : 12
+Number of config revision errors   : 0
+Number of config digest errors     : 0
+Number of V1 summary errors        : 0
+
+
+VTP pruning statistics:
+
+Trunk            Join Transmitted Join Received    Summary advts received from
+                                                   non-pruning-capable device
+---------------- ---------------- ---------------- ---------------------------
+Fa1/0               0                0                0        
+R2-SW#
+R2-SW#
+R2-SW#show vlan-switch 
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa1/1, Fa1/2, Fa1/3, Fa1/4
+                                                Fa1/5, Fa1/6, Fa1/7, Fa1/8
+                                                Fa1/9, Fa1/10, Fa1/11, Fa1/12
+                                                Fa1/13, Fa1/14, Fa1/15
+2    VLAN0002                         active    
+3    VLAN0003                         active    
+4    VLAN0004                         active    
+1002 fddi-default                     active    
+1003 trcrf-default                    active    
+1004 fddinet-default                  active    
+1005 trbrf-default                    active    
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        1002   1003
+2    enet  100002     1500  -      -      -        -    -        0      0   
+3    enet  100003     1500  -      -      -        -    -        0      0   
+4    enet  100004     1500  -      -      -        -    -        0      0   
+1002 fddi  101002     1500  -      -      -        -    -        1      1003
+1003 trcrf 101003     4472  1005   3276   -        -    srb      1      1002
+1004 fdnet 101004     1500  -      -      1        ibm  -        0      0   
+1005 trbrf 101005     4472  -      -      15       ibm  -        0      0   
+          
+VLAN AREHops STEHops Backup CRF
+---- ------- ------- ----------
+1003 7       7       off
+R2-SW#
+
+### showing identical vlans in both.
+
+
+
+
+

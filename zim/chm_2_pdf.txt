@@ -1,0 +1,22 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-11-21T22:00:18-05:00
+
+====== chm 2 pdf ======
+Created Thursday 21 November 2013
+
+Install chm2pdf:
+Open the terminal and type following command:
+
+    sudo apt-get install chm2pdf
+
+Using chm2pdf:
+chm2pdf is an command line tool, go to terminal and type following command to convert your chm file to pdf:
+
+    /usr/bin/chm2pdf (--book / --webpage) [options] input_filename [output_filename]
+
+Either '--book' or '--webpage' MUST be given! Only one of the two options can be present, not both!
+
+example:
+
+$ chm2pdf --webpage realword.chm realworld.pdf

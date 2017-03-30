@@ -1,0 +1,111 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2013-07-07T20:35:13+06:00
+
+====== ASA gns3 ======
+Created Sunday 07 July 2013
+
+Qemu Options: **-vnc none -vga none -m 1024 -icount auto -hdachs 980,16,32**
+Kernel cmd line: **-append ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536**
+
+1. now enter the serial key and note the difference
+
+before activation: 
+Licensed features for this platform:
+Maximum Physical Interfaces       : Unlimited      perpetual
+Maximum VLANs                     : 100            perpetual
+Inside Hosts                      : Unlimited      perpetual
+Failover                          : Disabled       perpetual
+VPN-DES                           : Disabled       perpetual
+VPN-3DES-AES                      : Disabled       perpetual
+Security Contexts                 : 0              perpetual
+GTP/GPRS                          : Disabled       perpetual
+AnyConnect Premium Peers          : 5000           perpetual
+AnyConnect Essentials             : Disabled       perpetual
+Other VPN Peers                   : 5000           perpetual
+Total VPN Peers                   : 0              perpetual
+Shared License                    : Disabled       perpetual
+AnyConnect for Mobile             : Disabled       perpetual
+AnyConnect for Cisco VPN Phone    : Disabled       perpetual
+Advanced Endpoint Assessment      : Disabled       perpetual
+UC Phone Proxy Sessions           : 2              perpetual
+Total UC Proxy Sessions           : 2              perpetual
+Botnet Traffic Filter             : Disabled       perpetual
+Intercompany Media Engine         : Disabled       perpetual
+
+
+after activation
+
+Licensed features for this platform:
+Maximum Physical Interfaces       : Unlimited      perpetual
+Maximum VLANs                     : 100            perpetual
+Inside Hosts                      : Unlimited      perpetual
+Failover                          : Active/Active  perpetual
+VPN-DES                           : Enabled        perpetual
+VPN-3DES-AES                      : Enabled        perpetual
+Security Contexts                 : 2              perpetual
+GTP/GPRS                          : Disabled       perpetual
+AnyConnect Premium Peers          : 5000           perpetual
+AnyConnect Essentials             : Disabled       perpetual
+Other VPN Peers                   : 5000           perpetual
+Total VPN Peers                   : 0              perpetual
+Shared License                    : Disabled       perpetual
+AnyConnect for Mobile             : Disabled       perpetual
+AnyConnect for Cisco VPN Phone    : Disabled       perpetual
+Advanced Endpoint Assessment      : Disabled       perpetual
+UC Phone Proxy Sessions           : 2              perpetual
+Total UC Proxy Sessions           : 2              perpetual
+Botnet Traffic Filter             : Disabled       perpetual
+Intercompany Media Engine         : Disabled       perpetual
+
+
+ciscoasa> 
+ciscoasa> **ena**
+Password: 
+ciscoasa# **activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5**
+ciscoasa# **reload**
+ciscoasa# **activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6**
+Validating activation key. This may take a few minutes...
+
+INFO: UC-IME is enabled, issuing 1000 free TLS licenses for UC-IME
+
+INFO: Issuing "tls-proxy maximum-sessions 1010" command due to license change
+INFO: UC proxy will be limited to maximum of 10 sessions by the UC Proxy license on the device
+
+INFO: "tls-proxy maximum-sessions" config is changed, please save the running-config before system reboot
+Both Running and Flash permanent activation key was updated with the requested key.
+ciscoasa# 
+ciscoasa# **copy run start**
+
+Source filename [running-config]? 
+Cryptochecksum: 215bacd5 82b12218 cd2f2115 07bf6beb 
+
+2170 bytes copied in 0.700 secs
+ciscoasa# 
+
+
+
+after activation
+
+Licensed features for this platform:
+Maximum Physical Interfaces       : Unlimited      perpetual
+Maximum VLANs                     : 100            perpetual
+Inside Hosts                      : Unlimited      perpetual
+Failover                          : Active/Active  perpetual
+VPN-DES                           : Enabled        perpetual
+VPN-3DES-AES                      : Enabled        perpetual
+Security Contexts                 : 2              perpetual
+GTP/GPRS                          : Disabled       perpetual
+AnyConnect Premium Peers          : 5000           perpetual
+AnyConnect Essentials             : Disabled       perpetual
+Other VPN Peers                   : 5000           perpetual
+Total VPN Peers                   : 0              perpetual
+Shared License                    : Disabled       perpetual
+AnyConnect for Mobile             : Disabled       perpetual
+AnyConnect for Cisco VPN Phone    : Disabled       perpetual
+Advanced Endpoint Assessment      : Disabled       perpetual
+UC Phone Proxy Sessions           : 2              perpetual
+Total UC Proxy Sessions           : 2              perpetual
+Botnet Traffic Filter             : Disabled       perpetual
+Intercompany Media Engine         : Disabled       perpetual
+
