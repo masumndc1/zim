@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/teads-format.js" async=""></script><script async="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/AdCallAggregator.html"></script><script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/beacon.js" defer="defer"></script><script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/format.js" async=""></script><script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/gshowad.html" async="" type="text/javascript"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Python socket network programming | Python Tips</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://pythontips.com/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/ryu/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<meta name="google-site-verification" content="uH6uSWOK-xxmfy_qyhdA9IOimaoeAfz-KRRSuWxbAjA">
+<meta name="msvalidate.01" content="9EBE5DADE5DCFCC904D076BA67726ECD">
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://freepythontips.wordpress.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="alternate" type="application/rss+xml" title="Python Tips » Feed" href="https://pythontips.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Python Tips » Comments Feed" href="https://pythontips.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Python Tips » Python socket network programming Comments Feed" href="https://pythontips.com/2013/08/06/python-socket-network-programming/feed/">
+	<script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/bid" async="" type="text/javascript"></script><script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1488818651h&ver=4.7.3"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script defer="defer" type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/wp-emoji-release.js"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="all-css-0-1" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_003.css" type="text/css" media="all">
+<style id="wpcom-admin-bar-inline-css" type="text/css">
+.goog-te-banner-frame { top:32px !important }
+</style>
+<link rel="stylesheet" id="ryu-lato-css" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/css_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="ryu-playfair-display-css" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="all-css-4-1" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a.css" type="text/css" media="all">
+<link rel="stylesheet" id="print-css-5-1" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/global-print.css" type="text/css" media="print">
+<link rel="stylesheet" id="all-css-6-1" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_002.css" type="text/css" media="all">
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_002"></script><style type="text/css"></style>
+<link rel="stylesheet" id="all-css-0-2" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/style.css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://freepythontips.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="*args and **kwargs in python explained" href="https://pythontips.com/2013/08/04/args-and-kwargs-in-python-explained/">
+<link rel="next" title="The self variable in python explained" href="https://pythontips.com/2013/08/07/the-self-variable-in-python-explained/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a.html">
+<link rel="shortlink" href="http://wp.me/p3M7fn-3n">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fpythontips.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fpythontips.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python socket network programming">
+<meta property="og:url" content="https://pythontips.com/2013/08/06/python-socket-network-programming/">
+<meta property="og:description" content="Hi there fellows. In this post I am going to take you on an adventure with python sockets. They are the real backbones behind web browsing. In simpler terms there is a server and a client. We will …">
+<meta property="article:published_time" content="2013-08-05T21:06:28+00:00">
+<meta property="article:modified_time" content="2013-08-05T21:06:28+00:00">
+<meta property="og:site_name" content="Python Tips">
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=200&amp;ts=1492025779">
+<meta property="og:image:width" content="200">
+<meta property="og:image:height" content="200">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@yasoobkhalid">
+<meta name="twitter:image" content="https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=240">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@yasoobkhalid">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=32" sizes="16x16">
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=32" sizes="16x16">
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=114">
+<link rel="openid.server" href="https://freepythontips.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://freepythontips.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://pythontips.com/osd.xml" title="Python Tips">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+<meta name="theme-color" content="#fff">
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="Python Tips"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="Your daily dose of bite sized python tips "><meta name="msapplication-task" content="name=Subscribe;action-uri=https://pythontips.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/6c1d474724ac198295b95c49642a34b3?s=16"><meta name="msapplication-task" content="name=Read Freshly Pressed;action-uri=http://wordpress.com/#fresh;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Python socket network programming | Python Tips on WordPress.com">
+<meta name="description" content="Hi there fellows. In this post I am going to take you on an adventure with python sockets. They are the real backbones behind web browsing. In simpler terms there is a server and a client. We will deal with the client first. So lets first begin by importing the socket library and making a…">
+	<style type="text/css">
+			.site-title a,
+		.site-description {
+			color: #383838;
+		}
+		</style>
+	 		<script type="text/javascript">
+		var _ipw_custom = {
+				wordAds: '1',
+				adSafe: '0',
+				domain: 'pythontips.com',
+				pageURL: 'https://pythontips.com/2013/08/06/python-socket-network-programming/'
+			};
+		</script>
+		<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/amzn_ads.js"></script>
+ 		<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/head.js"></script>
+		<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/publishertag.js"></script><link rel="amphtml" href="https://pythontips.com/2013/08/06/python-socket-network-programming/amp/"><style type="text/css" media="print">#wpadminbar { display:none; }</style>
+<style type="text/css" media="screen">
+	html { margin-top: 32px !important; }
+	* html body { margin-top: 32px !important; }
+	@media screen and ( max-width: 782px ) {
+		html { margin-top: 46px !important; }
+		* html body { margin-top: 46px !important; }
+	}
+</style>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/services.css"><link id="teads-format-css" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/teads-format.css" type="text/css" rel="stylesheet"><iframe scrolling="no" marginheight="0" marginwidth="0" style="height: 0px; width: 0px; border: 0px none;" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/showad.html" width="0" frameborder="0" height="0"></iframe><style>
+div.teads-inread div.teads-ui-components-label,
+div.teads-inboard div.teads-ui-components-label,
+div.teads-expand div.teads-ui-components-label {
+  font-family: 'Helvetica', Arial, sans-serif !important;
+  font-size: 11.5px !important;
+  color: #aaa;
+  text-align: center !important;
+  /*padding: 3px 0;*/
+  text-transform: uppercase !important;
+  height: 21px !important;
+  line-height: 21px !important;
+  letter-spacing: 0.3px !important;
+  font-weight: 300 !important;
+}
+
+div.teads-inread div.teads-ui-components-label::before,
+div.teads-inboard div.teads-ui-components-label::before,
+div.teads-impact div.teads-ui-components-label::before,
+div.teads-inread div.teads-ui-components-label::after,
+div.teads-inboard div.teads-ui-components-label::after,
+div.teads-impact div.teads-ui-components-label::after {
+  display: none !important;
+}
+
+div.teads-inread.sm-screen div.teads-ui-components-label,
+div.teads-inread.xs-screen div.teads-ui-components-label,
+div.teads-inboard.sm-screen div.teads-ui-components-label,
+div.teads-inboard.xs-screen div.teads-ui-components-label {
+  font-size: 10px !important;
+}
+</style><style>
+div.teads-inread div.teads-ui-components-credits,
+div.teads-inboard div.teads-ui-components-credits,
+div.teads-expand div.teads-ui-components-credits {
+    font-family: 'Helvetica', Arial, sans-serif !important;
+    font-size: 11.5px !important;
+    color: #aaa !important;
+    text-align: right !important;
+    padding: 1px 0 !important;
+    height: 26px !important;
+    line-height: 26px !important;
+    padding-right: 4px !important;
+    letter-spacing: 0.3px !important;
+}
+
+div.teads-inread div.teads-ui-components-credits a span,
+div.teads-inboard div.teads-ui-components-credits a span,
+div.teads-expand div.teads-ui-components-credits a span {
+    display: inline !important;
+}
+
+div.teads-inread div.teads-ui-components-credits a span,
+div.teads-inboard div.teads-ui-components-credits a span,
+div.teads-expand div.teads-ui-components-credits a span,
+div.teads-inread div.teads-ui-components-credits a,
+div.teads-inboard div.teads-ui-components-credits a,
+div.teads-expand div.teads-ui-components-credits a {
+    font-family: 'Helvetica', Arial, sans-serif !important;
+    font-size: 11.5px !important;
+    box-shadow: none !important;
+    letter-spacing: 0.3px !important;
+}
+
+div.teads-inread.sm-screen div.teads-ui-components-credits a span,
+div.teads-inboard.sm-screen div.teads-ui-components-credits a span,
+div.teads-expand.sm-screen div.teads-ui-components-credits a span,
+div.teads-inread.sm-screen div.teads-ui-components-credits a,
+div.teads-inboard.sm-screen div.teads-ui-components-credits a,
+div.teads-expand.sm-screen div.teads-ui-components-credits a,
+div.teads-inread.xs-screen div.teads-ui-components-credits a span,
+div.teads-inboard.xs-screen div.teads-ui-components-credits a span,
+div.teads-expand.xs-screen div.teads-ui-components-credits a span,
+div.teads-inread.xs-screen div.teads-ui-components-credits a,
+div.teads-inboard.xs-screen div.teads-ui-components-credits a,
+div.teads-expand.xs-screen div.teads-ui-components-credits a {
+    font-family: 'Helvetica', Arial, sans-serif !important;
+    font-size: 9px !important;
+    box-shadow: none !important;
+    letter-spacing: 0.3px !important;
+}
+
+div.teads-inread.sm-screen div.teads-ui-components-credits,
+div.teads-inboard.xs-screen div.teads-ui-components-credits {
+    font-size: 9px !important;
+    letter-spacing: 0.3px !important;
+}
+
+div.teads-inread .teads-ui-components-credits a,
+div.teads-inboard .teads-ui-components-credits a,
+div.teads-expand .teads-ui-components-credits a {
+    color: #aaa !important;
+    text-decoration: none !important;
+    font-weight: 300 !important;
+    border: none !important;
+    letter-spacing: 0.3px !important;
+    /*
+     * From @jean-pierre.colomb comment on https://jira.teads.net/browse/TT-4076
+     * The gqjapan.jp website overrides <a> properties to add 2 orange squares
+     * which affects the credits link
+     */
+    background: none !important;
+    padding: 0 !important;
+}
+
+div.teads-inread.sm-screen .teads-ui-components-credits a,
+div.teads-inboard.sm-screen .teads-ui-components-credits a,
+div.teads-expand.sm-screen .teads-ui-components-credits a,
+div.teads-inread.xs-screen .teads-ui-components-credits a,
+div.teads-inboard.xs-screen .teads-ui-components-credits a,
+div.teads-expand.xs-screen .teads-ui-components-credits a{
+    font-size: 9px !important;
+    letter-spacing: 0.3px !important;
+}
+
+div.teads-inread div.teads-ui-components-credits span.teads-ui-components-credits-colored,
+div.teads-inboard div.teads-ui-components-credits span.teads-ui-components-credits-colored,
+div.teads-expand div.teads-ui-components-credits span.teads-ui-components-credits-colored {
+    color: #79BBE9 !important;
+}
+
+div.teads-inread div.teads-ui-components-credits span::before,
+div.teads-inboard div.teads-ui-components-credits span::before,
+div.teads-impact div.teads-ui-components-credits span::before,
+div.teads-inread div.teads-ui-components-credits span::after,
+div.teads-inboard div.teads-ui-components-credits span::after,
+div.teads-impact div.teads-ui-components-credits span::after {
+  display: none !important;
+}
+
+div.teads-inread div.teads-ui-components-credits a::before,
+div.teads-inboard div.teads-ui-components-credits a::before,
+div.teads-impact div.teads-ui-components-credits a::before,
+div.teads-inread div.teads-ui-components-credits a::after,
+div.teads-inboard div.teads-ui-components-credits a::after,
+div.teads-impact div.teads-ui-components-credits a::after {
+  display: none !important;
+}
+</style><script>try {  for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){    var lastpass_f = document.forms[lastpass_iter];    if(typeof(lastpass_f.lpsubmitorig)=="undefined"){      if (typeof(lastpass_f.submit) == "function") {        lastpass_f.lpsubmitorig = lastpass_f.submit;        lastpass_f.submit = function(){          var form = this;          try {            if (document.documentElement && 'createEvent' in document)            {              var forms = document.getElementsByTagName('form');              for (var i=0 ; i<forms.length ; ++i)                if (forms[i]==form)                {                  var element = document.createElement('lpformsubmitdataelement');                  element.setAttribute('formnum',i);                  element.setAttribute('from','submithook');                  document.documentElement.appendChild(element);                  var evt = document.createEvent('Events');                  evt.initEvent('lpformsubmit',true,false);                  element.dispatchEvent(evt);                  break;                }            }          } catch (e) {}          try {            form.lpsubmitorig();          } catch (e) {}        }      }    }  }} catch (e) {}</script></head>
+
+<body class="post-template-default single single-post postid-209 single-format-standard logged-in admin-bar no-customize-support mp6 customizer-styles-applied group-blog widgets-hidden highlander-enabled highlander-light">
+
+
+<div id="page" class="hfeed site">
+		<div id="widgets-wrapper" class="toppanel hide">
+		<div id="secondary" role="complementary" class="wrap clear two">
+		<div id="top-sidebar-one" class="widget-area" role="complementary">
+		<aside id="blog_subscription-4" class="widget widget_blog_subscription"><h1 class="widget-title"><label for="subscribe-field">Follow Blog via Email</label></h1>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Click to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 21,346 other followers</p>
+					
+					<p>
+						<input name="action" value="subscribe" type="hidden">
+						<input name="blog_id" value="55796613" type="hidden">
+						<input name="source" value="https://pythontips.com/2013/08/06/python-socket-network-programming/" type="hidden">
+						<input name="sub-type" value="widget" type="hidden">
+						<input name="redirect_fragment" value="blog_subscription-4" type="hidden">
+						<input id="_wpnonce" name="_wpnonce" value="c84f20a337" type="hidden">						<input value="Follow" type="submit">
+					</p>
+				</form>
+			
+</aside><aside id="wpcom_social_media_icons_widget-3" class="widget widget_wpcom_social_media_icons_widget"><h1 class="widget-title">Social</h1><ul><li><a href="https://www.facebook.com/freepythontips/" class="genericon genericon-facebook" target="_blank"><span class="screen-reader-text">View freepythontips’s profile on Facebook</span></a></li><li><a href="https://twitter.com/yasoobkhalid/" class="genericon genericon-twitter" target="_blank"><span class="screen-reader-text">View yasoobkhalid’s profile on Twitter</span></a></li><li><a href="https://github.com/yasoob/" class="genericon genericon-github" target="_blank"><span class="screen-reader-text">View yasoob’s profile on GitHub</span></a></li></ul></aside>	</div><!-- #first .widget-area -->
+	
+		<div id="top-sidebar-two" class="widget-area" role="complementary">
+		<aside id="top-posts-4" class="widget widget_top-posts"><h1 class="widget-title">Top Posts &amp; Pages</h1><ul>				<li>
+										<a href="https://pythontips.com/2013/08/04/args-and-kwargs-in-python-explained/" class="bump-view" data-bump-view="tp">
+						*args and **kwargs in python explained					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/07/30/20-python-libraries-you-cant-live-without/" class="bump-view" data-bump-view="tp">
+						20 Python libraries you can't live without					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/08/07/the-self-variable-in-python-explained/" class="bump-view" data-bump-view="tp">
+						The self variable in python explained					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/08/08/storing-and-loading-data-with-json/" class="bump-view" data-bump-view="tp">
+						Storing and Loading Data with JSON					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/09/29/the-python-yield-keyword-explained/" class="bump-view" data-bump-view="tp">
+						The Python yield keyword explained					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/08/02/what-is-pickle-in-python/" class="bump-view" data-bump-view="tp">
+						What is Pickle in python ?					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2014/01/15/the-open-function-explained/" class="bump-view" data-bump-view="tp">
+						The open function explained					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/08/01/10-inspirations-for-your-next-python-project/" class="bump-view" data-bump-view="tp">
+						10 inspirations for your next python project					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/" class="bump-view" data-bump-view="tp">
+						Python socket network programming					</a>
+									</li>
+							<li>
+										<a href="https://pythontips.com/2016/02/25/ocr-on-pdf-files-using-python/" class="bump-view" data-bump-view="tp">
+						OCR on PDF files using Python					</a>
+									</li>
+			</ul></aside>	</div><!-- #second .widget-area -->
+	
+	
+	</div><!-- #secondary -->	</div>
+	
+		<div id="social-links-wrapper" class="toppanel hide">
+		<ul class="social-links clear">
+						<li class="email-link">
+				<a href="mailto:yasoob.khld@gmail.com" class="theme-genericon" title="Email" target="_blank">
+					<span class="screen-reader-text">Email</span>
+				</a>
+			</li>
+			
+						<li class="twitter-link">
+				<a href="https://twitter.com/yasoobkhalid" class="theme-genericon" title="Twitter" target="_blank">
+					<span class="screen-reader-text">Twitter</span>
+				</a>
+			</li>
+			
+						<li class="facebook-link">
+				<a href="https://www.facebook.com/m.yasoob" class="theme-genericon" title="Facebook" target="_blank">
+					<span class="screen-reader-text">Facebook</span>
+				</a>
+			</li>
+			
+			
+			
+			
+			
+			
+						<li class="github-link">
+				<a href="https://github.com/yasoob" class="theme-genericon" title="GitHub" target="_blank">
+					<span class="screen-reader-text">GitHub</span>
+				</a>
+			</li>
+			
+			
+			
+			
+					</ul>
+	</div>
+	
+	<div id="search-wrapper" class="toppanel hide">
+		
+<form method="get" id="searchform" class="searchform" action="https://pythontips.com/" role="search">
+	<label for="s" class="screen-reader-text">Search</label>
+	<input class="field" name="s" id="s" placeholder="Search …" type="search">
+	<input class="submit" id="searchsubmit" value="Search" type="submit">
+</form>	</div>
+
+	<div id="triggers-wrapper">
+		<ul class="triggers clear">
+						<li class="widgets-trigger">
+				<a href="#" class="theme-genericon" title="Widgets">
+					<span class="screen-reader-text">Widgets</span>
+				</a>
+			</li>
+			
+						<li class="social-links-trigger">
+				<a href="#" class="theme-genericon" title="Connect">
+					<span class="screen-reader-text">Connect</span>
+				</a>
+			</li>
+			
+			<li class="search-trigger">
+				<a href="#" class="theme-genericon" title="Search">
+					<span class="screen-reader-text">Search</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<header id="masthead" class="site-header" role="banner">
+		<div class="wrap">
+					<div class="wpcnt">
+			<div style="display: inline-block ! important;" class="wpa top">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">
+								<script type="text/javascript">
+				(function(g){if("undefined"!=typeof g.__ATA){g.__ATA.initAd({sectionId:557966132, width:728, height:90});}})(window);
+			</script><div id="automattic-id-3379" data-section="557966132" style="width: 728px; height: 90px;"><iframe src="javascript:&quot;<html><body style='background:transparent;margin:0%;'></body></html>&quot;" id="dead_fif_slot_automattic-id-_automattic-id-3379" name="dead_fif_slot_automattic-id-_automattic-id-3379" scrolling="no" style="border: medium none; position: absolute; width: 0px; height: 0px; left: -10000px; top: -10000px;" width="728" frameborder="0" height="90"></iframe><iframe src="javascript:&quot;<html><body style='background:transparent;margin:0%;'></body></html>&quot;" id="dead_fif_slot_automattic-id-_automattic-id-3379" name="dead_fif_slot_automattic-id-_automattic-id-3379" scrolling="no" style="border: medium none; position: absolute; width: 0px; height: 0px; left: -10000px; top: -10000px;" width="728" frameborder="0" height="90"></iframe><iframe src="javascript:&quot;<html><body style='background:transparent;margin:0%;'></body></html>&quot;" id="fif_slot_automattic-id-_automattic-id-3379" name="fif_slot_automattic-id-_automattic-id-3379" scrolling="no" style="border:none;width:728px;height:90px;" width="728" frameborder="0" height="90"></iframe></div>
+				</div>
+				        <div id="crt-1061446965" style="width: 728px; height: 90px; display: none ! important;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-1061446965');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:563903,containerid:"crt-1061446965",collapseContainerIfNotAdblocked:true,"callifnotadblocked": function () {var o = document.getElementById('crt-1061446965'); o.style.setProperty('display','none','important');o.style.setProperty('visbility','hidden','important'); }
+        });
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+            o.style.setProperty('visibility', 'hidden', 'important');
+        }
+        </script>
+			</div>
+		</div>
+							<a class="site-logo" href="https://pythontips.com/" title="Python Tips" rel="home">
+					<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/python_logo_notext.png" alt="" class="no-grav header-image" width="110" height="110">
+				</a>
+			
+			<hgroup>
+				<h1 class="site-title"><a href="https://pythontips.com/" title="Python Tips" rel="home">Python Tips</a></h1>
+				<h2 class="site-description">Your daily dose of bite sized python tips </h2>
+			</hgroup>
+		</div><!-- .wrap -->
+
+					<nav id="site-navigation" class="navigation-main clear" role="navigation">
+				<h1 class="menu-toggle">Menu</h1>
+				<div class="screen-reader-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+
+				<div class="wrap"><ul id="menu-nav" class="menu"><li id="menu-item-154" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-154"><a href="https://freepythontips.wordpress.com/">Home</a></li>
+<li id="menu-item-588" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-588"><a href="https://pythontips.com/python-resources/">Resources</a></li>
+<li id="menu-item-675" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-675"><a href="http://book.pythontips.com/">Intermediate Python – Book</a></li>
+<li id="menu-item-654" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-654"><a href="http://newsletter.pythontips.com/">Newsletter</a></li>
+</ul></div>			</nav><!-- #site-navigation -->
+			</header><!-- #masthead -->
+
+	<div id="main" class="site-main">
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+		
+			
+<article id="post-209" class="clear post-209 post type-post status-publish format-standard hentry category-help category-python category-tutorial tag-connect tag-network-programming-in-python tag-python tag-python-socket-client-disconnect tag-socket">
+	<div class="entry-wrap wrap clear">
+		
+		<header class="entry-header">
+			<span class="categories-links"><a href="https://pythontips.com/category/help/" rel="category tag">help</a>, <a href="https://pythontips.com/category/python/" rel="category tag">python</a>, <a href="https://pythontips.com/category/tutorial/" rel="category tag">tutorial</a></span><h1 class="entry-title">Python socket network programming</h1>		</header><!-- .entry-header -->
+
+		<footer class="entry-meta">
+			<span class="entry-date"><a href="https://pythontips.com/2013/08/06/python-socket-network-programming/" title="2:06 am" rel="bookmark"><time datetime="2013-08-06T02:06:28+00:00">August 6, 2013</time></a></span><span class="author vcard"><a class="url fn n" href="https://pythontips.com/author/yasoob008/" title="View all posts by Yasoob" rel="author">Yasoob</a></span><span class="tags-links"><a href="https://pythontips.com/tag/connect/" rel="tag">connect</a>, <a href="https://pythontips.com/tag/network-programming-in-python/" rel="tag">network programming in python</a>, <a href="https://pythontips.com/tag/python/" rel="tag">python</a>, <a href="https://pythontips.com/tag/python-socket-client-disconnect/" rel="tag">python socket client disconnect</a>, <a href="https://pythontips.com/tag/socket/" rel="tag">socket</a></span>
+						<span class="comments-link"><a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comments">25 Comments</a></span>
+			
+					</footer><!-- .entry-meta -->
+
+				<div class="entry-content clear">
+			<p>Hi there fellows. In this post I am going to take you on an 
+adventure with python sockets. They are the real backbones behind web 
+browsing. In simpler terms there is a server and a client. We will deal 
+with the client first. So lets first begin by importing <span id="more-209"></span>the socket library and making a simple socket.</p>
+<pre>import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+</pre>
+<p>Here we made a socket instance and passed it two parameters. The 
+first parameter is AF_INET and the second one is SOCK_STREAM. AF_INET 
+refers to the address family ipv4. ipv6 requires something different but
+ we won’t be focusing on it. Secondly the SOCK_STREAM means connection 
+oriented TCP protocol. Now we will connect to a server using this 
+socket.</p>
+<p><b>Connecting to a server</b>:<br>
+Well firstly let me tell you that if any error occurs during the 
+creation of a socket then a socket.error is thrown and secondly we can 
+only connect to a server by knowing it’s ip. You can find the ip of the 
+server by doing this in the command prompt or the terminal:</p>
+<pre>$ ping www.google.com
+</pre>
+<p>You can also find the ip using python:</p>
+<pre>import socket 
+
+ip = socket.gethostbyname('www.google.com')
+print ip
+</pre>
+<p>So lets begin with writing our script. In this script we will connect with google. Here’s the code for it:</p>
+<pre>import socket # for socket
+import sys 
+
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print "Socket successfully created"
+except socket.error as err:
+    print "socket creation failed with error %s" %(err)
+
+# default port for socket
+port = 80
+
+try:
+    host_ip = socket.gethostbyname('www.google.com')
+except socket.gaierror:
+    # this means could not resolve the host
+    print "there was an error resolving the host"
+    sys.exit()
+
+# connecting to the server
+s.connect((host_ip,port))
+
+print "the socket has successfully connected to google \
+on port == %s" %(host_ip)
+</pre>
+<p>Now save this script and then run it. You will get something like this in the terminal:</p>
+<pre>Socket successfully created
+the socket has successfully connected to google 
+on port == 173.194.40.19
+</pre>
+<p>So what did we do here ? First of all we made a socket. Then we 
+resolved google’s ip and lastly we connected to google. This was not 
+useful for us though so lets move on. So now we need to know how can we 
+send some data through a socket. For sending data the socket library has
+ a <code>sendall</code> function. This function allows you to send data 
+to a server to which the socket is connected and server can also send 
+data to the client using this function. Now lets make a simple 
+server-client program to see all of this in action and hopefully it will
+ make your concepts more clear.</p>
+<p><b>Making a server :</b><br>
+First of all let me explain a little bit about a server. A server has a <code>bind() method</code> which binds it to a specific ip and port so that it can listen to incoming requests on that ip and port. Next a server has a <code>listen()</code>
+ method which puts the server into listen mode. This allows the server 
+to listen to incoming connections. And lastly a server has an <code>accept()</code> and <code>close()</code>
+ method. The accept method initiates a connection with the client and 
+the close method closes the connection with the client. Now lets begin 
+making our simple server: </p>
+<pre># first of all import the socket library
+import socket               
+
+# next create a socket object
+s = socket.socket()         
+print "Socket successfully created"
+
+# reserve a port on your computer in our
+# case it is 12345 but it can be anything
+port = 12345                
+
+# Next bind to the port
+# we have not typed any ip in the ip field
+# instead we have inputted an empty string
+# this makes the server listen to requests 
+# coming from other computers on the network
+s.bind(('', port))        
+print "socket binded to %s" %(port)
+
+# put the socket into listening mode
+s.listen(5)     
+print "socket is listening"            
+
+# a forever loop until we interrupt it or 
+# an error occurs
+while True:
+   # Establish connection with client.
+   c, addr = s.accept()     
+   print 'Got connection from', addr
+
+   # send a thank you message to the client. 
+   c.send('Thank you for connecting')
+   # Close the connection with the client
+   c.close()                
+</pre>
+<p>So what are we doing here ? First of all we import socket which is 
+necessary. Then we made a socket object and reserved a port on our pc. 
+After that we binded our server to the specified port. Passing an empty 
+string means that the server can listen to incoming connections from 
+other computers as well. If we would have passed <code>127.0.0.1</code> 
+then it would have listened to only those calls made within the local 
+computer. After that we put the server into listen mode. What does <code>5</code>
+ mean ? It means that 5 connections are kept waiting if the server is 
+busy and if a 6th socket trys to connect then the connection is refused.
+ Lastly we make a while loop and start to accept all incoming 
+connections and close those connections after a thank you message to all
+ connected sockets. Now we have to program a client.</p>
+<p><b>Making a client :</b><br>
+Now we need something with which a server can interact. We could tenet 
+to the server like this just to know that our server is working. Type 
+these commands in the terminal:</p>
+<pre># start the server
+$ python server.py
+
+# keep the above terminal open
+# now open another terminal and type:
+$ telnet localhost 12345
+</pre>
+<p>After typing those commands you will get the following output in your terminal:</p>
+<pre># in the server.py terminal you will see
+# this output:
+Socket successfully created
+socket binded to 12345
+socket is listening
+Got connection from ('127.0.0.1', 52617)
+
+# In the telnet terminal you will get this:
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Thank you for connectingConnection closed by foreign host.
+</pre>
+<p>This output shows that our server is working. Now lets make our client:</p>
+<pre># Import socket module
+import socket               
+
+# Create a socket object
+s = socket.socket()         
+
+# Define the port on which you want to connect
+port = 12345                
+
+# connect to the server on local computer
+s.connect(('127.0.0.1', port))
+
+# receive data from the server
+print s.recv(1024)
+# close the connection
+s.close()                     
+</pre>
+<p>The above script is self explanatory but still let me explain to the 
+beginners. First of all we make a socket object. Then we connect to 
+localhost on port 12345 (the port on which our server runs) and lastly 
+we receive data from the server and close the connection. Was that 
+difficult ? I hope not. Now save this file as client.py and run it from 
+the terminal after starting the server script:</p>
+<pre># start the server:
+$ python server.py
+Socket successfully created
+socket binded to 12345
+socket is listening
+Got connection from ('127.0.0.1', 52617)
+
+$ python client.py
+Thank you for connecting
+</pre>
+<p>I hope this intro to sockets in python was digestible for beginners. 
+In my server and client script I have not included exception handling as
+ it would have boggled the beginners. Now I hope that you have a solid 
+understanding about the working of sockets in python. However there’s a 
+lot more to it. For further study i recommend the <a href="http://docs.python.org/2/howto/sockets.html">Official python docs</a> and <a href="http://www.binarytides.com/python-socket-programming-tutorial/">this article</a> on binary tides. If you liked this post then don’t forget to share it on facebook, tweet it on twitter and follow our blog. </p>
+<p><b>You might also like:</b><br>
+*) <a href="https://freepythontips.wordpress.com/2013/08/04/args-and-kwargs-in-python-explained/">*args and **kwargs in python explained</a><br>
+*) <a href="https://freepythontips.wordpress.com/2013/08/03/a-url-shortener-in-python/">Making a url shortener in python</a><br>
+*) <a href="https://freepythontips.wordpress.com/2013/08/01/10-inspirations-for-your-next-python-project/">10 inspirations for your next python project</a></p>
+			<style type="text/css">
+			div.wpmrec2x{max-width:610px;}
+			div.wpmrec2x div.u > div{float:left;margin-right:10px;}
+			div.wpmrec2x div.u > div:nth-child(3n){margin-right:0px;}
+			</style>		<div class="wpcnt">
+			<div style="display: inline-block ! important;" class="wpa wpmrec wpmrec2x">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">
+								<script type="text/javascript">
+				(function(g){if("undefined"!=typeof g.__ATA){g.__ATA.initAd({sectionId:557966131, width:300, height:250});
+					g.__ATA.initAd({sectionId:557966134, width:300, height:250});}})(window);
+			</script><div id="automattic-id-9588" data-section="557966131" style="width: 300px; height: 250px;"><iframe src="javascript:&quot;<html><body style='background:transparent;margin:0%;'></body></html>&quot;" id="fif_slot_automattic-id-_automattic-id-9588" name="fif_slot_automattic-id-_automattic-id-9588" scrolling="no" style="border:none;width:300px;height:250px;" width="300" frameborder="0" height="250"></iframe></div><div id="automattic-id-10090" data-section="557966134" style="width: 300px; height: 250px;"><iframe src="javascript:&quot;<html><body style='background:transparent;margin:0%;'></body></html>&quot;" id="fif_slot_automattic-id-_automattic-id-10090" name="fif_slot_automattic-id-_automattic-id-10090" scrolling="no" style="border:none;width:300px;height:250px;" width="300" frameborder="0" height="250"></iframe></div>
+				</div>
+				        <div id="crt-1893110000" style="width: 300px; height: 250px; display: none ! important;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-1893110000');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-1893110000",collapseContainerIfNotAdblocked:true,"callifnotadblocked": function () {var o = document.getElementById('crt-1893110000'); o.style.setProperty('display','none','important');o.style.setProperty('visbility','hidden','important'); }
+        });
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+            o.style.setProperty('visibility', 'hidden', 'important');
+        }
+        </script>
+			</div>
+		</div><div style="" class="teads_slot"><div class="teads-inread"><div style="position: relative;"><div class="teads-ui-components-label">ADVERTISING</div><div id="teads0" class="teads-player"></div><div class="teads-ui-components-credits"><a href="http://teads.tv/inread-outstream/" rel="nofollow" target="_blank"><span class="teads-ui-components-credits-colored">inRead</span> invented by Teads</a></div></div></div></div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Show your love by sharing this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-209" class="share-twitter sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-209" class="share-facebook sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=facebook&amp;nb=1" target="_blank" title="Share on Facebook"><span></span><span class="sharing-screen-reader-text">Share on Facebook (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow" data-shared="sharing-google-209" class="share-google-plus-1 sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=google-plus-1&amp;nb=1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li><a href="#" class="sharing-anchor sd-button share-more"><span>More</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;"><ul><li class="share-pocket"><a rel="nofollow" data-shared="" class="share-pocket sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=pocket&amp;nb=1" target="_blank" title="Click to share on Pocket"><span></span><span class="sharing-screen-reader-text">Click to share on Pocket (Opens in new window)</span></a></li><li class="share-press-this"><a rel="nofollow" data-shared="" class="share-press-this sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=press-this&amp;nb=1" target="_blank" title="Click to Press This!"><span></span><span class="sharing-screen-reader-text">Click to Press This! (Opens in new window)</span></a></li><li class="share-end"></li><li class="share-email share-service-visible"><a rel="nofollow" data-shared="" class="share-email sd-button share-icon no-text" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?share=email&amp;nb=1" target="_blank" title="Click to email"><span></span><span class="sharing-screen-reader-text">Click to email (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-55796613-209-58ee81b3bf0ff" data-src="//widgets.wp.com/likes/#blog_id=55796613&amp;post_id=209&amp;origin=freepythontips.wordpress.com&amp;obj_id=55796613-209-58ee81b3bf0ff" data-name="like-post-frame-55796613-209-58ee81b3bf0ff"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-55796613-209-58ee81b3bf0ff" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_006.html" width="100%" frameborder="0" height="55px"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div style="display: block;" id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="222" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="0" data-origin="209" rel="nofollow" title="The self variable in python explained
+
+Hi there fellas. In this post I am going to teach you about the self variable in python. I have seen many beginners struggling to grasp the concept of self variable. If you are one of them then this post is for you. So lets start by making a class…" href="https://pythontips.com/2013/08/07/the-self-variable-in-python-explained/" class="jp-relatedposts-post-a">The self variable in python explained</a></span><span class="jp-relatedposts-post-context">In "help"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="870" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="1" data-origin="209" rel="nofollow" title="400+ Free Resources for DevOps &amp;amp; Sysadmins
+
+As an Python advocate and educator, I’m always looking for ways to make my job (and yours) easier. This list put together by Morpheus Data offers a ton of great resources for Python users (more than 25 tools specific to Python) and other DevOps and Sysadmins. Enjoy. Table of Contents…" href="https://pythontips.com/2016/07/11/400-free-resources-for-devops-sysadmins/" class="jp-relatedposts-post-a">400+ Free Resources for DevOps &amp; Sysadmins</a></span><span class="jp-relatedposts-post-context">In "help"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="319" data-post-format="false"><span class="jp-relatedposts-post-title"><a data-position="2" data-origin="209" rel="nofollow" title="Python News 13 Oct 2013
+
+Hi folks in this post i am going to share with you news from the python world. This is like a roundup of monthly news. Latest News 1. NHS drops Oracle for Python, Riak, Redis, RabbitMQ, Tornado, Flask and more The UK government's quest to get public services to use…" href="https://pythontips.com/2013/10/14/python-news-13-oct-2013/" class="jp-relatedposts-post-a">Python News 13 Oct 2013</a></span><span class="jp-relatedposts-post-context">In "news"</span></p></div></div></div>					</div><!-- .entry-content -->
+		
+		<span class="entry-format-badge theme-genericon"><span class="screen-reader-text">Standard</span></span>
+	</div><!-- .entry-wrap -->
+</article><!-- #post-## -->
+				<nav role="navigation" id="nav-below" class="navigation-post double">
+		<div class="wrap clear">
+			<h1 class="screen-reader-text">Post navigation</h1>
+
+		
+			<div class="next"><a href="https://pythontips.com/2013/08/07/the-self-variable-in-python-explained/" rel="next"><span class="meta-nav">→</span> <span class="text-nav">The self variable in python explained</span></a></div>
+			<div class="previous"><a href="https://pythontips.com/2013/08/04/args-and-kwargs-in-python-explained/" rel="prev"><span class="meta-nav">←</span> <span class="text-nav">*args and **kwargs in python explained</span></a></div>
+
+		
+		</div>
+	</nav><!-- #nav-below -->
+	
+			
+<div id="comments" class="comments-area">
+	<div class="comments-wrap wrap">
+
+					<h2 class="comments-title">
+				25 thoughts on “<span>Python socket network programming</span>”			</h2>
+
+			
+			<ol class="comment-list">
+					<li class="post pingback">
+		<p>Pingback: <a href="https://freepythontips.wordpress.com/2013/08/07/the-self-keyword-in-python-explained/" rel="external nofollow" class="url">The self keyword in python explained | Bite Sized Python Tips</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="https://freepythontips.wordpress.com/2013/08/07/the-self-variable-in-python-explained/" rel="external nofollow" class="url">The self variable in python explained | Bite Sized Python Tips</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="https://freepythontips.wordpress.com/2013/08/08/storing-and-loading-data-with-json/" rel="external nofollow" class="url">Storing and Loading Data with JSON | Bite Sized Python Tips</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1095">
+		<article id="comment-1095" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-0b8006d13e741340145c63973d821cd7-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/0b8006d13e741340145c63973d821cd7.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="http://www.fortunepick.com/" rel="external nofollow" class="url">Michal</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Thank you, I’ve been struggling to understand network programming
+ for last 2 days and this is the best and clearest explanation I found 
+on the web.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-1095"><time datetime="2013-11-20T21:33:13+00:00">
+				November 20, 2013 at 9:33 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=1095#respond" onclick='return addComment.moveForm( "comment-1095", "1095", "respond", "209" )' aria-label="Reply to Michal">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-yasoob008 bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1096">
+		<article id="comment-1096" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-741c7bf9a1bd02d108f7e5681229925f-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/741c7bf9a1bd02d108f7e5681229925f.jpeg" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://freepythontips.wordpress.com/" rel="external nofollow" class="url">Yasoob</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Hi Michal I am glad to hear that <img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/1f642.svg" alt="🙂" class="emoji" draggable="false"></p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-1096"><time datetime="2013-11-20T21:46:31+00:00">
+				November 20, 2013 at 9:46 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=1096#respond" onclick='return addComment.moveForm( "comment-1096", "1096", "respond", "209" )' aria-label="Reply to Yasoob">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-mjmokaal even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-1218">
+		<article id="comment-1218" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-10f3ba7b924cd7a8ea1550a3926e1b86-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/10f3ba7b924cd7a8ea1550a3926e1b86.jpeg" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="http://ustechnica.wordpress.com/" rel="external nofollow" class="url">mjmokaal</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Awesome post… I understood everything you posted</p>
+<p>can you please help we with below, don’t need entire script but just helping hands</p>
+<p>I am trying something like,<br>
+ 1. fetch some strings from files and check those patterns in incoming packets on port 80</p>
+<p>2. If patterns found, output like, </p>
+<p>Source: IP<br>
+Pattern:<br>
+URL:</p>
+<p>Example:<br>
+Source: 198.12.45.87<br>
+Pattern: /cgi-bin<br>
+URL: <a href="http://www.example.com/cgi-bin" rel="nofollow">http://www.example.com/cgi-bin</a></p>
+<p>something like,</p>
+<p>pack = s.rec(1024) for incoming packets on port 80</p>
+<p>and then each packets captured,</p>
+<p>if (“pattern” in pack):<br>
+print “[Source IP: , Pattern: , URL: “)</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-1218"><time datetime="2013-12-27T09:40:18+00:00">
+				December 27, 2013 at 9:40 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=1218#respond" onclick='return addComment.moveForm( "comment-1218", "1218", "respond", "209" )' aria-label="Reply to mjmokaal">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-yasoob008 bypostauthor odd alt depth-2 highlander-comment" id="li-comment-1221">
+		<article id="comment-1221" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-741c7bf9a1bd02d108f7e5681229925f-1" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/741c7bf9a1bd02d108f7e5681229925f.jpeg" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://freepythontips.wordpress.com/" rel="external nofollow" class="url">Yasoob</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>I will try to reply you once I make it.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-1221"><time datetime="2013-12-28T01:34:32+00:00">
+				December 28, 2013 at 1:34 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=1221#respond" onclick='return addComment.moveForm( "comment-1221", "1221", "respond", "209" )' aria-label="Reply to Yasoob">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1953">
+		<article id="comment-1953" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-7b24145dd6bdc4bff1b5ca142eb3b9c4-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/7b24145dd6bdc4bff1b5ca142eb3b9c4.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://sites.google.com/site/cavitaciones/" rel="external nofollow" class="url">cavitacion</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Right here is the perfect blog for anyone who really wants to understand this topic.<br>
+You realize so much its almost hard to argue with you (not that<br>
+I really will need to…HaHa). You definitely put a fresh spin on<br>
+a topic that’s been written about for decades.<br>
+Great stuff, just wonderful!</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-1953"><time datetime="2014-04-26T00:46:45+00:00">
+				April 26, 2014 at 12:46 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=1953#respond" onclick='return addComment.moveForm( "comment-1953", "1953", "respond", "209" )' aria-label="Reply to cavitacion">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-2180">
+		<article id="comment-2180" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-0421d88c042a12d07829ea4bbcf23c13-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/0421d88c042a12d07829ea4bbcf23c13.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://sites.google.com/site/pizzahutcouponcodes/" rel="external nofollow" class="url">pizzahutcouponcodes</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Fine way of describing, and good post to take facts about my presentation topic, which i am going to convey in university.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-2180"><time datetime="2014-05-19T18:48:56+00:00">
+				May 19, 2014 at 6:48 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=2180#respond" onclick='return addComment.moveForm( "comment-2180", "2180", "respond", "209" )' aria-label="Reply to pizzahutcouponcodes">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-3247">
+		<article id="comment-3247" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/photo.png" class="avatar avatar-48" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://plus.google.com/101858031864975043574" rel="external nofollow" class="url">amit singh</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>dude, you saved me.<br>
+can you please give me a tip on how can i send a file from server to client.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-3247"><time datetime="2014-09-20T19:55:10+00:00">
+				September 20, 2014 at 7:55 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=3247#respond" onclick='return addComment.moveForm( "comment-3247", "3247", "respond", "209" )' aria-label="Reply to amit singh">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="http://www.upcexpress.com/python-socket-error-exception-handling.htm" rel="external nofollow" class="url">Fix Python Socket Error Exception Handling Windows XP, Vista, 7, 8 [Solved]</a></p>
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="http://www.dashark.com/socket-error-python-catch.htm" rel="external nofollow" class="url">How To Fix Socket.error Python Catch in Windows</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-4084">
+		<article id="comment-4084" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-3418be058159c790489e4db90fc7f595-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/3418be058159c790489e4db90fc7f595.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Dan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Hi, great tutorial and very well explained, thankyou!</p>
+<p>However I get this error:</p>
+<p> s.bind((”, port))<br>
+OSError: [WinError 10048] Only one usage of each socket address (protocol/network address/port) is normally permitted</p>
+<p>Anyone got any ideas?</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-4084"><time datetime="2015-02-03T22:36:51+00:00">
+				February 3, 2015 at 10:36 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=4084#respond" onclick='return addComment.moveForm( "comment-4084", "4084", "respond", "209" )' aria-label="Reply to Dan">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="post pingback">
+		<p>Pingback: <a href="http://herculesphaeton.com/2015/03/progressing-python-level-intermediate/" rel="external nofollow" class="url">Progressing Python - Level Intermediate | HERCULES PHAETON</a></p>
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-4929">
+		<article id="comment-4929" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-fbacf6c816e012e3f2762a144ebfa75b-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/fbacf6c816e012e3f2762a144ebfa75b.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">mohammed</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>thank you, i was having a problem regarding closing the server 
+socket, seems like i cannot use the port more than once for the server</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-4929"><time datetime="2015-07-06T09:38:30+00:00">
+				July 6, 2015 at 9:38 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=4929#respond" onclick='return addComment.moveForm( "comment-4929", "4929", "respond", "209" )' aria-label="Reply to mohammed">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+	<li class="comment byuser comment-author-yasoob008 bypostauthor odd alt depth-2 highlander-comment" id="li-comment-5232">
+		<article id="comment-5232" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-741c7bf9a1bd02d108f7e5681229925f-2" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/741c7bf9a1bd02d108f7e5681229925f.jpeg" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="https://freepythontips.wordpress.com/" rel="external nofollow" class="url">Yasoob</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>You can use it more than once but you can not use in two separate
+ programs at the same time. i.e only one server should be running at any
+ given time. For running the second server along with the first one you 
+need to change the port. I am not sure if this answered your question or
+ not. Feel free to reply me if it has not. <img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/1f642.svg" alt="🙂" class="emoji" draggable="false"></p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-5232"><time datetime="2015-07-21T15:32:28+00:00">
+				July 21, 2015 at 3:32 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=5232#respond" onclick='return addComment.moveForm( "comment-5232", "5232", "respond", "209" )' aria-label="Reply to Yasoob">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-5918">
+		<article id="comment-5918" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-bb22a1c901f60e6d812bc5869511e109-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/bb22a1c901f60e6d812bc5869511e109.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Ritwik</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Hi can you suggest some changes in the above procedure for IPv6 implementation…</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-5918"><time datetime="2015-09-02T13:58:12+00:00">
+				September 2, 2015 at 1:58 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=5918#respond" onclick='return addComment.moveForm( "comment-5918", "5918", "respond", "209" )' aria-label="Reply to Ritwik">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1 highlander-comment" id="li-comment-6778">
+		<article id="comment-6778" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-8145abd29a5511751f5817dd1c2fc137-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/8145abd29a5511751f5817dd1c2fc137.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Cantbuymac</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Please explain Multi-threading.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-6778"><time datetime="2015-10-28T01:04:55+00:00">
+				October 28, 2015 at 1:04 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=6778#respond" onclick='return addComment.moveForm( "comment-6778", "6778", "respond", "209" )' aria-label="Reply to Cantbuymac">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-8120">
+		<article id="comment-8120" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-e5bdf8944671383f6649941e814471d8-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/e5bdf8944671383f6649941e814471d8.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="http://gravatar.com/emorres25" rel="external nofollow" class="url">emorres25Shaurya</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Hey thanks so much!<br>
+Great for beginners! <img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/1f642.svg" alt="🙂" class="emoji" draggable="false"></p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-8120"><time datetime="2016-02-14T01:55:13+00:00">
+				February 14, 2016 at 1:55 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=8120#respond" onclick='return addComment.moveForm( "comment-8120", "8120", "respond", "209" )' aria-label="Reply to emorres25Shaurya">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-kanishqa odd alt thread-even depth-1 highlander-comment" id="li-comment-8255">
+		<article id="comment-8255" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-5c6ab73c1cbc9cc9bf032fe9115f88b5-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/5c6ab73c1cbc9cc9bf032fe9115f88b5.jpeg" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">SamV</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Reblogged this on <a href="https://power2build.wordpress.com/2016/03/07/python-socket-network-programming/" rel="nofollow">Power to Build</a> and commented:<br>
+Socket programming in Python?! Visit below link for a Nice post!</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-8255"><time datetime="2016-03-08T05:59:43+00:00">
+				March 8, 2016 at 5:59 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=8255#respond" onclick='return addComment.moveForm( "comment-8255", "8255", "respond", "209" )' aria-label="Reply to SamV">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-8370">
+		<article id="comment-8370" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-9291eddc2cefad563ee03ab1a381f781-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/9291eddc2cefad563ee03ab1a381f781.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Jannis</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Can you explain, why we bind the socket to 12345, but the client connects to 52***…</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-8370"><time datetime="2016-03-26T20:24:20+00:00">
+				March 26, 2016 at 8:24 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=8370#respond" onclick='return addComment.moveForm( "comment-8370", "8370", "respond", "209" )' aria-label="Reply to Jannis">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-even depth-1 highlander-comment" id="li-comment-8903">
+		<article id="comment-8903" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-f282ae24d014ba83590e448f20f0e7b3-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/f282ae24d014ba83590e448f20f0e7b3.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">RAVIKEERTHI</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>I am trying to connect linux machines via telnet. I am able to 
+connect to it and execute the commands (For Ex: “ls”), but I am not able
+ to get the output of “ls” when I try to print it. Using exit I am 
+closing the connection, then only I am able to read all the contents and
+ print on my console.</p>
+<p>Can anyone please tel me, how can I fetch the results without closing
+ the connection and execute more commands by using same telnet 
+connection.</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-8903"><time datetime="2016-07-23T12:11:13+00:00">
+				July 23, 2016 at 12:11 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=8903#respond" onclick='return addComment.moveForm( "comment-8903", "8903", "respond", "209" )' aria-label="Reply to RAVIKEERTHI">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-9005">
+		<article id="comment-9005" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-6f18d26a1ae9b3a469a3cca32c19425e-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/6f18d26a1ae9b3a469a3cca32c19425e.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Pat Goonetillake</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>This is the best python socket program help I could find</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-9005"><time datetime="2016-08-16T20:49:01+00:00">
+				August 16, 2016 at 8:49 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=9005#respond" onclick='return addComment.moveForm( "comment-9005", "9005", "respond", "209" )' aria-label="Reply to Pat Goonetillake">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-richierh odd alt thread-even depth-1 highlander-comment" id="li-comment-9350">
+		<article id="comment-9350" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-b3e12073654a883c0dccdd42ed18c23b-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/b3e12073654a883c0dccdd42ed18c23b.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon"><a href="http://gravatar.com/richierh" rel="external nofollow" class="url">richierh</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>I had succeeded to set connection into my local browser and works
+ fine… But how do I close the localhost connections? my browser still 
+connected after I close the script .</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-9350"><time datetime="2016-10-22T10:15:59+00:00">
+				October 22, 2016 at 10:15 am				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=9350#respond" onclick='return addComment.moveForm( "comment-9350", "9350", "respond", "209" )' aria-label="Reply to richierh">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-odd thread-alt depth-1 highlander-comment" id="li-comment-9388">
+		<article id="comment-9388" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<span class="comment-author-avatar"><img id="grav-3bf9ec6af19f0cb47b65aa2de430ae0f-0" alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/3bf9ec6af19f0cb47b65aa2de430ae0f.png" class="avatar avatar-48 grav-hashed grav-hijack" width="48" height="48"></span>
+					<cite class="fn theme-genericon">Francis Luciano</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+			</footer>
+
+			<div class="comment-content">
+				<p>Great blog you put up. Very informative. However id like to ask 
+you about something else. Is it possible to apply that to two different 
+computers ex connected in LAN. Would it be possible to run a server 
+script and a client script in a server pc and client pc, respectively? 
+And also id like to know if its possible to check if a certain pc is 
+connected to a network or now by any python networking scripts? Thank 
+you for your patience in reading this. Let me know about your answer</p>
+							</div>
+
+			<div class="comment-meta commentmetadata">
+				<a href="https://pythontips.com/2013/08/06/python-socket-network-programming/#comment-9388"><time datetime="2016-11-02T21:20:25+00:00">
+				November 2, 2016 at 9:20 pm				</time></a>
+				<a rel="nofollow" class="comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/?replytocom=9388#respond" onclick='return addComment.moveForm( "comment-9388", "9388", "respond", "209" )' aria-label="Reply to Francis Luciano">Reply</a>							</div><!-- .comment-meta .commentmetadata -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+			</ol><!-- .comment-list -->
+
+			
+		
+		
+			<div id="respond" class="comment-respond js">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://pythontips.com/2013/08/06/python-socket-network-programming/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://pythontips.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input id="highlander_comment_nonce" name="highlander_comment_nonce" value="bf1462e647" type="hidden"><input name="_wp_http_referer" value="/2013/08/06/python-socket-network-programming/" type="hidden">
+<input name="hc_post_as" id="hc_post_as" value="wordpress" type="hidden">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea class="autosizejs " tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px none; padding: 0px; box-sizing: content-box; word-wrap: break-word; height: 0px ! important; min-height: 0px ! important; overflow: hidden; transition: none 0s ease 0s ; font-family: Arial,Helvetica,Tahoma,Verdana,sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none; word-spacing: 0px; text-indent: 0px; line-height: 20.7px; width: 530px;">Enter your comment here...</textarea><textarea style="height: 41px; overflow: hidden; word-wrap: break-word; resize: none;" placeholder="Enter your comment here..." id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div style="display: none;" id="comment-form-identity">
+
+	<div style="display: none;" id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li class="selected">
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</li></ul>
+	</div>
+
+	<div style="" id="comment-form-guest" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Gravatar" class="no-grav" width="25">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email"></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text"></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url"></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/acda94b7940026ff00b14ac5eefcbd13.png" alt="Gravatar" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="https://1.gravatar.com/avatar/acda94b7940026ff00b14ac5eefcbd13?s=25&amp;d=https%3A%2F%2Fs2.wp.com%2Fwp-content%2Fmu-plugins%2Fhighlander-comments%2Fimages%2Fwplogo.png&amp;r=G" type="hidden">
+				<input name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="17689534" type="hidden">
+				<input name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="015e60a54abd8fb6c44a1b40cf558e5b61d2233c" type="hidden">
+				<p class="comment-form-posting-as pa-wordpress"><strong>masumndc1:</strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'wordpress'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Twitter picture" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" type="hidden">
+				<input name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" type="hidden">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'twitter'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Facebook photo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" type="hidden">
+				<input name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" type="hidden">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'facebook'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/ad516503a11cd5ca435acc9bb6523536.png" alt="Google+ photo" class="no-grav" width="25">
+			</div>
+
+				<div class="comment-form-fields">
+				<input name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" type="hidden">
+				<input name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" type="hidden">
+				<input name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" type="hidden">
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout(%20'googleplus'%20);">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div style="display: none;" id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input name="subscribe" id="subscribe" value="subscribe" style="width: auto;" type="checkbox"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;" type="checkbox"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+<p style="display: none;" class="form-submit"><input name="submit" id="comment-submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="209" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="20f0741a6e" type="hidden"></p>
+<input name="genseq" value="1492025779" type="hidden">
+<p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1492025783112" type="hidden"></form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+	</div><!-- .comments-wrap -->
+</div><!-- #comments -->
+		
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+	</div><!-- #main -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info wrap">
+						<a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a>
+			
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		jQuery(document).ready( function($) {
+			function doFollowingHover() {
+				$('#wp-admin-bar-follow > a').unbind( '.unfollow' );
+
+				$('#wp-admin-bar-follow > a').bind( 'mouseover.unfollow', function() {
+
+					$(this).html( "Unfollow" ).parent( 'li' ).addClass( 'unfollow' );
+				});
+				$('#wp-admin-bar-follow > a').bind( 'mouseout.unfollow', function() {
+					$(this).html( "Following" ).parent( 'li' ).removeClass( 'unfollow' );
+				});
+			}
+			
+			$('#wp-admin-bar-follow > a').click( function( e ) {
+				$('#wp-admin-bar-follow > a').unbind( '.unfollow' );
+
+				e.preventDefault();
+
+				var link = $( this ), li = $( '#wp-admin-bar-follow' ), timeout = 0;
+
+				if ( li.hasClass( 'subscribed' ) ) {
+					li.removeClass( 'subscribed' ).removeClass( 'unfollow' );
+					link.html( "Follow" );
+
+					$('body').append( $( 'div.wpcom-bubble' ).removeClass( 'fadein' ) ).off( 'click.bubble' );
+
+					var action = 'ab_unsubscribe_from_blog';
+				} else {
+					li.addClass( 'subscribed' ).removeClass( 'unfollow' );
+					link.html( "Following" );
+
+						var left = 131 - link.width();
+						li.append( $( 'div.wpcom-bubble' ).css( { left: '-' + left + 'px' } ) );
+						$( 'div.bubble-txt', 'div.wpcom-bubble' ).html( "New posts from this blog will now appear in <a target=\"_blank\" href=\"http:\/\/wordpress.com\/\">your reader<\/a>. You can manage email alerts from your <a target=\"_blank\" href=\"http:\/\/wordpress.com\/following\/edit\/\">subscriptions page<\/a>." );
+
+						$( 'div.wpcom-bubble.action-bubble' ).addClass( 'fadein' );
+
+						setTimeout( function() {
+							$('body').on( 'click.bubble touchstart.bubble', function(e) {
+								if ( !$(e.target).hasClass('wpcom-bubble') && !$(e.target).parents( 'div.wpcom-bubble' ).length )
+									hideBubble();
+							});
+							setTimeout( hideBubble, 15000 );
+						}, 500 );
+
+					var action = 'ab_subscribe_to_blog';
+					$('#wp-admin-bar-follow > a').bind( 'mouseout.shift', function() {
+						doFollowingHover();
+						$(this).unbind( '.shift' );
+					});
+				}
+
+				var nonce = link.attr( 'href' ).split( '_wpnonce=' );
+				nonce = nonce[1];
+
+				$.post( "https:\/\/pythontips.com\/wp-admin\/admin-ajax.php", {
+					'action': action,
+					'_wpnonce': nonce,
+					'source': 'admin_bar',
+					'blog_id': 55796613				});
+			});
+		});
+	/* ]]> */
+	</script>
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":"acda94b7940026ff00b14ac5eefcbd13"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/wpgroho.js"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-0b8006d13e741340145c63973d821cd7">
+	</div>
+	<div class="grofile-hash-map-741c7bf9a1bd02d108f7e5681229925f">
+	</div>
+	<div class="grofile-hash-map-10f3ba7b924cd7a8ea1550a3926e1b86">
+	</div>
+	<div class="grofile-hash-map-7b24145dd6bdc4bff1b5ca142eb3b9c4">
+	</div>
+	<div class="grofile-hash-map-0421d88c042a12d07829ea4bbcf23c13">
+	</div>
+	<div class="grofile-hash-map-f382d01bad7f426a5464311ff7128d3e">
+	</div>
+	<div class="grofile-hash-map-3418be058159c790489e4db90fc7f595">
+	</div>
+	<div class="grofile-hash-map-fbacf6c816e012e3f2762a144ebfa75b">
+	</div>
+	<div class="grofile-hash-map-bb22a1c901f60e6d812bc5869511e109">
+	</div>
+	<div class="grofile-hash-map-8145abd29a5511751f5817dd1c2fc137">
+	</div>
+	<div class="grofile-hash-map-e5bdf8944671383f6649941e814471d8">
+	</div>
+	<div class="grofile-hash-map-5c6ab73c1cbc9cc9bf032fe9115f88b5">
+	</div>
+	<div class="grofile-hash-map-9291eddc2cefad563ee03ab1a381f781">
+	</div>
+	<div class="grofile-hash-map-f282ae24d014ba83590e448f20f0e7b3">
+	</div>
+	<div class="grofile-hash-map-6f18d26a1ae9b3a469a3cca32c19425e">
+	</div>
+	<div class="grofile-hash-map-b3e12073654a883c0dccdd42ed18c23b">
+	</div>
+	<div class="grofile-hash-map-3bf9ec6af19f0cb47b65aa2de430ae0f">
+	</div>
+	</div>
+
+	<div id="ab-reblog-box">
+		<form action="" name="reblog">
+			<textarea id="reblog-content" name="reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="blogid" id="lblogid">Post to</label>
+
+			<select name="to_blog_id" id="reblog-to-blog-id">
+														<option selected="selected" value="17059439">khabir's blog</option>
+							</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="" class="cancel">Cancel</a></span>
+				<input name="reblog-submit" class="button-primary" id="reblog-submit" value="Reblog Post" type="submit">
+				<input id="original-blog-id" value="55796613" type="hidden">
+				<input id="original-post-id" value="209" type="hidden">
+			</div>
+
+			<input id="_wpnonce" name="_wpnonce" value="0e3f1640c0" type="hidden"><input name="_wp_http_referer" value="/2013/08/06/python-socket-network-programming/" type="hidden">		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+	var wpcom_reblog = {
+		request: false,
+		source: 'toolbar',
+
+		init: function() {
+			// Click reblog button on post
+			jQuery(document).on( 'click', '#wpadminbar .reblog', function(e) {
+				e.preventDefault();
+				wpcom_reblog.source = 'toolbar';
+
+				if ( jQuery( '#wpadminbar #ab-reblog-box' ).is( ':visible' ) ) {
+					wpcom_reblog.cancel_reblog();
+				}
+				else {
+					wpcom_reblog.show_reblog_box();
+				}
+			} );
+
+			// Clicked reblog button on already reblogged post.
+			jQuery(document).on( 'click', '#wpadminbar .reblogged', function(e) {
+				e.preventDefault();
+			});
+
+			// Click cancel reblog button
+			jQuery(document).on( 'click', '#ab-reblog-box a.cancel', function(e) {
+				e.preventDefault();
+				wpcom_reblog.cancel_reblog();
+			});
+
+			// Submit reblog box
+			jQuery(document).on( 'click', '#ab-reblog-box input[type=submit]', function(e) {
+				e.preventDefault();
+				wpcom_reblog.submit_reblog( jQuery(this) );
+			});
+		},
+
+		show_reblog_box: function() {
+			return this.show_reblog_box_here(
+				'#wp-admin-bar-wpr-reblog',
+				'#wpadminbar'
+			);
+		},
+
+		toggle_reblog_box_flair: function( obj_id ) {
+			if ( jQuery( '#jp-post-flair #ab-reblog-box' ).is( ':visible' ) ) {
+				wpcom_reblog.cancel_reblog();
+			}
+			else {
+				wpcom_reblog.show_reblog_box_flair( obj_id );
+			}
+		},
+
+		show_reblog_box_flair: function( obj_id ) {
+			this.source = 'post_flair';
+			this.obj_id = obj_id;
+			return this.show_reblog_box_here(
+				'.post-likes-widget',
+				'body'
+			);
+		},
+
+		show_reblog_box_here: function(anchorId, parentId) {
+			var jq = jQuery,
+			    $anchor = jq( anchorId ),
+			    $parent = jq( parentId ),
+			    $window = jq( window ),
+			    $scroll = jq('html, body'),
+			    $reblog_box = jq( '#ab-reblog-box' ),
+			    offset = $anchor.offset(),
+			    left = offset.left + 'px',
+			    width = '500px',
+			    position,
+			    top;
+
+			if ( $parent.css( 'position' ) === 'fixed' ) {
+				position = 'fixed';
+				top = $parent.position().top + $parent.outerHeight();
+			}
+			else {
+				position = 'absolute';
+				top = offset.top + $anchor.outerHeight() + 'px';
+			}
+			$reblog_box.remove();
+			$parent.append( $reblog_box );
+			$anchor.addClass( 'selected' );
+
+			if ( jq( window ).innerWidth() < offset.left + 500 ) {
+				// Most likely mobile or tablet
+				left = '0px';
+				width = ( jq( window ).innerWidth() - 24 ) + 'px';
+			}
+
+			$reblog_box
+				.find('p.response').remove().end()
+				.find('div.submit, div.submit span.canceltext').show().end()
+				.find('div.submit input[type=submit]').prop('disabled',false).end()
+				.show()
+				.css({
+					top : top,
+					left : left,
+					width : width,
+					position: position,
+					'z-index': 10 // slide under twentyfourteen's fixed-positioned masthead
+				});
+
+			// Ensure we can see the whole reblog box
+			var docViewTop = $window.scrollTop(),
+			    windowHeight = $window.height(),
+			    docViewBottom = docViewTop + windowHeight,
+			    elemTop = $reblog_box.offset().top,
+			    elemHeight = $reblog_box.outerHeight() + 10,
+			    elemBottom = elemTop + elemHeight;
+			if ( docViewTop > elemTop ) {
+				// Need to scroll up
+				// leave 75px for toolbar + Reblog button + margin
+				$scroll.animate({scrollTop: elemTop - 75});
+			}
+			else if ( docViewBottom < elemBottom ) {
+				// Need to scroll down
+				$scroll.animate({scrollTop: elemBottom - windowHeight}, 100);
+			}
+		},
+
+		submit_reblog: function( input ) {
+			var jq = jQuery;
+			var self = this;
+			if ( typeof this.request == 'object' )
+				this.request.abort();
+
+			input.attr( 'value', 'Reblogging...' );
+			input.prop( 'disabled', true );
+
+			jq( '#ab-reblog-box div.submit span.canceltext' ).fadeOut( 150, function() {
+				input.before( '<span class="spinner"></span>' );
+			});
+
+			var note = jq('#ab-reblog-box textarea').val();
+
+			if ( jq('#default-reblog-note').val() == note )
+				note = "";
+
+			this.request = jq.get( '/wp-admin/admin-ajax.php', {
+				'action': 'post_reblog',
+				'original_blog_id': jq('#original-blog-id').val(),
+				'original_post_id': jq('#original-post-id').val(),
+				'blog_id': jq('#ab-reblog-box select').val(),
+				'note': note,
+				'_wpnonce': jq('#ab-reblog-box #_wpnonce').val(),
+				'reblog_source': this.source
+			},
+			function(result, status, jqxhr) {
+				if ( ! ( "type" in result ) ) {
+					alert( "Error: " + jqxhr.responseText );
+				}
+				else if ( "error" == result.type ) {
+					alert( result.message );
+				}
+				else {
+					if ( typeof pm === 'function' ) {
+						console.log(self);
+						pm({
+							target : window.frames['likes-master'],
+							type : 'likesMessage',
+							data : { event: 'didReblog', obj_id: self.obj_id },
+							origin : '*'
+						});
+					}
+
+					jq( '#ab-reblog-box' ).hide();
+					jq( '#wp-admin-bar-wpr-reblog' ).addClass( 'reblogged' ).removeClass( 'reblog' ).find( 'a:first' ).text( 'Reblogged' );
+				}
+			}, 'json' );
+		},
+
+		cancel_reblog: function() {
+			jQuery( '#ab-reblog-box' ).hide();
+			jQuery( '#wp-admin-bar-wpr-reblog' ).removeClass( 'selected' );
+		}
+	};
+
+	wpcom_reblog.init();
+	</script>
+<div id="report-form-window" style="display:none;"></div><script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/freepythontips.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/freepythontips.wordpress.com\/wp-login.php?action=logout&_wpnonce=091887615b","homeURL":"https:\/\/pythontips.com\/","postID":"209","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"1","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a"></script>
+			<script type="text/javascript">
+			try {
+				window._ttf = window._ttf || [];
+				_ttf.push({
+					pid          : 25030
+					,lang        : "en"
+				 	,format      : "inread"
+					,slot        : ".teads_slot"
+					,slotMode    : "in"
+					,minSlot     : 1
+					,css         : "margin: 10px auto; max-width: 550px;"
+				});
+				(function (d) {
+				        var js, s = d.getElementsByTagName('script')[0];
+				        js = d.createElement('script');
+				        js.async = true;
+				        js.src = '//cdn.teads.tv/media/format.js';
+				        s.parentNode.insertBefore(js, s);
+				})(window.document);
+			} catch(e) {}
+			</script><script>
+			// <![CDATA[
+			jQuery( document ).on( 'mentionsData.jetpack', function( e, mentions ) {
+				jQuery( 'textarea#comment' ).mentions( mentions.data );
+			});
+			// ]]>
+		</script>
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/pythontips.com\/2013\/08\/06\/python-socket-network-programming\/":209};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-pocket' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcompocket', 'menubar=1,resizable=1,width=450,height=450' );
+				return false;
+			});
+		});
+		</script>
+			
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/form.js"></script>
+<link rel="stylesheet" id="all-css-0-3" href="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/style_002.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"https:\/\/s1.wp.com\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpNotesArgs = {"cacheBuster":"20160329","iframeUrl":"https:\/\/widgets.wp.com\/notificationsbeta\/","iframeAppend":"2","iframeScroll":"no","wide":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpcom_tos_report_form = {"ajaxurl":"\/wp-admin\/admin-ajax.php","isLoggedoutUser":"","post_ID":"209","current_url":"https:\/\/pythontips.com\/2013\/08\/06\/python-socket-network-programming","report_this_content":"Report this content"};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"55796613","siteName":"Python Tips","siteURL":"https:\/\/pythontips.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/6c1d474724ac198295b95c49642a34b3?s=50&d=https%3A%2F%2Fs1.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/ryu","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/freepythontips.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fpythontips.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F","themeURL":"https:\/\/wordpress.com\/theme\/ryu\/","xhrURL":"https:\/\/pythontips.com\/wp-admin\/admin-ajax.php","nonce":"a779595f34","isSingular":"1","isFolded":"","isLoggedIn":"1","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"c84f20a337\" \/>","referer":"https:\/\/pythontips.com\/2013\/08\/06\/python-socket-network-programming\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/freepythontips.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Ffreepythontips.wordpress.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F","postID":"209","shortlink":"http:\/\/wp.me\/p3M7fn-3n","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/pythontips.com\/209","statsLink":"https:\/\/wordpress.com\/stats\/post\/209\/pythontips.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Ryu","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 21,346 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/freepythontips.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fpythontips.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_003"></script><div class="actnbr-pub-ryu actnbr-has-follow actnbr-hidden" id="actionbar"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="https://pythontips.com/"><img alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/6c1d474724ac198295b95c49642a34b3.jpeg" class="avatar avatar-50" width="50" height="50"> Python Tips</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://freepythontips.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Ffreepythontips.wordpress.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				    <li class="actnbr-folded-follow actnbr-hidden"><a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a></li> 					 				     				    <li class="actnbr-theme actnbr-hidden"><a href="https://wordpress.com/theme/ryu/">Get theme: Ryu</a></li> 				    <li class="actnbr-shortlink actnbr-hidden"><a href="http://wp.me/p3M7fn-3n">Copy shortlink</a></li> 				    <li class="flb-report actnbr-hidden"><a href="http://en.wordpress.com/abuse/">Report this content</a></li> 				    <li class="actnbr-reader actnbr-hidden"><a href="https://wordpress.com/read/blogs/55796613">View site in the Reader</a></li> 				    <li class="actnbr-follows actnbr-hidden"><a href="https://wordpress.com/following/edit">Manage subscriptions</a></li> 				     				    <li class="actnbr-fold actnbr-hidden"><a href="">Collapse this bar</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/w.js" type="text/javascript" async="" defer="defer"></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['identifyUser', 17689534, 'masumndc1']);
+_tkq.push(['storeContext', {'blog_id':'55796613','blog_tz':'5','user_lang':'en','blog_lang':'en'}]);
+_stq.push(['view', {'blog':'55796613','v':'wpcom','tz':'5','user_id':'17689534','post':'209','subd':'freepythontips'}]);
+_stq.push(['extra', {'crypt':'UE5tW3cvZGRhJUZnNU00N0N3PWRRZHZELyZvcXVpRS4/ZC8/VCVLbFU1Jno1fnR5Ult+bG8scUl5Y0pxQVllbnh5Q101TlVESlB0fkNzMC5lSjdLW3IyeTNGdE4/Tz91Ti5zaFlxZmFJWDlnYjVab0d5QXhta1MzTX5rc0cwY2I2VjFjZ19ybktzXVNuNXZfJWExNVczdDQwS21ZSm1Hci4vV2VdLCZbVldkLW1pbUlwR0lJeC12UGlBZGprJVByJVl6Zmx8S0p2JVV8JW12Tn5oen5oa2hXeEVmLUdqRDgvfDU5LkRVfEFOWixyWzdxWFJyTF9zSFQ='}]);
+_stq.push([ 'clickTrackerInit', '55796613', '209' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+		<div id="wpadminbar" class="ltr">
+							<a class="screen-reader-shortcut" href="#wp-toolbar" tabindex="1">Skip to toolbar</a>
+						<div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Toolbar" tabindex="0">
+						<ul id="wp-admin-bar-root-default" class="ab-top-menu">
+			
+		<li id="wp-admin-bar-blog" class="menupop my-sites"><a class="ab-item" aria-haspopup="true" href="https://wordpress.com/stats/masumndc1.wordpress.com">My Site</a>			<div class="ab-sub-wrapper">		<ul id="wp-admin-bar-blog-default" class="ab-submenu">
+			
+		<li id="wp-admin-bar-new-site"><a class="ab-item" href="https://wordpress.com/start?ref=admin-bar-logged-in">+ Add New WordPress</a>		</li>
+		<li id="wp-admin-bar-blog-info" class="current-site"><a class="ab-item" href="https://masumndc1.wordpress.com/"><div class="ab-site-icon"></div><span class="ab-site-title">khabir's blog</span><span class="ab-site-description">masumndc1.wordpress.com</span></a>		</li>
+		<li id="wp-admin-bar-blog-stats" class="mb-icon"><a class="ab-item" href="https://wordpress.com/stats/masumndc1.wordpress.com">Stats <img style="width: 95px; margin: 0; float: right;" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/admin-bar-hours-scale-2x.png" alt="Stats" title="Showing site views per hour for the last 48 hours. Click for full Site Stats."></a>		</li>
+		<li id="wp-admin-bar-plan" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/plans/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-plan">Plan</a><a href="https://wordpress.com/plans/masumndc1.wordpress.com" class="ab-secondary" id="wp-admin-bar-plan-badge">Free</a></div>		</li>		</ul>
+			<ul id="wp-admin-bar-publish" class="ab-submenu">
+			
+		<li id="wp-admin-bar-publish-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Publish</div>		</li>
+		<li id="wp-admin-bar-new-post" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/posts/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-edit-post">Blog Posts</a><a href="https://wordpress.com/post/masumndc1.wordpress.com" class="ab-secondary" id="wp-admin-bar-new-post">Add</a></div>		</li>
+		<li id="wp-admin-bar-new-page" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/pages/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-edit-page">Pages</a><a href="https://wordpress.com/page/masumndc1.wordpress.com" class="ab-secondary" id="wp-admin-bar-new-page">Add</a></div>		</li>		</ul>
+			<ul id="wp-admin-bar-look-and-feel" class="ab-submenu">
+			
+		<li id="wp-admin-bar-look-and-feel-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Personalize</div>		</li>
+		<li id="wp-admin-bar-themes" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/design/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-themes">Themes</a><a href="https://masumndc1.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Ffreepythontips.wordpress.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F" class="ab-secondary" id="wp-admin-bar-cmz">Customize</a></div>		</li>
+		<li id="wp-admin-bar-menus" class="mb-icon"><a class="ab-item" href="https://masumndc1.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Ffreepythontips.wordpress.com%2F2013%2F08%2F06%2Fpython-socket-network-programming%2F&amp;autofocus%5Bpanel%5D=nav_menus">Menus</a>		</li>		</ul>
+			<ul id="wp-admin-bar-configuration" class="ab-submenu">
+			
+		<li id="wp-admin-bar-configuration-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Configure</div>		</li>
+		<li id="wp-admin-bar-sharing" class="mb-icon"><a class="ab-item" href="https://wordpress.com/sharing/masumndc1.wordpress.com">Sharing</a>		</li>
+		<li id="wp-admin-bar-users-toolbar" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/people/team/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-people">People</a><a href="https://wordpress.com/people/new/masumndc1.wordpress.com" class="ab-secondary" id="wp-admin-bar-people-add">Add</a></div>		</li>
+		<li id="wp-admin-bar-plugins" class="mb-icon"><a class="ab-item" href="https://wordpress.com/plugins/masumndc1.wordpress.com">Plugins</a>		</li>
+		<li id="wp-admin-bar-domains" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/domains/masumndc1.wordpress.com" class="ab-item ab-primary mb-icon" id="wp-admin-bar-domains">Domains</a><a href="https://wordpress.com/domains/add/masumndc1.wordpress.com" class="ab-secondary" id="wp-admin-bar-domains-add">Add</a></div>		</li>
+		<li id="wp-admin-bar-blog-settings" class="mb-icon"><a class="ab-item" href="https://wordpress.com/settings/general/masumndc1.wordpress.com">Settings</a>		</li>
+		<li id="wp-admin-bar-legacy-dashboard" class="mb-icon"><a class="ab-item" href="https://freepythontips.wordpress.com/wp-admin/">WP Admin</a>		</li>		</ul>
+	</div>		</li>
+		<li id="wp-admin-bar-jumptotop-button-menu"><a class="ab-item" href="#"><div style="top: 0px;" id="jumptotop"><span class="noticon noticon-top"></span></div></a>		</li>
+		<li id="wp-admin-bar-newdash" class="menupop"><a class="ab-item" aria-haspopup="true" href="https://wordpress.com/">Reader</a>			<div class="ab-sub-wrapper">		<ul id="wp-admin-bar-newdash-default" class="ab-submenu">
+			
+		<li id="wp-admin-bar-streams-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Streams</div>		</li>
+		<li id="wp-admin-bar-following" class="inline-action">		<div class="ab-item ab-empty-item"><a href="https://wordpress.com/" class="ab-item ab-primary mb-icon" id="wp-admin-bar-followed-sites">Followed Sites</a><a href="https://wordpress.com/following/edit" class="ab-secondary" id="wp-admin-bar-reader-followed-sites-manage">Manage</a></div>		</li>
+		<li id="wp-admin-bar-discover-discover" class="mb-icon-spacer"><a class="ab-item" href="https://wordpress.com/discover">Discover</a>		</li>
+		<li id="wp-admin-bar-discover-search" class="mb-icon-spacer"><a class="ab-item" href="https://wordpress.com/read/search">Search</a>		</li>
+		<li id="wp-admin-bar-discover-recommended-blogs" class="mb-icon-spacer"><a class="ab-item" href="https://wordpress.com/recommendations">Recommendations</a>		</li>
+		<li id="wp-admin-bar-my-activity-my-likes" class="mb-icon-spacer"><a class="ab-item" href="https://wordpress.com/activities/likes">My Likes</a>		</li>		</ul>
+	</div>		</li>
+		<li style="" id="wp-admin-bar-admin-bar-likes-widget">		<div class="ab-item ab-empty-item"></div><iframe class="admin-bar-likes-widget jetpack-likes-widget" scrolling="no" name="admin-bar-likes-widget" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_007.html" frameborder="0"></iframe>		</li>		</ul>
+			<ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
+			
+		<li id="wp-admin-bar-notes" class="menupop">		<div class="ab-item ab-empty-item"><span style="display: block;" id="wpnt-notes-unread-count" class="wpnt-loading wpn-read"><span class="noticon noticon-notification"></span></span><span class="noticon noticon-bell"></span><span class="ab-text">Notifications</span></div><div class="wide" id="wpnt-notes-panel2" style="display:none" dir="ltr" lang="en"><iframe class="wide" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_008.html" style="" id="wpnt-notes-iframe2" allowtransparency="true" scrolling="no" frameborder="0"></iframe></div>		</li>
+		<li id="wp-admin-bar-my-account" class="menupop with-avatar no-grav"><a class="ab-item" aria-haspopup="true" href="https://wordpress.com/me/"><img alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/acda94b7940026ff00b14ac5eefcbd13.jpeg" class="avatar avatar-32" width="32" height="32"><span class="ab-text">Me</span></a>			<div class="ab-sub-wrapper">		<ul id="wp-admin-bar-user-actions" class="ab-submenu">
+			
+		<li id="wp-admin-bar-user-info" class="user-info user-info-item">		<div class="ab-item ab-empty-item" tabindex="-1"><img alt="" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/acda94b7940026ff00b14ac5eefcbd13_002.jpeg" class="avatar avatar-128" width="128" height="128"><span class="display-name">masumndc1</span><a class="username" href="http://gravatar.com/masumndc1">@masumndc1</a><form action="https://freepythontips.wordpress.com/wp-login.php?action=logout&amp;redirect_to=http%3A%2F%2Fpythontips.com%2F&amp;_wpnonce=091887615b" method="post"><button class="ab-sign-out" type="submit">Sign Out</button></form></div>		</li>
+		<li id="wp-admin-bar-profile-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Profile</div>		</li>
+		<li id="wp-admin-bar-my-profile" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me">My Profile</a>		</li>
+		<li id="wp-admin-bar-account-settings" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/account">Account Settings</a>		</li>
+		<li id="wp-admin-bar-billing" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/purchases">Manage Purchases</a>		</li>
+		<li id="wp-admin-bar-security" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/security">Security</a>		</li>
+		<li id="wp-admin-bar-notifications" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/notifications">Notifications</a>		</li>
+		<li id="wp-admin-bar-special-header" class="ab-submenu-header">		<div class="ab-item ab-empty-item">Special</div>		</li>
+		<li id="wp-admin-bar-get-apps" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/get-apps">Get Apps</a>		</li>
+		<li id="wp-admin-bar-next-steps" class="mb-icon"><a class="ab-item" href="https://wordpress.com/me/next">Next Steps</a>		</li>
+		<li id="wp-admin-bar-help" class="mb-icon"><a class="ab-item" href="https://wordpress.com/help">Help</a>		</li>		</ul>
+	</div>		</li>
+		<li id="wp-admin-bar-ab-new-post"><a class="ab-item" href="https://wordpress.com/post/masumndc1.wordpress.com"><span>Write</span></a>		</li>		</ul>
+				</div>
+							<a class="screen-reader-shortcut" href="https://freepythontips.wordpress.com/wp-login.php?action=logout&amp;_wpnonce=091887615b">Log Out</a>
+					</div>
+
+	
+<script type="text/javascript">
+/* <![CDATA[ */
+var clickDebugLink;
+
+jQuery(document).ready( function($) {
+	var single = true, w = 1000,
+		supe = false;
+
+	$(document.body).load(function(){ $('#wpadminbar img.grav-hashed').removeClass('grav-hashed'); }); // hack to hide the gravatar hovercard
+
+	if ( single && supe )
+		w = 1385;
+	else if ( supe )
+		w = 1200;
+
+	// debug bar extra
+	clickDebugLink = function( parent_id, obj ) {
+
+		$('#'+parent_id).children('div').hide();
+
+		document.getElementById( obj.href.substr( obj.href.indexOf( '#' ) + 1 ) ).style.display = 'block';
+		$( obj.href.substr( obj.href.indexOf( '#' ) ) ).show()
+
+		$(obj).parent().addClass('current').siblings('li').removeClass('current');
+
+		return false;
+	};
+
+	$( '#wpadminbar #wp-admin-bar-shortlink' ).click( function() {
+		$( '#adminbar-shortlink-input' ).select();
+	});
+
+	// skip tap-to-hover on site switcher for mobile
+	if ( 'ontouchstart' in window ) {
+		$('#wp-admin-bar-switch-site').on( 'touchstart', function( event ) {
+			if ( $( window ).width() > 782 ) {
+				return;
+			}
+			event.stopPropagation();
+			$( event.target ).first( 'a' ).click();
+		});
+	}
+
+});
+/* ]]> */
+</script>
+	<div class="wpcom-bubble action-bubble">
+		<div class="bubble-txt"></div>
+	</div>
+	<script type="text/javascript">function hideBubble() { jQuery('body').append( jQuery( 'div.wpcom-bubble' ).removeClass( 'fadein' ) ).off( 'click.bubble touchstart.bubble' ); jQuery(document).off( 'scroll.bubble' ); };</script>
+		<script type="text/javascript">
+	jQuery( '#wp-admin-bar-jumptotop-button-menu a' ).click( function( e ) {
+		e.preventDefault();
+		jQuery( 'html, body' ).animate( { scrollTop: 0 }, 'fast' );
+	} );
+	function hideShowTbJumpToTop() {
+		var total_width = 0;
+		// Calculate total width taken by items minus our button to see if it'll
+		// overlap with other toolbar menus.
+		jQuery( '#wp-admin-bar-root-default > li' ).each( function() {
+			var self = jQuery( this );
+			if ( 'wp-admin-bar-jumptotop-button-menu' != self.attr( 'id' ) )
+				total_width += self.width();
+		});
+		if ( jQuery( '#wp-admin-bar-jumptotop-button-menu' ).position()['left'] - total_width < 10 ) {
+			jQuery( '#jumptotop' ).animate( { 'top': '-50px' }, 'fast' );
+		} else if (  jQuery( window ).scrollTop() >= 350 && parseInt( jQuery( '#jumptotop' ).css( 'top' ) ) < 0 ) {
+			if ( jQuery( '#wp-admin-bar-jumptotop-button-menu' ).position()['left'] - total_width < 10 )
+			   return;
+			jQuery( '#jumptotop' ).animate( { 'top': 0 }, 'fast' );
+		} else if (  jQuery( window ).scrollTop() < 1 && parseInt( jQuery( '#jumptotop' ).css( 'top' ) ) >= 0 ) {
+			jQuery( '#jumptotop' ).animate( { 'top': '-50px' }, 'fast' );
+		}
+	}
+	// handle on page load if auto scrolling to a position
+	hideShowTbJumpToTop();
+	// bind to scrolll event
+	var jumpToTopTimer = null;
+	jQuery( window ).scroll( function() {
+		clearTimeout( jumpToTopTimer );
+		jumpToTopTimer = setTimeout( jumpToTopRefresh, 150 );
+	} );
+	var jumpToTopRefresh = function() {
+		hideShowTbJumpToTop();
+	};
+	</script>
+	<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+<img id="wpstats" alt=":)" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/g.gif"><iframe style="display: none;" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/a_009.html"></iframe><div id="sharing_email" style="display: none;">
+		<form action="/2013/08/06/python-socket-network-programming/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input name="target_email" id="target_email" type="email">
+
+							<input name="source_name" value="masumndc1" type="hidden">
+				<input name="source_email" value="masumndc1@gmail.com" type="hidden">
+						<input id="jetpack-source_f_name" name="source_f_name" class="input" size="25" autocomplete="off" type="text">
+			<script> document.getElementById('jetpack-source_f_name').value = ''; </script>
+			<div class="recaptcha" id="sharing_recaptcha"></div><input name="recaptcha_public_key" id="recaptcha_public_key" value="6LcYW8MSAAAAADBAuEH9yaPcF7lWh11Iq62ZKtoo" type="hidden">
+			<img style="float: right; display: none" class="loading" src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/loading.gif" alt="loading" width="16" height="16">
+			<input value="Send Email" class="sharing_send" type="submit">
+			<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div><iframe src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/passback.html" name="automattic-passback-receiver" style="position: absolute; left: -1000px; top: -1000px; border: 0px solid; width: 0px; height: 0px;" width="0" height="0"></iframe><iframe src="Python%20socket%20network%20programming%20%7C%20Python%20Tips_files/iframe.html" scrolling="no" style="margin: 0px; padding: 0px; width: 0px; height: 0px; border: 0px none; overflow: hidden; display: none;" frameborder="0"></iframe></body></html>

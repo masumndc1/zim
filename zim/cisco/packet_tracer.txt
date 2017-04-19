@@ -1,118 +1,138 @@
-Step 2: Install Java:
+root@masum:~/PacketTracer63# ls
+art          bin       extensions  install    lib    set_ptenv.sh  templates     tpl.packettracer
+backgrounds  eula.txt  help        LANGUAGES  saves  sounds        tpl.linguist
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# ./install 
 
-To get install packet tracer we need to have install Java, To get install java we can use the default or add the PPA repository and update the package cache to get install java.
-Install the default jre using
+Welcome to Cisco Packet Tracer 6.3 Installation
 
-sudo apt-get install default-jre
+Read the following End User License Agreement "EULA" carefully. You must accept the terms of this EULA to install and use Cisco Packet Tracer.
+Press the Enter key to read the EULA.
 
-Packet tracer java
 
-(or)
+                           Cisco Packet Tracer
+                        Software License Agreement
 
-Use the below step to get install Java Run-time and set the Environment.
+IMPORTANT: PLEASE READ THIS CISCO PACKET TRACER SOFTWARE LICENSE AGREEMENT (THE
+"AGREEMENT") CAREFULLY.  DOWNLOADING, INSTALLING OR USING THE CISCO PACKET 
+TRACER SOFTWARE CONSTITUTES ACCEPTANCE OF THIS AGREEMENT.  IF YOU DO NOT AGREE
+TO ALL OF THE TERMS OF THIS AGREEMENT, THEN CISCO SYSTEMS, INC. ("CISCO") IS 
+UNWILLING TO LICENSE THE SOFTWARE TO YOU AND YOU ARE NOT AUTHORIZED TO 
+DOWNLOAD, INSTALL OR USE THE SOFTWARE.  
 
-Download Java from official website : Download Java
+I.      DISTRIBUTION RIGHTS.  The terms in this Section I ("Distribution 
+Rights") of the Agreement apply solely to any Cisco Networking Academy 
+instructor, administrator or other person or entity approved in writing by 
+Cisco Systems, Inc. (each, an "Instructor") to distribute and use the Cisco 
+Packet Tracer software and related documentation (collectively, the "Software")
+in accordance with the terms and conditions of this Agreement.   
 
-tar -zxvf jre-8u31-linux-x64.tar.gz
+        Subject to the terms and conditions of the End User License Agreement 
+        set forth in Section II below (the "EULA"), Cisco grants Instructor a 
+        limited, nonexclusive, nontransferable license to distribute the 
+        Software using the Permitted Distribution Methods (defined below), 
+        during the term of the Agreement to Permitted End Users (defined below)
+        solely as reasonably necessary to provide networking training or 
+        instruction in accordance with the terms and conditions of the 
+        Agreement.  The Permitted Distribution Methods are:  (i) distribution 
+        via a password protected website (WAN distribution), Local Area Network
+        (LAN distribution) or FTP server; or (ii) distribution via CD's or 
+        other tangible media containing the Software.  Instructor shall not 
+        remove the EULA from the Software.  Instructor shall use reasonable 
+        efforts to ensure Permitted End Users comply with the EULA.  Permitted
+        End Users are students, faculty or alumni of Cisco Networking Academy
+        or such other individuals or entities approved in writing by Cisco.  
+        Instructors shall not make any copies or duplicates of the Software 
+        except as reasonably necessary to exercise the rights granted 
+        hereunder.  Except to the extent set forth herein, no distribution, 
+        marketing or other transfer of the Software is permitted.  Without 
+        limiting the generality of the foregoing, the Software may not be 
+        copied, licensed, sub-licensed, sold or otherwise distributed in 
+        exchange for any fee or value-in-kind.
+        
+        Instructor acknowledges and agrees that Cisco retains sole and 
+        exclusive title and ownership to the Software, including all copies 
+        thereof, all Cisco trademarks, designations, logos and other branding 
+        for the Software and all intellectual property rights in or to any of 
+        the foregoing. 
+        
+        Cisco may terminate the Distribution Rights granted hereunder for any
+        reason or no reason on five (5) business days notice.  Unless earlier
+        terminated as set forth in the preceding sentence, the term of this 
+        Agreement shall continue until Instructor is no longer a Cisco 
+        Networking Academy instructor, administrator or other person or entity
+        approved in writing by Cisco to exercise the rights set forth in this 
+        Agreement.  
+        
+II.     The following End User License Agreement or "EULA" shall apply to all 
+users of the Software:          
 
-sudo mkdir -p /usr/lib/jvm
+                         End User License Agreement 
+BY DOWNLOADING OR INSTALLING THE SOFTWARE YOU ARE BINDING YOURSELF AND/OR THE 
+ENTITY THAT YOU REPRESENT (COLLECTIVELY, "USER") TO THIS END USER LICENSE 
+AGREEMENT ("EULA").  The following terms of this EULA govern access to and use
+of the Software.
 
-sudo mv -v jre1.8.0_31 /usr/lib/jvm/
+License. Conditioned upon compliance with the terms and conditions of this 
+EULA, Cisco Systems, Inc. ("Cisco") grants to User a royalty free, personal, 
+nonexclusive, nontransferable and revocable license to use the Cisco Packet 
+Tracer software and related documentation (collectively, the "Software") solely
+to create, display or run network simulations using files with suffixes ".pkt" 
+or ".pka" (collectively, "Activities") in connection with Cisco Networking 
+Academy or for such other purpose(s) approved by Cisco in writing.   No license
+is granted for any other purpose and there are no implied licenses in this 
+EULA.  
 
-cd /usr/lib/jvm/
+General Limitations. This is a license, not a transfer of title, to the 
+Software and Cisco retains ownership of all copies of the Software.  User 
+acknowledges and agrees that Cisco and/or its suppliers own all right, title
+and interest in and to the Software, including without limitation, any and all
+copyrights, patents, trade secrets, trademarks and other intellectual property
+rights therein.  Cisco has the exclusive right to apply for or register any 
+patents, mask work rights, copyrights, or such other proprietary protections 
+with respect to the Software.  User will not earn or acquire any rights or 
+licenses under any copyrights, patents, trade secrets, trademarks or other 
+intellectual property rights on account of this EULA.  Except as otherwise 
+expressly provided under this EULA, User shall have no right, and User 
+specifically agrees not to:
 
-sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jre1.8.0_31/bin/java" 1
+        (i) transfer, assign or sublicense its license rights to any other 
+        person or entity, and User acknowledges that any attempted transfer,
+        assignment, sublicense or use shall be void;
+        
+        (ii) make error corrections to or otherwise modify or adapt the 
+        Software or create derivative works (excluding Activities) based upon
+        the Software, or permit third parties to do the same;
+Do you accept the terms of the EULA? (Y)es/(N)o
 
-sudo update-alternatives --set "java" "/usr/lib/jvm/jre1.8.0_31/bin/java"
+yes
+You have accepted the terms to the EULA. Congratulations. Packet Tracer will now be installed.
+Enter location to install Cisco Packet Tracer or press enter for default [/opt/pt]: 
+Installing into /opt/pt
+Copied all files successfully to /opt/pt
 
-Set the environment for java by editing the profile file and add the location. While we adding in profile file java will available for every user’s in our machine.
 
-sudo vi /etc/profile
+Should we create a symbolic link "packettracer" in /usr/local/bin for easy Cisco Packet Tracer startup? [Yn] Y
+Type "packettracer" in a terminal to start Cisco Packet Tracer
+Writing PT6HOME environment variable to /etc/profile
 
-Add the following entries to the bottom of your /etc/profile file:
+Cisco Packet Tracer 6.3 installed successfully
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# ls
+art          bin       extensions  install    lib    set_ptenv.sh  templates     tpl.packettracer
+backgrounds  eula.txt  help        LANGUAGES  saves  sounds        tpl.linguist
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# chmod +x set_ptenv.sh 
+root@masum:~/PacketTracer63# ./set_ptenv.sh 
+Using default directory: /opt/pt
+Writing PT6HOME environment variable to /etc/profile
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# 
+root@masum:~/PacketTracer63# pwd
+/root/PacketTracer63
+root@masum:~/PacketTracer63# 
 
-export JAVA_HOME=/usr/lib/jvm/jre1.8.0_31
-export PATH=$PATH:/usr/java/jre1.8.0_31/bin
-
-Run the below command to activate java path immediately.
-
-. /etc/profile
-
-Check for the Java version and Environment:
-
-echo $JAVA_HOME
-
-java -version
-
-packet tracer java installed
-Step 3: Enable 32bit architecture support:
-
-For Packet tracer we need some of 32bit packages. To get install 32bit packages we need to install some of dependencies using below commands.
-
-sudo dpkg --add-architecture i386
-sudo apt-get update
-
-32 bit arch
-
-sudo apt-get install libc6:i386
-
-sudo apt-get install lib32z1 lib32ncurses5 lib32bz2-1.0
-
-sudo apt-get install libnss3-1d:i386 libqt4-qt3support:i386 libssl1.0.0:i386 libqtwebkit4:i386 libqt4-scripttools:i386
-
-packet tracer dependencies
-Step 4: Extract and install the package:
-
-Extract the downloaded package using tar command.
-
-mv Cisco\ Packet\ Tracer\ 6.1.1\ Linux.tar.gz\?dl\=0 Cisco_Packet_tracer.tar.gz
-
-tar -zxvf Cisco_Packet_tracer.tar.gz
-
-extract pt
-Navigate to the extracted directory:
-
-cd PacketTracer611Student
-
-Now it’s time to start the installation , Installation is very simple and just take few seconds.
-
-sudo ./install
-
-Install packet tracer
-
-Packet tracer installed
-To working with Package tracer we need to set the environment for that Cisco have provided the environment script, We need to run the script using root user to set the environment variable.
-
-sudo ./set_ptenv.sh
-
-packet tracer env setup
-That’s it for installation step’s. next we need to create a Desktop Icon for Packet tracer.
-Create the Desktop Icon by creating desktop file under.
-
-sudo su
-
-cd /usr/share/applications
-
-sudo vim packettracer.desktop
-
-Packet tracer 01
-Append the Below content to the file using vim editor or your favourite one.
-
-     [Desktop Entry]
-     Name= Packettracer
-     Comment=Networking
-     GenericName=Cisco Packettracer
-     Exec=/opt/packettracer/packettracer
-     Icon=/usr/share/icons/packettracer.jpeg
-     StartupNotify=true
-     Terminal=false
-     Type=Application
-
-Save and quit using wq!
-
-pt icon
-Step 5: Run the packet tracer
-
-sudo packettracer
-
-That’s it we have successfully installed the packet tracer in Linux, These above steps are suitable for every debian based Linux distributions.

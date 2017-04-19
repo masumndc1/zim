@@ -1,0 +1,325 @@
+.. 
+.. openswan configuraiton step by step.
+
+.. my operating system is debian you can also work on any
+.. linux os if you like or any BSD based operating system.
+
+root@deb-7:~# uname -a
+Linux deb-7 3.2.0-4-686-pae #1 SMP Debian 3.2.81-1 i686 GNU/Linux
+root@deb-7:~# 
+
+.. and I have following two interfaces. between them eth1 will be 
+.. bound for ipsec incoming request.
+
+root@deb-7:~# ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:0c:29:92:49:3b  
+          inet addr:192.168.206.128  Bcast:192.168.206.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe92:493b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:636 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:65821 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:64130 (62.6 KiB)  TX bytes:4319755 (4.1 MiB)
+          Interrupt:19 Base address:0x2000 
+
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:92:49:45  
+          inet addr:192.168.179.128  Bcast:192.168.179.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe92:4945/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:66037 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:76 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:9946034 (9.4 MiB)  TX bytes:9404 (9.1 KiB)
+          Interrupt:16 Base address:0x2080 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+.. now installing openswan and the xl2tpd package
+
+root@deb-7:~# apt-get install openswan xl2tpd
+
+.. now configuration step by step. my openswan ipsec.conf file is like below.
+.. my configuration is roadwarrior type.
+
+root@deb-7:~# cat /etc/ipsec.conf
+# /etc/ipsec.conf - Openswan IPsec configuration file
+# This file:  /usr/share/doc/openswan/ipsec.conf-sample
+#
+# Manual:     ipsec.conf.5
+
+version 2.0     # conforms to second version of ipsec.conf specification
+
+# basic configuration
+config setup
+        nat_traversal=yes  
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
+        oe=off  
+        protostack=netkey  
+
+conn L2TP-PSK  
+        authby=secret  
+        pfs=no  
+        auto=add  
+        keyingtries=3  
+        rekey=yes  
+        ikelifetime=8h  
+        keylife=1h  
+        type=transport  
+		
+# the left is the eth1 ip address as ipsec incoming request will be coming
+# to this interface.
+
+        left=192.168.179.128
+        leftprotoport=17/%any
+        right=%any
+        rightprotoport=17/%any
+		
+root@deb-7:~# 
+
+.. the secret file for ipsec tunneling. I am using psk as authentication.
+.. another nice option is to use rsa certificate. 192.168.179.128 is my 
+.. local ip to accept ipsec incoming request. I could use like %any to mean
+.. for any incoming request. like below i could do. for my case ipsec incoming
+.. request is from 192.168.179.1 and they will be authenticated for ipsec 
+.. by psk.
+
+%any 192.168.179.128: PSK "123456"
+
+root@deb-7:~# cat /etc/ipsec.secrets 
+
+# this file is managed with debconf and will contain the automatically created RSA keys
+include /var/lib/openswan/ipsec.secrets.inc
+
+192.168.179.1 192.168.179.128: PSK "123456"
+
+.. for ip forwarding we will edit the /etc/sysctl.conf file
+
+root@deb-7:~# root@deb-7:/etc/xl2tpd# cat /etc/sysctl.conf 
+net.ipv4.ip_forward=1
+
+.. also will run the following command to disable redirect
+
+root@deb-7:/etc/xl2tpd# bash /root/command.sh 
+#!/bin/bash
+
+for vpn in /proc/sys/net/ipv4/conf/* ; do 
+        echo 0 > $vpn/accept_redirects  
+        echo 0 > $vpn/send_redirects  
+done
+
+.. we will now start ipsec and check the configuration.
+
+root@deb-7:/etc# /etc/init.d/ipsec start
+ipsec_setup: Starting Openswan IPsec U2.6.37/K3.2.0-4-686-pae...
+root@deb-7:/etc# 
+
+root@deb-7:/etc# ipsec verify
+Checking your system to see if IPsec got installed and started correctly:
+Version check and ipsec on-path                                 [OK]
+Linux Openswan U2.6.37/K3.2.0-4-686-pae (netkey)
+Checking for IPsec support in kernel                            [OK]
+ SAref kernel support                                           [N/A]
+ NETKEY:  Testing XFRM related proc values                      [OK]
+        [OK]
+        [OK]
+Checking that pluto is running                                  [OK]
+ Pluto listening for IKE on udp 500                             [OK]
+ Pluto listening for NAT-T on udp 4500                          [OK]
+Two or more interfaces found, checking IP forwarding            [OK]
+Checking NAT and MASQUERADEing                                  [OK]
+Checking for 'ip' command                                       [OK]
+Checking /bin/sh is not /bin/dash                               [WARNING]
+Checking for 'iptables' command                                 [OK]
+Opportunistic Encryption Support                                [DISABLED]
+root@deb-7:/etc# 
+
+.. now l2tp tunneling configuraiton 
+
+root@deb-7:~# cd /etc/xl2tpd/
+root@deb-7:/etc/xl2tpd# pwd
+/etc/xl2tpd
+root@deb-7:/etc/xl2tpd# ls
+l2tp-secrets  xl2tpd.conf  xl2tpd.conf.bak
+root@deb-7:/etc/xl2tpd# 
+root@deb-7:/etc/xl2tpd# 
+
+root@deb-7:/etc/xl2tpd# cat l2tp-secrets 
+# Secrets for authenticating l2tp tunnels
+# us    them    secret
+# *             marko blah2
+# zeus          marko   blah
+# *     *       interop
+#alice  alice123        *       interop
+*       *       123456
+root@deb-7:/etc/xl2tpd# 
+
+.. same here when l2tp tunneling will be taking place between two
+.. system then password from this file will checked. this passkey
+.. we will use when we configurte the dial up client at windows 7.
+
+root@deb-7:/etc/xl2tpd# cat xl2tpd.conf
+[global]
+ipsec saref = yes
+saref refinfo = 30
+
+;debug avp = yes
+debug network = yes
+debug state = yes
+debug tunnel = yes
+
+[lns default]
+
+#.. ip from this range will be provided to client requesting for the l2tp.
+
+ip range = 172.16.1.30-172.16.1.100
+local ip = 172.16.1.1
+
+#.. we are not accepting pap
+
+refuse pap = yes
+require authentication = yes
+ppp debug = yes
+pppoptfile = /etc/ppp/options.xl2tpd
+length bit = yes
+
+#.. the name line below is important as we will use the l2tp as server name
+#.. in our /etc/ppp/chap-secret file
+
+name=l2tp
+root@deb-7:/etc/xl2tpd# 
+
+.. our xl2tp configuration is done lets start it too.
+
+root@deb-7:/etc/xl2tpd# /etc/init.d/xl2tpd start
+Starting xl2tpd: xl2tpd.
+root@deb-7:/etc/xl2tpd# 
+
+.. now secret file configuration for the user who request to connnect
+.. the vpn server
+
+root@deb-7:/etc# cd /etc/ppp
+root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp# ls
+chap-secrets  ip-up      ipv6-down.d  options         pap-secrets
+ip-down       ip-up.d    ipv6-up      options.pptp    peers
+ip-down.d     ipv6-down  ipv6-up.d    options.xl2tpd  pptpd-options
+root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp# cat options.xl2tpd 
+
+# we will accept only mschap and mschap-v2 so the following two lines
+# is required.
+
+require-mschap  
+require-mschap-v2
+
+# dns server ip provided to client 
+  
+ms-dns 8.8.8.8  
+ms-dns 4.2.2.1  
+ms-dns 8.8.4.4  
+proxyarp  
+asyncmap 0  
+auth  
+crtscts  
+lock  
+hide-password  
+modem  
+debug  
+root@deb-7:/etc/ppp# 
+
+root@deb-7:/etc/ppp# cat chap-secrets 
+# Secrets for authentication using CHAP
+# client        server  secret                  IP addresses
+alice          l2tp     alice123        *
+bob            l2tp    bob123           * 
+root@deb-7:/etc/ppp# 
+
+.. note here the server name is l2tp. this name is used in the
+.. /etc/xl2tpd/xl2tpd.conf file as name=l2tp and * means 
+.. when alice is successfully authenticated by alice123 he
+.. will be provided any available ip from the ip range
+.. declared at /etc/xl2tpd/xl2tpd.conf file.
+
+.. configuraiton done now testing
+
+root@deb-7:/etc/ppp# /etc/init.d/ipsec status
+IPsec running  - pluto pid: 3743
+pluto pid 3743
+No tunnels up
+root@deb-7:/etc/ppp# 
+
+.. our openswan ipsec vpn server is running and waiting for the incoming request.
+.. the following happens when we dial to the vpn server.
+
+root@deb-7:/etc/xl2tpd# tail -f /var/log/auth.log/auth
+
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [MS NT5 ISAKMPOAKLEY 00000008]
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: received Vendor ID payload [RFC 3947] method set to=109 
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: received Vendor ID payload [draft-ietf-ipsec-nat-t-ike-02_n] meth=106, but already using method 109
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [FRAGMENTATION]
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [MS-Negotiation Discovery Capable]
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [Vid-Initial-Contact]
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [IKE CGA version 1]
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: responding to Main Mode from unknown peer 192.168.179.1
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: OAKLEY_GROUP 20 not supported.  Attribute OAKLEY_GROUP_DESCRIPTION
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: OAKLEY_GROUP 19 not supported.  Attribute OAKLEY_GROUP_DESCRIPTION
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: transition from state STATE_MAIN_R0 to state STATE_MAIN_R1
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: STATE_MAIN_R1: sent MR1, expecting MI2
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: NAT-Traversal: Result using RFC 3947 (NAT-Traversal): no NAT detected
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: transition from state STATE_MAIN_R1 to state STATE_MAIN_R2
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: STATE_MAIN_R2: sent MR2, expecting MI3
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: Main mode peer ID is ID_IPV4_ADDR: '192.168.179.1'
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: transition from state STATE_MAIN_R2 to state STATE_MAIN_R3
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: STATE_MAIN_R3: sent MR3, ISAKMP SA established {auth=OAKLEY_PRESHARED_KEY cipher=aes_256 prf=oakley_sha group=modp2048}
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #5: the peer proposed: 192.168.179.128/32:17/0 -> 192.168.179.1/32:17/0
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6: responding to Quick Mode proposal {msgid:01000000}
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6:     us: 192.168.179.128<192.168.179.128>[+S=C]:17/%any
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6:   them: 192.168.179.1[+S=C]:17/1701
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6: transition from state STATE_QUICK_R0 to state STATE_QUICK_R1
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6: STATE_QUICK_R1: sent QR1, inbound IPsec SA installed, expecting QI2
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6: transition from state STATE_QUICK_R1 to state STATE_QUICK_R2
+Apr  9 10:53:41 deb-7 pluto[3743]: "L2TP-PSK"[3] 192.168.179.1 #6: STATE_QUICK_R2: IPsec SA established transport mode {ESP=>0xa652cb3b <0xa8f84f1f xfrm=AES_128-HMAC_SHA1 NATOA=none NATD=none DPD=none}
+
+root@deb-7:/etc/ppp# /etc/init.d/ipsec status
+IPsec running  - pluto pid: 3743
+pluto pid 3743
+1 tunnels up
+some eroutes exist
+root@deb-7:/etc/ppp# 
+
+.. now configure the dialer on windows 7. on dialer from 
+.. security tab select layer 2 tunneling protocol with ipsec(lt2p/ipsec)
+.. as type of vpn. from advance setting select use preshared key and on
+.. key paste 123456 as our key and click ok. 
+.. for data encryption select optional encryption(connect even if no encryptions)
+.. and select chap and MS-CHAP v2 and ok. and finally use the vpn server ip
+.. user name and password.
+
+.. so one tunnel is just ip and the ppp0 interface is now created
+
+root@deb-7:/etc/xl2tpd# ifconfig
+
+ppp0      Link encap:Point-to-Point Protocol  
+          inet addr:172.16.1.1  P-t-P:172.16.1.30  Mask:255.255.255.255
+          UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1400  Metric:1
+          RX packets:10970 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:18 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:3 
+          RX bytes:574415 (560.9 KiB)  TX bytes:741 (741.0 B)
+
+root@deb-7:/etc/xl2tpd# tcpdump -vv -i ppp0
+
+    172.16.1.30 > 172.16.1.1: ICMP echo request, id 1, seq 10, length 40
+10:57:16.692449 IP (tos 0x0, ttl 64, id 39577, offset 0, flags [none], proto ICMP (1), length 60)
+    172.16.1.1 > 172.16.1.30: ICMP echo reply, id 1, seq 10, length 40
+10:57:36.053218 IP (tos 0x0, ttl 63, id 22571, offset 0, flags [none], proto UDP (17), length 69)
+
+.. it has some output when it gets ping request from the client ip 172.16.1.30 .
+

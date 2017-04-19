@@ -659,6 +659,10 @@ masum@masum:/media/masum/MASUM_32GB/zim$ git commit -m "$(date)"
 masum@masum:/media/masum/MASUM_32GB/zim$ git remote add origin https://github.com/masumndc1/zim.git
 
 .. which we can also find from below.
+.. if we have some problem in remote merging then we can do the following.
+
+ 597 [12:57 AM]  ~   master ●   git pull https://github.com/masumndc1/zim.git
+ 597 [12:57 AM]  ~   master ●   git merge https://github.com/masumndc1/zim.git
 
 masum@masum:/media/masum/MASUM_32GB$ git remote show origin
 * remote origin
