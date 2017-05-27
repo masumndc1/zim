@@ -1,0 +1,27 @@
+
+
+... here we will learn some commands related to wireless card only
+
+iwconfig wlan0
+wlan0     IEEE 802.11bgn  ESSID:off/any  
+          Mode:Managed  Access Point: Not-Associated   Tx-Power=14 dBm   
+          Retry  long limit:7   RTS thr:off   Fragment thr:off
+          Encryption key:off
+          Power Management:off
+
+... our card is only operating at bgn band. more over the band on which
+... a card will operate depends on regulatory board. running other band
+... is a punisable things. we can set the band country wise as follows.
+
+iw reg set US
+
+... after setting band using following command and changing from them
+... will give an error. this will give error any options including 
+... channel and transmission power txpower.
+
+iwconfig wlan0 txpower 27
+Error for wireless request "Set Tx Power" (8B26) :
+SET failed on device wlan0 ; Invalid argument.
+
+
+

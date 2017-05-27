@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo -e "backing up ipsec.conf file"
+cp /etc/ipsec.conf /etc/ipsec.conf.bak
+cp /home/munim/Downloads/ipsec.conf /etc/ipsec.conf
+
+echo -e "backup xlt2tp"
+cp /etc/xl2tpd/xlt2pd.conf /etc/xl2tpd/xlt2tpd.conf.bak
+cp /home/munim/Downloads/xlt2pd.conf /etc/xl2tpd/xlt2tpd.conf
+
+cp /etc/xl2tpd/l2tp-secrets /etc/xl2tpd/l2tp-secrets.bak
+cp /home/munim/Downloads/l2tp-secrets /etc/xl2tpd/l2tp-secrets
+
+echo -e "backing up ppp files "
+
+cp /etc/ppp/options.xl2tpd /etc/ppp/options.xl2tpd.bak
+cp /home/munim/Downloads/options.xl2tpd /etc/ppp/options.xl2tpd
+
+
+

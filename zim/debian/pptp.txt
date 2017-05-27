@@ -19,7 +19,7 @@ root@deb-7:/etc/ppp# cat pptpd-options
 name pptpd
 refuse-pap
 refuse-chap
-refuse-mschap
+#refuse-mschap
 require-mschap-v2
 require-mschap
 require-mppe-128
@@ -37,7 +37,7 @@ option /etc/ppp/pptpd-options
 debug
 logwtmp
 localip 192.168.0.1
-emoteip 192.168.0.234-238,192.168.0.245
+remoteip 192.168.0.234-238,192.168.0.245
 
 root@deb-7:/etc# 
 

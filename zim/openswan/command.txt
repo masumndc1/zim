@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#!/bin/bash
+
+for vpn in /proc/sys/net/ipv4/conf/* ; do 
+	echo 0 > $vpn/accept_redirects  
+	echo 0 > $vpn/send_redirects  
+done
+
+

