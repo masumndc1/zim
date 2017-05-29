@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python3.4
 
 import sys
-import urllib.request
+from urllib.request import urlopen
 
 try:
 	rfc_number = int(sys.argv[1])
@@ -12,7 +12,7 @@ except (IndexError, ValueError):
 
 template = 'http://www.ietf.org/rfc/rfc{}.txt'
 url = template.format(rfc_number)
-rfc_raw = urllib.request.urlopen(url).read()
+rfc_raw = urlopen(url).read()
 rfc = rfc_raw.decode()
 print(rfc)
 
