@@ -1,0 +1,51 @@
+
+
+... vagrant file now written with the syntax 2 but this is also backward
+... compatible with the version 1. following is the one exaple of version 1
+... syntax. vagrant file is written with ruby programming language syntax.
+
+... a simple configuration block found in a sample vagrant file is as follows.
+
+Vagrant::Config.run do |config|
+	config.vm.box = "precise64"
+	config.vm.share_folder "v-root", "/vagrant", "."
+	config.vm.provision "shell" do |s|
+		s.path = "script.sh"
+	end
+end
+
+... and some of the explanations are as follows.
+
+Vagrant::Config.run do |config|
+
+... the following line is a simple variable assignment
+
+	config.vm.box = "precise64"
+
+... the next line is just like one function call and three
+... variables are passed to it.
+
+	config.vm.share_folder "v-root", "/vagrant", "."
+
+... 
+	config.vm.provision "shell" do |s|
+		s.path = "script.sh"
+	end
+end
+
+... the equivalent code written in version 2 syntax are as follows
+
+Vagrant.configure("2") do |config|
+ 	config.vm.box = "FreeBSD 10.1 i386"
+	config.vm.box_url = "http://iris.hosting.lv/freebsd-10.1-i386.box"
+end
+
+... with the version 2 vagrant in the folder we can run following to 
+... download the box and install them.
+
+$ vagrant box add {title} {url}
+$ vagrant init {title}
+$ vagrant up
+
+
+

@@ -1,0 +1,93 @@
+
+
+............... installing and configure the vagrant .................
+
+... download the latest vagrant package for linux from the following website
+
+... https://www.vagrantup.com
+
+... after installing vagrant in our debian machine we can check which 
+... version is installed here by following command. we are using virtual box
+... for running box in it.
+
+# vagrant --version
+Vagrant 1.6.5
+
+# virtualbox  --help
+ Oracle VM VirtualBox Manager 4.3.36_Debian
+ (C) 2005-2016 Oracle Corporation
+ All rights reserved.
+
+... now going to add our first box in vagrant 
+
+root@deb-7:~/vagrant# vagrant box add hashicorp/trusty32
+The box 'hashicorp/trusty32' could not be found or
+could not be accessed in the remote catalog. If this is a private
+box on HashiCorp's Atlas, please verify you're logged in via
+`vagrant login`. Also, please double-check the name. The expanded
+URL and error message are shown below:
+URL: ["https://atlas.hashicorp.com/hashicorp/trusty32"]
+Error: The requested URL returned error: 404 Not Found
+
+... the error is for as we dont have any login account at 
+... hashicorp site for our vagrant box. therefore we are
+... trying to download and install box.
+
+root@deb-7:~/vagrant# vagrant box add ubuntu/trusty32
+==> box: Loading metadata for box 'ubuntu/trusty32'
+    box: URL: https://atlas.hashicorp.com/ubuntu/trusty32
+==> box: Adding box 'ubuntu/trusty32' (v20170307.0.1) for provider: virtualbox
+    box: Downloading: https://atlas.hashicorp.com/ubuntu/boxes/trusty32/versions/20170307.0.1/providers/virtualbox.box
+==> box: Successfully added box 'ubuntu/trusty32' (v20170307.0.1) for 'virtualbox'!
+root@deb-7:~/vagrant# 
+
+... another way of installing favourite boxes in varius precompiled
+... boxes and download and install them.
+
+... boxes can be also searched in follwoing website
+
+https://atlas.hashicorp.com/boxes/search
+
+# vagrant init https://atlas.hashicorp.com/hashicorp/boxes/precise32 or 
+# vagrant init http://vagrant.srijn.net/archlinux-x64-2014-01-07.box
+
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+
+... after downloading the box run the box using following command
+
+# vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Box 'hashicorp/precise32' could not be found. Attempting to find and install...
+    default: Box Provider: virtualbox
+    default: Box Version: >= 0
+==> default: Loading metadata for box 'hashicorp/precise32'
+    default: URL: https://atlas.hashicorp.com/hashicorp/precise32
+==> default: Adding box 'hashicorp/precise32' (v1.0.0) for provider: virtualbox
+    default: Downloading: https://vagrantcloud.com/hashicorp/boxes/precise32/versions/1.0.0/providers/virtualbox.box
+    default: Progress: 8% (Rate: 307k/s, Estimated time remaining: 0:19:07)^C==> default: Waiting for cleanup before exiting...
+==> default: Box download was interrupted. Exiting.
+The box failed to unpackage properly. Please verify that the box
+file you're trying to add is not corrupted and that enough disk space
+is available and then try again.
+The output from attempting to unpackage (if any):
+
+... after the succesfull installation done we can connect to our vagrant box
+
+# vagrant ssh
+
+Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic i686)
+* Documentation:  https://help.ubuntu.com/
+System information disabled due to load higher than 1.0
+Get cloud support with Ubuntu Advantage Cloud Guest:
+http://www.ubuntu.com/business/services/cloud
+New release '16.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+Last login: Wed Jun  7 01:09:50 2017 from 10.0.2.2
+
+vagrant@vagrant-ubuntu-trusty-32:~$ 
+
+
+
