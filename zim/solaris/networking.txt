@@ -1,0 +1,125 @@
+
+
+.... networking in solaris 10
+
+... first we have to see how many interface it has.
+
+bash-3.2# dladm show-link
+e1000g0         type: non-vlan  mtu: 1500       device: e1000g0
+e1000g1         type: non-vlan  mtu: 1500       device: e1000g1
+bash-3.2# 
+
+... and how many are configured with.
+
+bash-3.2# ifconfig -a
+
+lo0: flags=2001000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4,VIRTUAL> mtu 8232 index 1
+        inet 127.0.0.1 netmask ff000000 
+e1000g0: flags=1004843<UP,BROADCAST,RUNNING,MULTICAST,DHCP,IPv4> mtu 1500 index 2
+        inet 192.168.35.128 netmask ffffff00 broadcast 192.168.35.255
+        ether 8:0:27:dd:fa:30 
+
+lo0: flags=2002000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv6,VIRTUAL> mtu 8252 index 1
+        inet6 ::1/128 
+e1000g0: flags=2004841<UP,RUNNING,MULTICAST,DHCP,IPv6> mtu 1500 index 2
+        inet6 fe80::a00:27ff:fedd:fa30/10 
+        ether 8:0:27:dd:fa:30 
+
+bash-3.2# 
+
+bash-3.2# ifconfig e1000g0
+e1000g0: flags=1004843<UP,BROADCAST,RUNNING,MULTICAST,DHCP,IPv4> mtu 1500 index 2
+        inet 192.168.35.128 netmask ffffff00 broadcast 192.168.35.255
+        ether 8:0:27:dd:fa:30 
+
+bash-3.2# ifconfig e1000g0 | grep inet
+        inet 192.168.35.128 netmask ffffff00 broadcast 192.168.35.255
+
+bash-3.2# 
+
+
+... checking weather any of the interface is using dhcp right now.
+... output showing interface e1000g0 is now using the ip from dhcp.
+
+bash-3.2# netstat -D
+Interface  State         Sent  Recv  Declined  Flags
+e1000g0    BOUND            2     1         0  [PRIMARY] 
+(Began, Expires, Renew) = (06/12/2017 06:31, 06/12/2017 07:01, 06/12/2017 06:45)
+e1000g0    SELECTING       10     0         0  [PRIMARY] [V6] 
+bash-3.2# 
+
+... these are some files where solaris puts its networking parameters
+
+IP Address - /etc/hostname.e1000g0
+Domain name - /etc/defaultdomain
+Netmask - /etc/inet/netmasks
+Hosts database - /etc/hosts, /etc/inet/hosts
+Client DNS resolver file - /etc/resolv.conf
+Default Gateway - /etc/defaultrouter
+Node name - /etc/nodename
+Name service configuration file - /etc/nsswitch.conf
+
+... therefore to prevent interface e1000g0 to use the dhcp ip we can
+... move /etc/dhcp.e1000g0 to new file or remove this file and place
+... our desired ip in the /etc/hostname.e1000g0
+
+# gedit /etc/hostname.e1000g0
+ 192.168.35.128
+
+# gedit /etc/defaultdomain
+masum.com
+
+# gedit /etc/inet/netmasks
+ 192.168.35.0 255.255.255.0
+
+# gedit /etc/hosts
+ 192.168.35.128 solaris10
+
+# gedit /etc/resolv.conf
+ domain masum.com
+ nameserver 4.2.2.1
+ nameserver 4.2.2.2
+
+# gedit /etc/defaultrouter
+ 192.168.35.1
+
+ Check the nsswitch file for hosts value as bydefault it is only set to resolve using files and not dns
+# gedit /etc/nsswitch.conf
+ hosts: files dns
+
+... to effect from all of these files and their setting we have to reboot
+... the system. 
+
+bash-3.2# netstat -rn
+
+Routing Table: IPv4
+  Destination           Gateway           Flags  Ref     Use     Interface 
+-------------------- -------------------- ----- ----- ---------- --------- 
+default              192.168.35.1         UG        1          4           
+192.168.35.0         192.168.35.100       U         1          1 e1000g0   
+127.0.0.1            127.0.0.1            UH        3        195 lo0       
+
+Routing Table: IPv6
+  Destination/Mask            Gateway                   Flags Ref   Use    If   
+--------------------------- --------------------------- ----- --- ------- ----- 
+fe80::/10                   fe80::a00:27ff:fedd:fa30    U       1       0 e1000g0 
+ff00::/8                    fe80::a00:27ff:fedd:fa30    U       1       0 e1000g0 
+::1                         ::1                         UH      1     129 lo0   
+bash-3.2# 
+
+
+bash-3.2# ping -s yahoo.com
+PING yahoo.com: 56 data bytes
+64 bytes from ir1.fp.vip.gq1.yahoo.com (206.190.36.45): icmp_seq=7. time=327. ms
+64 bytes from ir1.fp.vip.gq1.yahoo.com (206.190.36.45): icmp_seq=8. time=366. ms
+64 bytes from ir1.fp.vip.gq1.yahoo.com (206.190.36.45): icmp_seq=9. time=328. ms
+64 bytes from ir1.fp.vip.gq1.yahoo.com (206.190.36.45): icmp_seq=10. time=806. ms
+64 bytes from ir1.fp.vip.gq1.yahoo.com (206.190.36.45): icmp_seq=11. time=339. ms
+^C
+----yahoo.com PING Statistics----
+13 packets transmitted, 5 packets received, 61% packet loss
+round-trip (ms)  min/avg/max/stddev = 327./433./806./2.1e+02
+bash-3.2# 
+
+
+

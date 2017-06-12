@@ -1,0 +1,64 @@
+
+
+.... package management in solaris 10
+
+... first of all we can download tgz files from website and install them in solaris
+
+bash-3.2# /usr/sfw/bin/wget -c http://downloads.puppetlabs.com/puppet/puppetserver-2.7.2.tar.gz
+--2017-06-12 08:49:25--  http://downloads.puppetlabs.com/puppet/puppetserver-2.7.2.tar.gz
+Resolving downloads.puppetlabs.com... 192.155.89.90, 2600:3c03::f03c:91ff:fedb:6b1d
+Connecting to downloads.puppetlabs.com|192.155.89.90|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 33990767 (32M) [application/x-gzip]
+puppetserver-2.7.2.tar.gz: Operation not applicable
+
+Cannot write to `puppetserver-2.7.2.tar.gz' (Operation not applicable).
+
+... looks like we have issues in writing anything in this location therfore we are 
+... trying to download the files in /tmp file.
+
+bash-3.2# cd /tmp
+bash-3.2# 
+bash-3.2# /usr/sfw/bin/wget -c http://downloads.puppetlabs.com/puppet/puppetserver-2.7.2.tar.gz
+--2017-06-12 08:49:49--  http://downloads.puppetlabs.com/puppet/puppetserver-2.7.2.tar.gz
+Resolving downloads.puppetlabs.com... 192.155.89.90, 2600:3c03::f03c:91ff:fedb:6b1d
+Connecting to downloads.puppetlabs.com|192.155.89.90|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 33990767 (32M) [application/x-gzip]
+Saving to: `puppetserver-2.7.2.tar.gz'
+
+ 2% [=>                                                                                           ] 920,905     85.2K/s  eta 6m 3
+
+bash-3.2# 
+
+bash-3.2# ls
+hsperfdata_noaccess  hsperfdata_root      puppet-0.9.4.tgz
+bash-3.2# 
+
+... now we will use the gunzip utility to unzip it to a tarball file
+
+bash-3.2# gzip -l puppet-0.9.4.tgz 
+         compressed        uncompressed  ratio uncompressed_name
+             203421             1116160  81.8% puppet-0.9.4.tar
+bash-3.2# 
+bash-3.2# gunzip puppet-0.9.4.tgz 
+
+bash-3.2# ls
+hsperfdata_noaccess  hsperfdata_root      puppet-0.9.4.tar
+bash-3.2# 
+bash-3.2# tar xvf puppet-0.9.4.tar 
+x puppet-0.9.4, 0 bytes, 0 tape blocks
+x puppet-0.9.4/install.rb, 9213 bytes, 18 tape blocks
+x puppet-0.9.4/CHANGELOG, 213 bytes, 1 tape blocks
+
+.../// output cut ///...
+
+bash-3.2# 
+bash-3.2# ls
+hsperfdata_noaccess  hsperfdata_root      puppet-0.9.4         puppet-0.9.4.tar
+bash-3.2# 
+bash-3.2# 
+
+
+
+

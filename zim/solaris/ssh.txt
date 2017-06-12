@@ -1,0 +1,94 @@
+
+
+.... ssh service in solaris10
+
+... following is the location of files for ssh and anything we need to 
+... change in settings.
+
+bash-3.2# cd /etc/ssh
+bash-3.2# ls
+moduli                ssh_host_dsa_key      ssh_host_rsa_key      sshd_config
+ssh_config            ssh_host_dsa_key.pub  ssh_host_rsa_key.pub
+bash-3.2# 
+bash-3.2# cat sshd_config | grep -i permitroot 
+#PermitRootLogin no
+PermitRootLogin yes
+bash-3.2# 
+
+... after changing any setting we need to restart the service like below
+... however we can see the status of the services 
+
+bash-3.2# svcs -a           
+STATE          STIME    FMRI
+legacy_run      7:52:25 lrc:/etc/rcS_d/S50sk98sol
+legacy_run      7:54:50 lrc:/etc/rc2_d/S10lu
+legacy_run      7:54:51 lrc:/etc/rc2_d/S20sysetup
+legacy_run      7:54:52 lrc:/etc/rc2_d/S40llc2
+
+disabled        7:50:17 svc:/system/metainit:default
+disabled        7:50:17 svc:/system/device/mpxio-upgrade:default
+disabled        7:50:25 svc:/network/ipsec/ike:default
+disabled        7:50:25 svc:/network/ipsec/manual-key:default
+
+online          7:50:15 svc:/system/svc/restarter:default
+online          7:50:23 svc:/network/tnctl:default
+online          7:50:23 svc:/network/pfil:default
+online          7:50:23 svc:/network/loopback:default
+
+bash-3.2# svcs -a | grep ssh 
+online          7:54:34 svc:/network/ssh:default
+bash-3.2# 
+bash-3.2# svcs -v ssh
+STATE          NSTATE        STIME    CTID      FMRI
+online         -              7:54:34        67 svc:/network/ssh:default
+bash-3.2# 
+
+... the above command and output is saying that ssh is running therefore
+... we need to restart it.
+
+bash-3.2# svcadm
+Usage: svcadm [-v] [cmd [args ... ]]
+
+        svcadm enable [-rst] <service> ...      - enable and online service(s)
+        svcadm disable [-st] <service> ...      - disable and offline service(s)
+        svcadm restart <service> ...            - restart specified service(s)
+        svcadm refresh <service> ...            - re-read service configuration
+        svcadm mark [-It] <state> <service> ... - set maintenance state
+        svcadm clear <service> ...              - clear maintenance state
+        svcadm milestone [-d] <milestone>       - advance to a service milestone
+
+        Services can be specified using an FMRI, abbreviation, or fnmatch(5)
+        pattern, as shown in these examples for svc:/network/smtp:sendmail
+
+        svcadm <cmd> svc:/network/smtp:sendmail
+        svcadm <cmd> network/smtp:sendmail
+        svcadm <cmd> network/*mail
+        svcadm <cmd> network/smtp
+        svcadm <cmd> smtp:sendmail
+        svcadm <cmd> smtp
+        svcadm <cmd> sendmail
+bash-3.2# 
+bash-3.2# svcadm disable network/ssh
+bash-3.2# svcadm enable network/ssh
+bash-3.2# svcadm restart network/ssh
+bash-3.2# 
+
+... we can also do the following
+
+bash-3.2# svcadm restart svc:/network/ssh:default
+bash-3.2# svcadm restart ssh                     
+bash-3.2# 
+
+bash-3.2# svcs ssh
+STATE          STIME    FMRI
+online          8:53:21 svc:/network/ssh:default
+bash-3.2# svcadm disable ssh
+bash-3.2# svcs ssh
+STATE          STIME    FMRI
+disabled        8:55:09 svc:/network/ssh:default
+bash-3.2# svcadm enable ssh
+bash-3.2# svcs ssh
+STATE          STIME    FMRI
+online          8:55:27 svc:/network/ssh:default
+bash-3.2# 
+bash-3.2# 
