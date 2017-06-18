@@ -1,0 +1,299 @@
+
+
+... tc tool (not only HTB) uses shortcuts to denote units of rate.
+... kbps means kilobytes and kbit means kilobits.
+
+... htb provides minimum amound of bandwidth a class is allocated
+... and allowed. remaining bandwidth will be distributed to the 
+... other class.
+
+... we have one scenario here. say we want B will get 60kbps and 
+... remaining 40kbps out of 100kbps will get A. 30kbps out of 40
+... of A will be used for www and rest of the 10kbps will be used
+... for other purpose.
+
+root@deb-7:~# tc qdisc del dev eth1 root
+root@deb-7:~# tc -s -d class show dev eth1
+root@deb-7:~# tc qdisc add dev eth1 root handle 1: htb default 12
+
+... This command attaches queue discipline HTB to eth1 and gives it the "handle"  1: 
+... Thisis just a name or identifier with which to refer to it below. 
+... The default 12 means that any traffic that is not otherwise classified 
+... will be assigned to class 1:12.
+
+... In general (not just for HTB but for all qdiscs and classes in tc), handles are written x:y where x
+... is an integer identifying a qdisc and y is an integer identifying a class belonging to that qdisc. The
+... handle for a qdisc must have zero for its y value and the handle for a class must have a non-zero value
+... for its y value. The "1:" above is treated as "1:0".
+
+root@deb-7:~# tc -s -d qdisc show dev eth1
+qdisc htb 1: root refcnt 2 r2q 10 default 12 direct_packets_stat 50 ver 3.17
+ Sent 5872 bytes 50 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+root@deb-7:~# 
+
+... attaching class under the root qdisc and other classes.
+
+root@deb-7:~# tc class add dev eth1 parent 1: classid 1:1 htb rate 100kbps ceil 100kbps 
+root@deb-7:~# tc class add dev eth1 parent 1:1 classid 1:10 htb rate 30kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:1 classid 1:11 htb rate 10kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:1 classid 1:12 htb rate 60kbps ceil 100kbps
+root@deb-7:~# 
+ 
+root@deb-7:~# tc -s -d class show dev eth1
+class htb 1:11 parent 1:1 prio 0 quantum 1000 rate 80000bit ceil 800000bit
+ burst 1600b/8 mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 2500000 ctokens: 249984
+
+class htb 1:1 root rate 800000bit ceil 800000bit burst 1599b/8 mpu 0b overhead 
+0b cburst 1599b/8 mpu 0b overhead 0b level 7 
+ Sent 6610 bytes 59 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 2352bit 3pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 233734 ctokens: 233734
+
+class htb 1:10 parent 1:1 prio 0 quantum 3000 rate 240000bit ceil 800000bit 
+burst 1599b/8 mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 833328 ctokens: 249984
+
+class htb 1:12 parent 1:1 prio 0 quantum 6000 rate 480000bit ceil 800000bit 
+burst 1599b/8 mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 6610 bytes 59 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 2352bit 3pps backlog 0b 0p requeues 0 
+ lended: 59 borrowed: 0 giants: 0
+ tokens: 389578 ctokens: 233734
+
+root@deb-7:~# 
+
+... as we have created the qdisc and the classes and allocated the BW
+... now will create the filter to identify the packets from source
+
+root@deb-7:~# tc filter add dev eth1 protocol ip parent 1:0 prio 1 u32 match ip src 192.168.179.10 match ip dport 80 0xffff flowid 1:10
+root@deb-7:~# tc filter add dev eth1 protocol ip parent 1:0 prio 1 u32 match ip src 192.168.179.10 flowid 1:11
+
+root@deb-7:~# tc -s -d filter show dev eth1
+filter parent 1: protocol ip pref 1 u32 
+filter parent 1: protocol ip pref 1 u32 fh 800: ht divisor 1 
+filter parent 1: protocol ip pref 1 u32 fh 800::800 order 2048 key
+ ht 800 bkt 0 flowid 1:10  (rule hit 46 success 0)
+  match c0a8b30a/ffffffff at 12 (success 0 ) 
+  match 00000050/0000ffff at 20 (success 0 ) 
+filter parent 1: protocol ip pref 1 u32 fh 800::801 order 2049 key 
+ht 800 bkt 0 flowid 1:11  (rule hit 32 success 0)
+  match c0a8b30a/ffffffff at 12 (success 0 ) 
+root@deb-7:~# 
+
+... optionally attaching qdisc to leaf classes.
+ 
+root@deb-7:~# tc qdisc add dev eth1 parent 1:10 handle 20: pfifo limit 5
+root@deb-7:~# tc qdisc add dev eth1 parent 1:11 handle 30: pfifo limit 5
+root@deb-7:~# tc qdisc add dev eth1 parent 1:12 handle 40: sfq perturb 10
+root@deb-7:~#  
+root@deb-7:~# tc -s -d qdisc show dev eth1
+
+qdisc htb 1: root refcnt 2 r2q 10 default 12 direct_packets_stat 183 ver 3.17
+ Sent 49426 bytes 423 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+
+qdisc pfifo 20: parent 1:10 limit 5p
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+
+qdisc pfifo 30: parent 1:11 limit 5p
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+
+qdisc sfq 40: parent 1:12 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
+ Sent 4040 bytes 36 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+
+root@deb-7:~# 
+
+... quantum:It computes classe's quantum as its rate divided by r2q global parameter.
+... though we dont need to specify the quantum as htb calculates it by it self.
+
+... now we have another scenario we want customer A's remaining BW
+... will be shared to his other services rather than giving to customer B.
+
+... the amount ofservice provided to each class is at least the minimum of the amount it
+... requests and the amount assigned to it. This applies to htb classes
+... that are not parents of other htb classes. We call these leafclasses.
+... For htb classes that are parents of other htb classes, which we call
+... interior classes, the rule is that the amount of service is at least the 
+... minumum of the amount assigned to it and the sum of the amount requested by its children.
+... In this case we assign 40kbps to customerA .That means that if A requests less 
+... than the allocated rate for WWW, the excess will be
+... used for A's other traffic (ifthereis demand forit), at least until the sum is 40kbps.
+
+... at first we are deleting any pre configured qdisc with it.
+
+root@deb-7:~# tc qdisc del dev eth1 root
+
+... show any qdisc configured.
+
+root@deb-7:~# tc -s -d qdisc show dev eth1
+qdisc pfifo_fast 0: root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+ Sent 606 bytes 5 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+
+... note here the default one which is attached to any interface when no qdisc
+... is configured type if pfifo_fast.
+
+... adding one root qdisc on interface eth1
+ 
+root@deb-7:~# tc qdisc add dev eth1 root handle 1: htb rate 100kbps
+
+root@deb-7:~# tc -s -d qdisc show dev eth1
+qdisc htb 1: root refcnt 2 r2q 10 default 0 direct_packets_stat 20 ver 3.17
+ Sent 2396 bytes 20 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0 
+root@deb-7:~# 
+
+... after adding the default pfifo_fast becomes htb type.
+
+... now we are adding class to the htb qdisc.
+
+root@deb-7:~# tc -s -d class show dev eth1
+root@deb-7:~# 
+root@deb-7:~# tc class add dev eth1 parent 1: classid 1:1 htb rate 100kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:1 classid 1:2 htb rate 40kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:1 classid 1:12 htb rate 60kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:2 classid 1:10 htb rate 30kbps ceil 100kbps
+root@deb-7:~# tc class add dev eth1 parent 1:2 classid 1:11 htb rate 10kbps ceil 100kbps
+root@deb-7:~# 
+
+... note here we are including the parameter ceil to limit the maximum allowed bandwidth 
+... which is here 100kbps.
+... if we dont use ceil, then the maximum will be the rate we are providing.
+... following output is the classes we have created.
+
+root@deb-7:~# tc -s -d class show dev eth1
+class htb 1:11 parent 1:2 prio 0 quantum 1000 rate 80000bit ceil 800000bit burst 1600b/8 
+mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 2500000 ctokens: 249984
+
+class htb 1:1 root rate 800000bit ceil 800000bit burst 1599b/8 mpu 0b overhead 0b cburst 
+1599b/8 mpu 0b overhead 0b level 7 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 249984 ctokens: 249984
+
+class htb 1:10 parent 1:2 prio 0 quantum 3000 rate 240000bit ceil 800000bit burst 1599b/8 
+mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 833328 ctokens: 249984
+
+class htb 1:2 parent 1:1 rate 320000bit ceil 800000bit burst 1600b/8 mpu 0b overhead 0b 
+cburst 1599b/8 mpu 0b overhead 0b level 6 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 625000 ctokens: 249984
+
+class htb 1:12 parent 1:1 prio 0 quantum 6000 rate 480000bit ceil 800000bit burst 1599b/8 
+mpu 0b overhead 0b cburst 1599b/8 mpu 0b overhead 0b level 0 
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
+ rate 0bit 0pps backlog 0b 0p requeues 0 
+ lended: 0 borrowed: 0 giants: 0
+ tokens: 416656 ctokens: 249984
+
+root@deb-7:~# 
+
+... now telling htb that 30kbps BW is for web browsing for the client 192.168.179.10
+
+root@deb-7:~# tc filter add dev eth1 protocol ip parent 1:0 prio 1 \
+u32 match ip src 192.168.179.10 match ip dport 80 0xffff flowid 1:10
+ 
+... note here with the prio 1 with the above command. we are giving priority
+... this traffic over.
+... priority 0 is higher than priority 1 than priority 2 and so on.
+
+root@deb-7:~# tc -s -d filter show dev eth1
+filter parent 1: protocol ip pref 1 u32 
+filter parent 1: protocol ip pref 1 u32 fh 800: ht divisor 1 
+filter parent 1: protocol ip pref 1 u32 fh 800::800 order 2048 
+key ht 800 bkt 0 flowid 1:10  (rule hit 35 success 0)
+  match c0a8b30a/ffffffff at 12 (success 0 ) 
+  match 00000050/0000ffff at 20 (success 0 ) 
+  
+root@deb-7:~# 
+
+... when our htb configuration is done then we are making our linux box as router
+
+root@deb-7:~# iptables -t nat -A POSTROUTING -s 192.168.179.0/24 -j SNAT --to-source 192.168.206.128
+root@deb-7:~# iptables -t nat -L -n -v
+Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 SNAT       all  --  *      *       192.168.179.0/24     0.0.0.0/0            to:192.168.206.128
+root@deb-7:~# 
+
+... when client A(192.168.179.10) is using internat we are having following output.
+
+root@deb-7:~# iptables -t nat -L -n -v
+Chain PREROUTING (policy ACCEPT 10 packets, 1268 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain INPUT (policy ACCEPT 6 packets, 968 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 6 packets, 939 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 5 packets, 611 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    4   580 SNAT       all  --  *      *       192.168.179.0/24     0.0.0.0/0            to:192.168.206.128
+root@deb-7:~# 
+
+... now after adding the script we can see the output using following command
+
+# statistics
+#tc -s -d qdisc show dev eth1
+#tc -s -d class show dev eth1
+#tc -s -d filter show dev eth1
+
+
+... the script
+#!/bin/bash
+
+# deleting any previous qdisc attached with interface
+tc qdisc del dev eth1 root
+
+# adding new qdisc of 100kbps limit
+tc qdisc add dev eth1 root handle 1: htb
+
+# adding class
+tc class add dev eth1 parent 1: classid 1:1 htb rate 100kbps ceil 100kbps
+tc class add dev eth1 parent 1:1 classid 1:2 htb rate 40kbps ceil 100kbps
+tc class add dev eth1 parent 1:1 classid 1:12 htb rate 60kbps ceil 100kbps
+tc class add dev eth1 parent 1:2 classid 1:10 htb rate 30kbps ceil 100kbps
+tc class add dev eth1 parent 1:2 classid 1:11 htb rate 10kbps ceil 100kbps
+
+# marking 192.168.179.10's www traffic and giving it 30kbps link
+tc filter add dev eth1 protocol ip parent 1:0 prio 1 u32 match ip src 192.168.179.10 match ip dport 80 0xffff flowid 1:10
+
+tc qdisc add dev eth1 parent 1: handle 1:12 sfq
+tc qdisc add dev eth1 parent 1: handle 1:10 sfq
+tc qdisc add dev eth1 parent 1: handle 1:11 sfq
+
+

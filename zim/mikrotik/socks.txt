@@ -1,0 +1,64 @@
+
+
+... socks is a mechanism which allow tcp based application to go through 
+... any firewall on which these services are blocked. socks is application
+... protocol independent which means it can be used to pass protocol such
+... as http,telnet,ftp etc
+
+... first we have to configure mikrotik as a sock proxy server which then 
+... accept request from sock client and allow them to pass looking at its
+... sock proxy access-list. sock proxy server will then relies the connections
+... between client and application servers. 
+
+... to use sock in mikrotik client should use the socks version 4
+
+[admin@masum] ip> socks                                                                       
+[admin@masum] ip socks> print                                                                 
+                  enabled: no
+                     port: 1080
+  connection-idle-timeout: 2m
+          max-connections: 200
+[admin@masum] ip socks> set enabled=yes                                                       
+[admin@masum] ip socks> print                                                                 
+                  enabled: yes
+                     port: 1080
+  connection-idle-timeout: 2m
+          max-connections: 200
+[admin@masum] ip socks>     
+
+... firewall rules
+
+[admin@masum] ip socks access> /ip firewall nat print                                         
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0   chain=srcnat out-interface=ether1 action=masquerade 
+[admin@masum] ip socks access> 
+
+... in the firewall filter we are blocking ftp to be blocked.
+... we are blocking any ftp request from client 192.168.179.128 to be forward to outside
+
+[admin@masum] ip firewall filter> print                                                       
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0   chain=forward src-address=192.168.179.128 protocol=tcp dst-port=21 action=drop 
+[admin@masum] ip firewall filter>  
+
+... allowing these connections in socks access-list.
+
+[admin@masum] ip socks access> add src-address=192.168.179.128 dst-port=21 action=allow       
+[admin@masum] ip socks access> add dst-port=1024-65535 action=allow                           
+[admin@masum] ip socks access> add action=deny                                                
+[admin@masum] ip socks access> print                                                          
+Flags: X - disabled 
+ 0   src-address=192.168.179.128 dst-port=21 action=allow 
+ 1   dst-port=1024-65535 action=allow 
+ 2   action=deny 
+[admin@masum] ip socks access>   
+
+... after the configuration made connections can be checked by
+
+[admin@masum] ip socks> connections print                                                     
+ # SRC-ADDRESS                DST-ADDRESS                TX         RX        
+[admin@masum] ip socks>                                                                       
+[admin@masum] ip socks> 
+
+
+

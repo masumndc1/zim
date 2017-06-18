@@ -1,0 +1,138 @@
+
+
+... after all the networking done, ie setting interface ip address, default
+... routing and testing whether the mikrotik can reach internet, then set
+... internal networks default gateway to any of the mikrotik lan interface.
+
+... setting of ip addresses
+
+[admin@MikroTik] > ip address                                                                 
+[admin@MikroTik] ip address> print                                                            
+Flags: X - disabled, I - invalid, D - dynamic 
+ #   ADDRESS            NETWORK         BROADCAST       INTERFACE
+ 0   192.168.206.10/24  192.168.206.0   192.168.206.255 ether1   
+ 1 D 192.168.244.129/24 192.168.244.0   192.168.244.255 ether3   
+ 2 D 192.168.179.131/24 192.168.179.0   192.168.179.255 ether2   
+[admin@MikroTik] ip address>
+
+... adding the gateway for mikrotik
+
+[admin@MikroTik] ip route> add gateway=192.168.206.2                                          
+[admin@MikroTik] ip route>                                                                    
+[admin@MikroTik] ip route> print                                                              
+Flags: X - disabled, A - active, D - dynamic, 
+C - connect, S - static, r - rip, b - bgp, o - ospf 
+ #     DST-ADDRESS        PREFSRC         G GATEWAY         DISTANCE INTERFACE
+ 0 ADC 192.168.179.0/24   192.168.179.131                            ether2   
+ 1 ADC 192.168.206.0/24   192.168.206.10                             ether1   
+ 2 ADC 192.168.244.0/24   192.168.244.129                            ether3   
+ 3 A S 0.0.0.0/0                          r 192.168.206.2            ether1   
+[admin@MikroTik] ip route>                                                                    
+
+... testing the outside world connectivity
+
+[admin@MikroTik] > ping 4.2.2.1                                                               
+4.2.2.1 ping timeout
+4.2.2.1 64 byte ping: ttl=128 time=363 ms
+4.2.2.1 64 byte ping: ttl=128 time=301 ms
+4.2.2.1 64 byte ping: ttl=128 time=384 ms
+4.2.2.1 ping timeout
+4.2.2.1 64 byte ping: ttl=128 time=321 ms
+4.2.2.1 64 byte ping: ttl=128 time=274 ms
+8 packets transmitted, 5 packets received, 37% packet loss
+round-trip min/avg/max = 274/328.6/384 ms
+
+[admin@MikroTik] > ping yahoo.com                                                             
+98.138.253.109 64 byte ping: ttl=128 time=778 ms
+98.138.253.109 64 byte ping: ttl=128 time=826 ms
+3 packets transmitted, 2 packets received, 33% packet loss
+round-trip min/avg/max = 778/802.0/826 ms
+[admin@MikroTik] >                                                                            
+[admin@MikroTik] >                                                                            
+[admin@MikroTik] > ping google.com                                                            
+216.58.214.206 64 byte ping: ttl=128 time=320 ms
+216.58.214.206 64 byte ping: ttl=128 time=333 ms
+216.58.214.206 64 byte ping: ttl=128 time=363 ms
+216.58.214.206 64 byte ping: ttl=128 time=324 ms
+216.58.214.206 64 byte ping: ttl=128 time=663 ms
+216.58.214.206 64 byte ping: ttl=128 time=321 ms
+216.58.214.206 64 byte ping: ttl=128 time=349 ms
+216.58.214.206 64 byte ping: ttl=128 time=369 ms
+9 packets transmitted, 8 packets received, 11% packet loss
+round-trip min/avg/max = 320/380.2/663 ms
+[admin@MikroTik] > 
+
+... now we are selecting mikrotik's ether2(192.168.179.131) as the gateway interface of the 
+... internal lan side of the customer or our enterprise lan.
+
+[admin@MikroTik] > ip address                                                                 
+[admin@MikroTik] ip address> print                                                            
+Flags: X - disabled, I - invalid, D - dynamic 
+ #   ADDRESS            NETWORK         BROADCAST       INTERFACE
+ 0   192.168.206.10/24  192.168.206.0   192.168.206.255 ether1   
+ 1 D 192.168.244.129/24 192.168.244.0   192.168.244.255 ether3   
+ 2 D 192.168.179.131/24 192.168.179.0   192.168.179.255 ether2   
+[admin@MikroTik] ip address>
+
+... following is the settings and configuration of one of the internal node
+
+root@deb-7:~# route add default gw 192.168.179.131
+root@deb-7:~# 
+root@deb-7:~# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.179.131 0.0.0.0         UG    0      0        0 eth1
+192.168.179.0   0.0.0.0         255.255.255.0   U     0      0        0 eth1
+192.168.206.0   0.0.0.0         255.255.255.0   U     0      0        0 eth0
+root@deb-7:~# 
+root@deb-7:~# 
+root@deb-7:~# ping 4.2.2.1
+PING 4.2.2.1 (4.2.2.1) 56(84) bytes of data.
+64 bytes from 4.2.2.1: icmp_req=3 ttl=127 time=251 ms
+64 bytes from 4.2.2.1: icmp_req=2 ttl=127 time=1252 ms
+64 bytes from 4.2.2.1: icmp_req=1 ttl=127 time=2255 ms
+64 bytes from 4.2.2.1: icmp_req=4 ttl=127 time=675 ms
+^C
+--- 4.2.2.1 ping statistics ---
+5 packets transmitted, 4 received, 20% packet loss, time 4008ms
+rtt min/avg/max/mdev = 251.346/1108.559/2255.613/751.492 ms, pipe 3
+root@deb-7:~# 
+root@deb-7:~# 
+root@deb-7:~# ping yahoo.com
+PING yahoo.com (98.138.253.109) 56(84) bytes of data.
+64 bytes from ir1.fp.vip.ne1.yahoo.com (98.138.253.109): icmp_req=1 ttl=127 time=347 ms
+64 bytes from ir1.fp.vip.ne1.yahoo.com (98.138.253.109): icmp_req=2 ttl=127 time=455 ms
+^C
+--- yahoo.com ping statistics ---
+3 packets transmitted, 2 received, 33% packet loss, time 2002ms
+rtt min/avg/max/mdev = 347.763/401.496/455.230/53.737 ms
+root@deb-7:~# route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.179.131 0.0.0.0         UG    0      0        0 eth1
+192.168.179.0   0.0.0.0         255.255.255.0   U     0      0        0 eth1
+192.168.206.0   0.0.0.0         255.255.255.0   U     0      0        0 eth0
+root@deb-7:~# 
+root@deb-7:~# traceroute 4.2.2.1
+traceroute to 4.2.2.1 (4.2.2.1), 30 hops max, 60 byte packets
+ 1  192.168.179.131 (192.168.179.131)  6.670 ms  6.500 ms  6.201 ms
+ 2  192.168.206.2 (192.168.206.2)  14.163 ms  13.965 ms  13.655 ms
+ 3  * * *
+ 4  * * *
+
+ root@deb-7:~#
+ 
+... clearly packets are going through the 192.168.179.131 which is the ether2 interface
+... of mikrotik routers.
+
+..... natting.
+...
+... simple way to enable natting on an interface from web access.
+... http://192.168.206.10 and from the menu sellect firewall options and 
+... tick on natting and appropiate interface.
+
+
+
+ 
+
+

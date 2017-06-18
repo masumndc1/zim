@@ -1,0 +1,8 @@
+http://linux-ip.net/articles/Traffic-Control-HOWTO/overview.html
+http://linux-ip.net/articles/Traffic-Control-HOWTO
+http://tldp.org/HOWTO/Traffic-Control-tcng-HTB-HOWTO/
+
+http://luxik.cdi.cz/~devik/qos/htb/
+http://lartc.org/
+http://www.docum.org/docum.org/docs/
+http://www.docum.org/docum.org/docs/BB/BB.php ***

@@ -1,0 +1,373 @@
+
+
+... by default there is one qdisc associated with one physical interface
+... as soon as we apply "/queue tree" or "/queue simple" this physical qdisc
+... is replaced with HTB queueing. there is no queue with any virtual interface
+
+... schedulers - PFIFO, BFIFO, SFQ,PCQ (both scheduler and shaper), RED also can 
+... reschedule packets regarding their algorithm and drop packets
+
+... shapers - PCQ (both scheduler and shaper) and HTB can perform as shaper.
+
+... HTB terms 
+
+... filter: filter classifies the packets into different qdisc.
+... level: position of the class.
+
+... class: algorithm for limiting traffic rate to a certain level. a class
+... can have child sub classes(inner class) and associated with only one qdisc(leaf class).
+
+... inner class: which has multiple sub classes. they do the traffic shaping but 
+... no qdisc on innner class.
+
+... leaf class: a class which has parents but no child classes. always will be at
+... level 0 and one qdisc associated with it with certain priority. packets are
+... stored in the qdisc at this class.
+
+... self feed: an exit point from HTB hierarchy from any level. one self feed has
+... 8 slot of different priority.
+
+... active class: class which is attached to a self slot
+
+... inner feed: same like self feed found only in inned feed.
+
+... inner feed slot: same like self slot found in inner feed.
+
+.... each class in the hierarchy can shape and priorities the traffice based on
+... limit-at(CIR),max-limit(MIR) and priority( 1 is the highers, 8 is the lowest)
+... moreover each class can be one of the three states depending on the rate of
+... data that it consumes.
+
+... green: data rate <= limit-at 
+... yellow: parent's max-limit=> data rate > limit-at
+... red: data rate> max-limit
+
+... now when time comes to send the packets HTB will search for self slot of higher priorities in
+... lower level to lower priorities in higher level.
+
+... burst is used to send higher data for a short period of time. on an example
+... say on a setting max-limit=256000 bps, burst-time=8s, burst-thresold=192000
+... and burst-limit=512000 bps. now the rule is in every 1/16 of burst time(8)
+... (=0.5s as 8/16) router will look for average rate limit over burst-time(8s) span wheather is
+... lower than burst-thresold(192000) then burst will be activated and will be set
+... to burst-limit(512000) other wise rate limit will be max-limit(256000).
+... timing is also not depend on burst-time also depend on 
+... burst-thresold/burst-limit value.
+
+... when packet go out from router it passes global-total, global-out and output interface queue
+... when packet comes in it travels global-in, global-total HTB queues.
+... when packets passes through the router its passes through all the 4 HTB queues
+... global-in,global-out,global-total and output interface queue.
+
+.... queue type
+...
+... /queue tree, /queue simple, /queue interface these are the custome queue type.
+... these queue can not limit the data rate except the reordering and drop from the
+... queue when there is no more space. there are 5 kinds of qdisc that can be for
+... storing packets. pfifo, bfifo, sfq, pcq(the only class less queue which can rate
+... limit).
+...
+
+... some example of queue and type of queues of mikrotik are
+
+                     
+[admin@masum] >                                                                               
+[admin@masum] > queue                                                                         
+[admin@masum] queue> print                                                                    
+no such command or directory (print)
+[admin@masum] queue>                                                                          
+Traffic shaping
+
+.. -- go up to root
+interface/ -- Queue type setting for interface
+type/ -- Queue type
+monitor -- Monitor queue packets and bytes
+simple/ -- Simple Bandwidth management
+tree/ -- Sophisticated Bandwidth management
+export -- 
+
+[admin@masum] queue> type                                                                     
+[admin@masum] queue type> print                                                               
+ 0 name="default" kind=pfifo pfifo-limit=50 
+ 1 name="ethernet-default" kind=pfifo pfifo-limit=50 
+ 2 name="wireless-default" kind=sfq sfq-perturb=5 sfq-allot=1514 
+ 3 name="synchronous-default" kind=red red-limit=60 red-min-threshold=10 red-max-threshold=50 
+   red-burst=20 red-avg-packet=1000 
+ 4 name="hotspot-default" kind=sfq sfq-perturb=5 sfq-allot=1514 
+[admin@masum] queue type> ..                                                                  
+[admin@masum] queue> print                                                                    
+no such command or directory (print)
+[admin@masum] queue>                                                                          
+Traffic shaping
+
+.. -- go up to root
+interface/ -- Queue type setting for interface
+type/ -- Queue type
+monitor -- Monitor queue packets and bytes
+simple/ -- Simple Bandwidth management
+tree/ -- Sophisticated Bandwidth management
+export -- 
+
+[admin@masum] queue> simple                                                                   
+[admin@masum] queue simple> print                                                             
+Flags: X - disabled, I - invalid, D - dynamic 
+[admin@masum] queue simple>                                                                   
+Simple Bandwidth management
+
+.. -- go up to queue
+print -- print values of item properties
+get -- get value of item's property
+find -- finds items by value
+set -- change item properties
+edit -- edit value of item's property
+add -- create new item
+move -- changes order of items
+remove -- remove item
+enable -- enables items
+disable -- disables items
+export -- 
+reset-counters -- Set bytes and packets counters to 0
+unset -- unset property
+
+[admin@masum] queue simple> ..                                                                
+[admin@masum] queue>                                                                          
+Traffic shaping
+
+.. -- go up to root
+interface/ -- Queue type setting for interface
+type/ -- Queue type
+monitor -- Monitor queue packets and bytes
+simple/ -- Simple Bandwidth management
+tree/ -- Sophisticated Bandwidth management
+export -- 
+
+[admin@masum] queue> interface                                                                
+[admin@masum] queue interface> print                                                          
+ # INTERFACE QUEUE              
+ 0 ether1    ethernet-default   
+ 1 ether2    ethernet-default   
+ 2 ether3    ethernet-default   
+[admin@masum] queue interface>                                                                
+
+... to limit BW in subnet its simple to use simple queue which has also QoS capabilities.
+... follow are some of the options we have in simple queue
+
+[admin@masum] queue simple>    ?                                                               
+Simple Bandwidth management
+
+.. -- go up to queue
+print -- print values of item properties
+get -- get value of item's property
+find -- finds items by value
+set -- change item properties
+edit -- edit value of item's property
+add -- create new item
+move -- changes order of items
+remove -- remove item
+enable -- enables items
+disable -- disables items
+export -- 
+reset-counters -- Set bytes and packets counters to 0
+unset -- unset property
+
+[admin@masum] queue simple> print                                                             
+Flags: X - disabled, I - invalid, D - dynamic 
+[admin@masum] queue simple> set                                                               
+changes properties of one or several items.
+
+<numbers> -- item numbers
+name -- Queue name
+target-addresses -- Limitation source IP addresses
+dst-address -- Destination IP address
+dst-netmask -- Destination netmask
+interface -- Interface to which this queue applies
+parent -- Name of the parent queue in the hierarchy
+packet-marks -- 
+priority -- Flow priority
+queue -- Queue type
+limit-at -- Guaranteed data rate to this queue
+max-limit -- Data rate which can be reached if there is enough bandwidth available
+burst-limit -- Maximal allowed burst of data rate in form of in/out
+burst-threshold -- Average burst threshold in form of in/out
+burst-time -- Burst time in form in/out
+total-queue -- Queuing discipline to use for upload and download traffic
+total-limit-at -- Allocated total (bidirectional) stream data rate (bits/s)
+total-max-limit -- Maximal total (bidirectional) stream data rate (bits/s)
+total-burst-limit -- Maximal allowed total (bidirectional) burst of data rate (bits/s)
+total-burst-threshold -- Total (bidirectional) average burst threshold (bits/s)
+total-burst-time -- Total burst (bidirectional) time
+time -- At which time and day of week to allow this queue
+p2p -- Which type of P2P traffic to match
+disabled -- 
+
+[admin@masum] queue simple> 
+
+.... queue tree
+... queue tree should be used when we want some extra feature on marked packets 
+... (with the command /ip firewall mangle) based on protocol, ports
+
+[admin@masum] queue tree> print                                                               
+Flags: X - disabled, I - invalid 
+[admin@masum] queue tree>                                                                     
+Sophisticated Bandwidth management
+
+.. -- go up to queue
+print -- print values of item properties
+get -- get value of item's property
+find -- finds items by value
+set -- change item properties
+edit -- edit value of item's property
+add -- create new item
+remove -- remove item
+enable -- enables items
+disable -- disables items
+export -- 
+reset-counters -- Set bytes and packets counters to 0
+
+[admin@masum] queue tree> set                                                                 
+changes properties of one or several items.
+
+<numbers> -- item numbers
+name -- Queue name
+parent -- Interface which queue uses
+packet-mark -- 
+limit-at -- Maximum stream bit rate
+queue -- Queue type
+priority -- Flow priority
+max-limit -- Maximal limit
+burst-limit -- Maximal allowed burst of the data rate
+burst-threshold -- Average burst threshold
+burst-time -- Burst time
+disabled -- 
+
+[admin@masum] queue tree>                                                               
+
+... example 
+... we are trying to limit one of our local ip 192.168.179.128 to upload 64kbps and download
+... speed to 128kbps. therefore we have done that in mikrotik by following using simple queue
+
+
+< interface=ether2 target-addresses=192.168.179.128/32 max-limit=65636/131072                 
+[admin@masum] queue simple> print                                                             
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0    name="local-block" target-addresses=192.168.179.128/32 dst-address=0.0.0.0/0 
+      interface=ether2 parent=none priority=8 queue=default/default limit-at=0/0 
+      max-limit=65636/131072 total-queue=default 
+[admin@masum] queue simple>      
+
+[admin@masum] queue simple> /queue monitor                                                    
+  queued-packets: 50                                                                          
+    queued-bytes: 73830                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 74180                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 74380                                                                       
+  queued-packets: 48                                                                          
+    queued-bytes: 71380                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 74860                                                                       
+  queued-packets: 48                                                                          
+    queued-bytes: 71940                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 73460                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 73460                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 73460                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 73500                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 73500                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 75000                                                                       
+  queued-packets: 48                                                                          
+    queued-bytes: 72000                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 75000                                                                       
+  queued-packets: 48                                                                          
+    queued-bytes: 72000                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 75000                                                                       
+  queued-packets: 48                                                                          
+    queued-bytes: 72000                                                                       
+  queued-packets: 50                                                                          
+    queued-bytes: 75000                                                                       
+-- [Q quit|D dump|C-z pause]
+[admin@masum] queue simple>     
+
+[admin@masum] queue simple> /interface monitor-traffic ether2                                 
+  received-packets-per-second: 10                                                             
+     received-bits-per-second: 4.8kbps                                                        
+      sent-packets-per-second: 10                                                             
+         sent-bits-per-second: 119.9kbps                                                      
+  received-packets-per-second: 12                                                             
+     received-bits-per-second: 5.7kbps                                                        
+      sent-packets-per-second: 12                                                             
+         sent-bits-per-second: 143.9kbps                                                      
+-- [Q quit|D dump|C-z pause]
+[admin@masum] queue simple> 
+
+... say we have one of the server located at 192.168.179.10/32 in out local site and 
+... we want to exclude any limit on it. so therefore we need to add another rule for it.
+
+                                                                   
+<r target-addresses=192.168.179.10/32 interface=ether2 max-limit=0/0                          
+[admin@masum] queue simple>                                                                   
+[admin@masum] queue simple> print                                                             
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0    name="local-block" target-addresses=192.168.179.128/32 dst-address=0.0.0.0/0 
+      interface=ether2 parent=none priority=8 queue=default/default limit-at=0/0 
+      max-limit=65636/131072 total-queue=default 
+
+ 1    name="local-server" target-addresses=192.168.179.10/32 dst-address=0.0.0.0/0 
+      interface=ether2 parent=none priority=8 queue=default/default limit-at=0/0 
+      max-limit=0/0 total-queue=default 
+[admin@masum] queue simple> move 1 0                                                          
+[admin@masum] queue simple> print                                                             
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0    name="local-server" target-addresses=192.168.179.10/32 dst-address=0.0.0.0/0 
+      interface=ether2 parent=none priority=8 queue=default/default limit-at=0/0 
+      max-limit=0/0 total-queue=default 
+
+ 1    name="local-block" target-addresses=192.168.179.128/32 dst-address=0.0.0.0/0 
+      interface=ether2 parent=none priority=8 queue=default/default limit-at=0/0 
+      max-limit=65636/131072 total-queue=default 
+[admin@masum] queue simple>                                                                   
+
+.... using available bandwidth with queue tree
+
+... in this example we have one server 192.168.179.10/32 and one workstation 
+... 192.168.179.128/32. now we want if workstation is not using the bandwidth 
+... then the remaining available bandwidth will be used by remaining node.
+... in this instance the server. for this we have to mark the connections
+... and the packets. we will do so by mangle chain in firewall.
+... then we will set the queue tree.
+
+[admin@masum] queue simple> /ip firewall mangle print                                         
+Flags: X - disabled, I - invalid, D - dynamic 
+ 0   chain=prerouting src-address=192.168.179.10 action=mark-connection 
+     new-connection-mark=server passthrough=yes 
+
+ 1   chain=prerouting src-address=192.168.179.10 connection-mark=server action=mark-packet 
+     new-packet-mark=server-packets passthrough=yes 
+
+ 2   chain=prerouting src-address=192.168.179.128 action=mark-connection 
+     new-connection-mark=workstation passthrough=yes 
+
+ 3   chain=prerouting src-address=192.168.179.128 connection-mark=workstation 
+     action=mark-packet new-packet-mark=workstation-packets passthrough=yes 
+[admin@masum] queue simple>                                                                   
+
+... queue tree. we will set two different class. one for download and another 
+... for the upload and attache our server and workstation to them. therefore
+... when one is not using other can take the full bandwidth from the queue 
+
+
+
+
+            
+
+
+
+
+

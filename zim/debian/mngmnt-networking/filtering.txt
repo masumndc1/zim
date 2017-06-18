@@ -1,0 +1,71 @@
+
+
+... filtering example
+
+# creating various class
+ tc class add dev eth1 parent 1: classid 1:1 htb rate 500kbit burst 15k
+ tc class add dev eth1 parent 1:1 classid 1:10 htb rate 300kbit burst 15k
+ tc class add dev eth1 parent 1:1 classid 1:20 htb rate 150kbit ceil 500kbit burst 15k
+ tc class add dev eth1 parent 1:1 classid 1:30 htb rate 50kbit ceil 500kbit burst 15k
+
+# filtering traffic by u32 for port 80 and port 25
+# with HTB, you should attach all filters to the root!
+
+U32="tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32"
+$U32 match ip dport 80 0xffff flowid 1:10
+$U32 match ip sport 25 0xffff flowid 1:20
+
+# ... filtering can further explain later
+
+# tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 \
+match ip dst 4.3.2.1/32 flowid 10:1
+# tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 \
+match ip src 1.2.3.4/32 flowid 10:1
+# tc filter add dev eth0 protocol ip parent 10: prio 2 \
+flowid 10:2
+
+# tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 match ip src 4.3.2.1/32 \
+match ip sport 80 0xffff flowid 10:1
+
+# ... source/destination address
+# ... Source mask ’match ip src 1.2.3.0/24’, destination mask ’match ip dst 4.3.2.0/24’. To match a single
+# ... host, use /32, or omit the mask.
+# ... On source/destination port, all IP protocols
+# ... Source: ’match ip sport 80 0xffff’, destination: ’match ip dport 80 0xffff’
+# ... On ip protocol (tcp, udp, icmp, gre, ipsec)
+# ... Use the numbers from /etc/protocols, for example, icmp is 1: ’match ip protocol 1 0xff’.
+
+
+# ... or we can use the iptables to mark the packets and use them.
+# ... my personal favourite is iptables.
+
+iptables -t mangle -F
+iptables -t mangle -A FORWARD -d 192.168.179.0/24 -p tcp -j MARK --set-mark 6
+iptables -t mangle -A FORWARD -d 192.168.179.0/24 -p udp -j MARK --set-mark 5
+iptables -t mangle -A FORWARD -d 192.168.179.0/24 -p icmp -j MARK --set-mark 1
+tc filter add dev eth1 protocol ip parent 1:0 prio 1 handle 6 fw flowid 1:10
+tc filter add dev eth1 protocol ip parent 1:0 prio 1 handle 5 fw flowid 1:20
+tc filter add dev eth1 protocol ip parent 1:0 prio 1 handle 1 fw flowid 1:30
+
+root@deb-7:~# iptables -t mangle -L -v -n
+Chain PREROUTING (policy ACCEPT 1048 packets, 802K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+  553 40130 MARK       tcp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x6
+  100  7210 MARK       udp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            udp dpt:53 MARK set 0x5
+  162  710K MARK       icmp --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x1
+
+Chain INPUT (policy ACCEPT 527 packets, 38649 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 518 packets, 763K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 530 packets, 83494 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain POSTROUTING (policy ACCEPT 1048 packets, 846K bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+root@deb-7:~# 
+
+
+
