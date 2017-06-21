@@ -1,0 +1,176 @@
+
+
+... various options related with x509 command
+
+... some options we have with x.509
+
+root@deb-7:/etc/ssl/certs# openssl x509 -in  
+usage: x509 args
+ -inform arg     - input format - default PEM (one of DER, NET or PEM)
+ -outform arg    - output format - default PEM (one of DER, NET or PEM)
+ -keyform arg    - private key format - default PEM
+ -CAform arg     - CA format - default PEM
+ -CAkeyform arg  - CA key format - default PEM
+ -in arg         - input file - default stdin
+ -out arg        - output file - default stdout
+ -passin arg     - private key password source
+ -serial         - print serial number value
+ -subject_hash   - print subject hash value
+ -subject_hash_old   - print old-style (MD5) subject hash value
+ -issuer_hash    - print issuer hash value
+ -issuer_hash_old    - print old-style (MD5) issuer hash value
+ -hash           - synonym for -subject_hash
+ -subject        - print subject DN
+ -issuer         - print issuer DN
+ -email          - print email address(es)
+ -startdate      - notBefore field
+ -enddate        - notAfter field
+ -purpose        - print out certificate purposes
+ -dates          - both Before and After dates
+ -modulus        - print the RSA key modulus
+ -pubkey         - output the public key
+ -fingerprint    - print the certificate fingerprint
+ -alias          - output certificate alias
+ -noout          - no certificate output
+ -ocspid         - print OCSP hash values for the subject name and public key
+ -ocsp_uri       - print OCSP Responder URL(s)
+ -trustout       - output a "trusted" certificate
+ -clrtrust       - clear all trusted purposes
+ -clrreject      - clear all rejected purposes
+ -addtrust arg   - trust certificate for a given purpose
+ -addreject arg  - reject certificate for a given purpose
+ -setalias arg   - set certificate alias
+ -days arg       - How long till expiry of a signed certificate - def 30 days
+ -checkend arg   - check whether the cert expires in the next arg seconds
+				   exit 1 if so, 0 if not
+ -signkey arg    - self sign cert with arg
+ -x509toreq      - output a certification request object
+ -req            - input is a certificate request, sign and output.
+ -CA arg         - set the CA certificate, must be PEM format.
+ -CAkey arg      - set the CA key, must be PEM format
+                   missing, it is assumed to be in the CA file.
+ -CAcreateserial - create serial number file if it does not exist
+ -CAserial arg   - serial file
+ -set_serial     - serial number to use
+ -text           - print the certificate in text form
+ -C              - print out C code forms
+ -md2/-md5/-sha1/-mdc2 - digest to use
+ -extfile        - configuration file with X509V3 extensions to add
+ -extensions     - section from config file with X509V3 extensions to add
+ -clrext         - delete extensions before signing and input certificate
+ -nameopt arg    - various certificate name options
+ -engine e       - use engine e, possibly a hardware device.
+ -certopt arg    - various certificate text options
+root@deb-7:/etc/ssl/certs# 
+
+... lets try some example with openssl
+
+root@deb-7:/etc/ipsec.d/certs# openssl x509 -in deb-7Cert.pem -text -noout
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            f6:34:f6:43:3c:a9:54:48
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=AT
+        Validity
+            Not Before: Mar 26 00:34:13 2017 GMT
+            Not After : May  4 00:34:13 2021 GMT
+        Subject: C=AT
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:a7:48:70:ca:3b:36:e9:9a:87:c0:19:96:66:11:
+                    29:f6:32:7b:ce:99:df:8c:85:18:97:cf:53:a2:5d:
+                    f4:25:84:0d:49:44:b8:4c:46:1f:5e:cc:af:ee:a2:
+                    76:b5:2e:5d:8c:cc:93:d7:ef:aa:b4:58:4f:54:e3:
+                    aa:2a:63:30:e8:71:06:1d:63:3f:02:f6:eb:e1:6f:
+                    36:82:c0:0a:62:33:6c:d3:d7:11:cc:0f:28:2c:46:
+                    8a:dc:13:47:9e:ff:ec:05:d9:96:da:e1:0c:18:b5:
+                    8f:26:dd:1f:46:15:7d:ec:06:47:36:f2:85:bb:2a:
+                    6c:4c:a3:6a:58:b2:2f:69:4b:86:f0:2d:a9:6d:3e:
+                    66:4a:9c:a1:be:98:38:4d:4f:43:e7:f5:d8:56:4a:
+                    2f:a1:48:0d:c0:6f:5d:76:0e:5c:6f:c7:63:0e:9c:
+                    81:93:aa:9a:c7:53:d6:8d:fc:5c:1d:3d:a3:ed:de:
+                    cf:09:5f:66:91:ad:13:f8:59:81:eb:97:b4:68:82:
+                    42:ca:56:5e:5f:5d:a0:87:30:3d:24:32:9b:ba:90:
+                    b8:2f:08:dc:d9:61:ee:9b:27:30:dc:ab:61:06:08:
+                    79:d6:95:90:c5:f8:a5:36:82:bb:4b:4d:e9:a0:69:
+                    57:5b:d0:8d:b0:da:59:e8:87:33:4b:89:0b:c3:ff:
+                    7c:43
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier: 
+                D8:41:BA:77:34:72:54:8F:87:EE:B1:95:90:37:CC:C5:F2:94:33:48
+            X509v3 Authority Key Identifier: 
+                keyid:D8:41:BA:77:34:72:54:8F:87:EE:B1:95:90:37:CC:C5:F2:94:33:48
+
+            X509v3 Basic Constraints: 
+                CA:TRUE
+    Signature Algorithm: sha256WithRSAEncryption
+         4e:67:62:20:8d:2d:7e:69:cb:e9:50:7b:17:c1:f7:02:c7:66:
+         c3:fa:8a:31:14:18:a2:cf:08:97:47:99:be:bc:71:0c:e4:d1:
+         73:d1:fd:7e:fe:e9:cf:d9:0b:cb:95:d4:36:aa:6e:fb:6c:b8:
+         63:75:4f:f4:4e:2e:17:51:8d:b1:b7:50:74:79:92:6a:18:c5:
+         b6:9d:a9:6f:6c:c6:c0:28:09:f3:0f:f2:cc:67:8a:5c:b9:5a:
+         d9:c5:2a:fa:43:e5:fd:9d:c4:1d:27:3d:36:2c:61:b7:f0:ef:
+         90:ac:94:ac:b6:de:98:a9:dc:9d:59:e5:16:97:7b:af:92:5b:
+         a1:9a:7c:a3:c7:ee:cb:c3:fd:da:ae:c3:a5:17:fd:bb:f7:de:
+         78:c9:95:73:3e:e6:40:90:68:97:71:38:26:91:d1:5f:27:32:
+         c7:2f:92:0e:cd:e1:81:98:e4:8e:7a:d4:ba:b6:c8:24:4b:54:
+         71:26:3e:48:b6:4f:ac:97:52:d2:24:7b:ef:e9:10:fd:76:a2:
+         36:7a:0f:2d:ab:23:dc:f7:76:26:51:40:36:26:64:a0:cd:be:
+         33:58:10:eb:69:7d:91:c9:b6:1a:17:ac:60:38:cc:d5:fb:3c:
+         89:26:6f:d0:03:55:35:5f:a4:4f:95:ad:b6:bc:33:5a:ad:b1:
+         13:c5:a5:09
+
+root@deb-7:/etc/ipsec.d/certs# 
+
+root@deb-7:/etc/ipsec.d/certs# openssl x509 -in deb-7Cert.pem \
+-serial -purpose -dates -modulus -pubkey -fingerprint  -noout
+
+serial=F634F6433CA95448
+Certificate purposes:
+SSL client : Yes
+SSL client CA : Yes
+SSL server : Yes
+SSL server CA : Yes
+Netscape SSL server : Yes
+Netscape SSL server CA : Yes
+S/MIME signing : Yes
+S/MIME signing CA : Yes
+S/MIME encryption : Yes
+S/MIME encryption CA : Yes
+CRL signing : Yes
+CRL signing CA : Yes
+Any Purpose : Yes
+Any Purpose CA : Yes
+OCSP helper : Yes
+OCSP helper CA : Yes
+Time Stamp signing : No
+Time Stamp signing CA : Yes
+notBefore=Mar 26 00:34:13 2017 GMT
+notAfter=May  4 00:34:13 2021 GMT
+Modulus=A74870CA3B36E99A87C01996661129F6327BCE99DF8C851897CF53A25
+DF425840D4944B84C461F5ECCAFEEA276B52E5D8CCC93D7EFAAB4584F54E3AA2A
+6330E871061D633F02F6EBE16F3682C00A62336CD3D711CC0F282C468ADC13479
+EFFEC05D996DAE10C18B58F26DD1F46157DEC064736F285BB2A6C4CA36A58B22F
+694B86F02DA96D3E664A9CA1BE98384D4F43E7F5D8564A2FA1480DC06F5D760E5
+C6FC7630E9C8193AA9AC753D68DFC5C1D3DA3EDDECF095F6691AD13F85981EB97
+B4688242CA565E5F5DA087303D24329BBA90B82F08DCD961EE9B2730DCAB61060
+879D69590C5F8A53682BB4B4DE9A069575BD08DB0DA59E887334B890BC3FF7C43
+-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAp0hwyjs26ZqHwBmWZhEp
+9jJ7zpnfjIUYl89Tol30JYQNSUS4TEYfXsyv7qJ2tS5djMyT1++qtFhPVOOqKmMw
+6HEGHWM/Avbr4W82gsAKYjNs09cRzA8oLEaK3BNHnv/sBdmW2uEMGLWPJt0fRhV9
+7AZHNvKFuypsTKNqWLIvaUuG8C2pbT5mSpyhvpg4TU9D5/XYVkovoUgNwG9ddg5c
+b8djDpyBk6qax1PWjfxcHT2j7d7PCV9mka0T+FmB65e0aIJCylZeX12ghzA9JDKb
+upC4Lwjc2WHumycw3KthBgh51pWQxfilNoK7S03poGlXW9CNsNpZ6IczS4kLw/98
+QwIDAQAB
+-----END PUBLIC KEY-----
+SHA1 Fingerprint=FF:F3:FA:D0:A5:38:D3:DC:8B:99:11:83:0A:15:10:DB:7A:B1:86:ED
+root@deb-7:/etc/ipsec.d/certs# 
+
+
+
