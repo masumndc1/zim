@@ -1,14 +1,20 @@
-// using the noop just to demonstrate what happens without applying the action into the system.
+
+
+
+... using the noop just to demonstrate what happens without applying the action into the system.
 
 [root@localhost ~]# puppet resource user mahrus ensure=remove --noop
-Error: Could not run: Parameter ensure failed on User[mahrus]: Invalid value "remove". Valid values are present, absent, role. 
+
+Error: Could not run: Parameter ensure failed on User[mahrus]: Invalid value 
+"remove". Valid values are present, absent, role. 
 
 [root@localhost ~]# 
  
-// and see the error reports like invalid value of types of ensure. and also suggesting us the permitted values.
-// 
+... and see the error reports like invalid value of types of ensure. 
+... and also suggesting us the permitted values.
 
-// use of apply here and execute -e here.
+
+... use of apply here and execute -e here.
 
 [root@localhost ~]# puppet apply -e "user { 'mahrus':ensure => 'absent',}"
 
@@ -19,16 +25,13 @@ Notice: Finished catalog run in 0.57 seconds
 [root@localhost ~]# 
  
 
- // searching the modules 
+... searching the modules 
 
- [root@localhost tests]# puppet module search puppetlabs-apache
+[root@localhost tests]# puppet module search puppetlabs-apache
 
- Notice: Searching https://forgeapi.puppetlabs.com ...
- NAME               DESCRIPTION                                                          AUTHOR        KEYWORDS                    puppetlabs-apache  Installs, configures, and manages Apache virtual hosts, web serv...  @puppetlabs   web httpd rhel ssl wsgi  
+Notice: Searching https://forgeapi.puppetlabs.com ...
+NAME               DESCRIPTION                                              AUTHOR        KEYWORDS 
+puppetlabs-apache  Installs, configures, and manages Apache virtual hosts,  @puppetlabs   web httpd rhel ssl wsgi  
 
- [root@localhost tests]# 
- [root@localhost tests]# 
-
-// installing the apache module 
 
 

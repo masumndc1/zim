@@ -1,0 +1,21 @@
+
+
+
+... these following commands can give help of any resources
+
+... showing puppet help
+  puppet help
+
+... puppet help on describe object
+  puppet help describe
+
+... puppet will show which object has describe possible
+  puppet describe --list
+
+... full options of file resource.
+  puppet describe file
+
+
+
+
+
