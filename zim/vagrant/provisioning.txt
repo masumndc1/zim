@@ -1,0 +1,154 @@
+
+
+... provisioning done in vagrant by shell scriping, ansible, chef, puppet
+... following is an example of shell scripting. one shell scripting file
+... and its content is below.
+
+pwd
+/home/masum/vagrantfile
+ls
+provison.sh
+
+cat provison.sh 
+#!/bin/bash
+
+apt-get update
+ifconfig eth1
+
+config.vm.provision "shell", path: "/home/masum/vagrantfile/provison.sh"
+
+... and we run the provisioning with the argument provision with vagrant.
+
+$ vagrant provision ; vagrant ssh
+==> default: Running provisioner: shell...
+    default: Running: /tmp/vagrant-shell20170624-11942-pc32eq.sh
+==> default: Ign http://archive.ubuntu.com trusty InRelease
+==> default: Get:1 http://security.ubuntu.com trusty-security InRelease [65.9 kB]
+==> default: Get:2 http://archive.ubuntu.com trusty-updates InRelease [65.9 kB]
+==> default: Hit http://archive.ubuntu.com trusty-backports InRelease
+==> default: Hit http://archive.ubuntu.com trusty Release.gpg
+==> default: Get:3 http://security.ubuntu.com trusty-security/main Sources [133 kB]
+==> default: Get:4 http://archive.ubuntu.com trusty-updates/main Sources [400 kB]
+==> default: Get:5 http://security.ubuntu.com trusty-security/universe Sources [59.4 kB]
+==> default: Get:6 http://security.ubuntu.com trusty-security/main i386 Packages [581 kB]
+==> default: Get:7 http://archive.ubuntu.com trusty-updates/restricted Sources [6,331 B]
+==> default: Get:8 http://archive.ubuntu.com trusty-updates/universe Sources [184 kB]
+==> default: Get:9 http://archive.ubuntu.com trusty-updates/multiverse Sources [7,747 B]
+==> default: Get:10 http://archive.ubuntu.com trusty-updates/main i386 Packages [945 kB]
+==> default: Get:11 http://security.ubuntu.com trusty-security/universe i386 Packages [173 kB]
+==> default: Hit http://security.ubuntu.com trusty-security/main Translation-en
+==> default: Hit http://security.ubuntu.com trusty-security/universe Translation-en
+==> default: Get:12 http://archive.ubuntu.com trusty-updates/restricted i386 Packages [16.9 kB]
+==> default: Get:13 http://archive.ubuntu.com trusty-updates/universe i386 Packages [418 kB]
+==> default: Get:14 http://archive.ubuntu.com trusty-updates/multiverse i386 Packages [14.6 kB]
+==> default: Hit http://archive.ubuntu.com trusty-updates/main Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-updates/multiverse Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-updates/restricted Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-updates/universe Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-backports/main Sources
+==> default: Hit http://archive.ubuntu.com trusty-backports/restricted Sources
+==> default: Hit http://archive.ubuntu.com trusty-backports/universe Sources
+==> default: Hit http://archive.ubuntu.com trusty-backports/multiverse Sources
+==> default: Hit http://archive.ubuntu.com trusty-backports/main i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty-backports/restricted i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty-backports/universe i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty-backports/multiverse i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty-backports/main Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-backports/multiverse Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-backports/restricted Translation-en
+==> default: Hit http://archive.ubuntu.com trusty-backports/universe Translation-en
+==> default: Hit http://archive.ubuntu.com trusty Release
+==> default: Hit http://archive.ubuntu.com trusty/main Sources
+==> default: Hit http://archive.ubuntu.com trusty/restricted Sources
+==> default: Hit http://archive.ubuntu.com trusty/universe Sources
+==> default: Hit http://archive.ubuntu.com trusty/multiverse Sources
+==> default: Hit http://archive.ubuntu.com trusty/main i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty/restricted i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty/universe i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty/multiverse i386 Packages
+==> default: Hit http://archive.ubuntu.com trusty/main Translation-en
+==> default: Hit http://archive.ubuntu.com trusty/multiverse Translation-en
+==> default: Hit http://archive.ubuntu.com trusty/restricted Translation-en
+==> default: Hit http://archive.ubuntu.com trusty/universe Translation-en
+==> default: Ign http://archive.ubuntu.com trusty/main Translation-en_US
+==> default: Ign http://archive.ubuntu.com trusty/multiverse Translation-en_US
+==> default: Ign http://archive.ubuntu.com trusty/restricted Translation-en_US
+==> default: Ign http://archive.ubuntu.com trusty/universe Translation-en_US
+==> default: Fetched 3,071 kB in 31s (96.0 kB/s)
+==> default: Reading package lists...
+==> default: eth1      Link encap:Ethernet  HWaddr 08:00:27:f4:9f:26  
+==> default:           inet addr:192.168.33.10  Bcast:192.168.33.255  Mask:255.255.255.0
+==> default:           inet6 addr: fe80::a00:27ff:fef4:9f26/64 Scope:Link
+==> default:           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+==> default:           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+==> default:           TX packets:18 errors:0 dropped:0 overruns:0 carrier:0
+==> default:           collisions:0 txqueuelen:1000 
+==> default:           RX bytes:0 (0.0 B)  TX bytes:1556 (1.5 KB)
+ 573 [04:26 PM]  ~   master ●   
+
+Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic i686)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Sat Jun 24 10:36:57 UTC 2017
+
+  System load:  0.0               Processes:           72
+  Usage of /:   3.4% of 39.34GB   Users logged in:     0
+  Memory usage: 15%               IP address for eth0: 10.0.2.15
+  Swap usage:   0%                IP address for eth1: 192.168.33.10
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+16 packages can be updated.
+15 updates are security updates.
+
+New release '16.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Sat Jun 24 10:33:56 2017 from 10.0.2.2
+vagrant@vagrant-ubuntu-trusty-32:~$ 
+
+.... other options with shell is 
+
+config.vm.provision "shell", inline: "apt-get install -y apache"
+
+... inline is usefull when to use single command without creating a separate file.
+... inline can be used when we need to run few command step by step. notice the
+... syntax below.
+
+config.vm.provision "shell", inline: <<-SHELL
+     apt-get update
+     apt-get install -y apache2
+SHELL
+
+
+.... run once script.
+
+if [ -f "/var/vagrant_provision" ]; then
+	exit 0
+fi
+# Actual shell commands here.
+
+touch /var/vagrant_provision
+
+... it will stop running if it finds file vagrant_provision in /var directory
+
+
+... we can use multiple provisioning. in Vagrant file
+
+config.vm.provision "shell", inline: "apt-get update"
+config.vm.provision "puppet"
+# ... and so on
+end
+
+... running with a single provisiong 
+
+$ vagrant up --provision-with=chef
+
+
+

@@ -1,0 +1,33 @@
+
+
+... this are some options we can do with virtualbox
+... this are really useful I have found them working with freebsd.
+
+config.vm.provider "virtualbox" do |v|
+  v.name = "my_vm"
+end
+
+... 
+
+config.vm.provider "virtualbox" do |v|
+  v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+end
+
+... In the example above, the VM is modified to have a host CPU execution cap of 50%, 
+... meaning that no matter how much CPU is used in the VM, 
+... no more than 50% would be used on your own host machine. Some details:
+... The :id special parameter is replaced with the ID of the virtual machine being created,
+... so when a VBoxManage command requires an ID, you can pass this special parameter.
+
+... Multiple customize directives can be used. They will be executed in the order given.
+
+
+... There are some convenience shortcuts for memory and CPU settings:
+
+config.vm.provider "virtualbox" do |v|
+  v.memory = 1024
+  v.cpus = 2
+end
+
+
+

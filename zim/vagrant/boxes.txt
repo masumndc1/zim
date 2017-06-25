@@ -1,0 +1,188 @@
+
+
+.... box management in vagrant.
+
+... vagrant manages the boxes in 
+
+$ ls -a .vagran*
+.vagrant:
+.  ..  machines
+
+$ .vagrant.d:
+.  ..  boxes  data  gems  insecure_private_key  rgloader  setup_version  tmp
+
+.... adding boxes to vagrant.
+
+... we can download boxes from web and add them manually to vagrant like below.
+
+$ vagrant box add --name freebsd8.4 FreeBSD-8.4-i386.box 
+==> box: Box file was not detected as metadata. Adding it directly...
+==> box: Adding box 'freebsd8.4' (v0) for provider: 
+    box: Unpacking necessary files from: file:///media/masum/KAJ_KAM/FreeBSD-8.4-i386.box
+==> box: Successfully added box 'freebsd8.4' (v0) for 'virtualbox'!
+
+...  therefore after adding we have following boxes
+
+$ vagrant box list
+freebsd8.4      (virtualbox, 0)
+ubuntu/trusty32 (virtualbox, 20170602.0.0)
+
+... now run the following command to run it
+
+$ vagrant up freebsd8.4
+A Vagrant environment or target machine is required to run this
+command. Run `vagrant init` to create a new Vagrant environment. Or,
+get an ID of a target machine from `vagrant global-status` to run
+this command on. A final option is to change to a directory with a
+Vagrantfile and to try again.
+
+ ✘ 599 [10:54 AM]  .../masum/KAJ_KAM  vagrant init
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+ 600 [10:54 AM]  .../masum/KAJ_KAM  
+
+... we will now edit Vagrant file to run these to box together.
+... the following file and its syntax is from one working vagrant setup
+... pay attention on syntax carefully
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "ubuntu32" do |vagrant1|
+  	vagrant1.vm.box = "ubuntu/trusty32"
+	vagrant1.vm.network "forwarded_port", guest:80, host: 8080
+	vagrant1.vm.network "forwarded_port", guest:443, host: 8443
+  	vagrant1.vm.network "private_network", ip: "192.168.33.20"
+  end
+
+  config.vm.define "freebsd8.4" do |vagrant2|
+  	vagrant2.vm.box = "freebsd8.4"
+	config.vm.synced_folder ".", "/vagrant", disabled: true
+	vagrant2.vm.network "forwarded_port", guest:80, host: 8081
+	vagrant2.vm.network "forwarded_port", guest:443, host: 8444
+ 	vagrant2.vm.network "private_network", ip: "192.168.33.30"
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "512"
+     vb.cpus = "1"
+  end
+
+end
+
+
+$ vagrant status
+Current machine states:
+
+ubuntu32                  not created (virtualbox)
+freebsd8.4                not created (virtualbox)
+
+This environment represents multiple VMs. The VMs are all listed
+above with their current state. For more information about a specific
+VM, run `vagrant status NAME`.
+
+... now run them
+
+$ vagrant up freebsd8.4
+
+$ vagrant ssh freebsd8.4
+Last login: Sun Jun 25 06:31:43 2017 from 10.0.2.2
+FreeBSD 8.4-RELEASE (GENERIC) #0 r251259: Mon Jun  3 01:14:28 UTC 2013
+
+Welcome to FreeBSD!
+
+Before seeking technical support, please use the following resources:
+
+o  Security advisories and updated errata information for all releases are
+   at http://www.FreeBSD.org/releases/ - always consult the ERRATA section
+   for your release first as it's updated frequently.
+
+o  The Handbook and FAQ documents are at http://www.FreeBSD.org/ and,
+   along with the mailing lists, can be searched by going to
+   http://www.FreeBSD.org/search/.  If the doc distribution has
+   been installed, they're also available formatted in /usr/share/doc.
+
+If you still have a question or problem, please take the output of
+`uname -a', along with any relevant error messages, and email it
+as a question to the questions@FreeBSD.org mailing list.  If you are
+unfamiliar with FreeBSD's directory layout, please refer to the hier(7)
+manual page.  If you are not familiar with manual pages, type `man man'.
+
+You may also use sysinstall(8) to re-enter the installation and
+configuration utility.  Edit /etc/motd to change this login announcement.
+
+vagrant@FreeBSD-8:~ % ifconfig
+em0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+	options=9b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM>
+	ether 08:00:27:84:15:08
+	inet 10.0.2.15 netmask 0xffffff00 broadcast 10.0.2.255
+	media: Ethernet autoselect (1000baseT <full-duplex>)
+	status: active
+em1: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+	options=9b<RXCSUM,TXCSUM,VLAN_MTU,VLAN_HWTAGGING,VLAN_HWCSUM>
+	ether 08:00:27:cf:7e:33
+	inet 192.168.33.30 netmask 0xffffff00 broadcast 192.168.33.255
+	media: Ethernet autoselect (1000baseT <full-duplex>)
+	status: active
+lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> metric 0 mtu 16384
+	options=3<RXCSUM,TXCSUM>
+	inet6 fe80::1%lo0 prefixlen 64 scopeid 0x3 
+	inet6 ::1 prefixlen 128 
+	inet 127.0.0.1 netmask 0xff000000 
+	nd6 options=3<PERFORMNUD,ACCEPT_RTADV>
+vagrant@FreeBSD-8:~ % ping yahoo.com
+PING yahoo.com (98.139.180.149): 56 data bytes
+64 bytes from 98.139.180.149: icmp_seq=0 ttl=63 time=339.111 ms
+^C
+--- yahoo.com ping statistics ---
+2 packets transmitted, 1 packets received, 50.0% packet loss
+round-trip min/avg/max/stddev = 339.111/339.111/339.111/0.000 ms
+vagrant@FreeBSD-8:~ % 
+
+... run ubuntu32 now 
+
+$ vagrant status
+Current machine states:
+
+ubuntu32                  running (virtualbox)
+freebsd8.4                running (virtualbox)
+
+This environment represents multiple VMs. The VMs are all listed
+above with their current state. For more information about a specific
+VM, run `vagrant status NAME`.
+
+
+
+..... removing the boxes
+
+vagrant box list
+freebsd8.4      (virtualbox, 0)
+ubuntu/trusty32 (virtualbox, 20170602.0.0)
+
+ 608 [10:58 AM]  .../masum/KAJ_KAM  
+ 608 [10:58 AM]  .../masum/KAJ_KAM  vagrant box remove freebsd8.4 virtualbox
+WARNING: The second argument to `vagrant box remove`
+is deprecated. Please use the --provider flag. This
+feature will stop working in the next version.
+Removing box 'freebsd8.4' (v0) with provider 'virtualbox'...
+
+
+...... making vagrant virtual box
+...
+... we can get the boxes again which was imported before.
+
+vagrant package
+==> default: Clearing any previously set forwarded ports...
+==> default: Exporting VM...
+==> default: Compressing package to: /home/masum/package.box
+
+... this can be imported again in future.
+
+
+
+
+
+
+
+

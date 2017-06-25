@@ -47,5 +47,9 @@ $ vagrant box add {title} {url}
 $ vagrant init {title}
 $ vagrant up
 
+... following is the site from where we can download some good vagrant file.
+
+http://www.vagrantbox.es/
+
 
 
