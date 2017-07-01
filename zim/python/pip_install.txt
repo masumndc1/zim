@@ -1,0 +1,11 @@
+
+
+..... installation of pip
+
+# apt install python-dev python-pip
+# yum install python-devel python-pip
+
+... installation of any python related app like below
+
+# pip install python-openstackclient
+

@@ -1,0 +1,217 @@
+
+
+..... installing keystone fot identity service but little bit different configuration.
+
+... Run the following command to install the packages:
+
+... database creation for keystone
+
+CREATE DATABASE keystone;
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'stone';
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'stone';
+
+... install the keystone
+
+# apt install keystone
+
+... run below if there is no wsgi.conf in /etc/apache2/mods-enabled directory.
+
+# apt-get install keystone apache2 libapache2-mod-wsgi
+
+... Edit the /etc/keystone/keystone.conf file and complete the following actions:
+... In the [database] section, configure database access:
+
+[database]
+connection = mysql+pymysql://keystone:*****@controller/keystone
+
+... In the [token] section, configure the Fernet token provider:
+[token]
+provider = fernet
+
+... Populate the Identity service database:
+
+root@controller:/etc/keystone# su -s /bin/sh -c "keystone-manage db_sync" keystone
+2017-07-01 03:41:22.655 4588 INFO migrate.versioning.api [-] 66 -> 67... 
+2017-07-01 03:41:52.276 4588 INFO migrate.versioning.api [-] done
+2017-07-01 03:41:52.304 4588 INFO migrate.versioning.api [-] 67 -> 68... 
+
+... Initialize Fernet key repositories:
+
+# keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+# keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+
+... Bootstrap the Identity service:
+
+# keystone-manage bootstrap --bootstrap-password *** \
+--bootstrap-admin-url http://controller:35357/v3/ \
+--bootstrap-internal-url http://controller:5000/v3/ \
+--bootstrap-public-url http://controller:5000/v3/ \
+--bootstrap-region-id RegionOne
+
+2017-07-01 03:44:29.402 4991 WARNING keystone.assignment.core [-] Deprecated: 
+Use of the identity driver config to automatically configure the same 
+assignment driver has been deprecated, in the "O" release, the assignment 
+driver will need to be expicitly configured if different than the default (SQL).
+2017-07-01 03:44:33.593 4991 INFO keystone.cmd.cli [-] Created domain default
+2017-07-01 03:44:34.754 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created project admin
+2017-07-01 03:44:35.767 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created user admin
+2017-07-01 03:44:35.919 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created Role admin
+2017-07-01 03:44:36.377 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Granted admin 
+on admin to user admin.
+2017-07-01 03:44:36.480 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created Region RegionOne
+2017-07-01 03:44:36.619 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created admin 
+endpoint http://controller:35357/v3/
+2017-07-01 03:44:36.733 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created internal 
+endpoint http://controller:5000/v3/
+2017-07-01 03:44:36.802 4991 INFO keystone.cmd.cli [req-699b5883-4443-4632-9ed9-7a25541995ba - - - - -] Created public 
+endpoint http://controller:5000/v3/
+
+... Configure the Apache HTTP server
+... Edit the /etc/apache2/apache2.conf file and configure the ServerName 
+... option to reference the con-troller node:
+
+ServerName controller
+
+... Restart the Apache service and remove the default SQLite database:
+
+# service apache2 restart
+# rm -f /var/lib/keystone/keystone.db
+
+... now start keystone service
+
+# service keystone start
+# service keystone status
+keystone start/running, process 3167
+
+... at this point to use command openstack we need to set some environment 
+... variables like below.
+
+export OS_USERNAME=admin
+export OS_PASSWORD=***
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
+
+root@controller:~# openstack service list
++----------------------------------+----------+----------+
+| ID                               | Name     | Type     |
++----------------------------------+----------+----------+
+| 76679eef001c4a08969ef6a9da4a663c | keystone | identity |
++----------------------------------+----------+----------+
+
+root@controller:~# openstack service show identity
++---------+----------------------------------+
+| Field   | Value                            |
++---------+----------------------------------+
+| enabled | True                             |
+| id      | 76679eef001c4a08969ef6a9da4a663c |
+| name    | keystone                         |
+| type    | identity                         |
++---------+----------------------------------+
+root@controller:~# 
+
+... now we can browse http://controller:35357/ and we will see some output.
+... now our identity service keystone is running 
+
+... Now Configure the administrative account. to do so we will need env variable
+... which we will set now if not set before
+
+export OS_USERNAME=admin
+export OS_PASSWORD=***
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
+
+... the identity service provide the authentication to any of the openstack
+... services. in other word when any user needs to do any work in any service
+... then he has to come to identity service for authorization and authentication
+... authentication service is the combination of domain, project, user and role.
+... by default there is a domain default.
+
+... first we will create a project and domain will be default domain
+
+root@controller:/etc/keystone# openstack project create --domain default \
+> --description "Service Project" service
+
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | Service Project                  |
+| domain_id   | default                          |
+| enabled     | True                             |
+| id          | 21d964c7b21145c39b1b273e54098a22 |
+| is_domain   | False                            |
+| name        | service                          |
+| parent_id   | default                          |
++-------------+----------------------------------+
+root@controller:/etc/keystone# 
+
+... Regular (non-admin) tasks should use an unprivileged project and user. 
+... As an example, this guide creates the demo project and user.
+
+... Create the demo project:
+
+root@controller:~# openstack project create --domain default --description "Demo Project" demo
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | Demo Project                     |
+| domain_id   | default                          |
+| enabled     | True                             |
+| id          | db1adf8b18b547ae87a170e8ab76e50b |
+| is_domain   | False                            |
+| name        | demo                             |
+| parent_id   | default                          |
++-------------+----------------------------------+
+root@controller:~# 
+
+... create one user demo on default domain
+
+root@controller:/etc/keystone# openstack user create --domain default \
+> --password-prompt demo
+User Password: ***
+Repeat User Password: ***
++-----------+----------------------------------+
+| Field     | Value                            |
++-----------+----------------------------------+
+| domain_id | default                          |
+| enabled   | True                             |
+| id        | 5eb1b5ab474b400085d7a8725c8851cf |
+| name      | demo                             |
++-----------+----------------------------------+
+root@controller:/etc/keystone# 
+
+... create one role named user
+
+root@controller:/etc/keystone# openstack role create user
++-----------+----------------------------------+
+| Field     | Value                            |
++-----------+----------------------------------+
+| domain_id | None                             |
+| id        | 6c694ef7836743808df4deb1566a76a1 |
+| name      | user                             |
++-----------+----------------------------------+
+
+... now adding project "demo" and the created user "demo" to the role "user"
+... and this command does not have any output.
+
+root@controller:~# openstack role add --project demo --user demo
+usage: openstack role add [-h] [--domain <domain> | --project <project>]
+                          [--user <user> | --group <group>]
+                          [--group-domain <group-domain>]
+                          [--project-domain <project-domain>]
+                          [--user-domain <user-domain>] [--inherited]
+                          <role>
+
+root@controller:~# openstack role add --project demo --user demo user
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+
+
+... installing memcache
+
+... The Identity service authentication mechanism for services uses Memcached to cache tokens. 
+... The memcached service typically runs on the controller node. For production deployments, 
+... we recommend enabling a combination of firewalling, authentication, and encryption to secure it.
+... Install and configure components¶
+
+# apt-get install memcached python-memcache
+
+... do the following change to indicate the controller node
+
+root@controller:/etc# cat /etc/memcached.conf | grep -e -l
+#-l 127.0.0.1
+-l 10.10.10.12
+
+root@controller:/etc# 
+
+root@controller:~# /etc/init.d/memcached restart
+Restarting memcached: memcached.
+root@controller:~# 
+root@controller:~# /etc/init.d/memcached status
+ * memcached is running
+root@controller:~# 
+
+

@@ -137,3 +137,12 @@ deb-src http://ftp.ca.debian.org/debian/ squeeze main contrib non-free
 
 #####"another key servers
 keys.gnupg.net 
+
+.... when we are behind of proxy server we do that following
+
+root@mail:~# apt-key adv --recv-keys --keyserver-options \
+		http-proxy=http://proxy_ip:proxy_port --keyserver \
+		hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+
+
+
