@@ -1,0 +1,329 @@
+
+
+... glance is a service of openstack which handles the image.
+... it can store, restore images. not only that also can retrieve
+... the metadata from images. glance store images on the controller
+... node in /var/lib/glance/images directory. It also supports the 
+... storage of disk or server images on various repository types, 
+... including OpenStack Object Storage.
+
+... The OpenStack Image service includes the following components:
+...
+... glance-api: Accepts Image API calls for image discovery, retrieval,
+... and storage.
+... 
+... glance-registry: Stores, processes, and retrieves metadata
+... about images. Metadata includes items such as size and type.
+...
+... Database: Stores image metadata and you can choose your database depending on your preference. Most
+... deployments use MySQL or SQLite.
+...
+... Storage repository: for image files Various repository types are supported including normal file systems (or
+... any filesystem mounted on the glance-api controller node), Object Storage, RADOS block devices,
+... VMware datastore, and HTTP. Note that some repositories will only support read-only usage.
+... 
+... Metadata definition service: A common API for vendors, admins, services, and users to meaningfully define
+... their own custom metadata. This metadata can be used on different types of resources like images,
+... artifacts, volumes, flavors, and aggregates. A definition includes the new property’s key, description,
+... constraints, and the resource types which it can be associated with.
+
+.... installation of glance
+
+... create the database first
+
+CREATE DATABASE glance;
+GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '***';
+GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '***';
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| glance             |
+| keystone           |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.04 sec)
+
+MariaDB [(none)]> 
+
+... create glance user
+
+root@controller:~# . admin-openrc 
+root@controller:~# openstack user create --domain default --password-prompt glance
+
+Discovering versions from the identity service failed when creating the password plugin. 
+Attempting to determine version from URL.
+Unable to establish connection to http://controller:35357/v3/auth/tokens
+
+root@controller:~# service keystone status
+keystone stop/waiting
+root@controller:~# service keystone start
+keystone start/running, process 2759
+root@controller:~# 
+root@controller:~# openstack user create --domain default --password-prompt glance
+Discovering versions from the identity service failed when creating the password plugin. 
+Attempting to determine version from URL.
+Unable to establish connection to http://controller:35357/v3/auth/tokens
+root@controller:~# 
+root@controller:~# keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+2017-07-02 01:18:45.408 2798 INFO keystone.token.providers.fernet.utils [-] Key repository is 
+already initialized; aborting.
+root@controller:~# 
+root@controller:~# openstack user create --domain default --password-prompt glance
+User Password:
+Repeat User Password:
++-----------+----------------------------------+
+| Field     | Value                            |
++-----------+----------------------------------+
+| domain_id | default                          |
+| enabled   | True                             |
+| id        | 08fc0b4eed6843a9a6bebe1369fab6ce |
+| name      | glance                           |
++-----------+----------------------------------+
+root@controller:~# 
+
+... Add glance user to the admin role and service project:
+
+root@controller:~# openstack role add --project service --user glance admin
+root@controller:~# 
+root@controller:~# openstack role list
++----------------------------------+-------+
+| ID                               | Name  |
++----------------------------------+-------+
+| 6c694ef7836743808df4deb1566a76a1 | user  |
+| f22b209a9cac475e99cde1ab7da7addb | admin |
++----------------------------------+-------+
+root@controller:~# 
+
+... Create the glance service entity
+
+root@controller:~# openstack service create --name glance --description "OpenStack Image" image
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Image                  |
+| enabled     | True                             |
+| id          | 9c8a9b44a9294600a3f1aefe4b546c48 |
+| name        | glance                           |
+| type        | image                            |
++-------------+----------------------------------+
+root@controller:~# 
+root@controller:~# 
+
+... Create the Image service API endpoints:
+
+root@controller:~# openstack endpoint create --region RegionOne image public http://controller:9292
++--------------+----------------------------------+
+| Field        | Value                            |
++--------------+----------------------------------+
+| enabled      | True                             |
+| id           | 6572590db9e3407c9a05e2cbfe11dfb6 |
+| interface    | public                           |
+| region       | RegionOne                        |
+| region_id    | RegionOne                        |
+| service_id   | 9c8a9b44a9294600a3f1aefe4b546c48 |
+| service_name | glance                           |
+| service_type | image                            |
+| url          | http://controller:9292           |
++--------------+----------------------------------+
+root@controller:~# 
+root@controller:~# 
+
+root@controller:~# openstack endpoint create --region RegionOne \
+> image internal http://controller:9292
++--------------+----------------------------------+
+| Field        | Value                            |
++--------------+----------------------------------+
+| enabled      | True                             |
+| id           | 9914b7bff9d844f4bb081e27ac42b645 |
+| interface    | internal                         |
+| region       | RegionOne                        |
+| region_id    | RegionOne                        |
+| service_id   | 9c8a9b44a9294600a3f1aefe4b546c48 |
+| service_name | glance                           |
+| service_type | image                            |
+| url          | http://controller:9292           |
++--------------+----------------------------------+
+root@controller:~# 
+root@controller:~# openstack endpoint create --region RegionOne \
+> image admin http://controller:9292
++--------------+----------------------------------+
+| Field        | Value                            |
++--------------+----------------------------------+
+| enabled      | True                             |
+| id           | 32a16214b0874454a81b1ea074e08304 |
+| interface    | admin                            |
+| region       | RegionOne                        |
+| region_id    | RegionOne                        |
+| service_id   | 9c8a9b44a9294600a3f1aefe4b546c48 |
+| service_name | glance                           |
+| service_type | image                            |
+| url          | http://controller:9292           |
++--------------+----------------------------------+
+root@controller:~# 
+root@controller:~# 
+
+... Install the packages:
+
+# apt install glance
+
+... we will do the following changes in /etc/glance/glance-api.conf
+... and /etc/glance/glance-registry.conf file
+
+root@controller:/etc/glance# grep -v -e ^# -e ^$ glance-api.conf
+[DEFAULT]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql+pymysql://glance:***@controller/glance
+backend = sqlalchemy
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+[image_format]
+disk_formats = ami,ari,aki,vhd,vmdk,raw,qcow2,vdi,iso,root-tar
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_url = http://controller:35357
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = glance
+password = ***
+[matchmaker_redis]
+[oslo_concurrency]
+[oslo_messaging_amqp]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_policy]
+[paste_deploy]
+flavor = keystone
+[profiler]
+[store_type_location_strategy]
+[task]
+[taskflow_executor]
+root@controller:/etc/glance# 
+
+root@controller:/etc/glance# grep -v -e ^# -e ^$ glance-registry.conf
+[DEFAULT]
+[database]
+connection = mysql+pymysql://glance:***@controller/glance
+backend = sqlalchemy
+[glance_store]
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_url = http://controller:35357
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = glance
+password = ***
+[matchmaker_redis]
+[oslo_messaging_amqp]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_policy]
+[paste_deploy]
+flavor = keystone
+[profiler]
+root@controller:/etc/glance# 
+
+... Populate the Image service database:
+
+root@controller:/etc/glance# su -s /bin/sh -c "glance-manage db_sync" glance
+
+/usr/lib/python2.7/dist-packages/oslo_db/sqlalchemy/enginefacade.py:1056: OsloDBDeprecationWarning: 
+EngineFacade is deprecated; please use oslo_db.sqlalchemy.enginefacade
+  expire_on_commit=expire_on_commit, _conf=conf)
+
+2017-07-02 01:49:18.843 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table images
+2017-07-02 01:49:19.355 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table image_properties
+2017-07-02 01:49:21.568 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table image_members
+2017-07-02 01:49:24.357 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table image_tags
+2017-07-02 01:49:25.074 4738 INFO 017_quote_encrypted_swift_credentials [-] 'metadata_encryption_key' 
+was not specified in the config file or a config file was not specified. This means that this migration is a NOOP.
+2017-07-02 01:49:25.120 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table image_locations
+2017-07-02 01:49:28.788 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table tasks
+2017-07-02 01:49:29.767 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table task_info
+2017-07-02 01:49:30.947 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_namespaces
+2017-07-02 01:49:31.239 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_objects
+2017-07-02 01:49:31.549 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_properties
+2017-07-02 01:49:31.791 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_resource_types
+2017-07-02 01:49:32.171 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_namespace_resource_types
+2017-07-02 01:49:34.543 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table metadef_tags
+2017-07-02 01:49:38.183 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifacts
+2017-07-02 01:49:39.316 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifact_tags
+2017-07-02 01:49:40.917 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifact_properties
+2017-07-02 01:49:42.186 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifact_blobs
+2017-07-02 01:49:43.575 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifact_blob_locations
+2017-07-02 01:49:44.410 4738 INFO glance.db.sqlalchemy.migrate_repo.schema [-] creating table artifact_dependencies
+
+root@controller:/etc/glance# 
+
+... Restart the Image services:
+
+root@controller:/etc/glance# service glance-registry restart
+glance-registry stop/waiting
+glance-registry start/running, process 4854
+
+root@controller:/etc/glance# service glance-api restart
+glance-api stop/waiting
+glance-api start/running, process 4887
+root@controller:/etc/glance# 
+
+... Upload the image to the Image service using the QCOW2 disk format, bare container format, and public
+... visibility so all projects can access it:
+
+root@controller:~# ls
+admin-openrc  cirros-0.3.5-i386-disk.img  demo-openrc  ip.sh
+root@controller:~# 
+root@controller:~# . admin-openrc 
+root@controller:~# 
+root@controller:~#  openstack image create --container-format bare --disk-format qcow2 \
+> --file cirros-0.3.5-i386-disk.img --public "cirros"
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 7316af7358dd32ca1956d72ac2c9e147                     |
+| container_format | bare                                                 |
+| created_at       | 2017-07-02T08:59:26Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/85b1003e-1de6-42a1-9541-c6198e53d5db/file |
+| id               | 85b1003e-1de6-42a1-9541-c6198e53d5db                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | 480ad842cc234d61909b942bae5b21f0                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 12528640                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2017-07-02T08:59:27Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+root@controller:~# 
+
+... confirm the creation
+
+root@controller:~# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 85b1003e-1de6-42a1-9541-c6198e53d5db | cirros | active |
++--------------------------------------+--------+--------+
+root@controller:~# 
+
+
+
+
+
