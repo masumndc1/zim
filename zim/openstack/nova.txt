@@ -67,6 +67,18 @@
 ... Theoretically, OpenStack Compute can support any database that SQLAlchemy supports. Common
 ... databases are SQLite3 for test and development work, MySQL, MariaDB, and PostgreSQL.
 
+... oder of action:
+... once Nova API gets a request, what does it do next? It leaves the request on
+... the Advanced Message Queueing Protocol (AMQP) message queue for the Nova
+... Scheduler to pick up. The Nova scheduler is responsible for finding a physical
+... server with the available resources to fulfill the request. It finds the server, and
+... again leaves the request in the message queue. nova compute find the message from msg quegue
+... and execute process to run the hypervisors.
+
+... Of course, the record for all actions is kept in the database, but in the case of Nova,
+... the Nova Conductor is responsible for writing and reading from the database in
+... order to keep the data coherent and avoid locking issues.
+
 ... installation of nova
 ...
 ... creating the database

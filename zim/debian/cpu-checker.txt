@@ -1,0 +1,17 @@
+
+
+root@controller:/etc/nova# apt-get install cpu-checker
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+cpu-checker is already the newest version.
+cpu-checker set to manually installed.
+root@controller:/etc/nova# 
+
+root@controller:/etc/nova# kvm-ok 
+INFO: Your CPU does not support KVM extensions
+KVM acceleration can NOT be used
+root@controller:/etc/nova# 
+
+
+

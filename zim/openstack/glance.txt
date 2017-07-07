@@ -323,7 +323,48 @@ root@controller:~# openstack image list
 +--------------------------------------+--------+--------+
 root@controller:~# 
 
+... creating another image
 
+root@controller:~# ls
+admin-openrc  cirros-0.3.5-i386-disk.img  demo-openrc  --file  ip.sh  linux-microcore-2.10.img
+root@controller:~# 
+
+root@controller:~# 
+root@controller:~# openstack image create --container-format bare --disk-format qcow2 
+ --file linux-microcore-2.10.img --public "microcore"
+
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 4da565eedb2224ea070940bc8dea6808                     |
+| container_format | bare                                                 |
+| created_at       | 2017-07-07T23:14:24Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/41371313-c9b3-4a20-ade9-b1bf9450c08c/file |
+| id               | 41371313-c9b3-4a20-ade9-b1bf9450c08c                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | microcore                                            |
+| owner            | 480ad842cc234d61909b942bae5b21f0                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13017088                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2017-07-07T23:14:26Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+root@controller:~# 
+
+root@controller:~# openstack image list
++--------------------------------------+-----------+--------+
+| ID                                   | Name      | Status |
++--------------------------------------+-----------+--------+
+| 41371313-c9b3-4a20-ade9-b1bf9450c08c | microcore | active |
+| 85b1003e-1de6-42a1-9541-c6198e53d5db | cirros    | active |
++--------------------------------------+-----------+--------+
+root@controller:~# 
 
 
 

@@ -1,0 +1,54 @@
+
+
+... our machine architecture is like below
+
+root@controller:/etc# uname -a
+Linux controller 3.13.0-24-generic #47-Ubuntu SMP Fri May 2 23:31:42 UTC 2014 i686 i686 i686 GNU/Linux
+root@controller:/etc# 
+
+root@controller:/etc# cat lsb-release 
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=14.04
+DISTRIB_CODENAME=trusty
+DISTRIB_DESCRIPTION="Ubuntu 14.04 LTS"
+root@controller:/etc# 
+
+... now install the following packages
+
+# apt install software-properties-common
+# add-apt-repository cloud-archive:ocata
+
+root@controller:/etc/apt/sources.list.d# add-apt-repository cloud-archive:ocata
+'ocata': not a valid cloud-archive name.
+ Must be one of ['folsom', 'folsom-proposed', 'grizzly', 'grizzly-proposed', 'havana', 
+'havana-proposed', 'icehouse', 'icehouse-proposed', 'juno', 'juno-proposed', 'kilo', 
+'kilo-proposed', 'liberty', 'liberty-proposed', 'mitaka', 'mitaka-proposed', 'tools', 
+'tools-proposed']
+root@controller:/etc/apt/sources.list.d# 
+
+... it saying ocata is not a valid cloud archive name. we have to choose from
+... the above.
+
+# add-apt-repository cloud-archive:tools
+
+root@controller:/etc/apt/sources.list.d# add-apt-repository cloud-archive:tools
+  Ubuntu Cloud Archive for cloud-tools (JuJu and MAAS)
+  More info: https://wiki.ubuntu.com/ServerTeam/CloudArchive
+  Press [ENTER] to continue or ctrl-c to cancel adding it
+
+root@controller:/etc/apt/sources.list.d# ls
+cloudarchive-mitaka.list  openstack-juno.list  openstack-juno.list.save
+root@controller:/etc/apt/sources.list.d# 
+root@controller:/etc/apt/sources.list.d# cat openstack-juno.list
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/juno main
+root@controller:/etc/apt/sources.list.d# 
+root@controller:/etc/apt/sources.list.d# cat cloudarchive-mitaka.list 
+deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
+deb-src http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main
+root@controller:/etc/apt/sources.list.d# 
+
+
+
+
+
+
