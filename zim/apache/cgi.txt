@@ -1,0 +1,148 @@
+
+
+... cgi configuration in apache
+... 
+... cgi configuration for bash/perl/python with apache.
+...
+... first of all we have to load appropiate modules 
+... say for python and perl we have to load python module
+
+root@deb-7:/etc/apache2/mods-enabled# ls
+alias.conf	    authz_groupfile.load  cgid.conf	dir.load      mime.load		reqtimeout.load  status.load
+alias.load	    authz_host.load	  cgid.load	env.load      negotiation.conf	rewrite.load	 wsgi.conf
+auth_basic.load     authz_user.load	  deflate.conf	fastcgi.conf  negotiation.load	setenvif.conf	 wsgi.load
+authn_file.load     autoindex.conf	  deflate.load	fastcgi.load  python.load	setenvif.load
+authz_default.load  autoindex.load	  dir.conf	mime.conf     reqtimeout.conf	status.conf
+root@deb-7:/etc/apache2/mods-enabled#
+
+... configuration file of enabled sites
+
+root@deb-7:/etc/apache2/sites-enabled# cat 000-default
+
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /var/www
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www>
+		Options +ExecCGI
+		Order allow,deny
+  		Allow from all
+		AddHandler cgi-script .cgi .py .pl
+		DirectoryIndex index.html
+ 		PythonDebug On
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+	<Directory "/var/www/cgi-bin/">
+		AllowOverride All
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+		AddHandler cgi-script .py .sh .cgi .pl
+ 		PythonDebug On
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+root@deb-7:/etc/apache2/sites-enabled#
+
+... now placing the files in /var/www/cgi-bin directory.
+... the syntax in the file is extremely important here.
+... and note the file permission of programme file.
+
+root@deb-7:/var/www/cgi-bin# ls -la
+-rwxr-xr-x 1 root root  406 Jun 28 08:58 command.sh
+-rwxr-xr-x 1 root root  481 Jun 28 07:26 index.py
+root@deb-7:/var/www/cgi-bin#
+
+root@deb-7:/var/www/cgi-bin# cat command.sh
+#!/bin/bash
+
+echo -e "Content-Type: text/html\n\n"
+
+echo -e "<html> <Title>Hello in HTML</Title>"
+echo -e "<body>"
+echo -e "<pre>"
+export $PATH
+echo -e "memory consumption"
+free -m
+echo -e "interface configuration"
+/sbin/ifconfig eth0 | grep -i inet
+echo -e "routing information"
+/sbin/route -n
+echo -e "testing connectivity to outside"
+/bin/ping -c 2 yahoo.com
+echo -e "</pre>"
+echo -e "</body></html>"
+root@deb-7:/var/www/cgi-bin#
+
+root@deb-7:/var/www/cgi-bin# cat index.py
+#!/usr/bin/python
+
+#import sys
+#import os
+import time
+#import cgi
+
+print ("Content-Type: text/html\n\n")
+
+print (
+"""
+<html>
+<head>
+
+<style>
+h1 {
+color: red ;
+}
+
+pre {
+color: blue;
+}
+
+</style>
+
+</head>
+""")
+
+
+print ("<body><h1>this is it</h1><pre>")
+print ("hello world\n\n")
+print ("\n")
+a = ['f','d','s','a']
+x = -1
+scope = vars()
+for i in a:
+    scope['x']+=1
+    print ( a[x])
+
+for b in 'masum':
+	print (b) ;
+
+print("\n", time.localtime())
+print ("</pre></body></html>")
+
+root@deb-7:/var/www/cgi-bin#
+
+... testing 
+
+... now run http://localhost/cgi-bin/command.sh and
+...  	    http://localhost/cgi-bin/index.py
+... this will be surprising for you.
+... any error can be consulted at 
+... tail -f /var/log/apache/error.log
+... testing on other script like .pl hopefully
+... will be same.
+
+
