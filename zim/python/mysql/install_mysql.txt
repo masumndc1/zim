@@ -1,0 +1,20 @@
+
+
+
+... Installing MySQL
+... 
+... In this section, we will install and configure MySQL.
+
+    sudo apt-get install mysql-server
+
+... The MySQL server will start once installation completes. After installation, run:
+
+    mysql_secure_installation
+
+... Python 3 requires a way to connect with MySQL, however. There are a number of options, 
+... like MySQLclient, but for the module's simplicity, this tutorial will use pymysql. Install it using Pip:
+
+    pip3 install pymysql
+
+
+

@@ -1,0 +1,240 @@
+
+
+... apache2 folder and config file missing
+... 
+... when apache2 is uninstalled then apache2 folder is missing with all
+... its config files. remedy is following. 
+
+# apt-get --reinstall install apache2.2-common 
+
+... or 
+
+# apt-get --reinstall install apache2.2-common -o DPkg::options::="--force-confmiss"
+
+.... another problem
+
+root@deb-7:/etc/apache2/conf-available# /etc/init.d/apache2 status
+[FAIL] apache2 is not running ... failed!
+root@deb-7:/etc/apache2/conf-available# /etc/init.d/apache2 restart
+[FAIL] Restarting web server: apache2 failed!
+[warn] The apache2 configtest failed. ... (warning).
+Output of config test was:
+AH00534: apache2: Configuration error: No MPM loaded.
+Action 'configtest' failed.
+The Apache error log may have more information.
+
+... watching the loaded module
+
+root@deb-7:/etc/apache2# apache2 -l
+Compiled in modules:
+  core.c
+  mod_so.c
+  mod_watchdog.c
+  http_core.c
+  mod_log_config.c
+  mod_logio.c
+  mod_version.c
+  mod_unixd.c
+
+root@deb-7:/etc/apache2# apache2 -M
+[Fri Jul 14 03:45:33.660446 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_LOCK_DIR} is not defined
+[Fri Jul 14 03:45:33.662510 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_PID_FILE} is not defined
+[Fri Jul 14 03:45:33.663770 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_RUN_USER} is not defined
+[Fri Jul 14 03:45:33.664867 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_RUN_GROUP} is not defined
+[Fri Jul 14 03:45:33.666134 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_LOG_DIR} is not defined
+[Fri Jul 14 03:45:33.671816 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_LOG_DIR} is not defined
+[Fri Jul 14 03:45:33.673946 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_LOG_DIR} is not defined
+[Fri Jul 14 03:45:33.675334 2017] [core:warn] [pid 1105] AH00111: Config variable ${APACHE_LOG_DIR} is not defined
+AH00534: apache2: Configuration error: No MPM loaded.
+
+... now trying to load mpm_prefork module
+
+root@deb-7:/usr/share# a2enmod mpm_prefork
+Considering conflict mpm_worker for mpm_prefork:
+Enabling module mpm_prefork.
+To activate the new configuration, you need to run:
+  service apache2 restart
+root@deb-7:/usr/share# service apache2 restart
+[FAIL] Restarting web server: apache2 failed!
+[warn] The apache2 configtest failed. ... (warning).
+Output of config test was:
+AH00526: Syntax error on line 1 of /etc/apache2/conf-enabled/apache2-doc.conf:
+Invalid command 'Alias', perhaps misspelled or defined by a module not included in the server configuration
+Action 'configtest' failed.
+The Apache error log may have more information.
+
+... another new problem is issued here.
+
+root@deb-7:/etc/apache2# cd conf-enabled/
+root@deb-7:/etc/apache2/conf-enabled# ls
+apache2-doc.conf  charset.conf	localized-error-pages.conf  other-vhosts-access-log.conf  security.conf  serve-cgi-bin.conf
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# cat apache2-doc.conf 
+Alias /manual /usr/share/doc/apache2-doc/manual/
+
+<Directory "/usr/share/doc/apache2-doc/manual/">
+    Options Indexes FollowSymlinks
+    AllowOverride None
+    Require all granted
+    AddDefaultCharset off
+</Directory>
+
+... the problemic line is the first line so we are commenting this out
+
+root@deb-7:/etc/apache2/conf-enabled# cat apache2-doc.conf 
+#Alias /manual /usr/share/doc/apache2-doc/manual/
+
+<Directory "/usr/share/doc/apache2-doc/manual/">
+    Options Indexes FollowSymlinks
+    AllowOverride None
+    Require all granted
+    AddDefaultCharset off
+</Directory>
+
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# service apache2 restart
+[ ok ] Restarting web server: apache2.
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# service apache2 status
+[ ok ] apache2 is running.
+root@deb-7:/etc/apache2/conf-enabled# 
+
+... another work out can be like below. look at the error output when 
+... we try to restart the apache2 service
+LoadModule alias_module modules/mod_alias.so
+
+
+
+
+ a2enmod mpm_prefork
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+Considering conflict mpm_event for mpm_prefork:
+Considering conflict mpm_worker for mpm_prefork:
+Enabling module mpm_prefork.
+To activate the new configuration, you need to run:
+  service apache2 restart
+root@deb-7:/usr/share# service apache2 restart
+[FAIL] Restarting web server: apache2 failed!
+[warn] The apache2 configtest failed. ... (warning).
+Output of config test was:
+AH00526: Syntax error on line 1 of /etc/apache2/conf-enabled/apache2-doc.conf:
+Invalid command 'Alias', perhaps misspelled or defined by a module not included in the server configuration
+Action 'configtest' failed.
+The Apache error log may have more information.
+root@deb-7:/usr/share# 
+root@deb-7:/usr/share# cd /etc/apache2/
+root@deb-7:/etc/apache2# ls
+apache2.conf  conf-available  conf-enabled  envvars  magic  mods-available  mods-enabled  ports.conf  sites-available  sites-enabled
+root@deb-7:/etc/apache2# 
+root@deb-7:/etc/apache2# cd conf-enabled/
+root@deb-7:/etc/apache2/conf-enabled# ls
+apache2-doc.conf  charset.conf	localized-error-pages.conf  other-vhosts-access-log.conf  security.conf  serve-cgi-bin.conf
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# cat apache2-doc.conf 
+Alias /manual /usr/share/doc/apache2-doc/manual/
+
+<Directory "/usr/share/doc/apache2-doc/manual/">
+    Options Indexes FollowSymlinks
+    AllowOverride None
+    Require all granted
+    AddDefaultCharset off
+</Directory>
+
+root@deb-7:/etc/apache2/conf-enabled# vi apache2-doc.conf 
+root@deb-7:/etc/apache2/conf-enabled# service apache2 restart
+[ ok ] Restarting web server: apache2.
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# service apache2 status
+[ ok ] apache2 is running.
+root@deb-7:/etc/apache2/conf-enabled# 
+root@deb-7:/etc/apache2/conf-enabled# 
+
+... another work out is. look at the error output when we tried
+... to restart the apache2 service.
+
+ Invalid command 'Alias', perhaps misspelled or defined by a module not included in the server configuration
+
+... therefore lets try to load the alias module included with apache and try again
+
+root@deb-7:/etc/apache2/mods-enabled# cp ../mods-available/alias.* .
+root@deb-7:/etc/apache2/mods-enabled# ls
+access_compat.load  alias.load	     authz_core.load  mpm_prefork.conf	reqtimeout.conf
+alias.conf	    authn_core.load  filter.load      mpm_prefork.load	reqtimeout.load
+root@deb-7:/etc/apache2/mods-enabled# 
+root@deb-7:/etc/apache2/mods-enabled# ls alias.*
+alias.conf  alias.load
+root@deb-7:/etc/apache2/mods-enabled# 
+
+... now try to restart the apache2 service. and found its ok.
+
+root@deb-7:/etc/apache2/mods-enabled# /etc/init.d/apache2 restart
+[ ok ] Restarting web server: apache2.
+
+root@deb-7:/etc/apache2/mods-enabled# 
+
+... another one problem
+
+ root@deb-7:/etc/apache2/mods-enabled# /etc/init.d/apache2 start
+ [FAIL] Starting web server: apache2 failed!
+ [warn] The apache2 configtest failed. ... (warning).
+ Output of config test was:
+ AH00526: Syntax error on line 14 of /etc/apache2/sites-enabled/000-default.conf:
+ Invalid command 'AddHandler', perhaps misspelled or defined by a module not included in the server configuration
+ Action 'configtest' failed.
+ The Apache error log may have more information.
+ root@deb-7:/etc/apache2/mods-enabled# 
+ root@deb-7:/etc/apache2/mods-enabled# 
+ root@deb-7:/etc/apache2/mods-enabled# cp ../mods-available/mime* .
+ root@deb-7:/etc/apache2/mods-enabled# ls
+ access_compat.load  authn_core.load  cgid.conf	  mime.conf	   mime_magic.load   python.load      rewrite.load
+ alias.conf	    authz_core.load  cgid.load	  mime.load	   mpm_prefork.conf  reqtimeout.conf
+ alias.load	    cgi.load	     filter.load  mime_magic.conf  mpm_prefork.load  reqtimeout.load
+ root@deb-7:/etc/apache2/mods-enabled# /etc/init.d/apache2 start
+ [ ok ] Starting web server: apache2.
+ root@deb-7:/etc/apache2/mods-enabled# 
+ 
+root@deb-7:/etc/apache2/mods-enabled# /etc/init.d/apache2 restart
+[FAIL] Restarting web server: apache2 failed!
+[warn] The apache2 configtest failed. ... (warning).
+Output of config test was:
+AH00526: Syntax error on line 15 of /etc/apache2/sites-enabled/000-default.conf:
+Invalid command 'PythonDebug', perhaps misspelled or defined by a module not included in the server configuration
+Action 'configtest' failed.
+The Apache error log may have more information.
+root@deb-7:/etc/apache2/mods-enabled# 
+
+... we have to install 
+
+root@deb-7:/etc/apache2/mods-enabled# apt-cache search mod_python
+libapache2-mod-python - Python-embedding module for Apache 2
+libapache2-mod-python-doc - Python-embedding module for Apache 2 - documentation
+
+root@deb-7:/etc/apache2/mods-enabled# apt-get install libapache2-mod-python 
+
+... another one
+
+root@deb-7:/etc/apache2/sites-enabled# /etc/init.d/apache2 restart
+[FAIL] Restarting web server: apache2 failed!
+[warn] The apache2 configtest failed. ... (warning).
+Output of config test was:
+AH00526: Syntax error on line 14 of /etc/apache2/sites-enabled/000-default.conf:
+Invalid command 'DirectoryIndex', perhaps misspelled or defined by a module not included in the server configuration
+Action 'configtest' failed.
+The Apache error log may have more information.
+root@deb-7:/etc/apache2/sites-enabled# 
+root@deb-7:/etc/apache2/mods-available# cp dir* ../mods-enabled/
+root@deb-7:/etc/apache2/mods-available# 
+root@deb-7:/etc/apache2/mods-available# /etc/init.d/apache2 restart
+[ ok ] Restarting web server: apache2.
+root@deb-7:/etc/apache2/mods-available# 
+
+
+

@@ -1,0 +1,98 @@
+
+
+... another way to run python programme with apache is installing 
+... mod_python. procedure is like below.
+
+... we are using this version of apache
+
+root@deb-7:/etc/apache2/sites-enabled# apache2 -v
+Server version: Apache/2.4.10 (Debian)
+Server built:   Feb 25 2017 10:03:55
+root@deb-7:/etc/apache2/sites-enabled# 
+
+root@deb-7:/etc/apache2/mods-enabled# apt-cache search mod_python
+libapache2-mod-python - Python-embedding module for Apache 2
+libapache2-mod-python-doc - Python-embedding module for Apache 2 - documentation
+
+root@deb-7:/etc/apache2/mods-enabled# 
+
+root@deb-7:/etc/apache2/mods-enabled# cp ../mods-available/python.load .
+root@deb-7:/etc/apache2/mods-enabled# ls
+access_compat.load  authn_core.load  cgid.conf	  mime.conf	   mime_magic.load   python.load      rewrite.load
+alias.conf	    authz_core.load  cgid.load	  mime.load	   mpm_prefork.conf  reqtimeout.conf
+alias.load	    cgi.load	     filter.load  mime_magic.conf  mpm_prefork.load  reqtimeout.load
+root@deb-7:/etc/apache2/mods-enabled# 
+
+... installing the python module for apache and activating them is done
+... now configure the default page of apache.
+
+root@deb-7:/etc/apache2/sites-enabled# ls
+000-default.conf  000-default.conf.bk
+
+root@deb-7:/etc/apache2/sites-enabled# cat 000-default.conf
+
+   # ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+   ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+        <Directory "/var/www/cgi-bin/">
+                AllowOverride All
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                Order allow,deny
+                Allow from all
+                AddHandler cgi-script .py
+                DirectoryIndex index.py
+                PythonDebug On
+        </Directory>
+
+... now we will place all of our .py file in a folder any where we like and then
+... alias them. some options inside the <Directory> tag needs some explanations
+
+a. AddHandler cgi-script .py
+b. DirectoryIndex index.py
+c. PythonDebug On
+
+... these can be place inside the directory as local or outside the directory as global.
+
+... and my full configure file is 
+
+root@deb-7:/etc/apache2/mods-available# cat ../sites-enabled/000-default.conf
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www
+	
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+
+	<Directory /var/www/>
+		Options +ExecCGI
+		Order allow,deny
+		Allow from all
+                DirectoryIndex index.html
+	</Directory>
+
+	ScriptAlias /cgi-bin/ /var/www/cgi-bin/
+	<Directory "/var/www/cgi-bin/">
+		AllowOverride All
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		Order allow,deny
+		Allow from all
+		AddHandler cgi-script .py
+                DirectoryIndex index.py
+		PythonDebug On
+	</Directory>
+	
+	LogLevel warn
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+	
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+root@deb-7:/etc/apache2/mods-available# 
+
+... now reload and test them.
+
+
+
