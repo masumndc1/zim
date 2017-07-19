@@ -2,4 +2,132 @@
 
 .... docker file.
 
+... my first simple docker file from which we will make an image
+
+root@controller:~/docker# cat Dockerfile
+FROM i386/busybox:latest
+CMD echo Hello World!!
+
+... command issued to make image. image with image id 5e3b4451845e has been created.
+... it also run the command "Hello World!!"
+
+root@controller:~/docker# docker build .
+Sending build context to Docker daemon 2.048 kB
+Step 1 : FROM i386/busybox:latest
+ ---> 6d33efaf2a5e
+Step 2 : CMD echo Hello World!!
+ ---> Running in 51b67a016eed
+ ---> 5e3b4451845e
+Removing intermediate container 51b67a016eed
+Successfully built 5e3b4451845e
+root@controller:~/docker#
+
+t@controller:~# docker run -it --rm 5e3b4451845e
+Hello World!!
+root@controller:~#
+
+... image build by this way has none tag with it. we can tag it by following.
+... from now on we can run it by using the name.
+
+root@controller:~/docker# docker tag 5e3b4451845e busyboxtest
+root@controller:~/docker#
+root@controller:~/docker# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+busyboxtest                     latest              5e3b4451845e        9 minutes ago       1.071 MB
+masum/ubuntu_wget               latest              3edc2ec3e192        5 hours ago         403.2 MB
+coreos/apache                   latest              5a3024d885c8        3 years ago         294.4 MB
+root@controller:~/docker#
+
+... by default tag always use the latest. but we can change it by following
+... rule is to use <image>:<tag name>.
+
+root@controller:~/docker# docker tag 5e3b4451845e busyboxtest:12.1
+
+... now time has come to create the Dockerfile.
+.... syntax of docker file.
+
+##########################################
+
+# my first docker file
+FROM i386/busybox:latest
+MAINTAINER khabir uddin <masumndc1@gmail.com>
+CMD echo #### ############# ###
+CMD echo #### Hello World!! ###
+CMD echo #### ############# ###
+COPY /root/docker/masum.txt /var/www/
+# docker allows empty lines like below
+# therefore we can add comment and empty
+# lines to add read ability.
+
+# setting environment variable.
+ENV DEBUG_LVL 3
+ENV APACHE_LOG_DIR /var/log/apache
+
+# setting user
+USER 1001
+
+# setting working dir
+WORKDIR /home
+
+# opening 7373 udp and 8080 as tcp port
+EXPOSE 7373/udp 8080
+
+# running shell command. usually when we
+# need to run multiple command we use run
+#
+#RUN apt-get update && \
+#          apt-get install -y apache2 && \
+#          apt-get clean
+
+# there is difference between CMD and RUN though
+# both of them used to execute the commands.
+# run is used while image is being build.
+# and cmd is used to execute after image is build up
+# and during container running.
+
+
+#
+
+#######################################
+
+... after making an image by using above Dockerfile and running it
+... we have found following. we have instructed user should be 1001
+... and the working directory will be /home and masum.txt file will
+... be in /var/www/ all of them we have found.
+
+root@controller:~/docker# docker build -t busyboxone:12.1 .
+root@controller:~/docker# docker run -it --rm busyboxone:12.1 /bin/sh
+
+/home $
+/home $ id
+uid=1001 gid=0(root)
+/home $ cd /var/www
+/var/www $ ls
+masum.txt
+/var/www $ cat masum.txt
+this file can be found in /var/www
+/var/www $
+
+... another interesting file is .dockerignore 
+
+root@controller:~/docker# pwd
+/root/docker
+root@controller:~/docker# ls -la
+total 20
+drwxr-xr-x 2 root root 4096 Jul 20 01:31 .
+drwx------ 5 root root 4096 Jul 20 01:31 ..
+-rw-r--r-- 1 root root   11 Jul 20 01:31 .dockerignore
+-rw-r--r-- 1 root root  953 Jul 20 01:30 Dockerfile
+-rw-r--r-- 1 root root   35 Jul 20 00:59 masum.txt
+
+root@controller:~/docker# cat .dockerignore
+.git
+*.tmp
+root@controller:~/docker#
+
+... the content of .dockerignore file is telling docker not to 
+... include anything of extension tmp and .git directory with 
+... image build with Dockerfile.
+
+
 

@@ -1,0 +1,21 @@
+
+root@controller:~# apt-get update
+Hit:1 http://archive.canonical.com/ubuntu zesty InRelease
+Hit:2 http://ca.archive.ubuntu.com/ubuntu zesty InRelease
+Hit:3 http://ca.archive.ubuntu.com/ubuntu zesty-updates InRelease
+Reading package lists... Error!
+E: Encountered a section with no Package: header
+E: Problem with MergeList /var/lib/apt/lists/ca.archive.ubuntu.com_ubuntu_dists_zesty_universe_binary-i386_Packages
+E: The package lists or status file could not be parsed or opened.
+root@controller:~#
+root@controller:~#
+root@controller:~# rm -vf /var/lib/apt/lists/*
+removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_InRelease'
+removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_partner_binary-i386_Packages'
+removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_partner_i18n_Translation-en'
+removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_partner_source_Sour
+
+root@controller:~# apt-get update
+
+
+

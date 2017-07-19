@@ -1,0 +1,41 @@
+
+
+.... we can push one container to docker hub
+
+... we are committing one stopped container with username.
+
+root@controller:~/docker# docker commit 9378267914b7  masumndc1/busyboxtwo
+sha256:92e57594040c3ea290f4fc09
+
+root@controller:~/docker# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+masumndc1/busyboxtwo            latest              92e57594040c        7 minutes ago       1.071 MB
+
+... we have one image with masumndc1/busyboxtwo. we will push it. 
+... then login to our docker repository and push the image on docker hub
+
+root@controller:~/docker# docker login
+Login with your Docker ID to push and pull images from Docker Hub. 
+If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+
+Username (masumndc1):
+Password:
+Login Succeeded
+
+... and finally 
+root@controller:~/docker# docker push masumndc1/busyboxtwo
+
+The push refers to a repository [docker.io/masumndc1/busyboxtwo]
+a4f719f67e1a: Pushed
+c3e34cdea71d: Pushed
+latest: digest: sha256:f07c35ff6dbf1ef18ca3cffa941db66645b5fc1765d6f4776e64570168ffb076 size: 734
+root@controller:~/docker#
+
+... this image now accessible publicly for testing.
+... the format of the repository [docker.io/<username>/busyboxtwo]
+... otherwise it will give error. therefore we need to commit image with the
+... <username of docker hub>/<imagename>:<tag> naming extenstion.
+
+
+
+
