@@ -1,0 +1,40 @@
+
+
+... docker is build on client and server/daemon model.
+... there is another third elements which is registry.
+... client works like tell the server what to do. server
+... on the other hand does running and managing the container.
+... the optional registry stores the images and metadata for 
+... docker.
+
+... docker server can run on multiple machines which then
+... got the commands from docker clients. server can directly
+... communicates with registry for images and meta data.
+
+... interesting thing with docker is that it works unlike to
+... other client/server model. the same executable works both
+... for client and server model. the command docker with the 
+... options -d telling docker works as server/daemon and just
+... docker command is like client simply. docker server can
+... only work on linux based host.
+
+... docker client can talk with it server or daemon by using tcp port or
+... unix sockets. tcp port 2375 for unencrypted data and port 2376 
+... for the crypted communication between client and server.
+
+... docker has extensive range of APIs along with strong command line
+... tools. most of the things done with cli can be done with api too
+... except streaming and terminal access. the later couple of work
+... are bit easier to do with cli. 
+
+... we have to keep in mind that containers are not virtual machines.
+... typically containers are lightweight. a newly container can be
+... as small as few kilobytes where a freshly created virtual machine
+... can be few hundreds megabytes.
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+
+
+... nova-placement-api is missing
+
+# cat /etc/apt/source.list
+# nova-placement-api
+deb http://us.archive.ubuntu.com/ubuntu yakkety main universe
+
+# apt-get update
+# apt-get upgrade
+# apt-get install nova-placement-api
+
+

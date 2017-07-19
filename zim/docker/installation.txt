@@ -1,0 +1,115 @@
+
+
+.... installation of docker
+
+... installing some depencies of docker.
+
+root@controller:/etc/apt# sudo apt-get install \
+>     apt-transport-https \
+>     ca-certificates \
+>     curl \
+>     software-properties-common
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+apt-transport-https is already the newest version (1.4).
+ca-certificates is already the newest version (20161130).
+software-properties-common is already the newest version (0.96.24.13).
+The following additional packages will be installed:
+Setting up curl (7.52.1-4ubuntu1.1) ...
+root@controller:/etc/apt#
+
+... First, add the GPG key for the official Docker repository to the system:
+
+# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+... Add the Docker repository to APT sources: and update
+
+# add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# apt-get update
+
+... now install docker by following
+
+# apt-get install -y docker-ce 
+
+... or
+
+# apt-get install docker.io docker-registry docker-compose
+# ln -sf /usr/bin/docker.io /usr/local/bin/docker
+
+... once installation is done do the following to see whether docker is running or not
+
+... selecting docker to run at boot time
+
+root@controller:/etc/docker/registry# update-rc.d docker defaults
+root@controller:/etc/docker/registry# update-rc.d docker enable
+
+root@controller:/etc/docker/registry# /etc/init.d/docker status
+● docker.service - Docker Application Container Engine
+   Loaded: loaded (/lib/systemd/system/docker.service; disabled; vendor preset: enabled)
+   Active: active (running) since Wed 2017-07-19 01:55:37 +06; 14h ago
+     Docs: https://docs.docker.com
+ Main PID: 1703 (dockerd)
+    Tasks: 20
+   Memory: 635.0M
+      CPU: 2min 5.432s
+   CGroup: /system.slice/docker.service
+
+root@controller:/etc/docker/registry# docker version
+Client:
+ Version:      1.12.6
+ API version:  1.24
+ Go version:   go1.7.4
+ Git commit:   78d1802
+ Built:        Tue Mar 14 09:48:25 2017
+ OS/Arch:      linux/386
+
+Server:
+ Version:      1.12.6
+ API version:  1.24
+ Go version:   go1.7.4
+ Git commit:   78d1802
+ Built:        Tue Mar 14 09:48:25 2017
+ OS/Arch:      linux/386
+root@controller:/etc/docker/registry#
+root@controller:/etc/docker/registry# docker info
+Containers: 22
+ Running: 0
+ Paused: 0
+ Stopped: 22
+Images: 8
+Server Version: 1.12.6
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 55
+ Dirperm1 Supported: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: bridge null host overlay
+Swarm: inactive
+Runtimes: runc
+Default Runtime: runc
+Security Options: apparmor seccomp
+Kernel Version: 4.10.0-19-generic
+Operating System: Ubuntu 17.04
+OSType: linux
+Architecture: i686
+CPUs: 1
+Total Memory: 998.8 MiB
+Name: controller
+ID: MH77:WJIL:AKCZ:FAVT:VX3Y:2GUW:B5VQ:XQZL:FMRE:VJ6H:GNFT:UR4T
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Registry: https://index.docker.io/v1/
+WARNING: No swap limit support
+Insecure Registries:
+ 127.0.0.0/8
+
+root@controller:/etc/docker/registry#
+
+
+

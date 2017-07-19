@@ -1,0 +1,149 @@
+
+
+.... docker images
+
+... we can search and pull some prebuild docker images 
+
+root@controller:~# docker search ubuntu
+NAME                       DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+ubuntu                     Ubuntu is a Debian-based Linux operating s...   6281      [OK]
+rastasheep/ubuntu-sshd     Dockerized SSH service, built on top of of...   91                   [OK]
+ubuntu-upstart             Upstart is an event-based replacement for ...   74        [OK]
+neurodebian                NeuroDebian provides neuroscience research...   37        [OK]
+ubuntu-debootstrap         debootstrap --variant=minbase --components...   30        [OK]
+32bit/ubuntu               Ubuntu for i386 (32bit)                         30
+
+... now will pull one image 
+
+root@controller:~# docker pull i386/busybox
+Using default tag: latest
+
+... we can see the installed images by following
+
+t@controller:~# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+debian              latest              a2ff708b7413        4 weeks ago         100.1 MB
+i386/busybox        latest              7ad1e2b43c48        4 weeks ago         1.05 MB
+busybox             latest              c30178c5239f        4 weeks ago         1.106 MB
+hello-world         latest              1815c82652c0        4 weeks ago         1.84 kB
+i386/hello-world    latest              f6a97547ed12        6 months ago        1.636 kB
+32bit/ubuntu        16.04               cc30c7e0cb5a        10 months ago       320.7 MB
+32bit/debian        latest              ec51524b3826        2 years ago         272 MB
+coreos/apache       latest              5a3024d885c8        3 years ago         294.4 MB
+root@controller:~#
+
+... by default when we search and pull images, it pulls from the docker repository
+... index.docker.com. 
+
+root@controller:~# docker info | grep -i registry
+Registry: https://index.docker.io/v1/
+root@controller:~#
+
+... it is also possible to pull images from other registry like below. at that time
+... we dont provide https, http, ftp with the registry name.
+
+root@controller:~# docker pull registry.example.com/myapp
+
+... now running one image 
+
+root@controller:~# docker run -it 32bit/debian /bin/bash
+
+root@84a7cb0de7e7:/# ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:ac:11:00:02
+          inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+
+root@84a7cb0de7e7:/# ping yahoo.com
+PING yahoo.com (98.138.253.109) 56(84) bytes of data.
+64 bytes from ir1.fp.vip.ne1.yahoo.com (98.138.253.109): icmp_seq=1 ttl=61 time=412 ms
+64 bytes from ir1.fp.vip.ne1.yahoo.com (98.138.253.109): icmp_seq=2 ttl=61 time=434 ms
+^C
+--- yahoo.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 412.078/423.321/434.564/11.243 ms
+root@84a7cb0de7e7:/#
+
+... seeing docker image is running 
+
+root@controller:~# docker ps
+CONTAINER ID        IMAGE                COMMAND             CREATED             STATUS              NAMES
+f2e45401c01c        32bit/ubuntu:16.04   "/bin/bash"         3 minutes ago       Up 3 minutes        compassionate_perlman
+root@controller:~#
+
+... we can attach back with a running docker by following
+... we can use either container id or name.
+
+root@controller:~# docker attach f2e45401c01c
+root@f2e45401c01c:/# pwd
+/
+root@f2e45401c01c:/#
+
+... then changes made within docker can be seen by using docker diff <container id>
+
+... the command docker ps -a will list all the images are in stopped stage. 
+... from there we can start images again like below.
+
+root@controller:~# docker start f2e45401c01c
+f2e45401c01c
+root@controller:~# docker ps
+CONTAINER ID        IMAGE                COMMAND             CREATED             STATUS              NAMES
+3b557e9173dd        32bit/debian         "/bin/bash"         13 minutes ago      Up 5 minutes        boring_jang
+f2e45401c01c        32bit/ubuntu:16.04   "/bin/bash"         24 minutes ago      Up 2 seconds        compassionate_perlman
+root@controller:~#
+
+... we can use --rm with docker run to tell all clean up upon exit of an image
+... this will also prevent to hold some space
+
+root@controller:~# docker run -it --rm 32bit/debian /bin/bash
+
+... by the way we can also remove all containers that are not currently running.
+... first taking all the containers id
+
+root@controller:~# docker ps -aq --no-trunc
+3b557e9173dd8d7c07d231665383b3732785ae5636b5e95ed8d61a3a128d2f4d
+f2e45401c01cd337340c398ee900c46939e369566d54f53c8ba7e7e3c323457e
+089e6c359fde3b4ec9c722d8489f4e3f62892250bbdd2c2223e60b6b433c2919
+c2924c787b0ac930f8126e8604861a498bf40c194996d338f337e4328ccc390d
+268f5216934f696608a796d8473b4043a90e794a26b4013b99709735fe79503a
+84a7cb0de7e7ad1450b841998fd8f14c1af8d598450dd26bbd2c614834cefa1b
+69a170151feea31bbfbe20de8bcaaf0c56b9a79209741421fa8a2f2a2b0efb23
+0a884c8cdd3d4034cecac0b6c601dd4a0aef53decc5971175a9f071cf6561116
+
+... and then remove them by following 
+
+root@controller:~# docker rm `docker ps -aq --no-trunc`
+
+.... building images from containers.
+
+... after doing all the works and making all the changes we can 
+... make an image from a container for future work. this image
+... we can also distribute to others. 
+
+... first we will stop the container for safety purpose
+
+root@controller:/home/masum# docker stop 3b557e9173dd
+root@controller:/home/masum# docker stop f2e45401c01c
+
+... using commit sub command with docker to make images
+
+root@controller:/home/masum# docker commit 3b557e9173dd masum/debian_htop
+sha256:60a75c12d3133cbab793646ad2a9c224740109d1e81be37b5e2a356dcca76a6a
+root@controller:/home/masum#
+root@controller:/home/masum# docker commit f2e45401c01c  masum/ubuntu_wget
+sha256:3edc2ec3e19200803534ebe41ed377f09b070bf219a409f202c6edd0511532cf
+root@controller:/home/masum#
+
+... see these images included or not. output says they are included successfully.
+
+root@controller:~# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED              SIZE
+masum/ubuntu_wget               latest              3edc2ec3e192        About a minute ago   403.2 MB
+masum/debian_htop               latest              60a75c12d313        2 minutes ago        379.4 MB
+i386/busybox                    latest              6d33efaf2a5e        16 hours ago         1.071 MB
+
+... lets run it. and we have found it runs ok.
+
+root@controller:~# docker run -it masum/debian_htop /usr/bin/htop
+
+
+
+
