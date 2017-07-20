@@ -1,0 +1,99 @@
+
+
+.... services in docker
+... services in docker installed mainly to access them from the outside world.
+... docker made this easy with the help of natting and port mapping using linux
+... build-in iptables.
+
+... ip addresses in docker host machine where docker is installed
+
+root@controller:~/docker# ifconfig docker0
+docker0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
+        inet6 fe80::42:3eff:fe18:7797  prefixlen 64  scopeid 0x20<link>
+
+... when we installed docker in a linux host we got iptables docker chain.
+... this chain is where natting related to docker takes place.
+
+root@controller:~# iptables -t nat -L -n -v
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0
+
+root@controller:~#
+
+... to explain all the natting and port mapping let see some example step by step.
+
+... first we are running an docker image by following.
+
+root@controller:~/docker# docker run -it --rm -p 80:80 masumapache:10.2 /bin/bash
+
+... similarly docker host 8080 to container 80. 
+
+root@controller:~/docker# docker run -it --rm -p 8080:80 masumapache:10.2 /bin/bash
+
+... as we are instructing docker hostport 80 mapping to container 80 port mapping.
+... if we omit docker host port then docker engine will automatically assign port.
+
+root@controller:~/docker# docker run -it --rm -p 80 masumapache:10.2 /bin/bash
+
+... the options -p has following syntax 
+
+• <hostPort>:<containerPort>
+• <containerPort>
+• <ip>:<hostPort>:<containerPort> 
+• <ip>::<containerPort>
+
+root@f8c7acf183cb:/home# 
+
+... and we have found the following iptables rules in the docker host
+
+root@controller:~/docker# iptables -t nat -L -n -v
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0
+    0     0 DNAT       tcp  --  !docker0 *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 to:172.17.0.2:80
+root@controller:~/docker#
+
+... and we can grab the web page from the command wget -qO- localhost:80.
+
+... similarly we can set following.it is saying to bind docker host ip address
+... 10.10.10.12 port 80 to bind container port 80.
+
+controller:~/docker# docker run -it --rm -p 10.10.10.12:80:80 masumapache:10.2 /bin/bash
+
+... and similar iptables from docker host.
+
+root@controller:~/docker# iptables -t nat -L -n
+
+Chain DOCKER (2 references)
+target     prot opt source               destination
+RETURN     all  --  0.0.0.0/0            0.0.0.0/0
+DNAT       tcp  --  0.0.0.0/0            10.10.10.12          tcp dpt:80 to:172.17.0.2:80
+root@controller:~/docker#
+
+... interesting happens here. request comes from my_mac--> virtualbox --> docker.
+
+root@controller:~/docker# iptables -t nat -L -n -v
+Chain POSTROUTING (policy ACCEPT 25 packets, 1600 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  105  6920 MASQUERADE  all  --  *      !docker0  172.17.0.0/16        0.0.0.0/0
+    0     0 MASQUERADE  tcp  --  *      *       172.17.0.2           172.17.0.2           tcp dpt:80
+
+Chain DOCKER (2 references)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 RETURN     all  --  docker0 *       0.0.0.0/0            0.0.0.0/0
+   20  1280 DNAT       tcp  --  !docker0 *       0.0.0.0/0            10.10.10.12          tcp dpt:80 to:172.17.0.2:80
+root@controller:~/docker#
+
+... similarly following is saying interface ip is fixed but docker host port will be
+... assigned by docker engine to container port 80.
+
+controller:~/docker# docker run -it --rm -p 10.10.10.12::80 masumapache:10.2 /bin/bash
+
+... and lastly the EXPOSE instruction by itself cannot create port binding on the Docker host. 
+... therefore we have to use -P options with docker run subcommnd. 
+
+
+
+

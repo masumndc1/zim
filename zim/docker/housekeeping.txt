@@ -1,0 +1,119 @@
+
+
+.... housekeeping images and container for future usage.
+
+... taggin one image for registry push.
+
+root@controller:~/docker# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+i386/busybox                    latest              6d33efaf2a5e        46 hours ago        1.071 MB
+root@controller:~/docker#
+
+root@controller:~/docker# docker tag i386/busybox masumndc1/busyboxthree
+
+root@controller:~/docker# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+i386/busybox                    latest              6d33efaf2a5e        46 hours ago        1.071 MB
+masumndc1/busyboxthree          latest              6d33efaf2a5e        46 hours ago        1.071 MB
+coreos/apache                   latest              5a3024d885c8        3 years ago         294.4 MB
+root@controller:~/docker#
+
+root@controller:~/docker#
+root@controller:~/docker# docker login
+Username (masumndc1):
+Password:
+Success
+
+root@controller:~/docker# docker push masumndc1/busyboxthree
+The push refers to a repository [docker.io/masumndc1/busyboxthree]
+c3e34cdea71d: Mounted from masumndc1/busyboxtwo
+latest: digest: sha256:ee7c91d0466cf0bd0e8b2fe43d6b528114193a4c7ceee722922fe7a0850af69e size: 527
+root@controller:~/docker#
+
+... saving container locally
+
+docker export - saves a container’s running or paused instance to a file
+docker save - saves a non-running container image to a file
+
+... running one container from image
+
+root@controller:~/docker# docker run -it --rm masumndc1/busyboxthree /bin/sh
+/ #
+
+... found it running
+
+root@controller:~/docker# docker ps | cut -d ' ' -f 1-30
+CONTAINER ID        IMAGE                    COMMAND
+3d7a979521a7        masumndc1/busyboxthree   "/bin/sh"           3 minutes ago
+f2e45401c01c        32bit/ubuntu:16.04       "/bin/bash"         31 hours ago
+root@controller:~/docker#
+
+... now exporting it to tar.gz format 
+
+root@controller:~/docker# docker export 3d7a979521a7 -o busyboxthree.tar.gz
+
+root@controller:~/docker# ls  -la
+total 1276
+-rw------- 1 root root 1285120 Jul 21 01:51 busyboxthree.tar.gz
+root@controller:~/docker#
+
+... deleting the images 
+
+root@controller:~/docker# docker rmi masumndc1/busyboxthree
+Untagged: masumndc1/busyboxthree:latest
+Untagged: masumndc1/busyboxthree@sha256:ee7c91d0466cf0bd0e8b2fe43d6b528114193a4c7ceee722922fe7a0850af69e
+root@controller:~/docker#
+
+... so now we can import it to our image list
+
+root@controller:~/docker# docker import --help
+Usage:	docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
+root@controller:~/docker#
+root@controller:~/docker# ls
+Dockerfile  busyboxthree.tar.gz  masum.txt
+root@controller:~/docker#
+root@controller:~/docker# docker import busyboxthree.tar.gz masumndc1/busyboxthree
+sha256:2a562e84d27719991c5b80e7654222821760219857fcd7929c1d83b3439e1e08
+root@controller:~/docker#
+root@controller:~/docker# docker images | grep masumn
+masumndc1/busyboxthree          latest              2a562e84d277        15 seconds ago      1.071 MB
+root@controller:~/docker#
+
+...... same thing we can do with save and load command but with non running images
+
+... saving an images from docker images output
+
+root@controller:~/docker# docker save masumndc1/busyboxthree | gzip > busybox3.tar.gz
+root@controller:~/docker# ls
+ busybox3.tar.gz  
+root@controller:~/docker#
+
+... removing images
+
+root@controller:~/docker# docker rmi masumndc1/busyboxthree
+Untagged: masumndc1/busyboxthree:latest
+Deleted: sha256:322a1c87ffb866a2aca78985addaa71c8fe3926d6c1be26677b143cd7b98f250
+Deleted: sha256:a7732a88339830981fb35784fb14a96cbb5e9e48b956f34eb3ec1d3be72b5c25
+root@controller:~/docker#
+
+... now again loading image by docker load command
+
+root@controller:~/docker# zcat busybox3.tar.gz | docker load
+a7732a883398: Loading layer [==================================================>] 1.285 MB/1.285 MB
+Loaded image: masumndc1/busyboxthree:latest
+root@controller:~/docker#
+
+... and found it back.
+
+root@controller:~/docker# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+masumndc1/busyboxthree          latest              322a1c87ffb8        2 minutes ago       1.071 MB
+masumapache                     10.2                9fe60073dbbd        About an hour ago   420.6 MB
+
+... running it like before
+
+root@controller:~/docker# docker run -it --rm masumndc1/busyboxthree /bin/sh
+/# 
+
+
+

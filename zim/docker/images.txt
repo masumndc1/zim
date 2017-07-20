@@ -71,6 +71,8 @@ root@controller:~#
 
 ... we can attach back with a running docker by following
 ... we can use either container id or name.
+... we can dettach from the container with the combination of
+... crtl+p crtl+q or both.
 
 root@controller:~# docker attach f2e45401c01c
 root@f2e45401c01c:/# pwd

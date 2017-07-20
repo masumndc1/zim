@@ -1,0 +1,76 @@
+
+
+.... debugging containers
+
+... we are running only three containers now
+
+root@controller:~# docker ps | cut -d' ' -f1-20
+CONTAINER ID        IMAGE
+9540a8440abd        32bit/debian         "/bin/bash"
+3b557e9173dd        32bit/debian         "/bin/bash"
+f2e45401c01c        32bit/ubuntu:16.04   "/bin/bash"
+root@controller:~#
+
+... therefore we have three interface associated with them in host machine
+
+root@controller:~# ifconfig
+
+veth4062040: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::806d:ceff:fe40:797  prefixlen 64  scopeid 0x20<link>
+        ether 82:6d:ce:40:07:97  txqueuelen 0  (Ethernet)
+
+veth7c6bf16: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::1831:57ff:feaa:1f0a  prefixlen 64  scopeid 0x20<link>
+        ether 1a:31:57:aa:1f:0a  txqueuelen 0  (Ethernet)
+
+vethdb779b3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet6 fe80::d445:7eff:fe9b:7caf  prefixlen 64  scopeid 0x20<link>
+        ether d6:45:7e:9b:7c:af  txqueuelen 0  (Ethernet)
+
+root@controller:~#
+
+... inspecting the pid and others
+
+root@controller:~# docker inspect --format  "{{ .State.Pid }}" 9540a8440abd
+15590
+root@controller:~#
+
+... seeing from host machine
+
+root@controller:~# ps -fp 15590
+UID        PID  PPID  C STIME TTY          TIME CMD
+root     15590 15578  0 08:04 pts/5    00:00:00 /bin/bash
+root@controller:~#
+
+... docker logs command
+
+root@controller:~# docker logs 9540a8440abd
+root@9540a8440abd:/#
+root@9540a8440abd:/# ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 02:04 ?        00:00:00 /bin/bash
+root         5     1  0 02:11 ?        00:00:00 ps -ef
+root@9540a8440abd:/#
+root@9540a8440abd:/# docker ps
+bash: docker: command not found
+root@9540a8440abd:/#
+root@controller:~#
+
+... with time stamps 
+
+root@controller:~# docker logs -t 9540a8440abd
+root@9540a8440abd:/#
+2017-07-20T02:11:53.657446819Z root@9540a8440abd:/#
+2017-07-20T02:11:53.826215380Z root@9540a8440abd:/#
+2017-07-20T02:11:55.903705215Z root@9540a8440abd:/# ps -ef
+2017-07-20T02:11:55.951084125Z UID        PID  PPID  C STIME TTY          TIME CMD
+2017-07-20T02:11:55.960989842Z root         1     0  0 02:04 ?        00:00:00 /bin/bash
+2017-07-20T02:11:55.961028557Z root         5     1  0 02:11 ?        00:00:00 ps -ef
+2017-07-20T02:13:13.797813792Z root@9540a8440abd:/#
+2017-07-20T02:13:17.855481786Z root@9540a8440abd:/# docker ps
+2017-07-20T02:13:17.855535515Z bash: docker: command not found
+2017-07-20T02:25:39.562693792Z root@9540a8440abd:/#
+2017-07-20T02:25:39.721652090Z root@9540a8440abd:/#
+root@controller:~#
+
+
