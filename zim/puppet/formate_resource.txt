@@ -1,0 +1,52 @@
+
+
+... the resources in puppet has allways the following form
+
+root@controller:~/puppet/manifests# puppet resource user masum
+user { 'masum':
+  ensure           => 'present',
+  comment          => 'md khabir uddin,,,',
+  gid              => '1000',
+  groups           => ['adm', 'cdrom', 'sudo', 'dip', 'plugdev', 'lxd', 'lpadmin', 'sambashare'],
+  home             => '/home/masum',
+  password         => '$6$xt9kSCwJ$M2d.Jb9rQ.ug/rBAshqKozBMHgw2IOUl/
+			U8rKESZ/7Cor0GpFImOtTG0lbiuZCiZ3bXUfqdyzBsQ2X36UKRZu.',
+  password_max_age => '99999',
+  password_min_age => '0',
+  shell            => '/bin/bash',
+  uid              => '1000',
+}
+
+root@controller:~/puppet/manifests#
+
+... watching the file backup of puppet done for us after doing works
+
+root@controller:~/puppet/manifests# puppet filebucket --local backup /tmp/testfile.txt
+/tmp/testfile.txt: 0eb429526e5e170cd9ed4f84c24e442b
+root@controller:~/puppet/manifests#
+root@controller:~/puppet/manifests# puppet filebucket --local list
+0eb429526e5e170cd9ed4f84c24e442b 2017-07-26 01:48:02 /tmp/testfile.txt
+root@controller:~/puppet/manifests#
+
+... viewing the content of a backup file
+
+root@controller:~/puppet/manifests# puppet filebucket -l list
+0eb429526e5e170cd9ed4f84c24e442b 2017-07-26 01:48:02 /tmp/testfile.txt
+root@controller:~/puppet/manifests# puppet filebucket -l get 0eb429526e5e170cd9ed4f84c24e442b
+holy cow!
+root@controller:~/puppet/manifests#
+
+root@controller:~/puppet/manifests# puppet filebucket -l diff 0eb429526e5e170cd9ed4f84c24e442b /tmp/testfile.txt
+--- /tmp/diff20170726-15960-100n63z	2017-07-26 02:01:46.404821107 +0600
++++ /tmp/testfile.txt	2017-07-26 01:52:17.030917088 +0600
+@@ -1 +1 @@
+-holy cow!
++cow! holy
+root@controller:~/puppet/manifests#
+
+... now restoring a file 
+
+root@controller:~/puppet/manifests# puppet filebucket -l restore /tmp/testfile.txt 0eb429526e5e170cd9ed4f84c24e442b
+root@controller:~/puppet/manifests#
+
+
