@@ -1,0 +1,27 @@
+
+
+... lxd and docker can run on the same computer side by side with no
+... performance impact.
+... following are some commands used to build and run first lxd container
+
+... You can generally hit Enter to accept the default answers to the questions,
+...  and once you’re setup you can start to launch machines.
+
+sudo lxd init
+
+... This will fetch the base Ubuntu guest OS, then launch an instance of that called ’first-machine’
+
+lxc launch ubuntu: first-machine
+
+... see your machine running
+
+lxc list
+
+... Jump into that container
+... Type ‘exit’ to quit the container and return to your host. 
+... Launch more containers and see how quickly they start. Install 
+... SSH and log into them remotely, they behave just like real machines.
+
+lxc exec first-machine bash
+
+

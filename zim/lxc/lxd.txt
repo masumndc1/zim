@@ -1,0 +1,314 @@
+
+
+... we should run lxd first before making any lxc container
+
+
+root@controller:~# lxd init
+Do you want to configure a new storage pool (yes/no) [default=yes]?
+Name of the new storage pool [default=default]:
+Name of the storage backend to use (dir, btrfs, lvm) [default=dir]:
+Would you like LXD to be available over the network (yes/no) [default=no]? yes
+Address to bind LXD to (not including port) [default=all]:
+Port to bind LXD to [default=8443]:
+Trust password for new clients:
+Again:
+Would you like stale cached images to be updated automatically (yes/no) [default=yes]?
+Would you like to create a new network bridge (yes/no) [default=yes]?
+What should the new bridge be called [default=lxdbr0]?
+What IPv4 address should be used (CIDR subnet notation, “auto” or “none”) [default=auto]?
+What IPv6 address should be used (CIDR subnet notation, “auto” or “none”) [default=auto]?
+LXD has been successfully configured.
+root@controller:~#
+
+
+root@controller:~# lxc info
+config:
+  core.https_address: '[::]:8443'
+api_extensions:
+- storage_zfs_remove_snapshots
+- container_host_shutdown_timeout
+- container_syscall_filtering
+- auth_pki
+- container_last_used_at
+- etag
+- patch
+- usb_devices
+- https_allowed_credentials
+- image_compression_algorithm
+- directory_manipulation
+- container_cpu_time
+- storage_zfs_use_refquota
+- storage_lvm_mount_options
+- network
+- profile_usedby
+- container_push
+- container_exec_recording
+- certificate_update
+- container_exec_signal_handling
+- gpu_devices
+- container_image_properties
+- migration_progress
+- id_map
+- network_firewall_filtering
+- network_routes
+- storage
+- file_delete
+- file_append
+- network_dhcp_expiry
+- storage_lvm_vg_rename
+- storage_lvm_thinpool_rename
+- network_vlan
+- image_create_aliases
+- container_stateless_copy
+api_status: stable
+api_version: "1.0"
+auth: trusted
+public: false
+environment:
+  addresses:
+  - 10.0.2.15:8443
+  - 10.10.10.40:8443
+  - 172.17.0.1:8443
+  - 10.101.4.1:8443
+  - '[fd42:7183:c8de:beae::1]:8443'
+  architectures:
+  - x86_64
+  - i686
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIFWTCCA0GgAwIBAgIRANIbffMwxgMi6ERtgpfXttMwDQYJKoZIhvcNAQELBQAw
+    ODEcMBoGA1UEChMTbGludXhjb250YWluZXJzLm9yZzEYMBYGA1UEAwwPcm9vdEBj
+    b250cm9sbGVyMB4XDTE3MDcyNjIwMzUzOVoXDTI3MDcyNDIwMzUzOVowODEcMBoG
+    A1UEChMTbGludXhjb250YWluZXJzLm9yZzEYMBYGA1UEAwwPcm9vdEBjb250cm9s
+    bGVyMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAuyYmlcSEzXWxAonX
+    UWCvQmCemfqGdeoalEAF0rz+l7umYRhEa24jcLONsejH9+HScOX+DNtUGRiX3lld
+    2UjPlAx7P4Hthl7gmdtOZpCbGaOEnUpYEQa/nGWDrl/biUh4SwYQGucUqY9jxvpW
+    7rr7wT3CZN64DhP86OqQh2buKNIQgwEGk51AaAt0qMxFphQlLJSHjjOmHckh5UMh
+    Njw9IhwUWhc9tcYEMLeC4DE/4ZYf+J3L4m5aZU1916fWl9Ln2UNXTDhXU8fRow3i
+    x3RjwIGjyl/R8P64p2r+cGSYofb0ysL6VXlyCBAcxua5WnZhdl8zX1k/skcLcO7C
+    LS18bK3GYXPxjLmS3TGn1r2g4q0a5rojIxTMcRXjJjSqPU/Rw3avpC3hXHxBajXa
+    b8OBAAAZ0U+wQHkHh6yh2PGZHltyBqKzzINBZ3TlcvYnMu22spkyZdQpPujsjnfe
+    yeR7lzMqihCPe9IUxW1iQn65SkLvV5wq6FZ8cSV0w15uJBGkU01uvV3S5CYc9LiO
+    nGNJGe4rDIzFAOkUSZYWeM7gDVZjGx5Z8dlMizXK3pMrIEyWuiBzP4iEHWBcWQ8z
+    RADbORkAfKQWw+NfikZcDeI96mD/MDV8KmBy1Zqbjjo9LsIqY/5/6QjwtIcQGMpH
+    4jGjcmfvIS39GGfFrmnJjpAZY6MCAwEAAaNeMFwwDgYDVR0PAQH/BAQDAgWgMBMG
+    A1UdJQQMMAoGCCsGAQUFBwMBMAwGA1UdEwEB/wQCMAAwJwYDVR0RBCAwHoIKY29u
+    dHJvbGxlcocECgACD4cECgoKKIcErBEAATANBgkqhkiG9w0BAQsFAAOCAgEAts+T
+    R6PJ04o52IzKVOx77CRrJlM5PV0qALXS3QMk5+KTwwmwisQxQMb/8EF0tMFEzDQr
+    x2SDyex12c9pq85up3EV1JfyNgN6b42hxok6tA7QjvPL/MwUzENCPicRhIaudX4V
+    v9Vpg5pa+wHwbI1FvT3n6XT2dCjL1IpMhEl0iXQGIoCJHO9Btkzlc3bTeAPP6D5Q
+    qFlL20N8OAeNJswcoKPsvhNvf71ZrRN80CImKH2t8iRsMPCTN3mdZ2OFFrAwOVoh
+    JkygDMiSvhk6k7lL91SKJqMCpRlsYJcg9NSfzG39WqH8RW2245A4/QAoj1I0/WTx
+    x2/EB/jmClxKIm1S2ckvSZTN/AELgcbRkLhIoZnPoII2crbpWig/VhdtBXOkh2In
+    lCt6tVBFS1EI03ip7zElqu0LSlB/FHMYlf/DqLzQIGjYVO/drwtOOUO1cFakmzYB
+    4SPX+LkvdxupuUtjZ9nqAyGB6QJEP5NOVhV9dmIh6uPyof3id/iU1Vnn4P15FN+4
+    aeaqq/Smp5zgumxkdYfDCS95/knQhfBmm0Qr4sLqWjx3zXur96f/WrZyJi9OM+6p
+    I6eL0oCj8WgysbmPBisDj4awQQyKCl9fz6oJpKlondEUhH89W4t4McGnvm/EDDOz
+    D+VnVXLC/MKy1yqw061oIBCX+VWtoG5j15Fh+CE=
+    -----END CERTIFICATE-----
+  certificate_fingerprint: 34b891dcf4683412cfcce2d6f8695a276701ec9a23c31a438fe66b83f8836602
+  driver: lxc
+  driver_version: 2.0.7
+  kernel: Linux
+  kernel_architecture: x86_64
+  kernel_version: 4.10.0-19-generic
+  server: lxd
+  server_pid: 5526
+  server_version: "2.12"
+  storage: dir
+  storage_version: "1"
+root@controller:~#
+root@controller:~#
+
+
+root@controller:~#
+root@controller:~# lxc --version
+2.12
+root@controller:~#
+root@controller:~#
+
+... and lxc options
+
+
+root@controller:~# lxc
+Usage: lxc <command> [options]
+
+This is the LXD command line client.
+
+All of LXD's features can be driven through the various commands below.
+For help with any of those, simply call them with --help.
+
+Commands:
+  config           Change container or server configuration options
+  copy             Copy containers within or in between LXD instances
+  delete           Delete containers and snapshots
+  exec             Execute commands in containers
+  file             Manage files in containers
+  image            Manipulate container images
+  info             Show container or server information
+  launch           Create and start containers from images
+  list             List the existing containers
+  move             Move containers within or in between LXD instances
+  network          Manage and attach containers to networks
+  profile          Manage container configuration profiles
+  publish          Publish containers as images
+  remote           Manage the list of remote LXD servers
+  restart          Restart containers
+  restore          Restore containers from snapshots
+  snapshot         Create container snapshots
+  start            Start containers
+  stop             Stop containers
+  storage          Manage storage pools and volumes
+
+Options:
+  --all            Print less common commands
+  --debug          Print debug information
+  --verbose        Print verbose information
+  --version        Show client version
+
+Environment:
+  LXD_CONF         Path to an alternate client configuration directory
+  LXD_DIR          Path to an alternate server directory
+root@controller:~#
+
+... and lxd options are
+
+
+root@controller:~# lxd --help
+Usage: lxd [command] [options]
+
+Commands:
+    activateifneeded
+        Check if LXD should be started (at boot) and if so, spawns it through socket activation
+    daemon [--group=lxd] (default command)
+        Start the main LXD daemon
+    init [--auto] [--network-address=IP] [--network-port=8443] [--storage-backend=dir]
+         [--storage-create-device=DEVICE] [--storage-create-loop=SIZE] [--storage-pool=POOL]
+         [--trust-password=]
+        Setup storage and networking
+    ready
+        Tells LXD that any setup-mode configuration has been done and that it can start containers.
+    shutdown [--timeout=60]
+        Perform a clean shutdown of LXD and all running containers
+    waitready [--timeout=15]
+        Wait until LXD is ready to handle requests
+    import <container name> [--force]
+        Import a pre-existing container from storage
+
+
+Common options:
+    --debug
+        Enable debug mode
+    --help
+        Print this help message
+    --logfile FILE
+        Logfile to log to (e.g., /var/log/lxd/lxd.log)
+    --syslog
+        Enable syslog logging
+    --verbose
+        Enable verbose mode
+    --version
+        Print LXD's version number and exit
+
+Daemon options:
+    --group GROUP
+        Group which owns the shared socket
+
+Daemon debug options:
+    --cpuprofile FILE
+        Enable cpu profiling into the specified file
+    --memprofile FILE
+        Enable memory profiling into the specified file
+    --print-goroutines-every SECONDS
+        For debugging, print a complete stack trace every n seconds
+
+Init options:
+    --auto
+        Automatic (non-interactive) mode
+
+Init options for non-interactive mode (--auto):
+    --network-address ADDRESS
+        Address to bind LXD to (default: none)
+    --network-port PORT
+        Port to bind LXD to (default: 8443)
+    --storage-backend NAME
+        Storage backend to use (zfs or dir, default: dir)
+    --storage-create-device DEVICE
+        Setup device based storage using DEVICE
+    --storage-create-loop SIZE
+        Setup loop based storage with SIZE in GB
+    --storage-pool NAME
+        Storage pool to use or create
+    --trust-password PASSWORD
+        Password required to add new clients
+
+Shutdown options:
+    --timeout SECONDS
+        How long to wait before failing
+
+Waitready options:
+    --timeout SECONDS
+        How long to wait before failing
+
+
+Internal commands (don't call these directly):
+    forkexec
+        Execute a command in a container
+    forkgetnet
+        Get container network information
+    forkgetfile
+        Grab a file from a running container
+    forkmigrate
+        Restore a container after migration
+    forkputfile
+        Push a file to a running container
+    forkstart
+        Start a container
+    callhook
+        Call a container hook
+    migratedumpsuccess
+        Indicate that a migration dump was successful
+    netcat
+        Mirror a unix socket to stdin/stdout
+root@controller:~#
+
+root@controller:~# /etc/init.d/lxd status
+● lxd.service - LXD - main daemon
+   Loaded: loaded (/lib/systemd/system/lxd.service; indirect; vendor preset: enabled)
+   Active: active (running) since Thu 2017-07-27 02:35:39 +06; 6min ago
+     Docs: man:lxd(1)
+  Process: 5527 ExecStartPost=/usr/bin/lxd waitready --timeout=600 (code=exited, status=0/SUCCESS)
+  Process: 5503 ExecStartPre=/usr/lib/x86_64-linux-gnu/lxc/lxc-apparmor-load (code=exited, status=0/SUCCESS)
+ Main PID: 5526 (lxd)
+    Tasks: 12
+   Memory: 23.2M
+      CPU: 3.382s
+   CGroup: /system.slice/lxd.service
+           ├─5526 /usr/bin/lxd --group lxd --logfile=/var/log/lxd/lxd.log
+           └─5775 dnsmasq --strict-order --bind-interfaces --pid-file=/var/lib/lxd/networks/lxdbr0/dnsmasq.pid --except-inte…xd
+
+Jul 27 02:37:09 controller dnsmasq[5775]: using nameserver 4.2.2.1#53
+Jul 27 02:37:09 controller dnsmasq[5775]: using nameserver 4.2.2.2#53
+Jul 27 02:37:09 controller dnsmasq[5775]: read /etc/hosts - 5 addresses
+Jul 27 02:37:09 controller dnsmasq-dhcp[5775]: read /var/lib/lxd/networks/lxdbr0/dnsmasq.hosts
+Jul 27 02:37:25 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+Jul 27 02:37:31 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+Jul 27 02:37:36 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+Jul 27 02:37:55 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+Jul 27 02:38:06 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+Jul 27 02:38:14 controller dnsmasq-dhcp[5775]: RTR-ADVERT(lxdbr0) fd42:7183:c8de:beae::
+root@controller:~#
+
+... this output has some similarities with docker 
+
+root@controller:~# /etc/init.d/lxd restart
+[ ok ] Restarting lxd (via systemctl): lxd.service.
+root@controller:~#
+root@controller:~# /etc/init.d/lxd stop
+[....] Stopping lxd (via systemctl): lxd.serviceWarning: Stopping lxd.service, but it can still be activated by:
+  lxd.socket
+. ok
+root@controller:~#
+
+
+
