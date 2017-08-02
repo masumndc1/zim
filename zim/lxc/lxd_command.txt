@@ -13,6 +13,16 @@ sudo lxd init
 
 lxc launch ubuntu: first-machine
 
+... however we can also run various os by lxc by following
+... list of other os can be found from https://uk.images.linuxcontainers.org/
+... upto write this doc we can fun alpine, ubuntu, debian, centos and oracle.
+... these following command will automatically fetch base image.
+
+lxc launch ubuntu:14.04 my-ubuntu
+lxc launch ubuntu-daily:16.04 my-ubuntu-dev
+lxc launch images:centos/6/amd64 my-centos
+lxc launch images:centos/6/i386 my-centos32
+
 ... see your machine running
 
 lxc list
@@ -23,5 +33,10 @@ lxc list
 ... SSH and log into them remotely, they behave just like real machines.
 
 lxc exec first-machine bash
+
+... we run the command inside the lxc container
+
+lxc exec my-ubuntu -- apt-get update
+
 
 
