@@ -1,0 +1,16 @@
+
+
+.... if you need to install ifconfig again
+
+
+[root@localhost ~]# yum search ifconfig
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.net.in
+ * extras: centos.myfahim.com
+ * updates: centos.myfahim.com
+====================================================== Matched: ifconfig ======================================================
+net-tools.x86_64 : Basic networking tools
+[root@localhost ~]#
+[root@localhost ~]# yum install net-tools
+

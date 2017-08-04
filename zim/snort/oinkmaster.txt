@@ -1,0 +1,89 @@
+root@debian:/etc/snort# vi /etc/oinkmaster.conf
+root@debian:/etc/snort# oinkmaster -o /etc/snort/rules
+Loading /etc/oinkmaster.conf
+Downloading file from http://rules.emergingthreats.net/open/snort-2.9.0/emerging.rules.tar.gz... done.
+Archive successfully downloaded, unpacking... done.
+Setting up rules structures... done.
+Processing downloaded rules... disablesid 0, enablesid 0, modifysid 0, localsid 0, total rules 18790
+Setting up rules structures... done.
+Comparing new files to the old ones... done.
+Checking flowbits dependencies... problems found:
+
+WARNING: SID 2018087 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2018087 is broken unless you also enable SID 2000419).
+WARNING: SID 2018103 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2018103 is broken unless you also enable SID 2000419).
+WARNING: SID 2015744 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2015744 is broken unless you also enable SID 2000419).
+WARNING: SID 2015965 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2015965 is broken unless you also enable SID 2000419).
+WARNING: SID 2015745 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2015745 is broken unless you also enable SID 2000419).
+WARNING: SID 2018104 depends on flowbit "ET.http.binary" which is set in INACTIVE SID 2000419 (SID 2018104 is broken unless you also enable SID 2000419).
+Updating local rules files... done.
+
+[***] Results from Oinkmaster started 20140529 14:11:45 [***]
+
+[*] Rules modifications: [*]
+    None.
+
+[*] Non-rule line modifications: [*]
+    None.
+
+[+] Added files (consider updating your snort.conf to include them if needed): [+]
+
+    -> BSD-License.txt
+    -> classification.config
+    -> compromised-ips.txt
+    -> emerging-activex.rules
+    -> emerging-attack_response.rules
+    -> emerging-botcc.portgrouped.rules
+    -> emerging-botcc.rules
+    -> emerging-chat.rules
+    -> emerging-ciarmy.rules
+    -> emerging-compromised.rules
+    -> emerging-current_events.rules
+    -> emerging-deleted.rules
+    -> emerging-dns.rules
+    -> emerging-dos.rules
+    -> emerging-drop.rules
+    -> emerging-dshield.rules
+    -> emerging-exploit.rules
+    -> emerging-ftp.rules
+    -> emerging-games.rules
+    -> emerging-icmp.rules
+    -> emerging-icmp_info.rules
+    -> emerging-imap.rules
+    -> emerging-inappropriate.rules
+    -> emerging-info.rules
+    -> emerging-malware.rules
+    -> emerging-misc.rules
+    -> emerging-mobile_malware.rules
+    -> emerging-netbios.rules
+    -> emerging-p2p.rules
+    -> emerging-policy.rules
+    -> emerging-pop3.rules
+    -> emerging-rbn-malvertisers.rules
+    -> emerging-rbn.rules
+    -> emerging-rpc.rules
+    -> emerging-scada.rules
+    -> emerging-scan.rules
+    -> emerging-shellcode.rules
+    -> emerging-smtp.rules
+    -> emerging-snmp.rules
+    -> emerging-sql.rules
+    -> emerging-telnet.rules
+    -> emerging-tftp.rules
+    -> emerging-tor.rules
+    -> emerging-trojan.rules
+    -> emerging-user_agents.rules
+    -> emerging-voip.rules
+    -> emerging-web_client.rules
+    -> emerging-web_server.rules
+    -> emerging-web_specific_apps.rules
+    -> emerging-worm.rules
+    -> emerging.conf
+    -> gen-msg.map
+    -> gpl-2.0.txt
+    -> reference.config
+    -> sid-msg.map
+    -> snort-2.9.0-open.txt
+    -> unicode.map
+
+root@debian:/etc/snort# 
+

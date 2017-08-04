@@ -1,0 +1,40 @@
+
+
+
+... installation of puppet in centos 7
+... installation of puppet can be found in 
+... https://docs.puppet.com/puppet/latest/puppet_platform.html
+
+[root@localhost network-scripts]# rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+Retrieving https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+warning: /var/tmp/rpm-tmp.ChkEv6: Header V4 RSA/SHA512 Signature, key ID ef8d349f: NOKEY
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:puppet5-release-5.0.0-1.el7      ################################# [100%]
+[root@localhost network-scripts]#
+[root@localhost network-scripts]# yum search puppet
+Loaded plugins: fastestmirror
+puppet5                                                                                                 | 2.5 kB  00:00:00
+puppet5/x86_64/primary_db                                                                               |  11 kB  00:00:00
+Loading mirror speeds from cached hostfile
+ * base: centos.mirror.net.in
+ * extras: centos.myfahim.com
+ * updates: centos.myfahim.com
+===================================================== N/S matched: puppet ================================================
+puppet-agent.x86_64 : The Puppet Agent package contains all of the elements needed to run puppet, including ruby, 
+			facter, hiera
+                    : and mcollective.
+puppet-release.noarch : Release packages for the Puppet repository
+puppet5-release.noarch : Release packages for the Puppet5 repository
+puppetdb.noarch : Puppet Labs - puppetdb
+puppetdb-termini.noarch : Termini for puppetdb
+puppetserver.noarch : Puppet Labs - puppetserver
+
+  Name and summary matches only, use "search all" for everything.
+[root@localhost network-scripts]#
+
+... installing packages related to puppet
+
+[root@localhost network-scripts]# yum install -y puppet puppetdb puppetserver puppetdb-termini
+
+

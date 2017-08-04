@@ -1,0 +1,9 @@
+
+
+Ubuntu 16.04 Xenial Xerus
+
+wget https://apt.puppetlabs.com/puppet5-release-xenial.deb
+sudo dpkg -i puppet5-release-xenial.deb
+sudo apt updateo
+
+apt-get install puppet5-release puppetdb-termini puppetdb puppetserver puppet-agent

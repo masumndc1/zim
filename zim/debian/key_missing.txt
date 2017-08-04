@@ -1,0 +1,16 @@
+
+
+
+[root@localhost ~]# gpg --keyserver pgp.mit.edu --recv-key ef8d349f
+gpg: directory `/root/.gnupg' created
+gpg: new configuration file `/root/.gnupg/gpg.conf' created
+gpg: WARNING: options in `/root/.gnupg/gpg.conf' are not yet active during this run
+gpg: keyring `/root/.gnupg/secring.gpg' created
+gpg: keyring `/root/.gnupg/pubring.gpg' created
+gpg: requesting key EF8D349F from hkp server pgp.mit.edu
+gpg: /root/.gnupg/trustdb.gpg: trustdb created
+gpg: key EF8D349F: public key "Puppet, Inc. Release Key (Puppet, Inc. Release Key) <release@puppet.com>" imported
+gpg: no ultimately trusted keys found
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+[root@localhost ~]#
