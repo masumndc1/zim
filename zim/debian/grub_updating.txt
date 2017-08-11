@@ -1,0 +1,13 @@
+
+
+... we will miss windows xp booting after installing ubuntu/debian/centos
+... in another partision of the computer. we can solve this by following
+... fot the harddisk whether it is /dev/sda or /dev/sdb try to find out 
+... by fdisk -l command
+
+[root@puppet manifest]# os-prober
+[root@puppet manifest]# grub2-install /dev/sda
+
+... this will update the grub again which will let other os to boot at the
+... booting time.
+

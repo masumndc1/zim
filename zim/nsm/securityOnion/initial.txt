@@ -1,0 +1,28 @@
+
+
+root@onion:~# uname -a
+Linux onion 3.2.0-59-generic #90-Ubuntu SMP Tue Jan 7 22:43:51 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+root@onion:~#
+
+root@onion:~# service nsm status
+Status: securityonion
+  * sguil server                                                                                                      [  OK  ]
+Status: HIDS
+  * ossec_agent (sguil)                                                                                               [  OK  ]
+Status: Bro
+Name       Type       Host       Status        Pid    Peers  Started
+bro        standalone localhost  running       5416   ???    11 Aug 13:11:56
+Status: onion-eth1
+  * netsniff-ng (full packet data)                                                                                    [  OK  ]
+  * pcap_agent (sguil)                                                                                                [  OK  ]
+  * snort_agent-1 (sguil)                                                                                             [  OK  ]
+  * snort-1 (alert data)                                                                                              [  OK  ]
+  * barnyard2-1 (spooler, unified2 format)                                                                            [  OK  ]
+  * prads (sessions/assets)                                                                                           [  OK  ]
+  * sancp_agent (sguil)                                                                                               [  OK  ]
+  * pads_agent (sguil)                                                                                                [  OK  ]
+  * argus                                                                                                             [  OK  ]
+  * http_agent (sguil)                                                                                                [  OK  ]
+root@onion:~#
+root@onion:~#
+

@@ -1,0 +1,20 @@
+
+
+
+masum@onion:/etc/ssh$ ssh-keygen -lf ssh_host_ecdsa_key.pub
+256 48:ed:6e:6b:cc:13:83:59:16:7e:6d:6a:c0:26:4a:bc  root@onion (ECDSA)
+masum@onion:/etc/ssh$
+masum@onion:/etc/ssh$ ssh-keygen -v -lf ssh_host_ecdsa_key.pub
+256 48:ed:6e:6b:cc:13:83:59:16:7e:6d:6a:c0:26:4a:bc  root@onion (ECDSA)
++--[ECDSA  256]---+
+|                 |
+|       ..        |
+|   .  .o.. .     |
+|    o..oB . o    |
+|   . o.BSo o     |
+|    E o.o o      |
+|       oo+       |
+|       .=.       |
+|       ...       |
++-----------------+
+masum@onion:/etc/ssh$

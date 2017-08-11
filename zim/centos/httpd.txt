@@ -1,0 +1,73 @@
+
+
+... my system is
+
+[root@puppet ~]# uname -a
+Linux puppet 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+[root@puppet ~]#
+
+... installed http related packages are
+
+[root@puppet ~]# rpm -qa | grep http
+httpd-tools-2.4.6-45.el7.centos.4.x86_64
+httpd-2.4.6-45.el7.centos.4.x86_64
+[root@puppet ~]#
+
+... making httpd service enable at boot time
+
+[root@puppet ~]# chkconfig httpd on
+Note: Forwarding request to 'systemctl enable httpd.service'.
+[root@puppet ~]#
+[root@puppet ~]# systemctl enable httpd.service
+[root@puppet ~]#
+[root@puppet ~]# systemctl list-unit-files | grep httpd
+httpd.service                                 enabled
+[root@puppet ~]#
+
+[root@puppet ~]# service httpd status
+Redirecting to /bin/systemctl status  httpd.service
+● httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Sat 2017-08-05 07:02:57 +06; 6min ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+ Main PID: 1083 (httpd)
+   Status: "Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec"
+   CGroup: /system.slice/httpd.service
+           ├─1083 /usr/sbin/httpd -DFOREGROUND
+           ├─1621 /usr/sbin/httpd -DFOREGROUND
+           ├─1622 /usr/sbin/httpd -DFOREGROUND
+           ├─1625 /usr/sbin/httpd -DFOREGROUND
+           ├─1629 /usr/sbin/httpd -DFOREGROUND
+           └─1630 /usr/sbin/httpd -DFOREGROUND
+
+Aug 05 07:02:51 puppet systemd[1]: Starting The Apache HTTP Server...
+Aug 05 07:02:56 puppet httpd[1083]: AH00558: httpd: Could not reliably determine the server's fully qualified domain 
+Aug 05 07:02:57 puppet systemd[1]: Started The Apache HTTP Server.
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@puppet ~]#
+
+[root@puppet ~]# cd /etc/httpd/
+[root@puppet httpd]# ls
+conf  conf.d  conf.modules.d  logs  modules  run
+[root@puppet httpd]# cd conf
+[root@puppet conf]# ls
+httpd.conf  magic
+[root@puppet conf]# cat httpd.conf | egrep -i servername
+ServerName www.example.com:80
+[root@puppet conf]#
+
+[root@puppet conf]# service httpd restart
+Redirecting to /bin/systemctl restart  httpd.service
+[root@puppet conf]#
+
+... puppet also saying the same that httpd is running and enabled at the boot time.
+
+[root@puppet conf]# puppet resource service httpd
+service { 'httpd':
+  ensure => 'running',
+  enable => 'true',
+}
+[root@puppet conf]#
+
+

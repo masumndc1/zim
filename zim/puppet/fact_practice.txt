@@ -1,0 +1,35 @@
+
+
+[root@puppet manifest]# cat facts_prac.pp
+### facter example
+notice ( "we have swap space $::swapfree" )
+notice ( "this computer is running for $::system_uptime" )
+notice ( "this computer is running for ${$facts['system_uptime']['days']} days" )
+notice ( "the md5 of this node is  ${md5($::fqdn)}" )
+notice ( "the kernel of this node is $::kernel" )
+
+### uptime in different way
+($facts['system_uptime']).each |$param, $time| {
+	notice ("this system is running for $time $param")
+}
+
+### syntax case
+case $::kernel {
+	'Linux':
+		{
+		 notice ("your family is  ${$facts['os']['family']}") ;
+		 notice ("your name is ${$facts['os']['name']}") ;
+		 notice ("your version is  ${$facts['os']['release']['major']}")
+		}
+	default: {}
+}
+
+### lamda
+each( $facts['partitions'] ) |$name, $device| {
+      notice( "${facts['hostname']} has device ${name} with size ${device['size']}" )
+}
+
+( $facts['mountpoints'] ).each |$name, $value| {
+	notice ( "$name has size ${value['size']} but available is ${value['available']}" )
+}
+[root@puppet manifest]#

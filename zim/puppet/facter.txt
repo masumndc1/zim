@@ -1,0 +1,73 @@
+
+
+... facters 
+... facters provide useful setting regarding the host.
+
+[masum@puppet ~]$ facter
+// output cut //
+system_uptime => {
+  days => 0,
+  hours => 0,
+  seconds => 1360,
+  uptime => "0:22 hours"
+}
+timezone => +06
+virtual => xen0
+// output cut //
+[masum@puppet ~]$
+
+[masum@puppet ~]$ facter | grep version
+aio_agent_version => 5.0.1
+  version => "1.8.0"
+    version => "VirtualBox"
+facterversion => 3.7.1
+kernelmajversion => 4.9
+kernelversion => 4.9.39
+    policy_version => "30"
+  version => "2.4.1"
+[masum@puppet ~]$
+
+... we can use this facts in our pp file either one of the syntax
+
+root@puppet manifest]# cat facts_prac.pp
+notify { facts:
+        message => "$facts['clientversion']"
+}
+[root@puppet manifest]#
+
+root@puppet manifest]# cat facts_prac.pp
+notify { facts:
+        message => "$::swapfree"
+}
+[root@puppet manifest]#
+
+... finding facts in json format
+
+[root@puppet manifest]# puppet facts find
+// output cut //
+{
+  "name": "puppet",
+  "values": {
+    "aio_agent_version": "5.0.1",
+    "architecture": "x86_64",
+    "augeas": {
+      "version": "1.8.0"
+    },
+// output cut //
+
+[root@puppet manifest]# puppet facts find
+[root@puppet manifest]# puppet facts --render-as yaml
+[root@puppet manifest]# puppet facts --render-as json
+
+... or we can also do this by following
+
+[root@puppet manifest]# facter --yaml
+[root@puppet manifest]# facter --json
+
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+
+
+... puppet modules are combination of data, code, templates.
+
+... we will first make one test environment to test our code before 
+... implement them in production environment.
+
+... pre installed production environment is
+
+[root@puppet code]# tree .
+.
+├── environments
+│   └── production
+│       ├── data
+│       ├── environment.conf
+│       ├── hiera.yaml
+│       ├── manifests
+│       └── modules
+└── modules
+
+6 directories, 2 files
+[root@puppet code]#
+
+... now we are going to make our test environment
+
+[root@puppet manifest]# mkdir -p /etc/puppetlabs/code/environments/test/modules
+[root@puppet manifest]# cd /etc/puppetlabs/code/environments/test
+[root@puppet test]# mkdir hieradata
+[root@puppet test]# mkdir manifests
+[root@puppet test]# vi manifests/site.pp
+[root@puppet test]#
+[root@puppet test]# ls
+hieradata  manifests  modules
+[root@puppet test]#
+[root@puppet test]# cat manifests/site.pp
+notify { 'testing':
+        message => "testing catalog in test environment.",
+}
+[root@puppet test]#
+
+... the following two lines in /etc/puppetlabs/puppet/puppet.conf 
+... describes any new environment will be placed under environments
+... directory. and then basemodulepath is telling us that any module
+... can not be found in production environment can be found in
+... /etc/puppetlabs/code/modules. 
+
+[root@puppet test]# cat /etc/puppetlabs/puppet/puppet.conf
+[main]
+# these are both default values
+environmentpath = /etc/puppetlabs/code/environments 
+basemodulepath = /etc/puppetlabs/code/modules
+
+
+
+
+
+... modules can be searched and installed by following
+... for example we have searched stdlib module and found many
+... among them we have installed stdlib from puppetlabs by following.
+... from now we can use stdlib in any pp file by using include stdlib
+
+root@controller:~/puppet/manifests# puppet module search stdlib
+root@controller:~/puppet/manifests# puppet module install puppetlabs-stdlib
+Notice: Preparing to install into /etc/puppet/code/modules ...
+Notice: Created target directory /etc/puppet/code/modules
+Notice: Downloading from https://forgeapi.puppet.com ...
+Notice: Installing -- do not interrupt ...
+/etc/puppet/code/modules
+└── puppetlabs-stdlib (v4.17.1)
+root@controller:~/puppet/manifests#
+
