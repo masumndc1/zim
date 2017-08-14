@@ -1,0 +1,98 @@
+
+
+... basic config
+
+... followings are some location of config files
+
+... Nginx Global Configuration
+... The main Nginx configuration file is located at /etc/nginx/nginx.conf.
+... This is where you can change settings like the user that runs the Nginx daemon
+
+[root@nginx nginx]# pwd
+/etc/nginx
+[root@nginx nginx]# ls
+conf.d        fastcgi.conf.default    koi-utf     mime.types.default  nginx.conf.default   uwsgi_params
+default.d     fastcgi_params          koi-win     nginx.conf          scgi_params          uwsgi_params.default
+fastcgi.conf  fastcgi_params.default  mime.types  nginx.conf.bk       scgi_params.default  win-utf
+[root@nginx nginx]#
+
+... Default Server Root
+... The default server root directory is /usr/share/nginx/html.
+... Files that are placed in there will be served on your web server.
+... lynx http//localhost/ will serve index.html from this folder.
+
+[root@nginx nginx]# ls /usr/share/nginx/html/
+404.html  50x.html  index.html  nginx-logo.png  poweredby.png
+[root@nginx nginx]#
+
+... Server Block Configuration
+... Any additional server blocks, known as Virtual Hosts in Apache, can be added by
+... creating new configuration files in /etc/nginx/conf.d. Files that end with .conf in
+... that directory will be loaded when Nginx is started.
+
+.... we are adding some extra parameters to /etc/nginx/nginx.conf
+
+gzip 		on; 			# for compression
+
+... location context. location example
+
+server {
+        listen 80;
+        server_name 127.0.0.1 localhost;
+
+        location /app1/ {
+                root /etc/nginx/html;
+                index index.html;
+	}
+
+        location /app2/ {
+                root /etc/nginx/html;
+		index home.html;
+    	} 
+
+	location ~ \.(png|jpg|jpeg)$ {
+                expires max;
+	}
+
+        location ~* \.(png|jpg|jpeg)$ {
+                expires 10d;
+	}
+}
+
+... auto indexing enabled when there is not index file defined.
+
+server {
+        listen 80;
+        server_name app2.com www.app2.com;
+        location / {
+                root /usr/share/nginx/html/app2;
+                autoindex on;
+        }
+
+... and deny accessing one location.
+
+	location /forbidden/ {
+                deny all;
+	}
+}
+
+... proxing any php request to apache and python to fastcgi
+
+location ~ \.php$ {
+        proxy_pass   http://127.0.0.1;
+    	}
+
+location ~ \.py$ {
+        fastcgi_pass   127.0.0.1:9000;
+	}
+
+
+
+
+
+
+
+
+
+
+

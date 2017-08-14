@@ -1,0 +1,69 @@
+
+
+... now we are configuring the virtual server to nginx
+... therefore we are placing config file like below.
+
+[root@nginx conf.d]# pwd
+/etc/nginx/conf.d
+[root@nginx conf.d]# ls
+virtual_server.conf
+[root@nginx conf.d]# cat virtual_server.conf
+server {
+        listen 80;
+        server_name app1.com www.app1.com;
+        location / {
+                root /usr/share/nginx/html/app1;
+	}
+}
+server {
+        listen 80;
+        server_name app2.com www.app2.com;
+        location / {
+                root /usr/share/nginx/html/app2;
+	}
+}
+[root@nginx conf.d]#
+
+... and placing index.html to their appropiate location
+
+[root@nginx html]# tree .
+.
+├── 404.html
+├── 50x.html
+├── app1
+│   └── index.html
+├── app2
+│   └── index.html
+├── index.html
+├── nginx-logo.png
+└── poweredby.png
+
+2 directories, 7 files
+[root@nginx html]#
+
+... if we browe like lynx http://www.app1.com and lynx http://www.app2.com 
+... we will see the web pages from the appropiate location.
+
+... however we can instruct nginx to listen on ip address of an interface too.
+
+server {
+        listen 192.168.10.130:80;
+        server_name www.app1.com;
+        location / {
+                root /usr/share/nginx/html/app2;
+	}
+}
+
+server {
+        listen 192.168.35.10:80;
+        server_name app2.com www.app2.com *.app2.com;  
+        location / {
+                root /usr/share/nginx/html/app2;
+	}
+}
+
+... same server is listening on another interface for different website.
+... this *.app2.com matches anything like blog.app2.com smtp.app2.com
+
+
+

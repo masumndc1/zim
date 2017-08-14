@@ -1,0 +1,31 @@
+
+[root@puppet manifest]# systemctl list-unit-files
+UNIT FILE                                     STATE
+proc-sys-fs-binfmt_misc.automount             static
+dev-hugepages.mount                           static
+dev-mqueue.mount                              static
+proc-fs-nfsd.mount                            static
+proc-sys-fs-binfmt_misc.mount                 static
+proc-xen.mount                                static
+sys-fs-fuse-connections.mount                 static
+sys-kernel-config.mount                       static
+sys-kernel-debug.mount                        static
+tmp.mount                                     disabled
+var-lib-nfs-rpc_pipefs.mount                  static
+var-lib-xenstored.mount                       static
+brandbot.path                                 disabled
+systemd-ask-password-console.path             static
+systemd-ask-password-plymouth.path            static
+systemd-ask-password-wall.path                static
+session-1.scope                               static
+session-2.scope                               static
+arp-ethers.service                            disabled
+auditd.service                                enabled
+auth-rpcgss-module.service                    static
+autovt@.service                               enabled
+blk-availability.service                      disabled
+brandbot.service                              static
+[root@puppet manifest]#
+[root@puppet manifest]# systemctl list-unit-files | grep nginx
+nginx.service                                 enabled
+[root@puppet manifest]#

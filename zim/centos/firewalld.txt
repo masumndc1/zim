@@ -1,0 +1,9 @@
+
+
+... adding one port to firewall
+
+# firewall-cmd --permanent --add-port=80/tcp
+Success
+
+# firewall-cmd --reload
+success

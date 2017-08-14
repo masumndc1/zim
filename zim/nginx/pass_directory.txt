@@ -1,0 +1,44 @@
+
+
+... first creating passwd for user
+
+[root@nginx nginx]# mkdir user_pass
+[root@nginx nginx]# ls
+conf.d                fastcgi_params          mime.types          nginx.conf.default     user_pass
+default.d             fastcgi_params.default  mime.types.default  nginx.conf.default.bk  uwsgi_params
+fastcgi.conf          koi-utf                 nginx.conf          scgi_params            uwsgi_params.default
+fastcgi.conf.default  koi-win                 nginx.conf.bk       scgi_params.default    win-utf
+
+[root@nginx nginx]# cd user_pass/
+[root@nginx user_pass]# htpasswd -c .htpasswd masum
+New password:
+Re-type new password:
+Adding password for user masum
+[root@nginx user_pass]# ls -la
+total 8
+drwxr-xr-x. 2 root root   23 Aug 14 11:22 .
+drwxr-xr-x. 5 root root 4096 Aug 14 11:22 ..
+-rw-r--r--. 1 root root   44 Aug 14 11:22 .htpasswd
+
+[root@nginx user_pass]# cat .htpasswd
+masum:$apr1$$encryptedpasswdhere$2wXMY42c3Tl.
+[root@nginx user_pass]#
+
+... settings on location like below.
+
+server {
+        listen 80;
+        server_name app1.com www.app1.com;
+        location / {
+                root /usr/share/nginx/html/app1;
+                auth_basic "passwd protected";
+                auth_basic_user_file /etc/nginx/user_pass/.htpasswd;
+        }
+}
+
+... now when try to lynx www.app1.com then it will promt for username and passwd
+
+
+
+
+

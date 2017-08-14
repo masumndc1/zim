@@ -1,0 +1,30 @@
+
+
+[root@nginx nginx]# journalctl -xn
+-- Logs begin at Mon 2017-08-14 01:12:31 +06, end at Mon 2017-08-14 09:32:16 +06. --
+Aug 14 09:26:28 nginx systemd[1]: Starting Network Manager Script Dispatcher Service...
+-- Subject: Unit NetworkManager-dispatcher.service has begun start-up
+-- Defined-By: systemd
+-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel
+--
+-- Unit NetworkManager-dispatcher.service has begun starting up.
+Aug 14 09:26:28 nginx dhclient[7555]: bound to 192.168.35.130 -- renewal in 738 seconds.
+Aug 14 09:26:28 nginx dbus[575]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
+Aug 14 09:26:28 nginx dbus-daemon[575]: dbus[575]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
+Aug 14 09:26:28 nginx systemd[1]: Started Network Manager Script Dispatcher Service.
+-- Subject: Unit NetworkManager-dispatcher.service has finished start-up
+-- Defined-By: systemd
+-- Support: http://lists.freedesktop.org/mailman/listinfo/systemd-devel
+--
+-- Unit NetworkManager-dispatcher.service has finished starting up.
+--
+-- The start-up result is done.
+Aug 14 09:26:28 nginx nm-dispatcher[8566]: req:1 'dhcp4-change' [enp0s3]: new request (3 scripts)
+Aug 14 09:26:28 nginx nm-dispatcher[8566]: req:1 'dhcp4-change' [enp0s3]: start running ordered scripts...
+Aug 14 09:28:16 nginx puppet-agent[983]: Could not request certificate: Failed to open TCP connection to puppet:8140 (Connecti
+Aug 14 09:30:16 nginx puppet-agent[983]: Could not request certificate: Failed to open TCP connection to puppet:8140 (Connecti
+Aug 14 09:32:16 nginx puppet-agent[983]: Could not request certificate: Failed to open TCP connection to puppet:8140 (Connecti
+[root@nginx nginx]#
+
+
+

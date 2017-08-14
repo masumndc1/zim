@@ -1,0 +1,14 @@
+Listen 80
+Listen 8080
+
+<VirtualHost 172.20.30.40:80>
+    ServerName www.example.com
+    DocumentRoot "/www/domain-80"
+</VirtualHost>
+
+<VirtualHost 172.20.30.40:80>
+    ServerName www.example.org
+    DocumentRoot "/www/otherdomain-80"
+</VirtualHost>
+
+
