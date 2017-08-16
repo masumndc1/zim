@@ -1,0 +1,10 @@
+
+
+... we will use following command "virt-install" to create a virtual machine
+
+virt-install \
+--name testvm6 \
+--vcpus=1  \
+--memory 128 \
+--disk /var/lib/libvirt/images/testvm6.img,size=2 \
+--location "/var/lib/xen/CentOS-7-x86_64-Minimal-1611.iso" 

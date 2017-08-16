@@ -1,0 +1,64 @@
+
+
+... creating user,database,granting permission
+
+MariaDB [(none)]> CREATE USER 'masum'@'localhost' IDENTIFIED BY 'password';
+Query OK, 0 rows affected (0.00 sec)
+
+MriaDB [(none)]> create database masum;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| glance             |
+| keystone           |
+| masum              |
+| mysql              |
+| nova               |
+| nova_api           |
+| nova_cell0         |
+| performance_schema |
++--------------------+
+9 rows in set (0.00 sec)
+
+MariaDB [(none)]>
+
+MariaDB [(none)]> GRANT ALL ON masum.* TO 'masum'@'%';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> REVOKE DELETE,GRANT OPTION ON masum.* FROM 'masum'@'%';	# revoking
+
+MariaDB [(none)]> SHOW GRANTS FOR masum;
++--------------------------------------------------+
+| Grants for masum@%                               |
++--------------------------------------------------+
+| GRANT USAGE ON *.* TO 'masum'@'%'                |
+| GRANT ALL PRIVILEGES ON `masum`.* TO 'masum'@'%' |
++--------------------------------------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [(none)]> SHOW GRANTS FOR masum@localhost;
++--------------------------------------------------------------------------------------------------------------+
+| Grants for masum@localhost                                                                                   |
++--------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO 'masum'@'localhost' IDENTIFIED BY PASSWORD 'encrypted_password' |
++--------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [(none)]>
+
+... changing password
+
+MariaDB [(none)]> SET PASSWORD FOR 'masum'@'%' = PASSWORD('new_password');
+
+... droping user
+
+MariaDB [(none)]> DROP USER 'masum'@'%';
+
+
+
+
+

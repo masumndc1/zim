@@ -1,0 +1,103 @@
+
+
+... xen config files are located below.
+
+[root@nginx xen]# pwd
+/etc/xen
+[root@nginx xen]#
+[root@nginx xen]# tree .
+.
+├── auto
+├── cpupool
+├── scripts
+│   ├── block
+│   ├── block-common.sh
+│   ├── block-drbd-probe
+│   ├── block-enbd
+│   ├── block-iscsi
+│   ├── block-nbd
+│   ├── block-tap
+│   ├── external-device-migrate
+│   ├── hotplugpath.sh
+│   ├── locking.sh
+│   ├── logging.sh
+│   ├── qemu-ifup
+│   ├── vif2
+│   ├── vif-bridge
+│   ├── vif-common.sh
+│   ├── vif-nat
+│   ├── vif-openvswitch
+│   ├── vif-route
+│   ├── vif-setup
+│   ├── vscsi
+│   ├── xen-hotplug-cleanup
+│   ├── xen-hotplug-common.sh
+│   ├── xen-network-common.sh
+│   └── xen-script-common.sh
+├── xl.conf
+├── xlexample.hvm
+└── xlexample.pvlinux
+
+2 directories, 28 files
+[root@nginx xen]#
+
+... xl the xen management tool
+... the following showing one dom0 is running with 1024 memory and one vcpu
+... 444.1s the boot time.
+
+[root@nginx xen]# xl list
+Name                                        ID   Mem VCPUs	State	Time(s)
+Domain-0                                     0  1024     1     r-----     444.1
+[root@nginx xen]#
+
+... we can downgrade dom0 memory by following
+
+[root@nginx xen]# xm mem-set Domain-0 768
+[root@nginx xen]# xl list
+Name                                        ID   Mem VCPUs	State	Time(s)
+Domain-0                                     0  768     1     r-----     444.1
+[root@nginx xen]#
+
+[root@nginx xen]# xl info
+host                   : nginx
+release                : 4.9.39-29.el7.x86_64
+version                : #1 SMP Fri Jul 21 15:09:00 UTC 2017
+machine                : x86_64
+nr_cpus                : 1
+max_cpu_id             : 0
+nr_nodes               : 1
+cores_per_socket       : 1
+threads_per_core       : 1
+... output cut ...
+
+... there is another tool which may used as alternative to xl which is virsh
+
+[root@nginx xen]# virsh
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh #
+
+virsh # nodeinfo
+CPU model:           x86_64
+CPU(s):              1
+CPU frequency:       2294 MHz
+CPU socket(s):       1
+Core(s) per socket:  1
+Thread(s) per core:  1
+NUMA cell(s):        1
+Memory size:         1631804 KiB
+
+virsh #
+virsh # list
+ Id    Name                           State
+----------------------------------------------------
+ 0     Domain-0                       running
+
+virsh # exit
+
+... 
+
+

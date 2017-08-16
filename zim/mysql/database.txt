@@ -1,0 +1,148 @@
+
+
+... creation of database, table and insertion;
+
+MariaDB [(none)]> create database masum;
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| masum              |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [(none)]> use masum;
+
+MariaDB [(masum)]> CREATE TABLE employees (
+       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       surname CHAR(100),
+       givenname CHAR(100),
+       pref_name CHAR(50),
+       birthday DATE COMMENT 'approximate birthday OK'
+);
+
+
+MariaDB [masum]> show tables;
++-----------------+
+| Tables_in_masum |
++-----------------+
+| employees       |
++-----------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> describe employees;
++-----------+-----------+------+-----+---------+----------------+
+| Field     | Type      | Null | Key | Default | Extra          |
++-----------+-----------+------+-----+---------+----------------+
+| id        | int(11)   | NO   | PRI | NULL    | auto_increment |
+| surname   | char(100) | YES  |     | NULL    |                |
+| givenname | char(100) | YES  |     | NULL    |                |
+| pref_name | char(50)  | YES  |     | NULL    |                |
+| birthday  | date      | YES  |     | NULL    |                |
++-----------+-----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [masum]> describe employees birthday;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| birthday | date | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> ALTER TABLE employees ADD username char(20) AFTER pref_name;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [masum]> ALTER TABLE employees MODIFY pref_name char(25);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [masum]> ALTER TABLE employees DROP username;
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [masum]>
+MariaDB [masum]> describe employees;
++-----------+-----------+------+-----+---------+----------------+
+| Field     | Type      | Null | Key | Default | Extra          |
++-----------+-----------+------+-----+---------+----------------+
+| id        | int(11)   | NO   | PRI | NULL    | auto_increment |
+| surname   | char(100) | YES  |     | NULL    |                |
+| givenname | char(100) | YES  |     | NULL    |                |
+| pref_name | char(25)  | YES  |     | NULL    |                |
+| birthday  | date      | YES  |     | NULL    |                |
++-----------+-----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+MariaDB [masum]> select * from employees;
+Empty set (0.00 sec)
+
+... inserting data
+
+MariaDB [masum]> INSERT INTO employees (pref_name,givenname,surname,birthday)
+    ->     VALUES ("George","George Albert","Smith","1970-04-04");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [masum]>
+MariaDB [masum]> select * from employees;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]>
+... insert from another tables
+
+INSERT INTO employees (surname, givenname, birthday)
+SELECT lastname, firstname, bday
+FROM names;
+
+... inserting from files
+
+root@controller:/tmp# cat new_employees
+1971-08-09   Anderson Neil
+1985-01-24   Christofferson Todd
+root@controller:/tmp#
+
+MariaDB [masum]> LOAD DATA INFILE '/tmp/new_employees' INTO TABLE employees (birthday, surname, givenname);
+Query OK, 2 rows affected, 4 warnings (0.00 sec)
+Records: 2  Deleted: 0  Skipped: 0  Warnings: 4
+
+MariaDB [masum]>
+
+MariaDB [masum]> select * from employees;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  2 | NULL    | NULL          | NULL      | 1971-08-09 |
+|  3 | NULL    | NULL          | NULL      | 1985-01-24 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
+|  6 | Todd    | NULL          | NULL      | 1985-01-24 |
++----+---------+---------------+-----------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [masum]>
+MariaDB [masum]> DELETE FROM employees WHERE id="2";
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [masum]> DELETE FROM employees WHERE id="3";
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [masum]> select * from employees;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
+|  6 | Todd    | NULL          | NULL      | 1985-01-24 |
++----+---------+---------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [masum]>
+

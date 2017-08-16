@@ -1,9 +1,0 @@
-Content-Type: text/x-zim-wiki
-Wiki-Format: zim 0.4
-Creation-Date: 2012-05-04T05:12:53+06:00
-
-====== Xen.office ======
-Created Friday 04 May 2012
-
-this a good manual about yum.
-http://fedora.redhat.com/docs/yum/en/
