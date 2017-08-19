@@ -1,0 +1,153 @@
+
+
+... data retrieve
+
+MariaDB [masum]> select * from employees ;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
+|  6 | Todd    | NULL          | NULL      | 1985-01-24 |
++----+---------+---------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [masum]> SELECT givenname,surname FROM employees;
++---------------+---------+
+| givenname     | surname |
++---------------+---------+
+| George Albert | Smith   |
+| NULL          | Neil    |
+| NULL          | Todd    |
++---------------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [masum]> select * from employees where birthday>=1970-04-04;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
+|  6 | Todd    | NULL          | NULL      | 1985-01-24 |
++----+---------+---------------+-----------+------------+
+3 rows in set, 1 warning (0.00 sec)
+
+MariaDB [masum]> select * from employees where id = 1;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> select * from employees where birthday = '1970-04-04';
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]>
+
+MariaDB [masum]> select * from employees where surname = 'Smith' or surname = 'Neil';
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
++----+---------+---------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [masum]>
+MariaDB [masum]> select * from employees where surname = 'Smith' or givenname='George';
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> SELECT * FROM employees WHERE surname IN ('Neil','Smith');
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
++----+---------+---------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [masum]>
+
+MariaDB [masum]> select * from employees where surname not in ('smith');
++----+---------+-----------+-----------+------------+
+| id | surname | givenname | pref_name | birthday   |
++----+---------+-----------+-----------+------------+
+|  5 | Neil    | NULL      | NULL      | 1971-08-09 |
+|  6 | Todd    | NULL      | NULL      | 1985-01-24 |
++----+---------+-----------+-----------+------------+
+2 rows in set (0.00 sec)
+
+MariaDB [masum]> select * from employees where surname like 'smit%';
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]>
+
+MariaDB [masum]> select * from employees where birthday >= '1970-04-04' order by surname;
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  5 | Neil    | NULL          | NULL      | 1971-08-09 |
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
+|  6 | Todd    | NULL          | NULL      | 1985-01-24 |
++----+---------+---------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [masum]> SELECT COUNT(*) FROM employees;
++----------+
+| COUNT(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> select * from employees where birthday = ( select max(birthday) from employees);
++----+---------+-----------+-----------+------------+
+| id | surname | givenname | pref_name | birthday   |
++----+---------+-----------+-----------+------------+
+|  6 | Todd    | NULL      | NULL      | 1985-01-24 |
++----+---------+-----------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> select * from employees where birthday = ( select min(birthday) from employees);
++----+---------+---------------+-----------+------------+
+| id | surname | givenname     | pref_name | birthday   |
++----+---------+---------------+-----------+------------+
+|  1 | Smith   | George Albert | George    | 1970-04-04 |
++----+---------+---------------+-----------+------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> SELECT SUM(TIMESTAMPDIFF(YEAR,birthday,CURDATE())) FROM employees;
++---------------------------------------------+
+| SUM(TIMESTAMPDIFF(YEAR,birthday,CURDATE())) |
++---------------------------------------------+
+|                                         125 |
++---------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [masum]> SELECT surname, COUNT(*) FROM employees GROUP BY surname;
++---------+----------+
+| surname | COUNT(*) |
++---------+----------+
+| Neil    |        1 |
+| Smith   |        1 |
+| Todd    |        1 |
++---------+----------+
+3 rows in set (0.00 sec)
+
+
