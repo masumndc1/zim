@@ -1,0 +1,147 @@
+
+
+root@onion:~# tcpdump -h
+tcpdump version 4.2.1
+libpcap version 1.1.1
+Usage: tcpdump [-aAbdDefhHIKlLnNOpqRStuUvxX] [ -B size ] [ -c count ]
+                [ -C file_size ] [ -E algo:secret ] [ -F file ] [ -G seconds ]
+                [ -i interface ] [ -M secret ]
+                [ -r file ] [ -s snaplen ] [ -T type ] [ -w file ]
+                [ -W filecount ] [ -y datalinktype ] [ -z command ]
+                [ -Z user ] [ expression ]
+root@onion:~#
+
+... the options are
+
+# tcpdump -n -i <interface> -s <snaplen> -c <count>
+
+-n      not to resolve hostname to ip address
+-i      interface.
+-s      how many byte to capture from each packets.
+-c      how many packets to capture.
+-w	store captured packets to a file.
+-r	reading packets from file.
+-tttt 	time stamps 
+-e 	enable layer 2 data 
+-XX 	hex and ascii data
+
+root@onion:~# tcpdump -n -i eth1 -c 5
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+23:32:24.152695 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 1752679072:1752679176, ack 4288726100, win 1024, options [nop,nop,TS val 9121927 ecr 288384476], length 104
+23:32:24.152994 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 104, win 4092, options [nop,nop,TS val 288384706 ecr 9121927], length 0
+23:32:24.153164 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 104:144, ack 1, win 1024, options [nop,nop,TS val 9121927 ecr 288384706], length 40
+23:32:24.153563 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 144, win 4094, options [nop,nop,TS val 288384706 ecr 9121927], length 0
+23:32:24.153686 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 144:248, ack 1, win 1024, options [nop,nop,TS val 9121927 ecr 288384706], length 104
+5 packets captured
+14 packets received by filter
+0 packets dropped by kernel
+root@onion:~#
+
+... storing to a file 
+
+root@onion:~/tcpdump# tcpdump -n -i eth1 -c 5 -w wcap.pcap
+tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+5 packets captured
+9 packets received by filter
+0 packets dropped by kernel
+root@onion:~/tcpdump#
+
+... reading packets from file.
+
+root@onion:~/tcpdump# tcpdump -n -r wcap.pcap
+reading from file wcap.pcap, link-type EN10MB (Ethernet)
+23:39:20.179236 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 1752685792:1752685832, ack 4288730500, win 1024, options [nop,nop,TS val 9225933 ecr 288800502], length 40
+23:39:20.179539 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 40, win 4094, options [nop,nop,TS val 288800507 ecr 9225933], length 0
+23:39:20.180076 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 40:144, ack 1, win 1024, options [nop,nop,TS val 9225934 ecr 288800507], length 104
+23:39:20.180273 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 144, win 4092, options [nop,nop,TS val 288800507 ecr 9225934], length 0
+23:39:20.180546 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 144:184, ack 1, win 1024, options [nop,nop,TS val 9225934 ecr 288800507], length 40
+root@onion:~/tcpdump#
+
+... capture file using filter. in the following example icmp at the end is working
+... like filter. we can use other filter like protocol tcp udp and port like 53,22
+
+root@onion:~/tcpdump# tcpdump -n -i eth1 -c 10 -w icmp.pcap icmp
+tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+10 packets captured
+15 packets received by filter
+0 packets dropped by kernel
+root@onion:~/tcpdump#
+root@onion:~/tcpdump# tcpdump -n -r icmp.pcap
+reading from file icmp.pcap, link-type EN10MB (Ethernet)
+23:44:10.417464 IP 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 29, length 64
+23:44:10.417506 IP 192.168.10.128 > 192.168.10.1: ICMP echo reply, id 50561, seq 29, length 64
+23:44:11.167506 IP 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 30, length 64
+23:44:11.167537 IP 192.168.10.128 > 192.168.10.1: ICMP echo reply, id 50561, seq 30, length 64
+23:44:12.168518 IP 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 31, length 64
+23:44:12.168545 IP 192.168.10.128 > 192.168.10.1: ICMP echo reply, id 50561, seq 31, length 64
+23:44:13.168722 IP 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 32, length 64
+23:44:13.168752 IP 192.168.10.128 > 192.168.10.1: ICMP echo reply, id 50561, seq 32, length 64
+23:44:14.169348 IP 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 33, length 64
+23:44:14.169427 IP 192.168.10.128 > 192.168.10.1: ICMP echo reply, id 50561, seq 33, length 64
+root@onion:~/tcpdump#
+
+... let use one filter port 22 to capture only ssh traffic like below.
+
+root@onion:~/tcpdump# tcpdump -n -i eth1 -c 5 port 22
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
+23:50:52.409367 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 1752699088:1752699192, ack 4288737380, win 1024, options [nop,nop,TS val 9398991 ecr 289492312], length 104
+23:50:52.409669 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 104, win 4092, options [nop,nop,TS val 289492316 ecr 9398991], length 0
+23:50:52.410066 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 104:144, ack 1, win 1024, options [nop,nop,TS val 9398991 ecr 289492316], length 40
+23:50:52.410216 IP 192.168.10.1.59079 > 192.168.10.128.22: Flags [.], ack 144, win 4094, options [nop,nop,TS val 289492316 ecr 9398991], length 0
+23:50:52.410691 IP 192.168.10.128.22 > 192.168.10.1.59079: Flags [P.], seq 144:248, ack 1, win 1024, options [nop,nop,TS val 9398991 ecr 289492316], length 104
+5 packets captured
+29 packets received by filter
+0 packets dropped by kernel
+root@onion:~/tcpdump#
+
+... we can expand filter with and
+
+root@onion:~/tcpdump# tcpdump -n -i eth1 -c 5 port 22 and tcp
+
+... the full filter can be associated with tcpdum found from 
+... and options with tcpdump can be found from. man tcpdump.
+
+root@onion:~/tcpdump# man pcap-filter
+root@onion:~/tcpdump# man tcpdump
+
+root@onion:~/tcpdump# tcpdump -n -tttt -c 1 -e -XX -r icmp.pcap
+reading from file icmp.pcap, link-type EN10MB (Ethernet)
+2017-08-12 23:44:10.417464 00:50:56:c0:00:02 > 00:0c:29:e7:50:dd, ethertype IPv4 (0x0800), length 98: 192.168.10.1 > 192.168.10.128: ICMP echo request, id 50561, seq 29, length 64
+	0x0000:  000c 29e7 50dd 0050 56c0 0002 0800 4500  ..).P..PV.....E.
+	0x0010:  0054 2be0 0000 4001 b8f7 c0a8 0a01 c0a8  .T+...@.........
+	0x0020:  0a80 0800 3acc c581 001d 5998 0792 0004  ....:.....Y.....
+	0x0030:  ab63 0809 0a0b 0c0d 0e0f 1011 1213 1415  .c..............
+	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
+	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
+	0x0060:  3637                                     67
+
+... other options are -tttt time stamps -e to enable layer 2 data -XX hex and ascii data
+
+... we are quite lucky that we can combine tcpdump with other tools. not only
+... that we can use it in shell scripting.
+
+root@onion:~/tcpdump# cat comnd.sh
+#!/bin/bash
+
+for a in `find /nsm/sensor_data/onion-eth0/dailylogs/ -type f` ; do
+	tcpdump -n -c 5 -r $a icmp
+done
+
+root@onion:~/tcpdump#
+
+root@onion:~/tcpdump# bash comnd.sh
+reading from file /nsm/sensor_data/onion-eth0/dailylogs/2017-08-12/snort.log.1502544233, link-type EN10MB (Ethernet)
+13:24:04.434179 IP 192.168.35.1 > 192.168.35.128: ICMP echo request, id 5457, seq 0, length 64
+13:24:04.434213 IP 192.168.35.128 > 192.168.35.1: ICMP echo reply, id 5457, seq 0, length 64
+13:24:05.437335 IP 192.168.35.1 > 192.168.35.128: ICMP echo request, id 5457, seq 1, length 64
+13:24:05.437374 IP 192.168.35.128 > 192.168.35.1: ICMP echo reply, id 5457, seq 1, length 64
+13:24:06.437305 IP 192.168.35.1 > 192.168.35.128: ICMP echo request, id 5457, seq 2, length 64
+reading from file /nsm/sensor_data/onion-eth0/dailylogs/2017-08-13/snort.log.1502582431, link-type EN10MB (Ethernet)
+root@onion:~/tcpdump#
+
+
+
+
+

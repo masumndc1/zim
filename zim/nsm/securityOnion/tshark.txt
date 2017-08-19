@@ -1,0 +1,70 @@
+
+
+... dumpcap and tshark.
+............................................................................................
+... dumpcap is the simple traffic collection tools.
+... and tshark is the cli version of wireshark.
+
+... tshark example. running tshark with root privileges is quite dangerous.
+... therefore wireshark team suggest to run dumpcap first then read the stored
+... packets with wireshark or tshark.
+
+root@onion:~/tcpdump# tshark -i eth1
+ 13.027321 192.168.10.128 -> 192.168.10.1 SSH 314 Encrypted response packet len=248
+ 13.027614 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8185 Win=4088 
+ Len=0 TSval=294679253 TSecr=10696243
+ 13.528243 192.168.10.128 -> 192.168.10.1 SSH 314 Encrypted response packet len=248
+ 13.528557 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8433 Win=4088 
+ Len=0 TSval=294679753 TSecr=10696368
+ 13.829270 192.168.10.1 -> 192.168.10.128 SSH 106 Encrypted request packet len=40
+ 73 packets captured
+root@onion:~/tcpdump# 
+
+... dumpcap
+............................................................................................
+root@onion:~/dumpcap# dumpcap -i eth1 -c 2 -w /tmp/tshark-icmp.pcap -f "icmp and host 192.168.10.128"
+File: /tmp/tshark-icmp.pcap
+Packets captured: 2
+Packets received/dropped on interface eth1: 5/0
+root@onion:~/dumpcap#
+
+... running wireshark and tshark as non-root user
+
+root@onion:~/dumpcap# dpkg-reconfigure wireshark
+wireshark         wireshark-common
+root@onion:~/dumpcap# dpkg-reconfigure wireshark-common
+
+... select "yes" when it says allows to non-root user to capture packets.
+... and add user to the group wireshark and lets see who else is in wire
+... shark group and who can capture the files.
+
+root@onion:~/dumpcap# usermod -a -G wireshark masum
+root@onion:~/dumpcap# cat /etc/group | grep wireshark
+wireshark:x:129:masum
+root@onion:~/dumpcap#
+
+... now masum user can run wireshark and capture packets.
+... now we are going to read the captured file by tshark.
+... by default tshark start timing from 0 and count until
+... next packets and so on.
+
+root@onion:~/dumpcap# tshark -r /tmp/tshark-icmp.pcap
+tshark: Lua: Error during loading:
+ [string "/usr/share/wireshark/init.lua"]:45: dofile has been disabled
+Running as user "root" and group "root". This could be dangerous.
+  1   0.000000 192.168.10.1 -> 192.168.10.128 ICMP 98 Echo (ping) request  id=0xcf85, seq=0/0, ttl=64
+  2   0.000095 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0xcf85, seq=0/0, ttl=64
+root@onion:~/dumpcap#
+
+... using -t ad options for the more readable time tamps.
+
+root@onion:~/dumpcap# tshark -t ad -r /tmp/tshark-icmp.pcap
+tshark: Lua: Error during loading:
+ [string "/usr/share/wireshark/init.lua"]:45: dofile has been disabled
+Running as user "root" and group "root". This could be dangerous.
+  1 2017-08-13 01:29:01.240028 192.168.10.1 -> 192.168.10.128 ICMP 98 Echo (ping) request  id=0xcf85, seq=0/0, ttl=64
+  2 2017-08-13 01:29:01.240123 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0xcf85, seq=0/0, ttl=64
+root@onion:~/dumpcap#
+
+
+
