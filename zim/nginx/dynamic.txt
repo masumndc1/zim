@@ -1,0 +1,89 @@
+
+
+... using dynamic content processor like php/mysql/python etc with nginx
+
+... installing php first...
+... we are going to installing php-fpm which is the latest version of fastcgi
+
+[root@nginx ~]# yum search php | grep fpm
+php-fpm.x86_64 : PHP FastCGI Process Manager
+[root@nginx ~]# yum install -y php-fpm php-opcache php-mysql
+
+... adding following to appropiate location of /etc/nginx/nginx.conf or
+... /etc/nginx/conf.d/*.conf. on this localhost we are passing fastcgi 
+... request to 9000 port. we can also pass this request to another server
+... with syntax fastcgi_pass	ip:port.
+
+ server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+    	# for php on 127.0.0.1:9000
+        location ~ \.php$ {
+                fastcgi_pass   127.0.0.1:9000;
+                fastcgi_index  index.php;
+                fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+                include        fastcgi_params;
+        }
+
+}
+
+... now placing masum.php with following content to /usr/share/nginx/html/masum.php
+
+<?php var_export($_SERVER)?>
+<?php phpinfo() ?>
+
+[root@nginx nginx]# cat /usr/share/nginx/html/masum.php
+<?php var_export($_SERVER)?>
+<?php phpinfo() ?>
+[root@nginx nginx]#
+
+... now start the php. and restart nginx and browse http://<server_ip>/masum.php
+
+
+[root@nginx nginx]# service php-fpm status
+Redirecting to /bin/systemctl status  php-fpm.service
+● php-fpm.service - The PHP FastCGI Process Manager
+   Loaded: loaded (/usr/lib/systemd/system/php-fpm.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+[root@nginx nginx]#
+[root@nginx nginx]# service php-fpm start
+Redirecting to /bin/systemctl start  php-fpm.service
+[root@nginx nginx]# service php-fpm status
+Redirecting to /bin/systemctl status  php-fpm.service
+● php-fpm.service - The PHP FastCGI Process Manager
+   Loaded: loaded (/usr/lib/systemd/system/php-fpm.service; disabled; vendor preset: disabled)
+   Active: active (running) since Tue 2017-08-22 17:01:59 +06; 2s ago
+ Main PID: 3033 (php-fpm)
+   Status: "Ready to handle connections"
+   CGroup: /system.slice/php-fpm.service
+           ├─3033 php-fpm: master process (/etc/php-fpm.conf)
+           ├─3035 php-fpm: pool www
+           ├─3036 php-fpm: pool www
+           ├─3037 php-fpm: pool www
+           ├─3038 php-fpm: pool www
+           └─3039 php-fpm: pool www
+
+Aug 22 17:01:59 nginx systemd[1]: Starting The PHP FastCGI Process Manager...
+[root@nginx nginx]#
+
+[root@nginx nginx]# php -v
+PHP 5.4.16 (cli) (built: Nov  6 2016 00:29:02)
+Copyright (c) 1997-2013 The PHP Group
+Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies
+    with Zend OPcache v7.0.5, Copyright (c) 1999-2015, by Zend Technologies
+[root@nginx nginx]#
+
+[root@nginx nginx]# service nginx restart
+
+
+
+
+
+
+
+
+
+

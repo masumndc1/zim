@@ -1,0 +1,138 @@
+
+
+... argus and ra client
+... argus is a session generating and analysis tool and ra is a client to read the 
+... data by argus in following directory
+
+root@onion:/nsm/sensor_data/onion-eth0/argus# pwd
+/nsm/sensor_data/onion-eth0/argus
+root@onion:/nsm/sensor_data/onion-eth0/argus# ls
+2017-08-12.log  2017-08-13.log
+root@onion:/nsm/sensor_data/onion-eth0/argus# 
+
+... argus is enabled in SO by default. we can check the status and restart it by following.
+
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-status
+Status: HIDS
+  * ossec_agent (sguil)                                                                                               [  OK  ]
+Status: Bro
+waiting for lock .............. ok
+Name       Type       Host       Status        Pid    Peers  Started
+bro        standalone localhost  running       9044   0      12 Aug 13:23:51
+Status: onion-eth0
+  * netsniff-ng (full packet data)                                                                                    [  OK  ]
+  * pcap_agent (sguil)                                                                                                [  OK  ]
+  * snort_agent-1 (sguil)                                                                                             [  OK  ]
+  * snort-1 (alert data)                                                                                              [  OK  ]
+  * barnyard2-1 (spooler, unified2 format)                                                                            [  OK  ]
+  * prads (sessions/assets)                                                                                           [  OK  ]
+  * sancp_agent (sguil)                                                                                               [  OK  ]
+  * pads_agent (sguil)                                                                                                [  OK  ]
+  * argus                                                                                                             [  OK  ]
+  * http_agent (sguil)                                                                                                [  OK  ]
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-status --only-argus
+Status: onion-eth0
+  * argus                                                                                                             [  OK  ]
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-stop --only-argus
+Stopping: onion-eth0
+  * stopping: argus                                                                                                   [  OK  ]
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-start --only-argus
+Starting: onion-eth0
+  * starting: argus
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-status --only-argus
+Status: onion-eth0
+  * argus                                                                                                             [  OK  ]
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:/nsm/sensor_data/onion-eth0/argus# nsm_sensor_ps-restart --only-argus
+Restarting: onion-eth0
+  * stopping: argus                                                                                                   [  OK  ]
+  * starting: argus                                                                                                   [  OK  ]
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+
+... after restarting and checking status we can use the client, ra by following.
+
+root@onion:/nsm/sensor_data/onion-eth0/argus# ls
+2017-08-12.log  2017-08-13.log
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+root@onion:# ra -n -r 2017-08-12.log - tcp and port 22 -s stime saddr sport daddr dport sbytes dbytes
+
+         StartTime            SrcAddr  Sport            DstAddr  Dport     SrcBytes     DstBytes
+   13:25:48.292626       192.168.35.1.55477      192.168.35.128.22             3787         3213
+   13:25:53.513534       192.168.35.1.55477      192.168.35.128.22             3094         3844
+   13:29:37.657165       192.168.35.1.55477      192.168.35.128.22             3440         2252
+   13:29:42.990777       192.168.35.1.55477      192.168.35.128.22             1892         1166
+   13:29:51.172143       192.168.35.1.55477      192.168.35.128.22              132          276
+   13:30:13.270227       192.168.35.1.55477      192.168.35.128.22             3440         2152
+   13:30:22.364109       192.168.35.1.55477      192.168.35.128.22              990         1782
+   13:30:31.738521       192.168.35.1.55477      192.168.35.128.22              264          552
+   13:30:40.115112       192.168.35.1.55477      192.168.35.128.22             2310         4510
+   13:30:46.382564       192.168.35.1.55477      192.168.35.128.22              516          414
+   13:31:54.661609       192.168.35.1.55477      192.168.35.128.22             2130         1410
+   13:32:00.551810       192.168.35.1.55477      192.168.35.128.22             1122         2810
+   13:34:14.063234       192.168.35.1.55477      192.168.35.128.22             3056         2574
+   13:34:19.583744       192.168.35.1.55477      192.168.35.128.22             1270         1072
+   13:35:33.328113       192.168.35.1.55477      192.168.35.128.22             1098         1046
+   13:42:32.128302       192.168.35.1.55477      192.168.35.128.22             2778         2116
+   13:42:37.184774       192.168.35.1.55477      192.168.35.128.22              330          930
+   13:42:42.304741       192.168.35.1.55477      192.168.35.128.22              198          558
+   13:43:55.416802       192.168.35.1.55477      192.168.35.128.22              238          404
+   13:45:13.329877       192.168.35.1.55477      192.168.35.128.22             3546         2120
+   13:45:18.330368       192.168.35.1.55477      192.168.35.128.22             1574         1230
+   13:47:22.538187       192.168.35.1.55477      192.168.35.128.22              822         1706
+   13:47:29.308926       192.168.35.1.55477      192.168.35.128.22               66          202
+   13:47:38.668489       192.168.35.1.55477      192.168.35.128.22             1270         1120
+   13:47:43.821779       192.168.35.1.55477      192.168.35.128.22             3356         6124
+   13:47:49.341578       192.168.35.1.55477      192.168.35.128.22              860          626
+   13:47:54.456599       192.168.35.1.55477      192.168.35.128.22              330          722
+   13:48:08.225085       192.168.35.1.55477      192.168.35.128.22              132          708
+   13:48:25.965032       192.168.35.1.55477      192.168.35.128.22              516          414
+   15:48:27.196000       192.168.35.128.22       192.168.35.1.55477             66           60
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+
+... while racluster is another tools which log session which stays for a while. the previous output
+... was all the connections for both short and long time. it also shows the large number of data
+... transfered.
+
+root@onion:# racluster -n -r 2017-08-13.log - tcp and dst port 80 -s stime saddr sport daddr dport sbytes dbytes
+
+         StartTime            SrcAddr  Sport            DstAddr  Dport     SrcBytes     DstBytes
+   02:51:53.657488     192.168.35.131.44910      67.219.148.138.80              509          977
+   02:51:56.329024     192.168.35.131.37878      210.32.158.231.80              509         4315
+   02:52:01.411947     192.168.35.131.56872     213.184.126.226.80              584         3581
+   02:52:29.392025     192.168.35.131.44920      67.219.148.138.80              713         1127
+   02:52:30.355477     192.168.35.131.35930        210.28.136.8.80              573         4088
+   02:52:31.731591     192.168.35.131.42658      54.230.159.233.80              443         3270
+   02:52:35.750395     192.168.35.131.44926      67.219.148.138.80              454          967
+   02:52:39.441069     192.168.35.131.38676     112.124.140.210.80              648         4087
+   02:52:52.030409     192.168.35.131.40864      54.230.159.173.80              912        14872
+   02:52:52.354240     192.168.35.131.35940        210.28.136.8.80             2566        75476
+   02:52:54.423731     192.168.35.131.47774        134.160.38.1.80            28656      1151286
+   02:53:39.008891     192.168.35.131.35814      123.58.190.234.80              632         1562
+   02:53:46.806294     192.168.35.131.51660       5.160.200.196.80               74            0
+
+... another example 
+
+root@onion:# racluster -n -r 2017-08-12.log - tcp and port 22 -s stime saddr sport daddr dport sbytes dbytes
+
+         StartTime            SrcAddr  Sport            DstAddr  Dport     SrcBytes     DstBytes
+   13:25:48.292626       192.168.35.1.55477      192.168.35.128.22            44617        48119
+
+root@onion:/nsm/sensor_data/onion-eth0/argus#
+
+... another example collected from a well written book
+... to tell it to use the following as configuration file and not to include some port on result 
+
+cat /tmp/ra.conf
+RA_TIME_FORMAT="%Y-%m-%d %T"
+
+root@onion:# racluster -F /tmp/ra.conf -n -r 2014-02-10.log 2013-02-16.log 2014-02-17.log - udp 
+and not \(port 53 or port 123 or host 192.168.2.120\) -m saddr daddr -s stime:20 saddr sport daddr 
+dport sbytes dbytes
+
+
+
+

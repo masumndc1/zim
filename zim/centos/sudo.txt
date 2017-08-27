@@ -1,0 +1,27 @@
+
+
+... how to add an user to sudo
+... we are adding masum to do all system related work like root using sudo
+
+
+[root@nginx etc]# pwd
+/etc
+[root@nginx etc]# ls sudoers
+sudoers
+[root@nginx etc]# visudo
+[root@nginx etc]#
+[root@nginx etc]# cat sudoers | grep ALL
+root	ALL=(ALL) 	ALL
+masum	ALL=(ALL) 	ALL
+# %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS
+%wheel	ALL=(ALL)	ALL
+# %wheel	ALL=(ALL)	NOPASSWD: ALL
+# %users  ALL=/sbin/mount /mnt/cdrom, /sbin/umount /mnt/cdrom
+[root@nginx etc]#
+
+... from now on we can use like following
+
+[masum@nginx etc]# sudo yum install iftop
+
+
+

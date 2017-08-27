@@ -1,0 +1,26 @@
+
+... xplico
+=================
+... we first download the pcap file from https://github.com/open-nsm/course/blob/master/pcaps/nitroba.pcap
+... and then download the service
+
+root@onion:/etc/init.d# /etc/init.d/xplico restart
+ * Restarting  Xplico                                                                                                          Modifying priority to -1
+root@onion:/etc/init.d# /etc/init.d/xplico status
+ * Xplico web interface IS RUNNING to decode traffic capture files
+root@onion:/etc/init.d#
+
+... now browse https://<server-ip>:9876 with username:passwd xplico:xplico
+... create a new case> case name > new session > session name
+... and load the saved nitroba.pcap file
+
+... and dig it better by yourself as this one is GUI.
+
+... network-miner
+=================
+... run network miner from security oninon icon at the top 
+... and load nitroba.pcap from file>open> select the location of pcap file.
+
+
+
+

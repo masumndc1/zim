@@ -66,5 +66,23 @@ Running as user "root" and group "root". This could be dangerous.
   2 2017-08-13 01:29:01.240123 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0xcf85, seq=0/0, ttl=64
 root@onion:~/dumpcap#
 
+... using display filter with tshark
+
+root@onion:~/dumpcap# tshark -t ad -r /tmp/tshark-icmp.pcap -R "icmp.type == 0"
+  2 2017-08-13 01:46:45.006789 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=0/0, ttl=64
+  4 2017-08-13 01:46:46.007114 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=1/256, ttl=64
+  6 2017-08-13 01:46:47.010343 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=2/512, ttl=64
+  8 2017-08-13 01:46:48.011787 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=3/768, ttl=64
+ 10 2017-08-13 01:46:49.014914 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=4/1024, ttl=64
+ 12 2017-08-13 01:46:50.015270 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=5/1280, ttl=64
+ 14 2017-08-13 01:46:51.017951 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=6/1536, ttl=64
+ 16 2017-08-13 01:46:52.023027 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=7/1792, ttl=64
+ 18 2017-08-13 01:46:53.024229 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=8/2048, ttl=64
+ 20 2017-08-13 01:46:54.025705 192.168.10.128 -> 192.168.10.1 ICMP 98 Echo (ping) reply    id=0x8386, seq=9/2304, ttl=64
+root@onion:~/dumpcap#
+
+... more verbose output can be found from the following output
+
+root@onion:~/dumpcap# tshark -t ad -r /tmp/tshark-icmp.pcap -R "icmp.type == 0" -V -x
 
 
