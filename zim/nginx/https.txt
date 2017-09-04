@@ -1,0 +1,71 @@
+
+
+... https:
+
+... generating private key and cert
+... here our private key is private.key which will be kept secret and our public
+... key will be cert.crt which will be send to browser.
+
+[root@nginx nginx]# openssl req -nodes -days 3650 -x509 -newkey rsa:2048 -keyout \ 
+/etc/ssl/nginx/private.key -out /etc/ssl/nginx/cert.crt
+
+Generating a 2048 bit RSA private key
+...........................................+++
+..........+++
+writing new private key to '/etc/ssl/nginx/private.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:bd
+State or Province Name (full name) []:dhaka
+Locality Name (eg, city) [Default City]:dhaka
+Organization Name (eg, company) [Default Company Ltd]:masum inc
+Organizational Unit Name (eg, section) []:it
+Common Name (eg, your name or your server's hostname) []:md khabir uddin
+Email Address []:masum@gmail.com
+[root@nginx nginx]# ls
+cert.crt  private.key
+[root@nginx nginx]# 
+
+... now placing these key's location to nginx configuration section.
+
+# Settings for a TLS enabled server.
+#
+    server {
+        listen       443 ssl http2 default_server;
+        listen       [::]:443 ssl http2 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        ssl_certificate "/etc/ssl/nginx/cert.crt";
+        ssl_certificate_key "/etc/ssl/nginx/private.key";
+}
+
+... now reload the nginx server and browse https://<server_ip>
+... which will give an error as this certificate is self-sign and
+... not authorize by any CA.
+
+[root@nginx nginx]# service nginx restart
+Redirecting to /bin/systemctl restart  nginx.service
+[root@nginx nginx]#
+
+... generating csr(certificates sign request). csr will be send to any CA
+... to give us public certificates. command is as follows
+
+openssl req -new -newkey rsa:2048 -nodes -keyout /etc/ssl/nginx/myprivate.key \ 
+-out /etc/ssl/nginx/my.csr 
+
+... this above command will generate one my.csr which we will then send to any CA
+... to authorize it and provide us the public certificates. after using that 
+... certificate browser will not generate any error.
+... https://letsencrypt.org is a CA which gives free certificates.
+
+
+
+
+

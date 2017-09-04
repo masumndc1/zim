@@ -1,0 +1,73 @@
+
+
+... nginx can be used as proxy besides its normal webserver.
+
+... we are using nginx and apache on the same server but on different ports.
+... nginx will listen on default 80 port but apache will do on 8080 port.
+...
+... therefore we are configurating as say when connections come in 
+... https://<server_ip>/masum will go to apache on the same server.
+... there are various options we can use with nginx proxy server as 
+... well as load balancing.
+
+http {
+
+### for proxy
+upstream balancing {
+        server 192.168.10.130:8080;
+# 	on 8080 port apache server is running.
+#        server 127.0.0.1:8081;
+}
+
+### for normal server
+
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+}
+
+# Settings for a TLS enabled server.
+#
+    server {
+        listen       443 ssl http2 default_server;
+        listen       [::]:443 ssl http2 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        ssl_certificate "/etc/ssl/nginx/cert.crt";
+        ssl_certificate_key "/etc/ssl/nginx/private.key";
+
+        location / {
+                proxy_pass      http://balancing;
+        }
+}
+
+}
+
+... therefore when request comes for https://<server_ip> it will 
+... proxy to http://<server_ip>:8080 which is apache server. 
+
+... there are many options possible with upstream like below.
+
+... balancing using weight
+### for proxy
+upstream balancing {
+        server 192.168.10.130:8080 weight=3;
+        server 192.168.10.131:8081 weight=2;
+        server 192.168.10.132:8082 weight=1;
+}
+
+... balancing using least_conn
+### for proxy
+upstream balancing {
+        least_conn;
+        server 192.168.10.130:8080;
+        server 192.168.10.131:8081;
+        server 192.168.10.132:8082;
+}
+
+
+
