@@ -14,9 +14,8 @@ http {
 
 ### for proxy
 upstream balancing {
-        server 192.168.10.130:8080;
-# 	on 8080 port apache server is running.
-#        server 127.0.0.1:8081;
+        server 192.168.10.130:80;		# nginx running on this port
+        server 192.168.10.130:8080;		# apache running on this port
 }
 
 ### for normal server

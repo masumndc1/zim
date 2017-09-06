@@ -1,0 +1,100 @@
+
+
+... fping is a nice tools which allow to ping multiple hosts simultaneously.
+
+root@kali:~# fping -asq google.com
+google.com
+
+       1 targets
+       1 alive
+       0 unreachable
+       0 unknown addresses
+
+       0 timeouts (waiting for response)
+       4 ICMP Echos sent
+       1 ICMP Echo Replies received
+       0 other ICMP received
+
+ 2502 ms (min round trip time)
+ 2502 ms (avg round trip time)
+ 2502 ms (max round trip time)
+        2.502 sec (elapsed real time)
+
+root@kali:~#
+
+
+root@kali:~# dig google.com
+
+; <<>> DiG 9.10.3-P4-Debian <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55631
+;; flags: qr rd ra; QUERY: 1, ANSWER: 6, AUTHORITY: 4, ADDITIONAL: 5
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1280
+;; QUESTION SECTION:
+;google.com.			IN	A
+
+;; ANSWER SECTION:
+google.com.		210	IN	A	74.125.68.100
+google.com.		210	IN	A	74.125.68.113
+google.com.		210	IN	A	74.125.68.101
+google.com.		210	IN	A	74.125.68.139
+google.com.		210	IN	A	74.125.68.102
+google.com.		210	IN	A	74.125.68.138
+
+;; AUTHORITY SECTION:
+google.com.		11608	IN	NS	ns1.google.com.
+google.com.		11608	IN	NS	ns4.google.com.
+google.com.		11608	IN	NS	ns3.google.com.
+google.com.		11608	IN	NS	ns2.google.com.
+
+;; ADDITIONAL SECTION:
+ns4.google.com.		267759	IN	A	216.239.38.10
+ns3.google.com.		94196	IN	A	216.239.36.10
+ns2.google.com.		81002	IN	A	216.239.34.10
+ns1.google.com.		88749	IN	A	216.239.32.10
+
+;; Query time: 2321 msec
+;; SERVER: 192.168.43.1#53(192.168.43.1)
+;; WHEN: Sun Aug 27 13:20:50 PDT 2017
+;; MSG SIZE  rcvd: 271
+
+root@kali:~#
+
+... we have found authority/answer servers from the output.
+
+... performing dns zone transfer and brute forcing using fierce.
+
+root@kali:/etc/network# fierce -dns google.com
+DNS Servers for google.com:
+	ns2.google.com
+	ns1.google.com
+	ns3.google.com
+	ns4.google.com
+
+Trying zone transfer first...
+	Testing ns2.google.com
+		Request timed out or transfer not allowed.
+	Testing ns1.google.com
+		Request timed out or transfer not allowed.
+	Testing ns3.google.com
+		Request timed out or transfer not allowed.
+	Testing ns4.google.com
+		Request timed out or transfer not allowed.
+
+Unsuccessful in zone transfer (it was worth a shot)
+Okay, trying the good old fashioned way... brute force
+
+Checking for wildcard DNS...
+Nope. Good.
+Now performing 2280 test(s)...
+172.217.27.36	academico.google.com
+74.125.130.84	accounts.google.com
+
+// output cut //
+
+
+
+

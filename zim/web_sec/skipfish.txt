@@ -1,0 +1,24 @@
+
+
+... skipfish the web security reconnaissance tools
+
+root@kali:/usr/share/skipfish/dictionaries# skipfish -o /root/skipfish.out -S complete.wl http://192.168.25.140
+
+[!] Scan aborted by user, bailing out!
+[+] Copying static resources...
+[+] Sorting and annotating crawl nodes: 160
+[+] Looking for duplicate entries: 160
+[+] Counting unique nodes: 135
+[+] Saving pivot data for third-party tools...
+[+] Writing scan description...
+[+] Writing crawl tree: 160
+[+] Generating summary views...
+[+] Report saved to '/root/skipfish.out/index.html' [0xea597e91].
+[+] This was a great day for science!
+
+root@kali:/usr/share/skipfish/dictionaries#
+
+... output is placed at /root/skipfish.out/index.html which can be browse through
+... firefox file://root/skipfish.out/index.html
+
+ 

