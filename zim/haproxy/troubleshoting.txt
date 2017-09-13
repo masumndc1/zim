@@ -1,0 +1,9 @@
+
+
+... troubleshooting.
+
+    haproxy -f /etc/haproxy/haproxy.cfg -c
+    haproxy -f /etc/haproxy/haproxy.cfg -d
+
+
+

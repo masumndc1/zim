@@ -1,0 +1,24 @@
+
+
+... haproxy with ssl/tls connection
+... the main line in one frontend
+
+frontend main
+   bind *:8443 ssl crt /etc/ssl/nginx/haproxy.pem
+
+... combining both the public and private key together.
+
+[root@nginx nginx]# ls
+cert.crt  private.key
+[root@nginx nginx]# cp private.key haproxy.pem
+[root@nginx nginx]# cat cert.crt >> haproxy.pem
+[root@nginx nginx]# ls
+cert.crt  haproxy.pem  private.key
+[root@nginx nginx]#
+
+... from now we can navigate https://192.168.35.131:8443/ and 
+... see the status https://192.168.35.131:8443/report
+
+... this can also possible navigate from http://192.168.35.131:81/
+... and http://192.168.35.131:81/report
+

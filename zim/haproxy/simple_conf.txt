@@ -1,0 +1,130 @@
+
+
+... on frontend section beside default setting we put the following
+
+[root@nginx ~]# cd /etc/haproxy/
+[root@nginx haproxy]# ls
+haproxy.cfg  haproxy.cfg.bk
+[root@nginx haproxy]#
+
+... for testing only, we are binding haproxy to 81 port as nginx now using 80
+... and httpd running on 8080.
+... my sample full configue is below. taking only the required options.
+
+
+[root@nginx haproxy]# cat -n haproxy.cfg
+     8
+    12	global
+    26	    log         127.0.0.1 local2
+    27
+    28	    chroot      /var/lib/haproxy
+    29	    pidfile     /var/run/haproxy.pid
+    30	    maxconn     4000
+    31	    user        haproxy
+    32	    group       haproxy
+    33	    daemon
+    34
+    35	    # turn on stats unix socket
+    36	    stats socket /var/lib/haproxy/stats
+    38
+    43	defaults
+	    stats		    enable
+    44	    mode                    http
+    45	    log                     global
+    46	    option                  httplog
+    47	    option                  dontlognull
+    48	    option http-server-close
+    49	    option forwardfor       except 127.0.0.0/8
+    50	    option                  redispatch
+    51	    retries                 3
+    52	    timeout http-request    10s
+    53	    timeout queue           1m
+    54	    timeout connect         10s
+    55	    timeout client          1m
+    56	    timeout server          1m
+    57	    timeout http-keep-alive 10s
+    58	    timeout check           10s
+    59	    maxconn                 3000
+    60
+    65	frontend  main
+    67	    bind *:81
+    68	    acl url_static       path_beg       -i /static /images /javascript /stylesheets
+    69	    acl url_static       path_end       -i .jpg .gif .png .css .js
+    70
+    71	    use_backend static          if url_static
+    72	    default_backend             app
+
+## we can have multiple frontend
+## and their different backend
+
+    	frontend submenu
+#	    mode tcp
+
+# mode tcp is another mode along with http mode. this mode is required when we need
+# to handle traffic rather than http. 
+
+	    bind 192.168.10.130:81
+    	    default_backend             static
+
+    73
+    77	backend static
+    78	    balance     roundrobin
+    79	    server      static 127.0.0.1:4331 check
+    80	    server      static 127.0.0.1:80 check
+    81
+    85	backend app
+    86	    balance     roundrobin
+    91	    server  nginx 127.0.0.1:80 check
+    92	    server  httpd 127.0.0.1:8080 check
+    93
+[root@nginx haproxy]#
+
+... after the setting on haproxy.cfg we can check the configuration by following
+
+[root@nginx haproxy]# haproxy -f /etc/haproxy/haproxy.cfg -c
+
+[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:80] : backend 'static', 
+another server named 'static' was defined without an explicit ID at line 79, this is not recommended.
+[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:92] : backend 'app', 
+another server named 'static' was defined without an explicit ID at line 91, this is not recommended.
+Configuration file is valid
+[root@nginx haproxy]#
+
+... enabling states page of nginx. this will enable the status of haproxy which can be
+... navigated through http://192.168.35.131:81/haproxy?stats
+
+defaults
+    stats                   enable
+
+defaults
+    stats                   enable
+    stats                   uri /report
+
+... stats uri /report will enable   http://192.168.35.131:81/report
+
+    stats                   refresh 30s
+    stats                   auth admin:hardpass
+
+... check site
+
+frontend main
+monitor-uri /check
+
+frontend submain
+monitor-uri /check
+
+[root@nginx httpd]# curl http://192.168.35.131:81/check
+<html><body><h1>200 OK</h1>
+Service ready.
+</body></html>
+[root@nginx httpd]#
+
+
+
+
+
+
+
+
+
+

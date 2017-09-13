@@ -1,0 +1,29 @@
+
+
+... various algorithm for load balancing can be done by following.
+... sample are as follows.
+
+backend servers
+     balance roundrobin
+     server wb1 192.168.10.130:80 weight 1
+     server wb2 192.168.10.131:80 weight 3
+
+backend database
+    mode tcp
+    balance leastconn
+    server db1 192.168.10.15:1433
+    server db2 192.168.10.16:1433
+
+backend database
+     mode tcp
+     balance leastconn
+     server db1 192.168.10.15:1433 weight 4
+     server db2 192.168.10.16:1433 weight 1
+
+backend servers
+     balance first
+     server wb1 192.168.10.10:80 maxconn 30
+     server wb2 192.168.10.11:80 maxconn 30
+     server wb3 192.168.10.12:80 maxconn 30
+
+

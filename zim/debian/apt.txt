@@ -12,5 +12,8 @@ docker:
    100 /var/lib/dpkg/status
 root@debian7:~# 
 
+... to install packages over https 
+... install the apt-transport-https and ca- certificates packages.
 
+root@debian7:~# apt install apt-transport-https ca-certificates
 

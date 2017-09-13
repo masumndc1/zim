@@ -1,0 +1,13 @@
+
+
+... first install haproxy in centos server
+
+[root@nginx ~]# uname -a
+Linux nginx 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+[root@nginx ~]#
+
+[root@nginx ~]# yum install -y haproxy
+
+
+
+
