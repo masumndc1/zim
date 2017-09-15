@@ -1,0 +1,124 @@
+
+... installing saltstack on a centos machine.
+
+[root@salt ~]# uname -a
+Linux salt 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+[root@salt ~]#
+
+[root@puppet ~]# yum install -y salt-master salt-minion
+
+[root@puppet ~]# salt --versions-report
+           Salt: 2015.5.10
+         Python: 2.7.5 (default, Nov  6 2016, 00:28:07)
+         Jinja2: 2.7.2
+       M2Crypto: 0.21.1
+ msgpack-python: 0.4.8
+   msgpack-pure: Not Installed
+       pycrypto: 2.6.1
+        libnacl: Not Installed
+         PyYAML: 3.10
+          ioflo: Not Installed
+          PyZMQ: 14.3.1
+           RAET: Not Installed
+            ZMQ: 3.2.5
+           Mako: Not Installed
+        Tornado: Not Installed
+        timelib: Not Installed
+       dateutil: Not Installed
+[root@puppet ~]#
+
+... location of the master server and the minion.
+
+... clients in salt are called minions. these minion try
+... to connect with master. master is another host which can push
+... configuration in minions.
+
+[root@salt ~]# cd /etc/salt
+[root@salt salt]# ls
+master  minion
+[root@salt salt]#
+[root@salt salt]# vi minion
+
+# Set the location of the salt master server. If the master server cannot be
+# resolved, then the minion will fail to start.
+# master: salt
+master: localhost
+
+... when a minion first time starts it tries to connect with master. master
+... is specified with a name mensioned in /etc/hosts or DNS entry. in this 
+... example as we dont have any host specified with the name salt, we are
+... taking localhost as our master.
+
+# Explicitly declare the id for this minion to use, if left commented the id
+# will be the hostname as returned by the python call: socket.getfqdn()
+# Since salt uses detached ids it is possible to run multiple minions on the
+# same machine but with different ids, this can be useful for salt compute
+# clusters.
+#id:
+id: myminion
+
+... above is specified in minion file regarding to minion defination.
+... we can run multiple minions on the same machine but with the different
+... minion ids. we are going to set up one minion id.
+
+... now restart both salt-master and salt-minion
+
+[root@salt salt]# service salt-master start
+Redirecting to /bin/systemctl start  salt-master.service
+[root@salt salt]#
+[root@salt salt]# service salt-minion start
+Redirecting to /bin/systemctl start  salt-minion.service
+[root@salt salt]#
+[root@salt salt]# service salt-master restart
+Redirecting to /bin/systemctl start  salt-master.service
+[root@salt salt]#
+[root@salt salt]# service salt-minion restart
+Redirecting to /bin/systemctl start  salt-minion.service
+[root@salt salt]#
+
+[root@puppet salt]# systemctl --type=service | grep salt
+  salt-master.service                loaded active running The Salt Master Server
+  salt-minion.service                loaded active running The Salt Minion
+[root@puppet salt]#
+
+[root@salt salt]# systemctl status salt-master
+● salt-master.service - The Salt Master Server
+   Loaded: loaded (/usr/lib/systemd/system/salt-master.service; disabled; vendor preset: disabled)
+   Active: active (running) since Fri 2017-09-15 19:29:38 +06; 1min 23s ago
+ Main PID: 5045 (salt-master)
+   CGroup: /system.slice/salt-master.service
+           ├─5045 /usr/bin/python /usr/bin/salt-master
+           ├─5055 /usr/bin/python /usr/bin/salt-master
+           ├─5056 /usr/bin/python /usr/bin/salt-master
+           ├─5057 /usr/bin/python /usr/bin/salt-master
+           ├─5060 /usr/bin/python /usr/bin/salt-master
+           ├─5063 /usr/bin/python /usr/bin/salt-master
+           ├─5068 /usr/bin/python /usr/bin/salt-master
+           ├─5071 /usr/bin/python /usr/bin/salt-master
+           ├─5072 /usr/bin/python /usr/bin/salt-master
+           ├─5077 /usr/bin/python /usr/bin/salt-master
+           └─5078 /usr/bin/python /usr/bin/salt-master
+
+Sep 15 19:29:37 salt systemd[1]: Starting The Salt Master Server...
+Sep 15 19:29:38 salt systemd[1]: Started The Salt Master Server.
+[root@salt salt]#
+
+[root@salt salt]# systemctl status salt-minion
+● salt-minion.service - The Salt Minion
+   Loaded: loaded (/usr/lib/systemd/system/salt-minion.service; disabled; vendor preset: disabled)
+   Active: active (running) since Fri 2017-09-15 19:35:23 +06; 1min 22s ago
+ Main PID: 6190 (salt-minion)
+   CGroup: /system.slice/salt-minion.service
+           ├─6190 /usr/bin/python /usr/bin/salt-minion
+           └─6206 /usr/bin/python /usr/bin/salt-minion
+
+Sep 15 19:35:23 salt systemd[1]: Started The Salt Minion.
+Sep 15 19:35:23 salt systemd[1]: Starting The Salt Minion...
+Sep 15 19:35:28 salt salt-minion[6190]: [ERROR   ] The Salt Master has cached the public key for this node, 
+this salt ...ticate
+
+... saying just authentication related problem which we can ignore them.
+... we will solve this problem and document it in key.txt file.
+
+
+

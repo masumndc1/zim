@@ -1,0 +1,69 @@
+
+
+... after installing salt-master and salt-minion we have to establish
+... a trusted relationship between master and minions. we will do that 
+... using keys. salt comes with this capabilities. and we will demostrated
+... it by following. we should tell master that it can trust minion. 
+
+... we cant run any command without trust relationship.
+
+[root@salt salt]# salt '*' test.ping
+No minions matched the target. No command was sent, no jid was assigned.
+ERROR: No return received
+[root@salt salt]# 
+
+[root@puppet salt]# salt
+salt         salt-call    salt-cp      salt-key     salt-master  salt-minion  salt-run     salt-unity
+[root@puppet salt]# salt-key
+Accepted Keys:
+Denied Keys:
+Unaccepted Keys:
+myminion
+Rejected Keys:
+[root@puppet salt]#
+
+... on this output above we can see that myminion has contacted with master with 
+... its key but still waiting key to be accepted. 
+
+[root@puppet salt]# salt-key -f myminion
+Unaccepted Keys:
+myminion:  2c:0e:77:b9:bd:32:d0:60:bb:8d:f2:ca:99:42:64:9c
+[root@puppet salt]#
+
+... we can see what is the key myminion brings to master to be authenticated.
+
+[root@puppet salt]# salt-call --local key.finger
+local:
+    2c:0e:77:b9:bd:32:d0:60:bb:8d:f2:ca:99:42:64:9c
+[root@puppet salt]#
+
+... we can also run command to all minions to check what are their key fingerprint
+... to check are they really they are? in this example we have found the key 
+... presented by myminion and key myminion has is same. therefore we are going to
+... accept the key.
+
+[root@puppet salt]# salt-key -a myminion
+The following keys are going to be accepted:
+Unaccepted Keys:
+myminion
+Proceed? [n/Y] y
+Key for minion myminion accepted.
+[root@puppet salt]#
+
+[root@puppet salt]# salt-key
+Accepted Keys:
+myminion
+Denied Keys:
+Unaccepted Keys:
+Rejected Keys:
+[root@puppet salt]#
+
+... now we can run our command. here we are actually instructing all our minions
+... to run ping from test module.
+
+[root@puppet salt]#  salt '*' test.ping
+myminion:
+    True
+[root@puppet salt]#
+
+

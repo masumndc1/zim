@@ -1,0 +1,154 @@
+
+
+... after setting up salt we are going to run some command on minions
+
+[root@puppet salt]#  salt '*' test.ping
+myminion:
+    True
+[root@puppet salt]#
+
+... now running only on myminion. we are interested to other funcions available
+... from test module.
+
+[root@puppet salt]#  salt 'myminion' sys.list_functions test
+myminion:
+    - test.arg
+    - test.arg_repr
+    - test.arg_type
+    - test.assertion
+    - test.attr_call
+    - test.collatz
+    - test.conf_test
+    - test.cross_test
+    - test.echo
+    - test.exception
+    - test.fib
+    - test.get_opts
+    - test.kwarg
+    - test.module_report
+    - test.not_loaded
+    - test.opts_pkg
+    - test.outputter
+    - test.ping
+    - test.provider
+    - test.providers
+    - test.rand_sleep
+    - test.rand_str
+    - test.retcode
+    - test.sleep
+    - test.stack
+    - test.try_
+    - test.tty
+    - test.version
+    - test.versions_information
+    - test.versions_report
+[root@puppet salt]#
+
+... so we have found a lot of funcions from test module we can use. now trying one
+
+[root@puppet salt]#  salt 'myminion' test.fib
+myminion:
+    TypeError encountered executing test.fib: fib() takes exactly 1 argument (0 given). See debug log for more info.
+[root@puppet salt]#
+
+... as error found due to argument mismatch. we need to know how exactly the
+... function is and how to use it by sys.doc.
+
+[root@puppet salt]#  salt 'myminion' sys.doc test.fib
+'test.fib:'
+
+    Return a Fibonacci sequence up to the passed number, and the
+    timeit took to compute in seconds. Used for performance tests
+
+    CLI Example:
+
+        salt '*' test.fib 3
+
+[root@puppet salt]#  
+
+... so we now know how to use test.fib and now running again it.
+ 
+[root@puppet salt]#  salt 'myminion' test.fib 20
+myminion:
+    |_
+      - 0
+      - 1
+      - 1
+      - 2
+      - 3
+      - 5
+      - 8
+      - 13
+    - 2.86102294922e-06
+[root@puppet salt]#
+
+... this took 2.86s to run. this module is solely to test the performance 
+... of they system.
+
+... looking for options associated with sys
+
+[root@salt ~]# salt '*' sys.list_functions sys
+myminion:
+    - sys.argspec
+    - sys.doc
+    - sys.list_functions
+    - sys.list_modules
+    - sys.list_renderers
+    - sys.list_returner_functions
+    - sys.list_returners
+    - sys.list_runner_functions
+    - sys.list_runners
+    - sys.list_state_functions
+    - sys.list_state_modules
+    - sys.reload_modules
+    - sys.renderer_doc
+    - sys.returner_argspec
+    - sys.returner_doc
+    - sys.runner_argspec
+    - sys.runner_doc
+    - sys.state_argspec
+    - sys.state_doc
+[root@salt ~]#
+
+... now running salt without master.
+
+[root@salt ~]# service salt-master stop
+Redirecting to /bin/systemctl stop  salt-master.service
+[root@salt ~]#
+[root@salt ~]#
+[root@salt ~]# salt-call test.ping
+[INFO    ] SaltReqTimeoutError: after 60 seconds. (Try 1 of 7)
+[INFO    ] SaltReqTimeoutError: after 60 seconds. (Try 2 of 7)
+^C
+Exiting gracefully on Ctrl-c
+[root@salt ~]#
+
+... when we stop our salt-master and run the command salt-call
+... this will try to connect with master but it failed and took 
+... a lot of time. therefore we need to add --local options with
+... the salt-call to instruct salt that to execute this locally.
+
+[root@salt ~]# salt-call --local test.ping
+local:
+    True
+[root@salt ~]#
+[root@salt ~]# salt-call --local test.fib 30
+local:
+    |_
+      - 0
+      - 1
+      - 1
+      - 2
+      - 3
+      - 5
+      - 8
+      - 13
+      - 21
+    - 2.86102294922e-06
+[root@salt ~]#
+
+
+
+
+
+

@@ -1,0 +1,203 @@
+
+
+... usage of salt is defined below
+
+[root@salt ~]# salt --help
+Usage: salt [options] '<target>' <function> [arguments]
+
+Options:
+  --version             show program's version number and exit 
+
+... so running a command with salt with format shown above
+
+[root@salt ~]#  salt --verbose '*' test.sleep 2
+Executing job with jid 20170916015006966601
+-------------------------------------------
+myminion:
+    True
+[root@salt ~]#
+
+... various format of output 
+
+[root@salt ~]#  salt --out=raw '*' cmd.run_all 'echo HELLO'
+{'myminion': {'pid': 4726, 'retcode': 0, 'stderr': '', 'stdout': 'HELLO'}}
+[root@salt ~]#
+[root@salt ~]#  salt --out=json '*' cmd.run_all 'echo HELLO'
+{
+    "myminion": {
+        "pid": 4768,
+        "retcode": 0,
+        "stderr": "",
+        "stdout": "HELLO"
+    }
+}
+[root@salt ~]#  salt --out=yaml '*' cmd.run_all 'echo HELLO'
+myminion:
+  pid: 4793
+  retcode: 0
+  stderr: ''
+  stdout: HELLO
+[root@salt ~]#
+
+... multiple execution in salt aka compound execution.
+... by using following we can expend our salt command like below.
+
+Letter	Match Type	Example
+G	Grains glob	G@os:Ubuntu
+E	PCRE minion ID	E@web\d+\.(dev|qa|prod)\.loc
+P	Grains PCRE	P@os:(RedHat|Fedora|CentOS)
+L	List of minions	L@minion1.example.com, minion3.domain.com
+I	Pillar glob	I@pdata:foobar
+S	Subnet/IP 	S@192.168.1.0/24 or S@192.168.1.100
+R	Range cluster	R@%foo.bar
+
+[root@salt salt]# salt '*' grains.item os
+myminion:
+    ----------
+    os:
+        CentOS
+[root@salt salt]#
+[root@salt salt]# salt '*' grains.item os_family
+myminion:
+    ----------
+    os_family:
+        RedHat
+[root@salt salt]# salt --compound '*minion and G@os_family:redhat' test.ping
+myminion:
+    True
+[root@salt salt]#
+[root@salt salt]# salt --compound '*minion and G@os:centos' test.ping
+myminion:
+    True
+[root@salt salt]#
+[root@salt salt]# salt --compound '*database or G@os_family:redhat' test.ping
+myminion:
+    True
+[root@salt salt]#
+
+... module and function. in this example sys is the module and doc is the function
+
+[root@salt salt]# salt '*' sys.doc
+
+[root@salt salt]# salt --out=yaml '*' user.info root
+myminion:
+  fullname: root
+  gid: 0
+  groups:
+  - root
+  home: /root
+  homephone: ''
+  name: root
+  passwd: x
+  roomnumber: ''
+  shell: /bin/bash
+  uid: 0
+  workphone: ''
+[root@salt salt]#
+
+... installing a package 
+
+[root@salt salt]# salt '*' sys.doc | grep pkg
+
+[root@salt salt]# salt '*' pkg.install iftop
+myminion:
+    ----------
+    iftop:
+        ----------
+        new:
+            1.0-0.14.pre4.el7
+        old:
+[root@salt salt]#
+[root@salt salt]# salt '*' pkg.list_pkgs
+
+[root@salt salt]# salt '*' pkg.version htop
+myminion:
+    2.0.2-1.el7
+[root@salt salt]#
+[root@salt salt]#
+
+... service related activities using salt.
+
+[root@salt salt]# salt '*' service.status apache2
+myminion:
+    False
+[root@salt salt]#
+[root@salt salt]# salt '*' service.status network
+myminion:
+    False
+[root@salt salt]#
+[root@salt salt]# salt '*' service.status salt-master
+myminion:
+    True
+[root@salt salt]#
+[root@salt salt]# salt '*' service.status salt-minion
+myminion:
+    True
+[root@salt salt]#
+[root@salt salt]# salt '*' service.status httpd
+myminion:
+    True
+[root@salt salt]# salt '*' service.stop httpd
+myminion:
+    True
+[root@salt salt]# salt '*' service.status httpd
+myminion:
+    False
+[root@salt salt]# salt '*' service.start httpd
+myminion:
+    True
+[root@salt salt]# salt '*' service.status httpd
+myminion:
+    True
+[root@salt salt]#
+
+... some other commands to run
+
+[root@salt salt]#
+[root@salt salt]# salt '*' status.uptime
+myminion:
+     03:03:57 up  1:38,  4 users,  load average: 0.26, 0.39, 0.23
+[root@salt salt]#
+[root@salt salt]#
+[root@salt salt]# salt '*' cmd.run 'echo Hello!'
+myminion:
+    Hello!
+[root@salt salt]#
+[root@salt salt]# salt '*' cmd.run 'top'
+myminion:
+    TERM environment variable not set.
+ERROR: Minions returned with non-zero exit code
+[root@salt salt]# salt '*' cmd.run 'iftop'
+myminion:
+    interface: enp0s3
+    IP address is: 10.0.2.15
+    MAC address is: 08:00:27:43:15:36
+    Error opening terminal: unknown.
+ERROR: Minions returned with non-zero exit code
+[root@salt salt]#
+[root@salt salt]# salt '*' cmd.run 'ifconfig'
+myminion:
+    enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+            inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+            inet6 fe80::96f:2818:c0c0:eb9a  prefixlen 64  scopeid 0x20<link>
+            ether 08:00:27:43:15:36  txqueuelen 1000  (Ethernet)
+            RX packets 647  bytes 135068 (131.9 KiB)
+            RX errors 0  dropped 0  overruns 0  frame 0
+            TX packets 671  bytes 53139 (51.8 KiB)
+            TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+    enp0s8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+            inet 192.168.10.135  netmask 255.255.255.0  broadcast 192.168.10.255
+            inet6 fe80::acae:6fd4:6e87:df6a  prefixlen 64  scopeid 0x20<link>
+            ether 08:00:27:4f:2a:ab  txqueuelen 1000  (Ethernet)
+            RX packets 5840  bytes 490728 (479.2 KiB)
+            RX errors 0  dropped 0  overruns 0  frame 0
+            TX packets 3458  bytes 1372310 (1.3 MiB)
+            TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@salt salt]#
+
+
+
+
+

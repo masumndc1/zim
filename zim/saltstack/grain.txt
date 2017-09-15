@@ -1,0 +1,45 @@
+... grain which stores key-value format of static data in salt.
+
+[root@salt ~]# salt '*' grains.item
+
+... this command will give a full list of output
+
+[root@salt ~]# salt '*' grains.item os
+myminion:
+    ----------
+    os:
+        CentOS
+[root@salt ~]#
+[root@salt ~]# salt '*' grains.item os_family
+myminion:
+    ----------
+    os_family:
+        RedHat
+[root@salt ~]#
+[root@salt ~]# salt '*' grains.item shell
+myminion:
+    ----------
+    shell:
+        /bin/sh
+[root@salt ~]# salt '*' grains.item shell host
+myminion:
+    ----------
+    host:
+        salt
+    shell:
+        /bin/sh
+[root@salt ~]#
+
+... as we know our minions os family, we can just target our centos servers
+... and grain options are case-insensitive
+
+[root@salt ~]# salt --grain 'os_family:Redhat' test.ping
+myminion:
+    True
+[root@salt ~]#
+[root@salt ~]# salt --grain 'os:centos' test.ping
+myminion:
+    True
+[root@salt ~]#
+
+... 

@@ -1,0 +1,4 @@
+
+
+... while grain stores date statically but pillar stores key value data more dynamically.
+

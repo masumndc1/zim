@@ -1,0 +1,185 @@
+
+
+... state files are saltstack's file in which instructions are 
+... written inside in yaml syntax.
+... by default states files are located at the /srv/salt folder
+
+root@salt srv]# mkdir -p /srv/salt
+[root@salt srv]# ls
+salt
+[root@salt srv]# cd salt/
+[root@salt salt]# pwd
+/srv/salt
+[root@salt salt]# ls
+httpd.sls
+[root@salt salt]# cat httpd.sls
+install_apache:
+     pkg.installed:
+       - name: httpd
+[root@salt salt]#
+[root@salt salt]#
+
+... now run following
+
+[root@salt salt]# salt '*' state.sls httpd
+myminion:
+----------
+          ID: install_apache
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 03:16:02.784675
+    Duration: 1670.064 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 1
+Failed:    0
+------------
+Total states run:     1
+[root@salt salt]#
+
+
+[root@salt salt]# salt '*' pkg.remove htop
+myminion:
+    ----------
+    htop:
+        ----------
+        new:
+        old:
+            2.0.2-1.el7
+[root@salt salt]#
+[root@salt salt]# ls
+htop.sls  httpd.sls
+[root@salt salt]# cat htop.sls
+install_htop:
+     pkg.installed:
+       - name: htop
+[root@salt salt]#
+[root@salt salt]# salt '*' state.sls htop
+myminion:
+----------
+          ID: install_htop
+    Function: pkg.installed
+        Name: htop
+      Result: True
+     Comment: The following packages were installed/updated: htop
+     Started: 03:18:58.142125
+    Duration: 41927.752 ms
+     Changes:
+              ----------
+              htop:
+                  ----------
+                  new:
+                      2.0.2-1.el7
+                  old:
+
+Summary
+------------
+Succeeded: 1 (changed=1)
+Failed:    0
+------------
+Total states run:     1
+[root@salt salt]# 
+[root@salt salt]# ls
+htop.sls  httpd.sls
+[root@salt salt]#
+
+... we have two state files htop.sls and httpd.sls. when we run it we just pass 
+... file name without .sls syntax to the command like 
+... "salt '*' state.sls <filename_witout_extension>
+
+... the difference between state module and execution module.
+... execution modules execute some task on systems. it just repeats again and 
+... again. while state modules are declarative which means it declare the last
+... state of a task. 
+
+... we can see the available functions for a state module. one example is as 
+... follows.
+
+[root@salt salt]# salt '*' sys.list_state_modules
+[root@salt salt]# salt '*' sys.list_state_functions <module_name>
+[root@salt salt]# salt '*' sys.list_state_functions pkg
+myminion:
+    - pkg.installed
+    - pkg.latest
+    - pkg.mod_aggregate
+    - pkg.mod_init
+    - pkg.purged
+    - pkg.removed
+    - pkg.uptodate
+[root@salt salt]#
+
+[root@salt salt]# salt '*' sys.state_doc pkg.installed
+
+... an anatomy of state files
+
+install_apache:
+ pkg.installed:
+ - name: apache2
+
+... the format is as follows.
+
+<ID Declaration>:
+ <State Module>.<Function>:
+ - name: <name>
+ - <Function Arg>
+ - <Function Arg>
+ - <Function Arg>
+ - <Requisite Declaration>:
+ - <Requisite Reference>
+
+[root@salt salt]# cat httpd.sls
+install_apache:
+ pkg.installed:
+ - name: httpd
+
+running httpd:
+ service.running:
+ - name: httpd
+ - enable: True
+[root@salt salt]#
+
+[root@salt salt]# salt '*' state.sls httpd
+myminion:
+----------
+          ID: install_apache
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 04:32:14.246178
+    Duration: 1639.061 ms
+     Changes:
+----------
+          ID: running httpd
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is in the desired state
+     Started: 04:32:15.886353
+    Duration: 1751.396 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+[root@salt salt]#
+
+
+
+
+
+
+
+
+
+
+
+
+
