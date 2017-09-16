@@ -1,0 +1,104 @@
+
+
+... jinja is templating for python. we can use jinja2 with salt when we need to
+... use variable and controll state and execution.
+
+... for variable: 	{{ variable }} {{ grains['user'] }} 
+   			{% set myvar = 'foo' %}	
+
+... for controlling:  	{% if myvar == 'foo' %}
+			{% elif myvar == 'bar' %}
+			{% else %}
+			{% endif %}	
+
+... for loop: 	 	{% for user in ['md', 'khabir', 'uddin'] %}
+   			It's user {{ user }}!
+   			Hello {{ user }}!
+   			{% endfor %}
+
+... now we have the basic of jinja2 template, now will make our state to 
+... independent to os.
+
+[root@salt salt]# cat httpd.sls
+install_web:
+ pkg.installed:
+{% if grains['os_family'] == 'Debian' %}
+ - name: apache2
+{% elif grains['os_family'] == 'RedHat' %}
+ - name: httpd
+{% endif %}
+ - require_in:
+   - service: running_web
+
+running_web:
+ service.running:
+{% if grains['os_family'] == 'RedHat' %}
+ - name: httpd
+{% elif grains['os_family'] == 'Debian' %}
+ - name: apache2
+{% endif %}
+ - enable: True
+[root@salt salt]#
+
+... when we run this state, we got the output like below
+
+[root@salt salt]# salt '*' state.sls httpd
+controller:
+----------
+          ID: install_web
+    Function: pkg.installed
+        Name: apache2
+      Result: True
+     Comment: Package apache2 is already installed
+     Started: 20:02:03.626368
+    Duration: 930.29 ms
+     Changes:
+----------
+          ID: running_web
+    Function: service.running
+        Name: apache2
+      Result: True
+     Comment: The service apache2 is already running
+     Started: 20:02:04.557754
+    Duration: 76.742 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+myminion:
+----------
+          ID: install_web
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 20:02:04.693015
+    Duration: 1506.236 ms
+     Changes:
+----------
+          ID: running_web
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is running
+     Started: 20:02:06.201015
+    Duration: 2416.41 ms
+     Changes:
+              ----------
+              httpd:
+                  True
+
+Summary
+------------
+Succeeded: 2 (changed=1)
+Failed:    0
+------------
+Total states run:     2
+[root@salt salt]#
+
+
+

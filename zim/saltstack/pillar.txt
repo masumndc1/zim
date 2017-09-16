@@ -1,4 +1,141 @@
 
 
 ... while grain stores date statically but pillar stores key value data more dynamically.
+... pillar can provide data to minion specific
+
+... to work with pillar we define some data on core.sls file in following location.
+
+[root@salt pillar]# pwd
+/srv/pillar
+[root@salt pillar]# ls
+core.sls
+[root@salt pillar]# cat core.sls
+foo: bar
+users:
+ - larry
+ - moe
+ - curly
+some_more_data: data
+[root@salt pillar]#
+
+... we can define as many files as we need. now we need to define the top.sls file.
+... content is like below.
+
+[root@salt pillar]# pwd
+/srv/pillar
+[root@salt pillar]# ls
+core.sls  top.sls ssh_key.sls
+[root@salt pillar]#
+[root@salt pillar]# cat top.sls
+base:
+ '*':
+  - core
+ 'os_family:debian':
+  - match: grain
+  - ssh_key
+[root@salt pillar]#
+
+... here is nothing but telling our master that which minions will get which data.
+... like here, all the minions will get data from core.sls and all the debian based
+... system including ubuntu will get data from ssh_key.sls
+
+... though pillar data refresh when we run any state but sometime we need to refresh
+... data by ourself.
+
+[root@salt pillar]# salt '*' saltutil.refresh_pillar
+controller:
+    True
+myminion:
+    True
+[root@salt pillar]#
+
+... if everything goes right we should have found the following output
+
+[root@salt pillar]# salt '*' pillar.items
+myminion:
+    ----------
+    foo:
+        bar
+    some_more_data:
+        data
+    users:
+        - larry
+        - moe
+        - curly
+controller:
+    ----------
+    foo:
+        bar
+    some_more_data:
+        data
+    users:
+        - larry
+        - moe
+        - curly
+[root@salt pillar]#
+
+... the output matchs the content of top.sls and core.sls.
+
+... now using the data in pillar in state
+
+[root@salt salt]# pwd
+/srv/salt
+[root@salt salt]# ls
+htop.sls  httpd.sls  users_and_ssh.sls
+[root@salt salt]#
+[root@salt salt]# cat users_and_ssh.sls
+{% for user in pillar['users'] %}
+ add_{{ user }}:
+  user.present:
+  - name: {{ user }}
+{% endfor %}
+[root@salt salt]#
+
+... and run this state users_and_ssh.sls
+
+[root@salt salt]# pwd
+/srv/salt
+[root@salt salt]# ls
+htop.sls  httpd.sls  users_and_ssh.sls
+[root@salt salt]#
+
+[root@salt salt]# salt '*' state.sls users_and_ssh
+myminion:
+----------
+          ID: add_larry
+    Function: user.present
+        Name: larry
+      Result: True
+     Comment: User larry is present and up to date
+     Started: 03:58:56.117583
+    Duration: 83.101 ms
+     Changes:
+----------
+          ID: add_moe
+    Function: user.present
+        Name: moe
+      Result: True
+     Comment: User moe is present and up to date
+     Started: 03:58:56.200908
+    Duration: 3.403 ms
+     Changes:
+----------
+          ID: add_curly
+    Function: user.present
+        Name: curly
+      Result: True
+     Comment: User curly is present and up to date
+     Started: 03:58:56.204509
+    Duration: 3.012 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 3
+Failed:    0
+------------
+Total states run:     3
+[root@salt salt]#
+
+
 

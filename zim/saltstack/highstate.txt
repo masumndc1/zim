@@ -1,0 +1,73 @@
+
+
+... make our topfile like below
+
+[root@salt salt]# pwd
+/srv/salt
+[root@salt salt]# ls
+htop.sls  httpd.sls  top.sls  users_and_ssh.sls
+[root@salt salt]#
+[root@salt salt]# cat top.sls
+base:
+ '*minion':
+  - httpd
+ 'os_family:debian':
+  - match: grain
+  - htop
+[root@salt salt]#
+
+... The complete set of state files included in the top 
+... file is referred to as the highstate. now running following
+
+[root@salt salt]# salt '*' state.highstate
+controller:
+----------
+          ID: install_htop
+    Function: pkg.installed
+        Name: htop
+      Result: True
+     Comment: Package htop is already installed
+     Started: 04:31:04.261475
+    Duration: 1022.56 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 1
+Failed:    0
+------------
+Total states run:     1
+myminion:
+----------
+          ID: install_web
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 04:31:04.546039
+    Duration: 1577.108 ms
+     Changes:
+----------
+          ID: running_web
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is in the desired state
+     Started: 04:31:06.125097
+    Duration: 1813.724 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+[root@salt salt]#
+
+... Note that if a minion is not targeted in the top.sls  file at all,
+... it will return an error when state.highstate is run.
+
+
+
+

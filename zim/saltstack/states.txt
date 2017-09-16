@@ -172,13 +172,148 @@ Total states run:     2
 [root@salt salt]#
 
 
+... now we have added another minion 
 
+[root@salt salt]# salt-key
+Accepted Keys:
+controller
+myminion
+Denied Keys:
+Unaccepted Keys:
+Rejected Keys:
+[root@salt salt]#
+[root@salt salt]# salt '*' test.ping
+controller:
+    True
+myminion:
+    True
+[root@salt salt]#
 
+[root@salt salt]# salt '*' grains.item os_family
+controller:
+    ----------
+    os_family:
+        Debian
+myminion:
+    ----------
+    os_family:
+        RedHat
+[root@salt salt]#
 
+... the require module
+... the require needs module and module id like below.
 
+[root@salt salt]# cat -n httpd.sls
+     1	install_httpd:
+     2	 pkg.installed:
+     3	 - name: httpd
+     4
+     5	running httpd:
+     6	 service.running:
+     7	 - name: httpd
+     8	 - enable: True
+     9	 - require:
+    10	   - pkg: httpd
+[root@salt salt]#
 
+[root@salt salt]# salt 'my*' state.sls httpd
+myminion:
+----------
+          ID: install_httpd
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 19:10:39.934899
+    Duration: 1531.397 ms
+     Changes:
+----------
+          ID: running httpd
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is running
+     Started: 19:10:41.467494
+    Duration: 3291.817 ms
+     Changes:
+              ----------
+              httpd:
+                  True
 
+Summary
+------------
+Succeeded: 2 (changed=1)
+Failed:    0
+------------
+Total states run:     2
 
+... the module file and its function managed.
+... usages are given below. following is collected from one 
+... well known book.
+
+sync mod_status.conf:
+     file.managed:
+       	- name: /etc/apache2/mods-enabled/mod_status.conf
+       	- source: salt://mod_status.conf
+	- user: root
+    	- group: root
+    	- mode: 600
+
+sync mod_status.load:
+  file.managed:
+    - name: /etc/apache2/mods-enabled/mod_status.load
+    - source: salt://mod_status.load
+    - user: root
+    - group: root
+    - mode: 600
+
+... this files mod_status.conf and mod_status.load is located at master
+... in /srv/salt folder.
+
+... the _in end part to module require or watch.
+... the state part which contain _in it telling other part of stat, that
+... state is depend on this state. example like below.
+
+[root@salt salt]# cat httpd.sls
+install_httpd:
+ pkg.installed:
+ - name: httpd
+ - require_in:
+   - service: httpd
+
+running httpd:
+ service.running:
+ - name: httpd
+ - enable: True
+
+[root@salt salt]#
+
+[root@salt salt]# salt '*' state.sls httpd
+myminion:
+----------
+          ID: install_httpd
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 19:25:51.057004
+    Duration: 1501.731 ms
+     Changes:
+----------
+          ID: running httpd
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is in the desired state
+     Started: 19:25:52.560131
+    Duration: 1552.215 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 2
+Failed:    0
+------------
 
 
 

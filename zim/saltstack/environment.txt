@@ -1,0 +1,152 @@
+
+
+... environment is salt 
+... so far we have worked with only one base environment.
+... but we can configure as many environment we need in the master 
+... configure file like below.
+
+[root@salt salt]# cd /etc/salt
+[root@salt salt]# ls
+master  minion  minion.d  pki
+[root@salt salt]# cat master | grep file_roots
+
+file_roots:
+ base:
+ - /srv/salt
+ webserver:
+ - /srv/web
+
+[root@salt salt]#
+
+... we are configuring base enviroment files can be found /srv/salt 
+... and webserver environment files can be found in /srv/web directory.
+... we can also add separate topfiles as well.
+... and our main base topfile is located at /srv/salt/top.sls
+
+... let change the content of the top file of /srv/salt/top.sls
+
+[root@salt salt]# pwd
+/srv/salt
+[root@salt salt]# ls
+htop.sls  top.sls  users_and_ssh.sls
+
+[root@salt salt]# cat top.sls
+base:
+ 'os_family:debian':
+  - match: grain
+  - htop
+webserver:
+ '*minion':
+  - httpd
+[root@salt salt]#
+
+... now restart the salt-master and run following
+
+[root@salt salt]# service salt-master restart
+Redirecting to /bin/systemctl restart  salt-master.service
+[root@salt salt]#
+[root@salt salt]# salt '*' state.highstate
+controller:
+----------
+          ID: install_htop
+    Function: pkg.installed
+        Name: htop
+      Result: True
+     Comment: Package htop is already installed
+     Started: 05:18:53.398919
+    Duration: 1001.936 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 1
+Failed:    0
+------------
+Total states run:     1
+myminion:
+----------
+          ID: install_web
+    Function: pkg.installed
+        Name: httpd
+      Result: True
+     Comment: Package httpd is already installed.
+     Started: 05:18:54.097078
+    Duration: 1682.628 ms
+     Changes:
+----------
+          ID: running_web
+    Function: service.running
+        Name: httpd
+      Result: True
+     Comment: Service httpd is already enabled, and is in the desired state
+     Started: 05:18:55.781885
+    Duration: 1621.461 ms
+     Changes:
+
+Summary
+------------
+Succeeded: 2
+Failed:    0
+------------
+Total states run:     2
+[root@salt salt]#
+
+... one thing we must keep in mind that we can have separate top file in each
+... environment or a single top file in base environment.
+... as i have a single top file in base environment.
+
+[root@salt srv]# pwd
+/srv
+[root@salt srv]# ls
+pillar  salt  web
+[root@salt srv]#
+[root@salt srv]# tree .
+.
+├── pillar
+│   ├── core.sls
+│   ├── htop.sls
+│   ├── ssh_key.sls
+│   └── top.sls.bk
+├── salt
+│   ├── htop.sls
+│   ├── top.sls
+│   └── users_and_ssh.sls
+└── web
+    └── httpd.sls
+
+3 directories, 8 files
+[root@salt srv]#
+
+[root@salt srv]# cat salt/top.sls
+base:
+ 'os_family:debian':
+  - match: grain
+  - htop
+webserver:
+ '*minion':
+  - httpd
+
+[root@salt srv]#
+
+... environment in pillar.
+
+[root@salt salt]# cat master | grep pillar_roots
+pillar_roots:
+ base:
+ - /srv/pillar 
+
+[root@salt salt]# 
+
+... we can also add top file in /srv/pillar/top.sls as like above.
+
+
+
+
+
+
+
+
+
+
+
+
