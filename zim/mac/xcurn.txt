@@ -1,0 +1,16 @@
+
+
+... the following solved by the command given below.
+
+ ./gt.sh
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+ ✘ khabir@macs-MacBook-Pro-2  ~/Documents 
+ ✘ khabir@macs-MacBook-Pro-2  ~/Documents  xcode-select --install
+xcode-select: note: install requested for command line developer tools
+ khabir@macs-MacBook-Pro-2  ~/Documents 
+
+... just now accept the installation.
+
+
