@@ -1,0 +1,24 @@
+
+
+
+mysql> start slave;
+ERROR 1872 (HY000): Slave failed to initialize relay log info structure from the repository
+mysql> 
+mysql> 
+mysql> reset slave;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> start slave IO_THREAD;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql>     stop slave IO_THREAD;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>     reset slave;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>     start slave;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+

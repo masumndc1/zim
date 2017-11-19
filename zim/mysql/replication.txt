@@ -1,0 +1,317 @@
+
+
+... we are going to configure master/slave replication in mysql.
+
+... the basic master/slave replica requires the three steps.
+
+... 1. configure the replica account on the both master and slave server.
+... 2. configure the master and replica server
+... 3. instruct the replica to connect to master and replicate.
+
+... our master is in 192.168.10.136 and slave is in 192.168.10.139.
+... before creating any replication related user we are going to enable binary log.
+
+root@master:/etc/mysql# cat my.cnf | grep -v -e ^#
+
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+
+[mysqld]
+bind-address = 192.168.10.136
+server_id = 2
+log_bin = /var/log/mysql/mysql-bin.log
+binlog_do_db = khabir
+binlog_do_db = masum
+root@master:/etc/mysql# 
+root@master:/etc/mysql# /etc/init.d/mysql restart
+root@master:/etc/mysql# 
+
+... configure the replica account then in master.
+
+... the slave has I/O thread which run on slave server which connect 
+... to master by tcp/ip connection. therefore we have to create an account
+... on the master server with proper priviledge which then slave I/O needs 
+... to connect with master as that user and can read the master's binary log.
+... one things to remember here is we are granting both monitoring and replica operation
+... to the user repl.
+
+mysql> 
+mysql> GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'192.168.10.%' IDENTIFIED BY 'p@ssw0rd' ;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> show master status;
++------------------+----------+--------------+------------------+-------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++------------------+----------+--------------+------------------+-------------------+
+| mysql-bin.000001 |      154 | khabir,masum |                  |                   |
++------------------+----------+--------------+------------------+-------------------+
+1 row in set (0.01 sec)
+
+mysql> 
+
+mysql> show variables like 'server_id';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| server_id     | 2     |
++---------------+-------+
+1 row in set (0.01 sec)
+
+mysql> 
+
+... locking up table before backup
+
+mysql> FLUSH TABLES WITH READ LOCK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+
+... backing up two database khabir and masum by using mysqldump command
+
+root@master:~# mysqldump -u root -p --opt --databases masum khabir > db.sql
+Enter password: 
+root@master:~# 
+root@master:~# ls
+db.sql  docker  docker-engine_1.10.0-0~trusty_amd64.deb
+root@master:~# 
+
+... sending the databases to slave server
+
+root@master:~# 
+root@master:~# scp db.sql root@192.168.10.139:/root
+The authenticity of host '192.168.10.139 (192.168.10.139)' can't be established.
+ECDSA key fingerprint is SHA256:MsJQCiB6npgHFG2MRNWWZx+mmup6ZoFfdf0xvCg2BV8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.10.139' (ECDSA) to the list of known hosts.
+root@192.168.10.139's password: 
+db.sql                                                 100% 1552     1.7MB/s   00:00    
+root@master:~# 
+
+... unlocking tables.
+
+mysql> UNLOCK TABLES;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+
+
+... now configuring the slave server
+
+... now creating the same user on slave server(192.168.10.139) too.
+... and server_id 3 and enabling the binary log.
+
+root@slave:/etc/mysql# 
+root@slave:/etc/mysql# cat my.cnf |grep -v -e ^#
+
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mysql.conf.d/
+
+[mysqld]
+server_id = 3
+relay-log               = /var/log/mysql/mysql-relay-bin.log
+log_bin                 = /var/log/mysql/mysql-bin.log
+binlog_do_db            = khabir
+binlog_do_db            = masum
+root@slave:/etc/mysql# 
+
+root@slave:/etc/mysql# 
+
+mysql> GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO repl@'192.168.10.%' IDENTIFIED BY 'p@ssw0rd' ;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> 
+
+mysql> show variables like 'server_id';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| server_id     | 3     |
++---------------+-------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+... restore the database khabir and masum from the backup from master.
+
+root@slave:~# mysql -u root -p < db.sql
+Enter password: 
+root@slave:~# 
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| khabir             |
+| masum              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> 
+
+root@slave:/etc/mysql# /etc/init.d/mysql restart
+
+
+... now we are starting the replication from slave server.
+
+mysql> 
+mysql> CHANGE MASTER TO MASTER_HOST='master', MASTER_USER='repl',
+    -> MASTER_PASSWORD='p@ssw0rd',
+    -> MASTER_LOG_FILE='mysql-bin.000001',
+    -> MASTER_LOG_POS=0;
+Query OK, 0 rows affected, 2 warnings (0.08 sec)
+
+mysql> 
+
+... The MASTER_LOG_POS parameter is set to 0 because this is the beginning of the log.
+... now running following command on the slave server.
+
+mysql> show slave status\G;
+*************************** 1. row ***************************
+               Slave_IO_State: 
+                  Master_Host: master
+                  Master_User: repl
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000001
+          Read_Master_Log_Pos: 4
+               Relay_Log_File: slave-relay-bin.000001
+                Relay_Log_Pos: 4
+        Relay_Master_Log_File: mysql-bin.000001
+             Slave_IO_Running: No
+            Slave_SQL_Running: No
+
+// output cut //
+
+1 row in set (0.00 sec)
+
+ERROR: 
+No query specified
+
+mysql> 
+
+... as we have not started the replication therefore Slave_IO_Running and Slave_SQL_Running is no.
+... now running replica on slave server.
+
+mysql> start slave;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql>
+
+... the above command should not have any error.
+
+mysql> show slave status\G;
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: master
+                  Master_User: repl
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000002
+          Read_Master_Log_Pos: 154
+               Relay_Log_File: mysql-relay-bin.000004
+                Relay_Log_Pos: 367
+        Relay_Master_Log_File: mysql-bin.000002
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB: 
+          Replicate_Ignore_DB: 
+           Replicate_Do_Table: 
+       Replicate_Ignore_Table: 
+      Replicate_Wild_Do_Table: 
+  Replicate_Wild_Ignore_Table: 
+                   Last_Errno: 0
+                   Last_Error: 
+                 Skip_Counter: 0
+          Exec_Master_Log_Pos: 154
+              Relay_Log_Space: 787
+              Until_Condition: None
+               Until_Log_File: 
+                Until_Log_Pos: 0
+           Master_SSL_Allowed: No
+           Master_SSL_CA_File: 
+           Master_SSL_CA_Path: 
+              Master_SSL_Cert: 
+            Master_SSL_Cipher: 
+               Master_SSL_Key: 
+        Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+                Last_IO_Errno: 0
+                Last_IO_Error: 
+               Last_SQL_Errno: 0
+               Last_SQL_Error: 
+  Replicate_Ignore_Server_Ids: 
+             Master_Server_Id: 2
+                  Master_UUID: 0596a348-cc72-11e7-bea3-08002700bebb
+             Master_Info_File: /var/lib/mysql/master.info
+                    SQL_Delay: 0
+          SQL_Remaining_Delay: NULL
+      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates
+           Master_Retry_Count: 86400
+                  Master_Bind: 
+      Last_IO_Error_Timestamp: 
+     Last_SQL_Error_Timestamp: 
+               Master_SSL_Crl: 
+           Master_SSL_Crlpath: 
+           Retrieved_Gtid_Set: 
+            Executed_Gtid_Set: 
+                Auto_Position: 0
+         Replicate_Rewrite_DB: 
+                 Channel_Name: 
+           Master_TLS_Version: 
+1 row in set (0.01 sec)
+
+ERROR: 
+No query specified
+
+mysql> 
+mysql> show processlist\G
+*************************** 1. row ***************************
+     Id: 4
+   User: root
+   Host: localhost
+     db: NULL
+Command: Query
+   Time: 0
+  State: starting
+   Info: show processlist
+*************************** 2. row ***************************
+     Id: 6
+   User: system user
+   Host: 
+     db: NULL
+Command: Connect
+   Time: 119
+  State: Waiting for master to send event
+   Info: NULL
+*************************** 3. row ***************************
+     Id: 7
+   User: system user
+   Host: 
+     db: NULL
+Command: Connect
+   Time: 119
+  State: Slave has read all relay log; waiting for more updates
+   Info: NULL
+3 rows in set (0.00 sec)
+
+mysql> 
+
+... info of slave server from the master server
+
+mysql> show slave hosts;
++-----------+------+------+-----------+--------------------------------------+
+| Server_id | Host | Port | Master_id | Slave_UUID                           |
++-----------+------+------+-----------+--------------------------------------+
+|         3 |      | 3306 |         2 | e7be353c-cc8d-11e7-b10e-08002700bebb |
++-----------+------+------+-----------+--------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+
+
+
+
