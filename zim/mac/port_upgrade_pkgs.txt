@@ -1,0 +1,22 @@
+
+
+
+... the following is the way to upgrade the packages
+
+sent 68 bytes  received 99 bytes  111.33 bytes/sec
+total size is 65021952  speedup is 389353.01
+Creating port index in /opt/local/var/macports/sources/rsync.macports.org/macports/release/tarballs/ports
+
+Total number of ports parsed:	0 
+Ports successfully parsed:	0 
+Ports failed:			0 
+Up-to-date ports skipped:	20271
+
+--->  MacPorts base is already the latest version
+
+The ports tree has been updated. To upgrade your installed ports, you should run
+  port upgrade outdated
+ khabir@macs-MacBook-Pro-2  ~/Documents   master ●  
+                                                                                                                                     
+ khabir@macs-MacBook-Pro-2  ~/Documents   master ●  
+ khabir@macs-MacBook-Pro-2  ~/Documents   master ●  port upgrade outdated
