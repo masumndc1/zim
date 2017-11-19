@@ -41,7 +41,7 @@ server {
 2 directories, 7 files
 [root@nginx html]#
 
-... if we browe like lynx http://www.app1.com and lynx http://www.app2.com 
+... if we browse like lynx http://www.app1.com and lynx http://www.app2.com 
 ... we will see the web pages from the appropiate location.
 
 ... however we can instruct nginx to listen on ip address of an interface too.
