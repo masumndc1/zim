@@ -43,7 +43,7 @@ ii  apache2.2-common                     2.2.22-13+deb7u7               i386    
 root@deb-7:~# 
 
 .. as we can see the apache is already installed and version is 2.2.22
-.. now cheching whether it is running or not.
+.. now checking whether it is running or not.
 
 root@deb-7:~# 
 root@deb-7:~# /etc/init.d/apache2 status

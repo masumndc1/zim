@@ -200,6 +200,8 @@ Server compiled with....
 [root@puppet html]#
 
 ... virtual server. configuration taken from linux bible
+... /etc/httpd/conf/httpd.conf. the virtualhost configuration section 
+... resides in httpd.conf file.
 
 NameVirtualHost *:80
 <VirtualHost *:80>
@@ -256,6 +258,10 @@ ExtendedStatus On
 OutputDir      /var/www/html/webalizer
 [root@puppet html]# 
 [root@puppet html]# webalizer
+
+... the above webalizer command will create one index.html file in the /var/www/html/webalizer
+... directory. therefore we need to make proper permission of /var/www/html/webalizer in the
+... httpd.conf file. one permission syntax is as following.
 
 <Directory "/var/www/html/webalizer/">
     Options Indexes FollowSymLinks
