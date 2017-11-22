@@ -185,5 +185,25 @@ glance.image_members                               OK
 glance.image_properties                            OK
 // output cut //
 
+.... another way to backup and restore multiple databases all together.
+
+... backing up two databases khabir and masum by using mysqldump command
+
+root@master:~# mysqldump -u root -p --opt --databases masum khabir > db.sql
+Enter password: 
+root@master:~# 
+root@master:~# ls
+db.sql  docker  docker-engine_1.10.0-0~trusty_amd64.deb
+root@master:~# 
+
+... now restoring them again in mysql
+
+... restore the database khabir and masum from the backup.
+
+root@slave:~# mysql -u root -p < db.sql
+Enter password: 
+root@slave:~# 
+
+
 
 
