@@ -10,7 +10,7 @@ jmeter
 # yum install ab
 # ab -kc 90 -n 10000 http://127.0.0.1/index.html
 
-... general loggin
+... general logging
 
 # tail -f /var/log/nginx/access_log
 # tail -f /var/log/nginx/error_log
