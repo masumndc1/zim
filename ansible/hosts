@@ -1,0 +1,31 @@
+
+
+... ansible inventory. ansible looks for hosts and group of hosts
+... in the /etc/ansible/hosts file
+
+[root@nginx ansible]# 
+[root@nginx ansible]# pwd
+/etc/ansible
+[root@nginx ansible]# tree .
+.
+├── ansible.cfg
+├── hosts
+├── hosts.bk
+└── roles
+
+1 directory, 3 files
+[root@nginx ansible]# cat hosts | grep -v -e ^#
+
+[webservers]
+nginx
+nginx.masum.com
+
+[dbservers]
+127.0.0.1
+
+ansible
+192.168.10.130
+
+[root@nginx ansible]# 
+
+

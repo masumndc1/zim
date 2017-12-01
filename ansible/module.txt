@@ -1,0 +1,42 @@
+
+
+... ansible has many modules which can be used in playbooks.
+... among many we can introduce few of them. and they are 
+... used with -m options in command line.
+
+[root@nginx ansible]# ansible ansible -u root -m command -a 'uptime'
+SSH password: 
+ansible | SUCCESS | rc=0 >>
+ 14:47:45 up  2:16,  4 users,  load average: 0.00, 0.00, 0.00
+
+[root@nginx ansible]# 
+[root@nginx ansible]# ansible ansible -u root -m ping
+SSH password: 
+ansible | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+[root@nginx ansible]# 
+
+[root@nginx ansible]# 
+[root@nginx ansible]# ansible ansible -u root -m file -a 'path=/etc/resolv.conf'
+SSH password: 
+ansible | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "gid": 0, 
+    "group": "root", 
+    "mode": "0644", 
+    "owner": "root", 
+    "path": "/etc/resolv.conf", 
+    "size": 73, 
+    "state": "file", 
+    "uid": 0
+}
+[root@nginx ansible]# 
+
+
+
+
+

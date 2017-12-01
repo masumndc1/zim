@@ -1,0 +1,133 @@
+
+
+... we run the command in remote host using ansible like below.
+
+[masum@nginx ~]$ ansible webservers -u root -k -m ping
+SSH password: 
+nginx | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+nginx.masum.com | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+[masum@nginx ~]$ ansible ansible -u root -k -m ping
+SSH password: 
+ansible | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+[masum@nginx ~]$ 
+
+... explain of the command.
+ 
+[masum@nginx ~]$ ansible (command) ansible (host/hosts) -u root (user)
+			 -k (prompt for pass) -m (module) ping
+
+
+... general settings, how to connect to the remote system, using which
+... port, user are defined in the /etc/ansible/ansible.cfg. some samples
+
+[root@nginx ansible]# cat ansible.cfg 
+
+# config file for ansible -- https://ansible.com/
+# ===============================================
+
+# nearly all parameters can be overridden in ansible-playbook
+# or with command line flags. ansible will read ANSIBLE_CONFIG,
+# ansible.cfg in the current working directory, .ansible.cfg in
+# the home directory or /etc/ansible/ansible.cfg, whichever it
+# finds first
+
+[defaults]
+
+# some basic default values...
+
+#inventory      = /etc/ansible/hosts
+#library        = /usr/share/my_modules/
+#module_utils   = /usr/share/my_module_utils/
+#remote_tmp     = ~/.ansible/tmp
+#local_tmp      = ~/.ansible/tmp
+#forks          = 5
+#poll_interval  = 15
+#sudo_user      = root
+#ask_sudo_pass = True
+#ask_pass      = True
+#transport      = smart
+#remote_port    = 22
+#module_lang    = C
+#module_set_locale = False
+
+... output cut ...
+
+... it is also possible to use user and port in the inventory file.
+... in that case you dont have to provide user like below.
+
+[root@nginx ansible]# cat hosts 
+[webservers]
+nginx			ansible_ssh_user=root ansible_ssh_port=22	
+nginx.masum.com
+
+[dbservers]
+127.0.0.1
+
+ansible
+192.168.10.130
+[root@nginx ansible]# 
+
+... no user specify here as we have done that in the /etc/ansible/hosts
+... inventory file like above.
+
+[root@nginx ansible]# ansible nginx -k -m ping
+SSH password: 
+nginx | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+[root@nginx ansible]# 
+
+... running command with sudo command other than root
+
+[masum@nginx ~]$ ansible ansible -b --become-user=masum -k -m ping 
+SSH password: <user_masum's_password_here> 
+ansible | SUCCESS => {
+    "changed": false, 
+    "failed": false, 
+    "ping": "pong"
+}
+[masum@nginx ~]$ 
+
+... explanation of command
+
+[masum@nginx ~]$ ansible ansible -b (become) 
+			--become-user=masum -k (ask-for-password) -m ping 
+
+... sudo and asking for sudo password is going to be deprecated in future
+... release. therefore its better to use become options.
+
+... we can also set ansible to ask for password every time by setting 
+... ask_pass=True in the /etc/ansible/ansible.cfg file.
+
+[root@nginx ansible]# cat ansible.cfg | grep -v -e ^#
+
+[defaults]
+ask_pass      = True
+
+... similarly we can run various command like below
+
+[masum@nginx ~]$ ansible ansible -b --become-user=masum -m command -a 'uptime'
+SSH password: 
+ansible | SUCCESS | rc=0 >>
+ 04:47:19 up  1:07,  4 users,  load average: 0.00, 0.06, 0.07
+
+[masum@nginx ~]$ 
+
+
+
+
+

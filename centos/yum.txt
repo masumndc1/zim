@@ -25,6 +25,32 @@ updates                                                    CentOS-6 - Updates   
 repolist: 5,861
 [root@localhost sysconfig]# 
 
+... the following is the refreshing the repolist
 
+[root@nginx yum.repos.d]# yum clean all; yum repolist 
+Loaded plugins: fastestmirror
+Cleaning repos: base epel extras livna rpmfusion-free-updates updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+Loaded plugins: fastestmirror
+base                                                                              | 3.6 kB  00:00:00     
+epel/x86_64/metalink                                                              |  27 kB  00:00:00     
+epel                                                                              | 4.7 kB  00:00:00     
+extras                                                                            | 3.4 kB  00:00:00     
+livna                                                                             | 3.0 kB  00:00:00     
+rpmfusion-free-updates                                                            | 3.0 kB  00:00:00     
+updates                                                                           | 3.4 kB  00:00:00     
+(1/9): base/7/x86_64/group_gz                                                     | 156 kB  00:00:00     
+(2/9): epel/x86_64/group_gz                                                       | 266 kB  00:00:00     
+(3/9): epel/x86_64/updateinfo                                                     | 851 kB  00:00:00     
+(4/9): extras/7/x86_64/primary_db                                                 | 130 kB  00:00:00     
+(5/9): livna/primary_db                                                           | 3.0 kB  00:00:00     
+(6/9): rpmfusion-free-updates/x86_64/primary_db                                   | 228 kB  00:00:01     
+(7/9): epel/x86_64/primary_db                                                     | 6.1 MB  00:00:01     
+(8/9): updates/7/x86_64/primary_db                                                | 3.6 MB  00:00:01     
+(9/9): base/7/x86_64/primary_db                                                   | 5.7 MB  00:00:03     
+Determining fastest mirrors
+ 
 
 
