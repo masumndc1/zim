@@ -1,0 +1,36 @@
+
+
+... role can be created by ansible-galaxy
+
+[masum@nginx playbook]$ ansible-galaxy init jenkins --init-path=role/
+- jenkins was created successfully
+[masum@nginx playbook]$ ls
+jenkins.retry  jenkins.yml  remove.yml  repo.yml  role
+[masum@nginx playbook]$ tree .
+.
+├── jenkins.retry
+├── jenkins.yml
+├── remove.yml
+├── repo.yml
+└── role
+    └── jenkins
+        ├── defaults
+        │   └── main.yml
+        ├── files
+        ├── handlers
+        │   └── main.yml
+        ├── meta
+        │   └── main.yml
+        ├── README.md
+        ├── tasks
+        │   └── main.yml
+        ├── templates
+        ├── tests
+        │   ├── inventory
+        │   └── test.yml
+        └── vars
+            └── main.yml
+
+10 directories, 12 files
+[masum@nginx playbook]$ 
+

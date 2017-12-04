@@ -28,4 +28,24 @@ ansible
 
 [root@nginx ansible]# 
 
+... running asible to selected or portion of the host. first the group of host
+
+[masum@nginx playbook]$ ansible-playbook jenkins.yml --ask-become-pass --limit=webservers
+SSH password: 
+SUDO password[defaults to SSH password]: 
+
+PLAY [all] ******************************
+
+TASK [Gathering Facts] *****************
+
+PLAY RECAP *****************************
+nginx                      : ok=0    changed=0    unreachable=1    failed=0   
+nginx.masum.com            : ok=0    changed=0    unreachable=1    failed=0   
+
+[masum@nginx playbook]$ 
+
+... then to the single host
+
+[masum@nginx playbook]$ ansible-playbook jenkins.yml --ask-become-pass --limit=ansible
+
 

@@ -1,0 +1,69 @@
+
+
+... playbook in ansible is written in yaml syntax.
+...
+... a playbook consists of three sections. 
+... 
+... target sections: describe the target hosts here. ssh parameters here.
+... variable sections: variable to playbooks are defines in this sections.
+... task sections: modules for particular tasks are define here.
+...
+
+... we are dealing with a simple playbook below.
+... line spacing and the syntax should be strictly 
+... followed in the yaml syntax.
+
+[masum@nginx playbook]$ cat jenkins.yml 
+---
+- hosts: ansible
+  remote_user: masum
+
+// remote_user is the user in the remote system who 
+
+  tasks:
+  - name: installing jenkins
+    become: yes
+    become_method: sudo
+
+// become is the becoming privilege use and 
+// become_method is the way how to be that.
+
+    yum:
+     name: jenkins.noarch,java
+     state: latest
+  - name: starting jenkins
+    become: yes
+    become_method: sudo
+    service:
+     name: jenkins
+     state: started
+[masum@nginx playbook]$ 
+
+... and way to run it 
+
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass jenkins.yml 
+SSH password: 
+SUDO password[defaults to SSH password]: 
+
+PLAY [ansible] ************************************
+
+TASK [Gathering Facts] ****************************
+ok: [ansible]
+
+... 
+
+[masum@nginx playbook]$ ansible-playbook --syntax-check jenkins.yml 
+
+playbook: jenkins.yml
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ ansible-playbook --list-hosts jenkins.yml 
+
+playbook: jenkins.yml
+
+  play #1 (ansible): ansible	TAGS: []
+    pattern: [u'ansible']
+    hosts (1):
+      ansible
+[masum@nginx playbook]$
+
+

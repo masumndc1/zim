@@ -36,6 +36,172 @@ ansible | SUCCESS => {
 }
 [root@nginx ansible]# 
 
+[root@nginx ansible]# ansible ansible -m copy -a 'src=/etc/fstab dest=/tmp/fstab'
+SSH password: 
+ansible | SUCCESS => {
+    "changed": true, 
+    "checksum": "e85ceb127f121e5c979f9df76fed5556a84b85fe", 
+    "dest": "/tmp/fstab", 
+    "failed": false, 
+    "gid": 0, 
+    "group": "root", 
+    "md5sum": "11b936bc5631ebb98aa931977583a4a7", 
+    "mode": "0644", 
+    "owner": "root", 
+    "size": 501, 
+    "src": "/root/.ansible/tmp/ansible-tmp-1512118499.81-728269990841/source", 
+    "state": "file", 
+    "uid": 0
+}
+[root@nginx ansible]# 
+
+... another module is command. command module does not run like a shell command.
+... therefore we cannot use redirect, pipe, expand shell variable and background
+... with command module.
+... in that case we have to use shell module to have those functionality.
+
+... command module will not give idempotency which means it will run the command
+... on managed host and will not check idempotency. but we can help ansible to 
+... become idempotent with the creates and removes arguments. 
+
+... when creates is used ansible will only creates a file if it is not there.
+... oposite is true for the removes arguments. an example is below.
+
+[root@nginx ansible]# touch /tmp/khabir
+[root@nginx ansible]# ls /tmp/khabir
+/tmp/khabir
+[root@nginx ansible]# 
+[root@nginx ansible]# ansible ansible -u root -k -m command -a 'touch /tmp/khabir creates=/tmp/khabir'
+SSH password: 
+ansible | SUCCESS | rc=0 >>
+skipped, since /tmp/khabir exists
+
+... the command skipped to creates the file /tmp/khabir as this file
+... is already exists.
+
+[root@nginx ansible]# 
+[root@nginx ansible]# rm /tmp/khabir
+rm: remove regular empty file ‘/tmp/khabir’? y
+[root@nginx ansible]# 
+[root@nginx ansible]# ansible ansible -u root -k -m command -a 'touch /tmp/khabir creates=/tmp/khabir'
+SSH password: 
+ansible | SUCCESS | rc=0 >>
+
+[root@nginx ansible]# 
+
+... removing it 
+
+[root@nginx ansible]# ansible ansible -u root -k -m command -a 'rm -f /tmp/khabir removes=/tmp/khabir'
+
+ansible | SUCCESS | rc=0 >>
+
+[root@nginx ansible]# ls /tmp/khabir
+ls: cannot access /tmp/khabir: No such file or directory
+[root@nginx ansible]# 
+[root@nginx ansible]# ansible ansible -u root -k -m command -a 'rm -f /tmp/khabir removes=/tmp/khabir'
+SSH password: 
+ansible | SUCCESS | rc=0 >>
+skipped, since /tmp/khabir does not exist
+
+[root@nginx ansible]# 
+
+... we could do the same thing with file module like below
+
+[root@nginx ansible]#  ansible ansible -m file -a 'path=/tmp/khabir state=absent'
+SSH password: 
+ansible | SUCCESS => {
+    "changed": true, 
+    "failed": false, 
+    "path": "/tmp/khabir", 
+    "state": "absent"
+}
+[root@nginx ansible]# ls /tmp/khabir
+ls: cannot access /tmp/khabir: No such file or directory
+[root@nginx ansible]# 
+
+[root@nginx ansible]#  ansible ansible -m file -a 'path=/tmp/khabir state=touch'
+SSH password: 
+ansible | SUCCESS => {
+    "changed": true, 
+    "dest": "/tmp/khabir", 
+    "failed": false, 
+    "gid": 0, 
+    "group": "root", 
+    "mode": "0644", 
+    "owner": "root", 
+    "size": 0, 
+    "state": "file", 
+    "uid": 0
+}
+[root@nginx ansible]# ls /tmp/khabir
+/tmp/khabir
+[root@nginx ansible]# 
+
+... we can find description on any of the module of ansible by using ansible-doc
+
+[root@nginx ansible]# ansible-doc --help
+Usage: ansible-doc [-l|-s] [options] [-t <plugin type] [plugin]
+
+plugin documentation tool
+
+Options:
+  -a, --all             **For internal testing only** Show documentation for
+                        all plugins.
+  -h, --help            show this help message and exit
+  -l, --list            List available plugins
+  -M MODULE_PATH, --module-path=MODULE_PATH
+                        prepend colon-separated path(s) to module library
+                        (default=[u'/root/.ansible/plugins/modules',
+                        u'/usr/share/ansible/plugins/modules'])
+  -s, --snippet         Show playbook snippet for specified plugin(s)
+  -t TYPE, --type=TYPE  Choose which plugin type (defaults to "module")
+  -v, --verbose         verbose mode (-vvv for more, -vvvv to enable
+                        connection debugging)
+  --version             show program's version number and exit
+
+See man pages for Ansible CLI options or website for tutorials
+https://docs.ansible.com
+[root@nginx ansible]# ansible-doc -l
+accelerate                                Enable accelerated mode on remote node                    
+aci_aep                                   Manage attachable Access Entity Profile (AEP) on Cisco ACI...
+aci_ap                                    Manage top level Application Profile (AP) objects on Cisco...
+aci_bd                                    Manage Bridge Domains (BD) on Cisco ACI Fabrics (fv:BD)   
+aci_epg_to_domain                         Bind EPGs to Domains on Cisco ACI fabrics (fv:RsDomAtt)   
+aci_filter                                Manages top level filter objects on Cisco ACI fabrics (vz:...
+aci_filter_entry                          Manage filter entries on Cisco ACI fabrics (vz:Entry)     
+[root@nginx ansible]# ansible-dock aci_aep
+bash: ansible-dock: command not found
+[root@nginx ansible]# ansible-doc aci_aep
+> ACI_AEP    (/usr/lib/python2.7/site-packages/ansible/modules/network/aci/aci_aep.py)
+
+        Connect to external virtual and physical domains by using attachable Access
+        Entity Profiles (AEP) on Cisco ACI fabrics. More information from the
+        internal APIC class `infra:AttEntityP' at https://developer.cisco.com/media
+        /mim-ref/MO-infraAttEntityP.html.
+
+OPTIONS (= is mandatory):
+
+= aep
+        The name of the Attachable Access Entity Profile.
+        (Aliases: aep_name, name)
+
+- description
+        Description for the AEP.
+        [Default: (null)]
+
+= hostname
+        IP Address or hostname of APIC resolvable by Ansible control host.
+        (Aliases: host)
+
+[root@nginx ansible]# 
+
+
+
+
+
+
+
+
 
 
 

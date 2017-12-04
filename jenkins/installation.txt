@@ -1,0 +1,11 @@
+
+
+... Installation
+... adding repo
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+
+... adding key
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+
+... now install jenkins
+yum install jenkins
