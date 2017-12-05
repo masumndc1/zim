@@ -1,7 +1,9 @@
 
 
-... ansible inventory. ansible looks for hosts and group of hosts
-... in the /etc/ansible/hosts file
+... ansible inventory.
+... ansible looks for hosts and group of hosts
+... in the /etc/ansible/hosts inventory file. inventory file
+... simple in ini format and json format when generated automatically.
 
 [root@nginx ansible]# 
 [root@nginx ansible]# pwd
@@ -23,10 +25,19 @@ nginx.masum.com
 [dbservers]
 127.0.0.1
 
-ansible
+// if we run sshd port something different than the default we 
+// could have something like following. syntax is hostname:port
+// or ip:port
+
+ansible:3333
 192.168.10.130
 
 [root@nginx ansible]# 
+
+... say we have host1.masum.com, host2.masum.com, host3.masum.com
+... then we could have write like below in our inventory file.
+
+host[1:3].masum.com 
 
 ... running asible to selected or portion of the host. first the group of host
 
