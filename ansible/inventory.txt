@@ -32,6 +32,14 @@ nginx.masum.com
 ansible:3333
 192.168.10.130
 
+// also possible to use the variable with the server group like below
+// following will activate the variable to the all servers from 
+// webservers group.
+
+[webservers:vars]
+nginx
+nginx.masum.com
+
 [root@nginx ansible]# 
 
 ... say we have host1.masum.com, host2.masum.com, host3.masum.com

@@ -66,4 +66,114 @@ playbook: jenkins.yml
       ansible
 [masum@nginx playbook]$
 
+... another example of playbook is 
+
+[masum@nginx playbook]$ cat -n ping1.yml 
+
+
+[masum@nginx playbook]$ cat ping1.yml 
+---
+- hosts: ansible
+  become: yes
+  tasks:
+   - name: ping the host 
+     ping: 
+   - name: installing the packeges
+     yum: name={{item}} state=latest update_cache=yes
+     with_items:
+      - php
+      - nginx
+      - mysql
+   - name: generating random password
+     command: openssl rand -hex 7
+     register: masum_pass
+   - name:  mysql anonymous user and test database
+     yum: name=htop state=absent
+   
+   - name: showing the random pass
+     debug: msg=" the generated mysql password is {{masum_pass.stdout}} "
+[masum@nginx playbook]$ 
+
+... and the output is 
+
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass ping1.yml 
+SSH password: 
+SUDO password[defaults to SSH password]: 
+
+PLAY [ansible] ****************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************
+ok: [ansible]
+
+TASK [ping the host] **********************************************************************************************
+ok: [ansible]
+
+TASK [installing the packeges] ************************************************************************************
+ok: [ansible] => (item=[u'php', u'nginx', u'mysql'])
+
+TASK [generating random password] *********************************************************************************
+changed: [ansible]
+
+TASK [mysql anonymous user and test database] *********************************************************************
+ok: [ansible]
+
+TASK [showing the random pass] ************************************************************************************
+ok: [ansible] => {
+    "msg": " the generated mysql password is 19b592766a37ce "
+}
+
+PLAY RECAP ********************************************************************************************************
+ansible                    : ok=6    changed=1    unreachable=0    failed=0   
+
+[masum@nginx playbook]$ 
+
+... the output is showing the generated password due to the debug module
+... and the masum_pass.stdout options.
+
+... creating file using template, src and dest module like below.
+
+[masum@nginx playbook]$ cat ping1.yml
+---
+- hosts: ansible
+  become: yes
+  tasks:
+   - name: generating random password
+     command: openssl rand -hex 7
+     register: masum_pass
+   
+   - name: showing the random pass
+     debug: msg="the generated mysql password is {{masum_pass.stdout}}"
+   
+   - name: creating my.cnf file for mysql
+     template: src=/etc/my.cnf.d/client.cnf dest=/root/my.cnf
+[masum@nginx playbook]$ 
+
+[root@nginx my.cnf.d]# cat client.cnf
+[client]
+user=root
+password={{masum_pass.stdout}}
+[client-mariadb]
+[root@nginx my.cnf.d]# 
+[root@nginx my.cnf.d]# cat /root/my.cnf 
+[client]
+user=root
+password=478b02e06d71f6
+[client-mariadb]
+[root@nginx my.cnf.d]# 
+
+... installing a package and running the service
+... for example following is the code to install nginx and running it
+
+[masum@nginx playbook]$ cat nginx.yml 
+---
+- hosts: ansible
+  become: yes
+  tasks:
+  - name: nginx installation
+    yum: name=nginx state=installed
+  - name: service running
+    service: name=nginx state=started
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ 
+
 
