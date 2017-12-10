@@ -1,0 +1,88 @@
+
+
+... role can be created by ansible-galaxy
+... and the role section in a playbook will
+... be before the task section.
+
+[masum@nginx playbook]$ ansible-galaxy init jenkins --init-path=role/
+- jenkins was created successfully
+[masum@nginx playbook]$ ls
+jenkins.retry  jenkins.yml  remove.yml  repo.yml  role
+[masum@nginx playbook]$ tree .
+.
+├── jenkins.retry
+├── jenkins.yml
+├── remove.yml
+├── repo.yml
+└── role
+    └── jenkins
+        ├── defaults
+        │   └── main.yml
+        ├── files
+        ├── handlers
+        │   └── main.yml
+        ├── meta
+        │   └── main.yml
+        ├── README.md
+        ├── tasks
+        │   └── main.yml
+        ├── templates
+        ├── tests
+        │   ├── inventory
+        │   └── test.yml
+        └── vars
+            └── main.yml
+
+10 directories, 12 files
+[masum@nginx playbook]$ 
+
+... downloading role from https://galaxy.ansible.com/
+
+[masum@nginx playbook]$ ansible-galaxy install sebastianlach.htop -p role
+- downloading role 'htop', owned by sebastianlach
+- downloading role from https://github.com/sebastianlach/ansible-htop/archive/master.tar.gz
+- extracting sebastianlach.htop to /home/masum/playbook/role/sebastianlach.htop
+- sebastianlach.htop (master) was installed successfully
+[masum@nginx playbook]$ cd role
+
+[masum@nginx role]$ ls
+jenkins  sebastianlach.htop
+[masum@nginx role]$ 
+
+[masum@nginx role]$ cd sebastianlach.htop/
+[masum@nginx sebastianlach.htop]$ ls
+LICENSE  meta  README.md  tasks
+[masum@nginx sebastianlach.htop]$ tree .
+.
+├── LICENSE
+├── meta
+│   └── main.yml
+├── README.md
+└── tasks
+    └── main.yml
+
+2 directories, 4 files
+[masum@nginx sebastianlach.htop]$ 
+
+... and the yml file associated with this role
+
+[masum@nginx playbook]$ cat htop.yml 
+---
+- hosts: ansible
+  become: yes
+  roles:
+   - sebastianlach.htop
+[masum@nginx playbook]$ 
+
+... role for the various platforms
+... in main.yml
+
+In main.yml:
+
+---
+- include_vars: "{{ ansible_os_family }}.yml"
+- include: install-debian.yml
+  when: ansible_os_family == 'Debian'
+- include: install-redhat.yml
+  when: ansible_os_family == 'RedHat'
+

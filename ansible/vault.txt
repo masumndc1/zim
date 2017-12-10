@@ -1,0 +1,57 @@
+
+
+... ansible-vault command is a nice tools to encryption.
+
+
+[masum@nginx playbook]$ ansible-vault encrypt nginx.yml
+New Vault password: 
+Confirm New Vault password: 
+Encryption successful
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ cat nginx.yml 
+$ANSIBLE_VAULT;1.1;AES256
+36343965663866323739633265356666633665623634303864393361363632623331363666613131
+6537666162643638616164666362626461643530323835330a363539386332613266303466373132
+65623765373831333039663635366364616663396130666339663461613333376637333233386535
+3863663263666637330a376236663038356235366563383335383263323039373765373866666230
+35613564623766663233653133613731643465623964663763396565623765313937356536376432
+31633036383931653032326664626335316337383665616533396238363237303137326438363163
+353137633664653339613064386336346439
+[masum@nginx playbook]$ 
+
+... it will ask for password when to run it
+
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass nginx.yml
+SSH password: 
+SUDO password[defaults to SSH password]: 
+ERROR! Attempting to decrypt but no vault secrets found
+
+// running yml file failed as no password has been provided.
+
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass --ask-vault-pass nginx.yml
+SSH password: 
+SUDO password[defaults to SSH password]: 
+Vault password: 
+
+... however we can change the content of the nginx.yml by following
+
+[masum@nginx playbook]$ ansible-vault edit nginx.yml 
+Vault password: 
+[masum@nginx playbook]$ 
+
+... decrypt the file and remove the password protection.
+
+[masum@nginx playbook]$  ansible-vault decrypt nginx.yml 
+Vault password: 
+Decryption successful
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ cat nginx.yml 
+---
+- hosts: ansible
+  become: yes
+  roles:
+   - masum.prac
+[masum@nginx playbook]$ 
+
+

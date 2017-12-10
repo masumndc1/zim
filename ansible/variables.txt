@@ -1,0 +1,41 @@
+
+
+... we define variables like below.
+
+
+... we can define variable in either default/main.yml or vars/main.yml file
+... or we can include variable file in main.yml. vars/main.yml has be greater
+... precedence over other file. variable has the following format and we can
+... use the value of variable by {{ variable }}. example like below.
+
+[masum@nginx tasks]$ cat nginx.yml 
+---
+- name: nginx installation
+  yum: name={{ pac }} state=installed
+
+- name: copy file
+  template: src=index.html dest=/usr/share/nginx/html/index.html
+  notify: service {{ pac }}
+
+- name: htop installation
+  package: name={{ mon }} state=installed
+
+- name: iftop installation
+  package: name={{ band }} state=installed
+
+[masum@nginx tasks]$ 
+
+... variable we define as below.
+
+[masum@nginx tasks]$ cat ../vars/main.yml 
+---
+# vars file for roles/masum.prac
+pac: nginx
+mon: htop
+[masum@nginx tasks]$ cat ../defaults/main.yml 
+---
+# defaults file for roles/masum.prac
+band: iftop
+[masum@nginx tasks]$ 
+
+

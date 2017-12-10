@@ -1,0 +1,65 @@
+
+
+... ansible-galaxy has various capabilities. few of them described below.
+
+... which roles we have locally
+
+[masum@nginx playbook]$ ansible-galaxy list -p roles
+- jenkins, (unknown version)
+- sebastianlach.htop, master
+- masum.prac, (unknown version)
+[masum@nginx playbook]$ 
+
+[masum@nginx playbook]$ ansible-galaxy remove -p roles sebastianlach.htop
+
+[masum@nginx playbook]$ ansible-galaxy search htop
+
+Found 3 roles matching your search:
+
+ Name               Description
+ ----               -----------
+ howtodojo.htop     install htop
+ sebastianlach.htop Custom htop role
+ tersmitten.htop    Set up htop in Debian-like systems
+[masum@nginx playbook]$ 
+
+[masum@nginx playbook]$ ansible-galaxy search --author geerlingguy
+
+Found 90 roles matching your search:
+
+ Name                              Description
+ ----                              -----------
+ geerlingguy.tomcat6               Tomcat 6 for RHEL/CentOS and Debian/Ubuntu.
+ geerlingguy.php-pear              PHP PEAR library installation.
+ geerlingguy.repo-puias            PUIAS repository for RHEL/CentOS.
+ geerlingguy.phergie               Phergie - a PHP IRC bot
+ geerlingguy.gogs                  Gogs: Go Git Service
+ geerlingguy.munin                 Munin monitoring server for RedHat/CentOS or Debian/Ubuntu.
+ geerlingguy.sonar-runner          Sonar Runner for Linux
+ geerlingguy.sonar                 SonarQube for Linux
+ geerlingguy.hdparm                hdparm installation and configuration for Linux.
+
+
+[masum@nginx playbook]$ 
+[masum@nginx playbook]$ ansible-galaxy search php7 --platforms=ubuntu
+
+Found 374 roles matching your search:
+
+ Name                                              Description
+ ----                                              -----------
+ vkill.php7-phalcon                                php7-phalcon
+ lifeofguenter.php7-cli                            Install PHP7 (cli)
+ lifeofguenter.php7-fpm                            Installs PHP7 (fpm)
+ TroodoNmike.php7-from-source                      PHP7 from source. Optional php7-fpm, opcache
+ gwenlei.wordpress-php7                            install php7.0 for wordpress
+
+[masum@nginx playbook]$ ansible-galaxy info  vkill.php7-phalcon
+
+Role: vkill.php7-phalcon
+        description: php7-phalcon
+        active: True
+        commit: 3b9793f91a927c9304531036b8b268a8d46fe99a
+        commit_message: Update README.md
+
+
+

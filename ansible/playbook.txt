@@ -37,6 +37,7 @@
     service:
      name: jenkins
      state: started
+
 [masum@nginx playbook]$ 
 
 ... and way to run it 
@@ -49,8 +50,6 @@ PLAY [ansible] ************************************
 
 TASK [Gathering Facts] ****************************
 ok: [ansible]
-
-... 
 
 [masum@nginx playbook]$ ansible-playbook --syntax-check jenkins.yml 
 
@@ -175,5 +174,108 @@ password=478b02e06d71f6
     service: name=nginx state=started
 [masum@nginx playbook]$ 
 [masum@nginx playbook]$ 
+
+... handlers
+... and example of handlers and notify syntax is given below.
+
+[masum@nginx playbook]$ cat nginx.yml 
+---
+- hosts: ansible
+  become: yes
+  tasks:
+  - name: nginx installation
+    yum: name=nginx state=installed
+
+  - name: copy file
+    template: src=/home/masum/playbook/index.html dest=/usr/share/nginx/html/index.html 
+    notify: service nginx
+
+  handlers: 
+  - name: service nginx
+    service: name=nginx state=restarted
+
+[masum@nginx playbook]$ 
+
+... some examples related to other modules used in playbook
+... first one is for file.
+
+- name: Create project folder
+  file: dest=/var/www/book.example.com state=directory
+- name: Copy WordPress files
+  command: cp -a /tmp/wordpress/. /var/www/book.example.com \ 
+     creates=/var/www/book.example.com/wp-settings.php
+
+... database related example
+
+- name: Create WordPress MySQL database
+  mysql_db: name=wordpress state=present
+- name: Create WordPress MySQL user
+  mysql_user: name=wordpress host=localhost password=bananas priv=wordpress.*:ALL
+
+- name: Does the database exist?
+  command: mysql -u root wordpress -e "SELECT ID FROM wordpress.wp_users LIMIT 1;"
+  register: db_exist
+  ignore_errors: true
+
+- name: Copy WordPress DB
+  copy: src=files/wp-database.sql dest=/tmp/wp-database.sql
+  when: db_exist.rc > 0
+- name: Import WordPress DB
+  mysql_db: target=/tmp/wp-database.sql state=import name=wordpress
+  when: db_exist.rc > 0
+
+// here rc stands for return code.
+
+... use of changed_when
+
+[masum@nginx playbook]$ cat changed.yml 
+---
+- hosts: ansible
+  become: yes
+  tasks:
+  - name: listing /tmp
+    command: ls /tmp
+    register: demo
+    changed_when: '"khabir" in demo.stdout'
+
+// this will show changed in the output //
+
+  - name: listing /root
+    command: ls /root
+    register: rootdemo
+    changed_when: false
+
+// this changed_when: false will not show changed in the output.
+// even it does not trigger other handlers or anything.
+// instead it will show ok in the output as shown below.
+
+[masum@nginx playbook]$ 
+
+... output of the above
+
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass changed.yml 
+SSH password: 
+SUDO password[defaults to SSH password]: 
+
+PLAY [ansible] *******************************************
+
+TASK [Gathering Facts] ***********************************
+changed: [ansible]
+
+TASK [listing /root] *************************************
+ok: [ansible]
+
+PLAY RECAP ***********************************************
+ansible                    : ok=3    changed=1    unreachable=0    failed=0   
+
+[masum@nginx playbook]$ 
+
+... another way to install packages independently in all platform
+... by using package module like below
+
+--- 
+- hosts: all
+  tasks:
+   - package: name=htop state=installed
 
 
