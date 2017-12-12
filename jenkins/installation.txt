@@ -9,3 +9,11 @@ rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 
 ... now install jenkins
 yum install jenkins
+
+... now browse jenkins by http://ip:8080
+
+... adding java ans svn
+yum install mod_dav_svn subversion java
+
+
+
