@@ -1,0 +1,90 @@
+
+
+... installing kubernetes in master 
+... here we have only one node(192.168.10.137) and one master(192.168.10.138).
+... in the node there is running docker inside which the severals system is running.
+... master is used to control the nodes.
+... look the masum.jpg for the architecture of this sample configuration.
+... 
+... system architecture
+
+[root@kube-master kube-master]# uname -a
+Linux kube-master 4.9.63-29.el7.x86_64 #1 SMP Mon Nov 20 14:39:22 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# systemctl stop firewalld
+[root@kube-master kube-master]# systemctl disable firewalld
+[root@kube-master kube-master]# 
+
+... Install etcd and Kubernetes through yum:
+
+[root@kube-master etcd]# yum -y install etcd kubernetes
+
+... configure the /etc/etcd/etcd.conf file like following
+... configuring etcd to listen all the ip.
+
+[root@kube-master etcd]# cat etcd.conf
+ETCD_NAME=default
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379"
+ETCD_ADVERTISE_CLIENT_URLS="http://localhost:2379"
+[root@kube-master etcd]# 
+
+... Configure Kubernetes API server inside /etc/kubernetes/apiserver
+
+[root@kube-master kubernetes]# pwd
+/etc/kubernetes
+[root@kube-master kubernetes]# cat apiserver
+KUBE_API_ADDRESS="--address=0.0.0.0"
+KUBE_API_PORT="--port=8080"
+KUBELET_PORT="--kubelet_port=10250"
+KUBE_ETCD_SERVERS="--etcd_servers=http://127.0.0.1:2379"
+KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+KUBE_ADMISSION_CONTROL="--admission_control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ResourceQuota"
+KUBE_API_ARGS=""
+[root@kube-master kubernetes]# 
+
+... Start and enable etcd, kube-apiserver, kube-controller-manager and kube-scheduler 
+
+[root@kube-master kubernetes]# for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler; do
+    systemctl restart $SERVICES
+    systemctl enable $SERVICES
+    systemctl status $SERVICES 
+done
+
+... Define flannel network configuration in etcd. 
+... This configuration will be pulled by flannel service on minions:
+
+[root@kube-master kubernetes]# etcdctl mk /atomic.io/network/config '{"Network":"172.17.0.0/16"}'
+{"Network":"172.17.0.0/16"}
+[root@kube-master kubernetes]# 
+
+... note here docker in the node also use something from 172.17.0.0/16
+
+... At this point, we should notice that nodes' status returns
+... nothing because we haven’t started any of them yet:
+
+[root@kube-master kubernetes]# kubectl get nodes
+No resources found.
+[root@kube-master kubernetes]# 
+
+... now can now move to configure the minions node. in this example
+... our one node is kube-node1(192.168.10.137)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
