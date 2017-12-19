@@ -71,20 +71,3 @@ No resources found.
 ... now can now move to configure the minions node. in this example
 ... our one node is kube-node1(192.168.10.137)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

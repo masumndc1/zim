@@ -1,0 +1,13 @@
+
+
+... after setting up two nodes and one master successfully we got following
+
+[root@kube-master ~]# kubectl get nodes
+NAME             STATUS    AGE
+192.168.10.137   Ready     1d
+192.168.10.140   Ready     8m
+[root@kube-master ~]# 
+
+... seems like two nodes are ready and found ok from master.
+
+
