@@ -1,4 +1,6 @@
 
 
 ... iam is used to create user,groups,roles and assign the permission.
+... we create the group, assign permission to the group and add user to group.
+... rule of thumb is assign the least permission to group or user.
 
