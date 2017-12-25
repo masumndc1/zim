@@ -10,4 +10,144 @@ NAME             STATUS    AGE
 
 ... seems like two nodes are ready and found ok from master.
 
+... now when one is running and another is off.
+
+[root@kube-master ~]# kubectl get nodes
+NAME             STATUS     AGE
+192.168.10.137   Ready      1d
+192.168.10.140   NotReady   26m
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get services
+NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   10.254.0.1   <none>        443/TCP   1d
+[root@kube-master ~]# 
+
+... now we are running various command on our node using kubectl.
+
+... adding lebel on node
+
+[root@kube-master ~]# kubectl label nodes 192.168.10.137 node=node1
+node "192.168.10.137" labeled
+[root@kube-master ~]# 
+
+[root@kube-master ~]# kubectl label nodes 192.168.10.140 node=node2
+node "192.168.10.140" labeled
+[root@kube-master ~]# 
+
+... now verify the previous operation
+
+[root@kube-master ~]#  kubectl describe node 192.168.10.137 | grep node
+			node=node1
+[root@kube-master ~]#  kubectl describe node 192.168.10.140 | grep node
+			node=node2
+[root@kube-master ~]# 
+
+[root@kube-master kube-master]#  kubectl get nodes --show-labels
+NAME             STATUS     AGE       LABELS
+192.168.10.137   Ready      3d        beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=192.168.10.137,node=node1
+192.168.10.140   NotReady   1d        beta.kubernetes.io/arch=amd64,beta.kubernetes.io/os=linux,kubernetes.io/hostname=192.168.10.140,node=node2
+[root@kube-master kube-master]# 
+
+... now running command on a particual node which has been labelled previously.
+... we have one sample.yaml file in the kubernet master like below
+
+[root@kube-master kube-master]# cat sample.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-o
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: nginx
+      namespace: default
+      labels:
+        env: beta
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        name: "node1"
+[root@kube-master kube-master]# 
+
+... now creating pod on a particular node "node1"
+
+[root@kube-master kube-master]# kubectl create -f sample.yaml 
+deployment "nginx-o" created
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# kubectl get pod -o wide
+NAME                         READY     STATUS    RESTARTS   AGE       IP            NODE
+nginx-on-3266495611-1htsr    1/1       Running   1          2m        172.17.50.2   192.168.10.137
+nginx-test-539019161-06rr0   0/1       Pending   0          13m       <none>        
+nginx-test-539019161-2dxmf   0/1       Pending   0          13m       <none>        
+nginx-test-539019161-b8p9n   0/1       Pending   0          13m       <none>        
+[root@kube-master kube-master]# 
+
+[root@kube-node1 kubernetes]# docker ps
+CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS              PORTS               NAMES
+01bdf8785e80        nginx                                      "nginx -g 'daemon off"   5 minutes ago       Up 5 minutes                            k8s_nginx.1a7dffa9_nginx-on-3266495611-1htsr_default_0d612387-e5d1-11e7-97d4-0800279e711e_21788f3c
+799956cb8d2e        gcr.io/google_containers/pause-amd64:3.0   "/pause"                 7 minutes ago       Up 7 minutes                            k8s_POD.b2390301_nginx-on-3266495611-1htsr_default_0d612387-e5d1-11e7-97d4-0800279e711e_dad32636
+[root@kube-node1 kubernetes]# 
+[root@kube-node1 kubernetes]# docker ps -a
+CONTAINER ID        IMAGE                                      COMMAND                  CREATED             STATUS                      PORTS               NAMES
+01bdf8785e80        nginx                                      "nginx -g 'daemon off"   5 minutes ago       Up 5 minutes                                    k8s_nginx.1a7dffa9_nginx-on-3266495611-1htsr_default_0d612387-e5d1-11e7-97d4-0800279e711e_21788f3c
+279f81f8ddd9        nginx                                      "nginx -g 'daemon off"   7 minutes ago       Exited (0) 5 minutes ago                        k8s_nginx.1a7dffa9_nginx-on-3266495611-1htsr_default_0d612387-e5d1-11e7-97d4-0800279e711e_46b391fb
+799956cb8d2e        gcr.io/google_containers/pause-amd64:3.0   "/pause"                 8 minutes ago       Up 8 minutes                                    k8s_POD.b2390301_nginx-on-3266495611-1htsr_default_0d612387-e5d1-11e7-97d4-0800279e711e_dad32636
+1c442aa45dda        docker.io/openshift/base-centos7           "container-entrypoint"   2 hours ago         Exited (0) 17 minutes ago                       hungry_lichterman
+[root@kube-node1 kubernetes]# 
+
+... therefore nginx is there along with previously build container in the node1 node.
+
+... so we can connect to our newly created pod like below running command on node1
+
+[root@kube-node1 kubernetes]# docker run -it nginx /bin/bash
+root@e13967a2225f:/# 
+root@e13967a2225f:/# 
+root@e13967a2225f:/# ifconfig
+bash: ifconfig: command not found
+root@e13967a2225f:/# pwd
+/
+root@e13967a2225f:/# ls
+bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
+root@e13967a2225f:/# ip a
+bash: ip: command not found
+root@e13967a2225f:/# 
+
+... now running following command to create one deployment. lets see what happened.
+
+[root@kube-master ~]# kubectl -s http://localhost:8080 run hello-world --image=tutum/hello-world \
+ --replicas=1 --port=80
+deployment "hello-world" created
+[root@kube-master ~]# 
+
+... as we know that the kubernetes master server is running api server on the same master server
+... therefore we defined api server with -s options. we could also run this command from any node
+... in that case we could use -s http://192.168.10.138:8080. the command then created following 
+... output if we run command at master.
+
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get pods -o wide
+NAME                           READY     STATUS              RESTARTS   AGE       IP            NODE
+hello-world-2571485955-rr63f   0/1       ContainerCreating   0          3m        <none>        192.168.10.140
+nginx-on-3266495611-1htsr      1/1       Running             1          19h       172.17.50.2   192.168.10.137
+[root@kube-master ~]# 
+
+... similarly we have run the following command from node1 using kubectl command.
+ 
+[root@kube-node1 kubernetes]# kubectl -s http://192.168.10.138:8080 run hello-masum --image=tutum/hello-world --replicas=1 --port=80
+deployment "hello-masum" created
+[root@kube-node1 kubernetes]# 
+
+[root@kube-master ~]# kubectl get pods -o wide
+NAME                           READY     STATUS              RESTARTS   AGE       IP            NODE
+hello-masum-1643692793-xrhh9   0/1       ContainerCreating   0          34s       <none>        192.168.10.140
+hello-world-2571485955-rr63f   1/1       Running             0          8m        172.17.81.2   192.168.10.140
+[root@kube-master ~]# 
+
 

@@ -1,0 +1,27 @@
+
+
+... basic of kubernetes implementation.
+
+... in kuberneters environment there is one master and several minions or nodes.
+... in the kubernetes master the service etcd, kube-apiserver, kube-scheduler,
+... and kube-controller-manager and in the minion docker, flannel, kube-proxy 
+... kubelet run.
+
+... etcd is a simple, secure, fast and reliable distributed key-value store.
+... Kubernetes master uses API to select the containers running on nodes to handle tasks. 
+... kubelet is an agent that runs on each node to monitor the containers running on the node,
+... restarting them if required to keep the replication level.
+
+... A service proxy runs on each node to provide the Kubernetes service interface for clients. 
+... The service proxy routes the client traffic to a matching pod. 
+... Labels are used to match a service with a pod.
+
+... the master components
+... apiserver: The apiserver takes API requests, processes them, and stores the result in etcd
+... if required and returns the result.
+... The scheduler: monitors the API for unscheduled pods and schedules them on a node to run.
+... The controller: manages the the pods, starting new pods in a scale up 
+... event and stopping some of the pods in a scale down.
+... The pause: keeps the port mappings of all the containers in the pod or the network endpoint of the pod.
+
+

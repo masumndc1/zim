@@ -1,0 +1,14 @@
+
+
+... aws elb can only distribute traffic based on round robin.
+... if we need other options like maxconn then we can use
+... route53, nginx as reversed proxy or haproxy.
+... elb is not designed to handle sudden huge load. if so to
+... handle line online games, promotional offer or online exam
+... one needs to contact with amazon support team to handle
+... that much surge of traffic.
+
+... amazon elb also supports auto scaling and ssl termination.
+
+
+
