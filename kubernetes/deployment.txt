@@ -51,5 +51,21 @@ spec:
 
 [root@kube-master kube]# kubectl rollout undo deployment/node-js-deploy
 
+... list of deployment
+
+[root@kube-master kube]# kubectl get deployment
+NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+hello-khabir     2         2         2            2           1d
+hello-masum      1         1         1            1           5d
+hello-world      1         1         1            1           5d
+nginx            1         1         1            1           5d
+nginx-node2      2         0         0            0           6d
+nginx-o          3         0         0            0           6d
+nginx-on         3         0         0            0           6d
+nginx-test       3         4         2            0           6d
+node-js-deploy   1         1         1            1           1h
+rc               2         2         2            0           1d
+[root@kube-master kube]# 
+
 
 
