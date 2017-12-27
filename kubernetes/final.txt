@@ -1,0 +1,163 @@
+
+
+... and finally i am creating one websites
+... there will be four replicas
+
+... my yaml file is
+
+[root@kube-master kube]# cat masum.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+     name: finland 
+     labels:
+       name: finland
+spec:
+      replicas: 4
+      template:
+        metadata:
+          labels:
+            name: finland
+        spec:
+          containers:
+          - name: finland
+            image: kitematic/hello-world-nginx
+            ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+     name: finland
+     labels:
+       name: finland
+spec:
+     type: NodePort
+     ports:
+     - port: 80
+       nodePort: 30010
+     selector:
+       name: finland
+[root@kube-master kube]# 
+[root@kube-master kube]# kubectl create -f masum.yaml
+
+... the above example was NodePort type service.
+
+[root@kube-master kube]# kubectl get pods -l name=finland -o wide
+NAME                       READY     STATUS    RESTARTS   AGE       IP             NODE
+finland-1233830914-47m5t   1/1       Running   0          7m        172.17.14.19   192.168.10.137
+finland-1233830914-hkjk1   1/1       Running   0          7m        172.17.14.18   192.168.10.137
+finland-1233830914-nw1xx   1/1       Running   0          7m        172.17.14.13   192.168.10.137
+finland-1233830914-r33cw   1/1       Running   0          7m        172.17.14.17   192.168.10.137
+[root@kube-master kube]# 
+[root@kube-master kube]# 
+[root@kube-master kube]# kubectl get svc -l name=finland 
+NAME                            CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+finland                         10.254.250.222   <nodes>       80:30010/TCP   8m
+[root@kube-master kube]# 
+
+[root@kube-master kube]# 
+[root@kube-master kube]# lynx http://192.168.10.137:30010
+[root@kube-master kube]# 
+
+		Voilà! Your nginx container is running!
+   To edit files, double click the website_files folder in Kitematic
+   and edit the index.html file.
+
+[root@kube-master kube]# kubectl delete deployment -l name=finland
+[root@kube-master kube]# kubectl delete svc -l name=finland
+
+... this above command will delete deployment service.
+... kubernetes will delete the pods associated with deployement in our behalf.
+... 
+... 
+... the next example will be for LoadBalancer type service.
+... my yaml file is as follows.
+
+[root@kube-master kube]# cat masum.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+     name: finland 
+     labels:
+       name: finland
+spec:
+      replicas: 4
+      template:
+        metadata:
+          labels:
+            name: finland
+        spec:
+          containers:
+          - name: finland
+            image: kitematic/hello-world-nginx
+            ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+     name: finland
+     labels:
+       name: finland
+spec:
+     type: LoadBalancer
+     ports:
+     - port: 80
+       nodePort: 30010
+     sessionAffinity: ClientIP
+
+// sessionAffinity will always serve page from same containers 
+// we can remove this options.
+
+     selector:
+       name: finland
+[root@kube-master kube]# 
+[root@kube-master kube]# kubectl create -f masum.yaml
+
+[root@kube-master kube]# kubectl get svc -l name=finland
+NAME      CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+finland   10.254.222.223   <pending>     80:30010/TCP   5m
+[root@kube-master kube]# 
+
+... though this external-ip is saying pending but we can connect with the
+... node ip like http://<node-ip>:30010
+
+... final yaml file without sessionAffinity
+
+[root@kube-master kube]# cat masum.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+     name: finland 
+     labels:
+       name: finland
+spec:
+      replicas: 4
+      template:
+        metadata:
+          labels:
+            name: finland
+        spec:
+          containers:
+          - name: finland
+            image: kitematic/hello-world-nginx
+            ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+     name: finland
+     labels:
+       name: finland
+spec:
+     type: LoadBalancer
+     ports:
+     - port: 80
+       nodePort: 30010
+     selector:
+       name: finland
+[root@kube-master kube]# 
+
+
