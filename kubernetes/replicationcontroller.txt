@@ -1,0 +1,201 @@
+
+
+... sample yaml file.
+
+[root@kube-master kube-master]# cat replication.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+spec:
+  replicas: 2
+  selector:
+    app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# kubectl -s http://localhost:8080 create -f ./replication.yaml 
+replicationcontroller "nginx" created
+[root@kube-master kube-master]# 
+
+... lets now describe the newly created nginx
+
+[root@kube-master kube-master]# kubectl describe replicationcontrollers/nginx
+Name:		nginx
+Namespace:	default
+Image(s):	nginx
+Selector:	app=nginx
+Labels:		app=nginx
+Replicas:	2 current / 2 desired
+Pods Status:	1 Running / 1 Waiting / 0 Succeeded / 0 Failed
+No volumes.
+No events.
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# kubectl get rc,svc,pods
+NAME       DESIRED   CURRENT   READY     AGE
+rc/nginx   2         2         2         7m
+
+NAME                                CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+svc/hello-khabir-1239925653-g1t4c   10.254.232.76   <none>        80/TCP    50m
+svc/kubernetes                      10.254.0.1      <none>        443/TCP   8d
+svc/nginx-3449338310-0ctkb          10.254.148.94   <none>        80/TCP    3h
+
+NAME                               READY     STATUS             RESTARTS   AGE
+po/hello-khabir-1239925653-g1t4c   1/1       Running            0          2h
+po/hello-khabir-1239925653-tds93   1/1       Running            0          1h
+po/hello-masum-1643692793-xrhh9    1/1       Running            0          4d
+po/hello-world-2571485955-rr63f    1/1       Running            0          4d
+po/nginx-3449338310-nqbsj          1/1       Running            0          1h
+po/nginx-3n8jv                     1/1       Running            0          7m
+po/nginx-o-3134506102-jx050        0/1       Pending            0          2h
+po/nginx-on-3266495611-1wfxd       1/1       Running            0          1h
+po/nginx-ph41d                     1/1       Running            0          7m
+po/nginx-test-539019161-73nkz      0/1       Pending            0          10m
+po/nginx-test-539019161-zk2fw      0/1       Pending            0          7d
+po/rc-552714378-3z1nd              0/1       CrashLoopBackOff   20         1h
+po/rc-552714378-jb2pc              0/1       CrashLoopBackOff   25         1h
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# pods=$(kubectl get pods --selector=app=nginx --output=jsonpath={.items..metadata.name})
+
+[root@kube-master kube-master]# echo $pods
+nginx-3n8jv nginx-ph41d
+
+[root@kube-master kube-master]# 
+
+... now exposing one rc to service.
+
+[root@kube-master kube-master]# kubectl get rc
+NAME      DESIRED   CURRENT   READY     AGE
+nginx     2         2         2         12m
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# kubectl expose rc nginx --port=80 --target-port=80
+service "nginx" exposed
+[root@kube-master kube-master]# kubectl get services
+NAME                            CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+hello-khabir-1239925653-g1t4c   10.254.232.76    <none>        80/TCP    57m
+kubernetes                      10.254.0.1       <none>        443/TCP   8d
+nginx                           10.254.184.184   <none>        80/TCP    32s
+nginx-3449338310-0ctkb          10.254.148.94    <none>        80/TCP    3h
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# kubectl get svc nginx
+NAME      CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+nginx     10.254.184.184   <none>        80/TCP    4m
+[root@kube-master kube-master]# 
+
+... clearly above commands created two pods in two different nodes.
+
+[root@kube-master kube-master]# kubectl get pods -o wide
+NAME                            READY     STATUS             RESTARTS   AGE       IP            NODE
+nginx-3n8jv                     1/1       Running            0          15m       172.17.50.6   192.168.10.137
+nginx-ph41d                     1/1       Running            0          15m       172.17.81.6   192.168.10.140
+[root@kube-master kube-master]# 
+
+... again exposing to service has three types. ClusterIp NodePort and LoadBalancer. 
+... the default is ClusterIP.
+
+... creating another one replication controller
+... this time service as loadbalancer.
+
+[root@kube-master kube-master]# cat loadbalancer.yaml 
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: apache2
+spec:
+  replicas: 2
+  selector:
+    app: apache2
+  template:
+    metadata:
+      name: apache2
+      labels:
+        app: apache2 
+    spec:
+      containers:
+      - name: apache2
+        image: apache2
+        ports:
+        - containerPort: 80
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# kubectl -s http://localhost:8080 create -f loadbalancer.yaml 
+replicationcontroller "apache2" created
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# 
+[root@kube-master kube-master]# kubectl get rc
+NAME      DESIRED   CURRENT   READY     AGE
+apache2   2         2         0         1m
+nginx     2         2         2         33m
+[root@kube-master kube-master]# kubectl describe replicationcontrollers/apache2
+Name:		apache2
+Namespace:	default
+Image(s):	docker.io/teamrock/apache2
+Selector:	app=apache2
+Labels:		app=apache2
+Replicas:	2 current / 2 desired
+Pods Status:	1 Running / 1 Waiting / 0 Succeeded / 0 Failed
+No volumes.
+Events:
+  FirstSeen	LastSeen	Count	From				SubObjectPath	Type		Reason	Message
+  ---------	--------	-----	----				-------------	--------	------	-------
+  51m		51m		1	{replication-controller }			Normal		SuccessfulCreate	Created pod: apache2-5vbwd
+[root@kube-master ~]# 
+
+[root@kube-master kube-master]# 
+
+[root@kube-master kube-master]# kubectl get svc
+NAME                            CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+apache2                         10.254.189.176   <pending>     8080:30010/TCP   17m
+hello-khabir-1239925653-g1t4c   10.254.232.76    <none>        80/TCP           1h
+kubernetes                      10.254.0.1       <none>        443/TCP          8d
+nginx                           10.254.184.184   <none>        80/TCP           48m
+nginx-3449338310-0ctkb          10.254.148.94    <none>        80/TCP           4h
+[root@kube-master kube-master]# 
+
+... again exposing as NodeIP
+
+[root@kube-master kube-master]# kubectl -s http://localhost:8080 expose pod nginx-ph41d --port=80 --type=NodePort 
+service "nginx-ph41d" exposed
+[root@kube-master kube-master]# kubectl get svc
+NAME                            CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+apache2                         10.254.189.176   <pending>     8080:30010/TCP   26m
+nginx-ph41d                     10.254.188.233   <nodes>       80:32433/TCP     24s
+[root@kube-master kube-master]# 
+
+... deleting one replication controller
+
+[root@kube-master kube-master]# kubectl delete rc apache2
+replicationcontroller "apache2" deleted
+[root@kube-master kube-master]# 
+
+... similarly to delete service 
+
+[root@kube-master kube-master]# kubectl delete svc nginx
+
+... now scaling rc
+
+[root@kube-master kube-master]# kubectl scale rc nginx --replicas=4
+[root@kube-master kube-master]# kubectl get pods | grep nginx
+nginx-3n8jv                     1/1       Running             0          2h
+nginx-ph41d                     1/1       Running             0          2h
+nginx-t2x74                     0/1       Pending             0          37m
+nginx-t83sf                     0/1       Pending	      0          37m
+[root@kube-master kube-master]# 
+
+
+

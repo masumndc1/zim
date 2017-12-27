@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-node2
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: nginx
+      namespace: default
+      labels:
+        env: beta
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        node: "node2"

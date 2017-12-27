@@ -1,0 +1,134 @@
+
+
+... To test the Kubernetes cluster manager, run the nginx application 
+... using the following command.
+
+[root@kube-master ~]# kubectl -s http://192.168.10.138:8080 run nginx --image=nginx --port=80
+deployment "nginx" created
+
+[root@kube-master ~]# kubectl get pod -o wide
+NAME                           READY     STATUS              RESTARTS   AGE       IP            NODE
+hello-masum-1643692793-xrhh9   1/1       Running             0          17h       172.17.81.3   192.168.10.140
+hello-world-2571485955-rr63f   1/1       Running             0          17h       172.17.81.2   192.168.10.140
+nginx-3449338310-0ctkb         0/1       ContainerCreating   0          20s       <none>        192.168.10.137
+nginx-on-3266495611-1htsr      1/1       Running             1          1d        172.17.50.2   192.168.10.137
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get pod -o wide
+NAME                           READY     STATUS    RESTARTS   AGE       IP            NODE
+hello-masum-1643692793-xrhh9   1/1       Running   0          17h       172.17.81.3   192.168.10.140
+hello-world-2571485955-rr63f   1/1       Running   0          17h       172.17.81.2   192.168.10.140
+nginx-3449338310-0ctkb         1/1       Running   0          1m        172.17.50.3   192.168.10.137
+nginx-on-3266495611-1htsr      1/1       Running   1          1d        172.17.50.2   192.168.10.137
+
+... now Expose the nginx application pod as a service 
+... with the kubectl expose command.
+
+[root@kube-master ~]# kubectl expose pod  nginx-3449338310-0ctkb --port=80
+service "nginx-3449338310-0ctkb" exposed
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get services
+NAME                     CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+kubernetes               10.254.0.1      <none>        443/TCP   8d
+nginx-3449338310-0ctkb   10.254.148.94   <none>        80/TCP    24s
+[root@kube-master ~]# 
+
+... now running one application by using kubectl command.
+
+[root@kube-master ~]# kubectl -s http://192.168.10.138:8080 run hello-khabir --image=tutum/hello-world --replicas=2 --port=80
+deployment "hello-khabir" created
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get pods -o wide
+NAME                            READY     STATUS              RESTARTS   AGE       IP            NODE
+hello-khabir-1239925653-7h7bq   0/1       ContainerCreating   0          2m        <none>        192.168.10.137
+hello-khabir-1239925653-g1t4c   0/1       ContainerCreating   0          2m        <none>        192.168.10.140
+hello-masum-1643692793-xrhh9    1/1       Running             0          4d        172.17.81.3   192.168.10.140
+hello-world-2571485955-rr63f    1/1       Running             0          4d        172.17.81.2   192.168.10.140
+nginx-3449338310-0ctkb          1/1       Running             0          4d        172.17.50.3   192.168.10.137
+nginx-on-3266495611-1htsr       1/1       Running             1          5d        172.17.50.2   192.168.10.137
+[root@kube-master ~]# 
+
+[root@kube-master ~]# kubectl get pods -o wide
+NAME                            READY     STATUS    RESTARTS   AGE       IP            NODE
+hello-khabir-1239925653-7h7bq   1/1       Running   0          15m       172.17.50.4   192.168.10.137
+hello-khabir-1239925653-g1t4c   1/1       Running   0          15m       172.17.81.4   192.168.10.140
+hello-masum-1643692793-xrhh9    1/1       Running   0          4d        172.17.81.3   192.168.10.140
+[root@kube-master ~]# 
+
+... we can alse list all the pods from all namespace
+
+[root@kube-master ~]# kubectl get pods --all-namespaces
+NAMESPACE   NAME                            READY     STATUS             RESTARTS   AGE
+default     hello-khabir-1239925653-0vwf1   0/1       Terminating        0          2m
+default     hello-khabir-1239925653-g1t4c   1/1       Running            0          59m
+default     hello-masum-1643692793-xrhh9    1/1       Running            0          4d
+default     hello-world-2571485955-rr63f    1/1       Running            0          4d
+default     nginx-3449338310-nqbsj          0/1       Pending            0          2m
+default     nginx-o-3134506102-jx050        0/1       Pending            0          1h
+default     nginx-on-3266495611-1htsr       1/1       Terminating        1          5d
+default     nginx-on-3266495611-1wfxd       0/1       Pending            0          1m
+default     nginx-test-539019161-06rr0      0/1       Pending            0          5d
+default     nginx-test-539019161-nv31q      0/1       Pending            0          2m
+default     rc-552714378-3z1nd              0/1       CrashLoopBackOff   6          37m
+default     rc-552714378-jb2pc              0/1       CrashLoopBackOff   6          37m
+[root@kube-master ~]# 
+
+... creating one service from one running pod
+
+[root@kube-master ~]# kubectl -s http://localhost:8080 expose pod hello-khabir-1239925653-g1t4c --port=80 --target-port=80
+service "hello-khabir-1239925653-g1t4c" exposed
+[root@kube-master ~]# 
+[root@kube-master ~]# kubectl get svc
+NAME                            CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+hello-khabir-1239925653-g1t4c   10.254.232.76   <none>        80/TCP    10s
+kubernetes                      10.254.0.1      <none>        443/TCP   8d
+nginx-3449338310-0ctkb          10.254.148.94   <none>        80/TCP    2h
+[root@kube-master ~]# 
+
+... describing a pod
+
+[root@kube-master kube-master]# kubectl describe pod hello-khabir-1239925653-g1t4c
+Name:		hello-khabir-1239925653-g1t4c
+Namespace:	default
+Node:		192.168.10.140/192.168.10.140
+Start Time:	Tue, 26 Dec 2017 19:09:10 +0600
+Labels:		pod-template-hash=1239925653
+		run=hello-khabir
+Status:		Running
+IP:		172.17.81.4
+Controllers:	ReplicaSet/hello-khabir-1239925653
+Containers:
+  hello-khabir:
+    Container ID:		docker://4c29ba169ea02d1bedf478be094cda1170eaddd63635a77343ee0a76acd9fd0f
+    Image:			tutum/hello-world
+    Image ID:			docker-pullable://docker.io/tutum/hello-world@sha256: \ 
+   				0d57def8055178aafb4c7669cbc25ec17f0acdab97cc587f30150802da8f8d85
+    Port:			80/TCP
+    State:			Running
+      Started:			Tue, 26 Dec 2017 19:10:51 +0600
+    Ready:			True
+    Restart Count:		0
+    Volume Mounts:		<none>
+    Environment Variables:	<none>
+Conditions:
+  Type		Status
+  Initialized 	True 
+  Ready 	True 
+  PodScheduled 	True 
+No volumes.
+QoS Class:	BestEffort
+Tolerations:	<none>
+No events.
+[root@kube-master kube-master]# 
+
+... the web application running on this pod is not accessible now. 
+... therefore what we can do is ssh port forwarding. one way is like
+... set up a SSH tunnel to the 172.17.81.4:80 host:port from a local machine.
+... The –L indicates that local port forwarding is used to forward local port 80 to 172.17.0.2:80.
+... "ssh -i "docker.pem" -f -nNT -L 80:172.17.81.4:80 ubuntu@*****.compute-1.amazonaws.com
+... then we run URL http://localhost from the local machine. it now should show the web page.
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+
+
+... we created one service by using service.yaml file
+
+[root@kube-master kube-master]# cat service.yaml 
+apiVersion: v1
+kind: Service
+metadata:
+    name: hello-uddin
+spec:
+  ports: 
+   -
+      name: http
+      port: 80
+      targetPort: http
+  selector:
+    app: hello-khabir
+    type: LoadBalancer
+[root@kube-master kube-master]# kubectl create -f service.yaml
+
+[root@kube-master kube-master]# kubectl get svc
+NAME          CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
+hello-uddin   10.254.173.196   <none>        80/TCP    9s
+kubernetes    10.254.0.1       <none>        443/TCP   8d
+[root@kube-master kube-master]# 
+
+... explanation of the yaml file.
+
+[root@kube-master kube-master]# cat service.yaml 
+apiVersion: v1				// api version 1 is using
+kind: Service				// creating service kind. other kind is
+metadata:				// Pod and Replicationcontroller
+    name: hello-uddin			// it will create hello-uddin as service name.
+spec:					
+  ports: 
+   -
+      name: http
+      port: 80
+      targetPort: http
+  selector:				// hello-khabir pod or pods in replication will be used 
+    app: hello-khabir			// to create this service.
+    type: LoadBalancer			// service type will be LoadBalancer.
+
+[root@kube-master kube-master]# kubectl create -f service.yaml
+
+
+

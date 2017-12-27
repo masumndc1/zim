@@ -1,0 +1,63 @@
+
+
+... create one service
+
+[root@kube-master kube]# cat nodejs-rc-service.yaml 
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-js
+  labels:
+    name: node-js
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    name: node-js
+[root@kube-master kube]# 
+
+... note here in metadata labels and in selector the name: node-js is same
+... when we created replicationcontroller. see rc.txt file for example.
+
+[root@kube-master kube]# kubectl create -f nodejs-rc-service.yaml 
+service "node-js" created
+[root@kube-master kube]# kubectl get svc node-js
+NAME          CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+node-js       10.254.91.117    <pending>     80:30148/TCP   13s
+[root@kube-master kube]# 
+
+... the same thing when we need to bind the nodeip and a node port.
+... the following will create service which we can access
+... by http://<node-ip>:30000 which then connect to the docker on 80
+
+[root@kube-master kube]# cat nodejs-rc-service.yaml 
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-js
+  labels:
+    name: node-js
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      nodePort: 30000
+  selector:
+    name: node-js
+[root@kube-master kube]# 
+
+[root@kube-master kube]# lynx http://192.168.10.137:30000
+[root@kube-master kube]# 
+
+Container Info v0.5
+
+   Host:node-js-fzt9h
+   Running OS:linux
+   Uptime:16316
+   Network Information:172.17.14.4, fe80::42:acff:fe11:e04
+   DNS Servers:192.168.25.2
+
+
+
+
