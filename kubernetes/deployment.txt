@@ -1,0 +1,55 @@
+
+
+... we can see that the definition is very similar to a Replication Controller. 
+... The main difference is that we now have an ability to make changes and 
+... updates to the deployment objects and let Kubernetes manage updating the 
+... underlying pods and replicas for us:
+... we can also update the image and rollout during a deployment is running.
+
+[root@kube-master kube]# cat node-js-deploy-service.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+     name: node-js-deploy
+     labels:
+       name: node-js-deploy
+spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            name: node-js-deploy
+        spec:
+          containers:
+          - name: node-js-deploy
+            image: jonbaier/pod-scaling:0.1
+            ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+     name: node-js-deploy
+     labels:
+       name: node-js-deploy
+spec:
+     type: LoadBalancer
+     ports:
+     - port: 80
+     sessionAffinity: ClientIP
+     selector:
+       name: node-js-deploy
+[root@kube-master kube]# 
+
+... scaling the deployment if we need. changing image and watching rollout status
+
+[root@kube-master kube]# kubectl scale deployment node-js-deploy --replicas 3
+[root@kube-master kube]# kubectl set image deployment/node-js-deploy node-js-deploy=jonbaier/pod-scaling:0.2
+[root@kube-master kube]# kubectl rollout status deployment/node-js-deploy
+
+... undoing rollout
+
+[root@kube-master kube]# kubectl rollout undo deployment/node-js-deploy
+
+
+

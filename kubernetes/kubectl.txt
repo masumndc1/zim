@@ -22,6 +22,13 @@ NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   10.254.0.1   <none>        443/TCP   1d
 [root@kube-master ~]# 
 
+... quering service using labels
+
+[root@kube-master kube-master]# kubectl get services -l "name in (node-js,node-js-labels)"
+NAME      CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+node-js   10.254.106.57   <nodes>       80:30000/TCP   1h
+[root@kube-master kube-master]# 
+
 ... now we are running various command on our node using kubectl.
 
 ... adding lebel on node
@@ -149,5 +156,47 @@ NAME                           READY     STATUS              RESTARTS   AGE     
 hello-masum-1643692793-xrhh9   0/1       ContainerCreating   0          34s       <none>        192.168.10.140
 hello-world-2571485955-rr63f   1/1       Running             0          8m        172.17.81.2   192.168.10.140
 [root@kube-master ~]# 
+
+... creating service from a node and servicee type is NodePort
+
+[root@kube-master kube]# kubectl expose pods hello-khabir-1239925653-572s0 --port=80 --type=NodePort
+service "hello-khabir-1239925653-572s0" exposed
+[root@kube-master kube]# 
+[root@kube-master kube]# kubectl get svc
+NAME                            CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+hello-khabir-1239925653-572s0   10.254.148.255   <nodes>       80:32644/TCP   7s
+kubernetes                      10.254.0.1       <none>        443/TCP        9d
+node-js                         10.254.106.57    <nodes>       80:30000/TCP   11h
+node-nginx                      10.254.129.193   <nodes>       80:30002/TCP   3m
+[root@kube-master kube]# 
+
+... browse it like http://<nodeip>:32644
+
+[root@kube-master kube]# lynx http://192.168.10.137:32644
+
+                                                  Hello world!
+
+  My hostname is hello-khabir-1239925653-572s0
+
+  Links found
+
+  NODE_JS listening in 80 available at tcp://10.254.91.117:80
+  HELLO_UDDIN listening in 80 available at tcp://10.254.173.196:80
+  KUBERNETES listening in 443 available at tcp://10.254.0.1:443
+
+... end points
+
+... k8s creates endpoints every time when a service is created and it has labels
+... associated with it.
+
+[root@kube-master kube]# kubectl get endpoints
+NAME                            ENDPOINTS                                       AGE
+hello-khabir-1239925653-572s0   172.17.14.10:80,172.17.14.7:80                  46m
+kubernetes                      192.168.25.159:6443                             9d
+node-js                         172.17.14.16:80,172.17.14.4:80,172.17.14.5:80   12h
+node-nginx                      <none>                                          49m
+[root@kube-master kube]# 
+
+
 
 

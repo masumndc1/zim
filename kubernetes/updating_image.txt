@@ -1,0 +1,63 @@
+
+
+... creating deployment and service first.
+
+[root@kube-master kube]# cat node-js-deploy-service.yaml 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+     name: node-js-deploy
+     labels:
+       name: node-js-deploy
+spec:
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            name: node-js-deploy
+        spec:
+          containers:
+          - name: node-js-deploy
+            image: jonbaier/pod-scaling:0.1
+            ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+     name: node-js-deploy
+     labels:
+       name: node-js-deploy
+spec:
+     type: LoadBalancer
+     ports:
+     - port: 80
+     sessionAffinity: ClientIP
+     selector:
+       name: node-js-deploy
+
+[root@kube-master kube]# 
+
+... then updating the image to later version.
+
+[root@kube-master kube]# kubectl set image deployment/node-js-deploy node-js-deploy=jonbaier/pod-scaling:0.2
+deployment "node-js-deploy" image updated
+[root@kube-master kube]# 
+
+[root@kube-master kube]# kubectl rollout status deployment/node-js-deploy
+deployment "node-js-deploy" successfully rolled out
+[root@kube-master kube]# 
+
+[root@kube-master kube]# kubectl rollout history deployment/node-js-deploy
+deployments "node-js-deploy"
+REVISION	CHANGE-CAUSE
+1		<none>
+2		<none>
+3		<none>
+
+[root@kube-master kube]# 
+
+... we can rollout undo if anything bad happens.
+
+[root@kube-master kube]# kubectl rollout undo deployment/node-js-deploy
+

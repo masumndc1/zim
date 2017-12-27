@@ -1,0 +1,8 @@
+
+
+... if we want to call ip 130.211.24.177 in which a web server on 80 port
+... is running then we can curl it with a name like bellow.
+
+curl --resolve www.masum.com:80:130.211.24.177 http://www.masum.com/
+
+

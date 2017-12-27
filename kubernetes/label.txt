@@ -1,0 +1,32 @@
+
+
+... we can set label to node,pods like bellow
+
+[root@kube-master kube]# kubectl get nodes 
+NAME             STATUS    AGE
+192.168.10.137   Ready     9d
+192.168.10.140   Ready     8d
+[root@kube-master kube]# 
+
+[root@kube-master kube]# kubectl label nodes <node-name> nodenickname=a-name
+[root@kube-master kube]# kubectl label nodes 192.168.10.137 nodenickname=node1
+
+... and when we need to create on a particular node we do that by using nodeSelector.
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+     name: long-task-ns
+spec:
+     template:
+       metadata:
+         name: long-task-ns
+       spec:
+         containers:
+         - name: long-task-ns
+           image: docker/whalesay
+           command: ["cowsay", "Finishing that task in a jiffy"]
+         restartPolicy: OnFailure
+         nodeSelector:
+	    nodenickname: node1
+
