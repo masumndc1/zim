@@ -1,0 +1,249 @@
+
+
+... installing openshift in centos7
+
+[root@openshift ~]# uname -a
+Linux openshift 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
+[root@openshift ~]# 
+
+[root@openshift ~]# cat /etc/re
+redhat-release    request-key.conf  request-key.d/    resolv.conf       
+[root@openshift ~]# cat /etc/redhat-release 
+CentOS Linux release 7.4.1708 (Core) 
+[root@openshift ~]# 
+
+... enabling selinuxtype=targeted
+
+[root@openshift ~]# cat /etc/selinux/config
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=enforcing
+# SELINUXTYPE= can take one of three two values:
+#     targeted - Targeted processes are protected,
+#     minimum - Modification of targeted policy. Only selected processes are protected. 
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted 
+
+... install docker 
+
+[root@openshift ~]# yum install -y docker 
+
+... we need to configure it to trust the registry that we will be using for 
+... OpenShift images by opening the '/etc/sysconfig/docker'
+
+[root@openshift sysconfig]# pwd 
+/etc/sysconfig
+[root@openshift sysconfig]# ls docker*
+docker  docker-network  docker-storage  docker-storage-setup
+
+[root@openshift sysconfig]# cat docker | grep -i INSE
+#INSECURE_REGISTRY='--insecure-registry'
+INSECURE_REGISTRY='--insecure-registry 192.168.0.0/16'
+[root@openshift sysconfig]# 
+
+... start and restart docker
+
+[root@openshift sysconfig]# systemctl start docker.service ; systemctl restart docker.service
+[root@openshift sysconfig]# 
+
+... installing openshift
+
+[root@openshift openshift]# pwd
+/root/openshift
+[root@openshift openshift]# wget -c https://github.com/openshift/origin/releases/download/v3.7.0/openshift-origin-server-v3.7.0-7ed6862-linux-64bit.tar.gz
+
+[root@openshift openshift]# ls
+openshift-origin-server-v3.7.0-7ed6862-linux-64bit  openshift-origin-server-v3.7.0-7ed6862-linux-64bit.tar.gz
+[root@openshift openshift]# 
+[root@openshift openshift]# cd openshift-origin-server-v3.7.0-7ed6862-linux-64bit
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# ls
+kube-apiserver           kubectl  kubelet     kube-scheduler  oadm  openshift  template-service-broker
+kube-controller-manager  kubefed  kube-proxy  LICENSE         oc    README.md
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# 
+
+... moving program file to /usr/local/sbin
+
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# 
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# mv k* o* /usr/local/sbin/
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# ls
+LICENSE  README.md  template-service-broker
+[root@openshift openshift-origin-server-v3.7.0-7ed6862-linux-64bit]# 
+
+... we will create a startup script and systemd unit file by placing our 
+... Public and Private IP addresses.
+
+[root@openshift openshift]# cat /usr/local/bin/start_openshift.sh 
+#!/bin/bash
+cd /opt/openshift/
+openshift start --public-master='https://192.168.25.168:8443' --master='https://192.168.10.141:8443'
+[root@openshift openshift]# 
+
+[root@openshift openshift]# cat /etc/systemd/system/openshift.service
+[Unit]
+Description=OpenShift Origin Server
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/start_openshift.sh
+[root@openshift openshift]# 
+
+... In order for the systemd service to work, we need to make our startup 
+... script executable and load our new unit file.
+
+[root@openshift openshift]# chmod u+x /usr/local/bin/start_openshift.sh
+[root@openshift openshift]# mkdir /opt/openshift/
+[root@openshift openshift]# systemctl daemon-reload
+[root@openshift openshift]# systemctl start openshift
+[root@openshift openshift]#  systemctl status openshift
+● openshift.service - OpenShift Origin Server
+   Loaded: loaded (/etc/systemd/system/openshift.service; static; vendor preset: disabled)
+   Active: active (running) since Fri 2017-12-29 05:03:33 +06; 43s ago
+ Main PID: 3398 (start_openshift)
+    Tasks: 15
+   CGroup: /system.slice/openshift.service
+           ├─3398 /bin/bash /usr/local/bin/start_openshift.sh
+           ├─3399 openshift start --public-master=https://192.168.25.168:8443 --master=https://192.168.10.141:...
+           └─3481 journalctl -k -f
+
+... Now the Openshift service is up and running, to manage OpenShift installation 
+... remotely and access its applications, TCP ports 80, 443, and 8443 need 
+... to be opened in your firewall.
+... this portion is options if we turned off firewalld.
+
+[root@openshift openshift]# service firewalld start
+Redirecting to /bin/systemctl start firewalld.service
+
+[root@openshift openshift]# service firewalld status
+Redirecting to /bin/systemctl status firewalld.service
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: active (running) since Fri 2017-12-29 05:06:26 +06; 1s ago
+     Docs: man:firewalld(1)
+ Main PID: 3707 (firewalld)
+    Tasks: 1
+   CGroup: /system.slice/firewalld.service
+           └─3707 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid
+
+[root@openshift openshift]# firewall-cmd --zone=public --add-port=80/tcp
+success
+[root@openshift openshift]# firewall-cmd --zone=public --add-port=443/tcp
+success
+[root@openshift openshift]# firewall-cmd --zone=public --add-port=8443/tcp
+success
+[root@openshift openshift]# 
+
+... 
+... Adding Openshift Router and Registry
+... Now we need to install an OpenShift router, so that it can serve apps over the Public IP address. 
+... the router routes requests to specific apps based on their domain names
+
+... adding following two lines in the /root/.bashrc
+
+[root@openshift openshift]# cat /root/.bashrc | grep -i export
+export KUBECONFIG=/opt/openshift/openshift.local.config/master/admin.kubeconfig
+export CURL_CA_BUNDLE=/opt/openshift/openshift.local.config/master/ca.crt
+[root@openshift openshift]# 
+
+... Reload '.bashrc' to update settings.
+
+[root@openshift openshift]# source /root/.bashrc
+
+... now run following 
+
+[root@openshift openshift]# oc login -u system:admin
+
+Logged into "https://192.168.10.141:8443" as "system:admin" using existing credentials.
+
+You have access to the following projects and can switch between them with 'oc project <projectname>':
+
+  * default
+    kube-public
+    kube-system
+    openshift
+    openshift-infra
+    openshift-node
+
+Using project "default".
+[root@openshift openshift]# 
+
+... We have successfully added a router and now to add a registry, use the commands as shown below.
+
+[root@openshift openshift]#  oadm policy add-scc-to-user hostnetwork -z router
+scc "hostnetwork" added to: ["system:serviceaccount:default:router"]
+[root@openshift openshift]# 
+[root@openshift openshift]# 
+
+[root@openshift openshift]# oadm router
+info: password for stats user admin has been set to UYXN27ytr8
+--> Creating router router ...
+    serviceaccount "router" created
+    clusterrolebinding "router-router-role" created
+    deploymentconfig "router" created
+    service "router" created
+--> Success
+[root@openshift openshift]# 
+
+[root@openshift openshift]# 
+[root@openshift openshift]# oadm registry
+--> Creating registry registry ...
+    serviceaccount "registry" created
+    clusterrolebinding "registry-registry-role" created
+    deploymentconfig "docker-registry" created
+    service "docker-registry" created
+--> Success
+[root@openshift openshift]# 
+
+... now login "https://192.168.10.141:8443" as "system:admin" using existing credentials.
+... By default, OpenShift allows you to login with any username and password combination 
+... and automatically creates an account for you. You will then have access to 
+... create projects and apps.
+
+... if having any problem to log in to the openshift via browser try to reload
+... the openshift server by following
+
+[root@openshift openshift]# systemctl restart openshift
+[root@openshift openshift]# 
+[root@openshift openshift]# systemctl status openshift
+● openshift.service - OpenShift Origin Server
+   Loaded: loaded (/etc/systemd/system/openshift.service; static; vendor preset: disabled)
+   Active: active (running) since Fri 2017-12-29 05:27:16 +06; 1s ago
+ Main PID: 5743 (start_openshift)
+    Tasks: 6
+   CGroup: /system.slice/openshift.service
+           ├─5743 /bin/bash /usr/local/bin/start_openshift.sh
+           └─5744 openshift start --public-master=https://192.168.25.168:8443 --master=https://192.168.10.141:...
+
+Dec 29 05:27:16 openshift systemd[1]: Started OpenShift Origin Server.
+Dec 29 05:27:16 openshift systemd[1]: Starting OpenShift Origin Server...
+[root@openshift openshift]# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
