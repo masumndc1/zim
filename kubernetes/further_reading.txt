@@ -1,0 +1,9 @@
+
+
+... load balancer self ip
+https://github.com/kubernetes/contrib/tree/master/service-loadbalancer
+
+... router in openshift.
+https://docs.openshift.com/enterprise/3.0/architecture/core_concepts/routes.html
+
+

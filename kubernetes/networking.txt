@@ -1,0 +1,93 @@
+
+
+... we here will show some example of kubernetes networking 
+
+# example 1:
+
+[root@kube-master kube]# cat influx.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: influxdb
+  labels: 
+      name: influxdb
+
+// labels will be influxdb
+
+spec:
+  hostNetwork: true
+// this options says container will share the same ip of node ip.
+
+  ports:
+    - hostPort: 8086
+// node port will be 8086
+
+  containers:
+    - name: influxdb
+      image: influxdb
+      ports:
+        - containerPort: 8086
+// container port will be 8086
+
+[root@kube-master kube]# 
+
+[root@kube-master kube]# kubectl get pods -l name=influxdb -o wide
+NAME       READY     STATUS    RESTARTS   AGE       IP               NODE
+influxdb   1/1       Running   0          10m       192.168.10.137   192.168.10.137
+[root@kube-master kube]# 
+
+... therefore we will access the node with http://192.168.10.137:8086 which then hit 
+... the container on 8086 port.
+
+
+# example 2:
+
+[root@kube-master kube]# cat influx.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: influxdb
+  labels: 
+      name: influxdb
+spec:
+  containers:
+    - name: influxdb
+      image: influxdb
+      ports:
+        - containerPort: 8086
+// container port will be 8086
+
+          hostPort: 8087
+// host or node port will be 8087
+[root@kube-master kube]# 
+
+... therefore we will access the container with http://192.168.10.137:8087
+
+[root@kube-master kube]# kubectl get pods -o wide -l name=influxdb
+NAME       READY     STATUS    RESTARTS   AGE       IP             NODE
+influxdb   1/1       Running   0          1m        172.17.14.20   192.168.10.137
+[root@kube-master kube]# 
+
+# example 3: 
+
+[root@kube-master kube]# cat influx.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: influxdb
+spec:
+  type: NodePort
+  ports:
+    - port: 8086
+      nodePort: 30000
+  selector:
+    name: influxdb
+[root@kube-master kube]# 
+
+... will access the container with http://192.168.10.137:30000
+
+
+
+
+
+
