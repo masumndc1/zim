@@ -1,0 +1,22 @@
+
+
+... as elasticsearch and kibana running both on localhost
+... we are going to install nginx to see kibana from interface ip.
+... as kibana is running on localhost:5601. therefore we are using
+... nginx to see kibana dashboard from node ip 192.168.10.136:8080
+
+root@kibana:/etc/nginx/conf.d# pwd
+/etc/nginx/conf.d
+root@kibana:/etc/nginx/conf.d# cat kibana.conf 
+server {
+	listen     192.168.10.136:8080;
+
+	location / {
+		proxy_pass 	http://127.0.0.1:5601;
+		proxy_redirect	default;
+	}
+}
+root@kibana:/etc/nginx/conf.d# 
+
+
+

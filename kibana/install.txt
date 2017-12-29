@@ -1,0 +1,148 @@
+
+
+... elasticsearch kibana should be the same version.
+
+... installing java
+
+root@kibana:~# 
+root@kibana:~# add-apt-repository -y ppa:webupd8team/java
+gpg: keybox '/tmp/tmpg_q15qo1/pubring.gpg' created
+gpg: /tmp/tmpg_q15qo1/trustdb.gpg: trustdb created
+gpg: key C2518248EEA14886: public key "Launchpad VLC" imported
+gpg: no ultimately trusted keys found
+gpg: Total number processed: 1
+gpg:               imported: 1
+OK
+root@kibana:~# 
+
+root@kibana:~# apt-get install -y oracle-java8-installer
+
+... To set Oracle JDK8 as default, install the "oracle-java8-set-default" package.
+... E.g.: sudo apt install oracle-java8-set-default
+
+root@kibana:~# apt install oracle-java8-set-default
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+oracle-java8-set-default is already the newest version (8u151-1~webupd8~0).
+oracle-java8-set-default set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 154 not upgraded.
+root@kibana:~# 
+root@kibana:~# 
+
+... installation of elasticsearch
+root@kibana:~# 
+root@kibana:~# dpkg -i https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb
+dpkg: error: cannot access archive 'https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb': No such file or directory
+root@kibana:~# wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb
+--2017-12-29 20:16:39--  https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb
+Resolving artifacts.elastic.co (artifacts.elastic.co)... 54.243.108.41, 184.73.156.41, 23.21.118.61, ...
+Connecting to artifacts.elastic.co (artifacts.elastic.co)|54.243.108.41|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 28387222 (27M) [application/octet-stream]
+Saving to: ‘elasticsearch-6.1.1.deb’
+
+elasticsearch-6.1.1.deb      100%[===========================================>]  27.07M  3.47MB/s    in 8.1s    
+
+2017-12-29 20:16:50 (3.35 MB/s) - ‘elasticsearch-6.1.1.deb’ saved [28387222/28387222]
+
+root@kibana:~# ls
+db.sql  docker  docker-engine_1.10.0-0~trusty_amd64.deb  elasticsearch-6.1.1.deb
+root@kibana:~# 
+
+root@kibana:~# dpkg -i elasticsearch-6.1.1.deb 
+Selecting previously unselected package elasticsearch.
+(Reading database ... 68767 files and directories currently installed.)
+Preparing to unpack elasticsearch-6.1.1.deb ...
+Creating elasticsearch group... OK
+Creating elasticsearch user... OK
+Unpacking elasticsearch (6.1.1) ...
+Setting up elasticsearch (6.1.1) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+Processing triggers for systemd (232-21ubuntu2) ...
+root@kibana:~# 
+
+root@kibana:~# systemctl enable elasticsearch.service
+root@kibana:~# systemctl start elasticsearch.service
+root@kibana:~# systemctl status elasticsearch.service
+
+... alternatively we can do following
+
+root@kibana:~# wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.tar.gz
+root@kibana:~# tar zxvf elasticsearch-6.1.1.tar.gz
+root@kibana:~# cd elasticsearch-6.1.1
+root@kibana:~# ./bin/elasticsearch
+
+... now if service elasticsearch is running we can see following
+
+root@kibana:~# curl http://localhost:9200/
+{
+  "name" : "p6hAZUF",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "EwYi1SDsQTuomGhSZQlzsw",
+  "version" : {
+    "number" : "6.1.1",
+    "build_hash" : "bd92e7f",
+    "build_date" : "2017-12-17T20:23:25.338Z",
+    "build_snapshot" : false,
+    "lucene_version" : "7.1.0",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
+  },
+  "tagline" : "You Know, for Search"
+}
+root@kibana:~# 
+
+... installing kibana
+
+root@kibana:~# wget -c https://artifacts.elastic.co/downloads/kibana/kibana-5.5.0-i386.deb
+Resolving artifacts.elastic.co (artifacts.elastic.co)... 54.243.108.41, 184.72.218.26, 23.21.118.61, ...
+Connecting to artifacts.elastic.co (artifacts.elastic.co)|54.243.108.41|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 65820452 (63M) [application/octet-stream]
+
+kibana-deb       100%[===========================================>]  62.77M  2.86MB/s    in 18s     
+
+root@kibana:~# ls 
+elasticsearch-5.5.0.deb                  kibana-5.5.0-i386.deb
+
+root@kibana:~# dpkg -i kibana-5.5.0-i386.deb
+
+... pointing elasticsearch url in kibana.yaml file
+
+root@kibana:/etc/kibana# pwd
+/etc/kibana
+root@kibana:/etc/kibana# cat kibana.yml | grep -i elasticsearch.url
+elasticsearch.url: "http://localhost:9200"
+root@kibana:/etc/kibana# 
+
+... now run kibana service
+
+root@kibana:/etc/kibana# systemctl status kibana.service
+● kibana.service - Kibana
+   Loaded: loaded (/etc/systemd/system/kibana.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+root@kibana:/etc/kibana# 
+root@kibana:/etc/kibana# systemctl enable kibana.service
+Synchronizing state of kibana.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable kibana
+
+root@kibana:/etc/kibana# systemctl start kibana.service
+
+... now point your browser following
+
+root@kibana:/etc/kibana# curl http://localhost:5601
+<script>
+var hashRoute = '/app/kibana';
+var defaultRoute = '/app/kibana';
+
+var hash = window.location.hash;
+if (hash.length) {
+  window.location = hashRoute + hash;
+} else {
+  window.location = defaultRoute;
+}
+</script>
+root@kibana:/etc/kibana# 
+
+

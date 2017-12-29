@@ -6,8 +6,6 @@
 Linux openshift 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 [root@openshift ~]# 
 
-[root@openshift ~]# cat /etc/re
-redhat-release    request-key.conf  request-key.d/    resolv.conf       
 [root@openshift ~]# cat /etc/redhat-release 
 CentOS Linux release 7.4.1708 (Core) 
 [root@openshift ~]# 
@@ -42,7 +40,7 @@ docker  docker-network  docker-storage  docker-storage-setup
 
 [root@openshift sysconfig]# cat docker | grep -i INSE
 #INSECURE_REGISTRY='--insecure-registry'
-INSECURE_REGISTRY='--insecure-registry 192.168.0.0/16'
+INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
 [root@openshift sysconfig]# 
 
 ... start and restart docker
