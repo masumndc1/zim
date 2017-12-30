@@ -93,6 +93,19 @@ root@kibana:~# curl http://localhost:9200/
 }
 root@kibana:~# 
 
+... we can change some of the parameters of elastic by modifying the following file.
+... the following settings will change the bind address to 192.168.10.138:8080
+
+root@kibana:/etc/elasticsearch# cat elasticsearch.yml | grep -i network
+# ---------------------------------- Network -----------------------------------
+#network.host: 192.168.0.1
+network.host: 192.168.10.138
+# For more information, consult the network module documentation.
+root@kibana:/etc/elasticsearch# cat elasticsearch.yml | grep -i http.port
+#http.port: 9200
+http.port: 8080
+root@kibana:/etc/elasticsearch# 
+
 ... installing kibana
 
 root@kibana:~# wget -c https://artifacts.elastic.co/downloads/kibana/kibana-5.5.0-i386.deb
@@ -128,6 +141,8 @@ Synchronizing state of kibana.service with SysV service script with /lib/systemd
 Executing: /lib/systemd/systemd-sysv-install enable kibana
 
 root@kibana:/etc/kibana# systemctl start kibana.service
+
+... we can change kibana parameters by modifying the /etc/kibana/kibana.yml file
 
 ... now point your browser following
 

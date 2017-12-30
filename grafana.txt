@@ -1,0 +1,73 @@
+
+
+... install grafana
+
+[root@openshift ~]# wget -c https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.6.3-1.x86_64.rpm
+--2017-12-30 06:51:54--  https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.6.3-1.x86_64.rpm
+Resolving s3-us-west-2.amazonaws.com (s3-us-west-2.amazonaws.com)... 52.218.144.32, 52.218.144.32
+Connecting to s3-us-west-2.amazonaws.com (s3-us-west-2.amazonaws.com)|52.218.144.32|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 46967397 (45M) [application/x-redhat-package-manager]
+Saving to: ‘grafana-4.6.3-1.x86_64.rpm’
+
+100%[=======================================================================>] 46,967,397  4.43MB/s   in 16s    
+
+2017-12-30 06:52:12 (2.76 MB/s) - ‘grafana-4.6.3-1.x86_64.rpm’ saved [46967397/46967397]
+
+[root@openshift ~]# yum localinstall grafana-4.6.3-1.x86_64.rpm 
+Loaded plugins: fastestmirror
+Examining grafana-4.6.3-1.x86_64.rpm: grafana-4.6.3-1.x86_64
+
+... now configure it
+
+
+[root@openshift ~]# cd /etc/grafana/
+[root@openshift grafana]# ls
+grafana.ini  ldap.toml
+[root@openshift grafana]# 
+[root@openshift grafana]# cp grafana.ini grafana.ini.bk
+[root@openshift grafana]# 
+
+[root@openshift init.d]# cat /etc/grafana/grafana.ini | grep http
+# Protocol (http, https, socket)
+;protocol = http
+;http_addr = 192.168.10.141
+# The http port  to use
+;http_port = 3000
+
+[root@openshift grafana]# 
+
+[root@openshift init.d]# /etc/init.d/grafana-server status
+● grafana-server.service - Grafana instance
+   Loaded: loaded (/usr/lib/systemd/system/grafana-server.service; disabled; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: http://docs.grafana.org
+[root@openshift init.d]# 
+
+[root@openshift init.d]# /etc/init.d/grafana-server start
+Starting grafana-server (via systemctl):                   [  OK  ]
+[root@openshift init.d]# 
+
+... now browse http://192.168.10.141:3000 with username:password admin:admin
+
+... installing one plugins
+
+[root@openshift init.d]# grafana-cli plugins install grafana-clock-panel
+installing grafana-clock-panel @ 0.0.9
+from url: https://grafana.com/api/plugins/grafana-clock-panel/versions/0.0.9/download
+into: /var/lib/grafana/plugins
+
+✔ Installed grafana-clock-panel successfully 
+
+Restart grafana after installing plugins . <service grafana-server restart>
+
+[root@openshift init.d]# service grafana-server restart
+
+
+
+
+
+
+
+
+
