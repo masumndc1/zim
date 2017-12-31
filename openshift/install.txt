@@ -220,28 +220,3 @@ Dec 29 05:27:16 openshift systemd[1]: Starting OpenShift Origin Server...
 [root@openshift openshift]# 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

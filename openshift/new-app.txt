@@ -1,0 +1,76 @@
+
+
+... creating a new app
+
+[root@openshift ~]# oc new-app openshift/ruby-20-centos7:latest~https://github.com/openshift/ruby-hello-world.git
+--> Found Docker image 54ccc57 (12 months old) from Docker Hub for "openshift/ruby-20-centos7:latest"
+
+    Ruby 2.0 
+    -------- 
+    Platform for building and running Ruby 2.0 applications
+
+    Tags: builder, ruby, ruby20
+
+    * An image stream will be created as "ruby-20-centos7:latest" that will track the source image
+    * A source build using source code from https://github.com/openshift/ruby-hello-world.git will be created
+      * The resulting image will be pushed to image stream "ruby-hello-world:latest"
+      * Every time "ruby-20-centos7:latest" changes a new build will be triggered
+    * This image will be deployed in deployment config "ruby-hello-world"
+    * Port 8080/tcp will be load balanced by service "ruby-hello-world"
+      * Other containers can access this service through the hostname "ruby-hello-world"
+
+--> Creating resources ...
+    imagestream "ruby-20-centos7" created
+    imagestream "ruby-hello-world" created
+    buildconfig "ruby-hello-world" created
+    deploymentconfig "ruby-hello-world" created
+    service "ruby-hello-world" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/ruby-hello-world' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/ruby-hello-world' 
+    Run 'oc status' to view your app.
+[root@openshift ~]# 
+[root@openshift ~]# oc status
+In project auckland (my-project) on server https://192.168.10.141:8443
+
+http://cotd-my-project.router.default.svc.cluster.local to pod port 80-tcp (svc/cotd)
+  dc/cotd deploys istag/cotd:latest <-
+    bc/cotd source builds https://github.com/devops-with-openshift/cotd.git on istag/php:latest 
+      build #1 failed about an hour ago - ad379c5: set default theme back to pets (eformat <eformat@gmail.com>)
+    deployment #1 deployed 47 hours ago - 0/1 pods (warning: 19 restarts)
+
+svc/ruby-hello-world - 172.30.119.41:8080
+  dc/ruby-hello-world deploys istag/ruby-hello-world:latest <-
+    bc/ruby-hello-world source builds https://github.com/openshift/ruby-hello-world.git on istag/ruby-20-centos7:latest 
+      build #1 pending for 8 seconds
+    deployment #1 waiting on image or update
+
+Errors:
+  * pod/cotd-1-h6zs9 is crash-looping
+  * route/cotd is routing traffic to svc/cotd, but either the administrator has not installed a router or the router is not selecting this route.
+
+2 errors identified, use 'oc status -v' to see details.
+[root@openshift ~]# 
+
+... now exposing the service 
+
+[root@openshift openshift]# oc get svc
+NAME               CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+cotd               172.30.67.5     <none>        80/TCP     2d
+ruby-hello-world   172.30.119.41   <none>        8080/TCP   44m
+[root@openshift openshift]# 
+
+[root@openshift openshift]# oc expose svc/ruby-hello-world
+route "ruby-hello-world" exposed
+[root@openshift openshift]# 
+
+[root@openshift openshift]# oc get routes
+NAME               HOST/PORT                                                      PATH      SERVICES           PORT       TERMINATION   WILDCARD
+cotd               cotd-my-project.router.default.svc.cluster.local                         cotd               80-tcp                   None
+ruby-hello-world   ruby-hello-world-my-project.router.default.svc.cluster.local             ruby-hello-world   8080-tcp                 None
+[root@openshift openshift]# 
+
+
+
+
