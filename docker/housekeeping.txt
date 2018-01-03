@@ -115,5 +115,16 @@ masumapache                     10.2                9fe60073dbbd        About an
 root@controller:~/docker# docker run -it --rm masumndc1/busyboxthree /bin/sh
 /# 
 
+... how to remove one image from docker
+
+[root@openshift docker]# docker images
+myweg                       latest              2cc7fca9b1ef        20 months ago       306.3 MB
+[root@openshift docker]# 
+[root@openshift docker]# docker rmi myweg
+Untagged: myweg:latest
+Untagged: docker.io/publici/httpd@sha256:25f818b19c77117e6703fbdbd27548b4c9f85f098ec6db3bcb1668a788940d62
+[root@openshift docker]# 
+
+
 
 

@@ -1,0 +1,49 @@
+
+
+... we can create or install pods from templates
+
+
+[root@openshift ~]# oc get templates -n openshift
+No resources found.
+[root@openshift ~]# oc get templates 
+No resources found.
+[root@openshift ~]# oc get templates -n openshift | grep jenkins-pipeline-example
+No resources found.
+[root@openshift ~]# 
+
+... no templates found therefore creating one
+
+[root@openshift ~]# oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/pipeline/samplepipeline.yaml
+template "jenkins-pipeline-example" created
+[root@openshift ~]# 
+
+... we can also install various pipeline from https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#pipeline-build
+... and from https://docs.openshift.org/latest/using_images/other_images/jenkins.html#openshift-origin-pipeline-plug-in ... 
+... this web url can be found from dashboard/build/pipeline
+
+... image stream and docker registry service 
+
+[root@openshift ~]# oc get is
+NAME             DOCKER REPO                                    TAGS      UPDATED
+cat              172.30.68.246:5000/my-project/cat                        
+catd             172.30.68.246:5000/my-project/catd                       
+cotd             172.30.68.246:5000/my-project/cotd                       
+hello-world      172.30.68.246:5000/my-project/hello-world      latest    25 hours ago
+nginx            172.30.68.246:5000/my-project/nginx            latest    23 hours ago
+php-56-centos7   172.30.68.246:5000/my-project/php-56-centos7   latest    2 hours ago
+[root@openshift ~]# 
+
+[root@openshift ~]# oc get svc docker-registry -n default
+NAME              CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+docker-registry   172.30.68.246   <none>        5000/TCP   4d
+[root@openshift ~]# 
+
+... inside openshift we got folling in the docker registry
+
+[root@openshift ~]# docker images
+REPOSITORY                                  TAG                 IMAGE ID            CREATED             SIZE
+172.30.68.246:5000/my-project/catd          latest              c811047dad95        About an hour ago   578.7 MB
+172.30.68.246:5000/default/cotd             latest              d4d0a0b8d2b6        About an hour ago   578.7 MB
+172.30.68.246:5000/my-project/cotd          latest              cb38d997ea76        About an hour ago   578.7 MB
+
+

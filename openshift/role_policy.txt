@@ -1,0 +1,8 @@
+
+
+... giving cluster-admin to other user in openshift
+
+# oc adm policy add-cluster-role-to-user cluster-admin developer
+# oc adm policy add-cluster-role-to-user cluster-admin masum
+
+
