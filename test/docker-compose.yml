@@ -1,0 +1,10 @@
+version: '2'
+services:
+     weather_backend:
+             image: weatherapp_backend:latest
+             ports:
+              - "9000:9000"
+     weather_frontend:
+             image: weatherapp_frontend:latest
+             ports:
+              - "8000:8000"
