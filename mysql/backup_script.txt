@@ -1,0 +1,19 @@
+
+#!/bin/bash
+#@description Backup script for your website
+
+BACKUP_DIR=/home/backups/your_website_name
+FILES_DIR=/var/www/your_website_name
+
+# Dump MySQL tables
+mysqldump -h 127.0.0.1 -u admin -pyourpassword database > $BACKUP_DIR/incoming/mysql_dump.sql
+
+# Compress tables and files
+tar -cvzf $BACKUP_DIR/incoming/archive.tgz $BACKUP_DIR/incoming/mysql_dump.sql $FILES_DIR
+
+# Cleanup
+rm $BACKUP_DIR/incoming/mysql_dump.sql
+
+# Run backup rotate
+cd $BACKUP_DIR
+bash backup.sh

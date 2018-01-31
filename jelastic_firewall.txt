@@ -1,0 +1,39 @@
+
+
+
+... jelastic firewall example.
+
+https://docs.jelastic.com/setting-custom-firewall
+
+... at first we have to check that /etc/jelastic/metainf.conf file and find the 
+FIREWALL_ENABLED=1 parameter:
+
+... =1 is telling us the firewall is enabled.
+
+... putting the iptables rules inside the /etc/sysconfig/iptables-custom file and save.
+
+vim /etc/sysconfig/iptables-custom
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-I INPUT -s 111.111.111.111 -p tcp -m state --state NEW -m tcp --dport 1111 -j DROP
+COMMIT
+#
+
+... apply the rules
+
+sudo /usr/bin/jem firewall fwstart
+
+... to check the applied rule. other options are 
+
+sudo /usr/bin/jem firewall list [ filter | nat | mangle ] {iptables_options}
+
+sudo /usr/bin/jem firewall list filter -vn
+
+... the rules at upper position have the higher priority than lower. therefore
+... we can put our rule into position, based on our requirement.
+
+
+

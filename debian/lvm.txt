@@ -1,0 +1,656 @@
+
+
+... logical volume management or LVM
+... it is a storage management technology which is used to administration of
+... physical storage. 
+
+... logical volumes can hame meaning-full name like web, mail etc. volumes 
+... can be resized easily with the help of lvm as requirement changes and 
+... also can be migrated among pool of physical devices on a running system
+... lvm also supports advanced features like snapshotting, striping and mirroring.
+
+... lvm terminology and architecture.
+
+... lvm works by layering abstrating on top of the physical devices. the componens
+... which are basic related to lvm are described below.
+
+... physical volumes: pv
+... lvm knows pv as the physical block devices or any other disk-like devices. 
+... physical volume devices are the raw material for the lvm for storage management.
+... lvm write a header on devices to manage it as pv.
+
+... volume groups: vg
+... lvm combines all the physical storages, ie pv as volume groups or vg. the main
+... reason is that it abstracts all the underlying physical volumes. vg makes easier
+... administration of pv.
+
+... logical volume: lv
+... we can think logical volume,lv as the slice of volume groups, vg. basically lv
+... is same like a partition of a physical disk but with lot of functionalities.
+
+... therefore we have physical volumes, pv as physical devices, then combines all
+... pv as volume groups, vg and then we sliced vg in any number of logical volumes
+... or lv. lv can be used as partition.
+
+... what is extents:
+... each volumes in a volume group,vg is made of small and fixed-size chunks called
+... extents. the size of the extents is determined by the volume group.
+
+... physical extent is off physical volume, pv and logical extents is from logical 
+... volumes, lv. lvm keeps the mapping between logical extents and physical extents.
+... actually lvm works on extents when it needs to resize the both physical or logical
+... volumes. when lvm needs to increase space on lv it just add more extents and removes
+... some extents when its need to decrease the space.
+
+... now proceed to the example.
+...
+... first scan the block device or physical hard disk. block device can be mapping of 
+... raid devices.
+     
+masum@master:~$ sudo lvmdiskscan 
+[sudo] password for masum: 
+  /dev/sda1 [       3.72 GiB] 
+  /dev/sda2 [      16.55 GiB] 
+  /dev/sdb  [      14.07 GiB] 
+  1 disk
+  2 partitions
+  0 LVM physical volume whole disks
+  0 LVM physical volumes
+masum@master:~$ 
+
+... here is saying formatted 1 disk which has 2 partitions. another disk /dev/sdb 
+... unformatted raw disk.
+
+... we can create physical volume, pv by using pvcreate.
+
+masum@master:~$ sudo pvcreate /dev/sda /dev/sdb
+  Device /dev/sda not found (or ignored by filtering).
+  Physical volume "/dev/sdb" successfully created.
+masum@master:~$ 
+
+... as we did not make lvm with /dev/sda therefore pv creation was not succesfull 
+... with /dev/sda. lets try another time. 
+
+masum@master:~$ sudo pvcreate /dev/sda1 /dev/sda2 /dev/sdb
+  Can't open /dev/sda1 exclusively.  Mounted filesystem?
+  Can't open /dev/sda2 exclusively.  Mounted filesystem?
+  Physical volume "/dev/sdb" successfully created.
+masum@master:~$ 
+
+... both /dev/sda1 and /dev/sda2 is mounted filesystem therefore ignored.
+
+root@master:~# lvmdiskscan 
+  /dev/sda1 [       3.72 GiB] 
+  /dev/sda2 [      16.55 GiB] 
+  /dev/sdb  [      14.07 GiB] LVM physical volume
+  0 disks
+  2 partitions
+  1 LVM physical volume whole disk
+  0 LVM physical volumes
+root@master:~# 
+
+... after creation lvm with /dev/sdb, it is showing LVM physical volume.
+... pvcreate command will add the header on disk to be added for volume 
+... group,vg which we can check by the following.
+
+root@master:~# pvs
+  PV         VG Fmt  Attr PSize  PFree 
+  /dev/sdb      lvm2 ---  14.07g 14.07g
+root@master:~# pvscan 
+  PV /dev/sdb                      lvm2 [14.07 GiB]
+  Total: 1 [14.07 GiB] / in use: 0 [0   ] / in no VG: 1 [14.07 GiB]
+root@master:~# 
+
+... as we have created physical group,pv now we will move to create 
+... volume group,vg. 
+
+root@master:~# vgcreate /dev/sda /dev/sdb
+  /dev/sda: already exists in filesystem
+  Run `vgcreate --help' for more information.
+root@master:~# 
+
+... we cant add /dev/sda to volume groups,vg as we could not make
+... physical volume,pv with it.
+
+... now making vg1
+
+root@master:~# vgcreate vg1 /dev/sdb
+  Volume group "vg1" successfully created
+root@master:~# 
+
+... now checking 
+
+root@master:~# vgs 
+  VG  #PV #LV #SN Attr   VSize  VFree 
+  vg1   1   0   0 wz--n- 14.07g 14.07g
+root@master:~# 
+
+... the above output showing that vg1 has only one pv.
+
+root@master:~# vgscan 
+  Reading volume groups from cache.
+  Found volume group "vg1" using metadata type lvm2
+root@master:~# 
+root@master:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree 
+  /dev/sdb   vg1 lvm2 a--  14.07g 14.07g
+root@master:~# 
+
+root@master:~# pvscan 
+  PV /dev/sdb   VG vg1             lvm2 [14.07 GiB / 14.07 GiB free]
+  Total: 1 [14.07 GiB] / in use: 1 [14.07 GiB] / in no VG: 0 [0   ]
+root@master:~# 
+root@master:~# vgs
+  VG  #PV #LV #SN Attr   VSize  VFree 
+  vg1   1   0   0 wz--n- 14.07g 14.07g
+root@master:~# 
+
+... now to extend our this example we have added two more hard disk
+... and created pv and vg with it.
+
+root@master:~# lvmdiskscan 
+  /dev/sda1 [       3.72 GiB] 
+  /dev/sda2 [      16.55 GiB] 
+  /dev/sdb  [      14.07 GiB] LVM physical volume
+  /dev/sdc  [      10.00 GiB] 
+  /dev/sdd  [      10.00 GiB] 
+  2 disks
+  2 partitions
+  1 LVM physical volume whole disk
+  0 LVM physical volumes
+root@master:~# 
+root@master:~# pvcreate /dev/sdc /dev/sdd
+  Physical volume "/dev/sdc" successfully created.
+  Physical volume "/dev/sdd" successfully created.
+root@master:~# 
+root@master:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree 
+  /dev/sdb   vg1 lvm2 a--  14.07g 14.07g
+  /dev/sdc       lvm2 ---  10.00g 10.00g
+  /dev/sdd       lvm2 ---  10.00g 10.00g
+root@master:~# pvscan 
+  PV /dev/sdb   VG vg1             lvm2 [14.07 GiB / 14.07 GiB free]
+  PV /dev/sdc                      lvm2 [10.00 GiB]
+  PV /dev/sdd                      lvm2 [10.00 GiB]
+  Total: 3 [34.07 GiB] / in use: 1 [14.07 GiB] / in no VG: 2 [20.00 GiB]
+root@master:~# 
+root@master:~# vgcreate vg2 /dev/sdc /dev/sdd
+  Volume group "vg2" successfully created
+root@master:~# 
+root@master:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree 
+  /dev/sdb   vg1 lvm2 a--  14.07g 14.07g
+  /dev/sdc   vg2 lvm2 a--  10.00g 10.00g
+  /dev/sdd   vg2 lvm2 a--  10.00g 10.00g
+root@master:~# 
+root@master:~# vgs
+  VG  #PV #LV #SN Attr   VSize  VFree 
+  vg1   1   0   0 wz--n- 14.07g 14.07g
+  vg2   2   0   0 wz--n- 19.99g 19.99g
+root@master:~# vgscan 
+  Reading volume groups from cache.
+  Found volume group "vg1" using metadata type lvm2
+  Found volume group "vg2" using metadata type lvm2
+root@master:~# 
+
+... now our volume groups are ready, we are going to move
+... to create our logical volume lv with lvcreate. options are
+
+root@master:~# lvcreate --help
+  lvcreate: Create a logical volume
+
+lvcreate
+	{-l|--extents LogicalExtentsNumber[%{VG|PVS|FREE}] |
+	 -L|--size LogicalVolumeSize[bBsSkKmMgGtTpPeE]}
+	[-n|--name LogicalVolumeName]
+	[-t|--test]
+	[--type VolumeType]
+	[-v|--verbose]
+	VolumeGroupName [PhysicalVolumePath...]
+
+... options we are going to use -L for size and -n for name.
+... lets see our pv and vg.
+
+root@master:~# 
+root@master:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree 
+  /dev/sdb   vg1 lvm2 a--  14.07g 14.07g
+  /dev/sdc   vg2 lvm2 a--  10.00g 10.00g
+  /dev/sdd   vg2 lvm2 a--  10.00g 10.00g
+root@master:~# 
+root@master:~# vgs
+  VG  #PV #LV #SN Attr   VSize  VFree 
+  vg1   1   0   0 wz--n- 14.07g 14.07g
+  vg2   2   0   0 wz--n- 19.99g 19.99g
+root@master:~# 
+
+... we will create 7G www lv from vg1, 5G mail from vg2 and 
+... finally 2G proxy from vg2.
+
+root@master:~# lvcreate -L 7G -n www vg1
+  Logical volume "www" created.
+root@master:~# 
+root@master:~# lvcreate -L 5G -n mail vg2
+  Logical volume "mail" created.
+root@master:~# lvcreate -L 2G -n proxy vg2
+  Logical volume "proxy" created.
+root@master:~# 
+
+... now lets check what we have made so far.
+
+root@master:~# lvscan 
+  ACTIVE            '/dev/vg1/www' [7.00 GiB] inherit
+  ACTIVE            '/dev/vg2/mail' [5.00 GiB] inherit
+  ACTIVE            '/dev/vg2/proxy' [2.00 GiB] inherit
+root@master:~# 
+root@master:~# lvs
+  LV    VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  www   vg1 -wi-a----- 7.00g                                                    
+  mail  vg2 -wi-a----- 5.00g                                                    
+  proxy vg2 -wi-a----- 2.00g                                                    
+root@master:~# 
+
+... and lastly using rest of the space of vg1 for normal works with the help of 
+... -l options which is used for the extents.
+... following command is saying to use rest of the space from vg1 and to create
+... one lv.
+
+root@master:~# lvcreate -l 100%FREE -n spareworks vg1
+  Logical volume "spareworks" created.
+root@master:~# vgs -o +lv_size,lv_name
+  VG  #PV #LV #SN Attr   VSize  VFree  LSize LV        
+  vg1   1   2   0 wz--n- 14.07g     0  7.00g www       
+  vg1   1   2   0 wz--n- 14.07g     0  7.07g spareworks
+  vg2   2   2   0 wz--n- 19.99g 12.99g 5.00g mail      
+  vg2   2   2   0 wz--n- 19.99g 12.99g 2.00g proxy     
+root@master:~# 
+
+... now we have our lv. time has come to formate them and mount them.
+... we can found our logical devices in /dev folder with the following
+... location /dev/vg1 and /dev/vg2 or /dev/mapper
+
+root@master:/dev/mapper# pwd
+/dev/mapper
+root@master:/dev/mapper# ls
+control  vg1-spareworks  vg1-www  vg2-mail  vg2-proxy
+root@master:/dev/mapper# 
+
+... we can formate them using any of the location.
+... we will do this using mapping first then /dev/<vg_formate>
+   
+root@master:/dev/mapper# mkfs.ext4 /dev/mapper/vg1-spareworks 
+mke2fs 1.43.4 (31-Jan-2017)
+Creating filesystem with 1853440 4k blocks and 464208 inodes
+Filesystem UUID: 2428c6d4-e9d4-4171-8e1c-f734051c3189
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done 
+
+root@master:/dev/mapper#
+
+root@master:/dev/mapper# mkfs.ext4 /dev/mapper/vg1-www 
+mke2fs 1.43.4 (31-Jan-2017)
+Creating filesystem with 1835008 4k blocks and 458752 inodes
+Filesystem UUID: 079395e8-37d0-432e-a081-2620b102bcf8
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done 
+
+root@master:/dev/mapper# mkfs.ext4 /dev/vg2/mail 
+mke2fs 1.43.4 (31-Jan-2017)
+Creating filesystem with 1310720 4k blocks and 327680 inodes
+Filesystem UUID: 2209bb5e-616f-4836-8561-9a23292a61e9
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done 
+
+root@master:/dev/mapper# mkfs.ext4 /dev/vg2/proxy 
+mke2fs 1.43.4 (31-Jan-2017)
+Creating filesystem with 524288 4k blocks and 131072 inodes
+Filesystem UUID: 786962c4-d60d-4f41-ac06-9f0ebab9e11a
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done 
+
+root@master:/dev/mapper# 
+
+... after making all of the partition we have the following.
+
+root@master:/dev/mapper# lvmdiskscan 
+  /dev/vg1/www        [       7.00 GiB] 
+  /dev/sda1           [       3.72 GiB] 
+  /dev/vg2/mail       [       5.00 GiB] 
+  /dev/sda2           [      16.55 GiB] 
+  /dev/vg2/proxy      [       2.00 GiB] 
+  /dev/vg1/spareworks [       7.07 GiB] 
+  /dev/sdb            [      14.07 GiB] LVM physical volume
+  /dev/sdc            [      10.00 GiB] LVM physical volume
+  /dev/sdd            [      10.00 GiB] LVM physical volume
+  4 disks
+  2 partitions
+  3 LVM physical volume whole disks
+  0 LVM physical volumes
+root@master:/dev/mapper# 
+
+... formating is done, then now mount them.
+
+root@master:/dev/mapper# mkdir -p /mnt/{spareworks,www,mail,proxy}
+
+... for test purpose we are just mounting only one partition.
+
+root@master:/dev/mapper# mount /dev/vg1/spareworks /mnt/spareworks/
+
+... this kind of mount point will not exist after system reboot. therefore
+... we need to make it persistence like below. writing entry in /etc/fstab
+
+root@master:/dev/mapper# cat /etc/fstab 
+
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda2 during installation
+UUID=3a95e60c-5dc4-4e72-98fb-6777df2e2230 /               ext4    errors=remount-ro 0       1
+# swap was on /dev/sda1 during installation
+UUID=0b195047-ff74-469e-820d-133bd9624dd0 none            swap    sw              0       0
+
+# added by me
+/dev/vg1/www	/mnt/www	ext4	defaults,nofail	0	0       
+/dev/vg2/mail	/mnt/mail	ext4	defaults,nofail	0	0       
+/dev/vg2/proxy 	/mnt/proxy	ext4	defaults,nofail	0	0  
+/dev/vg1/spareworks	/mnt/spareworks	ext4	defaults,nofail	0	0  
+
+root@master:/dev/mapper# 
+
+... now we will reboot the system and check lvm again.
+... and after the reboot we have found our system is working fine.
+
+... lets dig into deep.
+
+root@master:/mnt/www# lvmdiskscan -l
+  WARNING: only considering LVM devices
+  /dev/sda            [      14.07 GiB] LVM physical volume
+  /dev/sdb            [      10.00 GiB] LVM physical volume
+  /dev/sdc            [      10.00 GiB] LVM physical volume
+  3 LVM physical volume whole disks
+  0 LVM physical volumes
+root@master:/mnt/www# 
+
+root@master:/mnt/www# pvscan 
+  PV /dev/sda   VG vg1             lvm2 [14.07 GiB / 0    free]
+  PV /dev/sdb   VG vg2             lvm2 [10.00 GiB / 3.00 GiB free]
+  PV /dev/sdc   VG vg2             lvm2 [10.00 GiB / 10.00 GiB free]
+  Total: 3 [34.06 GiB] / in use: 3 [34.06 GiB] / in no VG: 0 [0   ]
+root@master:/mnt/www# 
+
+root@master:/mnt/www# pvdisplay 
+  --- Physical volume ---
+  PV Name               /dev/sda
+  VG Name               vg1
+  PV Size               14.07 GiB / not usable 4.00 MiB
+  Allocatable           yes (but full)
+  PE Size               4.00 MiB
+  Total PE              3602
+  Free PE               0
+  Allocated PE          3602
+  PV UUID               KexJJb-4DMN-3Cqs-7TgH-sPUt-cBFQ-vWNjkE
+   
+  --- Physical volume ---
+  PV Name               /dev/sdb
+  VG Name               vg2
+  PV Size               10.00 GiB / not usable 4.00 MiB
+  Allocatable           yes 
+  PE Size               4.00 MiB
+  Total PE              2559
+  Free PE               767
+  Allocated PE          1792
+  PV UUID               PCbpWQ-OTx7-0244-m8PW-C7Nq-Y2a4-hIp3h7
+   
+  --- Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               vg2
+  PV Size               10.00 GiB / not usable 4.00 MiB
+  Allocatable           yes 
+  PE Size               4.00 MiB
+  Total PE              2559
+  Free PE               2559
+  Allocated PE          0
+  PV UUID               47L6l3-X9uU-GjpS-9Se9-cW2t-Pc42-wGvbuS
+   
+root@master:/mnt/www# pvdisplay -m will give us usefull information.
+
+... root@master:/mnt/www# vgs -o help will give lot of options can be 
+... added with vgs command like below.
+
+root@master:/mnt/www# vgs -o +lv_name,lv_size
+  VG  #PV #LV #SN Attr   VSize  VFree  LV         LSize
+  vg1   1   2   0 wz--n- 14.07g     0  www        7.00g
+  vg1   1   2   0 wz--n- 14.07g     0  spareworks 7.07g
+  vg2   2   2   0 wz--n- 19.99g 12.99g mail       5.00g
+  vg2   2   2   0 wz--n- 19.99g 12.99g proxy      2.00g
+root@master:/mnt/www# 
+
+root@master:/mnt/www# lvs --segments
+  LV         VG  Attr       #Str Type   SSize
+  spareworks vg1 -wi-ao----    1 linear 7.07g
+  www        vg1 -wi-ao----    1 linear 7.00g
+  mail       vg2 -wi-ao----    1 linear 5.00g
+  proxy      vg2 -wi-ao----    1 linear 2.00g
+root@master:/mnt/www# 
+
+... more details regarding lv can be found from lvdisplay.
+
+root@master:/mnt/www# lvdisplay -v
+  --- Logical volume ---
+  LV Path                /dev/vg1/www
+  LV Name                www
+  VG Name                vg1
+  LV UUID                8BkP3o-E1Eh-3tTo-955L-qZ5k-PfFe-qMKlYi
+  LV Write Access        read/write
+  LV Creation host, time master, 2018-01-30 04:45:24 +0600
+  LV Status              available
+  # open                 1
+  LV Size                7.00 GiB
+  Current LE             1792
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:2
+   
+... output cut ...
+
+... adding physical volume to an existing volume group.
+... vgextend command will add disk to an existing vg to increase the
+... capacity of that vg.
+
+root@master:/mnt/www# vgextend vg1 /dev/sdd
+
+... there are some type we can use with lvcreate to create lv.
+... linear: the default
+... stripped: similar to raid 0. which stripes the data into chunks and 
+... spread them across the hard disk. this is improves the performance of
+... the disk. this type of lv creation needs at least two hard disk.
+
+root@master:/mnt/www# lvcreate --type striped -i 2 -L 1G -n striped_vol vg2
+  Using default stripesize 64.00 KiB.
+  Logical volume "striped_vol" created.
+root@master:/mnt/www# 
+
+... raid1: mirror raid1 volume which will have two copies but more can we 
+... defined by -m options. here -m 1 is saying that we need one additional
+... set of data. -m 2 means 2 additional, all together 3 set of data but 
+... to do this we need 3 physical volume.
+
+root@master:/mnt/www#  lvcreate --type raid1 -m 1 -L 1G -n mirrored_vol vg2
+  Logical volume "mirrored_vol" created.
+root@master:/mnt/www# 
+
+... raid5: this type requires at least 3 hard disk.
+... raid 6: requires 4 hard disk.
+
+... resize of logical volume or lv.
+
+... its the beauty of the lvm that we can resize the lvm while the system
+... is running. to do so we use the command lvresize. 
+
+... -L options with lvresize to extend one lv to new size.
+... + will add that amount to an existed lv.
+... to automatically adjust the lv we need to pass the --resizefs flag.
+
+... in the following example we need to increase our mail lv to 1G more.
+
+root@master:/mnt/www# lvs
+  LV           VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  spareworks   vg1 -wi-ao---- 7.07g                                                    
+  www          vg1 -wi-ao---- 7.00g                                                    
+  mail         vg2 -wi-ao---- 5.00g                                                    
+  mirrored_vol vg2 rwi-a-r--- 1.00g                                    100.00          
+  proxy        vg2 -wi-ao---- 2.00g                                                    
+  striped_vol  vg2 -wi-a----- 1.00g                                                    
+root@master:/mnt/www# 
+
+... currently we have mail now 5G need to make it 6G.
+
+root@master:/mnt/www# vgs
+  VG  #PV #LV #SN Attr   VSize  VFree
+  vg1   1   2   0 wz--n- 14.07g    0 
+  vg2   2   4   0 wz--n- 19.99g 9.98g
+root@master:/mnt/www# 
+
+... on vg2 we have 9.98g left therefore we can increase 1g from here.
+
+root@master:/mnt/www# lvresize -L +1G --resizefs vg2/mail
+  Size of logical volume vg2/mail changed from 5.00 GiB (1280 extents) to 6.00 GiB (1536 extents).
+  Logical volume vg2/mail successfully resized.
+resize2fs 1.43.4 (31-Jan-2017)
+Filesystem at /dev/mapper/vg2-mail is mounted on /mnt/mail; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/mapper/vg2-mail is now 1572864 (4k) blocks long.
+
+root@master:/mnt/www# 
+
+... by the we can also resize the partion manually. then we have to omit 
+... the --resizefs options from it.
+
+root@master:/mnt/www# lvresize -L +1G vg2/mail
+root@master:/mnt/www# resize2fs /dev/vg2/mail
+
+... downsizing the lv.
+... we have to be very carefull when we do this kind of operation.
+
+... unmount the lv first. 
+
+root@master:/dev/vg2# umount /dev/vg2/mail
+
+... checking the filesystem to see ok
+
+root@master:/dev/vg2# fsck -t ext4 -f  /dev/vg2/mail
+fsck from util-linux 2.29
+e2fsck 1.43.4 (31-Jan-2017)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/vg2-mail: 11/393216 files (0.0% non-contiguous), 46190/1572864 blocks
+root@master:/dev/vg2# 
+
+... as checking is pass. we can resize the partition. for ext4 filesystem the command
+... is resize2fs 
+
+root@master:/dev/vg2# resize2fs -p /dev/vg2/mail 4G
+resize2fs 1.43.4 (31-Jan-2017)
+Resizing the filesystem on /dev/vg2/mail to 1048576 (4k) blocks.
+Begin pass 3 (max = 48)
+Scanning inode table          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+The filesystem on /dev/vg2/mail is now 1048576 (4k) blocks long.
+root@master:/dev/vg2# 
+
+... resize the lv now. before lv mail is 6.00g. after operation 
+... it will be 3.00g.
+
+root@master:/dev/vg2# lvs
+  LV           VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  spareworks   vg1 -wi-ao---- 7.07g                                                    
+  www          vg1 -wi-ao---- 7.00g                                                    
+  mail         vg2 -wi-a----- 6.00g                                                    
+  mirrored_vol vg2 rwi-a-r--- 1.00g                                    100.00          
+  proxy        vg2 -wi-ao---- 2.00g                                                    
+  striped_vol  vg2 -wi-a----- 1.00g                                                    
+root@master:/dev/vg2# 
+root@master:/dev/vg2# lvresize -L 3G vg2/mail
+  WARNING: Reducing active logical volume to 3.00 GiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+Do you really want to reduce vg2/mail? [y/n]: y 
+  Size of logical volume vg2/mail changed from 6.00 GiB (1536 extents) to 3.00 GiB (768 extents).
+  Logical volume vg2/mail successfully resized.
+root@master:/dev/vg2# 
+root@master:/dev/vg2# lvs
+  LV           VG  Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  spareworks   vg1 -wi-ao---- 7.07g                                                    
+  www          vg1 -wi-ao---- 7.00g                                                    
+  mail         vg2 -wi-a----- 3.00g                                                    
+  mirrored_vol vg2 rwi-a-r--- 1.00g                                    100.00          
+  proxy        vg2 -wi-ao---- 2.00g                                                    
+  striped_vol  vg2 -wi-a----- 1.00g                                                    
+root@master:/dev/vg2# 
+
+... check the filesystem again.
+
+
+root@master:/dev/vg2# fsck -t ext4 -f /dev/vg2/mail
+fsck from util-linux 2.29
+e2fsck 1.43.4 (31-Jan-2017)
+The filesystem size (according to the superblock) is 1048576 blocks
+The physical size of the device is 786432 blocks
+Either the superblock or the partition table is likely to be corrupt!
+Abort<y>? no
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+/dev/mapper/vg2-mail: 11/262144 files (0.0% non-contiguous), 37966/1048576 blocks
+root@master:/dev/vg2# 
+
+... now we can remount filesystem again
+
+... removing physical volume.
+... if the pv is in use we have to move the physical extents to the different
+... location first. we have to make sure the vg has enough space to handle 
+... this operation other wise we need to add new pv. 
+
+... first we need to move the extents by following.
+
+root@master:/dev/vg2# pvmove /dev/sda
+
+... once done then we can remove pv from vg by following
+... following is telling us we are removing /dev/sda from the vg2.
+
+root@master:/dev/vg2# vgreduce vg2 /dev/sda
+
+... now finally we can use pvremove to remove the pv by following.
+
+root@master:/dev/vg2# pvremove /dev/sda
+
+

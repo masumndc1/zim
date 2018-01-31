@@ -1,0 +1,20 @@
+
+
+... taking backup using crontab
+
+[root@slave ~]# crontab -l
+
+... taking backup using crontab. this following line shows that the backup will be
+... activated at 1am everyday.
+
+0 1 * * * /usr/bin/mysqldump -u db_user -pP@ssw0rd -h 10.10.10.10 --databases khabir -lock-tables=0 | gzip > /root/mysqlbackup_$(date +%m-%d-%Y-%H%M).sql.gz
+
+... it will delete the 7days old *.sql.gz file on every sunday at 12:01am.
+
+1 0 * * sun find /root/*.sql.gz -maxdepth 1 -mtime +7 -type f -exec rm -rv {} \;
+
+[root@node25922-eskotest22 ~]# 
+
+
+
+
