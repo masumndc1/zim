@@ -653,4 +653,170 @@ root@master:/dev/vg2# vgreduce vg2 /dev/sda
 
 root@master:/dev/vg2# pvremove /dev/sda
 
+... practical example
+... we have following filesystem and the capacity. we would like to 
+... increase our capacity on root filesystem.
+
+root@ubuntu:~# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+udev                  221M     0  221M   0% /dev
+tmpfs                  49M  1.9M   47M   4% /run
+/dev/mapper/vg1-root  9.0G  1.2G  7.4G  14% /
+tmpfs                 244M     0  244M   0% /dev/shm
+tmpfs                 5.0M     0  5.0M   0% /run/lock
+tmpfs                 244M     0  244M   0% /sys/fs/cgroup
+tmpfs                  49M     0   49M   0% /run/user/1000
+root@ubuntu:~# 
+
+... to do so we have included one more hard disk with our system
+... which is the /dev/sdb in our case.
+
+root@ubuntu:~# fdisk -l
+Disk /dev/sda: 12 GiB, 12884901888 bytes, 25165824 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x4c3c390a
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/sda1  *     2048 25163775 25161728  12G 8e Linux LVM
+
+
+Disk /dev/sdb: 15 GiB, 16106127360 bytes, 31457280 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/vg1-root: 9.2 GiB, 9877585920 bytes, 19292160 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/vg1-swap: 2.8 GiB, 3003121664 bytes, 5865472 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+root@ubuntu:~# 
+
+... creating the pv 
+
+root@ubuntu:~# pvcreate /dev/sdb
+  Physical volume "/dev/sdb" successfully created.
+root@ubuntu:~# 
+root@ubuntu:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree 
+  /dev/sda1  vg1 lvm2 a--  12.00g     0 
+  /dev/sdb       lvm2 ---  15.00g 15.00g
+root@ubuntu:~# 
+
+... extending the vg 
+... on the following we have successfully extend our vg.
+
+root@ubuntu:~# vgextend vg1 /dev/sdb
+  Volume group "vg1" successfully extended
+root@ubuntu:~# vgs
+  VG  #PV #LV #SN Attr   VSize  VFree 
+  vg1   2   2   0 wz--n- 26.99g 15.00g
+root@ubuntu:~# 
+
+... now extend the root lv. the root lv path is found from 
+... the lvdisplay output.
+
+root@ubuntu:~# lvdisplay 
+  --- Logical volume ---
+  LV Path                /dev/vg1/root
+  LV Name                root
+  VG Name                vg1
+  LV UUID                Qd2Hqp-JxSr-Vn7a-fTDZ-anwq-cRZ6-0rIUQo
+  LV Write Access        read/write
+  LV Creation host, time ubuntu, 2018-02-01 01:52:42 +0200
+  LV Status              available
+  # open                 1
+  LV Size                9.20 GiB
+  Current LE             2355
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+... output cut ...
+   
+root@ubuntu:~# 
+
+... now extend the logical volume of the lv root
+... format is lvextend -l +80%FREE lv_path pv_path
+... pv_path can be found from the output of the command
+... pvs.
+
+root@ubuntu:~# pvs
+  PV         VG  Fmt  Attr PSize  PFree
+  /dev/sda1  vg1 lvm2 a--  12.00g    0 
+  /dev/sdb   vg1 lvm2 a--  15.00g 3.00g
+root@ubuntu:~# 
+
+root@ubuntu:~# lvextend -l +80%FREE /dev/vg1/root /dev/sdb
+  Size of logical volume vg1/root changed from 9.20 GiB (2355 extents) to 21.20 GiB (5427 extents).
+  Logical volume vg1/root successfully resized.
+root@ubuntu:~# 
+
+... but this is not enough. root lv filesystem size has not been 
+... extended. as the df -h output showing.
+... we have to run resize2fs command as below.
+
+root@ubuntu:~# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+udev                  221M     0  221M   0% /dev
+tmpfs                  49M  2.0M   47M   4% /run
+/dev/mapper/vg1-root  9.0G  1.5G  7.1G  17% /
+tmpfs                 244M     0  244M   0% /dev/shm
+tmpfs                 5.0M     0  5.0M   0% /run/lock
+tmpfs                 244M     0  244M   0% /sys/fs/cgroup
+tmpfs                  49M     0   49M   0% /run/user/0
+root@ubuntu:~# 
+
+root@ubuntu:~# resize2fs /dev/vg1/root 
+resize2fs 1.43.4 (31-Jan-2017)
+Filesystem at /dev/vg1/root is mounted on /; on-line resizing required
+old_desc_blocks = 2, new_desc_blocks = 3
+The filesystem on /dev/vg1/root is now 5557248 (4k) blocks long.
+
+root@ubuntu:~# 
+root@ubuntu:~# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+udev                  221M     0  221M   0% /dev
+tmpfs                  49M  2.0M   47M   4% /run
+/dev/mapper/vg1-root   21G  1.5G   19G   8% /
+tmpfs                 244M     0  244M   0% /dev/shm
+tmpfs                 5.0M     0  5.0M   0% /run/lock
+tmpfs                 244M     0  244M   0% /sys/fs/cgroup
+tmpfs                  49M     0   49M   0% /run/user/0
+root@ubuntu:~# 
+
+... the root lv has successfully extended to new size.
+... Alternatively if you’re running the XFS file system (default as 
+... of RedHat/CentOS 7) you can grow the file system with 
+... “xfs_growfs /dev/Mega/root”.
+
+... Rather than resizing the file system manually, you could instead use 
+... the -r option of the lvextend command which will automatically 
+... resize the file system to make use of the additional disk space.
+
+... when we are using lvm our /etc/fstab is something like that
+
+root@ubuntu:~# cat /etc/fstab 
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+/dev/mapper/vg1-root /               ext4    errors=remount-ro 0       1
+/dev/mapper/vg1-swap none            swap    sw              0       0
+root@ubuntu:~# 
+
 
