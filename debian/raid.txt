@@ -342,4 +342,278 @@ W: mdadm: /etc/mdadm/mdadm.conf defines no arrays.
 root@ubuntu:~# 
 
 ... again we will create raid 5 by using the following script.
+... as raid 5 use one disk for the parity therefore we need 3disks
+... two for data and one for the parity.
+
+... to create raid 5 we will use the following script.
+
+root@ubuntu:~# cat raid5.sh 
+#!/bin/bash
+
+echo -e " creating raid 5 array"
+mdadm --create --verbose /dev/md0 --level=5 --raid-devices=3 /dev/sde /dev/sdf /dev/sdg
+
+echo -e " checking if the array created "
+cat /proc/mdstat
+
+echo -e " creating filesystem "
+mkfs.ext4 -F /dev/md0
+
+echo -e " mounting the filesystem "
+mount /dev/md0 /mnt/md0
+
+echo -e " checking the new space created "
+df -h -x devtmpfs -x tmpfs
+
+echo -e " updating the mdadm.conf file"
+mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
+
+echo -e " updating the initramfs "
+update-initramfs -u
+
+root@ubuntu:~# 
+
+... snip of the output from the command raid5.sh 
+
+ checking the new space created 
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/vg1-root   47G  1.5G   43G   4% /
+/dev/md0               20G   45M   19G   1% /mnt/md0
+ updating the mdadm.conf file
+ARRAY /dev/md0 metadata=1.2 name=ubuntu:0 UUID=4cd259f5:a20e2137:8a4be9bd:fc707ffa
+ updating the initramfs 
+update-initramfs: Generating /boot/initrd.img-4.10.0-19-generic
+root@ubuntu:~# 
+
+... the /dev/md0 is showing 20G total as we have take 3 disks of same 10G. 2*10G have
+... been taken for data and rest of 10G has selected for parity.
+
+... at last phase we will add the entry in /etc/fstab like below.
+... uuid can be found from the command blkid
+
+
+root@ubuntu:~# 
+root@ubuntu:~# blkid | grep md0
+/dev/md0: UUID="b66441f1-5ba4-4486-9f77-eb53b0bc7b27" TYPE="ext4"
+root@ubuntu:~# 
+root@ubuntu:~# cat /etc/fstab 
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+/dev/mapper/vg1-root /               ext4    errors=remount-ro 0       1
+/dev/mapper/vg1-swap none            swap    sw              0       0
+
+# entry for the /dev/md0 array 
+UUID="b66441f1-5ba4-4486-9f77-eb53b0bc7b27" /mnt/md0 ext4 	default,nofail,discard 0	0
+root@ubuntu:~# 
+
+... creating the raid6 array 
+... the procedure is exactly same but just one command of making the array
+
+root@ubuntu:~# mdadm --create --verbose /dev/md0 --level=6 --raid-devices=4 /dev/sde /dev/sdf /dev/sdg /dev/sdh
+
+... rest of the procedure is exactly same.
+
+... creating raid 10. here we are not creating traditional raid 10 but mdadm's raid 10
+... which requires odd number of disks too. traditional raid 10 requires at least 4 disks.
+... the procedure is exactly same as raid 5 and raid6 but just one command of making the array
+... in this example we will use the minimum 3disks
+
+root@ubuntu:~# mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sde /dev/sdf /dev/sdg
+/dev/sdh
+
+... rest of the procedure is exactly same.
+
+... in mdadm's 10 raid there are three layout near(default), far and offset.
+... we can choose the layout by using options --layout.
+... the above command is making two copies of data which is default.
+... when we dont specify any layout then it assume near and copies will be 2.
+
+... we can provide layout and copies of the data.
+... the following command is telling us the layout will be offset and 3 copies.
+
+root@ubuntu:~# mdadm --create --verbose /dev/md0 --level=10 --layout=o3 --raid-devices=4 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+
+
+.... query on array:
+... some related command on raid.
+
+
+root@ubuntu:~# mdadm -D /dev/md0
+/dev/md0:
+        Version : 1.2
+  Creation Time : Sun Feb  4 15:57:33 2018
+     Raid Level : raid5
+     Array Size : 20955136 (19.98 GiB 21.46 GB)
+  Used Dev Size : 10477568 (9.99 GiB 10.73 GB)
+   Raid Devices : 3
+  Total Devices : 3
+    Persistence : Superblock is persistent
+
+    Update Time : Sun Feb  4 16:11:32 2018
+          State : clean 
+ Active Devices : 3
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 0
+
+         Layout : left-symmetric
+     Chunk Size : 512K
+
+           Name : ubuntu:0  (local to host ubuntu)
+           UUID : 4cd259f5:a20e2137:8a4be9bd:fc707ffa
+         Events : 22
+
+    Number   Major   Minor   RaidDevice State
+       0       8       64        0      active sync   /dev/sde
+       1       8       80        1      active sync   /dev/sdf
+       3       8       96        2      active sync   /dev/sdg
+root@ubuntu:~# 
+
+... brief info 
+
+root@ubuntu:~#  mdadm -Db /dev/md0
+ARRAY /dev/md0 metadata=1.2 name=ubuntu:0 UUID=4cd259f5:a20e2137:8a4be9bd:fc707ffa
+root@ubuntu:~# 
+
+root@ubuntu:~# mdadm -Q /dev/md0
+/dev/md0: 19.98GiB raid5 3 devices, 0 spares. Use mdadm --detail for more detail.
+root@ubuntu:~# 
+
+... quering an disk
+
+root@ubuntu:~# mdadm -Q /dev/sdf
+/dev/sdf: is not an md array
+/dev/sdf: device 1 in 3 device active raid5 /dev/md0.  Use mdadm --examine for more detail.
+root@ubuntu:~# 
+root@ubuntu:~# mdadm -E /dev/sdf
+/dev/sdf:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 4cd259f5:a20e2137:8a4be9bd:fc707ffa
+           Name : ubuntu:0  (local to host ubuntu)
+  Creation Time : Sun Feb  4 15:57:33 2018
+     Raid Level : raid5
+   Raid Devices : 3
+
+ Avail Dev Size : 20955136 (9.99 GiB 10.73 GB)
+     Array Size : 20955136 (19.98 GiB 21.46 GB)
+    Data Offset : 16384 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=16296 sectors, after=0 sectors
+          State : clean
+    Device UUID : 03f6e6f5:146eaa34:c34bfdbf:abdd7b74
+
+    Update Time : Sun Feb  4 16:11:32 2018
+  Bad Block Log : 512 entries available at offset 72 sectors
+       Checksum : 43053c78 - correct
+         Events : 22
+
+         Layout : left-symmetric
+     Chunk Size : 512K
+
+   Device Role : Active device 1
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+root@ubuntu:~# 
+root@ubuntu:~# cat /proc/mdstat 
+Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid5 sdg[3] sdf[1] sde[0]
+      20955136 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/3] [UUU]
+      
+unused devices: <none>
+root@ubuntu:~# 
+
+... start the array. and specific devices
+
+root@ubuntu:~# mdadm --assemble --scan
+root@ubuntu:~# mdadm --assemble /dev/md0
+
+... This works if the array is defined in the configuration file.
+... If the correct definition for the array is missing from the 
+... configuration file, the array can still be started by passing in 
+... the component devices:
+
+root@ubuntu:~# mdadm --assemble /dev/md0 /dev/sda /dev/sdb /dev/sdc /dev/sdd
+
+... adding new raw spare disk to the array
+... and update the /etc/mdadm/mdadm.conf file like below.
+
+root@ubuntu:~# mdadm /dev/md0 --add /dev/sde
+root@ubuntu:~# mdadm --detail --brief /dev/md0 | tee -a /etc/mdadm/mdadm.conf
+root@ubuntu:~# 
+
+... after that we check our added disk with array like below.
+
+root@ubuntu:~# mdadm --detail /dev/md0
+/dev/md0:
+        Version : 1.2
+  Creation Time : Sun Feb  4 15:57:33 2018
+     Raid Level : raid5
+     Array Size : 20955136 (19.98 GiB 21.46 GB)
+  Used Dev Size : 10477568 (9.99 GiB 10.73 GB)
+   Raid Devices : 3
+  Total Devices : 3
+    Persistence : Superblock is persistent
+
+    Update Time : Sun Feb  4 16:11:32 2018
+          State : clean 
+ Active Devices : 3
+Working Devices : 3
+ Failed Devices : 0
+  Spare Devices : 0
+
+         Layout : left-symmetric
+     Chunk Size : 512K
+
+           Name : ubuntu:0  (local to host ubuntu)
+           UUID : 4cd259f5:a20e2137:8a4be9bd:fc707ffa
+         Events : 22
+
+    Number   Major   Minor   RaidDevice State
+       0       8       64        0      active sync   /dev/sde
+       1       8       80        1      active sync   /dev/sdf
+       3       8       96        2      active sync   /dev/sdg
+root@ubuntu:~# 
+root@ubuntu:~# 
+root@ubuntu:~# cat /proc/mdstat 
+Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md0 : active raid5 sdg[3] sdf[1] sde[0]
+      20955136 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/3] [UUU]
+      
+unused devices: <none>
+root@ubuntu:~# 
+
+... we may need to use following command 
+
+root@ubuntu:~# mdadm --grow /dev/md0 --raid-devices=3 --add /dev/sdc
+root@ubuntu:~# resize2fs /dev/md0
+
+... removing the device
+
+root@ubuntu:~# mdadm /dev/md0 --fail /dev/sdc
+root@ubuntu:~# mdadm /dev/md0 --remove /dev/sdc
+
+... then we can add new disk to the array like following.
+
+root@ubuntu:~# mdadm /dev/md0 --add /dev/sdd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
