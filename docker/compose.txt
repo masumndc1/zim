@@ -1,0 +1,143 @@
+
+
+... docker compose
+... docker compose is used to define, manage and launching the docker containers.
+
+... installing docker:
+
+... installing in centos7
+yum install epel-release
+yum install -y python-pip
+yum upgrade python*
+
+... now install the docker-compose using the following command.
+
+pip install docker-compose
+
+... installing in ubuntu/debian
+
+root@slave:~# apt-cache search docker-compose
+docker-compose - Punctual, lightweight development environments using Docker
+root@slave:~# apt-get install docker-compose
+
+... another way to install docker-compose using python-pip
+
+root@slave:~# pip install docker-compose
+The program 'pip' is currently not installed. You can install it by typing:
+apt install python-pip
+root@slave:~#
+root@slave:~# apt-get install -y python-pip
+Reading package lists... Done
+
+root@slave:~# pip install docker-compose
+
+... running containers using docker-compose 
+
+[root@docker hello-world]# pwd
+/root/hello-world
+[root@docker hello-world]# cat docker-compose.yml
+my-test:
+  image: hello-world
+[root@docker hello-world]#
+[root@docker hello-world]# docker-compose up
+Pulling my-test (hello-world:latest)...
+Trying to pull repository docker.io/library/hello-world ...
+latest: Pulling from docker.io/library/hello-world
+ca4f61b1923c: Pull complete
+Digest: sha256:083de497cff944f969d8499ab94f07134c50bcf5e6b9559b27182d3fa80ce3f7
+Creating helloworld_my-test_1 ... done
+Attaching to helloworld_my-test_1
+my-test_1  |
+my-test_1  | Hello from Docker!
+my-test_1  | This message shows that your installation appears to be working correctly.
+my-test_1  |
+my-test_1  | To generate this message, Docker took the following steps:
+my-test_1  |  1. The Docker client contacted the Docker daemon.
+my-test_1  |  2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+my-test_1  |     (amd64)
+my-test_1  |  3. The Docker daemon created a new container from that image which runs the
+my-test_1  |     executable that produces the output you are currently reading.
+my-test_1  |  4. The Docker daemon streamed that output to the Docker client, which sent it
+my-test_1  |     to your terminal.
+my-test_1  |
+my-test_1  | To try something more ambitious, you can run an Ubuntu container with:
+my-test_1  |  $ docker run -it ubuntu bash
+my-test_1  |
+my-test_1  | Share images, automate workflows, and more with a free Docker ID:
+my-test_1  |  https://cloud.docker.com/
+my-test_1  |
+my-test_1  | For more examples and ideas, visit:
+my-test_1  |  https://docs.docker.com/engine/userguide/
+my-test_1  |
+helloworld_my-test_1 exited with code 0
+[root@docker hello-world]#
+
+... showing the running containers started by using docker-compose
+
+[root@docker hello-world]# docker-compose ps
+        Name           Command   State    Ports
+-----------------------------------------------
+helloworld_my-test_1   /hello    Exit 0
+[root@docker hello-world]#
+
+... the following commands executed from the folder where the docker-compose.yml 
+... will do the following
+
+docker-compose stop will stop all the containers
+docker-compose kill to shut things down more forcefully.
+docker-compose rm will remove all the containers.
+
+... stopping docker-compose and removing the docker machines created by 
+... docker-compose.
+
+[root@localhost nginx-compose]# docker-compose stop
+Stopping nginxcompose_my-nginx_1 ... done
+[root@localhost nginx-compose]#
+[root@localhost nginx-compose]# docker-compose rm
+Going to remove nginxcompose_my-nginx_1
+Are you sure? [yN] y
+Removing nginxcompose_my-nginx_1 ... done
+[root@localhost nginx-compose]#
+
+... scalling up/down the dockers.
+
+[root@localhost nginx-compose]# cat docker-compose.yml
+my-nginx:
+ image: nginx
+ expose:
+ - 8080
+[root@localhost nginx-compose]# docker-compose ps
+         Name                   Command          State        Ports
+-------------------------------------------------------------------------
+nginxcompose_my-nginx_1   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+[root@localhost nginx-compose]#
+
+... scalling from 1 to 3 containers.
+
+[root@localhost nginx-compose]# docker-compose scale my-nginx=3
+Creating and starting nginxcompose_my-nginx_2 ... done
+Creating and starting nginxcompose_my-nginx_3 ... done
+[root@localhost nginx-compose]#
+[root@localhost nginx-compose]# docker-compose ps
+         Name                   Command          State        Ports
+-------------------------------------------------------------------------
+nginxcompose_my-nginx_1   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+nginxcompose_my-nginx_2   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+nginxcompose_my-nginx_3   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+[root@localhost nginx-compose]#
+
+... again scalling down from 3 to 2.
+
+[root@localhost nginx-compose]# docker-compose scale my-nginx=2
+Stopping and removing nginxcompose_my-nginx_3 ... done
+[root@localhost nginx-compose]#
+[root@localhost nginx-compose]# docker-compose ps
+         Name                   Command          State        Ports
+-------------------------------------------------------------------------
+nginxcompose_my-nginx_1   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+nginxcompose_my-nginx_2   nginx -g daemon off;   Up      80/tcp, 8080/tcp
+[root@localhost nginx-compose]#
+
+
+
+

@@ -5,7 +5,24 @@
 # apt install python-dev python-pip
 # yum install python-devel python-pip
 
+... upgrading pip 
+
+You are using pip version 8.1.1, however version 9.0.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+root@slave:~#
+root@slave:~# pip install --upgrade pip
+Collecting pip
+  Downloading pip-9.0.1-py2.py3-none-any.whl (1.3MB)
+    100% |████████████████████████████████| 1.3MB 533kB/s
+Installing collected packages: pip
+  Found existing installation: pip 8.1.1
+    Not uninstalling pip at /usr/lib/python2.7/dist-packages, outside environment /usr
+Successfully installed pip-9.0.1
+root@slave:~#
+
 ... installation of any python related app like below
 
 # pip install python-openstackclient
+
+
 

@@ -28,3 +28,6 @@ arguments (so the `--all` is a no-op and can be removed).
 ==> Upgrading 2 outdated packages, with result:
 git 2.15.1_1, wget 1.19.2_1
 
+... brew places lthe package in /usr/local/Cellar/ directory.
+
+

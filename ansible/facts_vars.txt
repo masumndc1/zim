@@ -1,0 +1,68 @@
+
+
+... ansible has special types of variable which called the facts.
+... ansible allows to define the variable in the playbook like bellow.
+... one example will be like below.
+
+vars:
+      key_file: /etc/nginx/ssl/nginx.key
+      cert_file: /etc/nginx/ssl/nginx.crt
+      conf_file: /etc/nginx/sites-available/default
+      server_name: localhost
+
+... using register
+
+macs-MacBook-Pro-2:tasks khabir$ cat test.yml
+---
+- name: a command to test here
+  command: id -un
+  register: login
+  ignore_errors: true
+- debug:  var=login
+- debug:  msg="Logged in as user {{ login.stdout }}"
+macs-MacBook-Pro-2:tasks khabir$
+
+... normally ansible stop executing codes when it encounter one error. but
+... "ignore_errors: true" will not stop ansible to execute the remaining code.
+
+... we can use the key of ansible_facts as variable and we dont have to declare
+... them before. ansible will automatically create those variable for us. 
+... in below the ansible_distribution is the key value of ansible_facts which 
+... we dont had to declare them before to use.
+
+macs-MacBook-Pro-2:tasks khabir$ cat test.yml
+---
+- name: a command to test here
+  command: id -un
+  register: login
+- debug:  var=login
+- debug:  msg="Logged in as user {{ login.stdout }}"
+- debug: var=ansible_distribution
+- debug: var=ansible_all_ipv4_addresses
+macs-MacBook-Pro-2:tasks khabir$ 
+
+... we can also pass the argument to the ansible-playbook in cli by using the
+... -e options. ansible also allows us to pass the variables in a file by using
+... the following syntax. -e @arg_files.
+
+... using built-in variable hostvar.
+... we are concern on one of the host docker1.
+
+macs-MacBook-Pro-2:tasks khabir$ cat test.yml
+---
+- name: a command to test here
+  command: id -un
+  register: login
+- debug:  msg="ip address is {{ hostvars['docker1'].ansible_all_ipv4_addresses }}"
+macs-MacBook-Pro-2:tasks khabir$
+
+
+
+
+
+
+
+
+
+
+

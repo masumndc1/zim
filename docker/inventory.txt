@@ -1,0 +1,10 @@
+[dockers]
+docker1 ansible_host=192.168.150.15
+
+[dockers:vars]
+	ansible_ssh_user=masum 
+	ansible_ssh_private_key_file=./id_rsa
+	ansible_become=yes
+	ansible_become_pass=******
+	ansible_become_method=sudo
+	

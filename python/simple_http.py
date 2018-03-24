@@ -4,10 +4,13 @@ import http
 import sys
 import urllib
 from urllib.request import urlopen
+from urllib.request import Request
 
 try:
 	web_name = sys.argv[1]
 #	template = "http://'{web_name}'"
+	url_header=Request(web_name)
+	print('header = ',url_header.header_items)
 	response=urlopen(web_name)
 	response
 	response.readline()
@@ -20,6 +23,7 @@ try:
 	print('getheader = ',response.getheader)
 	print('status = ',response.status)
 	print('reason = ',response.reason)
+#	print('header = ',response.header_items)
 
 #except urllib.error.HTTPError as e:
 except urllib.error.URLError as e:
