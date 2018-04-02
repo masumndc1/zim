@@ -1,0 +1,78 @@
+    
+
+... firewall configuration for docker swarm
+...
+... we need to open the following ports
+... TCP port 2376 for secure Docker client communication. This port is required for Docker Machine to work.
+... Docker Machine is used to orchestrate Docker hosts.
+... TCP port 2377. This port is used for communication between the nodes of a Docker Swarm or cluster. 
+... It only needs to be opened on manager nodes.
+... TCP and UDP port 7946 for communication among nodes (container network discovery).
+... UDP port 4789 for overlay network traffic (container ingress networking).
+... beside these port we need to open the other ports(like 22/ssh, 80/http etc)
+
+... we have to open the following ports on both the manager.
+... and the node and restart related services.
+
+... first using ufw. 
+
+#!/bin/bash
+# allowing the following ports
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 2377/tcp
+ufw allow 7946/tcp
+ufw allow 7946/udp
+ufw allow 4789/udp
+
+# allowing and enabling the ufw
+ufw reload
+ufw enable
+
+# restarting the docker
+systemctl restart docker
+
+... then using firewalld
+
+#!/bin/bash
+# allowing the following ports
+firewall-cmd --add-port=22/tcp --permanent
+firewall-cmd --add-port=2376/tcp --permanent
+firewall-cmd --add-port=2377/tcp --permanent
+firewall-cmd --add-port=7946/tcp --permanent
+firewall-cmd --add-port=7946/udp --permanent
+firewall-cmd --add-port=4789/udp --permanent
+
+# restarting the firewalld
+firewall-cmd --reload
+
+# restarting the docker
+systemctl restart docker
+
+... if we mistakenly add any unwanted port we can delete them by following
+... firewall-cmd --remove-port=port-number/tcp —permanent
+
+... using iptables.
+
+#!/bin/bash
+# allowing the following ports.
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp --dport 2376 -j ACCEPT
+iptables -A INPUT -p tcp --dport 2377 -j ACCEPT
+iptables -A INPUT -p tcp --dport 7946 -j ACCEPT
+iptables -A INPUT -p udp --dport 7946 -j ACCEPT
+iptables -A INPUT -p udp --dport 4789 -j ACCEPT
+
+# saving iptable rules and restarting iptables
+service iptables save 
+service iptables restart
+
+# restarting the docker service
+service docker restart
+
+
+
+
+
+
+

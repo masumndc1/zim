@@ -1,0 +1,152 @@
+
+
+... docker-compose file
+[root@docker hello]# cat docker-compose.yml 
+wordpress:
+  image: wordpress
+  links: 
+    - db:mysql
+  ports:
+    - 8080:80
+  volumes:
+    - ~/khabir:/var/www/html
+
+... we can use the keyword volumes inside the docker-compose.yml file to map
+... one file/folder in host machine to the container on a specific location.
+
+web:
+  image: nginx
+
+db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+	
+[root@docker hello]# 
+
+... and when we run it below.
+
+[root@docker hello]# docker-compose up -d
+Starting hello_web_1  ... done
+Recreating hello_db_1 ... done
+Recreating hello_wordpress_1 ... done
+[root@docker hello]# 
+[root@docker hello]# 
+[root@docker hello]# 
+[root@docker hello]# docker-compose ps
+      Name                Command          State          Ports       
+----------------------------------------------------------------------
+hello_db_1          docker-entrypoint.sh   Up      3306/tcp           
+                    mysqld                                            
+hello_web_1         nginx -g daemon off;   Up      80/tcp             
+hello_wordpress_1   docker-entrypoint.sh   Up      0.0.0.0:8080->80/tc
+                    apach ...                      p                  
+[root@docker hello]# 
+
+... 
+
+... building images by using docker-compose command.
+
+... for this first we need to make our docker file.
+
+[root@docker hello]# pwd
+/root/hello
+[root@docker hello]# ls
+docker-compose.yml  masum
+[root@docker hello]# cat masum 
+FROM nginx
+RUN apt-get update 
+EXPOSE 8081 8081
+[root@docker hello]# 
+
+... then we will put this docker file reference to the docker-compose file
+
+[root@docker hello]# cat docker-compose.yml 
+wordpress:
+  image: wordpress
+  links: 
+    - db:mysql
+  ports:
+    - 8080:80
+  volumes:
+    - ~/khabir:/var/www/html
+
+db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+
+masum:
+  build: .
+  dockerfile: masum
+[root@docker hello]# 
+
+... note the last portion of the file for how to add docker file masum
+... into docker file. then run the following command to build the image.
+
+[root@docker hello]# docker-compose -f /root/hello/docker-compose.yml build
+db uses an image, skipping
+wordpress uses an image, skipping
+Building masum
+Step 1/3 : FROM nginx
+ ---> 7f70b30f2cc6
+Step 2/3 : RUN apt-get update
+ ---> Using cache
+ ---> 2c0ca5739a1b
+Step 3/3 : EXPOSE 8081 8081
+ ---> Running in d15e632b6d5a
+ ---> 690f9e8b0455
+Removing intermediate container d15e632b6d5a
+Successfully built 690f9e8b0455
+[root@docker hello]# 
+[root@docker hello]# 
+[root@docker hello]# docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+hello_masum           latest              690f9e8b0455        7 minutes ago       125 MB
+<none>                <none>              a721fc7440bf        21 minutes ago      125 MB
+docker.io/nginx       latest              7f70b30f2cc6        13 hours ago        109 MB
+docker.io/wordpress   latest              346b1443b020        6 days ago          407 MB
+docker.io/mariadb     latest              ea5e726062ce        8 days ago          396 MB
+[root@docker hello]# 
+
+... note here the image id 690f9e8b0455 is present.
+
+... and lastly we can run the following command to build our environment 
+
+[root@docker hello]# docker-compose -f /root/hello/docker-compose.yml up -d
+
+... one of the example docker-compose file taken from internet
+
+wordpress:
+  image: wordpress
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8080:80
+wordpress_db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+phpmyadmin:
+  image: corbinu/docker-phpmyadmin
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8181:80
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: examplepass
+	
+...
+... this is also posible to store the document root for the web on host machine 
+... by using the docker data volume. one example can be as below.
+
+wordpress:
+...
+  volumes:
+    - /home/username/html:/var/www/html
+...
+... changes made in the file on host, have effect on container real time.
+
+
+
