@@ -1,0 +1,71 @@
+
+
+... kvm in the ubuntu
+... checking weather hard supports the kvm.
+... anything more than 0 from the following output says it supports the kvm
+... hardware accelaration.
+
+root@elxa6lj5k72:/etc# kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+root@elxa6lj5k72:/etc#
+
+root@elxa6lj5k72:/etc# egrep -c '(vmx|svm)' /proc/cpuinfo
+4
+root@elxa6lj5k72:/etc#
+
+... installing the kvm
+
+root@elxa6lj5k72:/etc# apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils virt-viewer
+root@elxa6lj5k72:/etc# systemctl start libvirtd
+root@elxa6lj5k72:/etc# systemctl status libvirtd
+
+root@elxa6lj5k72:/etc/init.d# systemctl enable libvirt-bin
+Synchronizing state of libvirt-bin.service with SysV init with /lib/systemd/systemd-sysv-install...
+Executing /lib/systemd/systemd-sysv-install enable libvirt-bin
+root@elxa6lj5k72:/etc/init.d#
+
+
+... libvirt-bin provides libvirtd which you need to administer qemu and kvm instances using libvirt
+... ubuntu-vm-builder powerful command line tool for building virtual machines
+... bridge-utils provides a bridge from your network to the virtual machines
+... virt-viewer, for viewing instances.
+... optionatlly virt-manager. GUI for managing and monitoring VMs.
+
+... checking the installation.
+
+root@elxa6lj5k72:/etc# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+
+root@elxa6lj5k72:/etc#
+
+... adding users to the groups.
+
+root@elxa6lj5k72:/etc# adduser `id -un` kvm
+Adding user `root' to group `kvm' ...
+Adding user root to group kvm
+Done.
+root@elxa6lj5k72:/etc# adduser `id -un` libvirtd
+Adding user `root' to group `libvirtd' ...
+Adding user root to group libvirtd
+Done.
+root@elxa6lj5k72:/etc#
+
+root@elxa6lj5k72:/etc/init.d# gpasswd libvirtd -a user_name
+Adding user user_name to group libvirtd
+root@elxa6lj5k72:/etc/init.d#
+
+
+root@elxa6lj5k72:/etc# virt-host-validate
+  QEMU: Checking for hardware virtualization                                 : PASS
+  QEMU: Checking if device /dev/kvm exists                                   : PASS
+  QEMU: Checking if device /dev/kvm is accessible                            : PASS
+  QEMU: Checking if device /dev/vhost-net exists                             : PASS
+root@elxa6lj5k72:/etc#
+
+
+
+
+
+

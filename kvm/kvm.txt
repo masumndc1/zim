@@ -1,0 +1,70 @@
+
+
+... kvm installation
+... to check weather the kernel has the kvm capabilities
+
+[root@kvm ~]# grep --color -Ew 'svm|vmx|lm' /proc/cpuinfo
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 syscall
+ nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc pni pclmulqdq monitor ssse3 cx16 sse4_1 sse4_2 x2apic movbe
+ popcnt aes xsave avx rdrand hypervisor lahf_lm abm 3dnowprefetch rdseed clflushopt
+[root@kvm ~]# 
+
+... The svm ﬂag means that the CPU has AMD-V, vmx ﬂag means that the CPU has VT-x,
+... and lm means a 64-bit support.
+
+... if kvm module is not loaded then we can load them like below
+
+[root@kvm ~]# modprobe kvm kvm_intel 
+[root@kvm ~]# lsmod | grep kvm
+kvm                   570658  0 
+irqbypass              13503  1 kvm
+[root@kvm ~]# 
+ 
+... installing the kvm on a centos7 machine and enabling it.
+
+[root@kvm ~]# yum install -y qemu-kvm libvirt virt-install virt-manager  
+[root@kvm ~]# systemctl enable libvirtd && systemctl start libvirtd
+[root@kvm ~]# 
+
+... checking which version we have 
+
+[root@kvm ~]# libvirtd --version
+libvirtd (libvirt) 3.2.0
+[root@kvm ~]# 
+
+... checking system capabilities of running kvm.
+
+[root@kvm ~]# virt-host-validate
+
+... using virsh 
+
+[root@kvm ~]# 
+[root@kvm ~]# virsh nodeinfo
+CPU model:           x86_64
+CPU(s):              1
+CPU frequency:       2566 MHz
+CPU socket(s):       1
+Core(s) per socket:  1
+Thread(s) per core:  1
+NUMA cell(s):        1
+Memory size:         1048120 KiB
+
+[root@kvm ~]# 
+
+... the following output showing us we can use max 240vcpu as well as disk, cdrom, floppy and lun.
+
+[root@kvm ~]# virsh domcapabilities | grep -i max
+  <vcpu max='240'/>
+[root@kvm ~]# 
+[root@kvm ~]# virsh domcapabilities | grep diskDevice -A 5
+      <enum name='diskDevice'>
+        <value>disk</value>
+        <value>cdrom</value>
+        <value>floppy</value>
+        <value>lun</value>
+      </enum>
+[root@kvm ~]# 
+
+
+
+
