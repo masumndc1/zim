@@ -1,0 +1,21 @@
+
+
+... installing packages in netbsd
+
+# PATH="/usr/pkg/sbin:$PATH"
+# PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/7.1.2/All/"
+# export PATH PKG_PATH
+
+# pkg_add bash
+# pkg_info bash
+
+... networking in netbsd
+
+... If your network is setup to use DHCP, all you need to do is set dhclient=yes in /etc/rc.conf
+... If no DHCP is available, we can put the following lines in the /etc/rc.conf file 
+... 
+
+ifconfig ex0 192.168.253.2 netmask 255.255.255.0
+route add default 192.168.253.1
+
+
