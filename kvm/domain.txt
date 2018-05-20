@@ -1,0 +1,49 @@
+
+
+... here we can find something info related to domain
+... listing all domain including shutted down.
+
+root@elxa6lj5k72:/home/edmudoh# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 1     centos7.0                      running
+ 2     cirros                         running
+ -     generic                        shut off
+ -     generic-2                      shut off
+ -     generic-3                      shut off
+ -     generic-4                      shut off
+ -     generic-5                      shut off
+ -     generic-6                      shut off
+
+root@elxa6lj5k72:/home/edmudoh#
+
+... listing only the running domains.
+
+root@elxa6lj5k72:~# virsh list
+ Id    Name                           State
+----------------------------------------------------
+ 1     centos7.0                      running
+ 2     cirros                         running
+
+root@elxa6lj5k72:~# 
+
+... listing the interface related info
+
+root@elxa6lj5k72:~# virsh domiflist centos7.0
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet0      network    default    virtio      52:54:00:02:40:ac
+vnet1      network    isolated   virtio      52:54:00:f0:11:df
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh domiflist cirros
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet2      network    default    rtl8139     52:54:00:3f:2d:bf
+vnet3      network    isolated1  virtio      52:54:00:8b:59:98
+
+root@elxa6lj5k72:~# 
+
+
+
+

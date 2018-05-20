@@ -1,0 +1,31 @@
+
+
+... using virt-builder in ubuntu
+
+root@elxa6lj5k72:~# apt-get install libguestfs-tools
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+ubuntu-vm-builder is already the newest version (0.12.4+bzr494-0ubuntu1).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+root@elxa6lj5k72:~# 
+
+... now download a template 
+
+edmudoh@elxa6lj5k72:~/kvm$ virt-builder -l
+opensuse-13.1            x86_64     openSUSE 13.1
+opensuse-13.2            x86_64     openSUSE 13.2
+opensuse-42.1            x86_64     openSUSE Leap 42.1
+opensuse-tumbleweed      x86_64     openSUSE Tumbleweed
+centos-6                 x86_64     CentOS 6.6
+centos-7.0               x86_64     CentOS 7.0
+centos-7.1               x86_64     CentOS 7.1
+// output cut //
+
+root@elxa6lj5k72:/var/lib/libvirt/qemu# 
+root@elxa6lj5k72:/var/lib/libvirt/qemu# virt-builder centos-7.2 --format raw --size 40G
+
+
+
+
+

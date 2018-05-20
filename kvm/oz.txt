@@ -1,0 +1,67 @@
+
+
+... building virtual machine using oz
+
+... oz.cfg file is in /etc/oz/oz.cfg
+
+edmudoh@elxa6lj5k72:/etc/oz$ cat -n oz.cfg
+     1  [paths]
+     2  output_dir = /var/lib/libvirt/images
+     3  data_dir = /var/lib/oz
+     4  screenshot_dir = /var/lib/oz/screenshots
+     5  # sshprivkey = /etc/oz/id_rsa-icicle-gen
+     6
+     7  [libvirt]
+     8  uri = qemu:///system
+     9  image_type = raw
+    10  type = kvm
+    11  bridge_name = virbr0
+    12  cpus = 1
+    13  memory = 768
+    14
+    15  [cache]
+    16  original_media = yes
+    17  modified_media = no
+    18  jeos = no
+    19
+    20  [icicle]
+    21  safe_generation = no
+edmudoh@elxa6lj5k72:/etc/oz$ 
+ 
+... now we have to make one tdl file related to each virtual machine
+... tdl stands for the template description language.
+... the full example of how to write the tdl can be found in the 
+... https://github.com/clalancette/oz/wiki/Oz-template-description-language
+
+... one example of tdl file is below
+
+root@elxa6lj5k72:~/tdl# cat centos7.tdl 
+<template version="1.0">
+  <name>centos</name>
+  <os>
+    <name>centos</name>
+    <version>7</version>
+    <arch>x86_64</arch>
+    <install type='iso'>
+    <iso>file:////home/edmudoh/Downloads/CentOS-7-x86_64-Minimal-1708.iso</iso>
+    </install>
+  </os>
+<disk>
+<size>5</size>
+</disk>
+<description>minimal ubuntu </description>
+</template>
+root@elxa6lj5k72:~/tdl# 
+
+... now we can try to run following
+
+root@elxa6lj5k72:~/tdl# oz-install -u -d3 /root/tdl/centos7.tdl 
+
+... if successfull then fine if not we should have to troubleshoot.
+... after successfull operation we can do following
+
+#virsh define centos7_may
+#virsh start centos7
+
+
+

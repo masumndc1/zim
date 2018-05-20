@@ -1,0 +1,205 @@
+
+
+... networking in kvm
+...
+... we are now creating bridge in kvm like below
+
+root@elxa6lj5k72:/# apt-get install bridge-utils
+root@elxa6lj5k72:/# brctl addbr tester
+root@elxa6lj5k72:/# brctl show
+bridge name     bridge id               STP enabled     interfaces
+tester          8000.000000000000       no
+virbr0          8000.000000000000       yes
+root@elxa6lj5k72:/# 
+
+root@elxa6lj5k72:/# ip a 
+root@elxa6lj5k72:~# ip link show tester
+6: tester: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether ae:91:8c:ee:69:1a brd ff:ff:ff:ff:ff:ff
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# 
+
+... now creating one tap device like below.
+
+root@elxa6lj5k72:~# ip tuntap add dev vm-vnic mode tap
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# ip link show vm-vnic
+7: vm-vnic: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether d2:5e:01:a9:cd:cd brd ff:ff:ff:ff:ff:ff
+root@elxa6lj5k72:~# 
+
+... now add this tap device vm-vnic to bridge tester
+... and we will find from the below that it is added.
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# brctl addif tester vm-vnic
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# brctl show
+bridge name     bridge id               STP enabled     interfaces
+tester          8000.d25e01a9cdcd       no              vm-vnic
+virbr0          8000.000000000000       yes
+root@elxa6lj5k72:~# 
+
+... this will add vm-vnic interface to the bridge.
+... this can work like interface between bridge and the vm.
+... eventually vm can talk with each other.
+
+... libvirt will do the above procedure for us when enabling networking
+... between vm. therefore we dont need them to do manually. however 
+... we have done this because of understanding.
+
+... now let remove all of the things 
+
+root@elxa6lj5k72:~# brctl delif tester vm-vnic
+root@elxa6lj5k72:~# 
+bridge name     bridge id               STP enabled     interfaces
+tester          8000.000000000000       no
+virbr0          8000.000000000000       yes
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# ip tuntap del dev vm-vnic mode tap
+root@elxa6lj5k72:~# brctl delbr tester
+root@elxa6lj5k72:~# 
+
+... now the only remaining this is below.
+
+root@elxa6lj5k72:~# brctl show
+bridge name     bridge id               STP enabled     interfaces
+virbr0          8000.000000000000       yes
+root@elxa6lj5k72:~# 
+
+... defining one isolated network using virsh command.
+... to do so we need to create one xml file like below.
+
+root@elxa6lj5k72:~/kvm# cat isolated1.xml 
+<network>
+ <name>isolated1</name>
+</network>
+root@elxa6lj5k72:~/kvm# 
+
+root@elxa6lj5k72:~/kvm# virsh net-define isolated1.xml 
+Network isolated1 defined from isolated1.xml
+
+root@elxa6lj5k72:~/kvm# virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+ isolated             active     yes           yes
+ isolated1            inactive   no            yes
+ net1                 active     yes           yes
+
+root@elxa6lj5k72:~/kvm# 
+
+root@elxa6lj5k72:~# virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+ isolated             active     yes           yes
+ isolated1            inactive   no            yes
+ net1                 active     yes           yes
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh net-dumpxml isolated
+<network>
+  <name>isolated</name>
+  <uuid>afe1affb-5960-4fa0-afcf-cda49061991a</uuid>
+  <bridge name='virbr1' stp='on' delay='0'/>
+  <mac address='52:54:00:a2:41:80'/>
+  <domain name='isolated'/>
+  <ip address='192.168.100.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.100.128' end='192.168.100.254'/>
+    </dhcp>
+  </ip>
+</network>
+
+root@elxa6lj5k72:~# 
+
+... we can auto start any net when libvirt starts using virsh by following.
+... we can also start any net using virsh by following.
+
+root@elxa6lj5k72:~# virsh net-autostart isolated1
+Network isolated1 marked as autostarted
+
+root@elxa6lj5k72:~# virsh net-start isolated1
+Network isolated1 started
+
+root@elxa6lj5k72:~# virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+ isolated             active     yes           yes
+ isolated1            active     yes           yes
+ net1                 active     yes           yes
+
+root@elxa6lj5k72:~# 
+
+... now we can add our virtual machine to this created network.
+... we should always select virtio as device model. other options like
+... e1000(intel) and the rtl1839(realtek) are not good options in the
+... production world.
+
+... virtio type interface can be added to a running vm. we can do that
+... by following.
+
+root@elxa6lj5k72:~# virsh domiflist cirros
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet2      network    default    rtl8139     52:54:00:3f:2d:bf
+vnet3      network    isolated1  virtio      52:54:00:8b:59:98
+
+root@elxa6lj5k72:~# virsh attach-interface --domain cirros --source isolated --type network \
+> --model virtio --config --live
+Interface attached successfully
+
+• --config : This will make the change persistent in the next startup of the VM.
+• --live : This will inform libvirt that you are attaching the NIC to a live
+           virtual machine. Remove --live if the virtual machine is not running.
+... If you just wanted to attach a virtual network interface temporarily to
+... a virtual machine, just use --live and ignore --config.
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh domiflist cirros
+Interface  Type       Source     Model       MAC
+-------------------------------------------------------
+vnet2      network    default    rtl8139     52:54:00:3f:2d:bf
+vnet3      network    isolated1  virtio      52:54:00:8b:59:98
+vnet4      network    isolated   virtio      52:54:00:76:15:26
+
+root@elxa6lj5k72:~# brctl show
+bridge name     bridge id               STP enabled     interfaces
+virbr0          8000.fe54000240ac       yes             vnet0
+                                                        vnet2
+virbr1          8000.fe5400761526       yes             vnet1
+                                                        vnet4
+virbr2          8000.000000000000       yes
+virbr3          8000.5254001104c0       yes             virbr3-nic
+                                                        vnet3
+... vnet3 is attached with the bridge virbr3. let dig down with the
+... virtual bridge 1. 
+
+root@elxa6lj5k72:~# brctl show virbr3
+bridge name     bridge id               STP enabled     interfaces
+virbr3          8000.5254001104c0       yes             virbr3-nic
+                                                        vnet3
+root@elxa6lj5k72:~# 
+
+... this virbr3-nic was created by libvirt when it starts virbr3.
+... the purpose of this interface is to provide consistent and reliable
+... mac address all the time. this interface will remain all the time
+... until the bridge is removed.
+
+... now we can detached the interface created by following.
+
+root@elxa6lj5k72:~# virsh detach-interface --domain cirros --type network --mac \
+> 52:54:00:8b:59:98 --config --live
+Interface detached successfully
+
+root@elxa6lj5k72:~# 
+
+... we have to very careful when we delete an interface from one running vm
+... because this can disturb the connectivity.
+
+
+
+
