@@ -1,0 +1,41 @@
+
+
+
+... virtual machine inside virtual machine
+... to run vm into another vm we need to enable nested kvm.
+
+... By default, nested KVM is disabled.
+... but we can enable it by following
+
+... Open /etc/modprobe.d/kvm.conf as root user using a text editor like vim.
+... If the file does not exist create /etc/modprobe.d/kvm.conf
+
+	 #Uncomment kvm_intel line if your CPU make is Intel
+	 #options kvm_intel nested=1
+
+	 #Uncomment kvm_intel line if your CPU make is AMD
+	 #options kvm_amd nested=1
+
+... then reboot the system and check the following.
+
+root@elxa6lj5k72:~# cat /sys/module/kvm_intel/parameters/nested
+Y
+root@elxa6lj5k72:~# 
+
+... For AMD, the file to check is /sys/module/kvm_intel/parameters/nested :
+
+... run the following inside the vm to see the effect.
+
+root@elxa6lj5k72:~# egrep '(vmx|svm)' /proc/cpuinfo
+root@elxa6lj5k72:~# egrep -c '(vmx|svm)' /proc/cpuinfo
+2
+root@elxa6lj5k72:~# 
+
+... i have found they are working right..
+
+
+
+
+
+
+

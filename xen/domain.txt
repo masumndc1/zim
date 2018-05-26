@@ -8,3 +8,55 @@ virt-install \
 --memory 128 \
 --disk /var/lib/libvirt/images/testvm6.img,size=2 \
 --location "/var/lib/xen/CentOS-7-x86_64-Minimal-1611.iso" 
+
+... ready image used by xen can be found from internet in various location.
+... among many the following are good. they might be unmodified which need 
+... to be modified before the use.
+
+• Jailtime: http://jailtime.org/
+• Oszoo: http://www.oszoo.org/wiki/index.php/Category:OS_images
+. http://stacklet.com/
+
+... installing netbsd in xen
+
+... downloading netbsd domU and unpack it to /boot
+
+root@slave:/# wget -c http://ftp.netbsd.org/pub/NetBSD/NetBSD-7.1.2/i386/binary/kernel/netbsd-XEN3_DOMU.gz
+root@slave:/# zcat netbsd-XEN3_DOMU.gz > /boot/netbsd7.1.2
+cd /boot
+root@slave:/# cd /boot
+root@slave:/boot# ls
+abi-4.10.0-19-generic     initrd.img-4.10.0-19-generic  vmlinuz-4.10.0-19-generic
+config-4.10.0-19-generic  netbsd7.1.2                   xen-4.6-amd64
+grub                      System.map-4.10.0-19-generic
+root@slave:/boot#
+
+... creating the file system for the installation.
+
+root@slave:~/xen/netbsd# pwd
+/root/xen/netbsd
+root@slave:~/xen/netbsd# dd if=/dev/zero of=./netbsd.img bs=1M count=500
+500+0 records in
+500+0 records out
+524288000 bytes (524 MB, 500 MiB) copied, 13.7103 s, 38.2 MB/s
+
+root@slave:~/xen/netbsd# dd if=/dev/zero of=./netbsd_swap.img bs=1M count=300
+300+0 records in
+300+0 records out
+314572800 bytes (315 MB, 300 MiB) copied, 6.88742 s, 45.7 MB/s
+root@slave:~/xen/netbsd# ls -la
+total 821404
+drwxr-xr-x 2 root root      4096 May 26 19:35 .
+drwxr-xr-x 3 root root      4096 May 26 19:23 ..
+-rw-r--r-- 1 root root 524288000 May 26 19:33 netbsd.img
+-rw-r--r-- 1 root root 314572800 May 26 19:35 netbsd_swap.img
+-rw-r--r-- 1 root root   2243073 Mar 16 00:50 netbsd-XEN3_DOMU.gz
+
+... now creating swap and ext3 file system.
+
+root@slave:~/xen/netbsd# mkfs.ext3 netbsd.img
+root@slave:~/xen/netbsd# mkswap netbsd_swap.img
+
+... creating the configuration file that will be used for xl
+
+

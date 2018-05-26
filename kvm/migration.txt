@@ -1,0 +1,85 @@
+
+
+... v2v is the process used to convert vm in one environment to another environment.
+... p2v is same when we need to convert all data from a physical server into virtual world.
+... in another word p2v is something like converting one physical to virtual world.
+
+... v2v we use to convert vms running on a virtual machine to run in kvm, openstack, ovirt
+... and rhev (red hat enterprise virtualization). 
+
+... virt-v2v can currently convert RHEL4, RHEL 5, RHEL 6, RHEL 7, Windows XP,
+... Windows Vista, Windows 7, Windows Server 2003, Windows Server 2008 virtual
+... machines running on Xen, VMware ESX, and physical systems to KVM hypervisors.
+
+... The following source hypervisors are currently supported by virt-v2v:
+... libvirt-managed Xen
+... VMware vSphere ESX/ESXi—versions 3.5, 4.0, 4.1, 5.0, 5.1, and 5.5
+
+... the virt-v2v utility performs the following steps:
+... Retrieve guest configuration (xml) from the hypervisor
+... Export a disk image
+... Modify the disk image
+... Create a guest on the target hypervisor
+
+... guest operating system prerequisits:
+
+... for linux
+... the guest operating linux system kernel should have the virtio drivers. we can check 
+
+[root@centos7 ~]# lsmod | grep virtio
+virtio_balloon         13864  0 
+virtio_blk             18156  3 
+virtio_console         28066  0 
+virtio_net             28096  0 
+virtio_pci             22913  0 
+virtio_ring            22746  5 virtio_blk,virtio_net,virtio_pci,virtio_balloon,virtio_console
+virtio                 14959  5 virtio_blk,virtio_net,virtio_pci,virtio_balloon,virtio_console
+[root@centos7 ~]# 
+
+... for windows.
+
+... Install the libguestfs-winsupport package on the host running
+... virt-v2v. This package provides support for NTFS, which is used by many Windows systems.
+
+... Install the virtio-win package on the host running virt-v2v. This
+... package provides paravirtualized block and network drivers for Windows guests:
+
+... Disable the Anti-Virus (AV) software if any installed, as in some
+... circumstances it may prevent new drivers that virt-v2v installs from working.
+
+... Disable Group Policy before doing the conversion, as in some
+... circumstances it may prevent new drivers that virt-v2v installs, from working.
+
+
+... Source hypervisor-specific prerequisites:
+... KVM: Ensure that SSH is enabled and listening on the default port. Root
+... login over SSH must be allowed. Make sure that the PermitRootLogin
+... directive set to yes in /etc/ssh/sshd_config .
+
+... VMware vSphere: Make sure that the following checklist is followed:
+... Remove VMware-Tools installed on the system
+... Enable SSH access to the system with permit root login
+... virt-v2v directly talks to vCenter in order to perform the conversion,
+... so you need either administrator-user credentials or a user with a
+... custom non-administrator role, with a minimum set of permissions
+... to access datastores and virtual machine configurations
+
+... XEN Virtualization: The conversion guest must have access to the packages
+... repository as new kernel and drivers need to be downloaded, and SSH should be enabled.
+
+... after the conversion process done we can run the following command to define
+... the virtual machine.
+
+# virsh define /path/to/xml
+
+... converting from ova to kvm.
+
+root@elxa6lj5k72:/# virt-v2v -v -i ova -of qcow2 -os default OWASP_Broken_Web_Apps_VM_1.2.ova 
+
+... but i have problem with it. so what i did is I extracted the ova with tar command and use
+... the vmdk file into kvm as storage.
+
+
+
+
+

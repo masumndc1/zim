@@ -85,4 +85,22 @@ root@onion:~/dumpcap#
 
 root@onion:~/dumpcap# tshark -t ad -r /tmp/tshark-icmp.pcap -R "icmp.type == 0" -V -x
 
+... another example of tshirk
+
+root@onion:/nsm/sensor_data/onion-eth0/dailylogs/2017-08-12# pwd
+/nsm/sensor_data/onion-eth0/dailylogs/2017-08-12
+root@onion:/nsm/sensor_data/onion-eth0/dailylogs/2017-08-12#
+
+root@onion:/nsm/sensor_data/onion-eth0/dailylogs/2017-08-12# ls
+snort.log.1502544233
+root@onion:/nsm/sensor_data/onion-eth0/dailylogs/2017-08-12#
+
+root@onion:/# tshark -n -t ad -r snort.log.1502544233 udp.port == 53 or tcp.port == 21
+root@onion:/# tshark -n -t ad -r snort.log.1502544233 udp.port == 53 or icmp
+
+59437 2017-08-12 21:00:15.486657 192.168.35.2 -> 192.168.35.128 DNS 87 Standard query response, No such name
+59442 2017-08-12 21:00:38.998572 192.168.35.2 -> 192.168.35.128 ICMP 115 Destination unreachable (Port unreachable)
+59483 2017-08-12 21:09:53.451337 192.168.35.128 -> 192.168.35.2 DNS 69 Standard query A id.orig_poo
+
+
 
