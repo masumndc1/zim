@@ -201,5 +201,97 @@ root@elxa6lj5k72:~#
 ... because this can disturb the connectivity.
 
 
+... we can edit one network by the option net-edit with the command virsh. 
+... and then we can edit according to our requirement.
+
+root@elxa6lj5k72:~# virsh net-edit net1                                                                                                               
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/ed
+  2. /bin/nano        <---- easiest
+  3. /usr/bin/vim.basic
+  4. /usr/bin/vim.tiny
+
+Choose 1-4 [2]: 3
+Network net1 XML configuration not changed.
+
+root@elxa6lj5k72:~# 
+
+... we can also check the syntax using the net-dumpxml options with the virsh command
+
+root@elxa6lj5k72:~# virsh net-dumpxml net1
+<network>
+  <name>net1</name>
+  <uuid>721cb14c-4348-44d7-8c4d-02a7e58910a8</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr2' stp='on' delay='0'/>
+  <mac address='52:54:00:a4:8c:61'/>
+  <domain name='net1'/>
+  <ip address='192.168.101.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.101.128' end='192.168.101.254'/>
+    </dhcp>
+  </ip>
+</network>
+
+root@elxa6lj5k72:~# 
+
+... after doing all the editing we can start our network by following
+
+root@elxa6lj5k72:~# virsh net-start net1
+
+... bridge type network.
+... this type of networking is used when we need our virtual machine should be part of 
+... particular network. it is usefull when we have service in our virtual machines and 
+... other machines from the same network should have access them. 
+
+... installing the packeges for the bridging
+
+root@elxa6lj5k72:~# apt-get install bridge-utils
+
+... we are going to create one bridge with our virbr3 interface so that vms in kvm can
+... talk with our vms in virtualbox. our system is ubuntu 16.04. 
+... first going to configure the interface file like below.
+
+root@elxa6lj5k72:/etc/network# cat interfaces
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto enp0s31f6
+iface enp0s31f6 inet dhcp
+
+auto br0
+iface br0 inet dhcp
+  bridge_ports virbr3 vboxnet1
+
+root@elxa6lj5k72:/etc/network# 
+
+
+
+... MacVTap type of connections
+... this is used when we need our local network user need to access our virtual machines.
+... this is not common use type of network, can be used when we do not need to use bridge 
+... network.
+
+... pci pass through.
+... PCI passthrough is used to pass through PCI devices on the host to a virtual
+... machine. This is primarily used to directly pass network interfaces on the host to a
+... virtual machine for increased performance.
+
+... To enable PCI passthrough, you have to use the following steps:
+
+Enable Intel VT-d or AMD IOMMU in the BIOS and kernel:
+# vi /etc/sysconfig/grub
+append intel_iommu=on or amd_iommu=on  in the GRUB_CMDLINE_LINUX= line
+
+Rebuild the grub2 configuration file as follows and then reboot the hypervisor:
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
 
 

@@ -1,0 +1,221 @@
+
+
+... storage for the kvm.
+... actually storage is same for other virtualized environment.
+... we can create a storage for our vms(virtual machines) which is nothing but a file
+... in the host machine and attached to our vms.
+
+... creating preallocated 10GB of space.
+
+root@elxa6lj5k72:~/kvm# dd if=/dev/zero of=/root/kvm/test.img bs=1G count=10
+10+0 records in
+10+0 records out
+10737418240 bytes (11 GB, 10 GiB) copied, 30,7108 s, 350 MB/s
+root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm# ls -la
+total 10485776
+-rw-r--r--  1 root root          45 huhti 25 23:44 isolated1.xml
+-rw-r--r--  1 root root 10737418240 touko 18 15:18 test.img
+root@elxa6lj5k72:~/kvm# 
+
+... Duplicate data ( dd ) from the input file ( if ) of /dev/zero (virtual limitless supply of
+... 0s) into the output file ( of ) of /root/kvm/test.img (disk image) using blocks of 1G
+... size ( bs = block size ) and repeat this ( count 10). 
+... that means 1GB block will be created 10 times. 10 count.
+
+... now created 10GB of thin provisioned space which will be initially few MB but will be
+... increased as the system grows. preallocated space has more faster performance than the
+... thin provisioned.
+
+root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm# dd if=/dev/zero of=/root/kvm/test_seek.img bs=1G seek=10 count=0
+0+0 records in
+0+0 records out
+0 bytes copied, 0,000342595 s, 0,0 kB/s
+root@elxa6lj5k72:~/kvm# ls -la
+total 10485776
+drwxr-xr-x  2 root root        4096 touko 18 15:27 .
+drwx------ 11 root root        4096 touko 17 17:21 ..
+-rw-r--r--  1 root root          45 huhti 25 23:44 isolated1.xml
+-rw-r--r--  1 root root 10737418240 touko 18 15:18 test.img
+-rw-r--r--  1 root root 10737418240 touko 18 15:27 test_seek.img
+root@elxa6lj5k72:~/kvm# 
+
+... using qemu-img command to find the info regarding to the storage.
+
+root@elxa6lj5k72:~/kvm# qemu-img info test.img
+image: test.img
+file format: raw
+virtual size: 10G (10737418240 bytes)
+disk size: 10G
+root@elxa6lj5k72:~/kvm# 
+
+root@elxa6lj5k72:~/kvm# qemu-img info test_seek.img 
+image: test_seek.img
+file format: raw
+virtual size: 10G (10737418240 bytes)
+disk size: 0
+root@elxa6lj5k72:~/kvm# 
+
+... here interesting things to monitor. 
+... thin provitioned disk has only disk size=0 but virtual size = 10G which this one 
+... exactly should be.
+... virtual size is something vms sees the size but disk size is actual size in the host.
+
+... it is always better to create disk for kvm in /var/lib/libvirt/images/
+
+... adding the disk using virsh command like below.
+
+root@elxa6lj5k72:~# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 1     centos7.0                      running
+ -     bwa                            shut off
+ -     cirros                         shut off
+ -     debian9.4                      shut off
+ -     dfly                           shut off
+ -     freebsd11                      shut off
+ -     NetBSD7.1.2                    shut off
+ -     openbsd6.3                     shut off
+ -     ubuntu16.04                    shut off
+ -     ubuntu16.04.4                  shut off
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh attach-disk centos7.0 /var/lib/libvirt/images/
+centos7.0.qcow2               dfly.qcow2                    generic.qcow2                 test_seek.img
+cirros-0.4.0-x86_64-disk.img  generic-5.qcow2               NetBSD7.1.2.qcow2             
+debian9.4.qcow2               generic-6.qcow2               openbsd6.3.qcow2              
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh attach-disk centos7.0 /var/lib/libvirt/images/test_seek.img vdb --live --config
+Disk attached successfully
+
+root@elxa6lj5k72:~# 
+
+... Here, centos7.0 is the virtual machine to which a disk attachment is executed. Then
+... there is the path of disk image. vdb is the target disk name that would be visible
+... inside the guest operating system. --live means performing the action while the
+... virtual machine is running, and --config means attaching it persistently across
+... reboot. Not adding a --config switch will keep the disk attached only till reboot.
+
+... now check whether that has been attached or not
+
+root@elxa6lj5k72:~# virsh domblklist centos7.0 --details
+Type       Device     Target     Source
+------------------------------------------------
+file       disk       vda        /var/lib/libvirt/images/centos7.0.qcow2
+file       disk       vdb        /var/lib/libvirt/images/test_seek.img
+file       cdrom      hda        -
+
+root@elxa6lj5k72:~# 
+
+... storage info 
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh pool-list
+ Name                 State      Autostart 
+-------------------------------------------
+ default              active     yes       
+ Documents            active     yes       
+ Downloads            active     yes       
+ kvm                  active     yes       
+
+root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~# virsh pool-info kvm
+Name:           kvm
+UUID:           6fdac2f3-3844-457a-912d-fbf0470b8e29
+State:          running
+Persistent:     yes
+Autostart:      yes
+Capacity:       218,67 GiB
+Allocation:     72,55 GiB
+Available:      146,12 GiB
+
+root@elxa6lj5k72:~# 
+
+... creating one iso image library where we can put the iso 
+
+root@elxa6lj5k72:~/kvm# mkdir iso_dir
+root@elxa6lj5k72:~/kvm# chmod 700 iso_dir/
+root@elxa6lj5k72:~/kvm# 
+
+root@elxa6lj5k72:~/kvm# virsh pool-define-as iso_directory dir - - - - "/root/kvm/iso_dir"
+Pool iso_directory defined
+
+root@elxa6lj5k72:~/kvm# virsh pool-build iso_directory 
+Pool iso_directory built
+
+root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm# virsh pool-start iso_directory 
+Pool iso_directory started
+
+root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm# virsh pool-info iso_directory 
+Name:           iso_directory
+UUID:           efe17e06-c0eb-4ad7-b6a5-a4823e9e271d
+State:          running
+Persistent:     yes
+Autostart:      no
+Capacity:       218,67 GiB
+Allocation:     77,28 GiB
+Available:      141,39 GiB
+
+root@elxa6lj5k72:~/kvm#
+
+... now coping iso in this directory and refresh the pool
+
+root@elxa6lj5k72:/home/download# cp *.iso /root/kvm/iso_dir/
+
+root@elxa6lj5k72:~/kvm# virsh vol-list iso_directory 
+ Name                 Path                                    
+------------------------------------------------------------------------------
+ CentOS-7-x86_64-Minimal-1708.iso /root/kvm/iso_dir/CentOS-7-x86_64-Minimal-1708.iso
+ debian-9.4.0-amd64-xfce-CD-1.iso /root/kvm/iso_dir/debian-9.4.0-amd64-xfce-CD-1.iso
+ dfly-x86_64-5.2.0_REL.iso /root/kvm/iso_dir/dfly-x86_64-5.2.0_REL.iso
+ FreeBSD-11.1-RELEASE-amd64-bootonly.iso /root/kvm/iso_dir/FreeBSD-11.1-RELEASE-amd64-bootonly.iso
+ FreeBSD-11.1-RELEASE-amd64-disc1.iso /root/kvm/iso_dir/FreeBSD-11.1-RELEASE-amd64-disc1.iso
+ install63.iso        /root/kvm/iso_dir/install63.iso         
+ NetBSD-7.1.2-amd64.iso /root/kvm/iso_dir/NetBSD-7.1.2-amd64.iso
+ ubuntu-16.04.4-server-amd64.iso /root/kvm/iso_dir/ubuntu-16.04.4-server-amd64.iso
+
+root@elxa6lj5k72:~/kvm# 
+
+... now coping iso in this directory and refresh the pool
+
+root@elxa6lj5k72:/home/download# cp *.iso /root/kvm/iso_dir/
+
+... Deleting storage pool using virsh
+
+... The sequence is the same; you first need to stop the pool by running:
+
+ virsh pool-destroy <pool-name> 
+
+and then undefine it using 
+
+ virsh pool-undefine <pool-name> 
+
+
+... Creating volume using virsh command
+... below default is the storage pool, vm1 is the volume name, and 10 GB is the size.
+
+root@elxa6lj5k72:~/kvm# virsh vol-create-as default vm1 10G
+Vol vm1 created
+
+root@elxa6lj5k72:~/kvm# virsh vol-info --pool default vm1 
+Name:           vm1
+Type:           file
+Capacity:       10,00 GiB
+Allocation:     10,00 GiB
+
+root@elxa6lj5k72:~/kvm# 
+
+... Deleting a volume using the virsh command
+... below Executing this command will remove the vm1 volume from the default storage pool.
+
+root@elxa6lj5k72:~/kvm# virsh vol-delete --pool default vm1
+Vol vm1 deleted
+
+root@elxa6lj5k72:~/kvm# 
+
+
+
+
