@@ -36,6 +36,7 @@
   </database_output>
 </ossec_config>
 
-
+... the integrity check can be found on server's 
+... /var/ossec/logs/ossec.log
 
 
