@@ -1,0 +1,207 @@
+
+
+... installing the ossec on centos7
+... 
+... first installing the dependency
+
+... installing the database related things if needed. otherwise not
+... yum install mysql-devel postgresql-devel
+
+... now we can install the packages by yum
+
+# wget -q -O - https://updates.atomicorp.com/installers/atomic |sh
+
+Next use yum to install the specific packages. 
+
+For an OSSEC server run:
+
+# yum install ossec-hids ossec-hids-server
+
+And for an agent run:
+
+# yum install ossec-hids ossec-hids-client
+
+... after the installation we can chech ossec running
+
+[root@localhost init.d]# service ossec-hids status
+ossec-monitord not running...
+ossec-logcollector not running...
+ossec-remoted not running...
+ossec-syscheckd not running...
+ossec-analysisd not running...
+ossec-maild not running...
+ossec-execd not running...
+[root@localhost init.d]#
+
+
+[root@localhost bin]# ls
+agent_control     ossec-authd         ossec-luac       ossec-server.sh
+clear_stats       ossec-control       ossec-maild      ossec-syscheckd
+list_agents       ossec-csyslogd      ossec-makelists  rootcheck_control
+manage_agents     ossec-execd         ossec-monitord   syscheck_control
+ossec-agentd      ossec-logcollector  ossec-regex      syscheck_update
+ossec-agentlessd  ossec-logtest       ossec-remoted    verify-agent-conf
+ossec-analysisd   ossec-lua           ossec-reportd
+[root@localhost bin]#
+[root@localhost bin]# pwd
+/var/ossec/bin
+[root@localhost bin]# ls
+agent_control     ossec-authd         ossec-luac       ossec-server.sh
+clear_stats       ossec-control       ossec-maild      ossec-syscheckd
+list_agents       ossec-csyslogd      ossec-makelists  rootcheck_control
+manage_agents     ossec-execd         ossec-monitord   syscheck_control
+ossec-agentd      ossec-logcollector  ossec-regex      syscheck_update
+ossec-agentlessd  ossec-logtest       ossec-remoted    verify-agent-conf
+ossec-analysisd   ossec-lua           ossec-reportd
+[root@localhost bin]# ./ossec-control start
+
+... to start the ossec we need to configure the following files
+
+[root@localhost etc]# pwd
+/var/ossec/etc
+[root@localhost etc]# ls
+decoders.d             ossec.conf            rules.d          templates
+decoder.xml            ossec.conf.sample     shared
+internal_options.conf  ossec-server.conf     sslmanager.cert
+localtime              ossec-server.conf.bk  sslmanager.key
+[root@localhost etc]#
+[root@localhost etc]# diff ossec-server.conf ossec-server.conf.bk
+6,8c6,8
+<     <email_to>masumndc1@gmail.com</email_to>
+<     <smtp_server>smtp.gmail.com.</smtp_server>
+<     <email_from>ossecm@masum.com.</email_from>
+---
+>     <email_to>daniel.cid@example.com</email_to>
+>     <smtp_server>smtp.example.com.</smtp_server>
+>     <email_from>ossecm@ossec.example.com.</email_from>
+[root@localhost etc]#
+
+[root@localhost bin]# ./ossec-control start
+Starting OSSEC HIDS 2.9.3 (by Trend Micro Inc.)...
+Started ossec-maild...
+Started ossec-execd...
+Started ossec-analysisd...
+Started ossec-logcollector...
+Started ossec-remoted...
+Started ossec-syscheckd...
+Started ossec-monitord...
+Completed.
+[root@localhost bin]# ./ossec-control status
+ossec-monitord is running...
+ossec-logcollector is running...
+ossec-remoted: Process 1710 not used by ossec, removing ..
+ossec-remoted not running...
+ossec-syscheckd is running...
+ossec-analysisd is running...
+ossec-maild is running...
+ossec-execd is running...
+[root@localhost bin]#
+
+... the our ossec server is running now.
+... on firewall we need to allow port 1514/udp and 514/udp 
+... so that it can receive request from the client/agent.
+
+
+[root@localhost etc]# iptables -A INPUT -s 192.168.10.139 -p udp --dport 1514 -j ACCEPT
+[root@localhost etc]# iptables -A INPUT -s 192.168.10.139 -p udp --dport 514 -j ACCEPT
+
+... now we are moving to the agent configuration on ubuntu server
+
+root@slave:/var/ossec# uname -a
+Linux ossec-agent 4.10.0-19-generic #21-Ubuntu SMP Thu Apr 6 17:03:14 UTC 2017 i686 i686 i686 GNU/Linux
+root@slave:/var/ossec#
+
+... Install the apt-get repository key:
+
+# apt-key adv --fetch-keys http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
+# echo 'deb http://ossec.wazuh.com/repos/apt/ubuntu precise main' >> /etc/apt/sources.list
+
+# apt-get update ; apt-get install ossec-hids ; apt-get install ossec-hids-agent
+
+... it will prompt for the manager or server ip address.
+
+... now on the server side we need to authenticate and authorize the agent
+
+[root@localhost bin]# pwd
+/var/ossec/bin
+[root@localhost bin]# ls
+agent_control     ossec-authd         ossec-luac       ossec-server.sh
+clear_stats       ossec-control       ossec-maild      ossec-syscheckd
+list_agents       ossec-csyslogd      ossec-makelists  rootcheck_control
+manage_agents     ossec-execd         ossec-monitord   syscheck_control
+ossec-agentd      ossec-logcollector  ossec-regex      syscheck_update
+ossec-agentlessd  ossec-logtest       ossec-remoted    verify-agent-conf
+ossec-analysisd   ossec-lua           ossec-reportd
+[root@localhost bin]# ./manage_agents
+
+****************************************
+* OSSEC HIDS v2.9.2 Agent manager.     *
+* The following options are available: *
+****************************************
+   (A)dd an agent (A).
+   (E)xtract key for an agent (E).
+   (L)ist already added agents (L).
+   (R)emove an agent (R).
+   (Q)uit.
+Choose your action: A,E,L,R or Q: A
+
+Available agents:
+   ID: 001, Name: ubuntu1, IP: 192.168.10.139
+
+... and must be server restarted after adding agent.... and must be server restarted after adding agent.
+... after adding agent we can see those by the following and selecting L.
+
+... on agent side
+
+# ./manage_agents
+
+... now retrieve the key information from server for the agent ubuntu1
+... we can do that by the command ./manage_agents and press E.
+... and then copy and paste on ubuntu1 agent.
+
+agent #
+
+root@slave:/var/ossec/bin# ./manage_agents
+
+
+****************************************
+* OSSEC HIDS v2.8.3 Agent manager.     *
+* The following options are available: *
+****************************************
+   (I)mport key from the server (I).
+   (Q)uit.
+Choose your action: I or Q:
+
+... here press the I to import the key from the server. now both of them
+... should transfer the info encrypted.
+... and finally restart the agent too.
+
+... on agent side.
+
+root@slave:/var/ossec/bin# ls
+agent-auth     ossec-agentd   ossec-execd         ossec-syscheckd
+manage_agents  ossec-control  ossec-logcollector  util.sh
+root@slave:/var/ossec/bin# ./ossec-control start
+Starting OSSEC HIDS v2.8.3 (by Trend Micro Inc.)...
+ossec-execd already running...
+ossec-agentd already running...
+Started ossec-logcollector...
+Started ossec-syscheckd...
+Completed.
+root@slave:/var/ossec/bin#
+
+... after successfull connections we can see connected in ossec.log in
+... the agent.
+
+[root@kube-node1 logs]# tail -f ossec.log  | grep -i connected
+2018/05/27 21:12:14 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
+2018/05/27 21:13:33 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
+
+... the clients key installed in the server is as follows.
+
+[root@kube-node1 logs]# tail -f ossec.log  | grep -i connected
+2018/05/27 21:12:14 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
+2018/05/27 21:13:33 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
+2018/05/27 21:15:10 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
+
+

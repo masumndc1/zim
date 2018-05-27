@@ -1,0 +1,41 @@
+
+
+... some configuration tag in the /var/ossec/etc/ossec.conf file
+
+<ossec_config>
+  <remote>
+   <connection>secure</connection>
+   <allowed-ips>192.168.10.0/24</allowed-ips>
+  </remote>
+</ossec_config>
+
+... if we like to allow syslog instead of secure, we do that by 
+... following.
+
+<ossec_config>
+  <remote>
+   <connection>syslog</connection>
+   <allowed-ips>192.168.2.0/24</allowed-ips>
+   <allowed-ips>192.168.1.0/24</allowed-ips>
+  </remote>
+</ossec_config>
+
+... we can enable database option with ossec by following.
+
+[root@localhost bin]# ./ossec-control enable database
+
+... database options in the ossec.conf file are as follows
+
+<ossec_config>
+  <database_output>
+   <hostname>192.168.2.32</hostname>
+   <username>db_test</username>
+   <password>db_pass1</password>
+   <database>ossecdb</database>
+   <type>mysql</type>
+  </database_output>
+</ossec_config>
+
+
+
+
