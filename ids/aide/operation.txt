@@ -1,0 +1,171 @@
+
+...
+... at first we need to initialize the database like below.
+
+[root@localhost ~]# aide -i
+
+AIDE, version 0.15.1
+
+### AIDE database at /var/lib/aide/aide.db.new.gz initialized.
+
+[root@localhost ~]# 
+
+[root@localhost aide]# aide -v
+Aide 0.15.1
+
+Compiled with the following options:
+
+WITH_MMAP
+WITH_POSIX_ACL
+WITH_SELINUX
+WITH_PRELINK
+WITH_XATTR
+WITH_E2FSATTRS
+WITH_LSTAT64
+WITH_READDIR64
+WITH_ZLIB
+WITH_GCRYPT
+WITH_AUDIT
+CONFIG_FILE = "/etc/aide.conf"
+[root@localhost aide]# 
+
+... after the initialization it will create the aide.db.new.gz which need to 
+... move to new location. best options is the move to the read only medium.
+
+
+[root@localhost aide]# mv aide.db.new.gz aide.db.gz
+[root@localhost aide]# ls
+aide.db.gz
+[root@localhost aide]# 
+
+... now we will install some packages into the system and then run the aide to 
+... check the integrity changes 
+
+[root@localhost aide]# yum install nmap
+
+[root@localhost aide]# aide --check
+AIDE 0.15.1 found differences between database and filesystem!!
+Start timestamp: 2018-05-28 09:10:48
+
+Summary:
+  Total number of files:        90415
+  Added files:                  638
+  Removed files:                0
+  Changed files:                4
+
+
+---------------------------------------------------
+Added files:
+---------------------------------------------------
+
+added: /bin/ndiff
+added: /bin/nmap
+added: /bin/nping
+added: /usr/bin/ndiff
+added: /usr/bin/nmap
+added: /usr/bin/nping
+added: /usr/share/doc/nmap-6.40
+added: /usr/share/doc/nmap-6.40/COPYING
+added: /usr/share/doc/nmap-6.40/README
+added: /usr/share/doc/nmap-6.40/nmap.usage.txt
+added: /usr/share/man/de/man1/nmap.1.gz
+
+// output cut //
+
+---------------------------------------------------
+Changed files:
+---------------------------------------------------
+
+changed: /usr/share
+changed: /usr/share/doc
+changed: /usr/share/man
+changed: /usr/share/man/sk
+
+---------------------------------------------------
+Detailed information about changes:
+---------------------------------------------------
+
+
+Directory: /usr/share
+ Linkcount: 94                               , 95
+
+Directory: /usr/share/doc
+ Linkcount: 363                              , 364
+
+Directory: /usr/share/man
+ Linkcount: 43                               , 47
+
+Directory: /usr/share/man/sk
+ Linkcount: 3                                , 4
+[root@localhost aide]# 
+
+... now we have checked that the new changes have been
+... detected by aide, now we need to update the changes 
+... by the following. this will create one new 
+... aide.db.new.gz file.
+
+[root@localhost aide]# aide -u
+[root@localhost aide]# mv aide.db.new.gz aide.db.gz
+
+... then we will use this new file for our checking with
+... after any changes made. for example we have installed
+... some software and erase some.
+
+[root@localhost aide]# aide --check
+
+// output cut //
+
+... removed: /usr/share/nmap/scripts/xdmcp-discover.nse
+removed: /usr/share/nmap/scripts/xmpp-brute.nse
+removed: /usr/share/nmap/scripts/xmpp-info.nse
+
+---------------------------------------------------
+Changed files:
+---------------------------------------------------
+
+changed: /usr/share
+changed: /usr/share/doc
+
+---------------------------------------------------
+Detailed information about changes:
+---------------------------------------------------
+
+
+Directory: /usr/share
+ Linkcount: 95                               , 94
+
+Directory: /usr/share/doc
+ Linkcount: 364                              , 363
+[root@localhost aide]# 
+
+... up to this point we have checked the changes in
+... they file system then now we can update our database
+... again and move like above and use that things
+... 
+
+... we can use cron and script found in internet to make
+... this checking and updating thing easier.
+
+`06 01 * * 0-6 /var/log/aide/chkaide.sh`
+
+[root@myserver ~]# cat /var/log/aide/chaide.sh
+#! /bin/sh
+#chkaide.sh 
+MYDATE`date +%Y-%m-%d`
+MYFILENAME"Aide-"$MYDATE.txt
+/bin/echo "Aide check !! `date`" > /tmp/$MYFILENAME
+/usr/sbin/aide --check > /tmp/myAide.txt
+/bin/cat /tmp/myAide.txt|/bin/grep -v failed >> /tmp/$MYFILENAME
+/bin/echo "**************************************" >> /tmp/$MYFILENAME
+/usr/bin/tail -20 /tmp/myAide.txt >> /tmp/$MYFILENAME
+/bin/echo "****************DONE******************" >> /tmp/$MYFILENAME
+/bin/mail -s"$MYFILENAME `date`" user1@example.com < /tmp/$MYFILENAME
+
+
+
+
+
+
+
+
+

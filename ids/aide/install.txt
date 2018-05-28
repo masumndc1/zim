@@ -1,0 +1,63 @@
+
+
+... AIDE (Advanced Intrusion Detection Environment) is a file and directory integrity checker.
+... installing the aide on a centos7 machine
+
+[root@localhost ~]# yum install -y aide
+
+[root@localhost ~]# aide --help
+Aide 0.15.1 
+
+Usage: aide [options] command
+
+Commands:
+  -i, --init            Initialize the database
+  -C, --check           Check the database
+  -u, --update          Check and update the database non-interactively
+      --compare         Compare two databases
+
+Miscellaneous:
+  -D, --config-check    Test the configuration file
+  -v, --version         Show version of AIDE and compilation options
+  -h, --help            Show this help message
+
+Options:
+  -c [cfgfile]  --config=[cfgfile]      Get config options from [cfgfile]
+  -B "OPTION"   --before="OPTION"       Before configuration file is read define OPTION
+  -A "OPTION"   --after="OPTION"        After configuration file is read define OPTION
+  -r [reporter] --report=[reporter]     Write report output to [reporter] url
+  -V[level]     --verbose=[level]       Set debug message level to [level]
+
+[root@localhost ~]# aide -u
+Couldn't open file /var/lib/aide/aide.db.gz for reading
+[root@localhost ~]# 
+
+... at first we need to initialize the database like below.
+
+[root@localhost ~]# aide -i
+
+AIDE, version 0.15.1
+
+### AIDE database at /var/lib/aide/aide.db.new.gz initialized.
+
+[root@localhost ~]# 
+
+[root@localhost aide]# aide -v
+Aide 0.15.1
+
+Compiled with the following options:
+
+WITH_MMAP
+WITH_POSIX_ACL
+WITH_SELINUX
+WITH_PRELINK
+WITH_XATTR
+WITH_E2FSATTRS
+WITH_LSTAT64
+WITH_READDIR64
+WITH_ZLIB
+WITH_GCRYPT
+WITH_AUDIT
+CONFIG_FILE = "/etc/aide.conf"
+[root@localhost aide]# 
+
