@@ -1,6 +1,73 @@
 
 
+... using nmap to owasp-bwa virtual machine by following.
+
+... first just checking wheather the server is up/not.
+
+root@kali:~# nmap -sn bwa
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-09-06 12:50 PDT
+Nmap scan report for bwa (192.168.25.140)
+Host is up (0.00027s latency).
+Nmap done: 1 IP address (1 host up) scanned in 0.01 seconds
+root@kali:~#
+
+... found the ping is ok. but not responding to ping, does not mean
+... that the server/service is down. 
+
+... now checking which service is up on bwa.
+
+root@kali:~# nmap bwa
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-09-06 12:52 PDT
+Nmap scan report for bwa (192.168.25.140)
+Host is up (1.0s latency).
+Not shown: 993 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+139/tcp  open  netbios-ssn
+143/tcp  open  imap
+445/tcp  open  microsoft-ds
+5001/tcp open  commplex-link
+8080/tcp open  http-proxy
+
+Nmap done: 1 IP address (1 host up) scanned in 2.34 seconds
+root@kali:~#
+
+... now found above the services running. then trying to find out
+... the exact version of the services running.
+
+                                                  [23/217]
+root@kali:~# nmap -sV -O bwa
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-09-06 12:58 PDT
+Nmap scan report for bwa (192.168.25.140)
+Host is up (0.0011s latency).
+Not shown: 993 closed ports
+PORT     STATE SERVICE     VERSION
+22/tcp   open  ssh         OpenSSH 5.3p1 Debian 3ubuntu4 (Ubuntu Linux; protocol 2.0)
+80/tcp   open  http        Apache httpd 2.2.14 ((Ubuntu) mod_mono/2.4.3 PHP/5.3.2-1ubuntu4
+.5 with Suhosin-Patch mod_python/3.3.1 Python/2.6.5 mod_perl/2.0.4 Perl/v5.10.1)
+139/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+143/tcp  open  imap        Courier Imapd (released 2008)
+445/tcp  open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+5001/tcp open  java-rmi    Java RMI
+8080/tcp open  http        Apache Tomcat/Coyote JSP engine 1.1
+
+... we can achieve the whole things above by just using -A options like below.
+
+... nmap is the best scanner so far but there are many others.
+
+... unicornscan 
+... hping3
+... masscan
+... amap
+... Metasploit scanning modules
+
 ... fping is a nice tools which allow to ping multiple hosts simultaneously.
+
+... example of fping is follows.
 
 root@kali:~# fping -asq google.com
 google.com
@@ -65,6 +132,8 @@ root@kali:~#
 
 ... we have found authority/answer servers from the output.
 
+... example of fierce
+
 ... performing dns zone transfer and brute forcing using fierce.
 
 root@kali:/etc/network# fierce -dns google.com
@@ -95,6 +164,17 @@ Now performing 2280 test(s)...
 
 // output cut //
 
+... masscan:
+
+root@kali:~# masscan 192.168.10.0/24 -p 22
+
+Starting masscan 1.0.3 (http://bit.ly/14GZzcT) at 2017-09-06 20:11:29 GMT
+ -- forced options: -sS -Pn -n --randomize-hosts -v --send-eth
+Initiating SYN Stealth Scan
+Scanning 256 hosts [1 port/host]
+Discovered open port 22/tcp on 192.168.10.133
+root@kali:~#
+root@kali:~# masscan 192.168.10.0/24 -p 80
 
 
 

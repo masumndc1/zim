@@ -1,0 +1,21 @@
+
+
+... we need following add-on in firefox.
+
+... tamper data,
+... cookies manager,
+... firebug
+... hackbar
+... http requestor
+... passive recon
+
+... other add-on those might be usefull
+... XSS Me
+... SQL Inject Me f FoxyProxy
+... iMacros
+... FirePHP
+... RESTClient
+... Wappalyzer
+
+
+

@@ -1,0 +1,61 @@
+
+
+... detecting web application firewall
+
+root@kali:/usr/share/nmap/scripts# nmap -p 80,443 -sC --script=http-waf-detect.nse bwa
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-09-06 13:21 PDT
+Nmap scan report for bwa (192.168.25.140)
+Host is up (0.013s latency).
+PORT    STATE  SERVICE
+80/tcp  open   http
+443/tcp closed https
+
+Nmap done: 1 IP address (1 host up) scanned in 0.59 seconds
+root@kali:/usr/share/nmap/scripts# ls *waf*
+http-waf-detect.nse  http-waf-fingerprint.nse
+root@kali:/usr/share/nmap/scripts# nmap -p 80,443 -sC --script=http-waf-fingerprint.nse bw
+a
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-09-06 13:22 PDT
+Nmap scan report for bwa (192.168.25.140)
+Host is up (0.014s latency).
+PORT    STATE  SERVICE
+80/tcp  open   http
+443/tcp closed https
+
+Nmap done: 1 IP address (1 host up) scanned in 0.58 seconds
+root@kali:/usr/share/nmap/scripts#
+
+... there is no firewall between target host and scanner.
+
+... wafwoof
+... wafwoof -l list the web application firewalls currently
+... installed software can detect.
+
+root@kali:/usr/share/nmap/scripts# wafw00f bwa
+
+                                 ^     ^
+        _   __  _   ____ _   __  _    _   ____
+       ///7/ /.' \ / __////7/ /,' \ ,' \ / __/
+      | V V // o // _/ | V V // 0 // 0 // _/
+      |_n_,'/_n_//_/   |_n_,' \_,' \_,'/_/
+                                <
+                                 ...'
+
+    WAFW00F - Web Application Firewall Detection Tool
+
+    By Sandro Gauci && Wendel G. Henrique
+
+Checking http://bwa
+Generic Detection results:
+No WAF detected by the generic detection
+Number of requests: 13
+root@kali:/usr/share/nmap/scripts# 
+
+
+
+
+
+
+
