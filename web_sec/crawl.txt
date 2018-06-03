@@ -21,9 +21,26 @@ root@kali:~/bodgeit# ls
 backblue.gif  bwa  cookies.txt  fade.gif  hts-cache  hts-log.txt  index.html
 root@kali:~/bodgeit#
 
+... httrack will allow us to browse a whole website offline.
+... thats great tool.
+
+
 ... using wget 
 
 root@kali:~/# wget -r -c -P wget/ http://bwa/bodgeit/
+root@kali:~/# wget -c -r -k -p -P bodgeit/ http://bwa/bodgeit/
+
+... options are as follows. 
+... -r recursively
+... -k create the links.
+... -p download all the images. also from external sources.
+... -P create index.
+... -w to wait specified seconds. this is useful when website prevents automated download.
+
+... we can also use owasp-zed and burpsuite, webscarab for the crawling 
+... and spidering. web scarab proxy is localhost:8008
+
+
 
 
 
