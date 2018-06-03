@@ -1,0 +1,29 @@
+
+
+... crawling and spidering.
+
+... using httrack to crawl a website.
+
+root@kali:~/bodgeit# httrack http://bwa/bodgeit/
+There is an index.html in the directory  but no cache
+A site may have been mirrored here, and erased..
+Be sure parameters are ok
+
+Press <Y><Enter> to confirm, <N><Enter> to abort y
+WARNING! You are running this program as root!
+It might be a good idea to run as a different user
+Mirror launched on Wed, 30 May 2018 13:03:30 by HTTrack Website Copier/3.48-24 [XR&CO'2014]
+mirroring http://bwa/bodgeit/ with the wizard help..
+Done.: bwa/bodgeit/images/151.png (0 bytes) - OK
+Thanks for using HTTrack!
+root@kali:~/bodgeit#
+root@kali:~/bodgeit# ls
+backblue.gif  bwa  cookies.txt  fade.gif  hts-cache  hts-log.txt  index.html
+root@kali:~/bodgeit#
+
+... using wget 
+
+root@kali:~/# wget -r -c -P wget/ http://bwa/bodgeit/
+
+
+
