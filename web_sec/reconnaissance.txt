@@ -176,5 +176,84 @@ Discovered open port 22/tcp on 192.168.10.133
 root@kali:~#
 root@kali:~# masscan 192.168.10.0/24 -p 80
 
+... dirbuster, searching for directory in a webserver.
+... to use dirbuster we need one text file which will contain
+... the name of the directories which we want dirbuster to look for.
+
+root@kali:~# cat dirbuster.txt
+   info
+   server-status
+   server-info
+   cgi-bin
+   robots.txt
+   phpmyadmin
+   admin
+   login
+root@kali:~#
+
+... then we can run the dirbuster java programme from the application/
+... webapplicatin analysis/web crawlers and directory bruteforce/dirbuster
+... this is a gui tool included in the kali linux.
+... if we selected pure brute force option in the dirbuster then it will
+... generate its own file which contains the file name.
+... but for this example, we have created our own file. this is called
+... listed brute force.
+
+... using CeWL to create password file from an application.
+
+... cewl crawl webside to see multiple incident of word to make one word 
+... list. this list can then be used for brute force attack.
+
+
+root@kali:~# cewl -w cewl.lst -c -m 5 http://bwa/WackoPicko
+CeWL 5.3 (Heading Upwards) Robin Wood (robin@digi.ninja) (https://digi.ninja/)
+root@kali:~# ls
+cewl.lst  dirbuster.txt  Downloads  owasp.xml  Public        Templates  zaproxy.html
+root@kali:~# cat cewl.lst
+WackoPicko, 187
+Services, 79
+Content, 57
+other, 34
+Agreement, 33
+without, 21
+through, 21
+rights, 18
+Users, 18
+including, 18
+person, 18
+
+// output cut //
+
+... other similar tools for making password like cewl are crunch(kali),
+... word list maker(wlm, pentestplus.co.uk), common user password profiler(cupp)
+
+... using john the ripper for generating the password.
+
+... though john has many other capabilities we can use john to make word list
+... for password guessing and brute force attack.
+
+  john --stdout --wordlist=cewl.lst
+  john --stdout --wordlist=cewl.lst --rules
+  john --stdout --wordlist=cewl.lst --rules > john_cewl.lst
+ 
+... in first line we just stdout word list taking words from previously 
+... made cewl.lst file. then 2nd line we applied rules on that stdout
+... to and stored new file john_cewl.lst file for future use. john with
+... rules option just applied permutation and combination on the word 
+... from cewl.lst and make new word based on john's own rules.
+... john's rules can be defined in the /etc/john/john.conf file in kali.
+... more information can be found regarding john in the following web page.
+... http://www.openwall.com/john/doc/RULES.shtml
+
+... using owasp-zap(zed attack proxy) as directory buster. before that
+... we need to configure our browser proxy as localhost:8080 and then use
+... zap. zap has many other options for web application auditing.
+
+... another tools we can use is burpsuite.
+
+
+
+
+
 
 
