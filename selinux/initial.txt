@@ -1,0 +1,140 @@
+
+
+... printing the security context of an user
+
+[root@suricata ~]# id -Z
+unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[root@suricata ~]# 
+
+[root@suricata ~]# ps -eZ | grep ssh
+system_u:system_r:sshd_t:s0-s0:c0.c1023 1181 ? 00:00:00 sshd
+unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 1297 ? 00:00:00 sshd
+[root@suricata ~]# 
+
+... explanation of the following line can be.
+
+system_u:system_r:sshd_t:s0-s0:c0.c1023 1181 ? 00:00:00 sshd
+user	: role	 : type :sensitivity
+
+... the various user role available in the selinux are.
+... user_r, staff_r, sysadm_r, system_r, unconfined_r
+
+... selinux user end with the _u naming convention. these users
+... can not be changed.
+... for instance for sysadm_r role there is a sysadm_u user.
+
+... sensitivity level.
+... this part is made of confidentiality level, s part and category value, c part.
+... selinux put the number in the s part, starting from 0.
+
+... policy: selinux policy changing requires the system level reboot.
+
+[root@suricata ~]# sestatus | grep -i policy
+Loaded policy name:             targeted
+Policy MLS status:              enabled
+Policy deny_unknown status:     allowed
+Max kernel policy version:      30
+[root@suricata ~]# 
+
+... what will be the policy on the next reboot can be found in the
+
+[root@suricata ~]# cat /etc/selinux/config | grep -i selinuxtype
+# SELINUXTYPE= can take one of three two values:
+SELINUXTYPE=targeted 
+[root@suricata ~]# 
+
+... The most common SELinux policy store names are strict , targeted , mcs , and mls.
+
+[root@suricata ~]# sestatus  | grep -i mls
+Policy MLS status:              enabled
+[root@suricata ~]# 
+
+... if MLS is disabled then the forth field in the selinux context will not be present.
+
+... another way to check the file content of the following.
+
+[root@suricata ~]# cat /sys/fs/selinux/mls 
+1
+[root@suricata ~]# 
+
+... to see what selinux will do something unknown permission.
+
+root@suricata ~]# sestatus | grep -i deny_unknown
+Policy deny_unknown status:     allowed
+[root@suricata ~]# 
+
+... Administrators can set this for themselves in the /etc/selinux/semanage.conf file
+... through the handle-unknown key (with allow, deny, or reject).
+
+... to check any unconfined domain present in the system is
+
+[root@suricata selinux]# yum install -y setools-console
+
+[root@suricata selinux]# seinfo 
+
+Statistics for policy file: /sys/fs/selinux/policy
+Policy Version & Type: v.30 (binary, mls)
+
+   Classes:            97    Permissions:       265
+   Sensitivities:       1    Categories:       1024
+   Types:            4756    Attributes:        253
+   Users:               8    Roles:              14
+   Booleans:          310    Cond. Expr.:       356
+   Allow:          102238    Neverallow:          0
+   Auditallow:        153    Dontaudit:        8906
+   Type_trans:      17777    Type_change:        74
+   Type_member:        35    Role allow:         39
+   Role_trans:        416    Range_trans:      5697
+   Constraints:       110    Validatetrans:       0
+   Initial SIDs:       27    Fs_use:             29
+   Genfscon:          105    Portcon:           608
+   Netifcon:            0    Nodecon:             0
+   Permissives:         0    Polcap:              4
+
+ot@suricata selinux]# seinfo --type=unconfined_t
+   unconfined_t
+   Aliases
+      unconfined_crontab_t
+[root@suricata selinux]# 
+
+... Most distributions that enable unconfined domains call their policy targeted ,
+... but this is just a convention that is not always followed. Hence, it is always best
+... to consult the policy using seinfo to make this sure.
+
+... when a policy only support one single sensitivity then we say it MCS(multi category
+... security) policy. this provides on sensitivity but allow multiple category.
+
+... kernel policy version
+
+[root@suricata selinux]# sestatus | grep version
+Max kernel policy version:      30
+[root@suricata selinux]# 
+
+... the policy file that used by selinux at boot time can be found in the targeted folder
+... as this is policy currently using. if strict was the policy will be used then that
+... too can be found in the strict directory. 
+
+[root@suricata policy]# pwd
+/etc/selinux/targeted/policy
+[root@suricata policy]# 
+
+[root@suricata policy]# ls
+policy.31
+[root@suricata policy]# 
+
+... if there is multiple policy file then we can see from the seinfo output which 
+... one will be used.
+
+... modules can be found in the targeted directory. also when new modules are added,
+... system calls the semodule to load the module.
+... and its then combine the policy into the single file and we find our new policy file.
+
+
+
+
+
+
+
+
+
+
