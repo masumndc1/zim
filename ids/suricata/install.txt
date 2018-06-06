@@ -1,0 +1,94 @@
+
+
+... installing suricata on centos7 from source.
+
+... before that i needed some dependency for my centos7.
+... For Suricata’s compilation you’ll need the following libraries and their development headers installed:
+... libpcap, libpcre, libmagic, zlib, libyaml
+... The following tools are required:
+... make gcc (or clang) pkg-config
+... For full features, also add:
+... libjansson, libnss, libgeoip, liblua5.1, libhiredis, libevent
+... Rust support (experimental):
+... rustc, cargo
+... and we can install them like following.
+
+# yum provide pcap.h
+# yum install pcap-devel
+
+# wget -c https://www.openinfosecfoundation.org/download/suricata-4.0.4.tar.gz
+# tar zxvf suricata-4.0.4.tar.gz
+# cd suricata-4.0.4
+# ./configure 
+# make 
+# make install
+
+... or we need to install configuration file and download the rulez too.
+
+# make install-full
+
+... If a library like libhtp.so is not found, you can run suricata with:
+
+'LD_LIBRARY_PATH=/usr/local/lib /usr/local/bin/suricata -c /usr/local/etc/suricata//suricata.yaml -i eth0'.
+
+... downloading rules can be done by following
+
+# /usr/bin/wget -qO - https://rules.emergingthreats.net/open/suricata-4.0/emerging.rules.tar.gz | \
+tar -x -z -C "/usr/local/etc/suricata/" -f -
+
+... The two most common are Oinkmaster and Pulledpork for downloading rulez. For a guide see:
+
+https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Rule_Management_with_Oinkmaster
+
+[root@localhost suricata-4.0.4]# 
+
+... starting suricata
+
+[root@localhost ]# suricata -c /usr/local/etc/suricata/suricata.yaml -i eth0
+28/5/2018 -- 10:24:17 - <Notice> - This is Suricata version 4.0.4 RELEASE
+28/5/2018 -- 10:24:22 - <Notice> - all 3 packet processing threads, 4 management threads initialized, engine started.
+
+... this is an instance of suricata without any changes in configuration file.
+... and above out shows that suricata is running fine with the default configuration.
+
+... This will install Suricata into 
+... /usr/local/bin/, 
+... the default configuration in /usr/local/etc/suricata/ 
+... and will output to /usr/local/var/log/suricata
+
+... log files are from
+
+[root@suricata suricata]# pwd
+/usr/local/var/log/suricata
+[root@suricata suricata]# 
+[root@suricata suricata]# tail -f stats.log 
+app_layer.tx.dns_udp                       | Total                     | 3
+app_layer.flow.failed_udp                  | Total                     | 421
+flow_mgr.new_pruned                        | Total                     | 121
+flow_mgr.est_pruned                        | Total                     | 338
+flow.spare                                 | Total                     | 10000
+flow_mgr.rows_checked                      | Total                     | 65536
+flow_mgr.rows_skipped                      | Total                     | 65536
+tcp.memuse                                 | Total                     | 1720320
+tcp.reassembly_memuse                      | Total                     | 245760
+flow.memuse                                | Total                     | 7075456
+
+[root@suricata suricata]# tail -f suricata.log 
+28/5/2018 -- 10:23:55 - <Notice> - This is Suricata version 4.0.4 RELEASE
+28/5/2018 -- 10:24:00 - <Notice> - all 3 packet processing threads, 4 management threads initialized, engine started.
+28/5/2018 -- 10:24:11 - <Notice> - Signal Received.  Stopping engine.
+28/5/2018 -- 10:24:11 - <Notice> - Stats for 'eth0':  pkts: 7, drop: 0 (0.00%), invalid chksum: 0
+28/5/2018 -- 10:24:17 - <Notice> - This is Suricata version 4.0.4 RELEASE
+28/5/2018 -- 10:24:22 - <Notice> - all 3 packet processing threads, 4 management threads initialized, engine started.
+29/5/2018 -- 05:24:41 - <Notice> - Signal Received.  Stopping engine.
+29/5/2018 -- 05:24:42 - <Notice> - Stats for 'eth0':  pkts: 36215, drop: 0 (0.00%), invalid chksum: 0
+^C
+
+... installing suricata using yum
+
+[root@suricata /]# yum install epel-release 
+[root@suricata /]# yum install suricata pulledpork
+
+... using yum is the simplest way to install suricata.
+
+ 

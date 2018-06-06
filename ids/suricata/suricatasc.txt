@@ -1,0 +1,45 @@
+
+
+... suricatasc is a nice command to test.
+
+[root@suricata sbin]# suricatasc
+
+>>> version
+Success:
+"4.0.4 RELEASE"
+>>> running-mode
+Success:
+"workers"
+>>> capture-mode
+Success:
+"AF_PACKET_DEV"
+>>> conf-get
+Unable to split command 'conf-get'
+>>> reload-rules
+Success:
+"done"
+>>> ifact-stat
+Unknown command 'ifact-stat'
+>>> iface-list
+Success:
+{
+    "count": 1,
+    "ifaces": [
+        "eth0"
+    ]
+}
+>>> iface-list
+Success:
+{
+    "count": 1,
+    "ifaces": [
+        "eth0"
+    ]
+}
+>>> help 
+>>> quit
+
+... help to see the available command.
+
+
+

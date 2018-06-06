@@ -1,0 +1,157 @@
+
+
+... updating the rulez.
+
+... we need to install the suricata-update script first.
+... this script is based on python therefore we are going to install pip first.
+...
+
+# yum search pip
+# yum install python34-pip
+
+[root@suricata suricata]# pip3 install suricata-update
+Collecting suricata-update
+  Downloading https://files.pythonhosted.org/packages/7e/cb/3602b2f81856e5541dd07d129ffe4b3275a1934f8e48f4ec1c98f2ea9f5f/suricata-update-1.0.0b1.tar.gz (56kB)
+    100% |████████████████████████████████| 61kB 1.4MB/s 
+Installing collected packages: suricata-update
+  Running setup.py install for suricata-update ... done
+Successfully installed suricata-update-1.0.0b1
+You are using pip version 8.1.2, however version 10.0.1 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+[root@suricata suricata]# 
+ 
+... now run the following to see which sources are active for downloading
+... the rulez for the suricata.
+
+[root@suricata suricata]#  suricata-updat list-sources.
+
+Name: oisf/trafficid
+  Vendor: OISF
+  Summary: Suricata Traffic ID ruleset
+  License: MIT
+Name: sslbl/ssl-fp-blacklist
+  Vendor: Abuse.ch
+  Summary: Abuse.ch SSL Blacklist
+  License: Non-Commercial
+Name: scwx/malware
+  Vendor: Secureworks
+  Summary: Secureworks suricata-malware ruleset.
+  License: Commercial
+  Parameters: secret-code
+  Subscription: https://www.secureworks.com/contact/ (Please reference CTU Countermeasures)
+Name: et/open
+  Vendor: Proofpoint
+  Summary: Emerging Threats Open Ruleset
+  License: MIT
+Name: scwx/security
+  Vendor: Secureworks
+  Summary: Secureworks suricata-security ruleset.
+  License: Commercial
+  Parameters: secret-code
+  Subscription: https://www.secureworks.com/contact/ (Please reference CTU Countermeasures)
+Name: et/pro
+  Vendor: Proofpoint
+  Summary: Emerging Threats Pro Ruleset
+  License: Commercial
+  Replaces: et/open
+  Parameters: secret-code
+  Subscription: https://www.proofpoint.com/us/threat-insight/et-pro-ruleset
+Name: ptresearch/attackdetection
+  Vendor: Positive Technologies
+  Summary: Positive Technologies Attack Detection Team ruleset
+  License: Custom
+[root@suricata suricata]# 
+
+... other sources are 
+
+other commands:
+    update-sources             Update the source index
+    list-sources               List available sources
+    enable-source              Enable a source from the index
+    disable-source             Disable an enabled source
+    remove-source              Remove an enabled or disabled source
+    list-enabled-sources       List all enabled sources
+    add-source                 Add a new source by URL
+
+[root@suricata suricata]# 
+
+... now update rulez with the default source like below.
+
+[root@suricata suricata]# 
+
+... our default rulez directory is /usr/local/etc/suricata/rules
+
+[root@suricata suricata]# suricata-update  -D /usr/local/etc/suricata/rules/
+29/5/2018 -- 06:31:23 - <Info> -- Found Suricata version 4.0.4 at /usr/local/bin/suricata.
+29/5/2018 -- 06:31:23 - <Info> -- Loading /usr/local/etc/suricata/suricata.yaml
+29/5/2018 -- 06:31:23 - <Info> -- Disabling rules with proto enip
+29/5/2018 -- 06:31:23 - <Info> -- Disabling rules with proto nfs
+29/5/2018 -- 06:31:23 - <Info> -- Disabling rules with proto ntp
+29/5/2018 -- 06:31:23 - <Info> -- Disabling rules with proto dnp3
+29/5/2018 -- 06:31:23 - <Info> -- Disabling rules with proto modbus
+29/5/2018 -- 06:31:23 - <Info> -- No sources configured, will use Emerging Threats Open
+29/5/2018 -- 06:31:23 - <Info> -- Fetching https://rules.emergingthreats.net/open/suricata-4.0.4/emerging.rules.tar.gz.
+ 100% - 2207661/2207661               
+29/5/2018 -- 06:31:26 - <Info> -- Done.
+29/5/2018 -- 06:31:27 - <Warning> -- Distribution rule directory not found: /etc/suricata/rules
+29/5/2018 -- 06:31:27 - <Info> -- Ignoring file rules/emerging-deleted.rules
+29/5/2018 -- 06:31:29 - <Info> -- Loaded 22902 rules.
+29/5/2018 -- 06:31:29 - <Info> -- Disabled 0 rules.
+29/5/2018 -- 06:31:29 - <Info> -- Enabled 0 rules.
+29/5/2018 -- 06:31:29 - <Info> -- Modified 0 rules.
+29/5/2018 -- 06:31:29 - <Info> -- Dropped 0 rules.
+29/5/2018 -- 06:31:29 - <Info> -- Enabled 36 rules for flowbit dependencies.
+29/5/2018 -- 06:31:29 - <Info> -- Backing up current rules.
+29/5/2018 -- 06:31:29 - <Info> -- Writing rules to /usr/local/etc/suricata/rules/rules/suricata.rules: total: 22902; enabled: 18081; added: 22902; removed 0; modified: 0
+29/5/2018 -- 06:31:30 - <Info> -- Testing with suricata -T.
+29/5/2018 -- 06:31:38 - <Info> -- Done.
+[root@suricata suricata]# 
+
+... all the new rules are updated will be added in the single file 
+... /var/lib/suricata/rules/suricata.rules.
+... or in /usr/local/etc/suricata/rules/rules if the suricata is installed from the
+... sources.
+
+... installing the rules using the oinkmaster.
+
+... download the oinkmaster from the https://sourceforge.net/projects/oinkmaster/files/latest/download?source=files
+... download and install like bellow.
+
+[root@suricata oinkmaster-2.0]# pwd
+/root/oinkmaster/oinkmaster-2.0
+[root@suricata oinkmaster-2.0]# ls
+ChangeLog  FAQ      LICENSE       oinkmaster.conf  README      README.templates  template-examples.conf
+contrib    INSTALL  oinkmaster.1  oinkmaster.pl    README.gui  README.win32      UPGRADING
+[root@suricata oinkmaster-2.0]# 
+
+... input the url into the file
+
+[root@suricata oinkmaster-2.0]# cat oinkmaster.conf | grep -i -e ^url
+url = https://rules.emergingthreats.net/open/suricata-4.0/emerging.rules.tar.gz
+url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
+[root@suricata oinkmaster-2.0]# 
+
+... now run the following and restart the suricata.
+
+[root@suricata oinkmaster-2.0]# ./oinkmaster.pl -C oinkmaster.conf -o /usr/local/etc/suricata/rules/
+
+... when everything is running fine then I can run the following.
+
+[root@suricata suricata]# suricata -c suricata.yaml -i eth0 --init-errors-fatal
+29/5/2018 -- 07:36:00 - <Notice> - This is Suricata version 4.0.4 RELEASE
+29/5/2018 -- 07:36:04 - <Notice> - all 3 packet processing threads, 4 management threads initialized, engine started.
+^C29/5/2018 -- 07:36:23 - <Notice> - Signal Received.  Stopping engine.
+29/5/2018 -- 07:36:23 - <Notice> - Stats for 'eth0':  pkts: 0, drop: 0 (-nan%), invalid chksum: 0
+[root@suricata suricata]# 
+
+... and finally running the suricata as daemon mode.
+
+[root@suricata suricata]# suricata -D -c suricata.yaml -i eth0
+29/5/2018 -- 07:38:09 - <Notice> - This is Suricata version 4.0.4 RELEASE
+[root@suricata suricata]# 
+
+
+
+
+
+
