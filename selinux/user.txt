@@ -1,0 +1,230 @@
+
+
+... the user context.
+... in a selinux enabled with a targeted policy type it is highly possible
+... that most of the users are in the following
+
+[masum@localhost ~]$ id -Z
+unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[masum@localhost ~]$
+
+... in a more restricted system we may have user_u, staff_u,
+... sysadm_u or other.
+
+... to list all the unconfined domain in a selinux running system
+
+[root@localhost masum]# seinfo -aselinux_unconfined_type -x
+
+    unconfined_dbusd_t
+      virtd_t
+      virtd_lxc_t
+      virt_qemu_ga_unconfined_t
+      vmtools_t
+      vmtools_helper_t
+      vmware_host_t
+      watchdog_unconfined_t
+      wine_t
+      xserver_t
+      xdm_unconfined_t
+      zabbix_script_t
+
+// output cut //
+
+... we cannot define domain unconfined as this is purely to the selinux
+... policy.
+
+... the existing login mapping is as follows.
+
+[root@localhost masum]# semanage login -l
+
+Login Name           SELinux User         MLS/MCS Range        Service
+
+__default__          user_u         s0-s0:c0.c1023       *
+root                 unconfined_u         s0-s0:c0.c1023       *
+system_u             system_u             s0-s0:c0.c1023       *
+[root@localhost masum]#
+
+... let add one newly created myuser like below.
+... we are adding myuser to selinux user system_u.
+
+[root@localhost masum]# useradd myuser
+[root@localhost masum]# semanage login -a -s system_u myuser
+[root@localhost masum]#
+
+... and changing the severity and category type to myuser.
+
+[root@localhost masum]# semanage login --modify --seuser system_u --range s0-s2:c1.c100 myuser
+
+... after that we can see that in selinux login category user like below.
+
+[root@localhost masum]# semanage login -l
+
+Login Name           SELinux User         MLS/MCS Range        Service
+
+__default__          user_u               s0-s0                *
+myuser               system_u             s0-s2:c1.c100        *
+root                 root                 s0-s15:c0.c1023      *
+system_u             system_u             s0-s15:c0.c1023      *
+[root@localhost masum]#
+
+... additionally when the user is not logged in we need to reset the
+... context of user's home directory too.
+
+[root@localhost masum]# restorecon -RF /home/myuser
+
+... we can add user from an linux group to selinux. say like we need to
+... add all the users from admin group we can do this by following.
+
+[root@localhost masum]# semanage login -a -s system_u "%admin"
+
+... to delete the individual mapping by following
+
+[root@localhost masum]# semanage login -d myuser
+
+... creating seuser.
+... the options are used here are 
+-a add
+-L s0 : default severity
+-r severity and the category
+-R role : here we have used the role user_r
+
+[root@localhost mls]# semanage user -a -L s0 -r "s0-s0:c0.c127" -R user_r finance_u
+
+[root@localhost mls]# semanage user -l
+
+                Labeling   MLS/       MLS/
+SELinux User    Prefix     MCS Level  MCS Range                      SELinux Roles
+
+finance_u       user       s0         s0-s0:c0.c127                  user_r
+guest_u         user       s0         s0                             guest_r
+masum_u         user       s0         s0-s0:c0.c127                  user_r
+root            user       s0         s0-s15:c0.c1023                auditadm_r secadm_r staff_r sysadm_r system_r
+staff_u         user       s0         s0-s15:c0.c1023                auditadm_r secadm_r staff_r sysadm_r system_r
+sysadm_u        user       s0         s0-s15:c0.c1023                sysadm_r
+system_u        user       s0         s0-s15:c0.c1023                system_r
+user_u          user       s0         s0                             user_r
+xguest_u        user       s0         s0                             xguest_r
+[root@localhost mls]#
+
+... we can also delete the selinux use by following.
+
+[root@localhost mls]# semanage user -d finance_u
+
+... sensitivity levels are defined in the file /etc/selinux/mls/setrans.conf
+
+# custome
+s0-s2:c1.c100=john
+s0-s2:c1.c200=myuser
+
+... we can see the value by the following command
+... here we have our custome value too.  
+
+[root@localhost mls]# chcat -L
+s0                             SystemLow
+s15:c0.c1023                   SystemHigh
+s0-s15:c0.c1023                SystemLow-SystemHigh
+s1                             Unclassified
+s2                             Secret
+s2:c0                          A
+s2:c1                          B
+s0-s1                          SystemLow-Unclassified
+s1-s2                          Unclassified-Secret
+s1-s15:c0.c1023                Unclassified-SystemHigh
+s0-s2                          SystemLow-Secret
+s0-s2:c0                       SystemLow-Secret:A
+s0-s2:c1                       SystemLow-Secret:B
+s0-s2:c0,c1                    SystemLow-Secret:AB
+s1-s2:c0                       Unclassified-Secret:A
+s1-s2:c1                       Unclassified-Secret:B
+s1-s2:c0,c1                    Unclassified-Secret:AB
+s2-s2:c0                       Secret-Secret:A
+s2-s2:c1                       Secret-Secret:B
+s2-s2:c0,c1                    Secret-Secret:AB
+s2-s15:c0.c1023                Secret-SystemHigh
+s2:c0-s2:c0,c1                 Secret:A-Secret:AB
+s2:c0-s15:c0.c1023             Secret:A-SystemHigh
+s2:c1-s2:c0,c1                 Secret:B-Secret:AB
+s2:c1-s15:c0.c1023             Secret:B-SystemHigh
+s2:c0,c1-s15:c0.c1023          Secret:AB-SystemHigh
+s0-s2:c1.c100                  john
+s0-s2:c1.c200                  myuser
+[root@localhost mls]#
+
+... hopping to role to role
+
+[masum@localhost selinux]$ id -Z
+user_u:user_r:user_t:s0
+[masum@localhost selinux]$ newrole -r sysadm_r
+user_u:sysadm_r:sysadm_t:s0 is not a valid context
+[masum@localhost selinux]$
+
+... newrole can used to change specific sensitivity.
+... though giving us error but this is the way to change the role
+... to role.
+
+[root@localhost mls]# newrole -l s0:c0.c100
+Error: you are not allowed to change levels on a non secure terminal
+[root@localhost mls]#
+
+... we can use sudo to allow any user to run within role and type of domain.
+... to do so we need to put the following line opening file by visudo
+
+myuser ALL=(ALL) TYPE=dbadm_t ROLE=dbadm_r ALL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,124 @@
+
+
+... policy is the core of selinux. 
+... it sets the rules to apply by selinux.
+... the active policies are loaded at boot time
+... and it creates a binary policy file 
+... the policy module file is as binary that cant be read.
+
+[root@kube-node1 policy]# pwd
+/etc/selinux/targeted/policy
+[root@kube-node1 policy]# ls
+policy.30
+[root@kube-node1 policy]#
+
+... we cant read the content of the policy file but 
+... we can change the settings by following
+
+[root@kube-node1 policy]# semanage boolean -l | less
+[root@kube-node1 policy]# semanage boolean -l | grep http
+[root@kube-node1 policy]#
+
+httpd_run_ipa                  (off  ,  off)  Allow httpd to run ipa
+
+... for example we need httpd_run_ipa to turn on temporarily.
+... by using the getsebool command.
+
+[root@kube-node1 policy]# getsebool httpd_run_ipa
+httpd_run_ipa --> off
+[root@kube-node1 policy]#
+
+[root@kube-node1 policy]# setsebool httpd_run_ipa on
+[root@kube-node1 policy]# getsebool httpd_run_ipa
+httpd_run_ipa --> on
+[root@kube-node1 policy]#
+
+... now we have httpd_run_ipa is on. changing this way will
+... not keep the setting permanently. we can use -P with setsebool
+... to keep it after reboot.
+
+... the filetype context
+
+[root@kube-node1 policy]# ls -Z *
+-rw-r--r--. root root unconfined_u:object_r:semanage_store_t:s0 policy.30
+[root@kube-node1 policy]# pwd
+/etc/selinux/targeted/policy
+[root@kube-node1 policy]# 
+
+... clearly here the policy file is under semanage_store_t type.
+... this is one of the most important part of the selinux term.
+
+... another example of domain/type is below
+
+[root@kube-node1 policy]# ls -Z /home
+drwx------. curly curly unconfined_u:object_r:user_home_dir_t:s0 curly
+drwx------. larry larry unconfined_u:object_r:user_home_dir_t:s0 larry
+drwx------. masum masum unconfined_u:object_r:user_home_dir_t:s0 masum
+drwx------. moe   moe   unconfined_u:object_r:user_home_dir_t:s0 moe
+[root@kube-node1 policy]#
+
+... here we can see that the directories in /home have the user_home_dir_t
+... type or in that domain.
+
+[root@kube-node1 policy]# ps -efZ | grep httpd
+system_u:system_r:httpd_t:s0    root      1134     1  0 Jun11 ?        
+system_u:system_r:httpd_t:s0    apache    2608  1134  0 Jun11 ?       
+system_u:system_r:httpd_t:s0    apache    2609  1134  0 Jun11 ?      
+system_u:system_r:httpd_t:s0    apache    2610  1134  0 Jun11 ?     
+system_u:system_r:httpd_t:s0    apache    2611  1134  0 Jun11 ?    
+system_u:system_r:httpd_t:s0    apache    2612  1134  0 Jun11 ?   
+unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 root 4572 1457  0 01:08 pts/0 00:00:00 grep --color=auto httpd
+[root@kube-node1 policy]#
+
+... the output shows us the process running in the selinux context.
+... the above output is showing they are running under httpd_t domain.
+
+... we can use the sesearch command to check what type of access 
+... httpd_t has on files
+
+[root@kube-node1 html]# sesearch --allow --source httpd_t --target httpd_sys_content_t --class file
+Found 5 semantic av rules:
+   allow httpd_t httpd_content_type : file { ioctl read getattr lock open } ;
+   allow httpd_t httpd_sys_content_t : file { ioctl read getattr lock open } ;
+   allow httpd_t httpdcontent : file { ioctl read write create getattr setattr lock append unlink link rename open } ;
+   allow httpd_t httpdcontent : file { read getattr execute open } ;
+   allow httpd_t httpd_content_type : file { ioctl read getattr lock open } ;
+
+[root@kube-node1 html]#
+
+... from the second line we can see that httpd_t has file access in
+... httpd_sys_content_t directory.
+
+... changing the context of the file/folder
+
+[root@kube-node1 khabir]# chcon -t var_t index.html
+[root@kube-node1 khabir]# ls -Z index.html
+-rw-r--r--. root root unconfined_u:object_r:var_t:s0   index.html
+[root@kube-node1 khabir]#
+
+... now when we try to access the file again it says forbidden error.
+... as we have changed the type of file httpd_t can access, we are 
+... getting this error.
+
+... we can revert the context of index.html file from var_t to http_t
+... by using the restorecon command.
+
+[root@kube-node1 khabir]# restorecon -v index.html
+restorecon reset /var/www/html/khabir/index.html context 
+unconfined_u:object_r:var_t:s0->unconfined_u:object_r:httpd_sys_content_t:s0
+[root@kube-node1 khabir]#
+
+... now again httpd_t can access the index.html file and we can
+... see the page again
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+
+
+... all the denial caused by selinux are logged by audit daemon.
+... it has the type=avc . if there is no audit daemon running then 
+... selinux is logging using default system logging.
+
+[root@localhost audit]# cat audit.log  | grep avc
+type=USER_AVC msg=audit(1521640607.693:10): pid=1 uid=0 auid=4294967295 ses=4294967295 
+subj=system_u:system_r:init_t:s0 msg='avc:  received setenforce notice (enforcing=0)  
+exe="/usr/lib/systemd/systemd" sauid=0 hostname=? addr=? terminal=?'
+
+... dontaudit and allow
+
+[root@localhost systemd]# seinfo | grep -E '(dontallow|audit)'
+   Auditallow:        155    Dontaudit:        8846
+[root@localhost systemd]#
+
+... we can also disable dontaudit by using semodule command. which is 
+... good to log all the alert to check the selinux.
+
+[root@localhost ~]# semodule --disable_dontaudit --build
+[root@localhost ~]# seinfo
+
+Statistics for policy file: /sys/fs/selinux/policy
+Policy Version & Type: v.30 (binary, mls)
+
+   Sensitivities:       1    Categories:       1024
+   Types:            4747    Attributes:        251
+   Users:               8    Roles:              14
+   Booleans:          307    Cond. Expr.:       356
+   Allow:          101746    Neverallow:          0
+   Auditallow:        155    Dontaudit:           0
+   Type_trans:      17759    Type_change:        74
+   Type_member:        35    Role allow:         39
+   Role_trans:        416    Range_trans:      5697
+   Constraints:       109    Validatetrans:       0
+   Initial SIDs:       27    Fs_use:             29
+   Genfscon:          105    Portcon:           602
+   Netifcon:            0    Nodecon:             0
+   Permissives:         7    Polcap:              2
+
+[root@localhost ~]#
+
+... it says number of dontaudit is now 0.
+
+... we can enable dontaudit again just by 
+
+[root@localhost ~]# semodule --build
+
+... when we tried to start our httpd server in a centos7 machine with default port listening to
+... 808080 then we got following error message.
+
+type=SERVICE_START msg=audit(1527866834.858:530): pid=1 uid=0 auid=4294967295 
+ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=httpd comm="systemd" 
+exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=failed'
+
+... we can see the denial alert made by selinux by following.
+
+[root@localhost conf]# ausearch -m avc -ts today | audit2why | less
+
+... we can use audit2allow to allow some denial made by selinux.
+
+... the use of matchpatchcon. this utility return the value as it should be look like
+... in selinux context.
+
+[root@localhost conf]# matchpathcon /var/www/html/
+/var/www/html   system_u:object_r:httpd_sys_content_t:s0
+[root@localhost conf]#
+
+...
+
+
+
+

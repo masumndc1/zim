@@ -1,0 +1,104 @@
+
+
+... there are three states/modes in which selinux can be in.
+
+[root@localhost masum]# grep -i selinux /etc/selinux/config
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=enforcing
+# SELINUXTYPE= can take one of three two values:
+SELINUXTYPE=targeted
+[root@localhost masum]#
+
+... in our settings the selinux is in enforcing state.
+... the other states are permissive and disabled.
+... in our settings the policy is targeted.
+
+... in permissive state any violation will be logged and reported and 
+... it will not impose any policy on the system.
+
+... in enforcing state selinux will enforce its policy and
+... block according to its policy. violation will be reported and
+... action will be blocked.
+
+[root@localhost masum]# sestatus | grep mode
+Current mode:                   enforcing
+[root@localhost masum]#
+
+... if we change the state to disable then we need to change the label too.
+... thats why its always better to switch between permissive and enforcing.
+
+... we change the states permanently using SELINUX field in /etc/selinux/config
+... file and rebooting the system.
+
+... switching among states temporarily.
+
+... [root@localhost masum]# setenforce 0 ; to permissive state of the selinux
+... [root@localhost masum]# setenforce 1 ; to enforcing state of the selinux
+...
+
+... disabling selinux for the single service.
+... to list which domain/services are now permissive by default we can run
+
+
+[root@localhost masum]# semanage permissive -l
+
+Customized Permissive Types
+
+
+Builtin Permissive Types
+
+sanlk_resetd_t
+hsqldb_t
+systemd_hwdb_t
+blkmapd_t
+ipmievd_t
+targetd_t
+[root@localhost masum]#
+
+... and to see full list of services are now under control of selinux we can run 
+
+[root@localhost masum]# ps -eZ
+
+... 
+... from this list, if we need, can exclude any domain out of selinux control to
+... run as if, it is running on a selinux disabled system.
+... for example one service minildna_t .
+
+[root@localhost masum]# semanage permissive -a minidlna_t
+[root@localhost masum]# semanage permissive -l
+
+Customized Permissive Types
+
+minidlna_t
+
+Builtin Permissive Types
+
+sanlk_resetd_t
+hsqldb_t
+systemd_hwdb_t
+blkmapd_t
+ipmievd_t
+targetd_t
+[root@localhost masum]#
+
+... knowing if any application if selinux aware or not.
+... we check it by seeing weather any services linked with libselinux
+... the application which is selinux aware can change the behaviour 
+... knowing any application is selinux aware helps to troubleshoot them
+
+[root@localhost masum]# ldd /bin/ls | grep selinux
+        libselinux.so.1 => /lib64/libselinux.so.1 (0x00007f94b427b000)
+[root@localhost masum]#
+
+...
+
+
+
+
+
+
+

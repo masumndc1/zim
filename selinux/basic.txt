@@ -1,0 +1,27 @@
+
+
+... installing selinux in the centos7 server
+
+ yum install -y policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted libselinux-utils setroubleshoot-server setools  setools-console mcstrans
+
+... to list which selinux software has been installed
+
+[root@localhost ~]# yum list installed | grep selinux
+libselinux.x86_64                     2.5-12.el7                      @base
+libselinux-python.x86_64              2.5-12.el7                      @base
+libselinux-utils.x86_64               2.5-12.el7                      @base
+selinux-policy.noarch                 3.13.1-192.el7_5.3              @updates
+selinux-policy-mls.noarch             3.13.1-192.el7_5.3              @updates
+selinux-policy-targeted.noarch        3.13.1-192.el7_5.3              @updates
+[root@localhost ~]#
+
+[root@localhost ~]# rpm -qa | grep selinux
+libselinux-python-2.5-12.el7.x86_64
+libselinux-2.5-12.el7.x86_64
+selinux-policy-3.13.1-192.el7_5.3.noarch
+selinux-policy-mls-3.13.1-192.el7_5.3.noarch
+libselinux-utils-2.5-12.el7.x86_64
+selinux-policy-targeted-3.13.1-192.el7_5.3.noarch
+[root@localhost ~]#
+
+
