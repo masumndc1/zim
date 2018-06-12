@@ -171,60 +171,24 @@ Error: you are not allowed to change levels on a non secure terminal
 
 myuser ALL=(ALL) TYPE=dbadm_t ROLE=dbadm_r ALL
 
+... allowing/disallowing user to run script from his own home directory.
+... guest user cant execute any script from his home directory.
+... we can add one user into guest_r by following
 
+semanage login -a -s guest_u masum
 
+... masum user has been added to the guest_u type who cant run any script
+... from his /home/masum directory.
 
+[root@kube-node1 files]# getsebool allow_guest_exec_content
+guest_exec_content --> on
+[root@kube-node1 files]# setsebool allow_guest_exec_content off
+[root@kube-node1 files]# getsebool allow_guest_exec_content
+guest_exec_content --> off
+[root@kube-node1 files]#
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+... so we are setting guest_exec_content off to disallow guest_u
+... to run script from his home_directory.
 
 
 

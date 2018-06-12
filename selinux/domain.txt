@@ -1,0 +1,60 @@
+
+
+... domain
+... processes running under the selinux context
+
+[root@kube-node1 files]# ps -eZ | grep init
+system_u:system_r:init_t:s0         1 ?        00:00:07 systemd
+system_u:system_r:init_t:s0      1170 ?        00:00:00 ossec-execd
+system_u:system_r:init_t:s0      1181 ?        00:00:00 ossec-agentd
+system_u:system_r:init_t:s0      1185 ?        00:00:00 ossec-logcollec
+system_u:system_r:init_t:s0      1200 ?        00:00:00 ossec-syscheckd
+[root@kube-node1 files]#
+
+... one running process vsftpd has its executable in the following location
+
+[root@kube-node1 files]# ps -eZ | grep vsftpd
+system_u:system_r:ftpd_t:s0-s0:c0.c1023 7141 ? 00:00:00 vsftpd
+[root@kube-node1 files]#
+
+[root@kube-node1 files]# ls -Z /usr/sbin/vsftpd
+-rwxr-xr-x. root root system_u:object_r:ftpd_exec_t:s0 /usr/sbin/vsftpd
+[root@kube-node1 files]#
+
+... the systemd runs the binary file /usr/sbin/vsftpd which has the context
+... ftpd_exec_t which then spawns process of type ftpd_t 
+
+... this transition from one process to another process user cant
+... control. also application cant control this transition. this has
+... been written in the policy of the selinux. 
+
+... we can search this policy for example by following
+
+[root@kube-node1 files]# sesearch -s init_t -t ftpd_exec_t -c file -p execute -Ad
+Found 1 semantic av rules:
+   allow init_t ftpd_exec_t : file { read getattr execute open } ;
+
+[root@kube-node1 files]#
+
+... the above output shows us init_t has the read getattr execute and open
+... permission on file type ftpd_exec_t
+
+... now checking whether ftpd_t has permission of entry point by executing
+... ftpd_exec_t type file. and the below output says it has.
+
+[root@kube-node1 ]# sesearch -s ftpd_t -t ftpd_exec_t -c file -p entrypoint -Ad
+Found 1 semantic av rules:
+   allow ftpd_t ftpd_exec_t : file { ioctl read getattr lock execute execute_no_trans entrypoint open } ;
+
+[root@kube-node1 files]#
+
+... finally checking it has the transition right or not
+
+[root@kube-node1 files]# sesearch -s init_t -t ftpd_t -c process -p transition -Ad
+Found 1 semantic av rules:
+   allow init_t ftpd_t : process transition ;
+
+[root@kube-node1 files]#
+
+
+
