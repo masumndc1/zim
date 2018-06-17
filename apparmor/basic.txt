@@ -229,5 +229,50 @@ root@slave:/etc/apparmor.d#
 ... will deny apache2 to access /var/www/html/deny/. we will
 ... get forbidden error when we try to access http://<server_ip/name>/deny
 
+... now restart apache2 and apparmor
+
+root@slave:/etc/apparmor.d# /etc/init.d/apparmor restart
+[ ok ] Restarting apparmor (via systemctl): apparmor.service.
+root@slave:/etc/apparmor.d# service apache2 restart
+root@slave:/etc/apparmor.d#
+
+... now we can see the apache2 in the apparmor_status
+
+root@slave:/etc/apparmor.d# apparmor_status
+apparmor module is loaded.
+59 profiles are loaded.
+22 profiles are in enforce mode.
+   /sbin/dhclient
+   /usr/sbin/apache2
+   /usr/sbin/apache2//DEFAULT_URI
+   /usr/sbin/apache2//HANDLING_UNTRUSTED_INPUT
+   /usr/sbin/mysqld
+   /usr/sbin/tcpdump
+   docker-default
+37 profiles are in complain mode.
+   /usr/sbin/smbd
+   /usr/sbin/smbldap-useradd
+   /usr/sbin/smbldap-useradd///etc/init.d/nscd
+   /usr/{sbin/traceroute,bin/traceroute.db}
+   klogd
+   ping
+   syslog-ng
+   syslogd
+8 processes have profiles defined.
+8 processes are in enforce mode.
+   /usr/sbin/apache2 (9719)
+   /usr/sbin/apache2 (9720)
+   /usr/sbin/apache2 (9721)
+   /usr/sbin/mysqld (1730)
+0 processes are in complain mode.
+0 processes are unconfined but have a profile defined.
+root@slave:/etc/apparmor.d#
+
+... and we get the following error log in the /var/log/apache2/error.log
+
+[Sun Jun 17 14:33:13.294337 2018] [core:error] [pid 9720:tid 3046103872] 
+(13)Permission denied: [client 192.168.10.1:55472] AH00132: file permissions 
+deny server access: /var/www/html/deny/index.html
+
 
 
