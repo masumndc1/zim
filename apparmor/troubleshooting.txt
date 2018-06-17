@@ -5,7 +5,7 @@
 
 the error text
 var/log/syslog
-/var/log/nginx/error.log
+/var/log/apache2/error.log
 
 if we have forgotten to include abstractions/apache2-common in the profile,
 will see an error like:
