@@ -109,6 +109,8 @@ root@slave:/etc/apparmor.d# cat usr.sbin.apache2
 }
 root@slave:/etc/apparmor.d#
 
+root@slave:/etc/apparmor.d# aa-enforce apache2
+
 ... finally restart following
 
 root@slave:/etc/apparmor.d# systemctl restart apparmor
