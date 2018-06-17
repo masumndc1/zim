@@ -1,0 +1,123 @@
+
+
+... there are bunch of aa related command available 
+... some of them are shown here. others are self-explanatory
+... and some need some reading
+
+root@slave:/etc/apparmor.d# aa-
+aa-audit           aa-decode          aa-exec            aa-remove-unknown
+aa-autodep         aa-disable         aa-genprof         aa-status
+aa-cleanprof       aa-enabled         aa-logprof         aa-unconfined
+aa-complain        aa-enforce         aa-mergeprof       aa-update-browser
+root@slave:/etc/apparmor.d# aa-
+
+root@slave:/etc/apparmor.d# aa-cleanprof apache2
+
+Deleted 14 rules.
+
+= Changed Local Profiles =
+
+The local profile for /usr/sbin/apache2 in file /etc/apparmor.d/usr.sbin.apache2 was changed. Would you like to save it?
+
+(S)ave Changes / [(V)iew Changes] / Abo(r)t
+Writing updated profile for /usr/sbin/apache2.
+root@slave:/etc/apparmor.d#
+
+
+root@slave:/etc/apparmor.d# aa-audit apache2
+Setting /usr/sbin/apache2 to audit mode.
+root@slave:/etc/apparmor.d#
+root@slave:/etc/apparmor.d#
+
+
+root@slave:/etc/apparmor.d#
+root@slave:/etc/apparmor.d# cat -n usr.sbin.apache2
+     1	# Last Modified: Sun Jun 17 16:23:50 2018
+     2	#include <tunables/global>
+     3
+     4	/usr/sbin/apache2 flags=(complain,audit) {
+     5	  #include <abstractions/apache2-common>
+     6	  #include <abstractions/base>
+     7	  #include <abstractions/lxc/container-base>
+     8	  #include <abstractions/nis>
+     9
+    10	  deny /var/www/html/deny/* r,
+    11
+    12
+    13	  ^DEFAULT_URI flags=(complain,audit) {
+    14	  }
+    15
+    16	  ^HANDLING_UNTRUSTED_INPUT flags=(complain,audit) {
+    17	  }
+    18	}
+root@slave:/etc/apparmor.d#
+
+... note here flag has been changed to audit.
+
+root@slave:/etc/apparmor.d# aa-update-browser
+aa-update-browser
+
+Usage: aa-update-browser [OPTIONS] <profile>
+  -u		comma separated list of abstractions for profile to use
+  -d		dry-run. Only show what would be done.
+  -l		list available abstractions
+  -h		this message
+
+Eg:
+$ aa-update-browser -l
+# aa-update-browser -u multimedia,productivity /etc/apparmor.d/usr.bin.firefox
+root@slave:/etc/apparmor.d# aa-update-browser -l
+ java kde mailto multimedia plugins-common productivity text-editors ubuntu-integration ubuntu-integration-xul user-files
+root@slave:/etc/apparmor.d#
+root@slave:/etc/apparmor.d# aa-update-browser -d
+aa-update-browser
+
+Usage: aa-update-browser [OPTIONS] <profile>
+  -u		comma separated list of abstractions for profile to use
+  -d		dry-run. Only show what would be done.
+  -l		list available abstractions
+  -h		this message
+
+Eg:
+$ aa-update-browser -l
+# aa-update-browser -u multimedia,productivity /etc/apparmor.d/usr.bin.firefox
+root@slave:/etc/apparmor.d#
+
+root@slave:/etc/apparmor.d# aa-enabled
+yes
+root@slave:/etc/apparmor.d#
+
+... we have found working profile just only one deny rule inside
+
+root@slave:/etc/apparmor.d# cat usr.sbin.apache2
+# Last Modified: Sun Jun 17 16:23:50 2018
+#include <tunables/global>
+
+/usr/sbin/apache2 {
+  #include <abstractions/apache2-common>
+  #include <abstractions/base>
+  #include <abstractions/lxc/container-base>
+  #include <abstractions/nis>
+
+  deny /var/www/html/deny/* r,
+
+  ^DEFAULT_URI {
+  }
+
+  ^HANDLING_UNTRUSTED_INPUT {
+  }
+}
+root@slave:/etc/apparmor.d#
+
+... finally restart following
+
+root@slave:/etc/apparmor.d# systemctl restart apparmor
+root@slave:/etc/apparmor.d# systemctl restart apache2
+
+... and finally run aa-logprof and accept accordingly and save
+... them to make enforce mode for apache2 permanently.
+
+
+
+
+
