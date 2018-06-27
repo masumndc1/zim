@@ -1,0 +1,5 @@
+
+
+... run the command to change the editor
+
+update-alternatives --config editor
