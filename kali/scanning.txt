@@ -1,0 +1,120 @@
+
+
+... scanning with layer 2/3/4 technique
+
+masum@kali:/$ arping 192.168.25.141 -c 1
+ARPING 192.168.25.141 from 192.168.25.175 eth0
+Unicast reply from 192.168.25.141 [00:0C:29:40:F0:05]  0.858ms
+Sent 1 probes (1 broadcast(s))
+Received 1 response(s)
+masum@kali:/$
+
+root@kali:/# netdiscover -r 192.168.25.0/24
+ Currently scanning: Finished!   |   Screen View: Unique Hosts
+
+ 4 Captured ARP Req/Rep packets, from 4 hosts.   Total size: 240
+ _____________________________________________________________________________
+   IP            At MAC Address     Count     Len  MAC Vendor / Hostname
+ -----------------------------------------------------------------------------
+ 192.168.25.1    00:50:56:c0:00:08      1      60  Unknown vendor
+ 192.168.25.2    00:50:56:fa:85:24      1      60  Unknown vendor
+ 192.168.25.141  00:0c:29:40:f0:05      1      60  Unknown vendor
+ 192.168.25.254  00:50:56:f3:27:47      1      60  Unknown vendor
+
+... running netdiscover in passive mode and then pinging host from kali
+... linux can also discover the host. this also helps from being caught
+... by IPS/IDS. this technique also effective in wireless discovery too.
+
+root@kali:/# netdiscover -p
+ Currently scanning: (passive)   |   Screen View: Unique Hosts
+
+ 1 Captured ARP Req/Rep packets, from 1 hosts.   Total size: 60
+ _____________________________________________________________________________
+   IP            At MAC Address     Count     Len  MAC Vendor / Hostname
+ -----------------------------------------------------------------------------
+ 192.168.25.141  00:0c:29:40:f0:05      1      60  Unknown vendor
+
+... using metasploit auxiliary
+
+Module options (auxiliary/scanner/discovery/arp_sweep):
+
+msf auxiliary(arp_sweep) > set rhosts 192.168.25.0/24
+rhosts => 192.168.25.0/24
+msf auxiliary(arp_sweep) > exploit
+
+[*] 192.168.25.1 appears to be up (VMware, Inc.).
+[*] 192.168.25.2 appears to be up (VMware, Inc.).
+[*] 192.168.25.141 appears to be up (VMware, Inc.).
+[*] 192.168.25.254 appears to be up (VMware, Inc.).
+[*] Scanned 256 of 256 hosts (100% complete)
+[*] Auxiliary module execution completed
+msf auxiliary(arp_sweep) >
+
+root@kali:/# nmap -sn 192.168.25.0/24
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2018-07-03 16:38 EDT
+Nmap scan report for 192.168.25.1
+Host is up (0.00024s latency).
+MAC Address: 00:50:56:C0:00:08 (VMware)
+Nmap scan report for 192.168.25.2
+Host is up (0.00024s latency).
+MAC Address: 00:50:56:FA:85:24 (VMware)
+Nmap scan report for meta (192.168.25.141)
+Host is up (0.00048s latency).
+MAC Address: 00:0C:29:40:F0:05 (VMware)
+Nmap scan report for 192.168.25.254
+Host is up (0.00068s latency).
+MAC Address: 00:50:56:F3:27:47 (VMware)
+Nmap scan report for 192.168.25.175
+Host is up.
+Nmap done: 256 IP addresses (5 hosts up) scanned in 2.55 seconds
+root@kali:/#
+
+root@kali:/# fping -g 192.168.25.0/24
+
+root@kali:/# fping 192.168.25.20
+ICMP Host Unreachable from 192.168.25.175 ICMP Echo sent to 192.168.25.20
+ICMP Host Unreachable from 192.168.25.175 ICMP Echo sent to 192.168.25.20
+ICMP Host Unreachable from 192.168.25.175 ICMP Echo sent to 192.168.25.20
+ICMP Host Unreachable from 192.168.25.175 ICMP Echo sent to 192.168.25.20
+192.168.25.20 is unreachable
+root@kali:/#
+
+root@kali:/# fping 192.168.25.141
+192.168.25.141 is alive
+root@kali:/#
+
+root@kali:/# hping3 --icmp meta
+HPING meta (eth0 192.168.25.141): icmp mode set, 28 headers + 0 data bytes
+len=46 ip=192.168.25.141 ttl=64 id=46935 icmp_seq=0 rtt=13.0 ms
+len=46 ip=192.168.25.141 ttl=64 id=46936 icmp_seq=1 rtt=4.6 ms
+len=46 ip=192.168.25.141 ttl=64 id=46943 icmp_seq=8 rtt=8.2 ms
+^C
+--- meta hping statistic ---
+9 packets transmitted, 9 packets received, 0% packet loss
+round-trip min/avg/max = 1.0/5.1/13.0 ms
+root@kali:/# hping3 --icmp -c 2 meta
+HPING meta (eth0 192.168.25.141): icmp mode set, 28 headers + 0 data bytes
+len=46 ip=192.168.25.141 ttl=64 id=46944 icmp_seq=0 rtt=7.9 ms
+len=46 ip=192.168.25.141 ttl=64 id=46945 icmp_seq=1 rtt=7.4 ms
+
+--- meta hping statistic ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 7.4/7.7/7.9 ms
+root@kali:/#
+
+... the default mode of hping3 is tcp. therefore syn scan
+... using hping3 is done by following.
+
+root@kali:/# hping3 meta -S -c 2
+HPING meta (eth0 192.168.25.141): S set, 40 headers + 0 data bytes
+len=46 ip=192.168.25.141 ttl=64 DF id=0 sport=0 flags=RA seq=0 win=0 rtt=6.4 ms
+len=46 ip=192.168.25.141 ttl=64 DF id=0 sport=0 flags=RA seq=1 win=0 rtt=6.1 ms
+
+--- meta hping statistic ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 6.1/6.3/6.4 ms
+root@kali:/#
+
+
+
