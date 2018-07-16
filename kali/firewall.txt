@@ -1,0 +1,52 @@
+
+
+... detect firewall using metasploit
+
+mpleted
+msf auxiliary(ack) > show options
+
+Module options (auxiliary/scanner/portscan/ack):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   BATCHSIZE  256              yes       The number of hosts to scan per set
+   DELAY      0                yes       The delay between connections, per thread, in milliseconds
+   INTERFACE                   no        The name of the interface
+   JITTER     0                yes       The delay jitter factor (maximum value by which to +/- DELAY) in milliseconds.
+   PORTS      1-10000          yes       Ports to scan (e.g. 22-25,80,110-900)
+   RHOSTS     meta             yes       The target address range or CIDR identifier
+   SNAPLEN    65535            yes       The number of bytes to capture
+   THREADS    10               yes       The number of concurrent threads
+   TIMEOUT    500              yes       The reply read timeout in milliseconds
+
+msf auxiliary(ack) > set ports 1-100
+ports => 1-100
+msf auxiliary(ack) > run
+
+[*]  TCP UNFILTERED 192.168.25.141:1
+[*]  TCP UNFILTERED 192.168.25.141:2
+[*]  TCP UNFILTERED 192.168.25.141:3
+[*]  TCP UNFILTERED 192.168.25.141:4
+[*]  TCP UNFILTERED 192.168.25.141:5
+[*]  TCP UNFILTERED 192.168.25.141:6
+[*]  TCP UNFILTERED 192.168.25.141:7
+[*]  TCP UNFILTERED 192.168.25.141:8
+[*]  TCP UNFILTERED 192.168.25.141:9
+
+... using nmap
+
+└──╼ # nmap -sA meta -p 1-100
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2018-07-12 21:10 EDT
+Nmap scan report for meta (192.168.25.141)
+Host is up (0.00044s latency).
+All 100 scanned ports on meta (192.168.25.141) are unfiltered
+MAC Address: 00:0C:29:40:F0:05 (VMware)
+
+Nmap done: 1 IP address (1 host up) scanned in 2.44 seconds
+┌─[root@parrot]─[/modules/auxiliary/scanner/portscan]
+└──╼ #
+
+
+
+

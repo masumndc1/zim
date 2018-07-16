@@ -226,8 +226,31 @@ Nmap done: 1 IP address (1 host up) scanned in 4.90 seconds
 
 ... clearly nmap detected better than xprobe2
 
+... snmp scanning 
 
-
+┌─[root@parrot]─[~]
+└──╼ # onesixtyone 192.168.25.141 public
+Scanning 1 hosts, 1 communities
+┌─[root@parrot]─[~]
+└──╼ # onesixtyone 192.168.25.179 public
+Scanning 1 hosts, 1 communities
+┌─[root@parrot]─[~]
+└──╼ # snmp
+snmp-bridge-mib  snmpconf         snmpinform       snmptest
+snmp-check       snmpd            snmpkey          snmptranslate
+snmpbulkget      snmpdelta        snmpnetstat      snmptrap
+snmpbulkwalk     snmpdf           snmpset          snmpusm
+snmpc            snmpget          snmpstatus       snmpvacm
+snmpcheck        snmpgetnext      snmptable        snmpwalk
+┌─[root@parrot]─[~]
+└──╼ # snmpwalk 192.168.25.141 -c public -v 2c
+Created directory: /var/lib/snmp/mib_indexes
+Timeout: No Response from 192.168.25.141
+┌─[✗]─[root@parrot]─[~]
+└──╼ # snmpwalk 192.168.25.179 -c public -v 2c
+Timeout: No Response from 192.168.25.179
+┌─[✗]─[root@parrot]─[~]
+└──╼ #
 
 
 
