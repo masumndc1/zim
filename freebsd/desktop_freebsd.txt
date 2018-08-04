@@ -1,0 +1,7 @@
+
+
+... to have desktop in freebsd
+... install gnome3 and xorg
+... pkg install gnome3 xorg
+
+
