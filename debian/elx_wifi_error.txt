@@ -1,0 +1,8 @@
+
+
+... sometime after getting from hibernation wifi is not working
+... in that case we can do the following
+
+# service network-manager restart
+
+

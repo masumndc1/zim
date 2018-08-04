@@ -1,0 +1,9 @@
+
+
+... If you want all users to be able to set the virtual network adapter
+... (/dev/vmnet0 in our example) to promiscuous mode, you can simply run
+... the following command on the host operating system as root:
+
+    chmod a+rw /dev/vmnet0
+
+
