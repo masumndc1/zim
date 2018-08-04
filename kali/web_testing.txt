@@ -1,0 +1,212 @@
+
+
+... testing web with various tools
+
+root@kali:/usr/share# nikto -host meta -port 80 
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ Target IP:          192.168.122.193
++ Target Hostname:    meta
++ Target Port:        80
++ Start Time:         2018-07-24 16:02:54 (GMT-4)
+---------------------------------------------------------------------------
++ Server: Apache/2.2.8 (Ubuntu) DAV/2
++ Retrieved x-powered-by header: PHP/5.2.4-2ubuntu5.10
++ The anti-clickjacking X-Frame-Options header is not present.
++ The X-XSS-Protection header is not defined. This header can hint to the user agent to protect against some forms of XSS
++ The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type
++ Apache/2.2.8 appears to be outdated (current is at least Apache/2.4.12). Apache 2.0.65 (final release) and 2.2.29 are also current.
++ Uncommon header 'tcn' found, with contents: list
++ Apache mod_negotiation is enabled with MultiViews, which allows attackers to easily brute force file names. See http://www.wisec.it/sectou.php?id=4698ebdc59d15. The following alternatives for 'index' were found: index.php
++ Web Server returns a valid response with junk HTTP methods, this may cause false positives.
++ OSVDB-877: HTTP TRACE method is active, suggesting the host is vulnerable to XST
++ /phpinfo.php?VARIABLE=<script>alert('Vulnerable')</script>: Output from the phpinfo() function was found.
++ OSVDB-3268: /doc/: Directory indexing found.
++ OSVDB-48: /doc/: The /doc/ directory is browsable. This may be /usr/doc.
++ OSVDB-12184: /?=PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-12184: /?=PHPE9568F36-D428-11d2-A769-00AA001ACF42: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-12184: /?=PHPE9568F34-D428-11d2-A769-00AA001ACF42: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-12184: /?=PHPE9568F35-D428-11d2-A769-00AA001ACF42: PHP reveals potentially sensitive information via certain HTTP requests that contain specific QUERY strings.
++ OSVDB-3092: /phpMyAdmin/changelog.php: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ Server leaks inodes via ETags, header found with file /phpMyAdmin/ChangeLog, inode: 92462, size: 40540, mtime: Tue Dec  9 12:24:00 2008
++ OSVDB-3092: /phpMyAdmin/ChangeLog: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ OSVDB-3268: /test/: Directory indexing found.
++ OSVDB-3092: /test/: This might be interesting...
++ /phpinfo.php: Output from the phpinfo() function was found.
++ OSVDB-3233: /phpinfo.php: PHP is installed, and a test script which runs phpinfo() was found. This gives a lot of system information.
++ OSVDB-3268: /icons/: Directory indexing found.
++ /phpinfo.php?GLOBALS[test]=<script>alert(document.cookie);</script>: Output from the phpinfo() function was found.
++ OSVDB-3233: /icons/README: Apache default file found.
++ /phpMyAdmin/: phpMyAdmin directory found
++ OSVDB-3092: /phpMyAdmin/Documentation.html: phpMyAdmin is for managing MySQL databases, and should be protected or limited to authorized hosts.
++ 8185 requests: 0 error(s) and 29 item(s) reported on remote host
++ End Time:           2018-07-24 16:03:10 (GMT-4) (16 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+root@kali:/usr/share# 
+root@kali:/usr/share# 
+root@kali:/usr/share# 
+root@kali:/usr/share# nikto -host meta -port 80 -ssl
+- Nikto v2.1.6
+---------------------------------------------------------------------------
++ No web server found on meta:80
+---------------------------------------------------------------------------
++ 0 host(s) tested
+root@kali:/usr/share# 
+
+... when there are multiple web servers are running in a single ip then we need to
+... add vhost option with nikto.
+
+root@KaliLinux:~# nikto -host 192.168.122.193 -port 80 -nossl -vhost khabir.com
+
+... sslscan/sslyze 
+
+root@kali:/usr/share# sslscan https://meta
+Version: 1.11.9-static
+OpenSSL 1.0.2l-dev  xx XXX xxxx
+
+Testing SSL server meta on port 443 using SNI name meta
+
+  TLS Fallback SCSV:
+Server does not support TLS Fallback SCSV
+
+  TLS renegotiation:
+Secure session renegotiation supported
+
+  TLS Compression:
+Compression disabled
+
+  Heartbleed:
+TLS 1.2 not vulnerable to heartbleed
+TLS 1.1 not vulnerable to heartbleed
+TLS 1.0 not vulnerable to heartbleed
+
+  Supported Server Cipher(s):
+Preferred TLSv1.2  128 bits  ECDHE-RSA-AES128-GCM-SHA256   Curve P-256 DHE 256
+Accepted  TLSv1.2  128 bits  ECDHE-RSA-AES128-SHA256       Curve P-256 DHE 256
+Accepted  TLSv1.2  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-GCM-SHA256     DHE 1024 bits
+Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-SHA256         DHE 1024 bits
+Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
+Accepted  TLSv1.2  128 bits  AES128-GCM-SHA256            
+Accepted  TLSv1.2  128 bits  AES128-SHA256                
+Accepted  TLSv1.2  128 bits  AES128-SHA                   
+Accepted  TLSv1.2  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
+Accepted  TLSv1.2  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
+Accepted  TLSv1.2  112 bits  DES-CBC3-SHA                 
+Preferred TLSv1.1  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  TLSv1.1  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
+Accepted  TLSv1.1  128 bits  AES128-SHA                   
+Accepted  TLSv1.1  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
+Accepted  TLSv1.1  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
+Accepted  TLSv1.1  112 bits  DES-CBC3-SHA                 
+Preferred TLSv1.0  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
+Accepted  TLSv1.0  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
+Accepted  TLSv1.0  128 bits  AES128-SHA                   
+Accepted  TLSv1.0  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
+Accepted  TLSv1.0  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
+Accepted  TLSv1.0  112 bits  DES-CBC3-SHA                 
+
+  SSL Certificate:
+Signature Algorithm: sha256WithRSAEncryption
+RSA Key Strength:    2048
+
+Subject:  meta
+Altnames: meta
+Issuer:   DigiCert SHA2 Extended Validation Server CA
+
+Not valid before: Mar  1 00:00:00 2018 GMT
+Not valid after:  Mar  8 12:00:00 2020 GMT
+root@kali:/usr/share# 
+
+... we can also test one mail server's capabilities on transport layer security
+... tls using --starttls options with sslscan like bellow.
+
+root@kali:/usr/share# 
+root@kali:/usr/share# nmap -A -p 25 meta
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2018-07-24 16:51 EDT
+Nmap scan report for meta (192.168.122.193)
+Host is up (0.0011s latency).
+PORT   STATE SERVICE VERSION
+25/tcp open  smtp    Postfix smtpd
+|_smtp-commands: metasploitable.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, 
+| ssl-cert: Subject: commonName=ubuntu804-base.localdomain/organizationName=OCOSA/stateOrProvinceName=There is no such thing outside US/countryName=XX
+| Not valid before: 2010-03-17T14:07:45
+|_Not valid after:  2010-04-16T14:07:45
+|_ssl-date: 2018-07-24T20:51:36+00:00; -6s from scanner time.
+| sslv2: 
+|   SSLv2 supported
+|   ciphers: 
+|     SSL2_RC2_128_CBC_EXPORT40_WITH_MD5
+|     SSL2_RC2_128_CBC_WITH_MD5
+|     SSL2_RC4_128_WITH_MD5
+|     SSL2_RC4_128_EXPORT40_WITH_MD5
+|     SSL2_DES_192_EDE3_CBC_WITH_MD5
+|_    SSL2_DES_64_CBC_WITH_MD5
+MAC Address: 52:54:00:13:38:D8 (QEMU virtual NIC)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6
+OS details: Linux 2.6.9 - 2.6.33
+Network Distance: 1 hop
+Service Info: Host:  metasploitable.localdomain
+
+Host script results:
+|_clock-skew: mean: -6s, deviation: 0s, median: -6s
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.09 ms meta (192.168.122.193)
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 1.89 seconds
+root@kali:/usr/share# 
+root@kali:/usr/share# 
+root@kali:/usr/share# sslscan --help | grep starttls
+  --starttls-ftp       STARTTLS setup for FTP
+  --starttls-imap      STARTTLS setup for IMAP
+  --starttls-irc       STARTTLS setup for IRC
+  --starttls-ldap      STARTTLS setup for LDAP
+  --starttls-pop3      STARTTLS setup for POP3
+  --starttls-smtp      STARTTLS setup for SMTP
+  --starttls-mysql     STARTTLS setup for MYSQL
+  --starttls-xmpp      STARTTLS setup for XMPP
+  --starttls-psql      STARTTLS setup for PostgreSQL
+
+root@kali:/usr/share# sslscan --starttls-stmp 192.168.122.193:25
+Version: 1.11.9-static
+OpenSSL 1.0.2l-dev  xx XXX xxxx
+
+Testing SSL server 192.168.122.193 on port 25 using SNI name 192.168.122.193
+
+  TLS Fallback SCSV:
+Server does not support TLS Fallback SCSV
+
+  TLS renegotiation:
+Session renegotiation not supported
+
+  TLS Compression:
+Compression disabled
+
+  Heartbleed:
+TLS 1.2 not vulnerable to heartbleed
+TLS 1.1 not vulnerable to heartbleed
+TLS 1.0 not vulnerable to heartbleed
+
+  Supported Server Cipher(s):
+root@kali:/usr/share# 
+
+... sslscan actually tries to determine the ciphers and key length by establishing
+... the ssl session.
+
+... sslyze 
+... use of sslyze as follows
+... this will scan for the basic scan as well as finding for the zlib compression 
+... error which also known as Compression Ratio Info-leak Made Easy (CRIME).
+
+root@kali:/usr/share# sslyze meta --regular --compression
+
+
+
