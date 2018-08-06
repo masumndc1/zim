@@ -1,0 +1,60 @@
+
+
+... installing and configuration of acpid for kvm host in centos
+
+  yum search acpi
+  yum install -y acpid
+  yum install acpid-sysvinit
+  yum install acpica-tools
+
+... enable the service at boot level and start it
+
+[root@localhost init.d]# systemctl enable acpid
+[root@localhost init.d]# systemctl status acpid
+● acpid.service - ACPI Event Daemon
+   Loaded: loaded (/usr/lib/systemd/system/acpid.service; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+[root@localhost init.d]# systemctl start acpid
+[root@localhost init.d]# systemctl status acpid
+● acpid.service - ACPI Event Daemon
+   Loaded: loaded (/usr/lib/systemd/system/acpid.service; enabled; vendor preset: enabled)
+   Active: active (running) since ma 2018-08-06 15:49:32 EDT; 1s ago
+  Process: 1278 ExecStart=/usr/sbin/acpid $OPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 1279 (acpid)
+   CGroup: /system.slice/acpid.service
+           └─1279 /usr/sbin/acpid
+
+elo 06 15:49:32 localhost.localdomain systemd[1]: Starting ACPI Event Daemon...
+elo 06 15:49:32 localhost.localdomain systemd[1]: Started ACPI Event Daemon.
+elo 06 15:49:32 localhost.localdomain acpid[1279]: starting up with netlink and the input layer
+elo 06 15:49:32 localhost.localdomain acpid[1279]: skipping incomplete file /etc/acpi/events/videoconf
+elo 06 15:49:32 localhost.localdomain acpid[1279]: 1 rule loaded
+elo 06 15:49:32 localhost.localdomain acpid[1279]: waiting for events: event logging is off
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@localhost init.d]# 
+
+... and finally set following 
+
+[root@localhost ~]# cd /etc/acpi/
+[root@localhost acpi]# ls
+actions  events
+[root@localhost acpi]# cd events/
+[root@localhost events]# ls
+powerconf  powerconf.bk  videoconf
+[root@localhost events]# 
+
+[root@localhost events]# cat powerconf 
+# ACPID config to power down machine if powerbutton is pressed, but only if
+# no gnome-power-manager is running
+
+event=button/power.*
+action=/etc/acpi/actions/power.sh
+[root@localhost events]# 
+
+... from now on, pressing power button will shut down the machine.
+
+
+
+
+
+
