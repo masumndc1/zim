@@ -1,0 +1,48 @@
+
+
+... installing dnsmasq in ubuntu.
+... 
+
+apt-get update
+apt-get install dnsmasq
+
+... edit configuration file like below
+
+└──╼ # egrep -v ^# /etc/dnsmasq.conf
+
+... setting the following interfaces only to listen dns and dhcp request.
+... requests coming to other interface will be denied.
+
+interface=virbr0
+interface=vmnet8
+
+cache-size=1000
+
+... enable logging to a file instead of syslog
+
+log-queries
+log-facility=/var/log/dnsmasq.log
+
+... if we need dnsmasq to check other dns instead of from resolv.conf 
+... we will do them like below.
+
+# Change this line if you want dns to get its upstream servers from
+# somewhere other that /etc/resolv.conf
+#resolv-file=/path/to/that/file
+
+... finally restart the dnsmasq service
+... and see the log file /var/log/dnsmasq.log
+
+
+... in the client we need to configure this dnsmasq server ip address
+... as dns server in /etc/resolv.conf
+
+... i have found this setup working fine.
+
+
+
+
+
+
+
+
