@@ -2,6 +2,6 @@
 
 git pull
 git add .
-git commit -m $(date +%D)
+git commit -m "$(date)"
 git push
 
