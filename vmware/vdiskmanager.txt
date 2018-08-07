@@ -1,0 +1,37 @@
+
+
+... we can use vmware-vdiskmanager to merge all the vmdk disk to a single vmdk file.
+
+└──╼ $ ls
+Debian9.5.vmdk       Debian9.5-s002.vmdk  Debian9.5-s005.vmdk  Debian9.5-s008.vmdk  Debian9.5.vmx      vmware.log
+Debian9.5.nvram      Debian9.5-s003.vmdk  Debian9.5-s006.vmdk  Debian9.5.vmxf
+Debian9.5-s001.vmdk  Debian9.5-s004.vmdk  Debian9.5-s007.vmdk  Debian9.5.vmsd       Debian9.5.vmx.lck
+└──╼ $ ls
+
+... then we need to merge all the splited vmdk file into a single file
+
+└──╼ $ vmware-vdiskmanager -r Debian9.5.vmdk -t 0 Debian9.5_kvm.vmdk
+
+Creating disk 'Debian9.5_kvm.vmdk'
+  Convert: 100% done.
+Virtual disk conversion successful.
+┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
+
+... and finally we have found the single debian9.5_kvm.vmdk file
+... now convering the single vmdk file into qcow2 format to use in kvm
+
+┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
+└──╼ $ sudo qemu-img convert -O qcow2 Debian9.5_kvm.vmdk debian9.5.qcow2
+[sudo] password for edmudoh: 
+
+┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
+└──╼ $ ls
+Debian9.5_kvm.vmdk  Debian9.5-s001.vmdk  Debian9.5-s004.vmdk  Debian9.5-s007.vmdk  Debian9.5.vmsd  Debian9.5.vmx.lck
+Debian9.5.nvram     Debian9.5-s002.vmdk  Debian9.5-s005.vmdk  Debian9.5-s008.vmdk  Debian9.5.vmx   vmware.log
+debian9.5.qcow2     Debian9.5-s003.vmdk  Debian9.5-s006.vmdk  Debian9.5.vmdk       Debian9.5.vmxf
+┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
+└──╼ $ 
+
+... we can now use this debian9.5.qcow2 in kvm
+
+

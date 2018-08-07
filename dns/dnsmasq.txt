@@ -1,7 +1,6 @@
 
 
 ... installing dnsmasq in ubuntu.
-... 
 
 apt-get update
 apt-get install dnsmasq
@@ -23,19 +22,38 @@ cache-size=1000
 log-queries
 log-facility=/var/log/dnsmasq.log
 
-... if we need dnsmasq to check other dns instead of from resolv.conf 
+... if we need dnsmasq to check other dns server instead of /etc/resolv.conf 
 ... we will do them like below.
 
-# Change this line if you want dns to get its upstream servers from
-# somewhere other that /etc/resolv.conf
-#resolv-file=/path/to/that/file
+resolv-file=/etc/resolv.orig
+
+... the content of my resolv-file is. 
+... when dns request comes to dnsmasq, then it will forward those request
+... to the following nameservers. 
+
+└──╼ # cat /etc/resolv.orig 
+
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 9.9.9.9
+nameserver 4.2.2.1
+nameserver 4.2.2.2
+
+┌─[root@elxabl1vvp2]─[/home/edmudoh]
+└──╼ # 
 
 ... finally restart the dnsmasq service
+
+└──╼ # systemctl restart dnsmasq
+
 ... and see the log file /var/log/dnsmasq.log
 
-
 ... in the client we need to configure this dnsmasq server ip address
-... as dns server in /etc/resolv.conf
+... as dns server in /etc/resolv.conf. 
+
+... we can install NetworkManager, dhcpclient, resolvconf or systemresolv 
+... program in client to setup dnsmasq ip address as dns server automatically.
 
 ... i have found this setup working fine.
 
