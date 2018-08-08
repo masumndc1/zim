@@ -47,8 +47,7 @@ include /etc/logrotate.d
 
 ... then the /etc/logrotate.d/dnsmasq file is bellow
 
-└──╼ # cat dnsmasq 
-
+└──╼ # cat /etc/logrotate.d/dnsmasq 
 /var/log/dnsmasq.log
 {
 	daily
@@ -56,7 +55,7 @@ include /etc/logrotate.d
 	size 10k
 	compress
 	missingok
-	su dnsmasq root
+	su root syslog
 	create 644 dnsmasq root
 }
 

@@ -11,9 +11,11 @@ apt-get install dnsmasq
 
 ... setting the following interfaces only to listen dns and dhcp request.
 ... requests coming to other interface will be denied.
+... now we want dnsmasq listen to every interface it has.
+...
 
-interface=virbr0
-interface=vmnet8
+#interface=virbr0
+#interface=vmnet8
 
 cache-size=1000
 
