@@ -52,12 +52,14 @@ include /etc/logrotate.d
 {
 	daily
 	rotate 7
-	size 10k
 	compress
 	missingok
+	notifempty
+	size 2k
+	create 644 root root
 	su root syslog
-	create 644 dnsmasq root
 }
+
 
 ┌─[root@elxabl1vvp2]─[/etc/logrotate.d]
 └──╼ # 
@@ -99,7 +101,6 @@ switching euid to 0 and egid to 0
 
 └──╼ #  
 
-... we will find the following files with the following permission
 
 
 
