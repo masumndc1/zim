@@ -1,0 +1,11 @@
+
+
+... one ssh related error and solution
+
+fatal: [php]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible 
+because Host Key checking is enabled and sshpass does not support this.  Please add this 
+host's fingerprint to your known_hosts file to manage this host."}
+
+└──╼ # ssh-keyscan -H 192.168.122.227 >> /home/user/.ssh/known_hosts 
+
+

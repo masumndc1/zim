@@ -16,7 +16,7 @@ apt-get install dnsmasq
 
 #interface=virbr0
 #interface=vmnet8
-
+listen-address=127.0.0.1
 cache-size=1000
 
 ... enable logging to a file instead of syslog
@@ -31,16 +31,14 @@ resolv-file=/etc/resolv.orig
 
 ... the content of my resolv-file is. 
 ... when dns request comes to dnsmasq, then it will forward those request
-... to the following nameservers. 
+... to the following nameservers. we are adding only 3 here. we can use 4/5/6
+... if we need or wish.
 
 └──╼ # cat /etc/resolv.orig 
 
 nameserver 1.1.1.1
 nameserver 8.8.8.8
 nameserver 8.8.4.4
-nameserver 9.9.9.9
-nameserver 4.2.2.1
-nameserver 4.2.2.2
 
 ┌─[root@elxabl1vvp2]─[/home/edmudoh]
 └──╼ # 
