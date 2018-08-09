@@ -1,0 +1,30 @@
+
+
+... installing package in netbsd
+... we need to add from where it will get the packages.
+... we need to uncomment following lines from root .profile file.
+
+-bash-4.4# 
+-bash-4.4# uname -a
+NetBSD  7.1.2 NetBSD 7.1.2 (GENERIC.201803151611Z) amd64
+-bash-4.4# 
+
+-bash-4.4# pwd
+/root
+-bash-4.4# ls
+.bash_history  .cshrc         .klogin        .login         .profile       .shrc
+-bash-4.4# 
+
+-bash-4.4# cat .profile 
+
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/pkg/sbin:/usr/pkg/bin
+export PATH=${PATH}:/usr/X11R7/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin
+
+# Uncomment the following line(s) to install binary packages
+# from ftp.NetBSD.org via pkg_add.  (See also pkg_install.conf)
+export PKG_PATH=ftp://ftp.netbsd.org/pub/pkgsrc/packages/NetBSD/$(uname -m)/$(uname -r)/All
+export PKG_PATH="${PKG_PATH}"
+
+-bash-4.4# 
+
+

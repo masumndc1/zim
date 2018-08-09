@@ -55,13 +55,18 @@ include /etc/logrotate.d
 	compress
 	missingok
 	notifempty
-	size 2k
-	create 644 root root
+	size 100k
+	create 640 dnsmasq root
 	su root syslog
 }
+└──╼ # ls /var/log/dnsm*
+/var/log/dnsmasq.log  /var/log/dnsmasq.log.1.gz
+
+┌─[root@]─[/var/log]
+└──╼ # 
 
 
-┌─[root@elxabl1vvp2]─[/etc/logrotate.d]
+┌─[root@]─[/etc/logrotate.d]
 └──╼ # 
 
 ... the dnsmasq.log file will be created after compressing previous log 
