@@ -127,7 +127,24 @@ ansible | SUCCESS | rc=0 >>
 
 [masum@nginx ~]$ 
 
+... using ansible command to install a packages in fedora/centos 
+... similar can be applied with debian/ubuntu
+
+└──╼ $ ansible --ask-pass --become --ask-become-pass -m "raw yum install ansible" fedora
+SSH password: 
+SUDO password[defaults to SSH password]: 
+fedora | SUCCESS | rc=0 >>
 
 
+Last metadata expiration check: 0:56:01 ago on pe 10. elokuuta 2018 12.35.40.
+Package ansible-2.6.0-1.fc28.noarch is already installed, skipping.
+Dependencies resolved.
+Nothing to do.
+Complete!
+Shared connection to 192.168.122.243 closed.
+
+
+┌─[edmudoh@elxabl1vvp2]─[~]
+└──╼ $ 
 
 
