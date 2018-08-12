@@ -1,0 +1,37 @@
+
+
+... setup of openvas in kali/parrot
+
+... run step by step
+
+# openvas-setup
+# openvas-start
+
+... to update feed
+
+└──╼ # openvas-feed-update
+Updating OpenVas Feeds
+OpenVAS community feed server - http://www.openvas.org/
+
+
+└──╼ # systemctl status openvas-manager
+● openvas-manager.service - Open Vulnerability Assessment System Manager Daemon
+   Loaded: loaded (/lib/systemd/system/openvas-manager.service; disabled; vendor preset: enabled)
+   Active: active (running) since Sun 2018-08-12 19:29:37 EDT; 2min 7s ago
+
+└──╼ # openvas-check-setup 
+openvas-check-setup 2.3.7
+  Test completeness and readiness of OpenVAS-9
+
+  Please report us any non-detected problems and
+  help us to improve this check routine:
+  http://lists.wald.intevation.org/mailman/listinfo/openvas-discuss
+
+  Send us the log-file (/tmp/openvas-check-setup.log) to help analyze the problem.
+
+  Use the parameter --server to skip checks for client tools
+  like GSD and OpenVAS-CLI.
+
+OK: Greenbone Security Assistant is listening on port 9392, which is the default port.
+
+... we can browse openvas by https://localhost:9392
