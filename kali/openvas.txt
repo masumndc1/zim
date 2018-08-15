@@ -35,3 +35,20 @@ openvas-check-setup 2.3.7
 OK: Greenbone Security Assistant is listening on port 9392, which is the default port.
 
 ... we can browse openvas by https://localhost:9392
+
+... there are two tools to use openvas from cli
+
+... first one is a bash script and later one is a python script.
+
+root@kali:~# apt -y install pcregrep
+root@kali:~# ./openvas-automate.sh meta
+
+... need to download the script from the following website.
+
+https://code610.blogspot.ca/2016/12/automated-scans-with-openvas-and-kali.html
+
+root@kali:~# ./code16.py meta
+
+
+
+
