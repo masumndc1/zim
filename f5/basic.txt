@@ -26,4 +26,5 @@ Linux localhost.localdomain 2.6.18-164.11.1.el5.1.0.f5app #1 SMP Mon Mar 5 11:47
 [root@localhost:NO LICENSE] config # 
 [root@localhost:NO LICENSE] config # 
 
- 
+... admin console username:password = admin:admin
+

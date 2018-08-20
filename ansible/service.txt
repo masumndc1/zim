@@ -1,0 +1,17 @@
+
+
+... service 
+
+# /roles/localhost/tasks/main.yml
+# tasks file for localhost
+- name: install packages
+  apt:
+   name: "{{ packages }}"
+   update_cache: yes
+
+- name: starting openvswitch service
+  service:
+    name: openvswitch-switch
+    enabled: yes
+    state: started
+

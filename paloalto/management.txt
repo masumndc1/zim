@@ -48,8 +48,3 @@ Interface ethernet1/3 has no virtual-router configuration.
 admin@testpa# 
 
 
-// office pa has 
-// user masum 
-// pass masum03
-// user admin
-// pass admin@pa
