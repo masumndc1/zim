@@ -35,6 +35,13 @@ root@debian7:~/openvswitch-2.5.1# make && make install
 .. alternative way is to install the mininet which includes all the 
 .. openvswitch and openflow. 
 
+... another way of installing open-vswitch is just type 
+
+└──╼ # apt-cache search openvswitch
+openvswitch-common
+openvswitch-switch
+
+... and install the common and switch packages.
 
 
 

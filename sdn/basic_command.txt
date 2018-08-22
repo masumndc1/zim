@@ -1,0 +1,25 @@
+
+
+... some general command related to openvswitch is below.
+
+# ovs-vsctl show
+493f1272-96d6-4128-a99b-956fec8cbed4
+    ovs_version: "2.5.4"
+
+... creating one bridge
+
+└──╼ # ovs-vsctl add-br vswitch01
+
+┌─[root@elxabl1vvp2]─[~]
+└──╼ # ovs-vsctl show
+493f1272-96d6-4128-a99b-956fec8cbed4
+    Bridge "vswitch01"
+        Port "vswitch01"
+            Interface "vswitch01"
+                type: internal
+    ovs_version: "2.5.4"
+┌─[root@elxabl1vvp2]─[~]
+└──╼ # 
+
+
+
