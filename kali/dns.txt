@@ -1,0 +1,24 @@
+
+
+... various command to find host/ip/dns related things.
+
+root@kali:/# host -t ns google.com
+google.com name server ns2.google.com.
+google.com name server ns4.google.com.
+google.com name server ns3.google.com.
+google.com name server ns1.google.com.
+root@kali:/#
+
+root@kali:/# host -t mx google.com
+google.com mail is handled by 10 aspmx.l.google.com.
+google.com mail is handled by 40 alt3.aspmx.l.google.com.
+google.com mail is handled by 50 alt4.aspmx.l.google.com.
+google.com mail is handled by 20 alt1.aspmx.l.google.com.
+google.com mail is handled by 30 alt2.aspmx.l.google.com.
+root@kali:/#
+
+root@kali:/etc/apt# host www.google.com
+www.google.com has address 172.217.20.36
+www.google.com has IPv6 address 2a00:1450:400f:806::2004
+root@kali:/etc/apt#
+
