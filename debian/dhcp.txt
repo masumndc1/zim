@@ -1,0 +1,46 @@
+
+
+... configurating the dchp
+       
+
+root@ubuntu:/etc/dhcp# apt-get install isc-dhcp-server			
+
+root@ubuntu:/etc/dhcp# pwd
+/etc/dhcp
+root@ubuntu:/etc/dhcp# ls
+ddns-keys  debug  dhclient.conf  dhclient-enter-hooks.d  dhclient-exit-hooks.d  dhcpd.conf  dhcpd.conf.bk
+root@ubuntu:/etc/dhcp#
+root@ubuntu:/etc/dhcp# cat dhcpd.conf
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+  range 192.168.1.10 192.168.1.30;
+  option domain-name-servers 8.8.8.8;
+  option subnet-mask 255.255.255.0;
+}
+
+... there are a lot of options we have for dhcp server in this file.
+
+root@ubuntu:/etc/dhcp# cat dhclient.conf
+
+option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
+
+send host-name = gethostname();
+request subnet-mask, broadcast-address, time-offset, routers,
+        domain-name, domain-name-servers, domain-search, host-name,
+        dhcp6.name-servers, dhcp6.domain-search, dhcp6.fqdn, dhcp6.sntp-servers,
+        netbios-name-servers, netbios-scope, interface-mtu,
+        rfc3442-classless-static-routes, ntp-servers;
+
+lease {
+  interface "ens160";
+}
+
+
+timeout 300;
+
+... interface option will only send the dhcp lease to ens160 interface. 
+
+
+
+
+
