@@ -1,0 +1,15 @@
+
+
+... how to use curl. 
+... there are many example how to use curl. few of them are below.
+
+# curl -o output.txt http://server.com/server.txt
+
+# curl -O http://server.com/server.txt
+
+... capital O will store the file as it was in server
+
+
+
+
+

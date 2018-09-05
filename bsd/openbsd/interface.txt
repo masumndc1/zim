@@ -61,7 +61,7 @@ inet 192.168.35.20 255.255.255.0
 inet 192.168.244.10 255.255.255.0 NONE description "local net"
 -bash-4.3# 
 
--bash-4.3# /bin/sh /etc/netstart vic0
+-bash-4.3# /bin/sh /etc/netstart em0
 
 -bash-4.3# ifconfig vic0
 vic0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
@@ -82,11 +82,9 @@ dhcp
 
 -bash-4.3# 
 
+... and finally restart that interface by using following
 
-
-
-
--bash-4.3# 
+-bash-4.3# /bin/sh /etc/netstart em0
 
 
 
