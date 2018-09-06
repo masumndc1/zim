@@ -1,0 +1,54 @@
+
+
+... command and configuraiton of interface
+... quagga will get automatic interface configuratio
+... from the system
+
+masum-router# show interface
+Interface ens33 is up, line protocol is up
+  Link ups:       1  last: Thu, 06 Sep 2018 15:55:39 -0400
+  Link downs:     0  last: (never)
+  vrf: 0
+  Description: primary interface.
+  index 2 metric 0 mtu 1500 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Ethernet
+  HWaddr: 00:0c:29:31:46:dd
+  inet 172.16.17.177/24 broadcast 172.16.17.255
+  inet6 fe80::20c:29ff:fe31:46dd/64
+Interface ens34 is up, line protocol is up
+  Link ups:       1  last: Thu, 06 Sep 2018 15:55:39 -0400
+  Link downs:     0  last: (never)
+  vrf: 0
+  Description: secondary interfac.
+  index 3 metric 0 mtu 1500 
+  flags: <UP,BROADCAST,RUNNING,MULTICAST>
+  Type: Ethernet
+  HWaddr: 00:0c:29:31:46:e7
+  inet 172.16.15.145/24 broadcast 172.16.15.255
+  inet6 fe80::20c:29ff:fe31:46e7/64
+Interface lo is up, line protocol is up
+  Link ups:       1  last: Thu, 06 Sep 2018 15:55:39 -0400
+  Link downs:     0  last: (never)
+  vrf: 0
+  index 1 metric 0 mtu 65536 
+  flags: <UP,LOOPBACK,RUNNING>
+  Type: Loopback
+  inet 127.0.0.1/8
+  inet6 ::1/128
+masum-router# 
+masum-router# show ip route
+Codes: K - kernel route, C - connected, S - static, R - RIP,
+       O - OSPF, I - IS-IS, B - BGP, P - PIM, A - Babel,
+       > - selected route, * - FIB route
+
+K>* 0.0.0.0/0 via 172.16.17.2, ens33
+C>* 127.0.0.0/8 is directly connected, lo
+C>* 172.16.15.0/24 is directly connected, ens34
+C>* 172.16.17.0/24 is directly connected, ens33
+masum-router# 
+
+... now we will test connectivity between quagga and vyos like below.
+
+
+
