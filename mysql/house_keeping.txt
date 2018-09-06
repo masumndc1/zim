@@ -204,6 +204,10 @@ root@slave:~# mysql -u root -p < db.sql
 Enter password: 
 root@slave:~# 
 
+... if the dump file is of the formate masum.sql.gz then we can use
+... gzip utility using -d option.
 
+... and also cat db.sql less to see the database name and create that
+... database first in mysql before restoring the database.
 
 

@@ -5,6 +5,10 @@
 .. here is how we configure multiple tap interface in linux
 .. here we are adding tap interface tap1,tap2,tap3.
 
+... install the following first 
+
+apt install bridge-utils
+
 root@masum:~# ip tuntap add mode tap tap1
 root@masum:~# ip tuntap add mode tap tap2
 root@masum:~# ip tuntap add mode tap tap3
@@ -50,5 +54,17 @@ root@masum:~# ip tuntap add mode tap masum1
 root@masum:~# ip tuntap add mode tap masum2 
 root@masum:~# ip tuntap add mode tap masum3 
 
+... configurating a tap interface by setting in 
+... /etc/network/interface
 
+iface tap0 inet manual
+    pre-up ip tuntap add tap0 mode tap user root
+    pre-up ip addr add 192.168.121.1/24 dev tap0
+    up ip link set dev tap0 up
+#    post-up ip route del 192.168.1.0/24 dev tap1
+#    post-up ip route add 192.168.1.121/32 dev tap1
+#    post-down ip link del dev tap1
+
+... this will now create an interface tap0 with the
+... ip address onf 192.168.121.1/24
 
