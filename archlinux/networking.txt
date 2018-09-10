@@ -1,0 +1,135 @@
+
+
+... configuring ip address in archlinux
+
+... first dhcp way
+
+$ sudo cp /etc/netctl/examples/ethernet-dhcp /etc/netctl/ens3
+Edit /etc/netctl/enp0s3 file:
+
+$ sudo vi /etc/netctl/ens3
+Replace eth0 with your actual network interface name i.e enp0s3.
+
+Description='A basic dhcp ethernet connection'
+Interface=ens3
+Connection=ethernet
+IP=dhcp
+#DHCPClient=dhcpcd
+#DHCPReleaseOnStop=no
+## for DHCPv6
+#IP6=dhcp
+#DHCP6Client=dhclient
+## for IPv6 autoconfiguration
+#IP6=stateless
+Save and close the file.
+
+Enable and start dhcpcd service:
+
+$ sudo systemctl enable dhcpcd
+$ sudo systemctl start dhcpcd
+$ ip addr
+
+... static way
+
+[root@archlinux examples]# pwd
+/etc/netctl/examples
+[root@archlinux examples]# ls
+bonding		 ethernet-static  openvswitch  vlan-dhcp      wireless-wpa
+bridge		 macvlan-dhcp	  pppoe        vlan-static    wireless-wpa-config
+ethernet-custom  macvlan-static   tunnel       wireless-open  wireless-wpa-configsection
+ethernet-dhcp	 mobile_ppp	  tuntap       wireless-wep   wireless-wpa-static
+[root@archlinux examples]# cat ethernet-static 
+Description='A basic static ethernet connection'
+Interface=eth0
+Connection=ethernet
+IP=static
+Address=('192.168.1.23/24' '192.168.1.87/24')
+#Routes=('192.168.0.0/24 via 192.168.1.2')
+Gateway='192.168.1.1'
+DNS=('192.168.1.1')
+
+## For IPv6 autoconfiguration
+#IP6=stateless
+
+## For IPv6 static address configuration
+#IP6=static
+#Address6=('1234:5678:9abc:def::1/64' '1234:3456::123/96')
+#Routes6=('abcd::1234')
+#Gateway6='1234:0:123::abcd'
+[root@archlinux examples]#  cp ethernet-static /etc/netctl/ens3
+
+... my interface is ens3
+
+[root@archlinux examples]#  cat /etc/netctl/ens3
+
+Description='A basic static ethernet connection'
+Interface=ens3
+Connection=ethernet
+IP=static
+Address=('192.168.1.23/24')
+#Routes=('192.168.0.0/24 via 192.168.1.2')
+Gateway='192.168.1.1'
+DNS=('8.8.8.8' '8.8.4.4')
+
+## For IPv6 autoconfiguration
+#IP6=stateless
+
+## For IPv6 static address configuration
+#IP6=static
+#Address6=('1234:5678:9abc:def::1/64' '1234:3456::123/96')
+#Routes6=('abcd::1234')
+#Gateway6='1234:0:123::abcd'
+
+... now start the interface
+
+[root@archlinux examples]# netctl status ens3
+* netctl@ens3.service - Networking for netctl profile ens3
+   Loaded: loaded (/usr/lib/systemd/system/netctl@.service; static; vendor preset: disabled)
+   Active: inactive (dead)
+     Docs: man:netctl.profile(5)
+[root@archlinux examples]# netctl enable ens3
+[root@archlinux examples]# netctl start ens3
+
+... and we need to stop the dhcpcp server like below
+
+$ sudo systemctl stop dhcpcd
+$ sudo systemctl disable dhcpcd
+
+... another way of staic assigning
+
+... systemd is a system and service manager for Linux operating systems. 
+
+$ sudo vi /etc/systemd/network/ens3.network
+
+... my interface name is ens3
+
+[Match]
+Name=ens3
+
+[Network]
+Address=192.168.1.102/24
+Gateway=192.168.1.1
+DNS=8.8.8.8
+DNS=8.8.4.4
+
+$ sudo systemctl list-unit-files
+$ sudo systemctl disable netctl@enp0s3.service
+
+... removing netctl package from Arch Linux using command:
+
+$ sudo pacman -Rns netctl
+
+$ sudo systemctl stop dhcpcd
+$ sudo systemctl disable dhcpcd
+
+... enable and start systemd-networkd service as shown below:
+
+$ sudo systemctl enable systemd-networkd
+$ sudo systemctl start systemd-networkd
+
+... Reboot your system and check IP address.
+
+$ ip addr
+
+
+
