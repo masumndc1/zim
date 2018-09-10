@@ -1,0 +1,27 @@
+
+
+... error
+
+└──╼ $ ssh root@172.16.17.186
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the RSA key sent by the remote host is
+SHA256:BjKTsHNTnkj5OVzrB+d41eNI8HWoNtq5qZDpFgzf1q0.
+Please contact your system administrator.
+Add correct host key in /home/xxxxxxx/.ssh/known_hosts to get rid of this message.
+Offending RSA key in /home/xxxx/.ssh/known_hosts:43
+  remove with:
+  ssh-keygen -f "/home/xxxxx/.ssh/known_hosts" -R 172.16.17.186
+RSA host key for 172.16.17.186 has changed and you have requested strict checking.
+Host key verification failed.
+
+└──╼ $  ssh-keygen -f "/home/xxxxx/.ssh/known_hosts" -R 172.16.17.186
+
+... and try again to ssh and everything will be fine.
+
+
+

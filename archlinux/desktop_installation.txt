@@ -1,0 +1,30 @@
+
+
+... installing gdm/desktop in archlinux
+
+... install the xfce4
+
+# pacman -Sy --noconfirm xfce4 xfce4-goodies lxdm
+
+... Enable lxdm.service.
+# systemctl enable lxdm
+
+... Set default session to Xfce.
+
+# pwd  
+/etc/lxdm
+
+# which startxfce4
+/usr/bin/startxfce4
+
+# diff lxdm.conf lxdm.conf.bk
+10c10
+< session=/usr/bin/startxfce4
+---
+> # session=/usr/bin/startlxde
+
+... and finally reboot to the system
+
+# reboot
+
+

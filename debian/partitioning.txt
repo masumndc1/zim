@@ -1,0 +1,171 @@
+
+
+... partitioning
+
+
+bash-4.2# fdisk -l
+
+Disk /dev/sda: 8589 MB, 8589934592 bytes
+255 heads, 63 sectors/track, 1044 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+Disk /dev/sda doesn't contain a valid partition table
+bash-4.2# 
+bash-4.2# 
+bash-4.2# fdisk  
+BusyBox v1.21.0 (2013-05-27 12:32:57 MST) multi-call binary.
+
+Usage: fdisk [-ul] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SSZ] DISK
+
+Change partition table
+
+	-u		Start and End are in sectors (instead of cylinders)
+	-l		Show partition table for each DISK, then exit
+	-b 2048		(for certain MO disks) use 2048-byte sectors
+	-C CYLINDERS	Set number of cylinders/heads/sectors
+	-H HEADS
+	-S SECTORS
+
+bash-4.2# fdisk /dev/sda
+Device contains neither a valid DOS partition table, nor Sun, SGI, OSF or GPT disklabel
+Building a new DOS disklabel. Changes will remain in memory only,
+until you decide to write them. After that the previous content
+won't be recoverable.
+
+
+The number of cylinders for this disk is set to 1044.
+There is nothing wrong with that, but this is larger than 1024,
+and could in certain setups cause problems with:
+1) software that runs at boot time (e.g., old versions of LILO)
+2) booting and partitioning software from other OSs
+   (e.g., DOS FDISK, OS/2 FDISK)
+
+Command (m for help): m
+Command Action
+a	toggle a bootable flag
+b	edit bsd disklabel
+c	toggle the dos compatibility flag
+d	delete a partition
+l	list known partition types
+n	add a new partition
+o	create a new empty DOS partition table
+p	print the partition table
+q	quit without saving changes
+s	create a new empty Sun disklabel
+t	change a partition's system id
+u	change display/entry units
+v	verify the partition table
+w	write table to disk and exit
+x	extra functionality (experts only)
+
+Command (m for help): p
+
+Disk /dev/sda: 8589 MB, 8589934592 bytes
+255 heads, 63 sectors/track, 1044 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 1
+First cylinder (1-1044, default 1): 1
+Last cylinder or +size or +sizeM or +sizeK (1-1044, default 1044): +1000M
+
+Command (m for help): m
+Command Action
+a	toggle a bootable flag
+b	edit bsd disklabel
+c	toggle the dos compatibility flag
+d	delete a partition
+l	list known partition types
+n	add a new partition
+o	create a new empty DOS partition table
+p	print the partition table
+q	quit without saving changes
+s	create a new empty Sun disklabel
+t	change a partition's system id
+u	change display/entry units
+v	verify the partition table
+w	write table to disk and exit
+x	extra functionality (experts only)
+
+Command (m for help): p
+
+Disk /dev/sda: 8589 MB, 8589934592 bytes
+255 heads, 63 sectors/track, 1044 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1         123      987966  83 Linux
+
+Command (m for help): n
+Command action
+   e   extended
+   p   primary partition (1-4)
+p
+Partition number (1-4): 2
+First cylinder (124-1044, default 124): 
+Using default value 124
+Last cylinder or +size or +sizeM or +sizeK (124-1044, default 1044): 
+Using default value 1044
+
+Command (m for help): p
+
+Disk /dev/sda: 8589 MB, 8589934592 bytes
+255 heads, 63 sectors/track, 1044 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1         123      987966  83 Linux
+/dev/sda2             124        1044     7397932+ 83 Linux
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table
+bash-4.2# 
+
+... changing partition type
+... changing one partition type 83 to linux swap 82
+
+bash-4.2# fdisk /dev/sda 
+
+The number of cylinders for this disk is set to 1044.
+There is nothing wrong with that, but this is larger than 1024,
+and could in certain setups cause problems with:
+1) software that runs at boot time (e.g., old versions of LILO)
+2) booting and partitioning software from other OSs
+   (e.g., DOS FDISK, OS/2 FDISK)
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1         123      987966  83 Linux
+/dev/sda2             124        1044     7397932+ 83 Linux
+
+Command (m for help): t
+Partition number (1-4): 1
+Hex code (type L to list codes): 82
+Changed system type of partition 1 to 82 (Linux swap)
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table
+bash-4.2# 
+
+
+... and adding this partition /etc/fstab to use this as swap
+
+/dev/sda2    /          ext2     defaults                    0 0
+/dev/sda1    swap       swap     defaults                    0 0 
+
+devpts       /dev/pts   devpts   gid=5,mode=0620             0 0
+tmpfs        /dev/shm   tmpfs    rw,noexec,nosuid,size=24k   0 0
+proc         /proc      proc     noauto                      0 0
+sysfs        /sys       sysfs    noauto                      0 0
+bash-4.2# 
+
+bash-4.2# reboot
+
+
