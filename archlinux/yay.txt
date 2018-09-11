@@ -1,0 +1,167 @@
+
+
+... installation of yay
+
+[masum@archlinux ~]$ 
+[masum@archlinux ~]$ git clone https://aur.archlinux.org/yay.git
+Cloning into 'yay'...
+remote: Enumerating objects: 206, done.
+remote: Counting objects: 100% (206/206), done.
+remote: Compressing objects: 100% (144/144), done.
+remote: Total 206 (delta 60), reused 206 (delta 60)
+Receiving objects: 100% (206/206), 40.10 KiB | 631.00 KiB/s, done.
+Resolving deltas: 100% (60/60), done.
+[masum@archlinux ~]$ cd yay
+[masum@archlinux yay]$ makepkg -si
+==> Making package: yay 8.1115-1 (Mon Sep 10 20:52:17 2018)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Installing missing dependencies...
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for masum: 
+Sorry, try again.
+[sudo] password for masum: 
+sudo: 1 incorrect password attempt
+
+==> ERROR: Aborted by user! Exiting...
+
+[masum@archlinux yay]$ exit
+logout
+[root@archlinux yay]# passwd masum
+New password: 
+Retype new password: 
+passwd: password updated successfully
+[root@archlinux yay]# 
+[root@archlinux yay]# 
+[root@archlinux yay]# su - masum
+[masum@archlinux ~]$ 
+[masum@archlinux ~]$ makepkg -si
+==> ERROR: PKGBUILD does not exist.
+[masum@archlinux ~]$ cd /home/masum/
+[masum@archlinux ~]$ ls
+yay
+[masum@archlinux ~]$ 
+[masum@archlinux ~]$ 
+[masum@archlinux ~]$ cd yay/
+[masum@archlinux yay]$ 
+[masum@archlinux yay]$ 
+[masum@archlinux yay]$ ls
+PKGBUILD
+[masum@archlinux yay]$ 
+[masum@archlinux yay]$ 
+[masum@archlinux yay]$ makepkg -si
+==> Making package: yay 8.1115-1 (Mon Sep 10 20:52:58 2018)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Installing missing dependencies...
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for masum: 
+masum is not in the sudoers file.  This incident will be reported.
+==> ERROR: 'pacman' failed to install missing dependencies.
+[masum@archlinux yay]$ su -
+Password: 
+[root@archlinux ~]# visudo
+[root@archlinux ~]# 
+[root@archlinux ~]# 
+[root@archlinux ~]# exit
+logout
+[masum@archlinux yay]$ makepkg -si
+==> Making package: yay 8.1115-1 (Mon Sep 10 20:53:25 2018)
+==> Checking runtime dependencies...
+==> Checking buildtime dependencies...
+==> Installing missing dependencies...
+[sudo] password for masum: 
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (1) go-2:1.11-1
+
+Total Download Size:   105.51 MiB
+Total Installed Size:  415.51 MiB
+
+:: Proceed with installation? [Y/n] y
+:: Retrieving packages...
+ go-2:1.11-1-x86_64                  105.5 MiB  1080K/s 01:40 [#################################] 100%
+(1/1) checking keys in keyring                                [#################################] 100%
+(1/1) checking package integrity                              [#################################] 100%
+(1/1) loading package files                                   [#################################] 100%
+(1/1) checking for file conflicts                             [#################################] 100%
+(1/1) checking available disk space                           [#################################] 100%
+:: Processing package changes...
+(1/1) installing go                                           [#################################] 100%
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+==> Retrieving sources...
+  -> Downloading yay-8.1115.tar.gz...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   118    0   118    0     0     55      0 --:--:--  0:00:02 --:--:--    55
+100  328k  100  328k    0     0  81401      0  0:00:04  0:00:04 --:--:--  169k
+==> Validating source files with sha1sums...
+    yay-8.1115.tar.gz ... Passed
+==> Extracting sources...
+  -> Extracting yay-8.1115.tar.gz with bsdtar
+==> Starting build()...
+go build -v -ldflags '-s -w -X main.version=8.1115' -o yay
+github.com/Morganamilo/go-srcinfo
+github.com/jguer/go-alpm
+github.com/mikkeloscar/aur
+_/home/masum/yay/src/yay-8.1115
+==> Entering fakeroot environment...
+==> Starting package()...
+install -Dm755 yay /home/masum/yay/pkg/yay/usr/bin/yay
+install -Dm644 doc/yay.8 /home/masum/yay/pkg/yay/usr/share/man/man8/yay.8
+install -Dm644 completions/bash /home/masum/yay/pkg/yay/usr/share/bash-completion/completions/yay
+install -Dm644 completions/zsh /home/masum/yay/pkg/yay/usr/share/zsh/site-functions/_yay
+install -Dm644 completions/fish /home/masum/yay/pkg/yay/usr/share/fish/vendor_completions.d/yay.fish
+==> Tidying install...
+  -> Removing libtool files...
+  -> Purging unwanted files...
+  -> Removing static library files...
+  -> Stripping unneeded symbols from binaries and libraries...
+  -> Compressing man and info pages...
+==> Checking for packaging issues...
+==> WARNING: Package contains reference to $srcdir
+usr/bin/yay
+==> Creating package "yay"...
+  -> Generating .PKGINFO file...
+  -> Generating .BUILDINFO file...
+  -> Generating .MTREE file...
+  -> Compressing package...
+==> Leaving fakeroot environment.
+==> Finished making: yay 8.1115-1 (Mon Sep 10 20:55:32 2018)
+==> Installing package yay with pacman -U...
+loading packages...
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (1) yay-8.1115-1
+
+Total Installed Size:  5.74 MiB
+
+:: Proceed with installation? [Y/n] y
+(1/1) checking keys in keyring                                [#################################] 100%
+(1/1) checking package integrity                              [#################################] 100%
+(1/1) loading package files                                   [#################################] 100%
+(1/1) checking for file conflicts                             [#################################] 100%
+(1/1) checking available disk space                           [#################################] 100%
+:: Processing package changes...
+(1/1) installing yay                                          [#################################] 100%
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+[masum@archlinux yay]$ 
+

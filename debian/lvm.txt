@@ -257,6 +257,7 @@ root@master:~#
 
 root@master:~# lvcreate -l 100%FREE -n spareworks vg1
   Logical volume "spareworks" created.
+
 root@master:~# vgs -o +lv_size,lv_name
   VG  #PV #LV #SN Attr   VSize  VFree  LSize LV        
   vg1   1   2   0 wz--n- 14.07g     0  7.00g www       
