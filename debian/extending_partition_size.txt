@@ -1,0 +1,108 @@
+
+
+... we can extent our partition size like below.
+
+... in vmware we extend our partition from 20GB to 25GB.
+
+... initially it has 19GB in root partition.
+
+[root@archlinux ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+dev             351M     0  351M   0% /dev
+run             357M  592K  356M   1% /run
+/dev/sda2        19G  1.9G   16G  11% /
+tmpfs           357M     0  357M   0% /dev/shm
+tmpfs           357M     0  357M   0% /sys/fs/cgroup
+tmpfs           357M     0  357M   0% /tmp
+tmpfs            72M     0   72M   0% /run/user/0
+[root@archlinux ~]# 
+[root@archlinux ~]# fdisk -l 
+Disk /dev/sda: 30 GiB, 32212254720 bytes, 62914560 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xfb75c0f1
+
+Device     Boot   Start      End  Sectors Size Id Type
+/dev/sda1          2048  2099199  2097152   1G 82 Linux swap / Solaris
+/dev/sda2       2099200 41943039 39843840  19G 83 Linux
+[root@archlinux ~]# 
+[root@archlinux ~]# fdisk /dev/sda
+
+Welcome to fdisk (util-linux 2.32.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): d
+Partition number (1,2, default 2): 
+
+Partition 2 has been deleted.
+
+Command (m for help): p
+Disk /dev/sda: 30 GiB, 32212254720 bytes, 62914560 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xfb75c0f1
+
+Device     Boot Start     End Sectors Size Id Type
+/dev/sda1        2048 2099199 2097152   1G 82 Linux swap / Solaris
+
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (2-4, default 2): 
+First sector (2099200-62914559, default 2099200): 
+Last sector, +sectors or +size{K,M,G,T,P} (2099200-62914559, default 62914559): 
+
+Created a new partition 2 of type 'Linux' and of size 29 GiB.
+Partition #2 contains a ext4 signature.
+
+Do you want to remove the signature? [Y]es/[N]o: n
+
+Command (m for help): p
+
+Disk /dev/sda: 30 GiB, 32212254720 bytes, 62914560 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xfb75c0f1
+
+Device     Boot   Start      End  Sectors Size Id Type
+/dev/sda1          2048  2099199  2097152   1G 82 Linux swap / Solaris
+/dev/sda2       2099200 62914559 60815360  29G 83 Linux
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+[root@archlinux ~]# 
+[root@archlinux ~]# resize2fs /dev/sda2
+resize2fs 1.44.4 (18-Aug-2018)
+Filesystem at /dev/sda2 is mounted on /; on-line resizing required
+old_desc_blocks = 3, new_desc_blocks = 4
+The filesystem on /dev/sda2 is now 7601920 (4k) blocks long.
+
+[root@archlinux ~]# 
+[root@archlinux ~]# 
+[root@archlinux ~]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+dev             351M     0  351M   0% /dev
+run             357M  596K  356M   1% /run
+/dev/sda2        29G  1.9G   26G   7% /
+tmpfs           357M     0  357M   0% /dev/shm
+tmpfs           357M     0  357M   0% /sys/fs/cgroup
+tmpfs           357M     0  357M   0% /tmp
+tmpfs            72M     0   72M   0% /run/user/0
+[root@archlinux ~]# 
+
+... initially root partition was 19GB and finally it becomes 29GB.
+
+
+

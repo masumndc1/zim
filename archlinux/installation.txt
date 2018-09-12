@@ -137,10 +137,13 @@ root@archiso ~ # arch-chroot /mnt
 ... configure bootloader, 
 
 root@archiso ~ # pacman -Sy grub
-
-1 root@archiso ~ # grub-install /dev/sda                                     :(
+root@archiso ~ # grub-install /dev/sda                                     :(
 Installing for i386-pc platform.
 Installation finished. No error reported.
+
+... grub install should be run in arch-chroot /mnt place
+... if you are out of /mnt the run the arch-chroot /mnt again
+... and then run the command grub-install /dev/sda
 
 [root@archiso /]# grub-mkconfig -o /boot/grub/grub.cfg
 Generating grub configuration file ...
