@@ -229,5 +229,8 @@ Number of packages to be removed: 1
 
 root@masum:/usr/ports/net-mgmt/iftop # 
 
+... source and ports can be updated by using following
 
+root@masum:/usr/ports/net-mgmt/iftop # freebsd-update fetch
+root@masum:/usr/ports/net-mgmt/iftop # freebsd-update install
 
