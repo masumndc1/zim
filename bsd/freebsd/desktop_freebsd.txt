@@ -19,5 +19,9 @@ hald_enable="YES"
 gdm_enable="YES"
 gnome_enable="YES"
 
+... optionally we need to do the following
+
+% echo "exec /usr/local/bin/gnome-session" > ~/.xinitrc
+% echo "exec /usr/local/bin/gnome-session" > ~/.xsession
 
 
