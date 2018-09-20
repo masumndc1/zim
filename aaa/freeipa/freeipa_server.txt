@@ -83,6 +83,7 @@ ipa
 
 ... as this is a test setup then we need to make
 ... some change in host machines /etc/hosts file
+... host machine means from where we need to access this site.
 ... my /etc/hosts file entry for freeipa server 
 ... like below
 
