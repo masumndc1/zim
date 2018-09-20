@@ -1,0 +1,21 @@
+
+
+... firewalling in esxi
+
+... all the firewalling stuffs are written in service.xml file in
+... /etc/vmware/firewall directory.
+
+... after editing service.xml we need to refresh firewall rules like 
+... below.
+
+root@localhost:~] esxcli network firewall refresh
+
+... to see wheather firewall is enable or not
+
+[root@localhost:~] esxcli network firewall get
+   Default Action: DROP
+   Enabled: true
+   Loaded: true
+[root@localhost:~] 
+
+

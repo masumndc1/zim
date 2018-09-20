@@ -1,0 +1,22 @@
+
+
+... screenfetch
+
+... sudo apt-get install screenfetch
+
+... you may need to add ppa
+sudo apt-add-repository ppa:djcj/screenfetch
+sudo apt-get update
+apt-get install screenfetch
+
+... to make terminal to show screenfetch all the time terminal open
+... place following in .bashrc at the end
+
+if [ -f /usr/bin/screenfetch ]; then screenfetch; fi
+
+... to see other OS screenfetch
+
+$ screenfetch -S fedora 
+$ screenfetch -S CenOS
+
+

@@ -164,5 +164,52 @@ Hint: Some lines were ellipsized, use -l to show in full.
 [root@kube-node1 ~]# systemctl restart httpd
 [root@kube-node1 ~]#
 
+... list all the service 
+
+[masum@arch pacman.d]$ systemctl list-units --type=service
+UNIT                               LOAD   ACTIVE SUB     DESCRIPTION                                                                  
+dbus.service                       loaded active running D-Bus System Message Bus                                                     
+dhcpcd.service                     loaded active running dhcpcd on all interfaces                                                     
+getty@tty1.service                 loaded active running Getty on tty1                                                                
+haveged.service                    loaded active running Entropy Harvesting Daemon                                                    
+kmod-static-nodes.service          loaded active exited  Create list of required static device nodes for the current kernel           
+lvm2-lvmetad.service               loaded active running LVM2 metadata daemon                                                         
+lvm2-monitor.service               loaded active exited  Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling
+lvm2-pvscan@8:2.service            loaded active exited  LVM2 PV scan on device 8:2                                                   
+ModemManager.service               loaded active running Modem Manager                                                                
+polkit.service                     loaded active running Authorization Manager                                                        
+sshd.service                       loaded active running OpenSSH Daemon                                                               
+systemd-journal-flush.service      loaded active exited  Flush Journal to Persistent Storage                                          
+systemd-journald.service           loaded active running Journal Service                                                              
+systemd-logind.service             loaded active running Login Service                                                                
+systemd-networkd.service           loaded active running Network Service                                                              
+systemd-random-seed.service        loaded active exited  Load/Save Random Seed                                                        
+systemd-remount-fs.service         loaded active exited  Remount Root and Kernel File Systems                                         
+systemd-resolved.service           loaded active running Network Name Resolution                                                      
+systemd-sysctl.service             loaded active exited  Apply Kernel Variables                                                       
+systemd-timesyncd.service          loaded active running Network Time Synchronization                                                 
+systemd-tmpfiles-setup-dev.service loaded active exited  Create Static Device Nodes in /dev                                           
+systemd-tmpfiles-setup.service     loaded active exited  Create Volatile Files and Directories                                        
+systemd-udev-trigger.service       loaded active exited  udev Coldplug all Devices                                                    
+systemd-udevd.service              loaded active running udev Kernel Device Manager                                                   
+systemd-update-utmp.service        loaded active exited  Update UTMP about System Boot/Shutdown                                       
+systemd-user-sessions.service      loaded active exited  Permit User Sessions                                                         
+user-runtime-dir@1000.service      loaded active exited  /run/user/1000 mount wrapper                                                 
+user@1000.service                  loaded active running User Manager for UID 1000                                                    
+vmtoolsd.service                   loaded active running Open Virtual Machine Tools (VMware Tools)                                    
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+
+29 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+[masum@arch pacman.d]$ 
+
+... check which will be enabled at boot time.
+
+[masum@arch pacman.d]$ systemctl is-enabled sshd
+enabled
+[masum@arch pacman.d]$ 
 
 

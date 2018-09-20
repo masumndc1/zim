@@ -1,0 +1,27 @@
+
+
+... after installation of vcenter you can run the web client using
+... https://172.16.17.170/vsphere-client/
+
+... and accessing the ssh shell in esxi
+
+
+VMware vCenter Server Appliance 6.7.0.14000
+
+Type: vCenter Server with an embedded Platform Services Controller
+
+root@172.16.17.170's password: 
+
+Permission denied, please try again.
+root@172.16.17.170's password: 
+Connected to service
+
+    * List APIs: "help api list"
+    * List Plugins: "help pi list"
+    * Launch BASH: "shell"
+
+Command> shell
+Shell access is granted to root
+root@photon-machine [ ~ ]# 
+
+.
