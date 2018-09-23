@@ -1,0 +1,12 @@
+
+
+... autonomus system scanner, ASS 
+... more information by using man ass.
+
+└──╼ # ass -A -i eth0
+ASS [Autonomous System Scanner] $Revision: 1.24 $
+	(c) 2k++ FX <fx@phenoelit.de>
+	Phenoelit (http://www.phenoelit.de)
+	IRPAS build XXXIX
+Scanning
+
