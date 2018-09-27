@@ -1,0 +1,24 @@
+
+
+... usages of service command.
+
+└──╼ # service --status-all 
+ [ + ]  acpid
+ [ - ]  alsa-utils
+ [ - ]  anacron
+ [ + ]  apparmor
+ [ + ]  apport
+ [ + ]  atd
+ [ + ]  avahi-daemon
+ [ + ]  binfmt-support
+ [ + ]  bluetooth
+ [ - ]  bootmisc.sh
+ [ - ]  brltty
+ [ + ]  cgmanager
+ [ - ]  cgproxy
+
+└──╼ # service --status-all | grep samba
+ [ + ]  samba
+ [ + ]  samba-ad-dc
+ [ ? ]  vmware-USBArbitrator
+

@@ -1,0 +1,48 @@
+
+
+... client installation for freeipa. in this receipe
+... we will install the debian/ubuntu and centos7 client
+... to add to our freeipa domain.
+
+... in this case we are using the ubuntu 16.04 as the client
+
+... change /etc/hosts to point out your client and server
+
+root@ipa masum]# cat /etc/hosts
+# first one is our server and second one is our ubuntu client
+172.16.17.163   ipa.masum.local ipa
+172.16.17.172   ipaclient.masum.local   ipaclient
+root@ipa masum]# 
+
+... install the freeipa-client software
+
+# apt-get install freeipa-client
+
+... server and administrative server should be the address of your IPA server. 
+... which is in this case ipa.masum.local. installation also ask you the 
+... kerberos realm which will be like MASUM.LOCAL.
+
+... now run the following command. and follow the procedure.
+... it will ask the following question regarding your freeipa domain and
+... freeipa server name. 
+
+root@ipaclient:/home/masum# ipa-client-install --mkhomedir
+
+DNS discovery failed to determine your DNS domain
+Provide the domain name of your IPA server (ex: example.com): masum.local
+Provide your IPA server name (ex: ipa.example.com): ipa.masum.local
+Proceed with fixed values and no DNS discovery? [no]: yes
+Continue to configure the system with these values? [no]: yes
+User authorized to enroll computers: admin
+Password for admin@MASUM.LOCAL: <password_for_admin>
+client configuration complete.
+root@ipaclient:/home/masum# 
+
+... after installation is done we can see a new host has been added
+... in freeipa server portal (https://ipa.masum.local/ipa/) under hosts
+... section. I have found the new hosts ipaclient.masum.local in hosts
+... section in the https://ipa.masum.local/ipa/ui
+
+
+
+

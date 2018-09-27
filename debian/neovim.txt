@@ -1,0 +1,6 @@
+
+
+... neovim installation
+
+apt-get install neovim
+
