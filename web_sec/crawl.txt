@@ -37,7 +37,7 @@ root@kali:~/# wget -c -r -k -p -P bodgeit/ http://bwa/bodgeit/
 ... -P create index.
 ... -w to wait specified seconds. this is useful when website prevents automated download.
 
-... we can also use owasp-zed and burpsuite, webscarab for the crawling 
+... we can also use owasp-zap and burpsuite, webscarab for the crawling 
 ... and spidering. web scarab proxy is localhost:8008
 
 

@@ -1,0 +1,27 @@
+
+
+... we are now using john the ripper to generate password 
+... list from another word list like below.
+
+└──╼ # john --stdout --wordlist=cewl.txt >> john_file.txt
+Press 'q' or Ctrl-C to abort, almost any other key for status
+1516p 0:00:00:00 100.00% (2018-09-27 18:02) 16844p/s mailing
+└──╼ # ls
+Desktop  Templates  cewl.txt  john_file.txt
+└──╼ # cat john_file.txt | wc -l
+1516
+└──╼ #
+
+... so far 1516 words have been created.
+
+... when added the rules again and generated again
+
+└──╼ # john --stdout --wordlist=cewl.txt --rules >> john_rules.txt
+Press 'q' or Ctrl-C to abort, almost any other key for status
+75719p 0:00:00:00 100.00% (2018-09-27 18:05) 630991p/s Providing
+└──╼ # cat john_rules.txt | wc -l
+75719
+┌─[root@parrot]─[/home/masum]
+
+... john config file can be defined in the /etc/john/john.conf file
+

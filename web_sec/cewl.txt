@@ -1,0 +1,14 @@
+
+
+... cewl will spider a web and make a word list used in that
+... web for brute-force attack later.
+
+└──╼ # cewl --write cewl.txt -v http://192.168.25.140
+└──╼ # cat cewl.txt | wc -l
+1478
+
+... similar tools to make password list included in parrot and
+... kali is crunch.
+
+
+
