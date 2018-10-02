@@ -1,0 +1,34 @@
+
+
+... ssl-poodle scan by using nmap
+
+root@kali:/home/masum# nmap --script ssl-poodle.nse -sV -p 443 bwa
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2018-10-02 12:50 EDT
+Nmap scan report for bwa (192.168.122.49)
+Host is up (0.00057s latency).
+PORT    STATE SERVICE VERSION
+443/tcp open  ssl/ssl Apache httpd (SSL-only mode)
+|_http-server-header: Apache/2.2.14 (Ubuntu) mod_mono/2.4.3 PHP/5.3.2-1ubuntu4.30 with Suhosin-Patch proxy_html/3.0.1 mod_python/3.3.1 Python/2.6.5 mod_ssl/2.2.14 OpenSSL/0.9.8k Phusion_Passenger/4.0.38 mod_perl/2.0.4 Perl/v5.10.1
+| ssl-poodle: 
+|   VULNERABLE:
+|   SSL POODLE information leak
+|     State: VULNERABLE
+|     IDs:  OSVDB:113251  CVE:CVE-2014-3566
+|           The SSL protocol 3.0, as used in OpenSSL through 1.0.1i and other
+|           products, uses nondeterministic CBC padding, which makes it easier
+|           for man-in-the-middle attackers to obtain cleartext data via a
+|           padding-oracle attack, aka the "POODLE" issue.
+|     Disclosure date: 2014-10-14
+|     Check results:
+|       TLS_RSA_WITH_AES_128_CBC_SHA
+|     References:
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566
+|       https://www.imperialviolet.org/2014/10/14/poodle.html
+|       https://www.openssl.org/~bodo/ssl-poodle.pdf
+|_      http://osvdb.org/113251
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 12.56 seconds
+root@kali:/home/masum# 
+

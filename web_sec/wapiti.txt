@@ -1,0 +1,11 @@
+
+
+... wapiti webscanner
+
+root@kali:/home/masum# wapiti http://bwa/peruggia -o wapiti_result -f html -m "-blindsql"
+
+... output file is the wapiti_result in html format
+
+
+
+
