@@ -1,0 +1,73 @@
+
+
+... testing certificates using openssl command
+
+└──╼ # openssl s_client -connect bwa:443
+CONNECTED(00000003)
+depth=0 CN = owaspbwa
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 CN = owaspbwa
+verify return:1
+---
+Certificate chain
+ 0 s:/CN=owaspbwa
+   i:/CN=owaspbwa
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIBnTCCAQYCCQDmhw3dcsK55zANBgkqhkiG9w0BAQUFADATMREwDwYDVQQDEwhv
+d2FzcGJ3YTAeFw0xMzAxMDIyMTEyMzhaFw0yMjEyMzEyMTEyMzhaMBMxETAPBgNV
+BAMTCG93YXNwYndhMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIxXtfOh6T
+ceRLAd5LAfA5vFL/uafR15KK+k0Yr1xNjjuPd7iX/AKdUh5wAzM0MqoZeEKi72Hw
+iTezYFJFLvpMQ/6PB+ALtxYnAf7vQkSxmQLsoeKRowKZOV4nIjuEFKCp3ERk7xDb
+Ons5bt62IG9Hxji5cbJMaq4CIMsQc1NHtQIDAQABMA0GCSqGSIb3DQEBBQUAA4GB
+AIgFAJdNKSiApOmwMqBq4oIOrCOKUdDv9is3wJWaz1JeY3lop9WFPzr1RYE8Kcpg
++2+oIaiUwN8HDAsaMZGfWzv2rncBQOvyfqxARKzL6H+CZ+Rb5MQos7t5OtwHs1Ht
+RU3A6pPOPLai+/ly1/aCwmqNTxpghTNFmVLloxT/HJao
+-----END CERTIFICATE-----
+subject=/CN=owaspbwa
+issuer=/CN=owaspbwa
+---
+No client certificate CA names sent
+Server Temp Key: DH, 1024 bits
+---
+SSL handshake has read 1167 bytes and written 503 bytes
+---
+New, TLSv1/SSLv3, Cipher is DHE-RSA-AES256-SHA
+Server public key is 1024 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : DHE-RSA-AES256-SHA
+    Session-ID: CC3E063FC88C0281757A0DC3B03A79F5F2F26ECC470828FE12F0245B04A3EEF4
+    Session-ID-ctx: 
+    Master-Key: FE3F9D4942E9AF46C232E7405AD1C29C8460E04098E1991E09F403EB93A6D132EBBF3615E56E80427B7E4EB565E99E21
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket:
+    0000 - 04 69 4e cd b7 fa dd d8-cd ef 0c 2c d3 b5 d5 2c   .iN........,...,
+    0010 - 76 f1 1f 07 98 5a 77 75-4c ec ed 1b 73 59 9e 74   v....ZwuL...sY.t
+    0020 - db 95 b0 ae 2c 76 6d 70-1b a9 ee f1 6f 47 42 ff   ....,vmp....oGB.
+    0030 - f4 91 1d cc 3c 40 88 fa-73 c7 11 22 9f a6 ab d8   ....<@..s.."....
+    0040 - d7 05 01 be 67 75 ba b5-07 2d 24 08 b3 6b 3d 41   ....gu...-$..k=A
+    0050 - 92 4d c6 c9 c7 8e e7 9d-04 9a 9f f4 3c 55 c7 33   .M..........<U.3
+    0060 - 55 48 eb fc a4 46 44 08-4d b5 56 90 11 66 8a d4   UH...FD.M.V..f..
+    0070 - 04 2f 1d 56 34 00 12 ba-9b b5 f0 a9 7a 2b b7 d5   ./.V4.......z+..
+    0080 - cd 84 67 ca fb 9e 9a 08-d7 55 e4 df c0 2d 9f e9   ..g......U...-..
+    0090 - b4 e3 1a c8 f6 48 83 75-21 07 06 e0 fa 0e be 4c   .....H.u!......L
+    00a0 - 61 f6 bb f6 34 14 49 07-c6 69 f3 a0 1e f9 6c 6f   a...4.I..i....lo
+    00b0 - a7 8b 60 6e b5 dc cb 53-2a 1e 11 e0 03 9a e7 d6   ..`n...S*.......
+
+    Start Time: 1538487412
+    Timeout   : 300 (sec)
+    Verify return code: 18 (self signed certificate)
+---
+closed
+└──╼ # 
+
