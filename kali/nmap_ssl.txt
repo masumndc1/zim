@@ -1,0 +1,59 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2018-10-18 11:27 EDT
+Nmap scan report for bwa (192.168.122.49)
+Host is up (0.0013s latency).
+Not shown: 991 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+139/tcp  open  netbios-ssn
+143/tcp  open  imap
+443/tcp  open  https
+| ssl-enum-ciphers: 
+|   SSLv3: 
+|     ciphers: 
+|       TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (dh 1024) - D
+|       TLS_DHE_RSA_WITH_AES_128_CBC_SHA (dh 1024) - A
+|       TLS_DHE_RSA_WITH_AES_256_CBC_SHA (dh 1024) - A
+|       TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 1024) - D
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 1024) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 1024) - A
+|       TLS_RSA_WITH_RC4_128_MD5 (rsa 1024) - D
+|       TLS_RSA_WITH_RC4_128_SHA (rsa 1024) - D
+|     compressors: 
+|       DEFLATE
+|       NULL
+|     cipher preference: client
+|     warnings: 
+|       64-bit block cipher 3DES vulnerable to SWEET32 attack
+|       Broken cipher RC4 is deprecated by RFC 7465
+|       CBC-mode cipher in SSLv3 (CVE-2014-3566)
+|       Ciphersuite uses MD5 for message integrity
+|       Weak certificate signature: SHA1
+|   TLSv1.0: 
+|     ciphers: 
+|       TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (dh 1024) - D
+|       TLS_DHE_RSA_WITH_AES_128_CBC_SHA (dh 1024) - A
+|       TLS_DHE_RSA_WITH_AES_256_CBC_SHA (dh 1024) - A
+|       TLS_RSA_WITH_3DES_EDE_CBC_SHA (rsa 1024) - D
+|       TLS_RSA_WITH_AES_128_CBC_SHA (rsa 1024) - A
+|       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 1024) - A
+|       TLS_RSA_WITH_RC4_128_MD5 (rsa 1024) - D
+|       TLS_RSA_WITH_RC4_128_SHA (rsa 1024) - D
+|     compressors: 
+|       DEFLATE
+|       NULL
+|     cipher preference: client
+|     warnings: 
+|       64-bit block cipher 3DES vulnerable to SWEET32 attack
+|       Broken cipher RC4 is deprecated by RFC 7465
+|       Ciphersuite uses MD5 for message integrity
+|       Weak certificate signature: SHA1
+|_  least strength: D
+445/tcp  open  microsoft-ds
+5001/tcp open  commplex-link
+8080/tcp open  http-proxy
+8081/tcp open  blackice-icecap
+MAC Address: 52:54:00:FD:6E:25 (QEMU virtual NIC)
+
+Nmap done: 1 IP address (1 host up) scanned in 14.47 seconds

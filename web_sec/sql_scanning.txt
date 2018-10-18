@@ -1,0 +1,9 @@
+
+
+... various sql injections tools
+
+... sqlmap
+... bbqsql
+... sqlsus
+... sqlninja
+

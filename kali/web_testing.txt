@@ -76,6 +76,15 @@ Secure session renegotiation supported
   TLS Compression:
 Compression disabled
 
+... if TLS compresssion is enabled then this would be crime 
+... attack like below.
+
+  TLS Compression:
+Compression enabled (CRIME)
+
+... this above is found from the scanning of OWASP BWA.
+... 
+
   Heartbleed:
 TLS 1.2 not vulnerable to heartbleed
 TLS 1.1 not vulnerable to heartbleed
@@ -208,5 +217,10 @@ root@kali:/usr/share#
 
 root@kali:/usr/share# sslyze meta --regular --compression
 
+... 
+... SSL Server Test ( https://www.ssllabs.com/ssltest/ ) is an online tool hosted
+... by Qualys that performs deep analysis of the SSL configuration of a website.
+... its a free tools.
+... 
 
-
+... 

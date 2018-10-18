@@ -6,6 +6,43 @@ root@kali:/home/masum# wapiti http://bwa/peruggia -o wapiti_result -f html -m "-
 
 ... output file is the wapiti_result in html format
 
+... wapiti should use with wapiti-cookie and wapiti-getcookie 
 
+masum@kali:~$ wapiti-getcookie ~/cookie.json http://bwa/dvwa/login.php
+<Cookie security=low for bwa.local/dvwa>
+<Cookie PHPSESSID=5pt17jc9i39p195kl18mqas2b4 for bwa.local/>
+Please enter values for the following form: 
+url = http://bwa/dvwa/login.php
+username (default) : user
+password (letmein) : user
+Login (Login) : user
+<Cookie security=low for bwa.local/dvwa>
+<Cookie PHPSESSID=5pt17jc9i39p195kl18mqas2b4 for bwa.local/>
+masum@kali:~$ 
+
+um@kali:~$ cat cookie.json 
+{
+  ".bwa.local": {
+    "/dvwa": {
+      "security": {
+        "version": 0, 
+        "expires": null, 
+        "secure": false, 
+        "value": "low", 
+        "port": null
+      }
+    }, 
+    "/": {
+      "PHPSESSID": {
+        "version": 0, 
+        "expires": null, 
+        "secure": false, 
+        "value": "elde83j8ttnln218fvb56780r6", 
+        "port": null
+      }
+    }
+  }
+
+... this cookie we can use it later with wapiti to automated the scanning.
 
 

@@ -4,7 +4,6 @@
 
 root@kali:/usr/share/skipfish/dictionaries# skipfish -o /root/skipfish.out -S complete.wl http://192.168.25.140
 
-[!] Scan aborted by user, bailing out!
 [+] Copying static resources...
 [+] Sorting and annotating crawl nodes: 160
 [+] Looking for duplicate entries: 160

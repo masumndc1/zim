@@ -1,0 +1,9 @@
+
+
+... some ssl mitm tools are below, can be found in kali/parrot/blackarch
+
+... sslsplit
+... sslstrip
+... sslsniff
+
+
