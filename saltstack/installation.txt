@@ -5,6 +5,10 @@
 Linux salt 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 [root@salt ~]#
 
+... install repo and install salt-master and salt-minion
+
+[root@puppet ~]# yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+[root@puppet ~]# yum update
 [root@puppet ~]# yum install -y salt-master salt-minion
 
 [root@puppet ~]# salt --versions-report

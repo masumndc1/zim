@@ -1,0 +1,10 @@
+
+
+... we need to open 4505/tcp and 4506/tcp port in firewall for saltstack to work.
+... we need to put following two lines in /etc/sysconfig/iptables in redhat or
+... /etc/iptables/iptables.rules in archlinux before drop rules.
+
+-A INPUT -m state --state new -m tcp -p tcp --dport 4505 -j ACCEPT
+-A INPUT -m state --state new -m tcp -p tcp --dport 4506 -j ACCEPT
+
+
