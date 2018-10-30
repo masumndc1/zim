@@ -1,0 +1,32 @@
+
+
+... help menu in salt can call various way in saltstack.
+... some of the examples are given below.
+
+... for example, finding more about sys 
+
+[root@saltstack masum]# salt localhost sys
+
+[root@saltstack masum]# salt localhost sys.list_functions
+
+... from this long list we are looking for the pkg related funtions.
+
+[root@saltstack masum]# salt localhost sys.list_functions pkg
+
+... from the output select your desired functions. we would like to see which
+... pkg is now installed in the system.
+
+ot@saltstack masum]# salt localhost sys.list_functions | grep pkg | grep pkg.list_pkgs
+    - pkg.list_pkgs
+
+... run the command with the following
+
+[root@saltstack masum]# salt localhost pkg.list_pkgs
+
+... different types of out. example is for yaml syntax
+
+[root@saltstack masum]# salt --help | grep out
+[root@saltstack masum]# salt --out=yaml localhost pkg.list_pkgs
+
+
+

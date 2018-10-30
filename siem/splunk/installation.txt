@@ -1,0 +1,36 @@
+
+
+... download splunk software from https://www.splunk.com/
+... and install it.
+
+# yum install splunk-7.2.0-8c86330ac18-linux-2.6-x86_64.rpm
+
+... now run it from following
+
+[root@splunk bin]# pwd
+/opt/splunk/bin
+[root@splunk bin]# ls
+bloom                   genSignedServerCert.sh  pcregextest                     splunk
+[root@splunk bin]# ./splunk start
+
+... accept the license and configure username and password.
+
+... now we need to open splunk port on firewall so that server 
+... can accept splunk request coming to the server
+
+[root@splunk bin]# ./splunk show web-port
+Splunk username: admin
+Password: 
+Web port: 8000
+[root@splunk bin]# firewall-cmd --zone=public --add-port=8000/tcp --permanent
+success
+[root@splunk bin]# firewall-cmd --reload
+success
+[root@splunk bin]# ./splunk status
+splunkd is running (PID: 2677).
+splunk helpers are running (PIDs: 2680 2766 2876 2879).
+[root@splunk bin]# 
+
+... now access the splunk using http://<splunk_ip>:8000
+
+

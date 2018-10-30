@@ -11,5 +11,12 @@ cp .tmux/.tmux.conf.local .
 
 ... just run the above script.
 
+... copy and paste from tmux and then paste to vi
+
+... copy control+b [
+... then select control + space
+... select selections with alt+w
+... then go the vi and paste there with control+b ]
+
 
 

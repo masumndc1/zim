@@ -1,0 +1,18 @@
+
+
+... dark theme in ubuntu
+...
+... chrome: user dark reader them for everything dark
+
+... use arc-theme for ubuntu
+
+sudo add-apt-repository ppa:noobslab/themes
+sudo apt-get update
+sudo apt-get install arc-theme
+
+... activate arc-theme 
+... navigate to unity-tweak-tool > Appearance > Theme to choose theme.
+
+sudo apt-get install unity-tweak-tool
+
+... for bracket choose dark from view and theme dark
