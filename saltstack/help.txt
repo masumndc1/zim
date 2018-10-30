@@ -28,5 +28,43 @@ ot@saltstack masum]# salt localhost sys.list_functions | grep pkg | grep pkg.lis
 [root@saltstack masum]# salt --help | grep out
 [root@saltstack masum]# salt --out=yaml localhost pkg.list_pkgs
 
+... finding grains of minions 
+
+[root@saltstack masum]# salt localhost sys.doc grains
+[root@saltstack masum]# salt localhost grains.ls
+[root@saltstack masum]# salt localhost grains.items
+[root@saltstack masum]# salt localhost grains.item os uuid uid os_family
+
+... now we can use grained information to glob minions.
+... following way we can run commands on all arch based systems.
+
+[root@saltstack masum]# salt --out=yaml localhost grains.item os os_family osarch oscodename osfullname osrelease
+localhost:
+  os: Arch
+  os_family: Arch
+  osarch: x86_64
+  oscodename: Arch Linux
+  osfullname: Arch Linux
+  osrelease: ''
+[root@saltstack masum]# 
+[root@saltstack masum]# 
+[root@saltstack masum]# salt --grain 'os:Arch' test.ping                    
+localhost:
+    True
+[root@saltstack masum]# 
+
+... list_function is the most usefull options we should use.
+
+root@saltstack masum]# salt localhost sys.list_functions
+ 
+for example, to search for status options for the system we can do by following
+
+root@saltstack masum]# salt localhost sys.list_functions status
+
+
+
+
+
+
 
 
