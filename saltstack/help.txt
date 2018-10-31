@@ -61,9 +61,24 @@ for example, to search for status options for the system we can do by following
 
 root@saltstack masum]# salt localhost sys.list_functions status
 
+... state related document we can see by following.
 
+[root@saltstack masum]# salt localhost sys.doc | grep doc
 
+sys.state_doc:
+    Return the docstrings for all states. Optionally, specify a state or a
+    The strings are aggregated into a single document on the master for easy
+        salt '*' sys.state_doc
+        salt '*' sys.state_doc service
+        salt '*' sys.state_doc service.running
+        salt '*' sys.state_doc service.running ipables.append
+        salt '*' sys.state_doc 'service.*' 'iptables.*'
+    name : the id of the Salt document or it is the format of <statement name>.id
+    example interval, maxTime, etc). See the documentation
 
+... now search for a state module and functions in state document and their usages.
+
+root@saltstack masum]# salt localhost sys.state_doc pkg service  
 
 
 
