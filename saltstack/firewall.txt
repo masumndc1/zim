@@ -7,4 +7,15 @@
 -A INPUT -m state --state new -m tcp -p tcp --dport 4505 -j ACCEPT
 -A INPUT -m state --state new -m tcp -p tcp --dport 4506 -j ACCEPT
 
+... another way to configure firewall in centos/redhat type os.
+
+[root@ansible salt]# firewall-cmd --get-active-zones
+public
+  interfaces: ens33
+[root@ansible salt]# firewall-cmd --permanent --zone=public --add-port=4505-4506/tcp
+success
+[root@ansible salt]# firewall-cmd --reload
+success
+[root@ansible salt]#
+
 
