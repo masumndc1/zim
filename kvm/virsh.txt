@@ -1,0 +1,81 @@
+
+
+... managing virtual machines in kvm
+
+# virsh list --all
+
+└──╼ # virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 1     archlinux                      running
+ -     centos7.0                      shut off
+ -     debian9.5                      shut off
+ -     ios5.1.3                       shut off
+ -     iosxrv6.0.1                    shut off
+ -     iosxrv6.1.3                    shut off
+ -     juniper-srx-18.1               shut off
+ -     kali2017                       shut off
+ -     lord                           shut off
+ -     metasploitable                 shut off
+ -     owaspbwa                       shut off
+ -     PA-VM8.0.5                     shut off
+ -     parrot                         shut off
+ -     SO2012                         shut off
+ -     SO2016                         shut off
+ -     solaris11                      shut off
+ -     ubuntu16.04                    shut off
+ -     ubuntu16.04-php                shut off
+ -     vios                           shut off
+
+... now start one domain 
+
+# virsh start centos7.0
+# virsh reboot centos7.0
+
+... auto starting one vm in boot time.
+
+# virsh autostart centos7.0
+
+... disable the auto starting
+
+# virsh autostart --disable centos7.0
+
+... edit the settings of one of the vms
+
+# virsh edit centos7.0
+
+... cloning one vm
+
+└──╼ # virt-clone \
+> --original=centos7.0 \
+> --name=centos7.0-clone \
+> --file=/var/lib/libvirt/images/centos7.0-clone.qcow2
+
+... file options is extremely important here. we are specifying new file name and location
+
+Allocating 'centos7.0-clone.qcow2'                                                          |  30 GB  00:00:06     
+
+Clone 'centos7.0-clone' created successfully.
+└──╼ # 
+
+└──╼ # virsh shutdown centos7.0
+
+... to delete
+
+└──╼ # virsh undefine centos7.0
+
+... to see the ip address of the vm
+
+└──╼ # virsh 
+
+# domifaddr archlinux
+ Name       MAC address          Protocol     Address
+-------------------------------------------------------------------------------
+ vnet0      52:54:00:da:89:45    ipv4         192.168.122.27/24
+
+virsh # 
+
+...  now login to that using ssh user@domip
+
+
+

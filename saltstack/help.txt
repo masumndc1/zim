@@ -80,6 +80,59 @@ sys.state_doc:
 
 root@saltstack masum]# salt localhost sys.state_doc pkg service  
 
+... the usages of watch and require.
 
+ot@saltstack salt]# cat -n pkg.sls
+     1  mypkgs:
+     2   pkg.installed:
+     3    - pkgs:
+     4      - htop
+     5      - vim
+     6      - salt
+     7
+     8  ntop:
+     9   pkg.removed
+    10
+    11  salt-master:
+    12   service.running:
+    13   - name: salt-master
+    14   - enable: True
+
+... note here how we build up the require sections.
+... in pkg we have provided the id not the packages name.
+
+    15   - require:
+    16     - pkg: mypkgs
+
+...
+
+    17
+    18  salt-minion:
+    19   service.running:
+    20   - name: salt-minion
+    21   - enable: True
+    22   - require:
+    23     - pkg: mypkgs
+
+... note here how we build up the watch section here
+... in file we have provided the id of the file name not the 
+... file name it self or full path of the filename.
+... when salt finds any changes in the content of the file 
+... /home/masum/masum.conf file it automatically restart 
+... the service salt-minion.
+
+    24   - watch:
+    25     - file: /home/masum/masum.conf
+
+...
+
+    26
+    27  /home/masum/masum.conf:
+    28   file.managed:
+    29   - source: salt://masum.conf
+    30   - user: root
+    31   - mode: 600
+
+[root@saltstack salt]#
 
 
