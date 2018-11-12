@@ -1,0 +1,21 @@
+
+
+... usermod usage
+
+... to change the user directory
+
+# usermod -m -d /home/khabir masum
+
+... then if directory is not present there we need to make the directory manually.
+
+# mkdir /home/khabir
+# chown masum:masum /home/khabir
+
+... kicking out an user
+... first killing user masum's php-cgi process
+
+# pkill -KILL -u masum php-cgi
+
+... then kill all the process of user masum, that is kicking out the user masum
+
+# pkill -KILL -u masum 
