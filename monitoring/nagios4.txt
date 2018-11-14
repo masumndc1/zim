@@ -1,0 +1,133 @@
+
+
+
+root@minion nagios]# pwd
+/etc/nagios
+[root@minion nagios]# ls
+cgi.cfg  conf.d  nagios.cfg  objects  passwd  private
+[root@minion nagios]#
+[root@minion nagios]#
+
+... Nagios is an open source software that can be used for network and infrastructure monitoring. 
+... Nagios will monitor servers, switches, applications and services. It alerts the System Administrator 
+... when something went wrong and also alerts back when the issues has been rectified. With Nagios you can:
+
+– Monitor your entire IT infrastructure.
+– Identify problems before they occur.
+– Know immediately when problems arise.
+– Share availability data with stakeholders.hypothetical question
+– Detect security breaches.
+– Plan and budget for IT upgrades.
+– Reduce downtime and business losses.
+
+... to make this documents some helps have been taken from the following link
+
+https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#CentOS
+
+... Scenario
+
+... In this tutorial i am going to use two systems as mentioned below.
+... Nagios server:
+... Operating system : CentOS 6.5 minimal installation
+... IP Address       : 192.168.1.101/24
+... Nagios client:
+... Operating System : Ubuntu 13.04
+... IP Address       : 192.168.1.100/24
+
+... Prerequisites 
+
+... Before installing Nagios, make sure that you’ve a properly installed and configured 
+... LAMP stack in your server. To install and configure LAMP server, refer any one of the following links.
+
+... Also install the following prerequisites too. All commands should be run as root user.
+
+# yum install gd gd-devel gcc glibc glibc-common
+
+... now going to install nagios 
+... Nagios will not be found in CentOS official repositories, so let us add the EPEL 
+... repository to install nagios. To add and enable EPEL repository, refer the following link.
+
+# yum install epel-release
+
+... Next install nagios with all plug-ins and nagios agents(nrpe-agent) using command:
+
+# yum install nagios*
+
+... note: It worked for me either if i keep SELINUX and iptables enable or disable. 
+... All you need to do is allow the apache port through iptables as shown below.
+... but its better to keep selinux disable or permissive.
+
+# sed -i 's/SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
+# setenforce 0
+
+... now configure iptables so that it allows 80 port
+
+# vi /etc/sysconfig/iptables
+
+      Add the following line:
+      [...]
+      -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+      [...]
+
+      Save and close the file. Restart iptables.
+
+# service iptables restart
+
+... Configure Nagios
+... Add the admin mail address in the nagios contact file to receive alerts from nagios server. 
+... To do that edit file /etc/nagios/objects/contacts.cfg,
+... this part is optional but good to have.
+
+# vi /etc/nagios/objects/contacts.cfg
+
+      Find the following line and enter the email id:
+      [...]
+      email                           sk@unixmen.com ;
+      [...
+
+... Save and close the file.
+
+... Then Edit file /etc/httpd/conf.d/nagios.conf,
+
+# vi /etc/httpd/conf.d/nagios.conf
+
+... And edit the following lines if you want to access nagios administrative console from a particular IP series.
+... Here i want to allow nagios administrative access from 192.168.1.0/24 series only.
+
+      [...]
+## Comment Lines 15 & 16 ##
+#   Order allow,deny
+#   Allow from all
+## Uncomment and Change lines 17,18 & 19 as shown below ##
+      Order deny,allow
+      Deny from all
+      Allow from 127.0.0.1 192.168.1.0/24
+      [...]
+
+... Set nagiosadmin password
+
+# htpasswd /etc/nagios/passwd nagiosadmin
+      New password:
+      Re-type new password:
+      Updating password for user nagiosadmin
+
+... Start nagios and httpd services and let them to start automatically on every boot.
+
+# service nagios start
+# service httpd start
+# chkconfig nagios on
+# chkconfig httpd on
+
+... Access Nagios admin console
+... Open nagios administrator console with URL http://nagios-server-ip/nagios and enter 
+... the username as nagiosadmin and its password which we created in the earlier steps.
+
+... This is how Nagios administrative console looks:
+
+... Click on the “Hosts” section in the left pane of the console. You will see the no of
+... hosts to be monitored by Nagios server. Initially, the nagios server (localhost) itself 
+... will only be monitored.
+
+
+... now we will need an monitoring agent in system to monitor and send
+... status to nagios server. we will do that in agent.txt file.
