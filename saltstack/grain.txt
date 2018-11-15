@@ -1,5 +1,8 @@
+
+
 ... grain which stores key-value format of static data in salt.
 
+[root@salt ~]# salt '*' grains.ls
 [root@salt ~]# salt '*' grains.item
 
 ... this command will give a full list of output
