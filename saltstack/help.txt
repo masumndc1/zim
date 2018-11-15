@@ -135,4 +135,34 @@ ot@saltstack salt]# cat -n pkg.sls
 
 [root@saltstack salt]#
 
+... to find the state modules.
+... to find the functions in a state modules.
+... to find the doc doc for a state modules.
 
+[root@saltstack salt]# salt minion sys.list_state_modules
+[root@saltstack salt]# salt minion sys.list_state_functions <module_name>
+[root@saltstack salt]# salt minion sys.state_doc user.present 
+
+
+ot@saltstack salt]# salt \* state.show_top
+minion:
+    ----------
+    base:
+        - pkg
+        - epel
+debian:
+    ----------
+    base:
+        - pkg
+localhost:
+    ----------
+    base:
+        - pkg
+splunk:
+    ----------
+    base:
+        - pkg
+        - epel
+[root@saltstack salt]#
+[root@saltstack salt]#
+[root@saltstack salt]#
