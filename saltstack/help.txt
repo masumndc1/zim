@@ -164,5 +164,10 @@ splunk:
         - pkg
         - epel
 [root@saltstack salt]#
-[root@saltstack salt]#
-[root@saltstack salt]#
+
+... normally salt run command as root user but if we need to run as other user 
+... we can do like below.
+
+[vagrant@master ~]$ sudo salt master\* cmd.run whoami runas=vagrant
+
+
