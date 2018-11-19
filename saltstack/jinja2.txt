@@ -100,5 +100,23 @@ Failed:    0
 Total states run:     2
 [root@salt salt]#
 
+... testing file existance in jinja
+
+[root@ansible myminion]# cat testing.sls
+
+{% set src = '/root/anaconda-ks.cfg' %}
+{% set dst = '/root/anaconda-ks.cfg.bk' %}
+
+{% if not salt['file.file_exists'](dst) %}
+run_cmd:
+ cmd.run:
+  - name: cp {{ src }} {{ dst }}
+{% endif %}
+
+[root@ansible myminion]#
+
+... we have to remember one thing that in jinja we have to
+... put execution module not the state module.
+
 
 
