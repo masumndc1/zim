@@ -45,4 +45,46 @@ myminion:
     True
 [root@salt ~]#
 
-... 
+... custom grains we can set custom grains which will be persistence through 
+... reboot.
+
+[root@ansible master.d]# salt myminion grains.setval osversion centos7.5
+myminion:
+    ----------
+    osversion:
+        centos7.5
+[root@ansible master.d]# salt myminion grains.item osversion
+myminion:
+    ----------
+    osversion:
+        centos7.5
+[root@ansible master.d]#
+
+... the above command will create grain file in /etc/salt with the following
+... content.
+
+[root@ansible salt]# ls
+grains  master.d  minion.d   pki    proxy.d
+[root@ansible salt]#
+[root@ansible salt]# cat grains
+osversion: centos7.5
+[root@ansible salt]#
+
+... we can also append multiple variable in grain by using grains.append command.
+
+[root@ansible master.d]# salt myminion grains.append osdate 20181120
+myminion:
+    ----------
+    osdate:
+        - 20181120
+[root@ansible master.d]# cat ../grains
+osdate:
+- 20181120
+osversion: centos7.5
+[root@ansible master.d]#
+
+... delval is used to delete certain grain
+
+[root@ansible master.d]# salt myminion grains.delval my_items
+
+

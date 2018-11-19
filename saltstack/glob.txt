@@ -1,0 +1,26 @@
+
+
+... glob matching in saltstack is an important things.
+
+... we can do node glob matching by following.
+... including configuration file in the master.d directory and restarting
+
+[root@ansible master.d]# grep default_include ../master
+#default_include: master.d/*.conf
+default_include: master.d/*.conf
+[root@ansible master.d]#
+
+... defining nodegroup 
+
+[root@ansible master.d]# cat nodegroup.conf
+nodegroups:
+  webdev: 'G@id:myminion'
+[root@ansible master.d]#
+
+... now running using -N 
+
+[root@ansible master.d]# salt -N webdev test.ping
+myminion:
+    True
+[root@ansible master.d]#
+
