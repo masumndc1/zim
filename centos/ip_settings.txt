@@ -5,6 +5,8 @@ BOOTPROTO=static
 IPADDR=192.168.35.140
 NETMASK=255.255.255.0
 GATEWAY=192.168.35.1
+DNS1=4.2.2.1
+DNS2=8.8.4.4
 
 ... now check the interface
 
@@ -18,3 +20,9 @@ lo          loopback  unmanaged  --
 virbr0-nic  tun       unmanaged  --         
 [root@kube ~]# 
 
+... setting DNS1 in ifcfg-eth0 will add and entry in /etc/resolv.conf
+... like below
+
+[root@kube ~]# cat /etc/resolv.conf
+nameserver 4.2.2.1
+nameserver 8.8.4.4
