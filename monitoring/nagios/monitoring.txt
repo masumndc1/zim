@@ -1,11 +1,6 @@
-Content-Type: text/x-zim-wiki
-Wiki-Format: zim 0.4
-Creation-Date: 2012-05-15T23:45:01+06:00
 
-====== nagios.office ======
-Created Tuesday 15 May 2012
 
-nagios is tested by the following command.
+... nagios is tested by the following command.
 
 root@mail:/etc/nagios3# nagios3 -v nagios.cfg
 
@@ -18,19 +13,17 @@ Checking misc settings...
 Total Warnings: 0
 Total Errors:   0
 
-Things look okay - No serious problems were detected during the pre-flight check
+... Things look okay - No serious problems were detected during the pre-flight check
+
 root@mail:/etc/nagios3#
 
-
-configuration files should be reside on this folder
+... configuration files should be reside on this folder
 
 root@mail:/etc/nagios3/conf.d# pwd
 /etc/nagios3/conf.d
 root@mail:/etc/nagios3/conf.d# ls
 192.168.203.41.cfg    extinfo_nagios2.cfg       generic-service_nagios2.cfg  localhost.cfg          services_nagios2.cfg
 contacts_nagios2.cfg  generic-host_nagios2.cfg  hostgroups_nagios2.cfg       localhost_nagios2.bak  timeperiods_nagios2.cfg
-root@mail:/etc/nagios3/conf.d# 
-root@mail:/etc/nagios3/conf.d# 
 root@mail:/etc/nagios3/conf.d# 
 
 root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg 
@@ -41,7 +34,7 @@ root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
      5	# 
      6	
      7	define host{
-     8	        host_name               raihan
+     8	        host_name               machine
      9	        alias                   windows
     10	        address                 192.168.203.41
     11		check_command		check-host-alive
@@ -60,7 +53,7 @@ root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
     24	# < 10% free space on partition.
     25	
     26	define service{
-    27	        host_name                       raihan
+    27	        host_name                       machine
     28	        service_description             Disk Space
     29	        check_command                   check_all_disks!20%!10%
     30	
@@ -80,14 +73,13 @@ root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
     44	# > 400 processes.
     45	
     46	        service_description             Total Processes
-    47			check_command                   check_procs!250!400
+    47		check_command                   check_procs!250!400
     48	
-    49	
     50	
     51	# Define a service to check the load on the local machine. 
     52	
     53	        service_description             Current Load
-    54			check_command                   check_load!5.0!4.0!3.0!10.0!6.0!4.0
+    54		check_command                   check_load!5.0!4.0!3.0!10.0!6.0!4.0
     55	
     56	#################### added by me to check the ssh service ##############################
     57	
@@ -104,6 +96,8 @@ root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
     68	        }
     69	
 root@mail:/etc/nagios3/conf.d# 
+
+... there is anothe conf file to monitor the local system
 
 root@mail:/etc/nagios3/conf.d# cat -n localhost.cfg 
      1	# A simple configuration file for monitoring the local host
@@ -177,7 +171,6 @@ root@mail:/etc/nagios3/conf.d# cat -n localhost.cfg
     69	
 root@mail:/etc/nagios3/conf.d# 
 
-
 pbl@mail:/etc/apache2/conf.d$ ls -la
 total 28
 drwxr-xr-x 2 root root 4096 2012-05-15 18:13 .
@@ -191,6 +184,8 @@ lrwxrwxrwx 1 root root   45 2011-11-25 01:27 javascript-common.conf -> /etc/java
 -rw-r--r-- 1 root root  143 2010-11-19 03:16 other-vhosts-access-log
 -rw-r--r-- 1 root root 1481 2010-11-19 03:16 security
 pbl@mail:/etc/apache2/conf.d$ 
+
+... and finally need to restart the nagios service.
 
 
 

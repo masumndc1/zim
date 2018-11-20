@@ -1,13 +1,5 @@
 
 
-
-root@minion nagios]# pwd
-/etc/nagios
-[root@minion nagios]# ls
-cgi.cfg  conf.d  nagios.cfg  objects  passwd  private
-[root@minion nagios]#
-[root@minion nagios]#
-
 ... Nagios is an open source software that can be used for network and infrastructure monitoring. 
 ... Nagios will monitor servers, switches, applications and services. It alerts the System Administrator 
 ... when something went wrong and also alerts back when the issues has been rectified. With Nagios you can:
@@ -78,6 +70,13 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 ... To do that edit file /etc/nagios/objects/contacts.cfg,
 ... this part is optional but good to have.
 
+root@minion nagios]# pwd
+/etc/nagios
+[root@minion nagios]# ls
+cgi.cfg  conf.d  nagios.cfg  objects  passwd  private
+[root@minion nagios]#
+[root@minion nagios]#
+
 # vi /etc/nagios/objects/contacts.cfg
 
       Find the following line and enter the email id:
@@ -107,16 +106,17 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 ... Set nagiosadmin password
 
 # htpasswd /etc/nagios/passwd nagiosadmin
+
       New password:
       Re-type new password:
       Updating password for user nagiosadmin
 
 ... Start nagios and httpd services and let them to start automatically on every boot.
 
+# systemctl enable nagios
+# systemctl enable httpd 
 # service nagios start
 # service httpd start
-# chkconfig nagios on
-# chkconfig httpd on
 
 ... Access Nagios admin console
 ... Open nagios administrator console with URL http://nagios-server-ip/nagios and enter 
@@ -131,3 +131,5 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 
 ... now we will need an monitoring agent in system to monitor and send
 ... status to nagios server. we will do that in agent.txt file.
+
+
