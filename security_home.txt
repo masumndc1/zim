@@ -1,9 +1,0 @@
-Content-Type: text/x-zim-wiki
-Wiki-Format: zim 0.4
-Creation-Date: 2012-04-24T03:05:46+06:00
-
-====== security home ======
-Created Tuesday 24 April 2012
-
-//try to find the latest vulnerabilities of a services in following websites. http://nvd.nist.gov/
-// to see if my mail server is vulnerable to relay http://www.abuse.net/relay.html 

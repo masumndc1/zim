@@ -1,59 +1,154 @@
 
-deb http://packages.linuxmint.com debian import
-
-Update system repositories:
-
-# apt-get update
-
-You may get and ignore a following error:
-
- W: GPG error: http://packages.linuxmint.com debian Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 3EE67F3D0FF405B2
-
-Once system's repositories are updated simply use apt-get command to install Firefox Browser on your Debian Jessie 8 Linux:
-
-# apt-get install firefox
-Reading package lists... Done                                                                                                                                                                             
-Building dependency tree       
-Reading state information... Done
-The following NEW packages will be installed:
-  firefox
-0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
-Need to get 40.8 MB of archives.
-After this operation, 89.9 MB of additional disk space will be used.
-WARNING: The following packages cannot be authenticated!
-  firefox
-Install these packages without verification? [y/N] y
-
-# apt-get install firefox
 
 
+................ installing firefox in ubuntu/debian from tarball ............
 
-// another way to do so.
+1. first download the tarball and xtract it
 
-You need to add the following entry in /etc/apt/sources.list or a new file in /etc/apt/sources.list.d/:
+masum@masum:/media/masum/MASUM_32GB/firefox$ ls
+bookmarks.html  firefox-49.0.1.tar.bz2
+masum@masum:/media/masum/MASUM_32GB/firefox$ 
+masum@masum:/media/masum/MASUM_32GB/firefox$ tar xvfj firefox-49.0.1.tar.bz2 
+firefox/
+firefox/libnss3.so
+firefox/platform.ini
+firefox/libnspr4.so
+firefox/libplc4.so
+firefox/run-mozilla.sh
+firefox/defaults/
+firefox/defaults/pref/
+firefox/defaults/pref/channel-prefs.js
+firefox/dictionaries/
+firefox/dictionaries/en-US.dic
+firefox/dictionaries/en-US.aff
+firefox/gtk2/
+firefox/gtk2/libmozgtk.so
+firefox/updater
+firefox/libsmime3.so
+firefox/libmozgtk.so
+firefox/plugin-container
+firefox/libmozavutil.so
+firefox/libnssdbm3.chk
+firefox/icons/
+firefox/icons/updater.png
+firefox/libnssckbi.so
+firefox/libnssdbm3.so
+firefox/gmp-clearkey/
+firefox/gmp-clearkey/0.1/
+firefox/gmp-clearkey/0.1/clearkey.info
+firefox/gmp-clearkey/0.1/libclearkey.so
+firefox/Throbber-small.gif
+firefox/browser/
+firefox/browser/features/
+firefox/browser/features/firefox@getpocket.com.xpi
+firefox/browser/features/e10srollout@mozilla.org.xpi
+firefox/browser/features/webcompat@mozilla.org.xpi
+firefox/browser/icons/
+firefox/browser/icons/mozicon128.png
+firefox/browser/crashreporter-override.ini
+firefox/browser/blocklist.xml
+firefox/browser/omni.ja
+firefox/browser/extensions/
+firefox/browser/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}.xpi
+firefox/browser/chrome.manifest
+firefox/browser/chrome/
+firefox/browser/chrome/icons/
+firefox/browser/chrome/icons/default/
+firefox/browser/chrome/icons/default/default48.png
+firefox/browser/chrome/icons/default/default32.png
+firefox/browser/chrome/icons/default/default16.png
+firefox/browser/components/
+firefox/browser/components/libbrowsercomps.so
+firefox/browser/components/components.manifest
+firefox/dependentlibs.list
+firefox/libmozavcodec.so
+firefox/liblgpllibs.so
+firefox/update-settings.ini
+firefox/libmozsqlite3.so
+firefox/updater.ini
+firefox/application.ini
+firefox/omni.ja
+firefox/libsoftokn3.so
+firefox/firefox-bin
+firefox/libsoftokn3.chk
+firefox/libfreeblpriv3.so
+firefox/crashreporter.ini
+firefox/libfreeblpriv3.chk
+firefox/icudt56l.dat
+firefox/firefox
+firefox/libssl3.so
+firefox/removed-files
+firefox/libnssutil3.so
+firefox/precomplete
+firefox/libxul.so
+firefox/libplds4.so
+firefox/crashreporter
+masum@masum:/media/masum/MASUM_32GB/firefox$ su 
+Password: 
+root@masum:/media/masum/MASUM_32GB/firefox# ls
+bookmarks.html  firefox  firefox-49.0.1.tar.bz2
+root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox# cd firefox/
+root@masum:/media/masum/MASUM_32GB/firefox/firefox# ls
+application.ini     firefox             libfreeblpriv3.so  libnss3.so      libsmime3.so     plugin-container    update-settings.in
+browser             firefox-bin         liblgpllibs.so     libnssckbi.so   libsoftokn3.chk  precomplete
+crashreporter       gmp-clearkey        libmozavcodec.so   libnssdbm3.chk  libsoftokn3.so   removed-files
+crashreporter.ini   gtk2                libmozavutil.so    libnssdbm3.so   libssl3.so       run-mozilla.sh
+defaults            icons               libmozgtk.so       libnssutil3.so  libxul.so        Throbber-small.gif
+dependentlibs.list  icudt56l.dat        libmozsqlite3.so   libplc4.so      omni.ja          updater
+dictionaries        libfreeblpriv3.chk  libnspr4.so        libplds4.so     platform.ini     updater.ini
+root@masum:/media/masum/MASUM_32GB/firefox/firefox# ls firefox*
+firefox  firefox-bin
+root@masum:/media/masum/MASUM_32GB/firefox/firefox# 
 
-    deb http://mozilla.debian.net/ wheezy-backports firefox-release
+2. now move the firefox folder just created to /opt folder
 
-You can install it with the following commands:
+root@masum:/media/masum/MASUM_32GB/firefox# mv firefox /opt/firefox
 
-    $ apt-get update
-    $ apt-get install -t wheezy-backports firefox
+3. create symbolic link. if firefox was previously installed you can just click
+# on the icon. otherwise you have to run the firefox from command line.
 
-Please report any problem to the pkg-mozilla-maintainers@lists.alioth.debian.org list.
+root@masum:/media/masum/MASUM_32GB/firefox# ln -s /opt/firefox/firefox /usr/bin/firefox
+ln: failed to create symbolic link ‘/usr/bin/firefox’: File exists
+root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox# rm /usr/bin/firefox 
+root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox# ln -s /opt/firefox/firefox /usr/bin/firefox
+root@masum:/media/masum/MASUM_32GB/firefox# 
 
-The mozilla.debian.net archive is signed, so APT may complain until you add the archive key to your APT keyring.
+4. now try to run firefox from command line.
 
-You can do so by installing the pkg-mozilla-archive-keyring package. Once installed, you can check the key with the following command (requires the debian-keyring package to be installed):
+masum@masum:/media/masum/MASUM_32GB/zim$ firefox
+bash: /usr/bin/firefox: Permission denied
+masum@masum:/media/masum/MASUM_32GB/zim$ 
 
-    $ gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers
-    pub   4096R/06C4AE2A 2010-11-20 [expires: 2012-11-14]
-          Key fingerprint = 85F0 6FBC 75E0 67C3 F305  C3C9 85A3 D265 06C4 AE2A
-    uid                  Debian Mozilla team APT archive <pkg-mozilla-maintainers@lists.alioth.debian.org>
-    sig!3        06C4AE2A 2010-11-20  Debian Mozilla team APT archive <pkg-mozilla-maintainers@lists.alioth.debian.org>
-    sig!         54FD2A58 2010-11-20  Mike Hommey <mh@glandium.org>
+root@masum:/opt/firefox# ls -la firefox
+-rw-r--r-- 1 masum vboxusers 163320 Sep 23 09:24 firefox
+root@masum:/opt/firefox# chmod 755 firefox
+root@masum:/opt/firefox# 
 
-    1 signature not checked due to a missing key
 
-The latter message about signature not being checked is expected, as the archive key is signed by two keys, but only one being in the Debian keyring at a given moment: 54FD2A58 is an old key that is going to be deprecated and replaced with A6AA8C72. You can thus also expect the last signature validation to differ depending on the Debian keyring version you use.
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$ firefox
 
-You may want to check the trust path from your key to the one that signed the archive key. Or you can choose to trust the Debian keyring.
+(firefox:9283): GLib-GObject-CRITICAL **: g_object_ref: assertion 'object->ref_count > 0' failed
+
+(firefox:9283): GLib-GObject-CRITICAL **: g_object_unref: assertion 'object->ref_count > 0' failed
+
+(firefox:9283): GLib-GObject-CRITICAL **: g_object_ref: assertion 'object->ref_count > 0' failed
+
+(firefox:9283): GLib-GObject-CRITICAL **: g_object_unref: assertion 'object->ref_count > 0' failed
+ARTUR: - SHOW 
+^C
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+5. now this is ok firefox is installed. check your current version by following.
+# which is showing it is 49 that means the latest.
+
+masum@masum:/media/masum/MASUM_32GB/zim$ firefox -V
+Mozilla Firefox 49.0.1
+masum@masum:/media/masum/MASUM_32GB/zim$ 
+
+
+
