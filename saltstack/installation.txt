@@ -125,4 +125,29 @@ this salt ...ticate
 ... we will solve this problem and document it in key.txt file.
 
 
+... another way of installing saltstack is by running the following commnad.
+
+... Install using wget
+... Using wget to install your distribution's stable packages:
+
+wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
+sudo sh bootstrap-salt.sh
+
+... another way of installation is create the repo then update and install
+
+
+[root@splunk yum.repos.d]# pwd
+/etc/yum.repos.d
+[root@splunk yum.repos.d]# ls
+saltstack.repo
+[root@splunk yum.repos.d]# cat saltstack.repo
+[saltstack-repo]
+name=SaltStack repo for Red Hat Enterprise Linux $releasever
+baseurl=https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest/SALTSTACK-GPG-KEY.pub
+       https://repo.saltstack.com/yum/redhat/$releasever/$basearch/latest/base/RPM-GPG-KEY-CentOS-7
+[root@splunk yum.repos.d]#
+[root@splunk yum.repos.d]# yum update ; yum install salt salt-minion
 

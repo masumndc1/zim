@@ -315,6 +315,25 @@ Succeeded: 2
 Failed:    0
 ------------
 
+... one example of file.append state module
+
+[root@saltmaster debian]# cat sources.sls 
+{% set src='/etc/apt/sources.list' %}
+{% set dst='/etc/apt/sources.list.bk' %}
+{% if not salt['file.file_exists'](dst) %}
+backup:
+ file.copy:
+  - name: {{ dst }}
+  - source: {{ src }}
+{% endif %}
+
+update_sourcelist:
+ file.append:
+  - name: {{ src }}
+  - text: | 
+     # saltstack repo
+     deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
+[root@saltmaster debian]# 
 
 
 
