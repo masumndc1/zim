@@ -1,0 +1,31 @@
+
+
+... state of Terraform
+
+... if we want to use one resource into another resource then we need to do
+... reference by using interpolation syntax.
+...
+... we can find the list of resources by using following commands
+
+[root@localhost terraform-test]# terraform state list
+vsphere_datacenter.dc
+vsphere_datastore.datastore
+vsphere_network.mgmt_lan
+vsphere_resource_pool.pool
+vsphere_virtual_machine.test2
+[root@localhost terraform-test]#
+
+[root@localhost terraform-test]# terraform state show vsphere_datastore.datastore
+id            = 5bf908bf-4f775d0a-7234-000c29992aae
+datacenter_id = ha-datacenter
+name          = datastore1
+[root@localhost terraform-test]#
+
+... now we can do the following. note here we are now referencing one resources
+... attribute into another resource.
+
+cdrom {
+      datastore_id = "${data.vsphere_datastore.datastore.id}"
+      path         = "./CentOS-7-x86_64-Minimal-1804.iso"
+  }
+}

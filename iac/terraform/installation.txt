@@ -1,0 +1,23 @@
+
+
+... installation of terraform
+
+     
+    
+     3  ... using terraform to make vm in esxi.
+     4
+     5  ... we can still make vm if we dont have vcenter and without using
+     6  ... template. template is needed to make vms by using terraform.
+     7
+     8  ... but if we dont have vcenter then we create the template too.
+     9  ... in that case, we need to define an empty resource pool when using
+    10  ... a standalone ESXi host.
+    11
+    12  ... first we need to install the terraform from the sites
+    13  ... https://www.terraform.io/downloads.html
+    14
+    15  ... basic
+    16  ... at first we need to initial terraform
+
+
+

@@ -1,0 +1,108 @@
+
+
+... various type of declaration in terraform.
+
+... resource type declaration
+...
+...
+
+resource "provider_resourcename" "name" {
+ [ series of config]
+}
+
+... variable declaration in Terraform
+
+... we can declare one variable by using the keyword variable.
+
+... in variable we can have description,default and type.
+... description is good to
+... use, why this variable is being used in the code. while running plan or
+... apply this description will be displayed.
+
+... default
+... default value to pass. we can pass default value in command prompt by using
+... -var options or from file -var-file or from environment variable like
+... TF_VAR_<variable_name>. if not value is given then it will try to set default
+... to it selt. if terraform cant then terraform will ask for a default value.
+
+... type
+... type must either of map, list, string. if no type is specified then Terraform
+... assumes it as string.
+
+... example of variable declaration
+
+variable {
+  description = "example of variable declaration"
+  type = "list"
+  default = [1, 2, 3]
+}
+
+... we can pass the value of the variable in command line by following way
+...
+
+terraform plan -var server_port="8080"
+
+... now to use the value of a variable we do the following in Terraform
+
+"${var.variable_name}"
+
+our variable declaration file is like below
+
+[root@localhost terraform-test]# cat variables.tf
+variable "vsphere_server" {
+        description = "vsphere ip address"
+        type = "string"
+        default= "172.16.17.130"
+}
+
+variable "vsphere_user" {
+        description = "administrative user"
+        type = "string"
+        default = "root"
+}
+
+variable "vsphere_password" {
+        description = "administrative password"
+        type = "string"
+        default = "YourPasswordH3r3"
+}
+[root@localhost terraform-test]#
+
+... and the usage of variable is below
+
+[root@localhost terraform-test]# cat instance.tf
+
+<output cut>
+provider "vsphere" {
+    vsphere_server = "${var.vsphere_server}"
+    user = "${var.vsphere_user}"
+    password = "${var.vsphere_password}"
+    allow_unverified_ssl = true
+}
+<output cut>
+
+... note here, how we use variable interpolation syntax here.
+... we place var first, then dot, then variable name. like
+
+${var.vsphere_server}
+
+... to output something in terraform we can do the following
+
+[root@localhost terraform-test]# cat instance.tf
+
+output "testing" {
+  value = "${data.vsphere_datastore.datastore.id}"
+}
+
+[root@localhost terraform-test]# terraform output testing
+
+... using data source in instance.tf file is nothing but query the provider
+... for data. for example is given below.
+
+data "vsphere_network" "mgmt_lan" {
+  name          = "VM Network"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+... above is an example of how block of data source is used. the working mechanism
+... of data source here is, data will ask provider for vshpere_network information.
