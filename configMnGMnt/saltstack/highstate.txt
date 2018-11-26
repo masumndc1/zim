@@ -65,9 +65,27 @@ Failed:    0
 Total states run:     2
 [root@salt salt]#
 
-... Note that if a minion is not targeted in the top.sls  file at all,
+... Note that if a minion is not targeted in the top.sls file at all,
 ... it will return an error when state.highstate is run.
 
+... an example of top and inclusion of state files in top
 
+[root@ansible salt]# pwd
+/srv/salt
+[root@ansible salt]# ls
+minion  pillar  top.sls
+[root@ansible salt]# cat top.sls
+base:
+ 'myminion':
+  - minion.top
+[root@ansible salt]# ls minion/
+nagios.sls  packages.sls  service.sls  testing.sls  top.sls
+[root@ansible salt]# cat minion/top.sls
+include:
+ - .nagios
+ - .packages
+ - .service
+ - .testing
+[root@ansible salt]#
 
 
