@@ -1,0 +1,95 @@
+
+
+... for vmware we can build image from vmx or from the iso
+
+... from iso
+
+... my template is like below.
+
+└──╼ $ ls
+CentOS-7-x86_64-Minimal-1804.iso  packer_cache  vmware.json
+┌─[edmudoh@elxabl1vvp2]─[~/packer/vmware]
+└──╼ $
+
+└──╼ $ cat vmware.json
+{
+ "builders": [
+ {
+  "type": "vmware-iso",
+  "iso_url": "file://home/user/CentOS-7-x86_64-Minimal-1804.iso",
+  "iso_checksum": "fabdc67ff3a1674a489953effa285dfd",
+  "iso_checksum_type": "md5",
+  "ssh_username": "username",
+  "ssh_password": "password",
+  "shutdown_command": "shutdown -P now"
+ }
+ ]
+}
+
+└──╼ $
+
+ $ packer build template.json 
+vmware-iso output will be in this color.
+
+==> vmware-iso: Retrieving ISO
+    vmware-iso: Using file in-place: file:///home/packer/vmware/CentOS-7-x86_64-Minimal-1804.iso
+==> vmware-iso: Creating required virtual machine disks
+==> vmware-iso: Building and writing VMX file
+==> vmware-iso: Starting virtual machine...
+==> vmware-iso: Waiting 10s for boot...
+==> vmware-iso: Connecting to VM via VNC (127.0.0.1:5954)
+==> vmware-iso: Typing the boot command over VNC...
+==> vmware-iso: Waiting for SSH to become available...
+
+... from vmx file.
+
+└──╼ $ cat vmware.json
+{
+ "builders": [
+ {
+  "type": "vmware-vmx",
+  "source_path": "/home/edmudoh/vmware/TrueOS/TrueOS.vmx",
+  "ssh_username": "yourssh_username",
+  "ssh_password": "yourssh_password",
+  "shutdown_command": "shutdown -P now"
+ }
+ ]
+}
+
+└──╼ $ packer build vmware.json
+vmware-vmx output will be in this color.
+
+Warnings for build 'vmware-vmx':
+
+* A shutdown_command was not specified. Without a shutdown command, Packer
+will forcibly halt the virtual machine, which may result in data loss.
+
+==> vmware-vmx: Cloning source VM...
+==> vmware-vmx: Starting virtual machine...
+==> vmware-vmx: Waiting 10s for boot...
+==> vmware-vmx: Connecting to VM via VNC (127.0.0.1:5929)
+==> vmware-vmx: Typing the boot command over VNC...
+==> vmware-vmx: Waiting for SSH to become available...
+==> vmware-vmx: Connected to SSH!
+==> vmware-vmx: Forcibly halting virtual machine...
+    vmware-vmx: Waiting for VMware to clean up after itself...
+==> vmware-vmx: Deleting unnecessary VMware files...
+    vmware-vmx: Deleting: output-vmware-vmx/vmware.log
+==> vmware-vmx: Compacting all attached virtual disks...
+    vmware-vmx: Compacting virtual disk 1
+==> vmware-vmx: Cleaning VMX prior to finishing up...
+    vmware-vmx: Unmounting floppy from VMX...
+    vmware-vmx: Detaching ISO from CD-ROM device...
+    vmware-vmx: Disabling VNC server...
+Build 'vmware-vmx' finished.
+
+==> Builds finished. The artifacts of successful builds are:
+--> vmware-vmx: VM files in directory: output-vmware-vmx
+┌─[edmudoh@elxabl1vvp2]─[~/packer/vmware]
+└──╼ $ ls
+CentOS-7-x86_64-Minimal-1804.iso  packer_cache
+output-vmware-vmx                 vmware.json
+┌─[edmudoh@elxabl1vvp2]─[~/packer/vmware]
+└──╼ $
+
+

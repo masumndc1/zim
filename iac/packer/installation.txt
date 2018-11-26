@@ -1,0 +1,27 @@
+
+
+... installation of packer
+... 
+... packer can be used to make image, which then can be used in vmware, openstack
+... aws, google cloud, docker etc
+
+$ wget -c https://releases.hashicorp.com/packer/1.3.2/packer_1.3.2_linux_amd64.zip
+$ unzip packer_1.3.2_linux_amd64.zip 
+$ cp packer /usr/local
+
+... test the installation
+
+$ packer 
+Usage: packer [--version] [--help] <command> [<args>]
+
+Available commands are:
+    build       build image(s) from template
+    fix         fixes templates from old versions of packer
+    inspect     see components of a template
+    validate    check that a template is valid
+    version     Prints the Packer version
+
+└──╼ $ packer version
+Packer v1.3.2
+
+

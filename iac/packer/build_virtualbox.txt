@@ -1,0 +1,37 @@
+
+
+... building from a ovf file for virtualbox
+
+└──╼ $ ls
+CentOS7-disk1.vmdk  centos7.json  CentOS7.mf  CentOS7.ovf  packer_cache
+└──╼ $
+┌─[edmudoh@elxabl1vvp2]─[~/packer/virtualbox]
+└──╼ $ cat centos7.json
+{
+ "builders": [
+ {
+  "type": "virtualbox-ovf",
+  "source_path": "file:///home/edmudoh/packer/virtualbox/CentOS7.ovf",
+  "ssh_username": "ssh_username",
+  "ssh_password": "ssh_password",
+  "shutdown_command": "echo 'ssh_username' | sudo -S shutdown -P now"
+ }
+ ]
+}
+
+└──╼ $ packer build centos7.json                                             
+virtualbox-ovf output will be in this color.
+
+==> virtualbox-ovf: Retrieving Guest additions
+    virtualbox-ovf: Using file in-place: file:///usr/share/virtualbox/VBoxGuestAdditions.iso
+==> virtualbox-ovf: Retrieving OVF/OVA
+    virtualbox-ovf: Using file in-place: file:///home/edmudoh/packer/virtualbox/CentOS7.ovf
+==> virtualbox-ovf: Importing VM: /home/edmudoh/packer/virtualbox/CentOS7.ovf
+==> virtualbox-ovf: Creating forwarded port mapping for communicator (SSH, WinRM, etc) (host port 3606)
+==> virtualbox-ovf: Starting the virtual machine...
+==> virtualbox-ovf: Waiting 10s for boot...
+==> virtualbox-ovf: Typing the boot command...
+==> virtualbox-ovf: Using ssh communicator to connect: 127.0.0.1
+==> virtualbox-ovf: Waiting for SSH to become available...
+==> virtualbox-ovf: Connected to SSH!
+
