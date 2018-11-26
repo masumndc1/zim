@@ -14,6 +14,3 @@ InstallNagios:
  pkg.installed:
   - name: nagios
 
-PasswordSettingForNagiosAdmin:
- cmd.run:
-  - 'htpasswd -c /etc/nagios/passwd' stdin='masum03\nmasum03'
