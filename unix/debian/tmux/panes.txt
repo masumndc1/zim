@@ -1,0 +1,14 @@
+
+
+... making pane to windows and windows to pane
+
+... making windows to panes
+
+bind-key S choose-window 'join-pane -v -s "%%"'
+bind-key V choose-window 'join-pane -h -s "%%"'
+
+... and making panes to windows 
+
+bind-key + !
+
+
