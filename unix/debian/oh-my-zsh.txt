@@ -1,0 +1,42 @@
+
+
+... installing oh-my-zsh in linux
+
+... install and configure by following in debian/centos
+
+apt-get install zsh
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
+cp .oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+# grep -v -e ^# .zshrc
+
+export ZSH="/root/.oh-my-zsh"
+ZSH_THEME="random"
+plugins=(
+#  git
+)
+
+source $ZSH/oh-my-zsh.sh
+
+... now change the default shell for the users
+
+└──╼ # echo $SHELL
+/bin/bash
+└──╼ # which zsh
+/usr/bin/zsh
+└──╼ # chsh -s `which zsh`
+
+... now login again or load .zshrc by source .zshrc 
+
+└──╼ $ sudo su
+└[/home/edmudoh]> 
+└[/home/edmudoh]> 
+└[/home/edmudoh]> exit
+└──╼ $ sudo su
+[oh-my-zsh] Random theme '/root/.oh-my-zsh/themes/eastwood.zsh-theme' loaded...
+[/home/edmudoh]$ 
+
+... everytime this is loading new theme. this is cool
+
+
+

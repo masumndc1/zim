@@ -1,0 +1,17 @@
+
+
+... installing in bsd os
+
+pkg install py27-salt
+
+... cp /usr/local/etc/salt/minion.sample /usr/local/etc/salt/minion
+... Activate the Salt Minion in /etc/rc.conf:
+
+sysrc salt_minion_enable="YES"
+
+... Start the Minion
+... Start the Salt Minion as follows:
+
+service salt_minion start
+
+
