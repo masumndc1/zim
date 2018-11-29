@@ -1,6 +1,5 @@
 
 
-
 ... Add Monitoring targets to Nagios server
 ... Now let us add some clients to monitor by Nagios server. To do that we have to install nrpe and 
 ... nagios-plugins in our monitoring targets.
@@ -39,6 +38,7 @@
 ... Create config file to the client to be monitored:
 
 # vi /etc/nagios/servers/clients.cfg
+
        define host{
 	       use                             linux-server
 	       host_name                       client
@@ -50,19 +50,22 @@
 	       notification_period             24x7
        }
 
-       Finally restart nagios service.
+... Finally restart nagios service.
+
 # service nagios restart
 
-       Now open the nagios admin console in the browser and navigate to “Hosts” section in the left pane. You will see the newly added client will be visible there. Click on the host to see if there is anything wrong or alerts.
+... Now open the nagios admin console in the browser and navigate to “Hosts” section in the left pane. 
+... You will see the newly added client will be visible there. Click on the host to see if there is anything wrong or alerts.
+... Click on the monitoring target, you’ll get the detailed output:
+... Like this way, you can define more clients by creating a separate config files “/etc/nagios/servers directory for each client.
 
-       Click on the monitoring target, you’ll get the detailed output:
+... Define services and monitor the service in a host
 
-       Like this way, you can define more clients by creating a separate config files “/etc/nagios/servers directory for each client.
+... We did define the monitoring host before. Now let us add some services of the monitoring host.
+... For example to monitor the ssh service, add the following lines shown in red colour in the /etc/nagios/servers/clients.cfg file.
 
-       Define services
-
-       We did define the monitoring host before. Now let us add some services of the monitoring host. For example to monitor the ssh service, add the following lines shown in red colour in the /etc/nagios/servers/clients.cfg file.
 # vi /etc/nagios/servers/clients.cfg
+
        define host{
 	       use                             linux-server
 	       host_name                       client
@@ -73,15 +76,21 @@
 	       notification_interval           30
 	       notification_period             24x7
        }
-       define service {
-	               use                             generic-service
-		               host_name                       client
-			               service_description             SSH
-				               check_command                   check_ssh
-					               notifications_enabled           0
-						               }
 
-							       Save and close the file. Restart Nagios.
+       define service {
+               use                             generic-service
+               host_name                       client
+               service_description             SSH
+               check_command                   check_ssh
+               notifications_enabled           0
+       }
+
+... Save and close the file. Restart Nagios.
+
 # service nagios restart
 
-							       Now log in to Nagios web console and check for the added services. Navigate to Services section, you’ll see the ssh service there.
+... Now log in to Nagios web console and check for the added services. 
+... Navigate to Services section, you’ll see the ssh service there.
+
+
+
