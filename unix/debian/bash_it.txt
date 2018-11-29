@@ -1,0 +1,52 @@
+
+
+... installing bash-it which will give you something similar to zsh
+
+└──╼ $ git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
+Cloning into '/home/edmudoh/.bash_it'...
+remote: Enumerating objects: 392, done.
+remote: Counting objects: 100% (392/392), done.
+remote: Compressing objects: 100% (313/313), done.
+remote: Total 392 (delta 22), reused 220 (delta 10), pack-reused 0
+Receiving objects: 100% (392/392), 1.22 MiB | 2.11 MiB/s, done.
+Resolving deltas: 100% (22/22), done.
+Checking connectivity... done.
+└──╼ $ 
+└──╼ $ ~/.bash_it/install.sh
+Installing bash-it
+Would you like to keep your .bashrc and append bash-it templates at the end? [y/N] y
+Your original .bashrc has been backed up to .bashrc.bak
+Bash-it template has been added to your .bashrc
+
+Enabling reasonable defaults
+bash-it enabled with priority 350.
+system enabled with priority 350.
+base enabled with priority 250.
+alias-completion enabled with priority 365.
+general enabled with priority 150.
+
+Installation finished successfully! Enjoy bash-it!
+To start using it, open a new tab or 'source /home/edmudoh/.bashrc'.
+
+To show the available aliases/completions/plugins, type one of the following:
+  bash-it show aliases
+  bash-it show completions
+  bash-it show plugins
+
+To avoid issues and to keep your shell lean, please enable only features you really want to use.
+Enabling everything can lead to issues.
+└──╼ $ 
+
+... now change the .bashrc for the random theme loading and edit
+
+cp .bash_it/template/bash_profile.template.bash .bashrc
+
+export BASH_IT="$HOME/.bash_it"
+export BASH_IT_THEME=$( ls -w1 /home/edmudoh/.bash_it/themes/  | grep -v .bash | grep -v random | sort -R | head -1 )
+unset MAILCHECK
+export IRC_CLIENT='irssi'
+export TODO="t"
+export SCM_CHECK=true
+source "$BASH_IT"/bash_it.sh
+
+
