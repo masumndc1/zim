@@ -1,3 +1,12 @@
+{% set src = '/etc/nagios/objects/localhost.cfg' %}
+{% set dst = '/etc/nagios/objects/localhost.cfg.bk' %}
+{% if not salt['file.file_exists'](dst) %}
+backup:
+ file.copy:
+  - name: {{ dst }}
+  - source: {{ src }}
+{% endif %}
+
 /etc/nagios/conf.d/debian95.cfg:
  file.managed:
   - source: salt://nagios/debian95.cfg

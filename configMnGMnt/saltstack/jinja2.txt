@@ -118,5 +118,17 @@ run_cmd:
 ... we have to remember one thing that in jinja we have to
 ... put execution module not the state module.
 
+... we can do above by following too
+
+{% set src = '/root/anaconda-ks.cfg' %}
+{% set dst = '/root/anaconda-ks.cfg.bk' %}
+
+{% if not salt['file.file_exists'](dst) %}
+backup:
+ file.copy:
+  - name: {{ dst }}
+  - source: {{ src }}
+{% endif %}
+
 
 
