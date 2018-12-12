@@ -52,6 +52,16 @@ root@elxa6lj5k72:~# virsh list --all
 
 root@elxa6lj5k72:~# 
 
+... converting from img file to qcow2
+
+➜  qcow2 qemu-img convert -O qcow2 dfly-x86_64-5.4.0_REL.img dfly-x86_64-5.4.0_REL.qcow2
+➜  qcow2 
+➜  qcow2 ls
+CentOS-7-x86_64-GenericCloud.qcow2 dfly-x86_64-5.4.0_REL.img  dfly-x86_64-5.4.0_REL.img.bz2  dfly-x86_64-5.4.0_REL.qcow2
+➜  qcow2 
+
+
+
 
 
 

@@ -1,0 +1,231 @@
+
+
+... installing guestfish in debian/centos
+
+sudo yum install libguestfs-tools      		# Fedora/RHEL/CentOS
+sudo apt-get install libguestfs-tools  		# Debian/Ubuntu
+
+... usages in kvm
+
+➜  qcow2 guestfish --rw -a CentOS-7-x86_64-GenericCloud.qcow2 
+
+Welcome to guestfish, the guest filesystem shell for
+editing virtual machine filesystems and disk images.
+
+Type: 'help' for help on commands
+      'man' to read the manual
+      'quit' to quit the shell
+
+><fs> run
+ 100% ⟦▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒⟧ 00:00
+><fs> 
+><fs> list-filesystems
+/dev/sda1: xfs
+><fs> mount /dev/sda1 /
+><fs> 
+
+... after the mounting we can see the file structure and file content like below
+
+><fs> ls /
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+><fs> cat /etc/shadow
+root:!!:17809:0:99999:7:::
+bin:*:17632:0:99999:7:::
+daemon:*:17632:0:99999:7:::
+adm:*:17632:0:99999:7:::
+lp:*:17632:0:99999:7:::
+sync:*:17632:0:99999:7:::
+shutdown:*:17632:0:99999:7:::
+halt:*:17632:0:99999:7:::
+mail:*:17632:0:99999:7:::
+operator:*:17632:0:99999:7:::
+games:*:17632:0:99999:7:::
+ftp:*:17632:0:99999:7:::
+nobody:*:17632:0:99999:7:::
+systemd-network:!!:17809::::::
+dbus:!!:17809::::::
+polkitd:!!:17809::::::
+rpc:!!:17809:0:99999:7:::
+rpcuser:!!:17809::::::
+nfsnobody:!!:17809::::::
+sshd:!!:17809::::::
+postfix:!!:17809::::::
+chrony:!!:17809::::::
+
+><fs> 
+
+... now we will set the root password so that we can log in after booting the system
+
+><fs> vi /etc/shadow
+><fs> 
+
+... to generate the password we can use openssl and place that encrypted password for root
+
+# openssl passwd -1 your_pass_here
+
+><fs> umount /dev/sda1
+><fs> 
+><fs> exit
+
+... also will disable the cloud init system 
+
+➜  qcow2 guestfish -a CentOS-7-x86_64-GenericCloud.qcow2 -i ln-sf /dev/null /etc/systemd/system/cloud-init.service 
+
+... now we can use this qcow2 file in kvm to boot the system.
+
+... mounting the file system
+
+➜  qcow2 guestfish --rw -a dfly-x86_64-5.4.0_REL.qcow2 
+
+Welcome to guestfish, the guest filesystem shell for
+editing virtual machine filesystems and disk images.
+
+Type: 'help' for help on commands
+      'man' to read the manual
+      'quit' to quit the shell
+
+><fs> run
+><fs> list-filesystems
+/dev/sda1: vfat
+/dev/sda2: unknown
+><fs> quit
+
+➜  qcow2 guestmount -a dfly-x86_64-5.4.0_REL.qcow2 -m /dev/sda1 /mnt
+➜  qcow2 
+
+... by default this will mount the file as read-write mode so that we can edit them and the change will 
+... persists.
+
+➜  qcow2 guestmount -a dfly-x86_64-5.4.0_REL.qcow2 -m /dev/sda1 /mnt
+➜  qcow2 cd /mnt
+➜  /mnt ls
+EFI
+➜  /mnt cd EFI 
+➜  EFI ls
+BOOT
+➜  EFI cd BOOT 
+➜  BOOT ls
+BOOTX64.EFI
+➜  BOOT ls -F
+BOOTX64.EFI*
+➜  BOOT 
+
+... now mounting a centos.qcow2 type file to see the file structure and 
+... file content in deep
+
+@elxabl1vvp2 ➜ qcow2  guestfish --rw -a CentOS-7-x86_64-GenericCloud.qcow2 
+
+Welcome to guestfish, the guest filesystem shell for
+editing virtual machine filesystems and disk images.
+
+Type: 'help' for help on commands
+      'man' to read the manual
+      'quit' to quit the shell
+
+><fs> run
+><fs> list-filesystems
+/dev/sda1: xfs
+><fs> 
+><fs> quit
+
+@elxabl1vvp2 ➜ qcow2  guestmount -a CentOS-7-x86_64-GenericCloud.qcow2 -m /dev/sda1 /mnt
+@elxabl1vvp2 ➜ qcow2  cd /mnt
+@elxabl1vvp2 ➜ /mnt  ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+@elxabl1vvp2 ➜ /mnt  cat etc/sysconfig/network-scripts/ifcfg-eth0 
+# Created by cloud-init on instance boot automatically, do not edit.
+#
+BOOTPROTO=dhcp
+DEVICE=eth0
+HWADDR=52:54:00:64:c8:08
+ONBOOT=yes
+TYPE=Ethernet
+USERCTL=no
+@elxabl1vvp2 ➜   
+
+... we can disable this cloud-init service by following
+
+➜  qcow2 guestfish -a CentOS-7-x86_64-GenericCloud.qcow2 -i ln-sf /dev/null /etc/systemd/system/cloud-init.service 
+
+... and finally we can unmount the filesystem from /mnt by following
+
+@elxabl1vvp2 ➜  guestumount /mnt
+
+... or 
+
+@elxabl1vvp2 ➜  umount /mnt
+
+... another interesting options is -i. note below how we have done this
+... with -i option guestfish will look for the operating systems as it will
+... in virtual machines and also file system is automatically mounted.
+
+@elxabl1vvp2 ➜ qcow2  guestfish -a CentOS-7-x86_64-GenericCloud.qcow2 -i 
+
+Welcome to guestfish, the guest filesystem shell for
+editing virtual machine filesystems and disk images.
+
+Type: 'help' for help on commands
+      'man' to read the manual
+      'quit' to quit the shell
+
+Operating system: CentOS Linux release 7.5.1804 (Core) 
+/dev/sda1 mounted on /
+
+><fs> quit
+
+@elxabl1vvp2 ➜ qcow2  guestfish -a CentOS-7-x86_64-GenericCloud.qcow2 -i --rw
+
+Welcome to guestfish, the guest filesystem shell for
+editing virtual machine filesystems and disk images.
+
+Type: 'help' for help on commands
+      'man' to read the manual
+      'quit' to quit the shell
+
+Operating system: CentOS Linux release 7.5.1804 (Core) 
+/dev/sda1 mounted on /
+
+><fs> ls /
+bin
+boot
+dev
+etc
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+><fs> 
+
+... we can now do anything we like to do with this mounted filesystem
+
+
