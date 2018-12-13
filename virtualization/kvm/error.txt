@@ -1,0 +1,32 @@
+
+
+... "crng init done debian hang" debian error.
+
+... enter single mode in debian then install haveged
+
+# apt-get install haveged
+# systemctl enable haveged
+# systemctl start haveged
+
+... and reboot the system and wait for a while. after some time
+... it will prompt for login.
+
+... "ubuntu dns resolve problem"
+
+# dhclient -v -4 
+# apt install ifupdown
+# apt policy netplan
+# systemctl disable systemd-resolved
+
+... also, try to add entries in /etc/systemd/resolved.conf
+... also check /etc/nsswitch.conf
+
+... then add following in /etc/network/interfaces
+
+auto lo
+iface lo inet loopback
+
+auto ens3
+iface ens3 inet dhcp
+
+
