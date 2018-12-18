@@ -7,6 +7,11 @@
 -A INPUT -m state --state new -m tcp -p tcp --dport 4505 -j ACCEPT
 -A INPUT -m state --state new -m tcp -p tcp --dport 4506 -j ACCEPT
 
+... copy and paste following two lines in comand line.
+
+iptables -A INPUT -m state --state new -m tcp -p tcp --dport 4505 -j ACCEPT
+iptables -A INPUT -m state --state new -m tcp -p tcp --dport 4506 -j ACCEPT
+
 ... another way to configure firewall in centos/redhat type os.
 
 [root@ansible salt]# firewall-cmd --get-active-zones
