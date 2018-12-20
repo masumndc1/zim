@@ -111,5 +111,10 @@ Insecure Registries:
 
 root@controller:/etc/docker/registry#
 
+... installing in debian
+... add the following line in the /etc/apt/source.list
+
+deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+
 
 

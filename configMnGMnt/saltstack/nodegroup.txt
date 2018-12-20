@@ -1,0 +1,31 @@
+
+
+... example of defining node group
+
+nodegroups:
+  group1: 'L@foo.domain.com,bar.domain.com,baz.domain.com or bl*.domain.com'
+  group2: 'G@os:Debian and foo.domain.com'
+  group3: 'G@os:Debian and N@group1'
+  group4:
+    - 'G@foo:bar'
+    - 'or'
+    - 'G@foo:baz'
+
+... now adding this in top file
+
+[root@saltmaster-kvm salt]# cat top.sls                                                 
+base:                                                                                  
+                                                                                      
+ 'G@os:debian':                                                                      
+   - debian.top                                                                     
+                                                                                   
+ 'centos':                                                                        
+   - match: nodegroup                                                            
+   - centos.top                                                                 
+                                                                               
+ 'docker-master':                                                             
+   - docker-master.top 
+
+[root@saltmaster-kvm salt]# cat top.sls                                                 
+
+
