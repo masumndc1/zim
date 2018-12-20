@@ -1,29 +1,12 @@
 
 
-... install docker repo in centos kind operating system
+... install docker repo in centos and enable it.
 
-root@saltmaster-kvm salt]# salt -G os:centos cmd.run "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
-docker-host2-centos:
-    Loaded plugins: fastestmirror
-    adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
-    grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
-    repo saved to /etc/yum.repos.d/docker-ce.repo
-saltmaster-kvm:
-    Loaded plugins: fastestmirror
-    adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
-    grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
-    repo saved to /etc/yum.repos.d/docker-ce.repo
-docker-master:
-    Loaded plugins: fastestmirror
-    adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
-    grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
-    repo saved to /etc/yum.repos.d/docker-ce.repo
-docker-host1-centos:
-    Loaded plugins: fastestmirror
-    adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
-    grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
-    repo saved to /etc/yum.repos.d/docker-ce.repo
-[root@saltmaster-kvm salt]#
+# salt -G os:centos cmd.run "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+# salt -G os:centos cmd.run "yum-config-manager --enable docker-ce.repo"
+
+... and for debian/ubuntu based system.
 
 # salt -G os:debian cmd.run "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
-# salt -G os:debian cmd.run "add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" "
+
+
