@@ -195,5 +195,7 @@ deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
 
 ... then run apt-get update ; apt-get install salt-minion
 
+... installing saltstack in freebsd
+
 
 

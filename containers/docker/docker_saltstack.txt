@@ -1,0 +1,138 @@
+
+
+... here are few commands and output of docker by using saltstack
+
+ salt salt docker-master cmd.run "docker node ls"
+docker-master:
+    ID                            HOSTNAME              STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+    lr94fywcyngst2jknczjfypwq     debian9               Down                Active                                  18.09.0
+    8xx77rsw3zp9q8l1fsywwhruv     docker-host1-centos   Ready               Active                                  18.09.0
+    by1uzlx3cvxuy9gyujrtyj13z     docker-host2-centos   Ready               Active                                  18.09.0
+    c1y26pcg2foji3n84cphsjj14     docker-host3-debian   Ready               Active                                  18.09.0
+    vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
+    v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
+
+salt docker-master cmd.run "docker pull nginx"
+docker-master:
+    Using default tag: latest
+    latest: Pulling from library/nginx
+    a5a6f2f73cd8: Pulling fs layer
+    1ba02017c4b2: Pulling fs layer
+    33b176c904de: Pulling fs layer
+    33b176c904de: Verifying Checksum
+    33b176c904de: Download complete
+    a5a6f2f73cd8: Verifying Checksum
+    a5a6f2f73cd8: Download complete
+    a5a6f2f73cd8: Pull complete
+    1ba02017c4b2: Verifying Checksum
+    1ba02017c4b2: Download complete
+    1ba02017c4b2: Pull complete
+    33b176c904de: Pull complete
+    Digest: sha256:5d32f60db294b5deb55d078cd4feb410ad88e6fe77500c87d3970eca97f54dba
+    Status: Downloaded newer image for nginx:latest
+
+salt docker-master cmd.run "docker node ls"
+docker-master:
+    ID                            HOSTNAME              STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+    lr94fywcyngst2jknczjfypwq     debian9               Down                Active                                  18.09.0
+    8xx77rsw3zp9q8l1fsywwhruv     docker-host1-centos   Ready               Active                                  18.09.0
+    by1uzlx3cvxuy9gyujrtyj13z     docker-host2-centos   Ready               Active                                  18.09.0
+    c1y26pcg2foji3n84cphsjj14     docker-host3-debian   Ready               Active                                  18.09.0
+    vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
+    v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
+
+salt docker-master cmd.run "docker pull nginx"
+docker-master:
+    Using default tag: latest
+    latest: Pulling from library/nginx
+    a5a6f2f73cd8: Pulling fs layer
+    1ba02017c4b2: Pulling fs layer
+    33b176c904de: Pulling fs layer
+    33b176c904de: Verifying Checksum
+    33b176c904de: Download complete
+    a5a6f2f73cd8: Verifying Checksum
+    a5a6f2f73cd8: Download complete
+    a5a6f2f73cd8: Pull complete
+    1ba02017c4b2: Verifying Checksum
+    1ba02017c4b2: Download complete
+    1ba02017c4b2: Pull complete
+    33b176c904de: Pull complete
+    Digest: sha256:5d32f60db294b5deb55d078cd4feb410ad88e6fe77500c87d3970eca97f54dba
+    Status: Downloaded newer image for nginx:latest
+
+salt docker-master cmd.run "docker info"
+docker-master:
+    Containers: 0
+     Running: 0
+     Paused: 0
+     Stopped: 0
+    Images: 1
+    Server Version: 18.09.0
+    Storage Driver: overlay2
+     Backing Filesystem: xfs
+     Supports d_type: true
+     Native Overlay Diff: true
+    Logging Driver: json-file
+    Cgroup Driver: cgroupfs
+    Plugins:
+     Volume: local
+     Network: bridge host macvlan null overlay
+     Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+    Swarm: active
+     NodeID: v9tmp77pjs0kk9707aalrzjbq
+     Is Manager: true
+     ClusterID: pmhco2tezrs4pgr3f7bglp6te
+     Managers: 1
+     Nodes: 6
+     Default Address Pool: 10.0.0.0/8
+     SubnetSize: 24
+     Orchestration:
+      Task History Retention Limit: 5
+     Raft:
+      Snapshot Interval: 10000
+      Number of Old Snapshots to Retain: 0
+      Heartbeat Tick: 1
+      Election Tick: 10
+     Dispatcher:
+      Heartbeat Period: 5 seconds
+     CA Configuration:
+      Expiry Duration: 3 months
+      Force Rotate: 0
+     Autolock Managers: false
+     Root Rotation In Progress: false
+     Node Address: 192.168.122.91
+     Manager Addresses:
+      192.168.122.91:2377
+    Runtimes: runc
+    Default Runtime: runc
+    Init Binary: docker-init
+    containerd version: c4446665cb9c30056f4998ed953e6d4ff22c7c39
+    runc version: 4fc53a81fb7c994640722ac585fa9ca548971871
+    init version: fec3683
+    Security Options:
+     seccomp
+      Profile: default
+    Kernel Version: 3.10.0-957.1.3.el7.x86_64
+    Operating System: CentOS Linux 7 (Core)
+    OSType: linux
+    Architecture: x86_64
+    CPUs: 1
+    Total Memory: 991.1MiB
+    Name: docker-master
+    ID: 6SGU:FDT6:YTY2:Z2EF:2HUL:USQ2:SCD6:T4T2:CSTF:7O5X:4DKD:FRQQ
+    Docker Root Dir: /var/lib/docker
+    Debug Mode (client): false
+    Debug Mode (server): false
+    Registry: https://index.docker.io/v1/
+    Labels:
+    Experimental: false
+    Insecure Registries:
+     127.0.0.0/8
+    Live Restore Enabled: false
+    Product License: Community Engine
+
+    WARNING: bridge-nf-call-ip6tables is disabled
+
+... clearly show this node is a master.
+
+

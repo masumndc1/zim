@@ -21,7 +21,8 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service 
 [root@docker ~]# 
 [root@docker ~]# 
 [root@docker ~]# docker node ls
-Error response from daemon: This node is not a swarm manager. Use "docker swarm init" or "docker swarm join" to connect this node to swarm and try again.
+Error response from daemon: This node is not a swarm manager. Use "docker swarm init" or "docker swarm join" 
+to connect this node to swarm and try again.
 [root@docker ~]# 
 [root@docker ~]# 
 [root@docker ~]# docker swarm init
@@ -152,15 +153,36 @@ Redirecting to /bin/systemctl stop firewalld.service
 This node joined a swarm as a worker.
 [root@swarm ~]# 
 
+... to leave a node from docker swarm cluster run the following command.
+
+[root@docker log]# docker swarm leave
+
 [root@docker log]# docker node ls
 ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 nw0vvl6whssvnq8yu8eyrlkp7    swarm     Ready   Active        
 yhgn1muaegml8lun3h880mgyi *  docker    Ready   Active        Leader
 [root@docker log]# 
 
+... to see the token for worker and manager
+
+# docker swarm join-token worker
+docker-master:
+To add a worker to this swarm, run the following command:
+  
+docker swarm join --token SWMTKN-1-1tj1rx5whv40sip8gr4djyl16qyoab24hwka1kd2-714olahvx7cpoinhpxwz19aka 192.168.122.91:2377
+
+#docker swarm join-token manager
+
+docker-master:
+To add a manager to this swarm, run the following command:
+    
+docker swarm join --token SWMTKN-1-1tj1rx5whv40sip8gr4djylykayoab24hwka1kd2-8gkdmxvwqqjewv1npla1l4xxq 192.168.122.91:2377
+
+... we can use this token to add a node as worker/manager.
+
 ... node swarm has been added to the manager.
-... now we can launch service. one of the simple example is below, run on 
-... manager.
+... now we can launch service. one of the simple example is below,
+... run following command on manager.
 
 [root@docker log]# docker service create -p 80:80 --name webserver --replicas 5 httpd
 m5vwb7oaqz7pe76gc877g541f
@@ -192,8 +214,8 @@ d6q4hna6d0j0  webserver.5      httpd:latest  docker  Running        Running abou
 [root@docker log]# 
 
 ... container self healing service.
-... the docker swarm has one feature of self healing. that means if one/two containers
-... from the service are not working manager will initiate new containers running.
+... the docker swarm has one feature of self-healing. that means, if one/two containers
+... from the service are not working, manager will initiate running new containers.
 
 ... we are now deleteing one of the containers from the service webserver.
 
@@ -212,7 +234,7 @@ CONTAINER ID        IMAGE                                                       
 cbb99968de07        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.3.scd01o6z7ashg9go0bh9ey3rm
 [root@docker ~]# 
 
-... now checking weather there are 5 containers running or not.
+... now checking, whether there are 5 containers running or not.
 ... we have found they are running.
 
 [root@docker ~]# docker service ps webserver
@@ -226,8 +248,8 @@ uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running 10 s
 d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 16 seconds ago    "task: non-zero exit (137)"       
 [root@docker ~]# 
 
-... deleting one more container. and checking in service webserver are there 5 
-... webserver running or not. and found yes they are running. first section below
+... deleting one more container and checking if service webserver. Are there 5 
+... webserver running or not? and found yes they are running. first section below
 ... showed us one is ready to run. and second section saying it is running now.
 ... and total number of containers running on both manager(docker) and worker node(swarm)
 ... are 5.
@@ -258,7 +280,7 @@ uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running abou
 d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed about a minute ago   "task: non-zero exit (137)"       
 [root@docker ~]# 
 
-... below the total number of containers are 5 running on both node.
+... below, the total number of containers are 5, running on both node.
 
 [root@swarm ~]# docker ps
 CONTAINER ID        IMAGE                                                                           COMMAND              CREATED             STATUS              PORTS               NAMES

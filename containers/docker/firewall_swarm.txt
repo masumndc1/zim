@@ -50,7 +50,7 @@ firewall-cmd --reload
 systemctl restart docker
 
 ... if we mistakenly add any unwanted port we can delete them by following
-... firewall-cmd --remove-port=port-number/tcp —permanent
+... firewall-cmd --remove-port=port-number/tcp -—permanent
 
 ... using iptables.
 
