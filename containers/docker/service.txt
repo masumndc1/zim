@@ -94,6 +94,16 @@ controller:~/docker# docker run -it --rm -p 10.10.10.12::80 masumapache:10.2 /bi
 ... and lastly the EXPOSE instruction by itself cannot create port binding on the Docker host. 
 ... therefore we have to use -P options with docker run subcommnd. 
 
+... we can restart the docker by following. also we can stop and start the container same way.
+
+controller:~/docker# docker restart <container_id/container_name>
+
+... one major difference between docker run and docker create command is docker run will create
+... the container and keep it in a running state. on the other hand, create command will create
+... the container but it will not start the container, will keep it in a stopped state.
+
+
+
 
 
 

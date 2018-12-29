@@ -371,11 +371,79 @@ scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 18 mi
 vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 39 minutes ago                                     
 [root@docker ~]# 
 
+... we can see logs and the other options related to service created earlier by following
 
+~/ $ salt docker-master cmd.run "docker service"
+docker-master:
 
+    Usage:      docker service COMMAND
 
+    Manage services
 
+    Commands:
+      create      Create a new service
+      inspect     Display detailed information on one or more services
+      logs        Fetch the logs of a service or task
+      ls          List services
+      ps          List the tasks of one or more services
+      rm          Remove one or more services
+      rollback    Revert changes to a service's configuration
+      scale       Scale one or multiple replicated services
+      update      Update a service
 
+    Run 'docker service COMMAND --help' for more information on a command.
+
+~/ $ salt docker-master cmd.run "docker service ls "
+docker-master:
+    ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+    j4ohl7t1bxf3        webserver           replicated          7/7                 masum:latest        *:8080->80/tcp
+~/ $
+
+~/ $ salt docker-master cmd.run "docker service logs"
+docker-master:
+    "docker service logs" requires exactly 1 argument.
+    See 'docker service logs --help'.
+
+    Usage:  docker service logs [OPTIONS] SERVICE|TASK
+
+    Fetch the logs of a service or task
+~/ $
+
+~/ $ salt docker-master cmd.run "docker service logs j4ohl7t1bxf3"
+docker-master:
+    webserver.5.j4gcfrtlop4a@docker-master    | 10.255.0.2 - - [29/Dec/2018:14:18:56 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36" "-"
+    webserver.5.j4gcfrtlop4a@docker-master    | 2018/12/29 14:18:57 [error] 6#6: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 10.255.0.2, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.122.91:8080", referrer: "http://192.168.122.91:8080/"
+    webserver.5.j4gcfrtlop4a@docker-master    | 10.255.0.2 - - [29/Dec/2018:14:18:57 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://192.168.122.91:8080/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36" "-"
+~/ $
+
+... we can also remove the node from the docker swarm by following.
+
+~/ $ salt docker-master cmd.run "docker node ls"
+docker-master:
+    ID                            HOSTNAME              STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+    lr94fywcyngst2jknczjfypwq     debian9               Down                Active                                  18.09.0
+    8xx77rsw3zp9q8l1fsywwhruv     docker-host1-centos   Ready               Active                                  18.09.0
+    by1uzlx3cvxuy9gyujrtyj13z     docker-host2-centos   Ready               Active                                  18.09.0
+    9mle2f6gsggex6118v4qf8yu1     docker-host3-debian   Ready               Active                                  18.09.0
+    c1y26pcg2foji3n84cphsjj14     docker-host3-debian   Down                Active                                  18.09.0
+    vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
+    v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
+~/ $ salt docker-master cmd.run "docker node rm lr94fywcyngst2jknczjfypwq"
+docker-master:
+    lr94fywcyngst2jknczjfypwq
+~/ $ 
+~/ $ salt docker-master cmd.run "docker node rm c1y26pcg2foji3n84cphsjj14"
+docker-master:
+    c1y26pcg2foji3n84cphsjj14
+~/ $ salt docker-master cmd.run "docker node ls"
+docker-master:
+    ID                            HOSTNAME              STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+    8xx77rsw3zp9q8l1fsywwhruv     docker-host1-centos   Ready               Active                                  18.09.0
+    by1uzlx3cvxuy9gyujrtyj13z     docker-host2-centos   Ready               Active                                  18.09.0
+    9mle2f6gsggex6118v4qf8yu1     docker-host3-debian   Ready               Active                                  18.09.0
+    vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
+    v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
+~/ $ 
 
 
 
