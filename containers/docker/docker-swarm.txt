@@ -2,7 +2,6 @@
 
 ... docker swarm
 
-
 [root@docker ~]# docker --version
 Docker version 1.13.1, build 774336d/1.13.1
 [root@docker ~]#  
@@ -149,7 +148,9 @@ Error response from daemon: rpc error: code = 14 desc = grpc: the connection is 
 Redirecting to /bin/systemctl stop firewalld.service
 [root@swarm ~]# 
 [root@swarm ~]# 
-[root@swarm ~]# docker swarm join --token SWMTKN-1-07v6a0fc02xh3rcpsmgrswhyfrcxoy6lodsechny166tu37877-2ylp6ek7yhvln8b6rbpkv5xcm 192.168.56.103
+[root@swarm ~]# docker swarm join --token \
+		SWMTKN-1-07v6a0fc02xh3rcpsmgrswhyfrcxoy6lodsechny166tu37877-2ylp6ek7yhvln8b6rbpkv5xcm \
+		192.168.56.103
 This node joined a swarm as a worker.
 [root@swarm ~]# 
 
@@ -169,14 +170,18 @@ yhgn1muaegml8lun3h880mgyi *  docker    Ready   Active        Leader
 docker-master:
 To add a worker to this swarm, run the following command:
   
-docker swarm join --token SWMTKN-1-1tj1rx5whv40sip8gr4djyl16qyoab24hwka1kd2-714olahvx7cpoinhpxwz19aka 192.168.122.91:2377
+docker swarm join --token \
+SWMTKN-1-1tj1rx5whv40sip8gr4djyl16qyoab24hwka1kd2-714olahvx7cpoinhpxwz19aka \
+192.168.122.91:2377
 
 #docker swarm join-token manager
 
 docker-master:
 To add a manager to this swarm, run the following command:
     
-docker swarm join --token SWMTKN-1-1tj1rx5whv40sip8gr4djylykayoab24hwka1kd2-8gkdmxvwqqjewv1npla1l4xxq 192.168.122.91:2377
+docker swarm join --token \
+SWMTKN-1-1tj1rx5whv40sip8gr4djylykayoab24hwka1kd2-8gkdmxvwqqjewv1npla1l4xxq \
+192.168.122.91:2377
 
 ... we can use this token to add a node as worker/manager.
 
@@ -444,6 +449,8 @@ docker-master:
     vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
     v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
 ~/ $ 
+
+... deletion of docker-swarm
 
 
 

@@ -64,7 +64,7 @@ Untagged: masumndc1/busyboxthree:latest
 Untagged: masumndc1/busyboxthree@sha256:ee7c91d0466cf0bd0e8b2fe43d6b528114193a4c7ceee722922fe7a0850af69e
 root@controller:~/docker#
 
-... so now we can import it to our image list
+... so now we can import it to our image list. we can also use load like docker load
 
 root@controller:~/docker# docker import --help
 Usage:	docker import [OPTIONS] file|URL|- [REPOSITORY[:TAG]]
@@ -87,6 +87,10 @@ root@controller:~/docker# docker save masumndc1/busyboxthree | gzip > busybox3.t
 root@controller:~/docker# ls
  busybox3.tar.gz  
 root@controller:~/docker#
+
+... another way of doing so 
+
+root@controller:~/docker# docker save -o busybox3.tar.gz masum:latest
 
 ... removing images
 

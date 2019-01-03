@@ -102,6 +102,9 @@ controller:~/docker# docker restart <container_id/container_name>
 ... the container and keep it in a running state. on the other hand, create command will create
 ... the container but it will not start the container, will keep it in a stopped state.
 
+... another good options is the --read-only which options cant allow docker to change the files
+
+controller:~/docker# docker run --it --rm --read-only --name webserver nginx:latest
 
 
 

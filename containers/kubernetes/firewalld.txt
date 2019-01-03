@@ -1,0 +1,15 @@
+
+
+... opening port in firewalld
+... in master
+
+[root@kube-master kubernetes]# firewall-cmd --add-port=8080/tcp --permanent
+success
+[root@kube-master kubernetes]# firewall-cmd --add-port=2379/tcp --permanent
+success
+[root@kube-master kubernetes]# firewall-cmd --add-port=10250/tcp --permanent
+success
+[root@kube-master kubernetes]# firewall-cmd --reload
+success
+[root@kube-master kubernetes]# 
+

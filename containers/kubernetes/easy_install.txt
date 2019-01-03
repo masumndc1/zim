@@ -1,0 +1,52 @@
+
+
+... another alternative installation of kubernetes in centos/debian
+
+... enable repo
+
+○ → cat /etc/yum.repos.d/kubernetes.repo 
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+
+○ → yum install -y kubeadm kubectl kubelet
+○ → yum install docker
+
+... also note that latest docker-ce is not compatible with kubernetes therefore to be on
+... safe side its better to uninstall the docker-ce and install docker instead.
+... please set at least 2 core cpu in the system.
+
+... you may also have to disable selinux
+
+○ → setenforce 0
+
+... enable kubelet,docker service and also at the boot time.
+... service kubelet enable
+... service kubelet start
+... service docker enable
+... service docker start
+
+... edit the /etc/hosts file
+
+○ → cat /etc/hosts
+
+192.168.122.91 docker-master
+192.168.122.148 salt
+192.168.122.91 k8master.masum.local
+192.168.122.93 k8node1.masum.local
+
+ docker-master in /etc/yum.repos.d
+○ → 
+
+... now run following in k8master to start kubernetes service at the firsttime it will 
+... take some time.
+
+○ → kubeadm init
+
+
+
+

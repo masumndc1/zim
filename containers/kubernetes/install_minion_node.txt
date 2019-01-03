@@ -1,6 +1,6 @@
 
 
-... we will install here in this doc the kubernetes related minions.
+... In this doc, we will install here the kubernetes related minions.
 
 ... at first we have to stop the firewalling as it conflicts with the docker
 
