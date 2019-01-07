@@ -86,8 +86,3 @@ spec:
 
 ... will access the container with http://192.168.10.137:30000
 
-
-
-
-
-

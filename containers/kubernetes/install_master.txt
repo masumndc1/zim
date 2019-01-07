@@ -44,6 +44,13 @@ KUBE_ADMISSION_CONTROL="--admission_control=NamespaceLifecycle,NamespaceExists,L
 KUBE_API_ARGS=""
 [root@kube-master kubernetes]# 
 
+... 
+... note here: this is extremly important here. 
+... in the KUBE_ADMINSSION_CONTROL line, delete "ServiceAccount"
+... and then restart kube-apiserver service 
+... this is important, otherwise you wont get your pod running
+...
+
 ... Start and enable etcd, kube-apiserver, kube-controller-manager and kube-scheduler 
 
 [root@kube-master kubernetes]# for SERVICES in etcd kube-apiserver kube-controller-manager kube-scheduler; do

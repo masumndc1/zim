@@ -197,6 +197,30 @@ node-js                         172.17.14.16:80,172.17.14.4:80,172.17.14.5:80   
 node-nginx                      <none>                                          49m
 [root@kube-master kube]# 
 
+... to see the logs out of a containers from 
+
+root:~/ $ salt kube-master cmd.run "kubectl get pods -o wide"
+
+kube-master:
+    NAME              READY     STATUS    RESTARTS   AGE       IP           NODE
+    mahrus            1/1       Running   0          13m       172.17.0.2   kude-host1-centos
+    masum-web-5cvf1   1/1       Running   2          6h        172.17.0.2   kube-master
+    masum-web-66hnw   1/1       Running   1          7h        172.17.0.2   kude-host2-centos
+    masum-web-z3q79   1/1       Running   0          6h        172.17.0.2   kube-host7-centos
+
+[root@kube-master kube]# 
+
+root:~/ $ salt kube-master cmd.run "kubectl logs mahrus"
+kube-master:
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+    [Mon Jan 07 20:16:31.784890 2019] [mpm_event:notice] [pid 1:tid 139629400249536] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
+    [Mon Jan 07 20:16:31.791951 2019] [core:notice] [pid 1:tid 139629400249536] AH00094: Command line: 'httpd -D FOREGROUND'
+root:~/ $
+
+... if any of my pod has multiple containers then we do the following
+
+[root@kube-master kube]# kubectl logs <pod_name> -c <container_name_inside_the_pod>
 
 
 

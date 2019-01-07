@@ -1,0 +1,162 @@
+
+
+... operation on pod
+
+$ salt kube-master cmd.run "kubectl get pods masum-web-5cvf1 -o yaml"
+kube-master:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        kubernetes.io/created-by: |
+          {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"default","name":"masum-web","uid":"3a577842-127f-11e9-928a-525400dfde7f","apiVersion":"v1","resourceVersion":"121853"}}
+      creationTimestamp: 2019-01-07T13:44:42Z
+      generateName: masum-web-
+      labels:
+        run: masum-web
+      name: masum-web-5cvf1
+      namespace: default
+      ownerReferences:
+      - apiVersion: v1
+        controller: true
+        kind: ReplicationController
+        name: masum-web
+        uid: 3a577842-127f-11e9-928a-525400dfde7f
+      resourceVersion: "128763"
+      selfLink: /api/v1/namespaces/default/pods/masum-web-5cvf1
+      uid: 629e62be-1282-11e9-928a-525400dfde7f
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: masum-web
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      nodeName: kube-master
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+    status:
+      conditions:
+      - lastProbeTime: null
+        lastTransitionTime: 2019-01-07T13:44:42Z
+        status: "True"
+        type: Initialized
+      - lastProbeTime: null
+        lastTransitionTime: 2019-01-07T19:17:59Z
+        status: "True"
+        type: Ready
+      - lastProbeTime: null
+        lastTransitionTime: 2019-01-07T13:44:42Z
+        status: "True"
+        type: PodScheduled
+      containerStatuses:
+      - containerID: docker://7692476e6700b02083cb7f8c0bcda37918397004c48d7341fe4ebe38da893721
+        image: nginx
+        imageID: docker-pullable://docker.io/nginx@sha256:b543f6d0983fbc25b9874e22f4fe257a567111da96fd1d8f1b44315f1236398c
+        lastState:
+          terminated:
+            containerID: docker://3e3bd78dc65e4c040821368b9915ab34655e01aed5169a48205735419e8e0054
+            exitCode: 0
+            finishedAt: 2019-01-07T15:22:06Z
+            reason: Completed
+            startedAt: 2019-01-07T14:28:12Z
+        name: masum-web
+        ready: true
+        restartCount: 2
+        state:
+          running:
+            startedAt: 2019-01-07T19:17:58Z
+      hostIP: 192.168.122.146
+      phase: Running
+      podIP: 172.17.0.2
+      startTime: 2019-01-07T13:44:42Z
+root:~/ $
+
+root@kube-master ~]# cat mahrus.yaml
+
+apiVersion: v1
+kind: Pod
+
+... kind is pod. pod will be created
+
+metadata:
+  name: mahrus
+
+... name of the pod will be mahrus
+
+spec:
+  containers:
+  - image: httpd:latest
+
+... from which container this pod will
+... created.
+
+    name: mahrus-http
+
+... and the new container name will be
+... mahrus-http
+
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+
+... container port will be 8080 and protocol
+... will be TCP.
+
+... and finally the yaml defination is
+
+apiVersion: v1
+kind: pod
+metadata:
+  name: mahrus
+spec:
+  containers:
+  - image: httpd:latest
+    name: mahrus-http
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+
+[root@kube-master ~]#
+
+... now create the pod from yaml defination file.
+
+root:~/ $ salt kube-master cmd.run "kubectl create -f mahrus.yaml"
+kube-master:
+    pod "mahrus" created
+root:~/ $
+
+
+... to see the logs out of a containers from 
+
+root:~/ $ salt kube-master cmd.run "kubectl get pods -o wide"
+
+kube-master:
+    NAME              READY     STATUS    RESTARTS   AGE       IP           NODE
+    mahrus            1/1       Running   0          13m       172.17.0.2   kude-host1-centos
+    masum-web-5cvf1   1/1       Running   2          6h        172.17.0.2   kube-master
+    masum-web-66hnw   1/1       Running   1          7h        172.17.0.2   kude-host2-centos
+    masum-web-z3q79   1/1       Running   0          6h        172.17.0.2   kube-host7-centos
+
+[root@kube-master kube]# 
+
+root:~/ $ salt kube-master cmd.run "kubectl logs mahrus"
+kube-master:
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+    AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+    [Mon Jan 07 20:16:31.784890 2019] [mpm_event:notice] [pid 1:tid 139629400249536] AH00489: Apache/2.4.37 (Unix) configured -- resuming normal operations
+    [Mon Jan 07 20:16:31.791951 2019] [core:notice] [pid 1:tid 139629400249536] AH00094: Command line: 'httpd -D FOREGROUND'
+root:~/ $
+
+... if any of my pod has multiple containers then we do the following
+
+[root@kube-master kube]# kubectl logs <pod_name> -c <container_name_inside_the_pod>
+
+... now connecting to pods. ie, testing pods without exposing to service.
+
+
