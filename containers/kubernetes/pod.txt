@@ -159,4 +159,41 @@ root:~/ $
 
 ... now connecting to pods. ie, testing pods without exposing to service.
 
+... we can port forward to that port like below.
+
+kubectl -n default port-forward httpd 8888:80
+
+... here -n default is the namespace
+... httpd is the pod name
+... 8888 localport
+... 80 containers listening to this port
+
+... labeling a resource. in this case we are labeling to our pods
+
+[root@kube-master ~]# cat khabir.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: khabir
+  labels:
+    env: prod
+spec:
+  containers:
+  - image: nginx
+    name: khabir-http
+    ports:
+    - containerPort: 80
+      protocol: TCP
+[root@kube-master ~]#
+[root@kube-master ~]# kubectl get pods -o wide --show-labels
+NAME              READY     STATUS        RESTARTS   AGE       IP           NODE                LABELS
+khabir            1/1       Running       0          2m        172.17.0.2   kude-host1-centos   env=prod
+kiven-rfpr7       1/1       Running       0          4m        172.17.0.4   kude-host1-centos   run=kiven
+masum-web-66hnw   1/1       Terminating   1          1d        172.17.0.2   kude-host2-centos   run=masum-web
+masum-web-lvjfd   1/1       Running       0          4m        172.17.0.5   kude-host1-centos   run=masum-web
+masum-web-p9lzf   1/1       Running       0          4m        172.17.0.5   kube-master         run=masum-web
+masum-web-sqcq0   1/1       Running       0          4m        172.17.0.4   kube-master         run=masum-web
+masum-web-z3q79   1/1       Terminating   0          1d        172.17.0.2   kube-host7-centos   run=masum-web
+[root@kube-master ~]#
+
 

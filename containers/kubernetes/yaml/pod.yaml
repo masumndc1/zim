@@ -108,7 +108,7 @@ spec:
 ... and finally the yaml defination is
 
 apiVersion: v1
-kind: pod
+kind: Pod
 metadata:
   name: mahrus
 spec:
