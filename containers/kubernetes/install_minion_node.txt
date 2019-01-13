@@ -21,7 +21,7 @@ Linux kube-node1 4.9.63-29.el7.x86_64 #1 SMP Mon Nov 20 14:39:22 UTC 2017 x86_64
 ... Configure etcd server for flannel service. Update the following 
 ... line inside /etc/sysconfig/flanneld to connect to the respective master:
 
-[root@kube-node1 sysconfig]# cat flanneld
+root@kube-node1 sysconfig]# cat flanneld
 
 FLANNEL_ETCD_ENDPOINTS="http://192.168.10.138:2379"
 
