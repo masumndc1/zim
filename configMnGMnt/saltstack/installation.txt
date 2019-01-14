@@ -11,6 +11,12 @@ Linux salt 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_6
 [root@puppet ~]# yum update
 [root@puppet ~]# yum install -y salt-master salt-minion
 
+... install the latest release from the following site and follow the description there.
+
+[root@salt ~]# yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm 
+[root@salt ~]# yum update
+[root@salt ~]# yum install -y salt-master salt-minion
+
 [root@puppet ~]# salt --versions-report
            Salt: 2015.5.10
          Python: 2.7.5 (default, Nov  6 2016, 00:28:07)
