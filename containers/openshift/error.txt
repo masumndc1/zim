@@ -1,0 +1,29 @@
+
+
+... if we have anything like below.
+
+[root@openshift sysconfig]# oc cluster up
+Getting a Docker client ...
+Checking if image openshift/origin-control-plane:v3.11 is available ...
+Checking type of volume mount ...
+Determining server IP ...
+Checking if OpenShift is already running ...
+Checking for supported Docker version (=>1.22) ...
+Checking if insecured registry is configured properly in Docker ...
+error: did not detect an --insecure-registry argument on the Docker daemon
+
+... then do the following
+
+[root@openshift sysconfig]# cd /etc/docker/
+[root@openshift docker]# ls
+key.json
+[root@openshift docker]# vi /etc/docker/daemon.json
+{ "insecure-registries": ["172.30.0.0/16"] }
+[root@openshift docker]# 
+[root@openshift docker]# 
+[root@openshift docker]# systemctl restart docker
+[root@openshift docker]# 
+[root@openshift docker]# 
+[root@openshift docker]# oc cluster up
+Getting a Docker client ...
+

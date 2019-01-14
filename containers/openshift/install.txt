@@ -96,7 +96,7 @@ ExecStart=/usr/local/bin/start_openshift.sh
 [root@openshift openshift]# mkdir /opt/openshift/
 [root@openshift openshift]# systemctl daemon-reload
 [root@openshift openshift]# systemctl start openshift
-[root@openshift openshift]#  systemctl status openshift
+[root@openshift openshift]# systemctl status openshift
 ● openshift.service - OpenShift Origin Server
    Loaded: loaded (/etc/systemd/system/openshift.service; static; vendor preset: disabled)
    Active: active (running) since Fri 2017-12-29 05:03:33 +06; 43s ago
@@ -110,7 +110,6 @@ ExecStart=/usr/local/bin/start_openshift.sh
 ... Now the Openshift service is up and running, to manage OpenShift installation 
 ... remotely and access its applications, TCP ports 80, 443, and 8443 need 
 ... to be opened in your firewall.
-... this portion is options if we turned off firewalld.
 
 [root@openshift openshift]# service firewalld start
 Redirecting to /bin/systemctl start firewalld.service
