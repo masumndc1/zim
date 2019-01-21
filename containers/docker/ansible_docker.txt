@@ -1,0 +1,18 @@
+
+
+... to use ansible to create image of docker we need docker-py and docker
+... python module.
+
+# yum install python-pip
+# pip install docker 
+
+... or but not both at the same time.
+
+# pip install docker-py
+
+... ie have docker or docker-py. one of them. but not both at the same time.
+... upgrading python-py to latest version.
+
+# pip install --upgrade pip
+
+
