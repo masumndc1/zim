@@ -1,0 +1,28 @@
+
+
+... installing the minikube in centos7
+
+...$ curl -Lo minikube \
+    https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+   # chmod +x minikube
+
+...$ sudo cp minikube /usr/local/bin 
+
+... now run the minikube to set up the cluster
+... 
+...$ minikube start --vm-driver kvm
+...
+... driver installation.
+
+sudo apt install libvirt-clients libvirt-daemon-system qemu-kvm
+sudo yum install libvirt-daemon-kvm qemu-kvm
+
+sudo usermod -a -G libvirt $(whoami)
+
+# Update your current session for the group change to take effect
+# NOTE: For older Debian/Ubuntu versions change the group to `libvirtd`
+newgrp libvirt
+
+... for reference 
+... https://kubernetes.io/docs/setup/minikube/ 
+...

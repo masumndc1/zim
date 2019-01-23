@@ -1,0 +1,29 @@
+
+
+... installation of devstack
+
+... best to use ubuntu. I have found working on ubuntu 16.04.
+...
+... add user
+
+$ sudo useradd -s /bin/bash -d /opt/stack -m stack
+
+$ echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+$ sudo su - stack
+
+$ git clone https://git.openstack.org/openstack-dev/devstack
+$ cd devstack
+$ ./stack.sh
+
+... before running stack.sh we need one local.conf file in devstack folder
+... the content of my local.conf file is
+
+ADMIN_PASSWORD=<admin_pass_here>
+DATABASE_PASSWORD=<dtase_pss_here>
+RABBIT_PASSWORD=<rabbit_pass_here>
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+HOST_IP=<your_host_ip>
+
+... after the installation the horizon interface can be accessed by 
+... http://HOST_IP/dashboard
