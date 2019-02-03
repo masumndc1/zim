@@ -16,7 +16,7 @@ $ cd devstack
 $ ./stack.sh
 
 ... before running stack.sh we need one local.conf file in devstack folder
-... the content of my local.conf file is
+... the content of my local.conf file is in /opt/stack/devstack.
 
 ADMIN_PASSWORD=<admin_pass_here>
 DATABASE_PASSWORD=<dtase_pss_here>
