@@ -1,0 +1,149 @@
+
+
+... using nova to creat an instance.
+
+nova boot \
+--flavor m1.tiny \
+--image 56170198-6b21-4ae6-9577-5d9769f08972 \
+--nic net-id=c438cbdd-14f0-481e-aed4-60b0c02ff010 \
+masumcir2
+
+... note here how we have placed --nic and net-id=<net_id>
+
+
+... how to create project and list role
+
+masum@devstack:/opt/stack/devstack$ openstack project create --description "general project" general
+
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | general project                  |
+| domain_id   | default                          |
+| enabled     | True                             |
+| id          | df91df579d8a481f81fe2cbd1dae18f9 |
+| is_domain   | False                            |
+| name        | general                          |
+| parent_id   | default                          |
+| tags        | []                               |
++-------------+----------------------------------+
+
+masum@devstack:/opt/stack/devstack$ openstack role list
++----------------------------------+---------------+
+| ID                               | Name          |
++----------------------------------+---------------+
+| 013e44d283944cf3a1e77ebe84ac5654 | admin         |
+| 018b4938d8784b44b89dac7e4773e888 | service       |
+| 667cf2683fa94e508576637da78b9a0a | anotherrole   |
+| 7c167cb6c215465ab35ed6edf37e219e | reader        |
+| aad21a2811cf43df9ce20d3b88a63db9 | member        |
+| cc69b5fa520c401aa955ffd0f3c452c4 | ResellerAdmin |
++----------------------------------+---------------+
+
+... creation of an user in the project general by following
+
+masum@devstack:~$ openstack user create \
+--project=df91df579d8a481f81fe2cbd1dae18f9 \
+--password=<password_here> --email=masum@abcd.com \
+masum
+
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| default_project_id  | df91df579d8a481f81fe2cbd1dae18f9 |
+| domain_id           | default                          |
+| email               | masum@abcd.com                   |
+| enabled             | True                             |
+| id                  | d7bc25b3ea4647b3b4065bbd829394a9 |
+| name                | masum                            |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+masum@devstack:~$ 
+
+... adding user masum to project general with the role admin.
+
+openstack role add \
+--project df91df579d8a481f81fe2cbd1dae18f9 \  # this is the id of the project, general
+--user masum 
+admin
+
+... creating a network for our general project
+
+masum@devstack:~$ openstack network create \
+--enable --project df91df579d8a481f81fe2cbd1dae18f9 \
+> --enable-port-security --internal 
+GeneralNetwork
+
++---------------------------+--------------------------------------+
+| Field                     | Value                                |
++---------------------------+--------------------------------------+
+| admin_state_up            | UP                                   |
+| availability_zone_hints   |                                      |
+| availability_zones        |                                      |
+| created_at                | 2019-02-07T21:13:25Z                 |
+| description               |                                      |
+| dns_domain                | None                                 |
+| id                        | d1a9b6c1-bd7f-4fa8-aa92-de78718328c7 |
+| ipv4_address_scope        | None                                 |
+| ipv6_address_scope        | None                                 |
+| is_default                | False                                |
+| is_vlan_transparent       | None                                 |
+| location                  | None                                 |
+| mtu                       | 1450                                 |
+| name                      | GeneralNetwork                       |
+| port_security_enabled     | True                                 |
+| project_id                | df91df579d8a481f81fe2cbd1dae18f9     |
+| provider:network_type     | vxlan                                |
+| provider:physical_network | None                                 |
+| provider:segmentation_id  | 3                                    |
+| qos_policy_id             | None                                 |
+| revision_number           | 1                                    |
+| router:external           | Internal                             |
+| segments                  | None                                 |
+| shared                    | False                                |
+| status                    | ACTIVE                               |
+| subnets                   |                                      |
+| tags                      |                                      |
+| updated_at                | 2019-02-07T21:13:25Z                 |
++---------------------------+--------------------------------------+
+masum@devstack:~$ 
+
+... now create a subnet for the network GeneralNetwork in general project
+
+masum@devstack:~$ openstack subnet create \
+--project df91df579d8a481f81fe2cbd1dae18f9 \
+--dhcp --ip-version 4 --subnet-range 10.10.20.0/24 \
+--network GeneralNetwork --gateway=10.10.20.1 \
+--dns-nameserver 4.2.2.1 
+GeneralNetworkSubnet
+
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| allocation_pools  | 10.10.20.2-10.10.20.254              |
+| cidr              | 10.10.20.0/24                        |
+| created_at        | 2019-02-07T21:29:41Z                 |
+| description       |                                      |
+| dns_nameservers   | 4.2.2.1                              |
+| enable_dhcp       | True                                 |
+| gateway_ip        | 10.10.20.1                           |
+| host_routes       |                                      |
+| id                | f610a702-997b-4d11-9cbe-eb7c36835d73 |
+| ip_version        | 4                                    |
+| ipv6_address_mode | None                                 |
+| ipv6_ra_mode      | None                                 |
+| location          | None                                 |
+| name              | GeneralNetworkSubnet                 |
+| network_id        | d1a9b6c1-bd7f-4fa8-aa92-de78718328c7 |
+| project_id        | df91df579d8a481f81fe2cbd1dae18f9     |
+| revision_number   | 0                                    |
+| segment_id        | None                                 |
+| service_types     |                                      |
+| subnetpool_id     | None                                 |
+| tags              |                                      |
+| updated_at        | 2019-02-07T21:29:41Z                 |
++-------------------+--------------------------------------+
+masum@devstack:~$ 
+
+
