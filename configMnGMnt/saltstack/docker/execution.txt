@@ -1,0 +1,49 @@
+
+
+... we can add our state files in top files. these state files
+... are related to container executions.
+
+→ pwd
+/srv/salt/docker-master
+→ cat top.sls
+include:
+ - .packages
+ - .srvce
+ - .file
+ - .debian
+→ 
+... and in the debian.sls file, our state declarations are there
+
+→ cat debian.sls
+debian:
+  docker_image.present:
+    - tag: latest
+
+mydebian:
+  docker_container.running:
+    - image: debian
+    - sls: 
+       - nginx
+       - vim
+    - port_bindings: {8080: 80}
+    - command: sleep infinity
+ 
+→ cat nginx.sls
+nginx:
+ pkg.installed
+
+→ cat vim.sls
+vim:
+  pkg.installed
+→ 
+
+... we havenot added nginx.sls and vim.sls in top.sls file because that will
+... execute nginx and vim in docker-master node. not in the container node.
+
+
+
+
+
+
+
+
