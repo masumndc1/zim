@@ -1,0 +1,46 @@
+
+
+... we will see here a full sls file for downloading an image
+... and then running a container using that images.
+
+→ cat debian.sls 
+debian:
+  docker_image.present:
+    - tag: latest
+
+mydebian:
+  docker_container.running:
+    - image: debian
+    - command: sleep infinity
+
+... now we can get one running container named mydebian by following
+... "salt docker-master state.sls debian" 
+... we can also use sls file with container to install and configure
+... the packages and service.
+
+mydebian:
+  docker_container.running:
+    - image: debian
+    - sls: vim
+    - command: sleep infinity
+
+... or multiple sls files can be used by following.
+
+debian:
+  docker_image.present:
+    - tag: latest
+
+mydebian:
+  docker_container.running:
+    - image: debian
+    - sls: 
+       - nginx
+       - vim
+    - port_bindings: {8080: 80}
+    - command: sleep infinity
+
+... the full documentation can be found running the command like.
+
+salt docker-master sys.state_doc docker_container
+
+

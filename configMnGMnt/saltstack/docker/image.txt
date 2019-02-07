@@ -1,0 +1,32 @@
+
+
+... we can use saltstack to make docker images.
+... following are some examples.
+
+# cat freebsd.sls 
+auchida/freebsd:
+  docker_image.present:
+    - tag: latest
+
+... then run "salt docker-master state.sls freebsd"
+
+... this will automatically download auchida/freebsd docker image.
+
+... the full state doc for state module docker_image can be found from 
+
+... salt docker-master sys.state_doc docker_image
+
+... we can also make images from a docker file like below.
+
+                    myuser/myimage:
+                      docker_image.present:
+                        - build: /home/myuser/docker/myimage
+                        - tag: mytag
+        
+                    myuser/myimage:
+                      docker_image.present:
+                        - build: /home/myuser/docker/myimage
+                        - tag: mytag
+                        - dockerfile: Dockerfile.alternative
+
+... 
