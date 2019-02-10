@@ -1,0 +1,126 @@
+
+
+... operation on network by neutron
+
+masum@devstack:/opt/stack/devstack$ neutron subnet-create --tenant-id \
+df91df579d8a481f81fe2cbd1dae18f9 testnet 10.10.30.0/24
+
+neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
+
+Created a new subnet:
++-------------------+------------------------------------------------+
+| Field             | Value                                          |
++-------------------+------------------------------------------------+
+| allocation_pools  | {"start": "10.10.30.2", "end": "10.10.30.254"} |
+| cidr              | 10.10.30.0/24                                  |
+| created_at        | 2019-02-10T18:38:16Z                           |
+| description       |                                                |
+| dns_nameservers   |                                                |
+| enable_dhcp       | True                                           |
+| gateway_ip        | 10.10.30.1                                     |
+| host_routes       |                                                |
+| id                | 1f8114fc-2031-401b-8c2c-f772a2ee543c           |
+| ip_version        | 4                                              |
+| ipv6_address_mode |                                                |
+| ipv6_ra_mode      |                                                |
+| name              |                                                |
+| network_id        | a3f386d7-b7e6-4988-9180-47c157d52f3e           |
+| project_id        | df91df579d8a481f81fe2cbd1dae18f9               |
+| revision_number   | 0                                              |
+| service_types     |                                                |
+| subnetpool_id     |                                                |
+| tags              |                                                |
+| tenant_id         | df91df579d8a481f81fe2cbd1dae18f9               |
+| updated_at        | 2019-02-10T18:38:16Z                           |
++-------------------+------------------------------------------------+
+masum@devstack:/opt/stack/devstack$ 
+
+... creating a router in a tenant/project
+
+masum@devstack:/opt/stack/devstack$ neutron router-create \
+--tenant-id df91df579d8a481f81fe2cbd1dae18f9 \
+testrouter
+
+neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
+
+Created a new router:
++-------------------------+--------------------------------------+
+| Field                   | Value                                |
++-------------------------+--------------------------------------+
+| admin_state_up          | True                                 |
+| availability_zone_hints |                                      |
+| availability_zones      |                                      |
+| created_at              | 2019-02-10T19:35:05Z                 |
+| description             |                                      |
+| distributed             | False                                |
+| external_gateway_info   |                                      |
+| flavor_id               |                                      |
+| ha                      | False                                |
+| id                      | 2ca7e65c-ccc0-43d2-8aa9-6811276d471d |
+| name                    | testrouter                           |
+| project_id              | df91df579d8a481f81fe2cbd1dae18f9     |
+| revision_number         | 0                                    |
+| routes                  |                                      |
+| status                  | ACTIVE                               |
+| tags                    |                                      |
+| tenant_id               | df91df579d8a481f81fe2cbd1dae18f9     |
+| updated_at              | 2019-02-10T19:35:05Z                 |
++-------------------------+--------------------------------------+
+masum@devstack:/opt/stack/devstack$ 
+
+... adding a subnet to a router. the general syntax is
+... neutron router-interface-add <router_id> <subnet_id>
+
+masum@devstack:/opt/stack/devstack$ neutron router-interface-add <router_id> <subnet_id>
+
+masum@devstack:/opt/stack/devstack$ neutron router-interface-add \
+2ca7e65c-ccc0-43d2-8aa9-6811276d471d \
+1f8114fc-2031-401b-8c2c-f772a2ee543c
+
+neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
+
+Added interface 651df139-684e-40ff-aa76-45c18da59e28 to router 2ca7e65c-ccc0-43d2-8aa9-6811276d471d.
+
+masum@devstack:/opt/stack/devstack$ 
+
+... router id and subnet id can be found from the openstack router list
+... openstack subnet list command.
+
+... adding an external subnet with a router. the basic syntax of doing so
+... is, neutron router-gateway-set <router_id> <subnet_id>
+
+masum@devstack:/opt/stack/devstack$ neutron router-gateway-set \
+2ca7e65c-ccc0-43d2-8aa9-6811276d471d \
+7c2dbab5-fe6b-43b0-a9fb-7468ab1508e5
+
+neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
+
+Set gateway for router 2ca7e65c-ccc0-43d2-8aa9-6811276d471d
+masum@devstack:/opt/stack/devstack$ 
+
+... this obviously can be done with openstack command by following.
+... in the following we are setting parameters for the router generalrouter.
+... we are telling openstack, to set external-gateway for the router generalrouter,
+... will be network public.
+
+masum@devstack:/opt/stack/devstack$ openstack router set
+usage: openstack router set [-h] [--name <name>] [--description <description>]
+                            [--enable | --disable]
+                            [--distributed | --centralized]
+                            [--route destination=<subnet>,gateway=<ip-address>]
+                            [--no-route] [--ha | --no-ha]
+                            [--external-gateway <network>]
+                            [--fixed-ip subnet=<subnet>,ip-address=<ip-address>]
+                            [--enable-snat | --disable-snat] [--tag <tag>]
+                            [--no-tag]
+                            <router>
+openstack router set: error: too few arguments
+masum@devstack:/opt/stack/devstack$ openstack router set --external-gateway public generalrouter
+
+... we can see the info of a router(or any object of openstack) by following.
+
+masum@devstack:/opt/stack/devstack$ openstack router list
+masum@devstack:/opt/stack/devstack$ openstack router show <router_id>
+
+
+
