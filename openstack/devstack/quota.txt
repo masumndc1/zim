@@ -1,0 +1,49 @@
+
+
+... quota is important in openstack management and administration.
+... we can check the applied default quota by following.
+
+masum@devstack:/opt/stack/devstack$ openstack project list
++----------------------------------+--------------------+
+| ID                               | Name               |
++----------------------------------+--------------------+
+| 1d6223b5e6cc4cc6b11b66ba0b757092 | alt_demo           |
+| 2be32061aefe4b00bd5c04aa5463801e | invisible_to_admin |
+| 6e473525619a44eeb1dd1b081e202c87 | demo               |
+| 76fb7f8d6961434f9663ba189086a5fe | admin              |
+| cc07bfd5a4ed4fa5b0409cd44f2ea268 | service            |
+| df91df579d8a481f81fe2cbd1dae18f9 | general            |
++----------------------------------+--------------------+
+masum@devstack:/opt/stack/devstack$ openstack quota show general | less
+
+... updating a quota value. for example changing subnets from 100 to 200.
+... initially it was only 100
+
+masum@devstack:/opt/stack/devstack$ openstack quota show general | grep subnets
+| subnets               | 100                              |
+masum@devstack:/opt/stack/devstack$ 
+
+masum@devstack:/opt/stack/devstack$ openstack quota set --subnets 200 general 
+
+... after updating subnets become 200
+
+masum@devstack:/opt/stack/devstack$ openstack quota show general | grep subnet
+| subnet_pools          | -1                               |
+| subnets               | 200                              |
+masum@devstack:/opt/stack/devstack$
+
+... updating nova quota for an user will have the following syntax.
+
+masum@devstack:/opt/stack/devstack$ nova quota-update
+usage: nova quota-update [--user <user-id>] [--instances <instances>]
+                         [--cores <cores>] [--ram <ram>]
+                         [--metadata-items <metadata-items>]
+                         [--key-pairs <key-pairs>]
+                         [--server-groups <server-groups>]
+                         [--server-group-members <server-group-members>]
+                         [--force]
+                         <tenant-id>
+Try 'nova help quota-update' for more information.
+masum@devstack:/opt/stack/devstack$ 
+
+
