@@ -2,15 +2,9 @@
 
 ... installation of terraform
 
-      ... but if we dont have vcenter then we create the template too.
-      ... in that case, we need to define an empty resource pool when using
-      ... a standalone ESXi host.
+... first we need to install the terraform from the sites
+... https://www.terraform.io/downloads.html
     
-      ... first we need to install the terraform from the sites
-      ... https://www.terraform.io/downloads.html
-    
-      ... basic
-      ... at first we need to initial terraform
 
 
 
