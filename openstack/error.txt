@@ -10,4 +10,54 @@ deb http://us.archive.ubuntu.com/ubuntu yakkety main universe
 # apt-get upgrade
 # apt-get install nova-placement-api
 
+... in openstack if we encounter something like "host is not found"
+... then check whether nova-compute is enable and up or not.
 
+masum@devstack:~$ openstack compute service list --service nova-compute
++----+--------------+----------+------+---------+-------+----------------------------+
+| ID | Binary       | Host     | Zone | Status  | State | Updated At                 |
++----+--------------+----------+------+---------+-------+----------------------------+
+|  2 | nova-compute | devstack | nova | enabled | down  | 2019-02-13T13:40:29.000000 |
++----+--------------+----------+------+---------+-------+----------------------------+
+masum@devstack:~$ 
+
+... then we need to manually up state by following.
+... also we can try to restart the nova-compute service by following
+
+masum@devstack:~$ service nova-compute restart
+
+masum@devstack:~$ openstack compute service set --enable --up devstack nova-compute
+
+... in devstack, we can also try to restart the nova service by 
+... the every service: systemctl restart devstack@*
+... to see the status: systemctl status devstack@n-*
+
+... if this does not help then we need to unstack and stack again by following.
+
+masum@devstack:~$ cd /opt/stack/devstack/
+masum@devstack:/opt/stack/devstack$ ls
+FUTURE.rst       Makefile    data      functions         lib         playbooks     setup.cfg  tests       userrc_early
+HACKING.rst      README.rst  doc       functions-common  local.conf  roles         setup.py   tools
+LICENSE          accrc       extras.d  gate              openrc      run_tests.sh  stack.sh   tox.ini
+MAINTAINERS.rst  clean.sh    files     inc               pkg         samples       stackrc    unstack.sh
+masum@devstack:/opt/stack/devstack$ ./unstack.sh
+masum@devstack:/opt/stack/devstack$ ./stack.sh
+
+... this will solve the problem.
+
+masum@devstack:~$ openstack compute service list --service nova-compute
++----+--------------+----------+------+---------+-------+----------------------------+
+| ID | Binary       | Host     | Zone | Status  | State | Updated At                 |
++----+--------------+----------+------+---------+-------+----------------------------+
+|  2 | nova-compute | devstack | nova | enabled | up    | 2019-02-13T13:40:29.000000 |
++----+--------------+----------+------+---------+-------+----------------------------+
+masum@devstack:~$ 
+
+... we can also check the nova related service status by following
+
+masum@devstack:~$ nova service-list
+
+...
+
+
+  

@@ -153,5 +153,21 @@ masum@devstack:~$ nova boot --flavor m1.tiny \
 --nic net-id=a3f386d7-b7e6-4988-9180-47c157d52f3e \
 testworker1
 
+... there are some of the commands, which output are good to see.
+
+masum@devstack:/opt/stack/devstack$ nova hypervisor-list
++--------------------------------------+---------------------+-------+---------+
+| ID                                   | Hypervisor hostname | State | Status  |
++--------------------------------------+---------------------+-------+---------+
+| 642d68c9-8c0b-482e-b5ce-5055c73cd68c | devstack            | up    | enabled |
++--------------------------------------+---------------------+-------+---------+
+
+masum@devstack:/opt/stack/devstack$ openstack hypervisor list
++----+---------------------+-----------------+-----------------+-------+
+| ID | Hypervisor Hostname | Hypervisor Type | Host IP         | State |
++----+---------------------+-----------------+-----------------+-------+
+|  1 | devstack            | QEMU            | 192.168.122.204 | up    |
++----+---------------------+-----------------+-----------------+-------+
+masum@devstack:/opt/stack/devstack$ 
 
 
