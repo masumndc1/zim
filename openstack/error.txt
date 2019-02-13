@@ -57,7 +57,11 @@ masum@devstack:~$
 
 masum@devstack:~$ nova service-list
 
-...
+... there is another way to solve this problem.
+
+... setting consecutive_build_service_disable_threshold = 0 in /etc/nova/nova.conf file
+... which telling not to disable nova service for failure.
+
 
 
   
