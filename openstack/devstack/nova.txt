@@ -170,4 +170,14 @@ masum@devstack:/opt/stack/devstack$ openstack hypervisor list
 +----+---------------------+-----------------+-----------------+-------+
 masum@devstack:/opt/stack/devstack$ 
 
+... creation of a vm by using openstack command.
+
+masum@devstack:/opt/stack/devstack$ openstack server create \
+--image debian-9.7.0-openstack-amd64 \
+--flavor m1.micro --security-group group1 \
+--nic net-id=private1,v4-fixed-ip=10.10.10.10 
+debiantest
+
+
+
 

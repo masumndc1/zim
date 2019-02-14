@@ -1,0 +1,21 @@
+
+
+... adding image in openstack by following.
+
+masum@devstack:/opt/stack/devstack$ openstack image create \
+--container-format bare --disk-format qcow2 \
+--file /home/masum/debian-9.7.0-openstack-amd64.qcow2 \
+debian-9.7.0-openstack-amd64
+
+masum@devstack:/opt/stack/devstack$ openstack image list
++--------------------------------------+------------------------------+--------+
+| ID                                   | Name                         | Status |
++--------------------------------------+------------------------------+--------+
+| 890e37d0-2b59-42b0-8421-69e1c6f303cd | cirros-0.4.0-x86_64-disk     | active |
+| 29b8c3ef-df7d-4db7-9ed2-2554af383e7b | debian-9.7.0-openstack-amd64 | active |
++--------------------------------------+------------------------------+--------+
+masum@devstack:/opt/stack/devstack$ 
+
+... and we have image added to my domain as above.
+
+

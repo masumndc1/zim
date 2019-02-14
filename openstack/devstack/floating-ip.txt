@@ -1,0 +1,32 @@
+
+
+... floating ip creation in devstack..
+... creating floating ip without port name.
+
+masum@devstack$ openstack floating ip create \
+--port 59f2eacc-5eb6-49a0-8493-97e3f2ffcf9e \
+--floating-ip-address 172.24.4.10 \
+public
+
+... here the public is the external network.
+
+... we have found network working after creating 
+... this floating ip address. also can do ssh
+... from host machines to the vm inside by floating
+... ip address.
+
+... # creating floating ip with port name.
+
+... we will need port id to create the floating ip. therefore
+... we will tag our port a name. like below.
+
+masum@devstack:/opt/stack/devstack$ openstack port set --name debianport \
+ 723f3427-8b35-4eb4-8c86-c077c0e70cc0
+
+masum@devstack:/opt/stack/devstack$ openstack floating ip create \
+--port debianport --floating-ip-address \
+172.24.4.20 public 
+
+masum@devstack:/opt/stack/devstack$ openstack floating ip list
+
+

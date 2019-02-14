@@ -1,0 +1,23 @@
+
+
+... key pair.
+... there are numerous way to use keypair with openstack.
+...
+... # first we will create a public/private key pair by running
+... following command.
+
+ssh-keygen -t rsa -b 2048
+
+... then we will go to horizon and import public key in keypair
+... section in there. ofcourse will put a name for the key piar.
+
+... and finally use the keypair name while creation of the server.
+
+stack@devstack:~/.ssh$ openstack server create --image \
+debian-9.7.0-openstack-amd64 --flavor ds512M --security-group group1 \
+--key-name debiankeypair --nic net-id=private1,v4-fixed-ip=10.10.10.20 \
+debiantest
+
+
+
+

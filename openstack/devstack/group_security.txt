@@ -1,0 +1,71 @@
+
+
+... creating the security group and security group rules.
+... options we have for the group security.
+
+masum@devstack:/opt/stack/devstack$ openstack -h | grep security
+  security group create  Create a new security group
+  security group delete  Delete security group(s)
+  security group list  List security groups
+  security group rule create  Create a new security group rule
+  security group rule delete  Delete security group rule(s)
+  security group rule list  List security group rules
+  security group rule show  Display security group rule details
+  security group set  Set security group properties
+  security group show  Display security group details
+  security group unset  Unset security group properties
+  server add security group  Add security group to server
+  server remove security group  Remove security group from server
+masum@devstack:/opt/stack/devstack$ 
+
+... for example listing rules in a security group like below.
+
+masum@devstack:/opt/stack/devstack$ openstack security group rule show f1c52f2d-e385-4aef-ae4d-b7fc933d1e91
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| created_at        | 2019-02-14T07:28:19Z                 |
+| description       | None                                 |
+| direction         | ingress                              |
+| ether_type        | IPv6                                 |
+| id                | f1c52f2d-e385-4aef-ae4d-b7fc933d1e91 |
+| location          | None                                 |
+| name              | None                                 |
+| port_range_max    | None                                 |
+| port_range_min    | None                                 |
+| project_id        |                                      |
+| protocol          | None                                 |
+| remote_group_id   | 1eccb7c9-9168-4c91-b4c7-4d03b46401af |
+| remote_ip_prefix  | None                                 |
+| revision_number   | 0                                    |
+| security_group_id | 1eccb7c9-9168-4c91-b4c7-4d03b46401af |
+| tags              | []                                   |
+| updated_at        | 2019-02-14T07:28:19Z                 |
++-------------------+--------------------------------------+
+masum@devstack:/opt/stack/devstack$ 
+
+... creating a security group and adding some rules in that group.
+
+masum@devstack:/opt/stack/devstack$ openstack security group create group1
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol icmp --ingress group1
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol tcp --dst-port 22 --ingress group1
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol tcp --dst-port 80 --ingress group1
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol tcp --dst-port 443 --ingress group1
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol tcp --dst-port 8080 --ingress group1
+
+masum@devstack:/opt/stack/devstack$ openstack security group rule list group1
++--------------------------------------+-------------+-----------+------------+-----------------------+
+| ID                                   | IP Protocol | IP Range  | Port Range | Remote Security Group |
++--------------------------------------+-------------+-----------+------------+-----------------------+
+| 0183d002-e931-44db-a252-58da5851bc5a | tcp         | 0.0.0.0/0 | 80:80      | None                  |
+| 1ad8dbd5-d735-46de-bd0f-258c3ed51346 | tcp         | 0.0.0.0/0 | 8080:8080  | None                  |
+| 3cedc70d-fa4a-4e89-bdc6-5f079d162137 | tcp         | 0.0.0.0/0 | 443:443    | None                  |
+| 8f504b8c-de91-4b1e-85b8-72e634d63986 | None        | None      |            | None                  |
+| 981ff111-9231-41b0-904f-e7bbcc3721f9 | icmp        | 0.0.0.0/0 |            | None                  |
+| ba142c4f-5a51-477c-a3d8-35028c98c1ee | None        | None      |            | None                  |
+| cb898be6-61a4-4feb-8dac-bad0bd4f6ab0 | tcp         | 0.0.0.0/0 | 22:22      | None                  |
++--------------------------------------+-------------+-----------+------------+-----------------------+
+
+masum@devstack:/opt/stack/devstack$ openstack security group rule create --protocol udp --dst-port 53 --egress group1
+
+

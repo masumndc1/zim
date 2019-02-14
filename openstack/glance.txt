@@ -367,4 +367,3 @@ root@controller:~# openstack image list
 root@controller:~# 
 
 
-
