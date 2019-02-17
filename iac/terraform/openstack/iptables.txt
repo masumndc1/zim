@@ -1,0 +1,14 @@
+
+
+... iptables rule for the connection redirect.
+
+!/bin/bash
+
+/sbin/iptables -F -t nat
+/sbin/iptables -t nat -A POSTROUTING -s 172.24.4.0/24 -o ens3 -j SNAT --to 192.168.122.204
+/sbin/iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 29 -j DNAT --to 172.24.4.75:22
+/sbin/iptables -t nat -A PREROUTING -i ens3 -p tcp --dport 8080 -j DNAT --to 172.24.4.75:80
+/sbin/iptables -L -t nat
+
+
+

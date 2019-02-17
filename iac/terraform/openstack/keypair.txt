@@ -1,0 +1,37 @@
+
+
+... following is the way of generating keypair. and using the public key
+... 
+
+resource "openstack_compute_keypair_v2" "stack-keypair" {
+  name       = "stack-keypair"
+}
+
+... and how to use the public key with the compute is follows.
+
+resource "openstack_compute_keypair_v2" "test-keypair" {
+  name       = "my-keypair"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAjpC1hwiOCCmKEWxJ4qzTTsJbKzndLotBCz5PcwtU...
+}
+
+... another way of creating keypair by using already created public key
+
+resource "openstack_compute_keypair_v2" "stack-keypair" {
+  name       = "stack-keypair"
+  public_key = "${file("/your/pubkey/file/location/id_rsa.pub")}"
+}
+
+... note here how we have used file keyword and how we have used ""
+
+... now after creation of the instance, try to login using private key
+
+# chmod 600 id_rsa
+# ssh -i id_rsa debian@<server_ip>
+
+... note here: dont use id_rsa.pub key to login.
+... use id_rsa private key to login.
+
+
+
+
+

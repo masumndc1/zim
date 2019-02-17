@@ -18,6 +18,61 @@ debian-9.7.0-openstack-amd64 --flavor ds512M --security-group group1 \
 --key-name debiankeypair --nic net-id=private1,v4-fixed-ip=10.10.10.20 \
 debiantest
 
+... # create a key pair in horizon web console. give it a name like below.
+... in my case it is masumtest.pem. when you create keypair,it will auto
+... matically downloaded.
+
+... we can now use this masumtest.pem to login in our vm.
+... before that we need to change the permission of the pem file.
+... it should be either 400 or 600.
+
+stack@devstack:~$ ls -la masumtest.pem 
+-rw------- 1 stack stack 1679 Feb 15 13:28 masumtest.pem
+stack@devstack:~$ 
+stack@devstack:~$ ssh -i masumtest.pem cirros@172.24.4.20
+$ ping yahoo.com
+PING yahoo.com (72.30.35.10): 56 data bytes
+64 bytes from 72.30.35.10: seq=0 ttl=41 time=134.197 ms
+64 bytes from 72.30.35.10: seq=1 ttl=41 time=122.298 ms
+64 bytes from 72.30.35.10: seq=2 ttl=41 time=151.964 ms
+^C
+64 bytes from 72.30.35.10: seq=3 ttl=41 time=126.334 ms
+^C
+--- yahoo.com ping statistics ---
+5 packets transmitted, 4 packets received, 20% packet loss
+round-trip min/avg/max = 122.298/133.698/151.964 ms
+$ 
+$ exit
+
+... # additional:
+... # we can see the public key from the pem by following.
+... now try to find the public key from the pem.
+
+... the general format of finding public key from a pem file is 
+...  ssh-keygen -y [-f input_keyfile]
+
+→ ssh-keygen -y -f masumtest.pem 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0644 for 'masumtest.pem' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "masumtest.pem": bad permissions
+
+→ ls -la masumtest.pem 
+-rw-r--r-- 1 15 13:16 masumtest.pem
+
+... changing the file permission like below.
+... and then loading the file like below.
+... we can also do the "chmod 400 masumtest.pem"
+... cause no need to read/write by others.
+
+→ chmod 600 masumtest.pem 
+
+→ ssh-keygen -y -f masumtest.pem 
+ssh-rsa iY4yZ3r1qslVTS4yNQSP3P2cOcvnTNsvUL3y0HKROsGGB3XihzO+woRaA4wfIZV3SStILX4eK8eX...
+// output cut //
 
 
 
