@@ -1,0 +1,11 @@
+
+
+... install python openstacksdk 
+
+... pip install openstacksdk
+
+stack@devstack:~/python$ python -m openstack version
+OpenstackSDK Version 0.23.0
+stack@devstack:~/python$ 
+
+... we have the openstacksdk version of 0.23.0

@@ -12,7 +12,7 @@ auchida/freebsd:
 
 ... this will automatically download auchida/freebsd docker image.
 
-... the full state doc for state module docker_image can be found from 
+... the full state doc for state module, docker_image can be found from 
 
 ... salt docker-master sys.state_doc docker_image
 

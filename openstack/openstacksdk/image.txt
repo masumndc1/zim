@@ -1,0 +1,38 @@
+
+
+... creating a network by following
+
+#!/usr/bin/python
+
+import os
+import sys
+import openstack
+
+openstack.enable_logging(True, stream=sys.stdout)
+
+TEST_CLOUD = os.getenv('OS_TEST_CLOUD', 'devstack-admin')
+
+print("connection block is here")
+
+conn = openstack.connect(cloud=TEST_CLOUD)
+
+network = conn.network.find_network("masum_network")
+if network is None:
+    network = conn.network.create_network(name="masum_network")
+
+... explanation is below.
+
+... first we made the connection with 
+conn = openstack.connect(cloud=TEST_CLOUD)
+
+... then try to find the network first. if not present then will create
+
+network = conn.network.find_network("masum_network")
+if network is None:
+    network = conn.network.create_network(name="masum_network")
+
+... we have found a created network in dashboard.
+
+
+
+

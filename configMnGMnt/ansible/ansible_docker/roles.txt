@@ -59,7 +59,7 @@ ansible-galaxy init --init-path=./ test
                image: masumpy:latest
                state: started
                command: sleep infinity
-#              command: ["sleep", "1d"]
+           #   command: ["sleep", "1d"]
                ports:
                  - 8080:80
        
@@ -78,6 +78,7 @@ ansible-galaxy init --init-path=./ test
 
 
 ... and finally when we run the ansible-playbook test.yaml, we have found 
-... an running container named masumtst
+... an running container named masumtst. and the ansible will also install
+... required packages in instructed in the ansible role.
 
 

@@ -1,0 +1,49 @@
+
+
+... initially we need a clouds.yaml file
+... that file should be located in current directory, or 
+... .config/config.yaml file, or even /etc/openstack/clouds.yaml
+... can be used.
+
+... my file is looks like that.this is used for devstack openstack.
+... 
+
+stack@devstack:~/python$ cat /etc/openstack/clouds.yaml
+
+stack@devstack:~/python$ cat /etc/openstack/clouds.yaml 
+clouds:
+  devstack:
+    auth:
+      auth_url: http://192.168.122.204/identity
+      password: <your_pass_here>
+      project_domain_id: default
+      project_name: <your_project_name>
+      user_domain_id: default
+      username: <your_username>
+    identity_api_version: '3'
+    region_name: RegionOne
+    volume_api_version: '3'
+
+// output cut //
+
+... now we can make a connection to my openstack cloud by following code
+
+stack@devstack:~/python$ cat masum.py 
+#!/usr/bin/python
+
+import os
+import sys
+import openstack
+
+openstack.enable_logging(True, stream=sys.stdout)
+
+TEST_CLOUD = os.getenv('OS_TEST_CLOUD', 'devstack')
+
+cloud = openstack.connect(cloud=TEST_CLOUD)
+
+... here "TEST_CLOUD = os.getenv('OS_TEST_CLOUD', 'devstack')" the devstack
+... is the name of my cloud. rest of the environment variable it will find
+... from the /etc/openstack/clouds.yaml
+
+
+
