@@ -4,6 +4,7 @@
 
 # PATH="/usr/pkg/sbin:$PATH"
 # PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/7.1.2/All/"
+# PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/`uname -s`/`uname -m`/`uname -r`/All/"
 # export PATH PKG_PATH
 
 # pkg_add bash

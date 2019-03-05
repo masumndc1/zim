@@ -33,6 +33,8 @@ if network is None:
 
 ... we have found a created network in dashboard.
 
+... creating a router and subnet by using openstacksdk
+
 
 
 
