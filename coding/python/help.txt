@@ -1,7 +1,7 @@
 
 
 ... say we want to know which methods are available with a built-in
-.. data type, for that we want do to the following
+... data type, for that we want do to the following
 
 >>> s
 'khabir'
@@ -10,8 +10,8 @@
 1
 >>> 
 
-.. we have two data type s as string and a as numbers. so to find out
-.. which methods we got with string data type we use dir like below
+... we have two data type s as string and a as numbers. so to find out
+... which methods we got with string data type we use dir like below
 
 >>> dir(s)
 ['__add__', '__class__', '__contains__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__getslice__', '__gt__', '__hash__', '__init__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_formatter_field_name_split', '_formatter_parser', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
@@ -52,7 +52,7 @@ __add__ = class method-wrapper(object)
  |  
  |  __self__
 
-.. we can also ask for help for our string s like below.
+... we can also ask for help for our string s like below.
 
 Help on class str in module __builtin__:
 
@@ -101,3 +101,4 @@ class str(basestring)
 >>> 
 
 ... now we can see the help and dir of int.
+
