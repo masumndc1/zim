@@ -103,7 +103,6 @@
     Plug 'NLKNguyen/papercolor-theme'
    call plug#end()
     "" EDIT EDIT enable moonlight / moonfly
-colorscheme moonfly
 let g:moonflyCursorLineNr = 0
 " use 256bit terminal colors
 if exists('+termguicolors')
