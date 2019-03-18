@@ -5,4 +5,39 @@
 
 curl --resolve www.masum.com:80:130.211.24.177 http://www.masum.com/
 
+... Download file from FTP Server
+... You can use curl to download the file as well by specifying username and password.
+... You can always use “-v” with any syntax to print in verbose mode.
+
+# curl -u user:password -O ftp://ftpurl/style.css
+
+... Resume an Interrupted Download
+... If a download was interrupted for some reason (for example, using Ctrl + c), you
+... can resume it very easily. The use of -C – (dash C, space dash) tells curl to
+... resume the download beginning where it left off.
+
+$ curl -C - -O http://yourdomain.com/yourfile.tar.gz
+
+... Upload Files to an FTP server with or without Authentication
+... To upload a local file named mylocalfile.tar.gz to ftp://yourftpserver using curl, do:
+
+$ curl -u username:password -T mylocalfile.tar.gz ftp://yourftpserver
+
+... Get the HTTP Headers of a URL with Curl
+... To fetch only the HTTP headers of the specified resource, use the -I flag:
+
+curl -I --http2 https://www.ubuntu.com/
+
+... In these cases, you can use the -L flag which instructs curl to follow any
+... redirect until it reaches the final destination:
+
+curl -L google.com
+
+... Sometimes when downloading a file, the remote server may be set to block the
+... Curl User-Agent or maybe the page you want to download serves completely
+... different content depending on the visitor device and browser.
+... In situations like this to emulate a different browser pass the -A flag:
+
+curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
+
 
