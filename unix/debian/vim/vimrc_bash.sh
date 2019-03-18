@@ -1,10 +1,10 @@
 #!/bin/bash
 
-apt-get install -y -qq vim git > /dev/null
-
-echo -e " installing the vim plug "
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo -e " testing and installing the vim plug "
+if [ ! -f ~/.vim/autoload/plug.vim ] ; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
 
 echo -e "backing up the vimrc file first"
 if [ -f ~/.vimrc ] ; then
