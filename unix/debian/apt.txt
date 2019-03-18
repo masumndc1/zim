@@ -17,3 +17,9 @@ root@debian7:~#
 
 root@debian7:~# apt install apt-transport-https ca-certificates
 
+... install pkg silently by apt
+
+root@debian7:~# apt install apt-transport-https ca-certificates -y -qq > /dev/null
+
+
+
