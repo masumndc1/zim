@@ -12,7 +12,10 @@ if [ -f ~/.vimrc ] ; then
 fi
 
 echo -e "download vimrc file from git hub and place"
-curl -L -o ~/.vimrc https://raw.githubusercontent.com/masumndc1/zim/master/unix/debian/vim/vimrc_mine.txt
+curl -L
+https://raw.githubusercontent.com/masumndc1/zim/master/unix/debian/vim/vimrc_mine.txt
+-o ~/.vimrc
+
 
 echo -e " now you can run vim, then :source % :PlugInstall to "
 echo -e " install missing plugins "
