@@ -1,6 +1,7 @@
 #!/bin/bash
 
 apt-get install vim
+apt-get install git
 
 echo -e " installing the vim plug "
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
