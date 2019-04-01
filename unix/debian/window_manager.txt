@@ -1,0 +1,8 @@
+
+
+... tiling window manager
+... awesome window manager.
+... config file from https://github.com/worron/awesome-config
+
+
+
