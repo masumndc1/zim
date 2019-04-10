@@ -1,0 +1,25 @@
+
+
+... installing zsh as terminal
+
+apt-get install zsh wget git
+
+... via curl
+sh -c "$(curl -fsSL \
+https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+... via wget
+sh -c "$(wget \
+https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+... now we can edit .zshrc in bsd/debian for our desired theme.
+... below we have selected random theme. so that every time we open a terminal
+... it will load random terminal.
+
+ZSH_THEME="random"
+
+
+
+
+
+

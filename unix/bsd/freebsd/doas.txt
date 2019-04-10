@@ -1,0 +1,21 @@
+
+
+... doas, sudo alternative
+
+pkg install doas
+
+$ cat /usr/local/etc/doas.conf 
+permit nopass keepenv masum as root
+$ 
+
+... nopass: no asking user masum for pass
+... persist: to keep session for a while
+... keepenv: user environment will be kept
+... masum: as user
+... as root: masum will be given right as root.
+
+... then we can run any command as root
+
+$ doas pkg install htop
+
+

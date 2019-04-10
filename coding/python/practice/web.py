@@ -1,16 +1,11 @@
 #!/usr/bin/python
 
 import sys
-import urllib
+from web_func import *
 
-if len(sys.argv) < 2:
-    print "usage: python web.py www.debian.org"
-else:
-    url_file=urllib.urlopen("http://"+sys.argv[1])
-    url_docs=url_file.read()
-    h=url_file.headers
-    print ""
-    print "number of bytes copied:\t",len(url_docs)
-    print "status code:\t\t ", url_file.code
-    print ""
-    print h
+for url in open('web_link.txt'):
+#    url_header=web_headers(url)
+#    print url_header
+    full_url=web_url(url)
+    status=web_status(url)
+    print '\t', full_url, '\tstatus\t',status
