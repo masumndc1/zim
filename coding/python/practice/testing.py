@@ -12,6 +12,6 @@ import subprocess
 #else:
 #    print("this is not a directory")
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     subprocess.call(["ls","-la"])
 
