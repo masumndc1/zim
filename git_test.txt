@@ -1,0 +1,20 @@
+
+
+... 
+... test git
+...
+$ git config --help
+$ git config --global <tab>
+$ git config --global user.name "Mohammad Khabir Uddin"
+$ git config --global user.email "masumndc1@gmail.com"
+
+... git add,commit,checkout command
+
+$ git add . or filename
+$ git commit -m "msg"
+$ git checkout
+
+khabir•~/Documents/test(master)» git checkout                                                           
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+khabir•~/Documents/test(master)»
