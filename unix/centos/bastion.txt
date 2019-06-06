@@ -102,5 +102,6 @@ $ ssh -D 1080 bastion.example.com
 ... This way we can access all of our internal host and browse all of our
 ... internal webservers.
 
+... more info: https://github.com/khabiruddin/bastion
  
 
