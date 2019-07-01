@@ -24,6 +24,11 @@ lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath
 lxc-freeze                  lxc-test-clonetest          lxc-test-may-control        
 root@masum:/home/masum/Downloads# 
 
+.. we may also need to install debootstrap perl libvirt
+.. and start libvirtd 
+
+root@masum:/home/masum/Downloads# systemctl start libvirtd
+
 .. Check kernel configuration : 
 
 root@mininet-vm:~# lxc-checkconfig 
