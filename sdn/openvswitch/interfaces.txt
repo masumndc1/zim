@@ -1,0 +1,60 @@
+
+
+... creating bridge and adding port in that bridge in centos7
+
+[root@khabiryubikeytest network-scripts]# ls
+ifcfg-br-ex  
+ifcfg-eth0   
+ifcfg-lo    
+ifcfg-p2p1  
+
+... settings for br-ex bridge
+
+[root@khabiryubikeytest network-scripts]# cat ifcfg-br-ex
+DEVICE=br-ex
+DEVICETYPE=ovs
+TYPE=OVSBridge
+BOOTPROTO=static
+#IPADDR=192.168.1.4
+#NETMASK=255.255.255.0
+#GATEWAY=192.168.1.1
+ONBOOT=yes
+[root@khabiryubikeytest network-scripts]# 
+
+... settings for interface p2p1 and then added to the bridge br-ex
+... we can also set IP addresses to the bridge.
+
+[root@khabiryubikeytest network-scripts]# cat ifcfg-p2p1
+BOOTPROTO=static
+DEVICE=p2p1
+ONBOOT=yes
+TYPE=OVSPort
+OVS_BRIDGE=br-ex
+USERCTL=no
+[root@khabiryubikeytest network-scripts]#
+
+... adding p2p1 interface to bridge br-ex
+
+[root@khabiryubikeytest network-scripts]# ovs-vsctl add-port br-ex p2p1
+
+[root@khabiryubikeytest network-scripts]# systemctl restart network
+
+... finally check whether the port added to the bridge or not
+
+[root@khabiryubikeytest network-scripts]# ovs-vsctl show
+3fbfea52-0990-4eac-b46e-0c0ccc716229
+    Bridge br-ex
+        Port "p2p1"
+            Interface "p2p1"
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge br-int
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "2.0.0"
+[root@khabiryubikeytest network-scripts]#
+
+
+
