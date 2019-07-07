@@ -1,0 +1,10 @@
+
+
+... installing kata with docker
+
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/kata-containers/tests/master/cmd/kata-manager/kata-manager.sh) install-docker-system"
+
+
+... running docker container with kata-runtime.
+docker run -ti — runtime kata-runtime busybox sh
+
