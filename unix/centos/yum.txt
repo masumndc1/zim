@@ -14,14 +14,14 @@ Loading mirror speeds from cached hostfile
  * rpmfusion-free-updates-debuginfo: kartolo.sby.datautama.net.id
  * rpmfusion-free-updates-source: kartolo.sby.datautama.net.id
  * updates: mirror.optus.net
-repo id                                                    repo name                                                 status
-base                                                       CentOS-6 - Base                                           5,062
-extras                                                     CentOS-6 - Extras                                         39
-puppetlabs-pc1                                             Puppet Labs PC1 Repository el 7 - i386                    60
-rpmfusion-free-updates                                     RPM Fusion for EL 6 - Free - Updates                      217
-rpmfusion-free-updates-debuginfo                           RPM Fusion for EL 6 - Free - Updates Debug                64
-rpmfusion-free-updates-source                              RPM Fusion for EL 6 - Free - Updates Source               0
-updates                                                    CentOS-6 - Updates                                        419
+repo id                            repo name                                                 status
+base                               CentOS-6 - Base                                           5,062
+extras                             CentOS-6 - Extras                                         39
+puppetlabs-pc1                     Puppet Labs PC1 Repository el 7 - i386                    60
+rpmfusion-free-updates             RPM Fusion for EL 6 - Free - Updates                      217
+rpmfusion-free-updates-debuginfo   RPM Fusion for EL 6 - Free - Updates Debug                64
+rpmfusion-free-updates-source      RPM Fusion for EL 6 - Free - Updates Source               0
+updates                            CentOS-6 - Updates                                        419
 repolist: 5,861
 [root@localhost sysconfig]# 
 
@@ -51,6 +51,14 @@ updates                                                                         
 (8/9): updates/7/x86_64/primary_db                                                | 3.6 MB  00:00:01     
 (9/9): base/7/x86_64/primary_db                                                   | 5.7 MB  00:00:03     
 Determining fastest mirrors
- 
+
+... we can disable yum to refresh repolist everytime by using -C flags with yum update.
+... also we can tell yum not to search for changes in repolist for 90m by setting 
+... metadata_expire=90m in /etc/yum.conf
+
+[root@nginx yum.repos.d]# yum install -y -C vim
+
+
+
 
 

@@ -38,5 +38,72 @@ lxc exec first-machine bash
 
 lxc exec my-ubuntu -- apt-get update
 
+... after installing lxd in centos by using install_lxd_centos.sh we can run following.
+
+$ lxc image list images:
+$ lxc image list images: | grep -i centos
+$ lxc image list images: | grep -u ubuntu
+
+... to launch a vm
+
+$ lxc launch images:centos/7/amd64 cenots-masum
+
+... To access the VM/container:
+
+$ lxc list
+$ lxc exec centos-masum bash
+
+... To start/stop/restart containers use:
+
+lxc start container-name
+lxc stop container-name
+lxc restart container-name
+
+... Remove or delete container
+
+lxc delete container-name
+lxc delete nginx-c1
+
+... Getting info about your container:
+
+$ lxc info container
+$ lxc info centos-db
+
+... Setting up iptables rules to redirect traffic (type commands on host)
+... The syntax is as follows to redirect traffic for 443 coming on public 
+... IP 104.20.186.5 to container IP 10.86.112.210:443
+
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d 104.20.186.5 --dport 443 -j 
+DNAT --to-destination 10.86.112.210:443
+
+... CentOS uses the firwalld. To find the default firewalld zone, run:
+
+$ sudo firewall-cmd --get-default-zone
+public
+
+... Open port 443 for public zone
+
+$ sudo firewall-cmd --zone=public --add-service=https --permanent
+
+... Forward port 443 to the LXD server 10.86.112.210:443
+
+$ sudo firewall-cmd --permanent --zone=public 
+--add-forward-port=port=443:proto=tcp:toport=443:toaddr=10.86.112.210
+
+... Reload the fireall
+
+$ sudo firewall-cmd --reload
+
+... Test it. Fire the web browser and type url:
+
+https://104.20.186.5
+https://<your-public-ip-here>
+
+... A list of lxc command
+
+lxc --help
+lxc command --help
+lxc stop --help
+
 
 

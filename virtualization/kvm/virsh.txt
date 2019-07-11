@@ -2,6 +2,11 @@
 
 ... managing virtual machines in kvm
 
+... installing virsh in centos7
+
+# yum search virsh
+# yum install -y fence-agents-virsh.x86_64
+
 # virsh list --all
 
 └──╼ # virsh list --all

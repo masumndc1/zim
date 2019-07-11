@@ -1,0 +1,20 @@
+
+
+... one of the example how we can create image by ansible docker_image module in ansible 2.8
+
+---
+- hosts: localhost
+  tasks:
+    - name: building image python3.6 from dockerfile python3.6
+      docker_image:
+        name: python3.6
+        tag: v1
+        state: present
+        source: build 
+        build:
+          path: /home/masum/python
+          dockerfile: /home/masum/python/python3.6
+          pull: yes
+
+
+

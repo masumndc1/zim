@@ -203,5 +203,6 @@ deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
 
 ... installing saltstack in freebsd
 
-
-
+... to install saltstack in docker follow the following two links
+https://github.com/cyface/docker-saltstack
+https://medium.com/@timlwhite/the-simplest-way-to-learn-saltstack-cd9f5edbc967

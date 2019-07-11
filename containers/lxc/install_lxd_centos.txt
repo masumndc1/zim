@@ -1,0 +1,45 @@
+#!/bin/bash
+# this is a script to install and configure lxd in centos7
+
+
+# Command to install EPEL repo on a CentOS Linux and RHEL 7.x:
+yum install -y epel-release
+yum update
+
+# Step 3 – How to enable and configure COPR repository for CentOS Linux
+yum install -y yum-plugin-copr
+yum copr enable ngompa/snapcore-el7
+
+# install snapd
+yum install snapd
+#systemctl enable --now snapd.socket
+systemctl enable snapd
+systemctl start snapd
+
+# Step 5 – Configure the CentOS Linux kernel for LXD
+# architecture specific bootloaders:
+grubby --args="user_namespace.enable=1" --update-kernel="$(grubby --default-kernel)"
+grubby --args="namespace.unpriv_enable=1" --update-kernel="$(grubby --default-kernel)"
+echo "user.max_user_namespaces=3883" > /etc/sysctl.d/99-userns.conf
+
+# Install the LXD on CentOS
+snap install lxd
+ln -s /var/lib/snapd/snap /snap
+
+# verify snap is working
+snap list
+snap services
+
+# Step 5 – Configuring user for lxd group
+usermod -a -G lxd masum 
+
+# Use the id command to verify it:
+newgrp lxd
+id
+
+# Make sure we can talk to lxd server:
+lxc list
+
+# To configure LXD on CentOS
+lxd init
+

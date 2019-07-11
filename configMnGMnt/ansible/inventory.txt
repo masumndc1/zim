@@ -67,4 +67,8 @@ nginx.masum.com            : ok=0    changed=0    unreachable=1    failed=0
 
 [masum@nginx playbook]$ ansible-playbook jenkins.yml --ask-become-pass --limit=ansible
 
+... when we need to log in localhost without password
+
+[localhost]
+127.0.0.1 ansible_connection=local
 
