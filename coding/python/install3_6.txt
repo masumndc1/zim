@@ -1,0 +1,13 @@
+
+
+... installing python3.6 in centos7
+
+sudo yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+sudo yum update
+
+sudo yum install -y python36u python36u-libs python36u-devel python36u-pip
+
+... now test, python3.6 installed or not
+
+python3.6 -V
+

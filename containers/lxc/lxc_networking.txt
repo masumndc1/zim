@@ -469,4 +469,21 @@ root@masum:/var/lib/lxc/khabir#
 .. and finally our connectivity from container to outside as well as 
 .. between container is ok.
 
+... another way of configuring networking lxc is installing libvirt and virsh
+... by yum install -y libvirt fancy-agent-virsh in centos.
+
+... then run following to enable net for lxc
+
+... configuration we have
+
+masum@localhost ~]$ cat /etc/lxc/default.conf
+lxc.network.type = veth
+lxc.network.link = virbr0
+lxc.network.flags = up
+[masum@localhost ~]$
+
+root@masum:/var/lib/lxc/khabir# virsh net-info default
+root@masum:/var/lib/lxc/khabir# virsh auto-start default
+
+
 
