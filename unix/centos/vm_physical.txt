@@ -1,0 +1,10 @@
+
+
+... How to check a virtual machines vs physical machines.
+
+... https://www.ostechnix.com/check-linux-system-physical-virtual-machine/
+... nice document how to check vm vs physical machines.
+... for quick checking
+
+ sudo dmidecode | grep Product
+
