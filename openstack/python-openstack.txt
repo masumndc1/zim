@@ -1,0 +1,21 @@
+
+
+... after installing the virtualenv and installing python-openstackclient by using pip
+... we can use the openstack command to administration the openstack cloud environment.
+
+Apro13-HKHV2F:osclient khuddin$ ls
+bin                             include                         lib                             project_2000168-openrc.sh
+Apro13-HKHV2F:osclient khuddin$
+Apro13-HKHV2F:osclient khuddin$ source bin/activate
+(osclient) Apro13-HKHV2F:osclient khuddin$ source project_2000168-openrc.sh
+
+... enter the password for your user.
+... now you can use the openstack command to admin your openstack cloud env.
+... some of the examples are below.
+
+... openstack -h
+... openstack help image
+... openstack image list
+... openstack server list
+
+

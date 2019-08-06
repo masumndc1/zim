@@ -1,0 +1,19 @@
+
+
+... after installing the virtualenv and installing openstack-heat by using pip
+... we can use the openstack heat command to use the openstack heat orchestration.
+
+Apro13-HKHV2F:osclient khuddin$ source bin/activate
+(osclient) Apro13-HKHV2F:osclient khuddin$ source project_2000168-openrc.sh
+... enter the password for your user.
+
+Apro13-HKHV2F:osclient khuddin$ pip install openstack-heat
+
+... now you can use the openstack stack command to admin your openstack cloud env.
+... some of the examples are below.
+
+... openstack stack list
+... openstack stack help 
+
+
+
