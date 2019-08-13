@@ -2,11 +2,14 @@
 # this script will add a user into system
 # place user in group wheel
 # place user public key in .ssh directory
+# usage: ansible-playbook users.yml --connection=local
 
 - hosts: localhost
   gather_facts: no
+  become: yes
   vars:
     - user_name: khuddin
+    - group_name: wheel
     - user_key: |
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDArNot5iKVbUHbQQY7O5z/SALNRvOu8+ONMCfHGDuJijbPUJtkPrDZGCmK1I+jU0AnWXD1fSOO+fq9DPdntmqZlcehh08e9FIKHh4aqiRle7g1pF/I8pSbjlA6NYWkc5M+RB8I/VYpLcbd2oQNgnvPu0sKYJ8ssD0xQfm6dojELRHlhGYQep0CYZLRoBQoVPUe5p4oTW5otjaEhNYFw4JZolu1LejNYzqSKxb8JsPra3ndGyK0eauvQCECug37HiWFKgMlf5aFd8/Utkau4Sh3ewAKPe6XU6kPWKiedb6QjUqILbAZu7RtTxJDBC92JlabDiIo/tJ+qdfY3Bd+i8C1 khabir@macs-MacBook-Pro-2.local
 
@@ -26,7 +29,7 @@
     - name: Adding users to groups
       user: 
         name: "{{ user_name }}"
-        groups: "{{ wheel }}" 
+        groups: "{{ group_name }}" 
         append: yes
 
   tags: add_user
