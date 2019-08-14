@@ -28,7 +28,7 @@
     - name: Giving a user admin right without asking for password
       copy:
         content: "{{ user_name }}   ALL=(ALL)       NOPASSWD: ALL"
-        dest: /etc/sudoers.d/admin_user
+        dest: /etc/sudoers.d/{{ user_name }}
 
   tags: add_user
 
