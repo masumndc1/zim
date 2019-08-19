@@ -6,4 +6,7 @@
 
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
+... also we can place a file bob with content like below in /etc/sudoers.d
+bob ALL=(ALL:ALL) NOPASSWD: ALL
+
 

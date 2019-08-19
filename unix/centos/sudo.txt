@@ -23,5 +23,9 @@ masum	ALL=(ALL) 	ALL
 
 [masum@nginx etc]# sudo yum install iftop
 
+... we can also place a file bob in /etc/sudoers.d folder with following content.
+... this will prevent us to edit /etc/sudoers file.
+bob	ALL=(ALL)	NOPASSWD: ALL
+
 
 
