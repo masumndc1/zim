@@ -206,3 +206,46 @@ deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
 ... to install saltstack in docker follow the following two links
 https://github.com/cyface/docker-saltstack
 https://medium.com/@timlwhite/the-simplest-way-to-learn-saltstack-cd9f5edbc967
+
+... installation of salt-stack by using ansible
+... both minion and master
+
+---
+- hosts: localhost
+  become: yes
+  gather_facts: yes
+  ignore_errors: yes
+
+  tasks:
+    - name: Install wget 
+      apt:
+        name: [ 'wget','apt']
+        state: latest
+
+    - name: Install salt by using wget
+      shell: |
+        wget -O bootstrap-salt.sh https://bootstrap.saltstack.com
+        sh bootstrap-salt.sh
+        creates:
+          - salt.txt
+
+    - name: Install salt master
+      apt:
+        name: salt-master
+        state: latest
+
+    - name: Running salt-master service
+      service:
+        name: salt-master
+        state: started
+
+# the bellow portions is optional.
+
+    - name: Signing minions key in local master
+      shell: |
+        sudo salt-key -a debian.masum.com
+        creates:
+          - key_added.txt
+
+
+:
