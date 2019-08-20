@@ -18,3 +18,19 @@ khabir•~/Documents/test(master)» git checkout
 Your branch is ahead of 'origin/master' by 1 commit.
   (use "git push" to publish your local commits)
 khabir•~/Documents/test(master)»
+
+... when we are updating a feature branch.
+
+ »     git branch --set-upstream-to=origin/CCCP-1234 CCCP-1234
+Branch 'CCCP-1234' set up to track remote branch 'CCCP-1234' from 'origin'.
+ » git push origin CCCP-1234
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (7/7), 1.07 KiB | 545.00 KiB/s, done.
+Total 7 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To github.com:masumndc1.agent.git
+   8dd4ba8..e69f6f8  CCCP-1234 -> CCCP-1234
+ »
