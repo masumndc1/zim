@@ -1,0 +1,45 @@
+
+
+... socket in python is an interface of kernet socket.
+... calling socket module will give a socket object.
+... with passing any argument to socket will create
+... a default tcp/ip based socket.
+
+s=socket.socket()
+s.connect(('www.debian.org',80))
+s.send("GET / HTTP/1.0\n\n")
+s.recv(200)
+s.close()
+
+... this is a typical example of python socket factory
+... function. above its first created a socket object
+... then connect with web server. send some data and
+... then it received 200 bytes of responce from server.
+... 
+... one example of socket is 
+
+#!/usr/bin/env python
+
+import socket
+
+def check_conn(address,port):
+  s=socket.socket()
+  print "trying to connect to %s to %s port" %(address,port)
+  try:
+    s.connect((address,port))
+    print "connected to %s to %s port" %(address,port)
+    return True
+
+  except socket.error, e:
+    print "connecting to %s to %s port failed due to %s" %(address,port,e)
+
+if __name__ == '__main__':
+  from optparse import OptionParser
+  parser=OptionParser()
+  parser.add_option("-a","--address",dest="address",default="localhost")
+  parser.add_option("-p","--port",dest="port",type="int",default=80)
+  (options,args) = parser.parse_args()
+  print 'options: %s, args: %s' % (options, args)
+  check_conn(options.address,options.port)
+root@ubuntu18-python1:~# python soc_python -a www.debian.org -p 80
+
