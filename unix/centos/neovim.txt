@@ -1,0 +1,29 @@
+
+
+... 
+... installing neovim.
+... 
+
+yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install -y neovim python3-neovim
+
+... if you dont like neovim or you want vim only you can just insall spacevim
+... now install spacevim
+... 
+
+yum install -y git
+curl -sLf https://spacevim.org/install.sh | bash
+
+... install python-pip
+
+yum install python-pip
+pip install --upgrade pip
+
+... install neovim pip module
+
+pip install neovim
+
+... 
+
+
+
