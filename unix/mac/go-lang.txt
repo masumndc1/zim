@@ -1,0 +1,39 @@
+
+
+...
+... Installing go-lang in mac
+... download pkg from the link https://golang.org/dl/ and install.
+... 
+... set environment path of go executable path in your zsh or bash
+... profile file like below.
+... 
+... export PATH=/usr/local/go/bin/
+... export GOPATH=$HOME\n
+...
+... now run following
+... 
+... go version
+go version go1.13 darwin/amd64
+... 
+... 
+... making atom into ide for go lang.
+... 
+... install following
+... first go-plus or run following in terminal
+
+sudo go get -u golang.org/x/tools/cmd/goimports
+sudo go get -u golang.org/x/tools/cmd/gorename
+sudo go get -u github.com/sqs/goreturns
+sudo go get -u github.com/nsf/gocode
+sudo go get -u github.com/zmb3/gogetdoc
+sudo go get -u github.com/rogpeppe/godef
+sudo go get -u golang.org/x/tools/cmd/guru
+sudo go get -u github.com/alecthomas/gometalinter
+...
+... then autocomplete-go, platformio-ide-terminal, 
+... 
+... a nice blog to make atom as ide for go is 
+... https://rominirani.com/setup-go-development-environment-with-atom-editor-a87a12366fcf
+...
+
+

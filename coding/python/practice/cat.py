@@ -4,8 +4,11 @@
 import os
 import sys
 
+"""
+print "usage: cat.py file"
+"""
 if len(sys.argv) < 2:
-    print "usage: cat.py file"
+    print __doc__
 else:
     try:
         f=open(sys.argv[1],'r')
