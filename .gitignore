@@ -3,3 +3,6 @@
 */.DS_Store
 *.tmp
 .gitconfig
+coding/go/bin/
+coding/go/for
+coding/go/src/
