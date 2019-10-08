@@ -1,24 +1,20 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
 )
 
-/*
 func pointer(x *int) {
-  return &x
+  *x = 100
 }
-*/
 
 func main() {
-  fmt.Println("an example of pointer")
   x := 10
-  *a := *x
-  fmt.Println(&x)
-  fmt.Println(&a)
-
-/*  fmt.Println(pointer())
-  str := recover()
-  fmt.Println(str)
-*/
+	fmt.Println("\nan example of pointer\ninitial value of x is",x)
+	pointer(&x)
+	fmt.Println("\nfinal value of x is",x)
+	fmt.Println("\nan example of pointer\nby using \"new\" function")
+  y := new(int)
+  pointer(y)
+  fmt.Println(*y,"\n")
 }
