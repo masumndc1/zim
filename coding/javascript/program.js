@@ -13,3 +13,7 @@ var add = function (a, b) {
 var adding = add.function();
 
 document.writeln(adding(4,7));
+
+/*
+this is how comment written in javascript
+*/
