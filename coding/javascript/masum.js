@@ -1,4 +1,5 @@
 document.writeln('Hello, world!');
+document.writeln('we are writing this for test purpose');
 /*
 document.writeln(typeof 'hello');
 var numb = 20;
