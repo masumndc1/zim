@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
 a={"one", "two", "three"}
-for i,v in ipairs(a) do
-  print(i,v)
+for k,v in ipairs(a) do
+  print(k,v)
 end
