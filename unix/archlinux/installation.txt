@@ -209,4 +209,12 @@ root@archiso /usr/share/zoneinfo/Europe #
 
 ... and finally reboot
 
+... there are some other command those might be useful
+...
+... pacstrap -i /mnt base linux-lts vim linux-firmware
+... pacman -S iputils netctl
+... pacman -S grub
+... grub-mkconfig -o /boot/grub/grub.cfg
+... 
+... 
 
