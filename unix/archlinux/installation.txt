@@ -213,6 +213,8 @@ root@archiso /usr/share/zoneinfo/Europe #
 ...
 ... pacstrap -i /mnt base linux-lts vim linux-firmware
 ... pacman -S iputils netctl
+... systemctl enable dhcpd
+... pacman -s networkmanager
 ... pacman -S grub
 ... grub-mkconfig -o /boot/grub/grub.cfg
 ... 
