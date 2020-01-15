@@ -164,6 +164,10 @@ apt-get install libpcap0.8-deb
 
 ./configure --with-mysql --with-mysql-libraries=/usr/lib/i386-linux-gnu/
 
+we also need to install barnyard2
+On each host we are going to use Snort in network intrusion detection mode. To speed up its traffic processing it will log in binary mode. That’s where Barnyard2 comes into play.
+
+Barnyard2 is an open source interpreter for Snort unified2 binary output files. Its primary use is allowing Snort to write to disk in an efficient manner and leaving the task of parsing binary data into various formats to a separate process that will not cause Snort to miss network traffic. It can also operate in three modes: Batch, Continual and Continual with bookmarking
 
 installing snorby
 
