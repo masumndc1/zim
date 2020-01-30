@@ -101,4 +101,4 @@ class str(basestring)
 >>> 
 
 ... now we can see the help and dir of int.
-
+...
