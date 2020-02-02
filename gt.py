@@ -16,22 +16,20 @@ class GitOperation:
 
   @classmethod
   def GitPullPush(cls, msg):
-    #print("-"*70)
-    GitOperation.GitPrint(12)
+    GitOperation.GitPrint()
     os.system('git pull')
     os.system ('git add .')
     print('\033[91m' + "Commiting with msg: " + "'" + msg + "'" + '\033[0m')
     os.system('git commit -m "%s"' % msg) 
     print('\033[91m' + "Pushing now to upstream " + '\033[0m')
     os.system('git push origin master')
-    GitOperation.GitPrint(12)
-    #print("-"*70)
+    GitOperation.GitPrint()
 
   @classmethod
-  def GitPrint(cls,num):
-    for i in range(num):
+  def GitPrint(cls):
+    cls.num = 12
+    for i in range(cls.num):
       print("-" * i, end = '')
-      i += 1
     print("\n")
 
 GitOperation()
