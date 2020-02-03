@@ -1,0 +1,8 @@
+
+
+... install elastic siem
+... there is a nice blog related to elasticSiem installation https://www.lahilabs.com/2020/01/02/how-to-install-elk-siem-for-beginners-complete-guide/
+... 
+... a nice web page regarding component of siem and guide
+... https://www.elastic.co/guide/en/siem/guide/current/siem-overview.html
+... 
