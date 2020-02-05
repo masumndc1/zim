@@ -24,4 +24,7 @@ Available commands are:
 └──╼ $ packer version
 Packer v1.3.2
 
+... alternative installation in macOS
+
+$ brew install packer
 

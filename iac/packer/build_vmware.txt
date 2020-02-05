@@ -92,4 +92,6 @@ output-vmware-vmx                 vmware.json
 ┌─[edmudoh@elxabl1vvp2]─[~/packer/vmware]
 └──╼ $
 
-
+... following link is the nice collection of packer template
+... https://github.com/upperstream/packer-templates
+... 

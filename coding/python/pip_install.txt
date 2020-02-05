@@ -10,6 +10,9 @@
 You are using pip version 8.1.1, however version 9.0.1 is available.
 You should consider upgrading via the 'pip install --upgrade pip' command.
 root@slave:~#
+...
+... upgrading pip
+... 
 root@slave:~# pip install --upgrade pip
 Collecting pip
   Downloading pip-9.0.1-py2.py3-none-any.whl (1.3MB)
