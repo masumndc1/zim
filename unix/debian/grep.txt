@@ -1,0 +1,13 @@
+
+
+... some grep examples
+... only showing non comment line of a file
+
+root@lxd-clster:/etc/kibana# egrep -v '^#' kibana.yml | egrep -v '^$'
+server.port: 5601
+server.host: 0.0.0.0
+server.name: lxd-server
+elasticsearch.hosts: ["http://0.0.0.0:9200"]
+root@lxd-clster:/etc/kibana#
+
+...
