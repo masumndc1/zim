@@ -4,3 +4,6 @@
 ... pan os related documentation
 ... docs.paloaltonetwork.com
 ... 
+... splunk with palo alto
+... https://pansplunk.readthedocs.io/en/latest/advanced.html
+... 
