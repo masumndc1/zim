@@ -27,7 +27,7 @@ class GitOperation:
 
   @classmethod
   def GitPrint(cls):
-    cls.num = 50
+    cls.num = 70
     #  for i in range(cls.num):
     #  print("-" * i, end = '')
     #  print("-" * cls.num, end = '')
