@@ -62,4 +62,45 @@ Interface ethernet1/3 has no virtual-router configuration.
 [edit]                                                                                                                                                        
 admin@testpa# 
 
+....                                                                                                                                            
+admin@PA-VM# run show interface management 
+  |        Pipe through a command
+  <Enter>  Finish input
+
+admin@PA-VM# run show interface management 
+
+
+-------------------------------------------------------------------------------
+Name: Management Interface
+Link status:
+  Runtime link speed/duplex/state: unknown/unknown/up
+  Configured link speed/duplex/state: auto/auto/auto 
+MAC address:
+  Port MAC address 00:0c:29:ba:23:d4 
+
+Ip address: 192.168.2.40
+Netmask: 255.255.255.0
+Default gateway: 192.168.2.1
+Ipv6 address: unknown
+Ipv6 link local address: fe80::20c:29ff:feba:23d4/64
+Ipv6 default gateway:  
+-------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Logical interface counters:
+-------------------------------------------------------------------------------
+bytes received                    1019458
+bytes transmitted                 7858351
+packets received                  7592
+packets transmitted               6601
+receive errors                    0
+transmit errors                   0
+receive packets dropped           3
+transmit packets dropped          0
+multicast packets received        0
+-------------------------------------------------------------------------------
+
+[edit]                                                                                                                                            
+admin@PA-VM# 
 
