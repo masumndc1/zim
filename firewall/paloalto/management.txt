@@ -3,8 +3,23 @@
 // the default username and password
 // admin and admin
 
+... first decide dhcp or static
+... enable static mode for ip assignment
+... 
 
+admin@PA-VM# set deviceconfig system type 
+> dhcp-client   DHCP client option
+  static        Static IP-address/Netmask
+  <Enter>       Finish input
+
+admin@PA-VM# set deviceconfig system type static
 admin@PA-VM# set deviceconfig system ip-address 192.168.201.234 netmask 255.255.252.0 dns-setting servers primary 4.2.2.1 secondary 4.2.2.2 
+admin@PA-VM# set deviceconfig system default-gateway 192.168.201.1
+
+... 
+... dhcp which is default mode for this
+...
+
 
 // setting some additional info to device.
 
