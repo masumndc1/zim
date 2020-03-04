@@ -1,0 +1,6 @@
+
+
+...
+... bastion host.
+... http://hantt.pages.labranet.jamk.fi/bigdata/exercises/exercise_11.html#/6
+...
