@@ -1,0 +1,6 @@
+
+
+... some good link
+... https://packer.io/docs/builders/vmware-iso.html
+
+
