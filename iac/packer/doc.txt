@@ -3,4 +3,6 @@
 ... some good link
 ... https://packer.io/docs/builders/vmware-iso.html
 
-
+... to install in esxi 
+... https://nickcharlton.net/posts/using-packer-esxi-6.html
+...
