@@ -5,6 +5,33 @@
 ... all the firewalling stuffs are written in service.xml file in
 ... /etc/vmware/firewall directory.
 
+... for example we want to add one rule for vnc service, for example.
+... 
+
+# chmod 644 /etc/vmware/firewall/service.xml
+# chmod +t /etc/vmware/firewall/service.xml
+
+... Then append the range we want to open to the end of the file:
+
+<service id="1000">
+  <id>packer-vnc</id>
+  <rule id="0000">
+    <direction>inbound</direction>
+    <protocol>tcp</protocol>
+    <porttype>dst</porttype>
+    <port>
+      <begin>5900</begin>
+      <end>6000</end>
+    </port>
+  </rule>
+  <enabled>true</enabled>
+  <required>true</required>
+</service>
+
+... Finally, restore the permissions and reload the firewall:
+
+# chmod 444 /etc/vmware/firewall/service.xml
+
 ... after editing service.xml we need to refresh firewall rules like 
 ... below.
 
