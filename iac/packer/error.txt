@@ -1,0 +1,16 @@
+
+
+... I have encounter some error during running packer against my esxi server.
+...
+... I needed to enable ssh in esxi server. We need to enable TSM-SSH service.
+
+... Enalbe guest IP hack: to enable this run the following
+... # esxcli system settings advanced set -o /Net/GuestIPHack -i 1
+
+... Then we need to open vnc port in esxi through firewall services.
+... For this, documentation is in virtualization/vmware/firewall.txt
+... 
+... we also need to set "vnc_disable_password": "true", in json template file in packer.
+... and also "ssh_timeout": "10000s",
+... 
+
