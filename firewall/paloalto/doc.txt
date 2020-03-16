@@ -7,3 +7,7 @@
 ... splunk with palo alto
 ... https://pansplunk.readthedocs.io/en/latest/advanced.html
 ... 
+... deployment pan-os in openstack
+... https://docs.paloaltonetworks.com/vm-series/8-1/vm-series-deployment/ \
+... set-up-the-vm-series-firewall-on-openstack/orchestration-with-the-heat-template
+... 
