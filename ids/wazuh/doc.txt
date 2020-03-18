@@ -7,5 +7,6 @@
 ... https://documentation.wazuh.com/3.11/getting-started/index.html
 ... https://documentation.wazuh.com/3.11/installation-guide/index.html
 ... https://discuss.elastic.co/t/wazuh-ossec-plugin-intgeration-with-elk/161974/2
-... https://medium.com/devoops-and-universe/ossec-and-elk-as-an-unified-security-information-and-event-management-system-siem-bcc5f310a733
 ...
+... this is a good documentation
+... https://github.com/wazuh/wazuh-kibana-app
