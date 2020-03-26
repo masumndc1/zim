@@ -1,0 +1,6 @@
+
+
+... how to install multiple elasticsearch clusters
+... in www.wazuh.com documentation, in how to install elasticsearch
+... cluster we can find, how to install multiple node elasticsearch cluster.
+
