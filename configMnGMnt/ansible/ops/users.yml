@@ -8,7 +8,7 @@
   gather_facts: no
   become: yes
   vars:
-    - user_name: <your user name here>
+    - user_name: masum
     - user_key: |
         ssh-rsa Io/tJ+qdfY3Bd+i8C1 
 
@@ -29,6 +29,7 @@
       copy:
         content: "{{ user_name }}   ALL=(ALL)       NOPASSWD: ALL"
         dest: /etc/sudoers.d/{{ user_name }}
+      tags: sudo_rights
 
   tags: add_user
 
