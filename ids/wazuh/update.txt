@@ -1,0 +1,12 @@
+
+
+... 
+... updating ruleset 
+... /var/ossec/bin/update_ruleset
+... if you find any error while downloading ruleset you can try updating from a branch
+... 
+... /var/ossec/bin/update_ruleset -n 3.11 -d -r 
+... here: 3.11 is the branch name
+... -d: debug
+... -r: telling restarting wazuh service.
+...
