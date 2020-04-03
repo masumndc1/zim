@@ -1,0 +1,8 @@
+
+
+  if you have external monitor and you need to add them,
+then do following. I have two monitors, both of them added by
+adding following lines in following file.
+
+# cat /boot/loader.conf.
+i915kms_load="YES"
