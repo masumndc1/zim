@@ -1,0 +1,16 @@
+
+
+  bspwm, window manager.
+how to install bspwm in freebsd.
+
+1. first install slim window manager
+# pkg install slim
+
+2. enable slim X window manager in /etc/rc.conf 
+slim_enable="YES"
+
+3. install bspwm in freebsd
+# pkg install bspwm
+
+4. some related packages
+# pkg install thunar st feh 
