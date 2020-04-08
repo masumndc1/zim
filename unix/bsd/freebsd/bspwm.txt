@@ -1,16 +1,30 @@
 
 
-  bspwm, window manager.
-how to install bspwm in freebsd.
+  bspwm, window manager. How to install bspwm in freebsd.
 
-1. first install slim window manager
+1. first install slim window manager.
 # pkg install slim
 
 2. enable slim X window manager in /etc/rc.conf 
 slim_enable="YES"
 
-3. install bspwm in freebsd
+3. install bspwm in freebsd. this will also install sxhkd.
 # pkg install bspwm
 
-4. some related packages
-# pkg install thunar st feh 
+4. some related packages.
+# pkg install thunar st feh tint2 
+
+5. edit ~/.xinitrc. this compton is needed to run firefox.
+compton &
+sxhkd &
+exec bspwm
+
+6. create ~/.config/bspwm and ~/.config/sxhkd  
+and copy bspwmrc and sxhkdrc in these two folder.
+
+7. (optional) if you need you can install rofi and edit ~/.config/sxhkdrc
+super + @space
+	rofi -modi run,drun,window -show drun -show-icons -sidebar-mode
+
+8. and finally reboot freebsd. 
+
