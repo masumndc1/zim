@@ -1,0 +1,13 @@
+
+
+  Mounting exfat in freebsd OS.
+
+1. Get the name of the attached usb devices by lsblk.
+
+2. mount it by using.
+# mount.exfat-fuse /dev/da0s1 /mnt/usbmount
+
+3. And finally unmount it after use.
+# umount /mnt/usbmount
+
+
