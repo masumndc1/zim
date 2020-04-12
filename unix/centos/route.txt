@@ -1,0 +1,22 @@
+
+
+  adding routing in centos linux
+
+1. check existing routing information.
+# route -n
+
+2. first remove or flush existing routing information.
+# ip route flush 0/0  or ip route del 0/0
+
+3. set new routing information.
+# route add default gw <gw-ip>
+
+4. check wether new routing information placed in order
+# route -n
+
+5. Try to reach internet through new route
+# ping <gw-ip>
+# ping 8.8.8.8
+# ping google.com
+
+
