@@ -4,8 +4,28 @@
 Documents of virtualenv https://virtualenvwrapper.readthedocs.io/en/latest/index.html
 
 $ pip install virtualenvwrapper
-$ export WORKON_HOME=~/pyenv
+$ pip install virtualenv
+$ export WORKON_HOME=~/pyEnv
 $ mkdir -p $WORKON_HOME
 $ source /usr/local/bin/virtualenvwrapper.sh
 $ mkvirtualenv env1
-Installing
+Installing env1 ...
+  
+  Now we can make a script which we can run everytime we make a new virtual env or 
+we open a new terminal. we can also add them in .zshrc file as well.
+
+#!/bin/bash
+export WORKON_HOME=~/pyEnv
+source /usr/local/bin/virtualenvwrapper.sh
+
+  To make a virtualenv run
+$ mkvirtualenv test1
+  
+  To delete an existing virtualenv run
+$ rmvirtualenv test1
+
+  To list all virtualenv, run
+$ workon
+
+  To switch to another virtualenv
+(test1) $ wokron test2
