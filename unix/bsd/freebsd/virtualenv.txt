@@ -1,0 +1,11 @@
+
+
+  virtualenv installation in freebsd.
+Documents of virtualenv https://virtualenvwrapper.readthedocs.io/en/latest/index.html
+
+$ pip install virtualenvwrapper
+$ export WORKON_HOME=~/pyenv
+$ mkdir -p $WORKON_HOME
+$ source /usr/local/bin/virtualenvwrapper.sh
+$ mkvirtualenv env1
+Installing
