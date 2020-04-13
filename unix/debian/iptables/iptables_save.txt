@@ -1,0 +1,21 @@
+
+
+  how to make iptables save so that it load its saved configuration at boot time.
+
+1. first install iptables-persistent
+# apt-cache install iptables-persistent
+
+2. run your iptables scripts to load rules
+# ./your-iptables-rules.sh
+
+3. save rules
+# iptables-save
+
+4. push it to file so that it load at boot time
+# iptables-save > /etc/iptables/rules.v4
+
+5. finally check wether you have push goot rules in there
+# cat /etc/iptables/rules.v4
+
+
+  Its always better to learn and run firewalld as this is new in linux. 
