@@ -2,6 +2,7 @@
 
 import os
 import sys
+from blessings import Terminal
 
 class GitOperation:
 
@@ -27,7 +28,10 @@ class GitOperation:
 
   @classmethod
   def GitPrint(cls):
-    cls.num = 70
+    term = Terminal()
+    cls.num = term.width
+    #height = term.height
+    #cls.num = width
     #  for i in range(cls.num):
     #  print("-" * i, end = '')
     #  print("-" * cls.num, end = '')
