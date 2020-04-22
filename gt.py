@@ -12,17 +12,19 @@ class GitOperation:
       GitOperation.GitPullPush(self.msg)
 
     elif len(sys.argv) < 2: 
-      print('\033[91m' + "You want to pull updates from upstreams. Pulling update" + '\033[0m')
+      term = Terminal()
+      print(term.red + "You want to pull updates from upstreams. Pulling update" + term.normal)
       os.system('git pull')
 
   @classmethod
   def GitPullPush(cls, msg):
+    term = Terminal()
     GitOperation.GitPrint()
     os.system('git pull')
     os.system ('git add .')
-    print('\033[91m' + "Commiting with msg: " + "'" + msg + "'" + '\033[0m')
+    print(term.white + "Commiting with msg: " + "'" + msg + "'" + term.normal)
     os.system('git commit -m "%s"' % msg) 
-    print('\033[91m' + "Pushing now to upstream " + '\033[0m')
+    print(term.green + "Pushing now to upstream " + term.normal)
     os.system('git push origin master')
     GitOperation.GitPrint()
 
