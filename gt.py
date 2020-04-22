@@ -5,6 +5,8 @@ import sys
 from blessings import Terminal
 
 class GitOperation:
+  global term
+  term = Terminal()
 
   def __init__(self):
     if len(sys.argv) == 2: 
@@ -12,31 +14,23 @@ class GitOperation:
       GitOperation.GitPullPush(self.msg)
 
     elif len(sys.argv) < 2: 
-      term = Terminal()
       print(term.red + "You want to pull updates from upstreams. Pulling update" + term.normal)
       os.system('git pull')
 
   @classmethod
   def GitPullPush(cls, msg):
-    term = Terminal()
-    GitOperation.GitPrint()
+    GitOperation.GitPrint('*')
     os.system('git pull')
     os.system ('git add .')
     print(term.blue + "Commiting with msg: " + "'" + msg + "'" + term.cyan)
     os.system('git commit -m "%s"' % msg) 
     print(term.green + "Pushing now to upstream " + term.cyan)
     os.system('git push origin master')
-    GitOperation.GitPrint()
+    GitOperation.GitPrint('-')
 
   @classmethod
-  def GitPrint(cls):
-    term = Terminal()
+  def GitPrint(cls, sym):
     cls.num = term.width
-    #height = term.height
-    #cls.num = width
-    #  for i in range(cls.num):
-    #  print("-" * i, end = '')
-    #  print("-" * cls.num, end = '')
-    print(term.red + "-" * cls.num + term.normal)
+    print(term.red + sym * cls.num + term.normal)
 
 GitOperation()
