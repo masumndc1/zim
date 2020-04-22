@@ -37,6 +37,6 @@ class GitOperation:
     #  for i in range(cls.num):
     #  print("-" * i, end = '')
     #  print("-" * cls.num, end = '')
-    print(term.cyan + "-" * cls.num)
+    print(term.cyan + "-" * cls.num + term.normal)
 
 GitOperation()
