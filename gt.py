@@ -24,6 +24,7 @@ class GitOperation:
   @classmethod
   def GitPullPush(cls, msg):
     GitOperation.GitPrint('*')
+    print(term.red + "Pulling first")
     os.system('git pull')
     os.system ('git add .')
     print(term.blue + "Commiting with msg: " + "'" + msg + "'" + term.cyan)
