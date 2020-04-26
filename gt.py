@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # this is a simple python script to automate
 # git pull, commit and push
+# 
 
 import os
 import sys
 from blessings import Terminal
 
-class GitOperation:
+class GitOperation():
   global term
   term = Terminal()
 
@@ -18,6 +19,8 @@ class GitOperation:
 
     elif len(sys.argv) < 2: 
       print(term.red + "You want to pull updates from upstreams. Pulling update" + term.normal)
+      print(term.red + "If you dont want to pull, then usage is:" + term.normal)
+      print(term.red + "python3 gt.py \"commit msg\"" + term.normal)
       os.system('git pull')
 
 
