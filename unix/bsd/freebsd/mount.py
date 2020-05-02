@@ -5,7 +5,9 @@
 import os
 
 def mountpoint(device='/dev/da0s1', mount_point='/mnt/usbmount'):
+    print("Mounting a USB Drive")
     cmd = "mount.exfat-fuse {} {}".format(device, mount_point)
     os.system(cmd)
 
-mountpoint()
+if __name__ == "__main__":
+    mountpoint()
