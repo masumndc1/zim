@@ -1,0 +1,5 @@
+
+
+  How to install true type fonts(TTF) in freebsd?
+
+Copy ttf into /usr/local/share/fonts/TTF folder and start using immidietely.
