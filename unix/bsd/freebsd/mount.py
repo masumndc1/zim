@@ -11,7 +11,7 @@ sudo python ./mount.py
 """
 
 import os
-import subprocess
+import sys
 from blessings import Terminal
 
 # custom variable
@@ -27,6 +27,7 @@ def mountpoint(device='/dev/da0s1', mount_point='/mnt/usbmount'):
     else:
         t = Terminal()
         print(t.blue + __doc__ + t.normal)
+        sys.exit(1)
 
 if __name__ == "__main__":
     mountpoint()
