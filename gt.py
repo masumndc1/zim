@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # this is a simple python script to automate
 # git pull, commit and push
 # 
