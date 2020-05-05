@@ -1,0 +1,55 @@
+
+
+  Installing freebsd12.1 alongside with Ubuntu18.04
+
+1. after installing ubuntu18.04, i have install freebsd12.01
+
+partition: 
+I had three partions,
+
+freebsd-ufs mounted /
+freebsd-boot
+freebsd-swap none
+
+2. then edit /etc/grub.d/40_custom
+assuming your freebsd-ufs partition is /dev/sda5
+
+# cat 40_custom
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+menuentry "freebsd" {
+        insmod ufs2
+        set root=(hd0,gpt5)
+        kfreebsd /boot/loader
+}
+
+3. make some changes in /etc/default/grub.conf to increase grub-timeout 
+and disable grub-hidden so you can select freebsd during machine booting.
+
+GRUB_DEFAULT=0
+#GRUB_TIMEOUT_STYLE=hidden
+GRUB_TIMEOUT=60
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX=""
+
+4. finally update grub and reboot.
+root@nobody:/etc/grub.d# update-grub
+Sourcing file `/etc/default/grub'
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-5.3.0-51-generic
+Found initrd image: /boot/initrd.img-5.3.0-51-generic
+Found linux image: /boot/vmlinuz-5.3.0-46-generic
+Found initrd image: /boot/initrd.img-5.3.0-46-generic
+Found linux image: /boot/vmlinuz-5.3.0-45-generic
+Found initrd image: /boot/initrd.img-5.3.0-45-generic
+Found memtest86+ image: /boot/memtest86+.elf
+Found memtest86+ image: /boot/memtest86+.bin
+Found unknown Linux distribution on /dev/sda5
+done
+root@nobody:/etc/grub.d#
+
+
