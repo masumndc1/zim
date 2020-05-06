@@ -1,27 +1,43 @@
 
 
-... to have desktop in freebsd
-... install gnome3 and xorg
-... or install lxde-meta
-... pkg install gnome3 xorg firefox-esr
-... echo 'exec startlxde' > ~/.xinitrc
-... to install lxde-meta firefox-esr xorg sudo
+  Desktop in freebsd
 
-... for gnome do the following too
+1. Iinstall xorg, gdm and slim
+$ pkg install xorg gdm slim
 
-... /etc/fstab
+2. Add following in /etc/rc.conf file
+gdm_enable="YES"
+slim_enable="YES"
+
+3. I have used bspwm as tiling window manager. Install bspwm and configure it.
+$ pkg install bspwm. 
+
+for configuraiton of bspwm, see bspwm.txt.
+
+4. Add following in ~/.xinitrc
+sxhkd & 
+exec bspwm
+
+5. Reboot system
+
+6. alternatively we can install gnome3.
+$ pkg install gnome3
+
+7. for gnome add following in /etc/fstab. this might be also applicable for other window
+manager like mate, lxde-meta and bspwm.
+
 proc           /proc       procfs  rw  0   0
 
-... /etc/rc.conf
-
-dbus_enable="YES"
-hald_enable="YES"
+8. add following in /etc/rc.conf for gnome only
 gdm_enable="YES"
 gnome_enable="YES"
 
-... optionally we need to do the following
-
+9. for only gnome3 we need to do the following
 % echo "exec /usr/local/bin/gnome-session" > ~/.xinitrc
 % echo "exec /usr/local/bin/gnome-session" > ~/.xsession
+
+10. there are many other window manager like mate and lxde-meta. to do so,
+install lxde-meta and echo 'exec startlxde' > ~/.xinitrc
+
 
 

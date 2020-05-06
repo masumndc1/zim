@@ -20,7 +20,7 @@ sxhkd &
 exec bspwm
 
 6. create ~/.config/bspwm and ~/.config/sxhkd  
-and copy bspwmrc and sxhkdrc in these two folder.
+and copy bspwmrc and sxhkdrc found in this folder to ./config/bspwm/ ./config/sxhkd/ 
 
 7. (optional) if you need you can install rofi and edit ~/.config/sxhkdrc
 super + @space
