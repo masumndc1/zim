@@ -4,5 +4,21 @@
 then do following. I have two monitors, both of them added by
 adding following lines in following file.
 
-# cat /boot/loader.conf.
+1. Install the drm-kmod package
+# sudo pkg install drm-kmod
+
+2. Add this to your /etc/rc.conf or /etc/rc.conf.d/radeon file:
+kld_list="/boot/modules/radeonkms.ko"
+
+Ensure that your UID is a member of the "video" group.
+
+3. Restart your system; you should see the radeonkms.ko get loaded 
+and a flash on your console as we switch over to the new display driver.
+
+4. Start Xorg via your usual method (i.e. startx, GDM, etc.)
+
+5. Add following in /boot/loader.conf to two display working.
 i915kms_load="YES"
+
+I have found this had worked.
+
