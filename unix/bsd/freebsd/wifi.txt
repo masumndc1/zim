@@ -1,0 +1,22 @@
+
+
+  How to configure wifi networking in freebsd.
+ 
+1. first check your wifi network interface by 
+net.wlan.devices: ath0
+
+2. then add following lines in /etc/rc.conf
+wlan_ath0="wlan0"
+ifconfig_wlan0="WPA SYNCDHCP"
+
+3. Now add your ssid and psk in /etc/wpa_supplicant.conf
+[~] sudo cat /etc/wpa_supplicant.conf
+network={
+ssid="MHS-2409950538DF"
+psk="e5hi4525"
+scan_ssid=1
+}
+
+4. finally restart your network interface like
+# service netif restart
+
