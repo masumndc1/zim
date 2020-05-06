@@ -11,7 +11,7 @@ slim_enable="YES"
 3. install bspwm in freebsd. this will also install sxhkd.
 # pkg install bspwm
 
-4. some related packages.
+4. (optional) some related packages.
 # pkg install thunar st feh tint2 
 
 5. edit ~/.xinitrc. this compton is needed to run firefox.
@@ -27,4 +27,5 @@ super + @space
 	rofi -modi run,drun,window -show drun -show-icons -sidebar-mode
 
 8. and finally reboot freebsd. 
+
 
