@@ -82,4 +82,7 @@ Ports tree is already up to date.
 
 root@masum:/usr/ports/security # 
 
+... fetch update together.
+
+root@masum: # portsnap fetch update
 
