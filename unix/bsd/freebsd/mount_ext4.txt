@@ -1,0 +1,23 @@
+
+
+  How to mount ext4 partion in freebsd
+
+1. install fusefs-ext2 to mount all ext2, ext3 and ext4 partions.
+
+2. load ext2fs kernel module in shell 
+$ kldload ext2fs
+
+3. Now in shell run following
+mount -t ext2fs -o ro /dev/ada0p2 /mnt/  # to read-only 
+mount -t ext2fs -o rw /dev/ada0p2 /mnt/  # to read-write
+
+Or we can make it permanent like below
+
+1. add this in /etc/rc.conf file
+kld_list="ext2fs"
+
+2. make entry in /etc/fstab
+/dev/ada0p2	/mnt/ext4	ext4	rw	0	0
+
+
+
