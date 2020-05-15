@@ -1,0 +1,35 @@
+
+
+  trouble shooting page is here.
+
+1.
+"""
+raise Exception("Failed to load plugin from file %s" % item)
+Exception: Failed to load plugin from file prescript_000.py
+
+ERROR : Failed to load plugin from file prescript_000.py
+"""
+
+Just paste following in terminal 
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+Everything will be fine in this case.
+
+2. 
+Pre installing Puppet and discovering hosts' details[ ERROR ]
+
+ERROR : Failed to run remote script, stdout:
+stderr: Warning: Permanently added '192.168.1.7' (ECDSA) to the list of known hosts.
++ trap t ERR
++ facter -p
+facter: error while loading shared libraries: leatherman_curl.so.1.3.0: cannot open shared object file: No such file or directory
+++ t
+++ exit 127
+
+yum downgrade leatherman
+
+
+
+
