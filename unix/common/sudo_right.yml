@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  become: yes
+  
+  vars:
+    - user: masum
+
+  tasks:
+  - name: Install sudo pkg
+    apt:
+      name: ['sudo']
+      update_cache: yes
+    when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
+
+  - name: Giving an user admin right
+    lineinfile:
+      path: /etc/sudoers.d/10_{{ user }}
+      state: present
+      create: yes
+      line: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
