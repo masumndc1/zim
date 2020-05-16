@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  gather_facts: yes
+
+  vars:
+    - user: masum
+
+  tasks:
+  - name: Setting up oh-my-zsh for current user
+    shell:
+      chdir: ~/
+      cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      creates: ~/.zshrc
+
+  - name: Changing user shell to zsh
+    become: yes
+    user:
+      name: "{{ user }}"
+      shell: /usr/bin/zsh
+
