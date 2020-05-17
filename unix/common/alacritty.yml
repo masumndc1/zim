@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  become: yes
+
+  tasks:
+  - name: Adding ppa for alacritty
+    apt_repository:
+      repo: ppa:mmstick76/alacritty
+
+  - name: Installing alacritty
+    apt:
+      name: alacritty
+      update_cache: yes
