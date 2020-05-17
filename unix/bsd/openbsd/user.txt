@@ -84,4 +84,20 @@ Full Name: mwlucas
 Office Location:
 Office Phone:
 
+... changing password for an user.
+# passwd masum
+Changing password for masum.
+New password: weak_pass
+Please enter a longer password.
+New password: weak_pass 
+Please enter a longer password.
+New password: weak_pass
+Please enter a longer password.
+New password: weak_pass
+Retype new password: weak_pass
+openbsd#   
+
+... here if you try to use weak password, openbsd will complain but if you
+... want to use weak password anyhow, keep putting weak passwd and it will accept it.
+... after few time.
 
