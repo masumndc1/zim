@@ -7,6 +7,6 @@
   - name: Installing required packages
     apt: 
       name: ['vim', 'tmux', 'iftop', 'zsh', 'net-tools', 'python3-pip',
-             'chromium-browser', 'curl', 'wget', 'exfat-fuse', 'htop', 'vlc']
+             'chromium-browser', 'curl', 'wget', 'exfat-fuse', 'htop', 'vlc', 'ipython3']
       update_cache: yes
     when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
