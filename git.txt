@@ -958,5 +958,18 @@ masum@masum:/tmp/repo/zim$
 
 masum@masum:~$ git ls-files --help
 
+... how to edit a particular commit msg by using "git rebase"
 
+$git rebase -i <one commit after that commit>
+
+... do "edit" to "pick" on the commit you wanna change
+... :x # save
+
+$git commit --amend
+
+... edit the commit message
+
+$git rebase --continue
+
+... done
 
