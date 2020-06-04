@@ -30,4 +30,17 @@ unbound_pid="/var/run/local_unbound.pid"
 unbound_restart="service local_unbound reload"
 root@freebsd_desktop:~ # 
 
+... how to make alias in interface.
+... this is needed when we need to run multiple webserver in the same server but in different ip address. 
+... or we need to route different subnet through the same interface
 
+# ifconfig em1 192.168.2.10/24
+# ifconfig em1 192.168.20.10/24 alias
+# ifconfig em1 192.168.200.10/24 alias
+# 
+
+... or in /etc/rc.conf file.
+
+ifconfig_em1="inet 192.168.2.10/24"
+ifconfig_em1_alias0="inet 192.168.20.10/24"
+ifconfig_em1_alias1="inet 192.168.200.10/24"
