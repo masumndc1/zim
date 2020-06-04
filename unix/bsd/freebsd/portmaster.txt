@@ -1,7 +1,7 @@
 
 
 ... portmaster is the utility to install package eficiently like
-... portupgrade but has some advantages over portupgrade.
+... portupgrade. it has some advantages over portupgrade.
 
 
 
