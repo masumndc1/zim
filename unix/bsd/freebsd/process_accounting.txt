@@ -1,0 +1,15 @@
+
+
+  process accounting
+
+accounting_enable="YES" in /etc/rc.conf
+
+if you dont want to boot machine do following.
+
+# touch /var/account/acct
+# accton /var/account/acct
+
+accton with a file will acctivate accounting.
+we can disable it just using accton without 
+any parameter.
+
