@@ -1,0 +1,8 @@
+
+
+  promiscuss and mtu setting to an interface
+[root@dfly /home/masum]# ifconfig em1 -promisc  # promiscus
+[root@dfly /home/masum]# ifconfig em1 mtu 9000  # mtu setting
+
+# monitor mode, where interface does not send packet but listen and accept
+[root@dfly /home/masum]# ifconfig em1 monitor   
