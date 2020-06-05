@@ -1,0 +1,90 @@
+
+
+  configuring vlan in freebsd.
+  freebsd supports 802.1q vlan tagging.
+
+1. first configure a vlan-pseudo interface
+[root@dfly /home/masum]# ifconfig vlan10 create
+ 
+  here vlan is the keyword and 10 is the random number. this number
+  does not have any relevance with vlan tagging. But for convenience,
+  we do so for ease of indentification. We then assume that vlan tag 10
+  will pass through pseudo-interface vlan10.
+
+2. now configure, vlan tag and attach this interface to a parent physical interface
+[root@dfly /home/masum]# ifconfig vlan10 vlan 10 vlandev em1
+
+  here, vlan10 is the pseudo-interface that we have created before, vlan is the 
+  keyword and then 10 is the vlan tag. this vlan tag will be added to the 802.1q 
+  vlan header. vlandev is a keyword and finally em1, is the physical interface
+  vlan10 pseudo-interface will be attached to. this em1 will act like a trunk interface.
+
+3. now configure layer3 protocol to newly created vlan pseuodo interface
+[root@dfly /home/masum]# ifconfig vlan10 10.10.10.1/24
+
+4. as physical interfac em1 does not any layer3 ip address, we need to manually up em1
+[root@dfly /home/masum]# ifconfig em1 up
+
+5. vlan10 pseudo interface will get parameters from its parent em1 by inheritence.
+vlan10: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+        inet6 fe80::20c:29ff:fe60:10b0%vlan10 prefixlen 64 scopeid 0x5
+        inet 10.10.10.1 netmask 0xffffff00 broadcast 10.10.10.255
+        ether 00:0c:29:60:10:ba
+        groups: vlan
+        vlan: 10 parent interface: em1
+        media: Ethernet autoselect (1000baseT <full-duplex>)
+        status: active
+
+6. if we need to create another vlan and if parent will be same, we follow the above
+   procedure again listed below. note here, the parent interface is still same em1
+[root@dfly /home/masum]# ifconfig vlan20 create
+[root@dfly /home/masum]# ifconfig vlan20 vlan 20 vlandev em1
+[root@dfly /home/masum]# ifconfig vlan20 10.10.20.1/24
+[root@dfly /home/masum]# ifconfig 
+vlan20: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+        inet 10.10.20.1 netmask 0xffffff00 broadcast 10.10.20.255
+        inet6 fe80::20c:29ff:fe60:10b0%vlan20 prefixlen 64 scopeid 0x6
+        ether 00:0c:29:60:10:ba
+        groups: vlan
+        vlan: 20 parent interface: em1
+        media: Ethernet autoselect (1000baseT <full-duplex>)
+        status: active
+
+  now when a 802.1q frame comes to interface em1, seeing the vlan tag, em1
+  will pass that frame to the proper vlan interface. for example when a
+  frame of vlan tag 10 reaches in interface em1, em1 will pass it to vlan10
+
+7. now, if we have configured a vlan to a wrong interface, we can reassign to
+   another intrace by following
+
+  a. detach vlan from parent interface
+  [root@dfly /home/masum]# ifconfig vlan20 -vlandev
+  
+  b. reattach it to a new interface by following
+  [root@dfly /home/masum]# ifconfig vlan20 vlan 20 vlandev em2
+  [root@dfly /home/masum]# ifconfig
+  vlan20: flags=8802<BROADCAST,SIMPLEX,MULTICAST> mtu 1500
+        inet 10.10.20.1 netmask 0xffffff00 broadcast 10.10.20.255
+        inet6 fe80::20c:29ff:fe60:10b0%vlan20 prefixlen 64 scopeid 0x6
+        ether 00:0c:29:60:10:c4
+        groups: vlan
+        vlan: 20 parent interface: em2
+        media: Ethernet autoselect (1000baseT <full-duplex>)
+        status: active
+
+  note here vlan20 now attached to em2.
+
+8. if we need to destroy a vlan we do so
+[root@dfly /home/masum]# ifconfig vlan20 destroy
+
+9. this whole process can be automated at boot time by placing config
+   in /etc/rc.conf file.
+
+cloned_interfaces="vlan10 vlan20 vlan30"
+ifconfig_vlan10="inet 10.10.10.1/24 vlan 10 vlandev em1"
+ifconfig_vlan20="inet 10.10.20.1/24 vlan 20 vlandev em1"
+ifconfig_vlan30="inet 172.16.30.1/24 vlan 30 vlandev em2"
+ifconfig_em1="up"
+ifconfig_em2="up"
+
+
