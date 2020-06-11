@@ -29,7 +29,7 @@ class GitOperation():
     os.system('git pull')
     os.system ('git add .')
     print(term.blue + "%20s" % "Commiting with msg: " + "'" + msg + "'" + term.cyan)
-    os.system('git commit -m "%20s"' % msg) 
+    os.system('git commit -m "%s"' % msg) 
     print(term.green + "%20s" % "Pushing now to upstream " + term.cyan)
     os.system('git push origin master')
     GitOperation.GitPrint('-')
