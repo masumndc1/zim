@@ -29,3 +29,4 @@ export PKG_PATH="${PKG_PATH}"
 
 ...
 
+... and then reboot machine
