@@ -14,3 +14,8 @@ gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
 [root@localhost ~]#
+
+Could not request certificate: 
+The certificate retrieved from the master does not match the agent's private key.
+On the master:  puppet cert clean host.fqdn.com
+On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete 
