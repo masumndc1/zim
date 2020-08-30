@@ -174,3 +174,5 @@ splunk:
 
 [masum@master ~]$ sudo salt-call cmd.run cwd=/usr 'pwd'
 
+... to update fileserver backend run following on master
+sudo salt-run fileserver.update
