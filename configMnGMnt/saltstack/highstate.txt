@@ -88,4 +88,6 @@ include:
  - .testing
 [root@ansible salt]#
 
+... to select minions in a particular environment, say production
+salt \* state.highstate saltenv=production test=ture
 
