@@ -454,5 +454,12 @@ lxc --help
 lxc command --help
 lxc stop --help
 
+... to find the configurations, lxd is running issue following
+... this is also called preseed file.
 
+$ sudo lxd init --dump 
+
+... this preseed file can be also used to set up another node
+
+$ sudo lxd init --preseed preseed_file
 
