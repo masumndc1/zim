@@ -176,3 +176,6 @@ splunk:
 
 ... to update fileserver backend run following on master
 sudo salt-run fileserver.update
+
+... to check which sls will be applied to which minion run following.
+sudo salt \* state.show_top
