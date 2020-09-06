@@ -8,4 +8,8 @@ host's fingerprint to your known_hosts file to manage this host."}
 
 └──╼ # ssh-keyscan -H 192.168.122.227 >> /home/user/.ssh/known_hosts 
 
+... if you have encounter following error.
+"unsupported parameter for module: path"
 
+Then you might have ansible version 2.0.0 or less. 
+its better to update your ansible.
