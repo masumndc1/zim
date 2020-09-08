@@ -1,0 +1,69 @@
+
+
+... snap is new package manager tools for all variety of linux
+... 
+... install snap
+... apt-get install snapd
+
+... install something by snap
+... snap install lxd
+
+... list packages installed by snap 
+masum@cmp1-prod:~$ snap list
+Name    Version   Rev    Tracking       Publisher   Notes
+core18  20200724  1885   latest/stable  canonical✓  base
+lxd     4.4       16926  latest/stable  canonical✓  -
+snapd   2.45.3.1  8790   latest/stable  canonical✓  snapd
+masum@cmp1-prod:~$
+
+... download snap just run
+... snap download --stable vlc
+
+... enable or disable any snap from system
+... snap enable lxd 
+... snap disable vlc
+
+... find a package to install
+masum@cmp1-prod:~$ snap find vlc
+Name             Version                 Publisher  Notes  Summary
+vlc              3.0.11                  videolan✓  -      The ultimate media player
+mjpg-streamer    2.0                     ogra       -      UVC webcam streaming tool
+audio-recorder   3.0.5+rev1432+pkg-7b07  brlin      -      A free audio-recorder for Linux (EXTREMELY BUGGY)
+tundra           0.1.0                   m4tx       -      MyAnimeList scrobbler
+dav1d            0.7.0                   videolan✓  -      AV1 decoder from VideoLAN
+peerflix         v0.39.0+git1.df28e20    pmagill    -      Streaming torrent client for Node.js
+test-streamlink  1.4.1-64-g599f362e      addq1eax   -      test-Streamlink
+masum@cmp1-prod:~$
+
+... detailed info on a snap.
+... snap info lxd
+
+... install a snap
+... snap install --stable lxd
+
+... logs of a installed snap
+... sudo snap log lxd
+
+... to update all snaps in a system
+... snap refresh      # this will update all snaps installed in the system
+... snap refresh lxd  # update only lxd
+
+... delete a snap from system
+... snap remove lxd
+... snap remove --purge lxd   # to purge all of its data as well.
+
+... restarting service of snap
+... snap restart lxd
+... snap restart --reload lxd   # if service has reload options use it
+
+... query status of the service
+... snap services lxd
+
+... start a service installed by snap
+... snap start lxd    # if this is stop 
+... snap stop lxd     # if want to stop
+
+... show version of all installed snap
+... snap version
+
+... more info on snap from `man snap`
