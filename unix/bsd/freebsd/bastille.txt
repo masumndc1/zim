@@ -1,0 +1,69 @@
+
+
+... bastille container platform for unix like os, for example freebsd,
+... netbsd, dragonflybsd and openbsd.
+... more documents on https://github.com/BastilleBSD/bastille
+... https://bastille.readthedocs.io/en/latest/chapters/installation.html
+... you can consider this container as small VM like lxd in linux.
+
+... install first
+# pkg search bastille
+# pkg install -y bastille
+
+... help
+# bastille --help
+
+... bootstrap first
+# bastille bootstrap 12.1-RELEASE 
+Bootstrapping FreeBSD distfiles...
+Bootstrap appears complete.
+#
+
+... now create a container
+# bastille create devel1 12.1-RELEASE 10.17.89.50
+# bastille create -V devel1 12.1-RELEASE 192.168.20.155/24 em0
+
+... or select a ip from same subnet from em0
+
+... now start that container and console it
+# bastille start devel1
+# bastille console devel1
+
+... after your work stop and destroy it
+# bastille stop devel1
+# bastille destroy devel1
+
+... now you can log in to container as well if you have set up openssh and 
+... a user and password
+# ssh user@192.168.20.155
+
+... templating for a service in bastille container
+... some pre-build templace can be found in https://gitlab.com/bastillebsd-templates
+... let download and use one, for example openssh
+# bastille bootstrap https://gitlab.com/bastillebsd-templates/openssh-server
+# bastille template devel1 bastillebsd-templates/openssh-server
+
+... list of template
+# bastille list template 
+/usr/local/bastille/templates
+/usr/local/bastille/templates/bastillebsd-templates
+/usr/local/bastille/templates/bastillebsd-templates/python
+/usr/local/bastille/templates/bastillebsd-templates/postfix
+/usr/local/bastille/templates/bastillebsd-templates/golang
+/usr/local/bastille/templates/bastillebsd-templates/openssh-server
+/usr/local/bastille/templates/BastilleBSD-Templates/zsh-antigen
+
+... list of all containers started or paused
+# bastille list containers
+
+... list of running containers
+# bastille list
+
+... Important folders are jails, releases and 
+... templates. check the content of this folders.
+root@freebsd:/usr/local/bastille # pwd
+/usr/local/bastille
+root@freebsd:/usr/local/bastille # ls
+backups         cache           jails           releases        templates
+root@freebsd:/usr/local/bastille #
+
