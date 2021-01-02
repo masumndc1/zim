@@ -1,0 +1,24 @@
+
+
+... how to install i3 on freebsd
+... main documents
+... https://www.daemon-security.com/blog/fbsd10desk-0327/
+
+... if you are using hardware
+#pkg install xorg
+
+... if you are using vmware then
+#pkg install xorg xorg-drivers xf86-video-vmware
+
+... if you are using virtual-box then
+#pkg install xorg virtualbox-ose-additions
+
+#pkg install i3 i3status i3lock dmenu sterm
+#echo "dbus_enable=\"YES\"" >> /etc/rc.conf
+#echo "hald_enable=\"YES\"" >> /etc/rc.conf
+%echo "exec /usr/local/bin/i3" > ~/.xinitrc
+#shutdown -r now
+%startx
+
+... if you dont have any display manager you can run
+startx &; lock -pn 
