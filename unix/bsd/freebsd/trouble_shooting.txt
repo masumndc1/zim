@@ -1,0 +1,6 @@
+
+
+... making edit on read-only filesystem
+... before you edit run following.
+
+# mount -u -w / 
