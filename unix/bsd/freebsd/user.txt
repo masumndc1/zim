@@ -1,0 +1,10 @@
+
+
+... adding an user to a group
+
+#pw usermod tom -G ftpusers
+
+... changing shell of an user
+
+# chsh -s /usr/local/bin/zsh masum
+
