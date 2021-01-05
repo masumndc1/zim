@@ -1,6 +1,6 @@
 
 
-  Installing freebsd12.1 alongside with Ubuntu18.04
+... Installing freebsd12.1 alongside with Ubuntu18.04
 
 1. after installing ubuntu18.04, i have install freebsd12.01
 
