@@ -20,3 +20,12 @@ scan_ssid=1
 4. finally restart your network interface like
 # service netif restart
 
+... an another instance I have to provide following in
+... /etc/rc.conf
+
+wlans_ath0="wlan0"
+create_args_wlan0="country FI"
+wpa_supplicant_enable="YES"
+ifconfig_wlan0="WPA SYNCDHCP"
+
+
