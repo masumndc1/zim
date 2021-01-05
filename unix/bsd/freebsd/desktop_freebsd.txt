@@ -39,5 +39,6 @@ gnome_enable="YES"
 10. there are many other window manager like mate and lxde-meta. to do so,
 install lxde-meta and echo 'exec startlxde' > ~/.xinitrc
 
+... in my asus laptop i could not run gnome
 
 
