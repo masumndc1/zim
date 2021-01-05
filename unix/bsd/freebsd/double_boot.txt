@@ -20,10 +20,19 @@ exec tail -n +3 $0
 # This file provides an easy way to add custom menu entries.  Simply type the
 # menu entries you want to add after this comment.  Be careful not to change
 # the 'exec tail' line above.
-menuentry "freebsd" {
+
+➜  grub.d cat 40_custom 
+#!/bin/sh
+exec tail -n +3 $0
+# This file provides an easy way to add custom menu entries.  Simply type the
+# menu entries you want to add after this comment.  Be careful not to change
+# the 'exec tail' line above.
+# added by me
+menuentry "FreeBSD" {
+        set root='(hd0,3)'
         insmod ufs2
-        set root=(hd0,gpt5)
-        kfreebsd /boot/loader
+        kfreebsd /boot/boot
+        chainloader +1
 }
 
 3. make some changes in /etc/default/grub.conf to increase grub-timeout 
@@ -31,12 +40,14 @@ and disable grub-hidden so you can select freebsd during machine booting.
 
 GRUB_DEFAULT=0
 #GRUB_TIMEOUT_STYLE=hidden
+GRUB_TIMEOUT_STYLE=menu
 GRUB_TIMEOUT=60
 GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 GRUB_CMDLINE_LINUX=""
 
 4. finally update grub and reboot.
+
 root@nobody:/etc/grub.d# update-grub
 Sourcing file `/etc/default/grub'
 Generating grub configuration file ...
