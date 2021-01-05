@@ -11,3 +11,19 @@
 ... this will update the grub again which will let other os to boot at the
 ... booting time.
 
+... updating timeout of grub
+
+GRUB_DEFAULT=0
+#GRUB_TIMEOUT_STYLE=hidden
+#GRUB_TIMEOUT_STYLE=countdown
+GRUB_TIMEOUT=30
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+GRUB_CMDLINE_LINUX=""
+
+
+... make it 30s and to display at boot time. Two other options are hidden and countdown
+
+GRUB_HIDDEN_TIMEOUT=30
+GRUB_TIMEOUT_STYLE=menu
+
