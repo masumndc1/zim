@@ -1,0 +1,13 @@
+
+
+... followings are some pkg we have found very useful for us
+
+# pkg install -y \
+        git vim ohmyzsh
+        sterm python3 python36
+
+... optional pkgs
+
+# pkg install -y \
+      py37-ansible py37-ipython
+
