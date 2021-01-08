@@ -20,8 +20,8 @@ and a flash on your console as we switch over to the new display driver.
 5. Add following in /boot/loader.conf to two display working.
 i915kms_load="YES"
 
-6. (optional) I might had to install xrandr
-$ sudo pkg install xrandr
+6. I might had to install xrandr and arandr
+$ sudo pkg install xrandr arandr
 
 I have found this had worked.
 
