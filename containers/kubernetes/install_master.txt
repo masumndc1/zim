@@ -2,7 +2,7 @@
 
 ... installing kubernetes in master 
 ... here we have only one node(192.168.10.137) and one master(192.168.10.138).
-... in the node there is running docker inside which the severals system is running.
+... in the node there is running docker inside which severals system are running.
 ... master is used to control the nodes.
 ... look the masum.jpg for the architecture of this sample configuration.
 ... 
