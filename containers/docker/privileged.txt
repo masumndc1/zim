@@ -1,0 +1,20 @@
+
+
+... to run a docker container like a small os, we need to run
+... docker in privileged mode.
+
+... To run a full operating system in a container 
+... create the following Dockerfile:
+
+FROM fedora:25
+
+CMD /sbin/init
+
+... Then build and start the container and enter a shell 
+... inside it to explore the services running inside it:
+
+docker build -t os .
+docker run -d --privileged --name os os
+docker exec -it os bash
+
+
