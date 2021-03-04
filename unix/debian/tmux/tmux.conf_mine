@@ -3,6 +3,7 @@
 # https://github.com/tmux-plugins/tpm
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Press prefix + I (capital i, as in Install) to fetch the plugins.
+# or run `tmux source .tmux.conf` if prefix + I does not work.
 # use this file as .tmux.conf file as your tmux configuration file.
 # better prefix key
 #set -g prefix C-a
@@ -26,4 +27,4 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-sidebar'
 # TMUX plugin manager (keep at the bottom of tmux.conf)
 run -b '~/.tmux/plugins/tpm/tpm'
-#
+
