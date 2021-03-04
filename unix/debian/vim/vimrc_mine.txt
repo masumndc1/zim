@@ -72,7 +72,7 @@
     "Make sure you use single quotes
     Plug 'nvie/vim-flake8'
     Plug 'morhetz/gruvbox'
-    Plug 'fatih/vim-go' , { 'do': ':GoInstallBinaries' }
+    "Plug 'fatih/vim-go' , { 'do': ':GoInstallBinaries' }
     Plug 'vim-ruby/vim-ruby'
     Plug 'hashivim/vim-terraform'
     Plug 'vim-python/python-syntax'
@@ -94,7 +94,7 @@
     Plug 'kien/ctrlp.vim'
     Plug 'powerline/powerline'
     Plug 'scrooloose/nerdtree'
-    Plug 'davidhalter/jedi-vim'
+    "Plug 'davidhalter/jedi-vim'
     Plug 'bluz71/vim-moonfly-colors'
     Plug 'pearofducks/ansible-vim'
     Plug 'chase/vim-ansible-yaml'
