@@ -127,3 +127,7 @@ let g:ansible_name_highlight = 'd'
 let g:ansible_extra_keywords_highlight = 1
 
 set background=dark
+"" your own mac does not highlights syntax for
+"" go, lua and python
+"" therefore you needed this.
+set term=xterm-256color
