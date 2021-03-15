@@ -1,4 +1,5 @@
 mod what;
+mod os_command;
 
 fn main() {
     println!("Hello, world!");
@@ -11,6 +12,9 @@ fn main() {
 
     // let y = five(6);
     println!("The value of y is: {}", y = what::bot::five(6));
+
+    os_command::run_command::ping(5);
+    os_command::run_command::listing();
 }
 
 /*fn number(x: i8) {
