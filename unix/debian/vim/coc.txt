@@ -1,0 +1,26 @@
+
+
+...
+... coc is a nice alternative to language server programming.
+... this easily can be installed and can be used with neovim or vim.
+...
+... install: to install do following.
+... Install nodejs >= 10.12:
+... curl -sL install-node.now.sh/lts | bash
+... For vim-plug users:
+... Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+...
+... after that we can run following command 
+... :CoCList          // list available options
+... :CoCInstall       // Install coc options
+...
+... coc marketplace is a nice and convenient place to find and instatll 
+... :CocInstall coc-marketplace
+... 
+... after that you can install many coc. for example
+... ":CocList marketplace list" all available extensions
+... :CocList marketplace python  // python coc
+
+... there is another place you can search and install 
+... coc from there. https://npms.io/search?q=coc
+... 
