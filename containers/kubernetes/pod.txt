@@ -163,6 +163,12 @@ root:~/ $
 
 kubectl -n default port-forward httpd 8888:80
 
+... this is how we do port-forward from any ip address.
+
+masum@master-node:~$ sudo kubectl port-forward --address 0.0.0.0 mahrus 80:80
+Forwarding from 0.0.0.0:80 -> 80
+Handling connection for 80
+
 ... here -n default is the namespace
 ... httpd is the pod name
 ... 8888 localport
