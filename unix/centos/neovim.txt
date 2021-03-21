@@ -23,7 +23,9 @@ pip install --upgrade pip
 
 pip install neovim
 
-... 
+... if you get following error do following, 
+... "Required vim compiled with +python"
+... run "apt-get install vim-gnome-py2" 
 
 
-
+... vim-python-jedi - autocompletion tool for Python - VIM addon files
