@@ -1,0 +1,49 @@
+
+
+... how to install vim and set up your own ide by vim and its .vimrc
+...
+... install python and some common python modules.
+... pip install python-language-server pyls pynvim pyvim
+
+... install vim Plug
+... curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+... if you are using neovim
+... 
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+... 
+... install vim vundle
+... git clone https://github.com/VundleVim/Vundle.vim.git
+              ~/.vim/bundle/Vundle.vim 
+...
+... coc install: to install do following.
+... Install nodejs >= 10.12:
+... curl -sL install-node.now.sh/lts | bash
+... For vim-plug users:
+... Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+... copy vimrc_working_fine.txt in your /home/your/~.vimrc
+... 
+... now run following to install all the plugins 
+... run :PlugInstall          to install all vim-plug plugins
+... run :PluginInstall        to install all vim-vundle plugins
+... :CoCInstall               to install coc lsp
+... :CoCInstall marketplace   to install coc marketplace
+... 
+... for coc you will need to install following lsp(go,rust,python,lua)
+... full language support can be found on 
+... https://github.com/neoclide/coc.nvim/wiki/Language-servers
+... 
+... here just copy and paste lanaguage snippet in .vim/coc-settings.json
+... if you have not installed lsp by :cocinstall. example of file can be
+... 
+... ~/.vim/coc-settings.json
+{
+ "languageserver": {
+   "lua": {
+    "command": "lua-lsp",
+    "filetypes": ["lua"]
+  }
+} 
