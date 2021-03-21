@@ -3,6 +3,7 @@
 ...
 ... coc is a nice alternative to language server programming.
 ... this easily can be installed and can be used with neovim or vim.
+... https://github.com/neoclide/coc.nvim
 ...
 ... install: to install do following.
 ... Install nodejs >= 10.12:
@@ -24,3 +25,13 @@
 ... there is another place you can search and install 
 ... coc from there. https://npms.io/search?q=coc
 ... 
+
+... if you have install vanila coc then you will find settings in
+... ~/.vim/coc-settings.json where you will add language settings from
+... 
+
+... if you install coc by using above method your coc-settings.json
+... should be empty. :cocinstall will handle most of things for you.
+... also remember dont install same thing by coc and from plug
+... you should install lsp by coc not plug.
+...
