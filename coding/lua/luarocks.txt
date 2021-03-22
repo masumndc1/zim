@@ -1,0 +1,22 @@
+
+
+... luarocks is a nice tools to install lua module and manage them.
+... however you need to do bit work to integrate it with lua
+... 
+... first install lua by package manager say, in ubuntu
+... apt-get install lua5.x 
+
+... then install luarocks.
+... apt-get install luarocks
+... 
+... run following to integrate luarocks works with lua
+... 
+LUAROCKS_PREFIX=/usr/local
+export LUA_PATH="$LUAROCKS_PREFIX/share/lua/5.x/?.lua;$LUAROCKS_PREFIX/share/lua/5.x/?/init.lua;;"
+export LUA_CPATH="$LUAROCKS_PREFIX/lib/lua/5.x/?.so;;"
+... 
+... now install module for lua by luarocks and 
+... use it inside your lua code.
+... luarocks install luafilesyste
+
+
