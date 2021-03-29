@@ -1,10 +1,10 @@
 pub mod run_command {
     use std::process::Command;
-    pub fn ping(x: i16) {
+    pub fn ping(x: usize) {
         print!("value of x is {}", x);
         Command::new("/sbin/ping")
             .arg("-c")
-            .arg("2")
+            .arg("&x")
             .arg("localhost")
             .spawn()
             .expect("failed to execute process");
