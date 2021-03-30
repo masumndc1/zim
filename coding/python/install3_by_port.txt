@@ -1,0 +1,26 @@
+
+
+... 
+... how to install python3 in mac by port
+... 
+
+sudo port install python36
+sudo port select --set python python36
+
+... now do same for pip
+
+sudo port install py36-pip
+sudo port select --set pip pip36
+
+... now check version
+
+> python --version
+Python 3.6.13
+
+> pip --version
+pip 21.0.1 from
+/opt/local/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pip
+(python 3.6)
+>
+
+
