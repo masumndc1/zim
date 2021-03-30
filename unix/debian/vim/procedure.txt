@@ -30,7 +30,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ... run :PlugInstall          to install all vim-plug plugins
 ... run :PluginInstall        to install all vim-vundle plugins
 ... :CoCInstall               to install coc lsp
-... :CoCInstall marketplace   to install coc marketplace
+... :CoCInstall coc-marketplace   to install coc marketplace
 ... 
 ... for coc you will need to install following lsp(go,rust,python,lua)
 ... full language support can be found on 
