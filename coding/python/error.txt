@@ -1,0 +1,20 @@
+
+... 
+... ssl related error in mac.
+... 
+... install openssl in mac by port
+
+port install openssl or
+port install openssl10
+
+... now you may also need to install openssl for python also
+
+port install py36-openssl
+
+... now you can install pkgs for python by pip. for example
+
+pip install --user pep8
+pip install --user virtualenv
+
+... 
+
