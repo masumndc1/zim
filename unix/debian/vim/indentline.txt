@@ -1,0 +1,27 @@
+
+
+... how to add indentline in vim
+... https://github.com/Yggdroot/indentLine
+... 
+
+... installation.
+
+git clone https://github.com/Yggdroot/indentLine.git \
+   ~/.vim/pack/vendor/start/indentLine \
+   vim -u NONE -c "helptags  \
+   ~/.vim/pack/vendor/start/indentLine/doc" -c "q"
+
+... vundle: add following in .vimrc. Then :PluginInstall
+
+Plugin 'Yggdroot/indentLine'
+
+... I have used followings in my .vimrc.
+
+  ""highlight conceal color with your colorscheme
+  let g:indentLine_enabled = 1
+  let g:indentLine_color_term = 239
+  let g:indentLine_setColors = 1
+  let g:indentLine_char_list = ['|']
+  let g:indentLine_bgcolor_term = 202
+
+
