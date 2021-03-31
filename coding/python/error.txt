@@ -17,4 +17,10 @@ pip install --user pep8
 pip install --user virtualenv
 
 ... 
+... if you have error in making virtualenv then you can try to 
+... updating all packages installed by brew.
+
+brew update && brew upgrade
+
+... 
 
