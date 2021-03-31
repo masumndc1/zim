@@ -1,0 +1,26 @@
+
+
+... how to install lsp in vim
+... https://github.com/mattn/vim-lsp-settings
+... add following in .vimrc
+
+Using the vim-plug plugin manager. You need to install both vim-lsp and vim-lsp-settings.
+
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+If you want to use auto-completion, you can use one of the following.
+
+asyncomplete.vim: 
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+deoplete.nvim:
+Plug 'Shougo/deoplete.nvim'
+Plug 'lighttiger2505/deoplete-vim-lsp'
+
+... to install server run following.
+...
+
+:LspInstallServer
+
