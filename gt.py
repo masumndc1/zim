@@ -25,11 +25,11 @@ class GitOperation():
   @classmethod
   def GitPullPush(cls, msg):
     GitOperation.GitPrint('*')
+    print(term.red + "%s" % "Pulling before pushing")
+    os.system('git pull --rebase')
     os.system ('git add .')
     print(term.blue + "%20s" % "Commiting with msg: " + "'" + msg + "'" + term.cyan)
     os.system('git commit -m "%s"' % msg) 
-    print(term.red + "%s" % "Pulling before pushing")
-    os.system('git pull --rebase')
     print(term.green + "%20s" % "Pushing now to upstream " + term.cyan)
     os.system('git push origin master')
     GitOperation.GitPrint('-')
