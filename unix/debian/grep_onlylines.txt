@@ -1,0 +1,8 @@
+
+
+... this how just grep lines which does not started with # 
+... remove all empty space in between lines.
+
+cat glance-cache.conf | grep -v -e "^#" | grep -e "^."
+
+
