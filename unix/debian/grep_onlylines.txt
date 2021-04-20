@@ -5,4 +5,7 @@
 
 cat glance-cache.conf | grep -v -e "^#" | grep -e "^."
 
+... another way can be
+cat glance-cache.conf | grep -v -e "^#" | grep -e "^$"
+
 
