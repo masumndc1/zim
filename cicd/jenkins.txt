@@ -1,0 +1,8 @@
+
+
+...
+... the most import file for jenkins is jenkinsfile. 
+... in this file we define workflows and pipeline.
+... more on syntax on jenkinsfile can be found in
+... https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
+...
