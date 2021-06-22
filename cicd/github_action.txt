@@ -1,0 +1,13 @@
+
+
+... github has nice ci/cd pipe which is called github_action.
+...
+... pipeline is written in yaml file and will be placed in
+... .github/workflows/example_pipeline.yml file.
+...
+... full documents can be found in.
+... https://docs.github.com/en/actions
+... 
+... document for workflow syntax: 
+... https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+... 
