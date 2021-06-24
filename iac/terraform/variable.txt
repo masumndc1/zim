@@ -11,19 +11,18 @@ resource "provider_resourcename" "name" {
 }
 
 ... variable declaration in Terraform
+... we can declare one variable by using the keyword "variable".
 
-... we can declare one variable by using the keyword variable.
-
-... in variable we can have description,default and type.
-... description is good to
-... use, why this variable is being used in the code. while running plan or
-... apply this description will be displayed.
+... description
+... For variable we can have description,default and type.
+... description is good to use for why this variable is being used 
+... in the code. while running plan or apply, this description will be displayed.
 
 ... default
 ... default value to pass. we can pass default value in command prompt by using
 ... -var options or from file -var-file or from environment variable like
-... TF_VAR_<variable_name>. if not value is given then it will try to set default
-... to it selt. if terraform cant then terraform will ask for a default value.
+... TF_VAR_<variable_name>. if no value is passed then it will try to set default
+... to itselt. if terraform cant find value, then terraform will ask for a default value.
 
 ... type
 ... type must either of map, list, string. if no type is specified then Terraform
@@ -31,14 +30,21 @@ resource "provider_resourcename" "name" {
 
 ... example of variable declaration
 
-variable {
+variable "variable_name" {
   description = "example of variable declaration"
   type = "list"
   default = [1, 2, 3]
 }
 
-... we can pass the value of the variable in command line by following way
-...
+... another example of variable declartion
+
+variable "server_port" {
+  description = "Port on which http will listen"
+  type = "string"
+  default = 80
+}
+
+... we can also pass the value of the variable in command line by following way
 
 terraform plan -var server_port="8080"
 
@@ -66,6 +72,7 @@ variable "vsphere_password" {
         type = "string"
         default = "YourPasswordH3r3"
 }
+
 [root@localhost terraform-test]#
 
 ... and the usage of variable is below
@@ -82,7 +89,7 @@ provider "vsphere" {
 <output cut>
 
 ... note here, how we use variable interpolation syntax here.
-... we place var first, then dot, then variable name. like
+... we placed var first, then dot, then variable name. like
 
 ${var.vsphere_server}
 
@@ -105,6 +112,6 @@ data "vsphere_network" "mgmt_lan" {
 }
 
 ... above is an example of how block of data source is used. the working mechanism
-... of data source here is, data will ask provider for vshpere_network information.
+... of data source here is, data will ask provider for "vshpere_network" information.
 
 
