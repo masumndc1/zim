@@ -1,10 +1,9 @@
 
 
 ... various type of declaration in terraform.
+... more on variables: https://www.terraform.io/docs/language/values/variables.html
 
 ... resource type declaration
-...
-...
 
 resource "provider_resourcename" "name" {
  [ series of config]
@@ -135,5 +134,4 @@ data "vsphere_network" "mgmt_lan" {
 
 ... above is an example of how block of data source is used. the working mechanism
 ... of data source here is, data will ask provider for "vshpere_network" information.
-
 
