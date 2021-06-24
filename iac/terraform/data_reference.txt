@@ -21,3 +21,13 @@ resource "openstack_networking_router_v2" "router3" {
 ... note here how we have used data reference in external_network_id.
 
 
+... using data source in instance.tf file is nothing but query the provider
+... for data. for example is given below.
+
+data "vsphere_network" "mgmt_lan" {
+  name          = "VM Network"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+... above is an example of how block of data source is used. the working mechanism
+... of data source here is, data will ask provider for "vshpere_network" information.
