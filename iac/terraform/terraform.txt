@@ -1,13 +1,10 @@
 
 
-... using terraform to make vm in esxi.
+... Using terraform to make VM in esxi and vCenter.
 
-... we can still make vm if we dont have vcenter and without using
-... template. template is needed to make vms by using terraform.
-
-... but if we dont have vcenter then we create the template too.
-... in that case, we need to define an empty resource pool when using
-... a standalone ESXi host.
+... First of all we need a Template. Template is a plan which is needed to make 
+... VMs by using terraform. If we dont have vcenter, we need to define an empty 
+... resource pool for a standalone ESXi host.
 
 ... basic
 ... at first we need to initial terraform
@@ -15,11 +12,8 @@
 [root@localhost ~]# terraform
 Usage: terraform [-version] [-help] <command> [args]
 
-The available commands for execution are listed below.
-The most common, useful commands are shown first, followed by
-less common or more advanced commands. If you're just getting
-started with Terraform, stick with the common commands. For the
-other commands, please read the help and docs before usage.
+If you're just getting started with Terraform, stick with the 
+common commands. For the other commands, please read the help and docs before usage.
 
 Common commands:
     apply              Builds or changes infrastructure
@@ -49,7 +43,6 @@ All other commands:
     state              Advanced state management
 [root@localhost ~]#
 
-
 [root@localhost ~]# terraform init
 Terraform initialized in an empty directory!
 
@@ -61,13 +54,15 @@ with Terraform immediately by creating Terraform configuration files.
 
 [root@localhost ~]#
 
-... we will test and run the terraform to make virtual machines now.
+... we will test and run the terraform to make virtual machines.
 
 ... we will need following three files.
-
-... terraform.tfvars: contains the credentials for the vsphere login
-... instance.tf: contains most of the infrastructure definition
-... variables.tf contains the variables which can be passed into the instance.tf file for processing.
+... 1. terraform.tfvars:  Optional: if you have a large amount of variables 
+                          needs to be define. Apply by 
+                          terraform apply -var-file="terraform.tfvars"
+... 2. instance.tf:       contains most of the infrastructure definition
+... 3. variables.tf       contains the variables which can be passed into 
+                          the instance.tf file for processing.
 
 ... and the content of the files can be are below.
 
@@ -76,14 +71,13 @@ vsphere_server = "172.16.17.130"
 vsphere_user = "root"
 vsphere_password = "your_password"
 [root@localhost .terraform.d]#
+
 [root@localhost .terraform.d]# cat variables.tf
 variable "vsphere_server" {}
 variable "vsphere_user" {}
 variable "vsphere_password" {}
 [root@localhost .terraform.d]#
 
-
-[root@localhost terraform-test]#
 [root@localhost terraform-test]# terraform init
 
 Initializing provider plugins...
@@ -113,7 +107,6 @@ commands will detect it and remind ynou to do so if necessary.
 
 ... now running the following commands
 
-
 [root@localhost terraform-test]# terraform plan --out=test2.plan
 
 Warning: vsphere_virtual_machine.test2: "disk.0.name": [DEPRECATED]
@@ -126,9 +119,6 @@ the name of one on new disks or virtual machines. For more information, see the
 documentation for the label attribute at:
 
 https://www.terraform.io/docs/providers/vsphere/r/virtual_machine.html#label
-
-
-
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
@@ -228,7 +218,6 @@ Terraform will perform the following actions:
       wait_for_guest_net_routable:               "true"
       wait_for_guest_net_timeout:                "0"
 
-
 Plan: 1 to add, 0 to change, 0 to destroy.
 
 ------------------------------------------------------------------------
@@ -238,8 +227,6 @@ This plan was saved to: test2.plan
 To perform exactly these actions, run the following command to apply:
     terraform apply "test2.plan"
 
-[root@localhost terraform-test]#
-[root@localhost terraform-test]#
 [root@localhost terraform-test]# terraform apply test2.plan
 vsphere_virtual_machine.test2: Creating...
   boot_retry_delay:                          "" => "10000"
@@ -320,12 +307,12 @@ vsphere_virtual_machine.test2: Creating...
   vmx_path:                                  "" => "<computed>"
   wait_for_guest_net_routable:               "" => "true"
   wait_for_guest_net_timeout:                "" => "0"
-vsphere_virtual_machine.test2: Creation complete after 1s (ID: 564d83c6-4871-6800-5709-48                                                                    680862588c)
+vsphere_virtual_machine.test2: Creation complete after 1s 
+(ID: 564d83c6-4871-6800-5709-48680862588c)
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 [root@localhost terraform-test]#
 
-... after all the testing we can destroy the infrastructure and clean up using
-... terraform cleanup commands
-
+... after all the testing if we need to destroy the infrastructure and clean up,
+... run "terraform cleanup"
 
