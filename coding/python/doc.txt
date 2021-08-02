@@ -1,6 +1,11 @@
 
 
-  Python tutorial can be found from. This is a good source of document..
 
+  This is a good source of document..
+
+  Python tutorial can be found from. 
   https://docs.python.org/3/tutorial/
   
+... "python3 setup.py build" is equivalent to unix "make" command
+... "python3 setup.py install" is equivalent to unix "make install" command
+... 
