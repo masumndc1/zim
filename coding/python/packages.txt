@@ -1,0 +1,37 @@
+
+
+... how to build packages in python
+... 
+... there is two approaches.
+... 
+... 1. with setup.py 
+... you put everything in setup.py and run
+... python3 setup.py build and
+... python3 setup.py install
+
+... 2. with setup.cfg and with setup.py
+... instead of putting build parameters in setup.py
+... you declare them in setup.cfg
+... your setup.py will only have 
+
+#!/user/bin/env python3
+
+import setuptools
+
+if __name__ == "__main__":
+    setup()
+
+... and then run
+... python3 setup.py build and
+... python3 setup.py install
+... alternatively you can run pip install -e package-folder
+
+... 3. with pyproject.toml and setup.cfg and no setup.py
+... you declare your build parameters in pyproject.toml 
+... and in setup.cfg and then run
+... "python3 -m build --sdist --wheel ."
+... you need to have pypa-build which you can install by
+... pip install build
+... you can do all them in a single shot,
+... pip install -e package_folder
+... 
