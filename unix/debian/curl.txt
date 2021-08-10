@@ -17,7 +17,11 @@ curl --resolve www.masum.com:80:130.211.24.177 http://www.masum.com/
 ... resume the download beginning where it left off.
 
 $ curl -C - -O http://yourdomain.com/yourfile.tar.gz
+$ curl -C - -L
+https://download.freebsd.org/ftp/releases/amd64/amd64/ISO-IMAGES/13.0/FreeBSD-13.0-RELEASE-amd64-bootonly.iso
+-o freebsd13.iso
 
+... or if you want to save file as remote file name, use -O
 ... Upload Files to an FTP server with or without Authentication
 ... To upload a local file named mylocalfile.tar.gz to ftp://yourftpserver using curl, do:
 
