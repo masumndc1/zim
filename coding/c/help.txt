@@ -1,0 +1,11 @@
+
+
+... how to find help on c-library functions.
+...
+... simply run following. for example,
+...
+... man 2 syscalls                  // checkout this
+... man 3 getopt                    // options related
+... man 3 fget                      // character related
+... man 3 string                    // string related
+... 
