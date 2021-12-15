@@ -15,7 +15,7 @@ import platform
 ansible_package = "ansible"
 
     # first determine ansible package, pre_command and distro.
-    if 'FreeBSD' in platform.system() or 'DragonFly' in platform.system():
+    if ('FreeBSD','DragonFly') in platform.system():
         ansible_package = "py37-ansible"
         os_package_manager = "pkg"
 
@@ -26,7 +26,7 @@ ansible_package = "ansible"
         if 'Ubuntu' in platform.dist():
            os_package_manager = "apt"
 
-        elif 'centos' in platform.dist() or 'rockylinux' in platform.dist():
+        elif ('centos','rockylinux') in platform.dist():
            os_package_manager = "yum"
 
     else:
