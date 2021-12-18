@@ -1,53 +1,52 @@
 #define _POSIX_SOURCE
 #include <stdio.h>
 #include <unistd.h>
-#include <errno.h>
 #include <sys/types.h>
 #include <string.h>
-#include <sys/utsname.h>
 
-int main(void)
-{
+
+int main (int argc, char *argv[]) {
+
    char *command; 
 
-   /* determine which linux distro it is 
-    * based on that select command */
-   FILE * fl = fopen("/etc/os-release", "r");
-   
-   if (!fl) 
-       perror("We only support unix/linux OS");
-
-   if ((!fscanf(fl, "SUSE")) 
-             || (!fscanf(fl, "openSUSE"))) {
-         command = "zypper update -y\n"
-                   "zypper install -y ansible";
+   if (argc <= 1) {
+      printf("%s suse|opensuse|ubuntu|debian|rockylinux|centos|fedora|freebsd|dragonfly\n", argv[0]);
+      return 1;
    }
-   
-   else if ((!fscanf(fl, "Debian")) 
-             || (!fscanf(fl, "Ubuntu"))) {
+
+
+   if (!strcmp("debian", argv[1])
+             || !strcmp("ubuntu", argv[1])) {
          command = "apt update -y\n"
                    "apt install -y ansible";
    }
 
-   else if ((!fscanf(fl, "FreeBSD")) 
-	     || (!fscanf(fl, "DragonFly"))) {
+   else if (!strcmp("freebsd", argv[1]) 
+             || !strcmp("dragonfly", argv[1])) {
          command = "pkg update -y\n"
-                   "pkg install -y ansible";
+                   "pkg install -y py38-ansible";
    }
 
-   else if ((!fscanf(fl, "CentOS")) 
-             || (!fscanf(fl, "RockyLinux"))
-	     || (!fscanf(fl, "Fedora"))) {
+   else if (!strcmp("centos", argv[1]) 
+             || !strcmp("rockylinux", argv[1])
+	     || !strcmp("fedora", argv[1])) {
          command = "yum update -y\n"
                    "yum install -y ansible";
+   }
+
+   else if (!strcmp("suse", argv[1]) 
+             || !strcmp("opensuse", argv[1])) {
+         command = "zypper update -y\n"
+                   "zypper install -y ansible";
    }
 
    else {
           printf("we dont support this Unix/Linux OS");
    }
+   
+   /* install ansible using execl */
 
-   /* install ansible using execl and error check it */
-   if ( execl("/bin/sh","sh","-c", command, (char*)NULL) == -1 ) {
+   if (execl("/bin/sh","sh","-c", command, (char*)NULL) == -1 ) {
       perror("Can't execute program");
       return 1;
    }
