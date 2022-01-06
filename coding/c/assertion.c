@@ -16,15 +16,20 @@
  * =====================================================================================
  */
 #include <stdlib.h>
-
+#include <stdio.h>
+#include <assert.h>
 
 int 
 main (void)
 {
-  int status == 1;
+    int status = 1;
 
-  for (i = 0; i < 100; ++i) {
-    printf("%d\n", i);
-    assert (status == 0);
-  }
+      for (int i = 0; i <= 10; ++i) {
+            for (int j = 0; j <= i; ++j) {
+                    printf("%d ", j);
+            }
+          printf("\n");
+       assert (status == 1);
+      }
 }
+
