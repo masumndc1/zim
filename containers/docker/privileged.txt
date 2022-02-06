@@ -25,3 +25,10 @@ docker run -d --name redis --privileged \
   jrei/systemd-ubuntu:18.04
 
 ...
+... here is another way to do that.
+
+sudo apt-get install cgroupfs-mount
+sudo cgroupfs-mount
+sudo service docker start
+
+...
