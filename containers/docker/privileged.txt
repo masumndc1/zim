@@ -17,4 +17,11 @@ docker build -t os .
 docker run -d --privileged --name os os
 docker exec -it os bash
 
+... here is another way to do that.
+... 
 
+docker run -d --name redis --privileged \
+  -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+  jrei/systemd-ubuntu:18.04
+
+...
