@@ -1,0 +1,17 @@
+
+
+... if docker is failing for cgroup issue, fix is below.
+... if Kubernetes cgroup driver was set to systems but docker is set 
+... to systemd. 
+
+... then create /etc/docker/daemon.json and add below:
+
+{
+    "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
+ sudo systemctl daemon-reload
+ sudo systemctl restart docker
+ sudo systemctl restart kubelet
+
+...
