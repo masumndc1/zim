@@ -15,3 +15,12 @@
  sudo systemctl restart kubelet
 
 ...
+... if we need to start/stop/restart any service inside a docker
+... do following.
+
+# service --help
+# service --status-all
+# service ssh start
+# service ssh --full-restart
+
+...
