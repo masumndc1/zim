@@ -1,0 +1,8 @@
+
+
+... kubernetes related issues.
+... 
+... if the containers inside the pod cant resolve dns, 
+... restarting coredns might help.
+
+kubectl -n kube-system rollout restart deployment coredns
