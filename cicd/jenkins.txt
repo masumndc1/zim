@@ -5,8 +5,13 @@
 ... in this file we define workflows and pipeline.
 ... more on syntax on jenkinsfile can be found in
 ... https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
-... also a good vdon on this 
+...
+... also a good vdo on on this 
 ... https://www.youtube.com/watch?v=7KCS70sCoK0&t=173s
+...
+... there are also some nice webpages to look for a good
+... jenkinsfile example.
+... https://gist.github.com/merikan/228cdb1893fca91f0663bab7b095757c
 ...
 ... installation:
 ... after installing jenkins in a server log in 
@@ -62,4 +67,4 @@ pipeline {
 }
 ➜  salt-states git:(devel) 
 
-... 
+...
