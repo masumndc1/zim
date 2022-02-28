@@ -92,3 +92,4 @@ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ... you can also see how to use lua script inside your init.vim in
 ... https://github.com/ChristianChiarulli/nvcode-color-schemes.vim
+... but for that you must need clang installed.
