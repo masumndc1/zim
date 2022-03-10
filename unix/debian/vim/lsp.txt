@@ -26,10 +26,11 @@ Plug 'lighttiger2505/deoplete-vim-lsp'
 
 ... in neovim i have done it by following
 
-Plug 'neovim/nvim-lspconfig'                                                                                                                                                
+Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer' 
 
 ... then run :PlugInstall and :LspInstall pyright 
 ...
 ... in my neovim lsp did not work without coc.
 ... with coc it just become as enhancement.
+... 
