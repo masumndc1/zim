@@ -47,8 +47,30 @@ spec:
 [root@kube-master kube]# kubectl set image deployment/node-js-deploy node-js-deploy=jonbaier/pod-scaling:0.2
 [root@kube-master kube]# kubectl rollout status deployment/node-js-deploy
 
+
 ... undoing rollout
 
+masum@controller:~$ kubectl rollout history deployments pu-dv1 
+deployment.apps/pu-dv1 
+REVISION  CHANGE-CAUSE
+1         <none>
+
+masum@controller:~$ 
+masum@controller:~$ kubectl rollout history deployments pu-dv1 --revision=1
+deployment.apps/pu-dv1 with revision #1
+Pod Template:
+  Labels:       app=pu-dv1
+        pod-template-hash=dc84b89fb
+  Containers:
+   pu-dv1:
+    Image:      ubuntu-salt-minion:v1.0
+    Port:       <none>
+    Host Port:  <none>
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+masum@controller:~$ 
 [root@kube-master kube]# kubectl rollout undo deployment/node-js-deploy
 
 ... list of deployment
