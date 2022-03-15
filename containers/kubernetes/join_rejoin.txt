@@ -1,0 +1,30 @@
+
+
+... for some reason if you need to delete a nodes and rejoin that nodes
+... into cluster, follow steps bellow.
+
+... on controller nodes:
+kubectl get nodes
+... Migrate pods from the nodeA
+kubectl drain nodeA --delete-local-data --ignore-daemonsets
+... Prevent a node from scheduling new pods use – Mark node as unschedulable
+kubectl cordon nodeA
+... finally delete node
+... kubectl delete nodes nodeA
+
+... on nodes:
+... Revert changes made to the node 
+... by ‘kubeadm join‘ 
+... Run on worker node to be removed
+sudo kubeadm reset 
+
+... when again rejoining
+... On controller:
+... check token 
+kubeadm token list
+... if you need to create a token
+sudo kubeadm token create
+... run this command on nodes.
+... generate token and rejoin command at the same time
+kubeadm token create --print-join-command
+
