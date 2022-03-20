@@ -1,0 +1,50 @@
+
+
+... contour ingress controller
+...
+
+masum@controller:~$ curl -L \
+https://raw.githubusercontent.com/projectcontour/contour/release-1.20/examples/render/contour.yaml \
+-o contour.yaml
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  269k  100  269k    0     0   950k      0 --:--:-- --:--:-- --:--:--  946k
+masum@controller:~/files$ 
+
+masum@controller:~/$ ls
+contour.yaml  daemon.txt  puppet  salt  volume
+masum@controller:~/$ 
+
+masum@controller:~$ kubectl apply -f files/contour.yaml 
+namespace/projectcontour created
+serviceaccount/contour created
+serviceaccount/envoy created
+configmap/contour created
+customresourcedefinition.apiextensions.k8s.io/contourconfigurations.projectcontour.io created
+customresourcedefinition.apiextensions.k8s.io/contourdeployments.projectcontour.io created
+customresourcedefinition.apiextensions.k8s.io/extensionservices.projectcontour.io created
+customresourcedefinition.apiextensions.k8s.io/httpproxies.projectcontour.io created
+customresourcedefinition.apiextensions.k8s.io/tlscertificatedelegations.projectcontour.io created
+serviceaccount/contour-certgen created
+rolebinding.rbac.authorization.k8s.io/contour created
+role.rbac.authorization.k8s.io/contour-certgen created
+job.batch/contour-certgen-v1.20.1 created
+clusterrolebinding.rbac.authorization.k8s.io/contour created
+clusterrole.rbac.authorization.k8s.io/contour created
+service/contour created
+service/envoy created
+deployment.apps/contour created
+daemonset.apps/envoy created
+masum@controller:~$
+
+masum@controller:~$ kubectl get service  --all-namespaces
+NAMESPACE        NAME         TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                      AGE
+projectcontour   contour      ClusterIP      10.107.171.6     <none>           8001/TCP                     5m32s
+projectcontour   envoy        NodePort       10.106.62.188    <none>           80:32454/TCP,443:30263/TCP   2m
+masum@controller:~$ 
+
+masum@controller:~$ kubectl get svc -n projectcontour -o wide
+NAME      TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE     SELECTOR
+contour   ClusterIP      10.107.171.6    <none>        8001/TCP                     6m46s   app=contour
+envoy     NodePort       10.109.119.48   <none>        80:32122/TCP,443:32114/TCP   6m46s   app=envoy
+masum@controller:~$ 
