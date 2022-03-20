@@ -32,4 +32,15 @@ masum@controller:~$
 ... kubeadm join 192.168.20.168:6443 --token 83x4ap.yz7txwa496j5da8f --discovery-token-ca-cert-hash \
     sha256:0b9833f172cbc1521014943fc6675082b052b7eaa7c706b540d5d1e328564d82
 ...
-...
+... if you encounter following
+
+"Error from server (InternalError): error when creating "yaml/xxx/xxx-ingress.yaml": 
+Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": 
+Post https://ingress-nginx-controller-admission.ingress-nginx.svc:443/extensions/v1beta1/ingresses?timeout=30s: 
+Temporary Redirect"
+
+... remedy of this is to remove the Validating Webhook entirely:
+
+masum@controller:~$ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
+
