@@ -1,0 +1,13 @@
+
+
+... install lxd in ubuntu
+
+apt remove --purge lxd lxd-client liblxc1 lxcfs 
+apt install snap
+snap install lxd
+
+... then initial lxd by running
+
+lxd init
+
+
