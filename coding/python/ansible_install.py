@@ -13,8 +13,8 @@ import platform
 import subprocess
 
 def check_os():
-    supported_os=['FreeBSD','DragonFly','OpenBSD','Debian',
-                  'Ubuntu','CentOS','Rockylinux'
+    supported_os=['freebsd','dragonfly','openbsd','debian',
+                  'ubuntu','centos','rockylinux'
                 ]
 
     if platform.node() not in supported_os:
