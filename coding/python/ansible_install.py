@@ -43,11 +43,18 @@ def os_pkg():
 
 def commands(distro, os_package_mgr, ansible_package):
 
-    if distro == 'ubuntu' or distro == 'debian':
+    if distro == 'ubuntu':
          command = [ "%s update -y" % os_package_mgr,
             "%s install -y software-properties-common" % os_package_mgr,
             "apt-add-repository --yes --update ppa:ansible/ansible",
             "%s install -y %s" % (os_package_mgr, ansible_package)
+           ]
+         return command
+
+    if distro == 'debian':
+         command = [ "apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367",
+          "%s update -y" % os_package_mgr,
+          "%s install -y %s" % (os_package_mgr, ansible_package)
            ]
          return command
 
@@ -72,14 +79,12 @@ def commands(distro, os_package_mgr, ansible_package):
 
 def main():
     check_os()
-    ansible_package = 'ansible' if 'linux' in platform.system() else 'py37-ansible'
+    ansible_package = 'ansible' if 'Linux' in platform.system() else 'py37-ansible'
     distro, os_package_mgr=os_pkg()
     comm=commands(distro, os_package_mgr, ansible_package)
-    retcode=subprocess.call(comm)
-    if not retcode:
-       print("Ansible installation done")
-    else:
-       print("Ansible installation failed")
+    for com in comm:
+       subprocess.run(com,shell=True)
+    print("Ansible installation failed")
 
 
 if __name__ == '__main__':
