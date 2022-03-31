@@ -78,7 +78,6 @@ def commands(distro, os_package_mgr, ansible_package):
 
 
 def main():
-    check_os()
     ansible_package = 'ansible' if 'Linux' in platform.system() else 'py37-ansible'
     distro, os_package_mgr=os_pkg()
     comm=commands(distro, os_package_mgr, ansible_package)
@@ -88,5 +87,6 @@ def main():
 
 
 if __name__ == '__main__':
+    check_os()
     main()
 
