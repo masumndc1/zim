@@ -25,25 +25,25 @@ def check_os():
 
 def os_pkg():
     # first determine ansible package, pre_command and distro.
-    if 'FreeBSD' in platform.system():
-       return 'FreeBSD', 'pkg'
-    elif 'DragonFly' in platform.system():
-       return 'FreeBSD', 'pkg'
-    elif 'OpenBSD' in platform.system():
-       return 'OpenBSD', 'pkg_add'
-    elif 'Ubuntu' in platform.system():
-       return 'Ubuntu', 'apt'
-    elif 'Debian' in platform.system():
-       return 'Debian', 'apt'
-    elif 'CentOS' in platform.system():
-       return 'CentOS', 'yum'
+    if 'freebsd' in platform.system():
+       return 'freebsd', 'pkg'
+    elif 'dragonfly' in platform.system():
+       return 'dragonfly', 'pkg'
+    elif 'openbsd' in platform.system():
+       return 'openbsd', 'pkg_add'
+    elif 'linux' in platform.system() and 'ubuntu' in platform.node():
+       return 'ubuntu', 'apt'
+    elif 'linux' in platform.system() and 'debian' in platform.node():
+       return 'debian', 'apt'
+    elif 'linux' in platform.system() and 'centos' in platform.node():
+       return 'centos', 'yum'
     else:
-       return 'Rockylinux', 'yum'
+       return 'rockylinux', 'yum'
 
 
 def commands(distro, os_package_mgr, ansible_package):
 
-    if distro == 'Ubuntu' or distro == 'debian':
+    if distro == 'ubuntu' or distro == 'debian':
          command = [ "%s update -y" % os_package_mgr,
             "%s install -y software-properties-common" % os_package_mgr,
             "apt-add-repository --yes --update ppa:ansible/ansible",
@@ -51,14 +51,14 @@ def commands(distro, os_package_mgr, ansible_package):
            ]
          return command
 
-    elif distro == 'CentOS' or distro == 'Rockylinux':
+    elif distro == 'centos' or distro == 'rockylinux':
          command = [ "%s install -y epel-release" % os_package_mgr,
                    "%s -y update" % os_package_mgr,
                    "%s install -y %s" % (os_package_mgr, ansible_package)
            ]
          return command
 
-    elif distro == 'FreeBSD' or distro == 'DragonFly':
+    elif distro == 'freebsd' or distro == 'dragonfly':
          command = ["%s update -f -q" % os_package_mgr,
                  "%s install -y %s" % (os_package_mgr, ansible_package)
                 ]
