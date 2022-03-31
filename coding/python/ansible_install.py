@@ -29,16 +29,16 @@ def os_pkg():
        return 'freebsd', 'pkg'
     elif 'dragonfly' in platform.system():
        return 'dragonfly', 'pkg'
-    elif 'openbsd' in platform.system():
-       return 'openbsd', 'pkg_add'
     elif 'ubuntu' in platform.node():
        return 'ubuntu', 'apt'
     elif 'debian' in platform.node():
        return 'debian', 'apt'
     elif 'centos' in platform.node():
        return 'centos', 'yum'
-    else:
+    elif 'rockylinux' in platform.node():
        return 'rockylinux', 'yum'
+    else:
+       return 'openbsd', 'pkg_add'
 
 
 def commands(distro, os_package_mgr, ansible_package):
@@ -83,7 +83,8 @@ def main():
     comm=commands(distro, os_package_mgr, ansible_package)
     for com in comm:
        subprocess.run(com,shell=True)
-    print("Ansible installation failed")
+    retcode=subprocess.call("ansible","--version",shell=True)
+    print("Ansible installation done") if not retcode else print("Ansible installation failed")
 
 
 if __name__ == '__main__':
