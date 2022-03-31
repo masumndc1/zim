@@ -83,7 +83,7 @@ def main():
     comm=commands(distro, os_package_mgr, ansible_package)
     for com in comm:
        subprocess.run(com,shell=True)
-    retcode=subprocess.call("ansible","--version",shell=True)
+    retcode=subprocess.call("ansible --version",shell=True)
     print("Ansible installation done") if not retcode else print("Ansible installation failed")
 
 
