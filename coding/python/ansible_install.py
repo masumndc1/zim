@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Python must be installed before hand.
@@ -11,6 +11,17 @@ for Freebsd12 run: sudo pkg install python
 
 import platform
 import subprocess
+
+def check_os():
+    supported_os=['FreeBSD','DragonFly','OpenBSD','Debian',
+                  'Ubuntu','CentOS','Rockylinux'
+                ]
+
+    if platform.system() not in supported_os:
+        print("we dont support this OS")
+        exit(1)
+    else:
+        print("we support this OS")
 
 def os_pkg():
     # first determine ansible package, pre_command and distro.
@@ -71,5 +82,6 @@ def main():
 
 
 if "__name__" == "__main__":
+    check_os()
     main()
 
