@@ -19,7 +19,7 @@ def check_os():
 
     if platform.node() not in supported_os:
         print("we dont support this OS")
-        exit(1)
+        exit()
     else:
         print("we support this OS")
 
