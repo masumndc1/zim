@@ -17,7 +17,7 @@ def check_os():
                   'Ubuntu','CentOS','Rockylinux'
                 ]
 
-    if platform.system() not in supported_os:
+    if platform.node() not in supported_os:
         print("we dont support this OS")
         exit(1)
     else:
