@@ -31,11 +31,11 @@ def os_pkg():
        return 'dragonfly', 'pkg'
     elif 'openbsd' in platform.system():
        return 'openbsd', 'pkg_add'
-    elif 'linux' in platform.system() and 'ubuntu' in platform.node():
+    elif 'ubuntu' in platform.node():
        return 'ubuntu', 'apt'
-    elif 'linux' in platform.system() and 'debian' in platform.node():
+    elif 'debian' in platform.node():
        return 'debian', 'apt'
-    elif 'linux' in platform.system() and 'centos' in platform.node():
+    elif 'centos' in platform.node():
        return 'centos', 'yum'
     else:
        return 'rockylinux', 'yum'
