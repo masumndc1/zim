@@ -1,0 +1,15 @@
+
+
+... nip is a service to convert private ip to dns entry
+... see more on nip.io.
+
+... Dead simple wildcard DNS for any IP Address
+... Stop editing your etc/hosts file with custom hostname and IP address mappings.
+
+... nip.io allows you to do that by mapping any IP Address to a hostname using the following formats:
+
+... Without a name:
+
+10.0.0.1.nip.io        maps to   10.0.0.1
+192-168-1-250.nip.io   maps to   192.168.1.250
+0a000803.nip.io        maps to   10.0.8.3

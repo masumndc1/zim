@@ -1,9 +1,0 @@
-
-
-... installing lua in centos7
-
-yum search lua
-yum install -y lua.x86_64
-
-... 
-

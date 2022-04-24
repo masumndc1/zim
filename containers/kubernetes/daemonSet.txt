@@ -1,0 +1,119 @@
+
+
+... if we need to run a pod in every nodes in a kube cluster then
+... DaemonSet is the best choice for this. DaemonSet use a template to 
+... create pods in everynode.
+...
+... we can also use nodeSelector to run pod in specific node.
+... in that case kubernetes scheduler will ignore the scheduling.
+...
+... daemonSets are also controlled by reconciliation loop, that means
+... it ensures the desired states of the pods.
+...  
+
+... an example of daemonSets can be.
+... this example is taken from 
+... https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      tolerations:
+      # this toleration is to have the daemonset runnable on master nodes
+      # remove it if your masters can't run pods
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+
+// normally daemonset creates pod in every nodes but
+// if we want to use a nodeSelector then we do by following
+      nodeSelector:
+        ssd: "true"
+// 
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      terminationGracePeriodSeconds: 30
+      volues:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+
+... 
+
+masum@controller:~$ kubectl apply -f files/daemon.txt 
+daemonset.apps/fluentd-elasticsearch created
+masum@controller:~$ 
+
+masum@controller:~$ k get pods -n kube-system
+NAME                                 READY   STATUS    RESTARTS         AGE
+fluentd-elasticsearch-d2sfw          1/1     Running   0                3m31s
+fluentd-elasticsearch-mcfjp          1/1     Running   0                3m31s
+masum@controller:~$ 
+
+masum@controller:~$ k get daemonset fluentd-elasticsearch -n kube-system
+NAME                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+fluentd-elasticsearch   2         2         2       2            2           <none>          6m16s
+masum@controller:~$
+
+... more on this daemonset
+
+masum@controller:~$ k describe daemonset fluentd-elasticsearch  -n kube-system
+Name:           fluentd-elasticsearch
+Selector:       name=fluentd-elasticsearch 
+Node-Selector:  <none> 
+Labels:         k8s-app=fluentd-logging 
+Annotations:    deprecated.daemonset.template.generation: 1 
+Desired Number of Nodes Scheduled: 2
+Current Number of Nodes Scheduled: 2 
+Number of Nodes Scheduled with Up-to-date Pods: 2   
+Number of Nodes Scheduled with Available Pods: 2
+Number of Nodes Misscheduled: 0
+Pods Status:  2 Running / 0 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=fluentd-elasticsearch
+  Containers:
+   fluentd-elasticsearch:
+    Image:      quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+    Port:       <none>
+    Host Port:  <none>
+    Limits:
+      memory:  200Mi
+    Requests:
+      cpu:        100m
+      memory:     200Mi
+    Environment:  <none>
+    Mounts:
+
+-- output cut --
+
+
+

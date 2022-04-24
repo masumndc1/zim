@@ -1,0 +1,6 @@
+
+
+...
+... some plugins that I liked
+... https://vimawesome.com/plugin/indentline
+...

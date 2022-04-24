@@ -46,6 +46,24 @@
 
 ... volume: kubernetes volumes evolves from docker volume used to store data.
 
-... 
+... display various components of kubernetes
 
+masum@controller:~$ kubectl get daemonSets --namespace=kube-system
+NAME              DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-flannel-ds   2         2         1       2            1           <none>                   33d
+kube-proxy        2         2         1       2            1           kubernetes.io/os=linux   34d
+masum@controller:~$ 
 
+masum@controller:~$ kubectl get deployments --namespace=kube-system coredns
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+coredns   2/2     2            2           34d
+masum@controller:~$ 
+
+masum@controller:~$ k get services --namespace=kube-system
+NAME       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
+kube-dns   ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   34d
+masum@controller:~$ 
+
+masum@controller:~$ kubectl get pods sa-dv1 -o jsonpath --template={.status.podIP}
+10.244.1.115 
+masum@controller:~$ 

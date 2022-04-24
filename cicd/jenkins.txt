@@ -6,3 +6,65 @@
 ... more on syntax on jenkinsfile can be found in
 ... https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
 ...
+... also a good vdo on on this 
+... https://www.youtube.com/watch?v=7KCS70sCoK0&t=173s
+...
+... there are also some nice webpages to look for a good
+... jenkinsfile example.
+... https://gist.github.com/merikan/228cdb1893fca91f0663bab7b095757c
+...
+... installation:
+... after installing jenkins in a server log in 
+... http://<jenkins_ip_address>:8080
+...
+... initial password:
+... for initial password look for following file
+... "/var/lib/jenkins/secrets/initialAdminPassword"
+...
+... now you need to add one node in your jenkins server
+...
+... adding node:
+... click on dashboard, and then manage jenkins button.
+... and then click on "manage nodes and clouds" and put
+... all the information to add a node. 
+... in this node, openjdk-8-jdk or openjdk-11-jdk must be
+... installed.
+...
+... adding pipeline:
+... dashboard-newItem-enterName-selectmultibranchpipeline
+... and enter github repo and credential and all other
+... parameters.
+... github repo must have a Jenkinsfile.
+...
+... Jenkinsfile:
+... an example of jenkins file is bellow can be found 
+... https://github.com/masumndc1/salt-states
+... and in its various branches.
+
+➜  salt-states git:(devel) cat Jenkinsfile 
+pipeline {
+  agent none
+    stages {
+        stage('Build') {
+          agent { label 'salt'  }
+          steps {
+            echo 'Building..'
+           }
+        }
+        stage('Test') {
+          agent { label 'salt'  }
+            steps {
+              echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+          agent { label 'salt'  }
+            steps {
+              echo 'Deploying....'
+            }
+        }
+    }
+}
+➜  salt-states git:(devel) 
+
+...

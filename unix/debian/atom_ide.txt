@@ -1,0 +1,11 @@
+
+
+... 
+... some atom plugins.
+... 
+... Linter
+... file-icon
+... minimap
+... atom beautify
+... pigments
+... terminal-plus

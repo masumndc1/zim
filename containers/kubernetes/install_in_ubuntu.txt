@@ -9,7 +9,7 @@
 ... Install docker on all nodes.
 ... 
 
-sudo apt-get install docker.io" 
+sudo apt-get install docker.io 
 sudo systemctl enable docker
 sudo systemctl status docker
 sudo systemctl start docker
@@ -21,6 +21,9 @@ sudo systemctl start docker
 sudo apt-get install curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+... if we need to install kubernetes in ubuntu 16.04 or ubuntu 18.04 
+... ubuntu 20.04, apt-add-repository still be kubernetes-xenial.
 
 ... 
 ... Kubeadm (Kubernetes Admin) is a tool that helps initialize a cluster. 

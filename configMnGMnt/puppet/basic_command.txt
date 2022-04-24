@@ -34,4 +34,17 @@ NAME               DESCRIPTION                                              AUTH
 puppetlabs-apache  Installs, configures, and manages Apache virtual hosts,  @puppetlabs   web httpd rhel ssl wsgi  
 
 
+... check all signed puppet agent
 
+sudo /opt/puppetlabs/bin/puppetserver ca list --all
+
+... sign all pending agent 
+
+sudo /opt/puppetlabs/bin/puppetserver ca sign --all
+
+... autosign by autosign.conf. place autosign.conf following in 
+... /etc/puppet/puppetlabs/config.d/autosign.conf
+
+echo '*' >> /etc/puppet/puppetserver/config.d/autosign.conf
+
+...

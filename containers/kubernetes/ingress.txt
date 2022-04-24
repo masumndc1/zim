@@ -1,0 +1,82 @@
+
+
+... for ingress we have used nginx-ingress controller
+...
+... install by helm or kubectl apply -f file.yml
+... 
+
+# Source: ingress-nginx/templates/controller-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: ingress-nginx-4.0.1
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+
+// this section is important
+data:
+  proxy-connect-timeout: "10s"
+  proxy-read-timeout: "10s"
+  client-max-body-size: "2m"
+  external-status-address: "192.168.20.168"
+
+// you need to put above
+
+masum@controller:~$ k get svc -o wide
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE     SELECTOR
+pu-dv1       NodePort    10.99.11.229     <none>           8080:30331/TCP   62m     app=pu-dv1
+web          NodePort    10.107.0.170     <none>           8080:32370/TCP   52m     app=web
+masum@controller:~$ 
+
+masum@controller:~$ cat files/test-ingress.yaml 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: hello-world.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8080
+masum@controller:~$ 
+
+masum@controller:~$ k get ing 
+NAME              CLASS   HOSTS              ADDRESS          PORTS   AGE
+example-ingress   nginx   hello-world.info   192.168.20.167   80      33m
+masum@controller:~$ 
+
+masum@controller:~$ k describe ingress example-ingress
+Name:             example-ingress
+Labels:           <none>
+Namespace:        default
+Address:          192.168.20.167
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+Rules:
+  Host              Path  Backends
+  ----              ----  --------
+  hello-world.info  
+                    /   web:8080 (10.244.1.224:8080)
+Annotations:        nginx.ingress.kubernetes.io/rewrite-target: /$1
+Events:
+  Type    Reason  Age                From                      Message
+  ----    ------  ----               ----                      -------
+  Normal  Sync    34m (x2 over 34m)  nginx-ingress-controller  Scheduled for sync
+masum@controller:~$
+
+

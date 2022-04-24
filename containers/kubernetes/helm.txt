@@ -1,0 +1,45 @@
+
+
+... helm is the package manager for kubernetes
+...
+... install helm:
+... 
+... brew install helm
+
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | 
+      sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+... add a repo:
+
+helm repo add haproxytech https://haproxytech.github.io/helm-charts
+helm repo update
+
+... search for a repo and install
+...
+
+helm search repo haproxytech
+NAME                          	CHART VERSION	APP VERSION	DESCRIPTION                                       
+haproxytech/haproxy           	1.9.0        	2.5.0      	A Helm chart for HAProxy on Kubernetes            
+haproxytech/kubernetes-ingress	1.18.1       	1.7.4      	A Helm chart for HAProxy Kubernetes Ingress Con...
+
+helm install ingress --create-namespace ingress-controller haproxytech/kubernetes-ingress --version 1.18.1 -f values.yaml
+
+... find out installed helm
+
+masum@controller:~$ helm list --all-namespaces
+NAME    NAMESPACE       REVISION        UPDATED STATUS  CHART   APP VERSION
+masum@controller:~$ 
+
+... 
+... delete a helm chart
+
+masum@controller:~$ helm uninstall <helm_name> --namespaces <namespace>
+masum@controller:~$ helm uninstall ingress-nginx --namespaces ingress-nginx
+
+...
+... 
+
