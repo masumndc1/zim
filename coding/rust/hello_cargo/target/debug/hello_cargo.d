@@ -1,1 +1,0 @@
-/Users/mac/Documents/github/zim/coding/rust/hello_cargo/target/debug/hello_cargo: /Users/mac/Documents/github/zim/coding/rust/hello_cargo/src/main.rs /Users/mac/Documents/github/zim/coding/rust/hello_cargo/src/os_command.rs /Users/mac/Documents/github/zim/coding/rust/hello_cargo/src/what.rs
