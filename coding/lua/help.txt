@@ -1,0 +1,5 @@
+
+
+... Calling object:method(arg1, arg2) is same as object.method(object, arg1, arg2).
+... https://stackoverflow.com/questions/4911186/difference-between-and-in-lua
+
