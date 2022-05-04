@@ -30,4 +30,5 @@ class GitOperation():
     os.system('git push origin master')
 
 
-GitOperation()
+if '__name__' == '__main__':
+   GitOperation()
