@@ -1,0 +1,12 @@
+
+
+... this is a nice gui ide
+... you can try following plugings in visual code studio
+... this idea is take from https://www.youtube.com/watch?v=sS8DWRQ_tao
+... 
+... liveshare, tabnine, gitlens, import cost, emmet, vscode icons,
+... bracket pair collorized.
+... 
+... other than this: some settings good to use:
+... sidebar, ruler, setting sync on.
+...
