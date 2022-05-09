@@ -25,7 +25,7 @@ def check_os():
 
 def os_pkg():
     # first determine ansible package, pre_command and distro.
-    if 'freebsd' in platform.system():
+    if 'freebsd' in platform.system().lower():
        return 'freebsd', 'pkg'
     elif 'dragonfly' in platform.system():
        return 'dragonfly', 'pkg'
