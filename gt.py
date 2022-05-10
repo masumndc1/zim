@@ -7,6 +7,9 @@ import os
 import sys
 
 class GitOperation():
+  '''
+  gt.py "commit msg" branch_name
+  '''
 
   def __init__(self):
     if len(sys.argv) == 2:
@@ -31,4 +34,6 @@ class GitOperation():
 
 
 if '__name__' == '__main__':
+   if len(sys.argv) < 2:
+       print(__doc__)
    GitOperation()
