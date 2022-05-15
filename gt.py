@@ -19,12 +19,11 @@ class GitOperation():
 
   def _add_new_files(self):
      subprocess.call("git add .",shell=True)
-     print("-"*70)
      self._commit()
 
   def _commit(self):
      subprocess.call('git commit -m "%s"' % self.msg, shell=True)
-     print("+"*70)
+     print("-"*70)
      self._push()
 
   def _push(self):
