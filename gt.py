@@ -18,16 +18,18 @@ class GitOperation():
      self._add_new_files()
 
   def _add_new_files(self):
-     subprocess.call("git add .",shell=True)
-     self._commit()
+     retcode=subprocess.call("git add .",shell=True)
+     self._commit() if not retcode else sys.exit("could not add files")
 
   def _commit(self):
-     subprocess.call('git commit -m "%s"' % self.msg, shell=True)
+     retcode=subprocess.call('git commit -m "%s"' % self.msg, shell=True)
      print("-"*70)
-     self._push()
+     self._push() if not retcode else sys.exit("could not commit")
 
   def _push(self):
-     subprocess.call('git push origin "%s"' % self.branch, shell=True)
+     retcode=subprocess.call('git push origin "%s"' % self.branch, shell=True)
+     print("-"*70)
+     print(f"Pushed to {self.branch} branch") if not retcode else sys.exit("could not push")
 
 
 if __name__ == "__main__":
