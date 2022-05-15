@@ -1,43 +1,37 @@
 #!/usr/bin/env python3
 # this is a simple python script to automate
-# git pull, commit and push
-# to github.
+# git pull, commit and push to github.
 
-import os
 import sys
-from blessings import Terminal
+import subprocess
+
 
 class GitOperation():
-  global term
-  term = Terminal()
+  '''
+  gt.py "commit_msg" branch_name
+  '''
 
-  def __init__(self):
-    if len(sys.argv) == 2: 
-      self.msg = sys.argv[1]
-      GitOperation.GitPullPush(self.msg)
+  def __init__(self, msg, branch):
 
-    elif len(sys.argv) < 2: 
-      print(term.red + "%20s" % "You want to pull updates from upstreams. Pulling update" + term.normal)
-      print(term.red + "%20s" % "If you dont want to pull, then usage is:" + term.normal)
-      print(term.red + "%20s" % "python3 gt.py \"commit msg\"" + term.normal)
-      os.system('git pull --rebase')
+     self.msg = sys.argv[1]
+     self.branch = sys.argv[2]
+     self._add_new_files()
 
-  @classmethod
-  def GitPullPush(cls, msg):
-    GitOperation.GitPrint('*')
-    print(term.red + "%s" % "Pulling before pushing")
-    os.system('git pull --rebase')
-    os.system ('git add .')
-    print(term.blue + "%20s" % "Commiting with msg: " + "'" + msg + "'" + term.cyan)
-    os.system('git commit -m "%s"' % msg) 
-    print(term.green + "%20s" % "Pushing now to upstream " + term.cyan)
-    os.system('git push origin master')
-    GitOperation.GitPrint('-')
+  def _add_new_files(self):
+     subprocess.call("git add .",shell=True)
+     self._commit()
 
-  @classmethod
-  def GitPrint(cls, sym):
-    cls.num = term.width
-    print(term.red + sym * cls.num + term.normal)
+  def _commit(self):
+     subprocess.call('git commit -m "%s"' % self.msg, shell=True)
+     print("-"*70)
+     self._push()
+
+  def _push(self):
+     subprocess.call('git push origin "%s"' % self.branch, shell=True)
 
 
-GitOperation()
+if __name__ == "__main__":
+   if len(sys.argv) == 3:
+       GitOperation(sys.argv[1], sys.argv[2])
+   else:
+       print(GitOperation.__doc__)
