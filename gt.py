@@ -18,14 +18,17 @@ class GitOperation():
      self._add_new_files()
 
   def _add_new_files(self):
+     print("-"*70)
      subprocess.call("git add .",shell=True)
      self._commit()
 
   def _commit(self):
+     print("+"*70)
      subprocess.call('git commit -m "%s"' % self.msg, shell=True)
      self._push()
 
   def _push(self):
+     print("+"*70)
      subprocess.call('git push origin "%s"' % self.branch, shell=True)
 
 
