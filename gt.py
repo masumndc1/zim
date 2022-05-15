@@ -8,7 +8,7 @@ import subprocess
 
 class GitOperation():
   '''
-  gt.py "commit msg" branch_name
+  gt.py "commit_msg" branch_name
   '''
 
   def __init__(self, msg, branch):
