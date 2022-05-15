@@ -19,6 +19,7 @@ class GitOperation():
 
   def _add_new_files(self):
      print("-"*70)
+     print("Adding modified files")
      subprocess.call("git add .",shell=True)
      self._commit()
 
@@ -30,6 +31,7 @@ class GitOperation():
   def _push(self):
      print("+"*70)
      subprocess.call('git push origin "%s"' % self.branch, shell=True)
+     print("+"*70)
 
 
 if __name__ == "__main__":
