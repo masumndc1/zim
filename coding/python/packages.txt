@@ -2,6 +2,8 @@
 
 ... how to build packages in python
 ... 
+... doc: https://packaging.python.org/en/latest/tutorials/packaging-projects/
+...
 ... there is two approaches.
 ... 
 ... 1. with setup.py 
@@ -26,12 +28,21 @@ if __name__ == "__main__":
 ... python3 setup.py install
 ... alternatively you can run pip install -e package-folder
 
-... 3. with pyproject.toml and setup.cfg and no setup.py
+... 3. you need to have pypa-build which you can install by
+... pip install build
+... with pyproject.toml and setup.cfg and no setup.py
 ... you declare your build parameters in pyproject.toml 
 ... and in setup.cfg and then run
-... "python3 -m build --sdist --wheel ."
-... you need to have pypa-build which you can install by
-... pip install build
-... you can do all them in a single shot,
-... pip install -e package_folder
+... "python3 -m build"
+... this will create two files in dist folder, whl and tar
+
+➜  vatde git:(master) ✗ ls
+LICENSE        README.md      dist           pyproject.toml setup.cfg      src
+➜  vatde git:(master) ✗ ls dist
+vatde-0.0.1-py3-none-any.whl vatde-0.0.1.tar.gz
+➜  vatde git:(master) ✗
+
+... these two files you can ship as package to others. 
+... they can install this package by
+... pip install -e vatde/dist/vatde-0.0.1.tar.gz
 ... 
