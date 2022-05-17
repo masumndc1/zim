@@ -27,6 +27,14 @@ packer
 terraform
 (terraform)
 ... 
+... list them by lsvirtualenv
+➜  zim git:(master) ✗ lsvirtualenv -b
+py_env
+test3-iO7sDtxN
+test3
+thisisnot
+two-more
+
 ... switch one env to anothe env by
 ...
 ... # workon packer
