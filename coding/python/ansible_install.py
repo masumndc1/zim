@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 
-"""
-Python must be installed before hand.
-Run OS command to install python first.
-for Freebsd run (pkg install python36) first
-for Ubuntu16  run: sudo apt install python
-for Centos7   run: sudo rpm install python
-for Freebsd12 run: sudo pkg install python
-"""
-
 import platform
 import subprocess
+
+def help():
+    """
+    Python must be installed before hand.
+    Run OS command to install python first.
+    for Freebsd run (pkg install python36) first
+    for Ubuntu16  run: sudo apt install python
+    for Centos7   run: sudo rpm install python
+    for Freebsd12 run: sudo pkg install python
+    """
 
 def check_os():
     supported_os=['freebsd','dragonfly','openbsd','debian',
