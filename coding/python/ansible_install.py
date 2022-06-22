@@ -42,7 +42,7 @@ def os_pkg():
        return 'openbsd', 'pkg_add'
 
 
-def commands(distro, os_package_mgr, ansible_package):
+def commands(distro: str, os_package_mgr: str, ansible_package: str) -> str:
 
     if distro == 'ubuntu':
          command = [ "%s update -y" % os_package_mgr,
