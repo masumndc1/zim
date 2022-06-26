@@ -1,0 +1,30 @@
+
+
+... install iterm2 with solarized powerlever10k theme.
+
+... install iterm2
+... install oh-my-zsh
+
+... powerlevel10k
+... git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
+... 
+... place ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc.
+... 
+... restart iterm2 by running mod+Q
+... 
+... install solarized dark them from 
+... https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20-%20Patched.itermcolors
+... 
+... Just save it somewhere and open the file(s). 
+... The color settings will be imported into iTerm2. Apply them in iTerm through 
+... iTerm → preferences → profiles → colors → load presets. 
+... You can create a different profile other than Default if you wish to do so.
+... 
+... install SourceCodePro+powerline+awsmome+regular ttf 
+... https://github.com/Falkor/dotfiles/blob/master/fonts/SourceCodePro%2BPowerline%2BAwesome%2BRegular.ttf
+... 
+... install it in iterm2 iTerm2 (iTerm → Preferences → Profiles → Text → Font), 
+... in the dropdown select the desired Font. You will see it change on the fly.
+... 
+
+
