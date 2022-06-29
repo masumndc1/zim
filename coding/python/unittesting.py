@@ -8,7 +8,7 @@ prg = "./hello.py"
 
 class CheckNumbers(unittest.TestCase):
    def test_output(self):
-      out = getoutput(f'python3 {prg}')
+      out = getoutput(f"python3 {prg}")
       self.assertEqual(out, "hello world")
 
 if __name__ == "__main__":
