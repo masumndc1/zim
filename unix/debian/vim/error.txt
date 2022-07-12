@@ -15,3 +15,7 @@
 ... solution: openup any go file and run :GoInstallBinaries
 ... this will install all dependency by itself.
 ... 
+... vim does not have the python3 support.
+... try to install vim-nox.
+
+sudo apt-get install vim-nox
