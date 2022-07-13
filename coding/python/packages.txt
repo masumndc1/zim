@@ -19,9 +19,11 @@
 #!/user/bin/env python3
 
 import setuptools
+# from setuptools import setup
 
 if __name__ == "__main__":
-    setup()
+    setuptools.setup()
+    # setup()
 
 ... and then run
 ... python3 setup.py build and
