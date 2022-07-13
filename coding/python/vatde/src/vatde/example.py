@@ -1,2 +1,4 @@
-def add_one(number):
-        return number + 1
+def greetings():
+    print("hello world!")
+
+greetings()
