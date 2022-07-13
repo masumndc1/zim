@@ -4,4 +4,4 @@
 *.tmp
 .gitconfig
 coding/python/vatde/.tox/
-coding/python/vatde/*.egg-info
+coding/python/vatde/*.egg-info/
