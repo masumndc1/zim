@@ -3,7 +3,4 @@
 */.DS_Store
 *.tmp
 .gitconfig
-coding/go/bin/
-coding/go/for
-coding/go/src/
-coding/rust/hello_cargo/target/*
+coding/python/vatde/.tox/
