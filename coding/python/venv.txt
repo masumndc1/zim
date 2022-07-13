@@ -16,4 +16,5 @@ source bin/activate
   ~/test-env  test-env
 ❯
 
-
+... deactivate it by "deactivate"
+...
