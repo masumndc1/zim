@@ -1,0 +1,19 @@
+
+
+... python3 virtual environment.
+
+python3 -m venv /path/to/test-env
+cd /path/to/test-env
+❯ ls
+bin        include    lib        pyvenv.cfg
+❯ ls bin
+activate         activate.fish    easy_install-3.6 pip3             python
+activate.csh     easy_install     pip              pip3.6           python3
+
+... now activate it by 
+
+source bin/activate
+  ~/test-env  test-env
+❯
+
+
