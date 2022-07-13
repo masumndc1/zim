@@ -972,4 +972,6 @@ $git commit --amend
 $git rebase --continue
 
 ... done
-
+... 
+... "git config --global pull.rebase true" is equivalent to git pull --rebase
+...
