@@ -9,4 +9,13 @@
 ... 
 ... other than this: some settings good to use:
 ... sidebar, ruler, setting sync on.
+... 
+... to disable apple press and hold for vscode run following
+ 
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+... and to re-enable it
+
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool true
+
 ...
