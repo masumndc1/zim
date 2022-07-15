@@ -1,0 +1,127 @@
+
+
+... pytest is a testing framework same as unittest.
+... 
+... install pytest by pip
+
+pip install pytest
+
+... your code structure should be like this.
+
+~/Documents/github/zim/coding/python/vatde
+tree .
+
+─ LICENSE
+─ README.md
+─ pyproject.toml
+─ setup.cfg
+─ setup.py
+─ src
+  ├── __init__.py
+  └── greet.py
+─ tests
+  ├── __init__.py
+  └── test_example.py
+─ tox.ini
+
+directories, 10 files
+
+... most important thing here is __init__.py file in both
+... src and tests directory. Also note that in this structure
+... there is no conftest.py file.
+...
+
+❯ cat src/greet.py
+#!/usr/bin/env python3
+
+class Greetings():
+    """
+    A simple class for greetings.
+    """
+
+    def __init__(self):
+        return self
+
+    def greetings():
+        return "hello world!"
+
+... now how i can use the methods of the Greeting class inside 
+... src/greet.py file? Note: that I have not installed this as 
+... package by using pip. I am going to test this locally.
+...
+... 
+
+❯ tree tests
+tests
+├── __init__.py
+└── test_example.py
+
+0 directories, 2 files
+❯
+❯ cat tests/test_example.py
+#!/usr/bin/env python3
+
+import pytest
+from src.greet import Greetings
+# this importing statement is important here.
+# Class Greetings is inside src/greet.py file.
+
+def test_greetings():
+    assert Greetings.greetings() == "hello world!"
+
+... I am going to test this by using tox. My tox.ini is as follows.
+
+❯ cat tox.ini
+# content of: tox.ini , put in same dir as setup.py
+[tox]
+isolated_build = True
+envlist = py36,py39
+
+[testenv]
+# install pytest in the virtualenv where commands will be executed
+deps = pytest
+commands =
+    #pytest src/vatde/test_example.py
+    python3 -m pytest
+
+[py36]
+commands =
+    # NOTE: you can run any command line tool here - not just tests
+    #pytest
+    python3.6 src/vatde/example.py
+    python3 -m pytest
+
+
+[py39]
+commands =
+    # NOTE: you can run any command line tool here - not just tests
+    #pytest
+    python3.9 src/vatde/example.py
+    python3 -m pytest
+
+... Now, I can run tox
+
+❯ tox
+py36 inst-nodeps: /Users/mac/Documents/github/zim/coding/python/vatde/.tox/.tmp/package/1/vatde-0.0.1.tar.gz
+py36 installed: attrs==21.4.0,distlib==0.3.4,filelock==3.4.1,importlib-metadata==4.8.3,
+importlib-resources==5.4.0,iniconfig==1.1.1,packaging==21.3,platformdirs==2.4.0,pluggy==1.0.0,
+py==1.11.0,pyparsing==3.0.9,pytest==7.0.1,six==1.16.0,sprockets.http==1.5.0,toml==0.10.2,
+tomli==1.2.3,tornado==4.5.3,tox==3.24.0,typing_extensions==4.1.1,vatde 
+@ file:///Users/mac/Documents/github/zim/coding/python/vatde/.tox/.tmp/package/1/vatde-0.0.1.tar.gz,virtualenv==20.15.1,zipp==3.6.0
+py36 run-test-pre: PYTHONHASHSEED='1497344406'
+
+py39 inst-nodeps: /Users/mac/Documents/github/zim/coding/python/vatde/.tox/.tmp/package/1/vatde-0.0.1.tar.gz
+py39 installed: attrs==21.4.0,distlib==0.3.4,filelock==3.7.1,iniconfig==1.1.1,packaging==21.3,
+platformdirs==2.5.2,pluggy==1.0.0,py==1.11.0,pyparsing==3.0.9,pytest==7.1.2,six==1.16.0,
+sprockets.http==1.5.0,toml==0.10.2,tomli==2.0.1,tornado==4.5.3,tox==3.24.0,vatde 
+@ file:///Users/mac/Documents/github/zim/coding/python/vatde/.tox/.tmp/package/1/vatde-0.0.1.tar.gz,virtualenv==20.15.1
+py39 run-test-pre: PYTHONHASHSEED='1497344406'
+______________________________________ summary _______________________________________
+  py36: commands succeeded
+  py39: commands succeeded
+  congratulations :)
+
+.... 
+
+
+
