@@ -121,7 +121,8 @@ ______________________________________ summary _________________________________
   py39: commands succeeded
   congratulations :)
 
-.... 
-
+...
+... more on pytest: https://pybit.es/articles/pytest-tips/
+...
 
 
