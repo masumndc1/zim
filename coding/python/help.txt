@@ -106,3 +106,7 @@ class str(basestring)
 ... 
 ... pydoc sys
 ... 
+... there is another way to invoke the help menu.
+
+>>> s.__dir__()
+
