@@ -1,0 +1,4 @@
+
+
+... turn of func key by
+... "Fn" + "Shift" + "Num Lk 
