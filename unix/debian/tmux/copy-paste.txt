@@ -1,7 +1,7 @@
 
 
 ... 
-... Add setw -g mode-keys vi in your tmux config
+... Add "set -g mode-keys vi" in your tmux config
 ... Ctrl + [ to enter tmux vi copy mode
 ... Move around with vim navigation keys
 ... Begin highlight with "Space"
