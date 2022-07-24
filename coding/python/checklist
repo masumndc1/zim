@@ -1,0 +1,12 @@
+typehint:
+mypy ansible_install.py
+
+test:
+pytest test.py
+
+lint:
+flake8 ansible_install.py
+
+checklist: lint typehint test
+
+.PHONY: typehint test lint checklist
