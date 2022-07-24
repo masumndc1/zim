@@ -1,13 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+
+from collections import defaultdict
 
 
-def names(q1,q2):
-	x=[]
-	for a in q1:
-		if a in q2:
-			x.append(a)
-	return x
+class CallCount:
+    """
+    This module will return how many times
+    this module was called with same parameters
+    """
 
-b=names([2,3,4],[3,4,5])
-print b
+    def __init__(self):
+        self._count = defaultdict(int)
 
+    def __call__(self, argument):
+        self._count[argument] += 1
+        return self._count[argument]
