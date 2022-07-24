@@ -1,0 +1,59 @@
+
+
+... 
+... my first tool in the list is: mypy
+... install it in a virtual environment by 
+... pip install mypy
+... 
+
+❯ mypy ansible_install.py
+ansible_install.py:53: error: Incompatible return value type (got "List[str]", expected "str")
+ansible_install.py:60: error: Incompatible return value type (got "List[str]", expected "str")
+ansible_install.py:67: error: Incompatible return value type (got "List[str]", expected "str")
+ansible_install.py:73: error: Incompatible return value type (got "List[str]", expected "str")
+ansible_install.py:78: error: Incompatible return value type (got "List[str]", expected "str")
+Found 5 errors in 1 file (checked 1 source file)
+❯
+
+... then i have changed the following and re-run again.
+
+- def commands(distro: str, os_package_mgr: str, ansible_package: str) -> str:
++ def commands(distro: str, os_package_mgr: str, ansible_package: str) -> list:
+
+❯ mypy ansible_install.py
+Success: no issues found in 1 source file
+
+... 
+... 
+... you can also make an checklist and use check automatically by using make.
+
+❯ cat checklist
+typehint:
+mypy ansible_install.py
+
+test:
+pytest test.py
+
+lint:
+flake8 ansible_install.py
+
+checklist: lint typehint test
+
+.PHONY: typehint test lint checklist
+
+❯ make checklist
+
+... you can also install and try black.
+... 
+... pip3 install black
+
+❯ black -v ansible_install.py
+reformatted ansible_install.py
+
+All done! ✨ 🍰 ✨
+1 file reformatted.
+~/Documents/bektigoto/zim/coding/python master* 6s
+checktools ❯
+
+... you can have these tools(black, pylint, mypy, make checklist etc) in your ide.
+... 
