@@ -1,38 +1,28 @@
 #!/usr/bin/env python3
 
-"""
-python3 header_practise.py http://www.webpage.com
-"""
-
 import sys
-from urllib.request import Request, urlopen
-import warnings
-
+import argparse    
+from urllib.request import urlopen
 
 class ViewWebPage():
     """This class will connect and fetch web pages and display them"""
 
-    def __init__(self):
-        try:
-            self._url = sys.argv[1]
-        except IndexError:
-            print("you have not passed url")
+    def __init__(self, url):
+        self._url = 'http://' + url if url.startswith('www') else url
 
-    def _fetch_url(self) -> None:
+    def _fetch_url(self):
         """fetch content of the url and display.
-        for example the content of http://www.debian.org"""
+        for example the content of http://www.google.com"""
 
-        try:
-           response=Request(self._url)
-           s=urlopen(response)
-           print(s.readlines())
-        except AttributeError:
-            print("url is missing")
+        s=urlopen(self._url)
+        print(s.url, s.status, s.headers, s.code)
 
     def main(self):
         self._fetch_url()
 
-
 if __name__ == "__main__":
-    ViewWebPage().main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-u", "--url", help="point to url")
+    args = parser.parse_args()
 
+    ViewWebPage(args.url).main() if args.url else print("usage: {} [-h] [-u URL]".format(sys.argv[0]))
