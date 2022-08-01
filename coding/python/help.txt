@@ -106,6 +106,10 @@ class str(basestring)
 ... 
 ... pydoc sys
 ... 
+... if I need to browse python help i should do following
+... pydoc -p 0
+... 
+
 ... there is another way to invoke the help menu.
 
 >>> s = "hello"
