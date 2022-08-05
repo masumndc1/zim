@@ -1,0 +1,76 @@
+
+
+...
+... prerequisite: you must have gcc, g++, lua, liblua-dev installed.
+...
+... my C file has the function decode_file.
+... this decode_file, i want to use in my lua file.
+... this example has been taken from
+... https://medium.com/@imwithye/interfacing-lua-with-c-92a1067435ab
+... and https://chsasank.com/lua-c-wrapping.html
+... most of the credit goes to them.
+
+... as the location of the luaxlib.h, lualib.h and lua.h are inside
+... /usr/include/lua5.4 in debian, therefore header includes 
+... <lua5.4/luaxlib.h>. Otherwise C will not find the headers file.
+
+#include <lua5.4/lauxlib.h>
+#include <lua5.4/lualib.h>
+#include <lua5.4/lua.h>
+#include <stdio.h>
+
+// declare the function with lua state
+static int decode_file(lua_State *L)
+{
+    printf("call decode_file from C\n");
+    return 0;
+}
+
+// register the function
+static const luaL_Reg lodepng[] = {
+    {"decode_file", decode_file},
+    {NULL, NULL},
+};
+
+// load the function as library
+int luaopen_lodepng(lua_State *L)
+{
+    luaL_newlib(L, lodepng);
+    return 1;
+}
+
+// just main function doing nothing
+int main (void) {
+	return 0;
+}
+
+... as I have installed lua from apt-get in a debian/ubuntu machine
+... and the version of lua is 5.4, i have used -llua5.4 with my 
+... gcc build. content of the Makefile. and build with make command
+
+build:
+	gcc -Wall -fPIC -llua5.4 -shared -o lodepng.so lua_lodepng.c
+
+clean:
+	rm -fr *.so
+
+...
+... after the compilation with gcc, we will have lodepng.so library file 
+... which we can use as module in my lua program file.
+...
+
+$ cat practise.lua
+#!/usr/local/bin/lua
+
+local operations = require "lodepng"
+
+-- load lodepng as my library module in my lua file.
+-- from the module, load decode_file().
+
+operations.decode_file()
+
+# lua practise.lua
+call decode_file from C
+#
+
+... 
