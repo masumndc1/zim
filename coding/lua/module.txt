@@ -67,4 +67,6 @@ ping_me(3, www.google.co)
 
 ... 
 
-
+... some say placing module(..., package.seeall) at the 
+... begining of the file can make this lua file as module.
+... 
