@@ -45,6 +45,25 @@ local operations = require "operations"
 operations.fileexists(arg[1])
 operations.runcommand("ping -c 2 yahoo.com")
 
+... another way of doing so
+... 
+... 
+
+❯ cat show.lua
+#!/usr/local/bin/lua
+
+function ping_me(num, add)
+  os.execute("ping -c" .. num .. add)
+end
+
+... now use the function from show.lua in another file.
+
+❯ cat use_show.lua
+#!/usr/local/bin/lua
+
+require("show")
+
+ping_me(3, www.google.co)
 
 ... 
 
