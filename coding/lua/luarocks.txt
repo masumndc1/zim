@@ -1,0 +1,40 @@
+
+
+... 
+... install luarocks in ubuntu/debian
+... 
+... apt-get install -y luarocks
+... 
+... 1. list all install rocks
+luarocks list
+...
+... 2. install one rock.
+... luarocks install lua-json
+... 
+... though you can install rocks locally also by add --local options to
+... 
+... 3. luarocks install --local lua-json
+
+➜  ~ luarocks list --porcelain
+environ 0.1.0-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+lpeg    1.0.2-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+lua-cjson       2.1.0-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+lua-cjson       2.1.0-1 installed       /usr/local/lib/luarocks/rocks
+lua-json        1.0.0-1 installed       /usr/local/lib/luarocks/rocks
+lua-requests    1.2-2   installed       /home/masum/.luarocks/lib/luarocks/rocks
+lua-requests    1.2-2   installed       /usr/local/lib/luarocks/rocks
+luafilesystem   1.8.0-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+luafilesystem   1.8.0-1 installed       /usr/local/lib/luarocks/rocks
+luasec  0.7.2-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+luasec  0.7.2-1 installed       /usr/local/lib/luarocks/rocks
+luasocket       3.1.0-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+luasocket       3.1.0-1 installed       /usr/local/lib/luarocks/rocks
+lub     1.1.0-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+lub     1.1.0-1 installed       /usr/local/lib/luarocks/rocks
+md5     1.3-1   installed       /home/masum/.luarocks/lib/luarocks/rocks
+md5     1.3-1   installed       /usr/local/lib/luarocks/rocks
+xml     1.1.3-1 installed       /home/masum/.luarocks/lib/luarocks/rocks
+xml     1.1.3-1 installed       /usr/local/lib/luarocks/rocks
+➜  ~ 
+...
+
