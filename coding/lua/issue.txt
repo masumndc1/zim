@@ -1,0 +1,5 @@
+
+
+... i was having issue with lua-cjson, I have solved it by installing 
+... explicitly 2.1.0-1 by
+... luarocks install lua-cjson 2.1.0-1
