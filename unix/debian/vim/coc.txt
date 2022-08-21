@@ -6,8 +6,8 @@
 ... https://github.com/neoclide/coc.nvim
 ...
 ... install: to install do following.
-... Install nodejs >= 10.12:
-... curl -sL install-node.now.sh/lts | bash
+... Install nodejs >= 14.14:
+... curl -sL install-node.vercel.app/lts | bash
 ... For vim-plug users:
 ... Plug 'neoclide/coc.nvim', {'branch': 'release'} 
 ...
@@ -35,3 +35,7 @@
 ... also remember dont install same thing by coc and from plug
 ... you should install lsp by coc not plug.
 ...
+... how to remove an extentions installed by coc?
+... :CocList extentions 
+... then just select and unselect the extensions you want to remove.
+... 
