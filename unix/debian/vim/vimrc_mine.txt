@@ -63,6 +63,7 @@
     Plug 'bluz71/vim-moonfly-colors'
     Plug 'pearofducks/ansible-vim'
     Plug 'chase/vim-ansible-yaml'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
     let g:airline_theme = 'moonfly'
@@ -80,6 +81,7 @@
 
     " make hightlighted/selected text white comments to darkgreen
     hi Visual term=reverse cterm=reverse guibg=Grey 
+    hi Pmenu ctermbg=gray guibg=gray
     hi comment guifg=#008700
 
     " use 256bit terminal colors
