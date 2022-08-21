@@ -1,8 +1,0 @@
-set showmode
-set autoindent
-set number
-set background=dark
-syntax on
-colorscheme PaperColor
-set laststatus=2
-set showcmd
