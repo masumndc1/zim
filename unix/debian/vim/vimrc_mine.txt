@@ -35,7 +35,6 @@
     set clipboard+=unnamed                      " yank and copy to X clipboard
     set backspace=2                             " full backspacing capabilities
     filetype plugin indent on                   " set this for indent freaking out
-    colorscheme PaperColor
     
     " nerdtree
     map <C-n> :NERDTree<CR>
