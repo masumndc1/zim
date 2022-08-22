@@ -61,7 +61,6 @@
     Plug 'godlygeek/tabular'
     Plug 'altercation/vim-colors-solarized'
     Plug 'kien/ctrlp.vim'
-    Plug 'NLKNguyen/papercolor-theme'
     Plug 'Glench/Vim-Jinja2-Syntax'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'wellle/tmux-complete.vim'
@@ -114,4 +113,10 @@
     " use 256bit terminal colors
     if exists('+termguicolors')
         set termguicolors
+    endif
+
+    " set following if there is no nvim
+    if !has("nvim")
+        set term=xterm-256color
+        colorscheme PaperColor
     endif
