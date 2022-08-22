@@ -42,6 +42,7 @@
 
     " use plug installer and use single quote
     call plug#begin('~/.vim/plugged')
+    Plug 'sbdchd/neoformat'
     Plug 'flazz/vim-colorschemes'
     Plug 'xuyuanp/nerdtree-git-plugin'
     Plug 'tomtom/tlib_vim'
