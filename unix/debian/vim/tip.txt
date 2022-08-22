@@ -1,0 +1,7 @@
+
+
+... some tips related to vim/nvim
+... folding.
+
+... select lines by pressing v.
+... fold them by pressing zf
