@@ -1,6 +1,8 @@
     " this is my working vimrc
     syntax on
     syntax enable
+    filetype off
+    set nocompatible
     set shiftwidth=4
     set wrapmargin=0
     set wrap
@@ -13,7 +15,6 @@
     set display=lastline
     set formatoptions=l
     set textwidth=80
-    set nocompatible
     set term=xterm-256color
     set nopaste
     set nolist                                  " list disables linebreak
@@ -42,7 +43,7 @@
     map <C-x> :NERDTreeClose<CR>
     map <C-t> :NERDTreeToggle<CR>
     map <C-g> :TagbarToggle<CR>
-
+    map <C-p> :AutoPairsShortcutToggle<CR>
     " hortcut to rapidly toggle `set list`
     map <leader>iul :set list!<CR>
 
@@ -76,6 +77,7 @@
     Plug 'luochen1990/rainbow'
     Plug 'sheerun/vim-polyglot'
     Plug 'christoomey/vim-tmux-navigator'
+    Plug 'jiangmiao/auto-pairs'
     call plug#end()
 
     let g:tagbar_autofocus = 1
