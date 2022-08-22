@@ -1,8 +1,5 @@
-    " this is my working vimrc
-    syntax on
     syntax enable
-    filetype off
-    set nocompatible
+    set background=dark
     set shiftwidth=4
     set wrapmargin=0
     set wrap
@@ -11,7 +8,6 @@
     set tabstop=4
     set expandtab
     set laststatus=2
-    set statusline+=%F\ %l\:%c
     set display=lastline
     set formatoptions=l
     set textwidth=80
@@ -24,7 +20,6 @@
     set ruler                                   " show the cursor position all the time
     set ignorecase                              " ignore case when searching
     set title                                   " show title in console title bar
-    set ttyfast                                 " smoother changes
     set modeline                                " last lines in document sets vim mode
     set modelines=3                             " number lines checked for modelines
     set shortmess=atI                           " Abbreviate messages
@@ -48,44 +43,36 @@
     " use plug installer and use single quote
     call plug#begin('~/.vim/plugged')
     Plug 'nvie/vim-flake8'
-    Plug 'morhetz/gruvbox'
     Plug 'hashivim/vim-terraform'
     Plug 'vim-python/python-syntax'
     Plug 'hynek/vim-python-pep8-indent'
-    Plug 'https://github.com/hdima/python-syntax'
-    Plug 'https://github.com/ingydotnet/yaml-vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    Plug 'hdima/python-syntax'
+    Plug 'ingydotnet/yaml-vim'
     Plug 'godlygeek/tabular'
-    Plug 'altercation/vim-colors-solarized'
-    Plug 'kien/ctrlp.vim'
+    Plug 'morhetz/gruvbox'
     Plug 'Glench/Vim-Jinja2-Syntax'
     Plug 'tmux-plugins/vim-tmux'
     Plug 'wellle/tmux-complete.vim'
     Plug 'tpope/vim-obsession'
-    Plug 'powerline/powerline'
     Plug 'scrooloose/nerdtree'
-    Plug 'bluz71/vim-moonfly-colors'
     Plug 'pearofducks/ansible-vim'
     Plug 'chase/vim-ansible-yaml'
     Plug 'preservim/tagbar'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'Yggdroot/indentline'
     Plug 'luochen1990/rainbow'
     Plug 'sheerun/vim-polyglot'
     Plug 'christoomey/vim-tmux-navigator'
     Plug 'jiangmiao/auto-pairs'
+    Plug 'xolox/vim-misc'
+    Plug 'tbastos/vim-lua'
+    Plug 'xolox/vim-lua-ftplugin'
+    Plug 'davidhalter/jedi-vim'
+    Plug 'vim-airline/vim-airline'
     call plug#end()
 
     let g:tagbar_autofocus = 1
     let g:tagbar_autoshowtag = 1
     let g:tagbar_position = 'botright vertical'
-    let g:airline_theme = 'moonfly'
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-    let g:airline_powerline_fonts = 1
-    let g:moonflyCursorLineNr = 0
     let g:ansible_unindent_after_newline = 1
     let g:ansible_extra_syntaxes = "sh.vim ruby.vim"
     let g:ansible_attribute_highlight = "ob"
@@ -105,7 +92,7 @@
 
     " make hightlighted/selected text white comments to darkgreen
     hi Visual term=reverse cterm=reverse guibg=Grey 
-    hi Pmenu ctermbg=gray guibg=gray
+    hi Pmenu ctermbg=black guibg=black
     hi comment guifg=#008700
 
     " use 256bit terminal colors
@@ -115,6 +102,9 @@
 
     " set following if there is no nvim
     if !has("nvim")
+        set ttyfast                                 " smoother changes
+        set nocompatible
         set term=xterm-256color
-        colorscheme PaperColor
     endif
+
+    colorscheme gruvbox
