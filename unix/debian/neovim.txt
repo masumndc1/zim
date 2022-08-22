@@ -14,6 +14,12 @@ cp ~/.vimrc $HOME/.config/nvim/init.vim
 
 "------------------------------------------------------------
 
+... if you have installed neovim by port do following if you have
+... old vimrc file existing.
+
+ln -s ~/.vim ~/.config/nvim
+ln -s ~/.vimrc ~/.config/nvim/init.vim
+
 set nocompatible
 filetype off
 
