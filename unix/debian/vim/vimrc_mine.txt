@@ -1,4 +1,6 @@
     syntax enable
+    set si
+    set ai
     set background=dark
     set shiftwidth=4
     set wrapmargin=0
