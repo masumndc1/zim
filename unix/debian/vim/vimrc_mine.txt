@@ -36,6 +36,9 @@
 
     " use plug installer and use single quote
     call plug#begin('~/.vim/plugged')
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'scrooloose/syntastic'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
     Plug 'majutsushi/tagbar'
@@ -86,6 +89,7 @@
     " hortcut to rapidly toggle `set list`
     map <leader>iul :set list!<CR>
 
+    let g:syntastic_python_checkers = ['flake8', 'pylint']
     let g:airline_powerline_fonts = 1
     let g:ansible_unindent_after_newline = 1
     let g:ansible_extra_syntaxes = "sh.vim ruby.vim"
