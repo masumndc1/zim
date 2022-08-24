@@ -8,7 +8,7 @@ fi
 
 echo -e " backing up the vimrc file first "
 if [ -f ~/.vimrc ] ; then
-    mv ~/.vimrc ~/.vimrc.$(date +%Y%M%d)
+    mv ~/.vimrc ~/.vimrc.$(date +%Y%m%d)
 fi
 
 echo -e " download vimrc file from github and place it "
