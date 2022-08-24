@@ -10,3 +10,14 @@
 ... install all the plug from the outside of the nvim/vim
 ... vim/nvim +PlugInstall
 ...
+... add some spaces in fronts of lines.
+... C-v to selects lines. press:
+... it will enter : mode
+... write :norm I and then number of spaces and press enter
+...
+... remove some spaces from lines.
+... C-v to select lines. press:
+... it will enter : mode
+... :s/^   //g enter
+... it will remove spaces from the front.
+...
