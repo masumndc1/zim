@@ -31,11 +31,21 @@
     set backspace=2                             " full backspacing capabilities
     set completeopt=noinsert,menuone,noselect   " nvim completion manager
     set shortmess+=c                            " suppress annoying msg of ncm2"
+    set nocompatible
     syntax enable
     filetype plugin indent on                   " set this for indent freaking out
 
     " use plug installer and use single quote
     call plug#begin('~/.vim/plugged')
+    Plug 'voldikss/vim-floaterm'
+    Plug 'joom/vim-commentary'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'ervandew/supertab'
+    Plug 'sirver/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'w0rp/ale'
+    Plug 'maxboisvert/vim-simple-complete'
     Plug 'tpope/vim-fugitive'
     Plug 'airblade/vim-gitgutter'
     Plug 'scrooloose/syntastic'
@@ -89,13 +99,30 @@
     " hortcut to rapidly toggle `set list`
     map <leader>iul :set list!<CR>
 
+    let g:floaterm_keymap_toggle = '<C-w>'
+    let g:floaterm_width = 0.9
+    let g:floaterm_height = 0.9
+    let g:UltiSnipsEnableSnipMate = 0
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:ultisnipsAddFiletypes = ['python', 'lua']
+    let g:ale_linters = {
+        \ 'python': ['flake8', 'pylint'],
+        \ 'lua': ['luac'],
+        \ }
+    let g:ale_fixers = {
+        \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+        \ 'python': ['autopep8'],
+        \ }
+    let g:ale_fix_on_save = 1
     let g:syntastic_python_checkers = ['flake8', 'pylint']
+    let g:airline#extensions#tabline#enabled = 1
     let g:airline_powerline_fonts = 1
     let g:ansible_unindent_after_newline = 1
     let g:ansible_extra_syntaxes = "sh.vim ruby.vim"
     let g:ansible_attribute_highlight = "ob"
     let g:ansible_name_highlight = 'd'
     let g:ansible_extra_keywords_highlight = 1
+    let g:indentLine_enabled = 1
     let g:indentLine_setConceal = 1
     let g:indentLine_faster = 1
     let g:indentLine_char_list = ['|', '¦', '┆', '┊']
@@ -123,7 +150,6 @@
     " set following if there is no nvim
     if !has("nvim")
         set ttyfast                                 " smoother changes
-        set nocompatible
         set term=xterm-256color
     endif
 
