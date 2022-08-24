@@ -15,12 +15,10 @@ echo -e " download vimrc file from github and place it "
 curl -L https://raw.githubusercontent.com/masumndc1/zim/master/unix/debian/vim/vimrc_mine.txt -o ~/.vimrc
 
 echo -e " cleaning old Plugs and installing new "
-if [ -f /usr/local/bin/nvim ] ; then
-  nvim +PlugClean
-  nvim +PlugInstall
+if [ -f $(which nvim) ] ; then
+  nvim -c 'PlugClean | PlugInstall | PlugUpdate | qa '
 else
-  vim +PlugClean
-  vim +PlugInstall
+  vim -c 'PlugClean | PlugInstall | PlugUpdate | qa '
 fi
 
 echo -e " we can also install a lot of plugins from https://vimawesome.com "
