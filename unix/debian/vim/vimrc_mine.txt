@@ -37,6 +37,7 @@
 
     " use plug installer and use single quote
     call plug#begin('~/.vim/plugged')
+    Plug 'mileszs/ack.vim'
     Plug 'voldikss/vim-floaterm'
     Plug 'joom/vim-commentary'
     Plug 'junegunn/fzf'
