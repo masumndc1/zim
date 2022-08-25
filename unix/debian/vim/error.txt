@@ -2,19 +2,19 @@
 
 ... symptom: Client fails to start with Golang server.
 
-... reason: something kept messing up with the 
+... reason: something kept messing up with the
 ... "go get -u golang.org/x/tools/cmd/gopls" installed
-...  in the .config/coc/extensions/coc-go-data/ 
+...  in the .config/coc/extensions/coc-go-data/
 ...  folder because of a version issue.
 
-... solution: rm .config/coc/extensions/coc-go-data/ 
+... solution: rm .config/coc/extensions/coc-go-data/
 
 
 ... symptom: gocode not found
 ... reason: 'Plug faith/vim-go' might missing dependency
 ... solution: openup any go file and run :GoInstallBinaries
 ... this will install all dependency by itself.
-... 
+...
 ... vim does not have the python3 support.
 ... try to install vim-nox.
 

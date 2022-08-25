@@ -21,3 +21,23 @@
 ... :s/^   //g enter
 ... it will remove spaces from the front.
 ...
+... split window
+... :sp file-name to vertical split
+... :vp file-name to horizontal split
+... navigation to files.
+... <C-J> to move split below
+... <C-W> to move split up
+...
+... git browse
+... :GV all
+... :GV! only to this current file
+... O (capital o) to browse that commit.
+... q to close the browser window.
+...
+... The fzf plugins
+... Ctrl-x will open the file as a horizontal split.
+... Ctrl-v will open the file as a vertical split.
+...
+... sometimes its good to run following to update remote plugins
+... :UpdateRemotePlugins
+...
