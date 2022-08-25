@@ -98,6 +98,8 @@ Plug 'junegunn/gv.vim'
 Plug 'numirias/semshi'
 Plug 'Shougo/deoplete.nvim',
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
 call plug#end()
 
 " mapping
@@ -148,7 +150,7 @@ let NERDTreeShowHidden = 1
 let NERDTreeShowLineNumbers = 0
 let NERDTreeMinimalMenu = 1
 let NERDTreeWinPos = "right"
-let NERDTreeWinSize = 31
+let NERDTreeWinSize = 40
 
 " autocmd
 autocmd BufWritePre *.py :normal gg=G``
