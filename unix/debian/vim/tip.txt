@@ -41,3 +41,8 @@
 ... sometimes its good to run following to update remote plugins
 ... :UpdateRemotePlugins
 ...
+... nvim tree-sitter
+... install query :TSInstall query
+... install language pack :TSInstall lua or :TSinstall python
+... Toggle :TSPlaygroundToggle
+...
