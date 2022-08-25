@@ -4,5 +4,5 @@
 ... for this vimrc_mine.txt to be working properly,
 ... you need to install following.
 ...
-... ack, pynvim, ctags-exuberant
+... ack, pynvim, ctags-exuberant, clang, cland-devel
 ...
