@@ -1,7 +1,28 @@
 
 
+...
 ... error/troubleshooting
-... 
-... a good page is 
+...
+... a good page is
 ... https://blog.simos.info/how-to-initialize-lxd-again/
-... 
+...
+... if lxc container is not getting ipv4 or ipv6 IP addresses
+... then kill dnsmasq process and restart the lxd services by
+... following.
+...
+... kill -9 pid_of_dnsmasq
+... sudo systemctl reload snap.lxd.daemon
+...
+... "Failed to add /run/systemd/ask-password to directory watch: No space left on device?"
+...
+... to make more watches available. The immediate fix is to run:
+
+sudo -i
+echo 1048576 > /proc/sys/fs/inotify/max_user_watches
+exit
+
+... The long-term fix is to edit the file /etc/sysctl.conf to include the line:
+
+fs.inotify.max_user_watches=1048576
+
+...

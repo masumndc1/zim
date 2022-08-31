@@ -18,7 +18,7 @@ network:
       gateway4: 192.168.20.2
       nameservers:
          addresses: [8.8.8.8,8.8.4.4]
-masum@master:/etc/netplan$ 
+masum@master:/etc/netplan$
 
 ... if we needed dhcp
 
@@ -29,7 +29,7 @@ network:
   ethernets:
     ens33:
       dhcp4: yes
-masum@master:/etc/netplan$ 
+masum@master:/etc/netplan$
 
 ... then apply with following.
 
