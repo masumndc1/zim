@@ -28,8 +28,8 @@ lxc launch images:centos/6/i386 my-centos32
 lxc list
 
 ... Jump into that container
-... Type ‘exit’ to quit the container and return to your host. 
-... Launch more containers and see how quickly they start. Install 
+... Type ‘exit’ to quit the container and return to your host.
+... Launch more containers and see how quickly they start. Install
 ... SSH and log into them remotely, they behave just like real machines.
 
 lxc exec first-machine bash
@@ -70,10 +70,10 @@ $ lxc info container
 $ lxc info centos-db
 
 ... Setting up iptables rules to redirect traffic (type commands on host)
-... The syntax is as follows to redirect traffic for 443 coming on public 
+... The syntax is as follows to redirect traffic for 443 coming on public
 ... IP 104.20.186.5 to container IP 10.86.112.210:443
 
-iptables -t nat -I PREROUTING -i eth0 -p TCP -d 104.20.186.5 --dport 443 -j 
+iptables -t nat -I PREROUTING -i eth0 -p TCP -d 104.20.186.5 --dport 443 -j
 DNAT --to-destination 10.86.112.210:443
 
 ... CentOS uses the firwalld. To find the default firewalld zone, run:
@@ -87,7 +87,7 @@ $ sudo firewall-cmd --zone=public --add-service=https --permanent
 
 ... Forward port 443 to the LXD server 10.86.112.210:443
 
-$ sudo firewall-cmd --permanent --zone=public 
+$ sudo firewall-cmd --permanent --zone=public
 --add-forward-port=port=443:proto=tcp:toport=443:toaddr=10.86.112.210
 
 ... Reload the fireall
@@ -105,5 +105,70 @@ lxc --help
 lxc command --help
 lxc stop --help
 
+... followings are some commands to show some current configs
 
+lxc config show
+lxc cluster show mycluster
+lxc network show lxdbr0
+lxc storage show default
+lxc profile show default
 
+... how to see whole current config
+
+lxd init --dump
+config:
+  candid.api.url: https://services.stgraber.org/identity
+  candid.domains: stgraber.net
+  core.debug_address: 127.0.0.1:8444
+  core.https_address: :8443
+networks:
+- config:
+    ipv4.address: 10.166.11.1/24
+    ipv4.nat: "true"
+    ipv6.address: 2001:470:b368:4242::1/64
+    ipv6.nat: "true"
+  description: ""
+  managed: true
+  name: lxdbr0
+  type: bridge
+storage_pools:
+- config:
+    source: /var/lib/lxd/storage-pools/blah
+  description: ""
+  name: blah
+  driver: dir
+- config:
+    size: 33GB
+    source: castiana/lxd
+    zfs.pool_name: castiana/lxd
+  description: ""
+  name: default
+  driver: zfs
+- config:
+    source: /var/lib/lxd/storage-pools/dir
+  description: ""
+  name: dir
+  driver: dir
+profiles:
+- config:
+    user.vendor-data: |
+      #cloud-config
+      apt_mirror: http://us.archive.ubuntu.com/ubuntu/
+  description: Default LXD profile
+  devices:
+    eth0:
+      name: eth0
+      nictype: bridged
+      parent: lxdbr0
+      type: nic
+    root:
+      path: /
+      pool: default
+      type: disk
+  name: default
+
+... how to add a preseed to bootstrap a node.
+
+lxd init --preseed < input.yaml
+
+...
