@@ -46,3 +46,6 @@
 ... install language pack :TSInstall lua or :TSinstall python
 ... Toggle :TSPlaygroundToggle
 ...
+... auto indent to the whole file: gg=G
+... go top, press =, and then press G.
+...
