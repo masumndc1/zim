@@ -45,7 +45,6 @@ Plug 'joom/vim-commentary'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'ervandew/supertab'
-Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'w0rp/ale'
 Plug 'maxboisvert/vim-simple-complete'
@@ -108,6 +107,7 @@ map <C-t> :NERDTreeToggle<CR>
 map <C-g> :TagbarToggle<CR>
 map <C-s> :set list!<CR>
 
+let g:gruvbox_contrast_dark='hard'
 let g:semshi#filetypes = ['python']
 let g:deoplete#enable_at_startup = 1
 let g:floaterm_keymap_toggle = '<C-w>'
@@ -115,9 +115,6 @@ let g:floaterm_borderchars = ''
 let g:floaterm_title = ''
 let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
-let g:UltiSnipsEnableSnipMate = 0
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:ultisnipsAddFiletypes = ['python', 'lua']
 let g:ale_linters = {
             \ 'python': ['flake8', 'pylint'],
             \ 'lua': ['luac'],
