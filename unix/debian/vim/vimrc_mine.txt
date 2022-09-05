@@ -95,8 +95,8 @@ Plug 'junegunn/gv.vim'
 Plug 'numirias/semshi'
 Plug 'Shougo/deoplete.nvim',
 Plug 'roxma/vim-hug-neovim-rpc'
-"Plug 'nvim-treesitter/nvim-treesitter'
-"Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
 call plug#end()
 
 " mapping
