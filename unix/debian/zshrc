@@ -1,0 +1,53 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export WORKON_HOME=$HOME/.virtualenvs
+# "curl: (35) error:06FFF089:digital envelope routines:CRYPTO_internal:bad key length"
+export CURL_SSL_BACKEND="secure-transport"
+
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/khuddin/.oh-my-zsh"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+source ~/.zplug/init.zsh
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zaw"
+zplug "supercrabtree/k"
+zplug "b4b4r07/enhancd"
+zplug "skywind3000/z.lua"
+zplug "jhawthorn/fzy"
+zplug "junegunn/fzf", from:gh-r, as:command
+zplug "zplug/zplug"
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/github", from:oh-my-zsh
+zplug "plugins/fsad", from:oh-my-zsh
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load --verbose
+
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git github fasd fzf)
+
+source /usr/local/bin/virtualenvwrapper.sh
+source $ZSH/oh-my-zsh.sh
+
+# export LANG=en_US.UTF-8
+
+alias gig="git log --all --decorate --oneline --graph"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
