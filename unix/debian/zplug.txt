@@ -1,0 +1,21 @@
+
+
+... plugin manager for zsh
+...
+... install:
+... mac: brew install zplug
+... linux:
+
+curl -sL --proto-redir \
+     -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh \
+     | zsh
+
+... now you can add plugin in your .zshrc by following.
+... zplug "zsh-users/zsh-history-substring-search"
+...
+... now run: zplug install
+... clear and clean zplug
+... zplug clean
+... zplug clear
+... many more plugins from https://github.com/unixorn/awesome-zsh-plugins
+...
