@@ -26,17 +26,30 @@ source $ZSH/oh-my-zsh.sh
 /usr/bin/zsh
 └──╼ # chsh -s `which zsh`
 
-... now login again or load .zshrc by source .zshrc 
+... now login again or load .zshrc by source .zshrc
 
 └──╼ $ sudo su
-└[/home/edmudoh]> 
-└[/home/edmudoh]> 
+└[/home/edmudoh]>
+└[/home/edmudoh]>
 └[/home/edmudoh]> exit
 └──╼ $ sudo su
 [oh-my-zsh] Random theme '/root/.oh-my-zsh/themes/eastwood.zsh-theme' loaded...
-[/home/edmudoh]$ 
+[/home/edmudoh]$
 
 ... everytime this is loading new theme. this is cool
 
-
-
+... how to install some plugins for zsh
+...
+... zsh-syntax-highlighting:
+... brew install zsh-syntax-highlighting or
+... git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/
+... add following entry in .zshrc
+... source ./zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+...
+... zsh-auto-suggestions:
+... git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+... source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+...
+... fzf installation:
+... edit ~.zshrc and change plugins=(fzf)
+... run: find . -type f | fzf
