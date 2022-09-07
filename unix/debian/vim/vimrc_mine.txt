@@ -95,8 +95,8 @@ Plug 'junegunn/gv.vim'
 Plug 'numirias/semshi'
 Plug 'Shougo/deoplete.nvim',
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'nvim-treesitter/playground'
+"Plug 'nvim-treesitter/nvim-treesitter'
+"Plug 'nvim-treesitter/playground'
 call plug#end()
 
 " mapping
@@ -107,7 +107,8 @@ map <C-t> :NERDTreeToggle<CR>
 map <C-g> :TagbarToggle<CR>
 map <C-s> :set list!<CR>
 
-let g:gruvbox_contrast_dark='hard'
+let g:python3_host_prog = '/usr/local/bin/python3'
+let g:gruvbox_contrast_dark = 'hard'
 let g:semshi#filetypes = ['python']
 let g:deoplete#enable_at_startup = 1
 let g:floaterm_keymap_toggle = '<C-w>'
