@@ -7,8 +7,11 @@
 bind-key S choose-window 'join-pane -v -s "%%"'
 bind-key V choose-window 'join-pane -h -s "%%"'
 
-... and making panes to windows 
+... and making panes to windows
 
 bind-key + !
 
-
+... resizing the pane:
+... bind-key + hold alt + UP/down: move pane up down.
+... bind-key + hold alt + right/left: move pane right/left.
+...
