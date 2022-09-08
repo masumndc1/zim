@@ -38,6 +38,8 @@ source $ZSH/oh-my-zsh.sh
 
 ... everytime this is loading new theme. this is cool
 
+... update ohmyzsh: omz update
+...
 ... how to install some plugins for zsh
 ...
 ... zsh-syntax-highlighting:
@@ -55,4 +57,8 @@ source $ZSH/oh-my-zsh.sh
 ... run: find . -type f | fzf
 ... dependency: rg
 ... install: brew install ripgrep
+...
+... diff-so-fancy:
+... brew install diff-so-fancy
+... run: git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
 ...
