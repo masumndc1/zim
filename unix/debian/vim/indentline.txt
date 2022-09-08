@@ -2,7 +2,7 @@
 
 ... how to add indentline in vim
 ... https://github.com/Yggdroot/indentLine
-... 
+...
 
 ... installation.
 
@@ -23,5 +23,3 @@ Plugin 'Yggdroot/indentLine'
   let g:indentLine_setColors = 1
   let g:indentLine_char_list = ['|']
   let g:indentLine_bgcolor_term = 202
-
-

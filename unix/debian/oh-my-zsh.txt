@@ -53,3 +53,6 @@ source $ZSH/oh-my-zsh.sh
 ... fzf installation:
 ... edit ~.zshrc and change plugins=(fzf)
 ... run: find . -type f | fzf
+... dependency: rg
+... install: brew install ripgrep
+...
