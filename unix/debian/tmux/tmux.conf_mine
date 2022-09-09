@@ -1,37 +1,48 @@
-#
 # you need to install tmux plugin manager(TPM) first
 # https://github.com/tmux-plugins/tpm
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Press prefix + I (capital i, as in Install) to fetch the plugins.
-# or run `tmux source .tmux.conf` if prefix + I does not work.
 # use this file as .tmux.conf file as your tmux configuration file.
+#
 # better prefix key
-#set -g prefix C-a
-#bind C-a send-prefix
+# set -g prefix C-a
+# bind C-a send-prefix
 # better splitting
-#bind | split-window -h -c "#{pane_current_path}"
-#bind - split-window -v -c "#{pane_current_path}"
-# copy and paste
-set -g mode-keys vi
-# less colourful status
-set -g status-bg colour240
-set -g status-fg white
+# bind | split-window -h -c "#{pane_current_path}"
+# bind - split-window -v -c "#{pane_current_path}"
+# highlight window when it has new activity
+#set -g monitor-activity on
+#set -g visual-activity on
+# re-number windows when one is closed
+set -g renumber-windows on
+set -g status on
+set -g status-justify "centre"
+set -g status-left ''
+set -g status-right ''
+set -g status-bg black
+set -g status-fg cyan
+set -g window-status-current-style fg=magenta,dim,underscore #,bg=black
+set -g pane-active-border-style bg=default,fg=green
+set -g pane-border-style fg=magenta
+# active window title colors
 # 256 colors support
 set -g default-terminal "screen-256color"
 # sane scrolling
-set -g mouse on
+# set -g mouse on
+# set copy-paste mode in tmux
+set -g mode-keys vi
+set -g @sidebar-tree 'e'
+set -g @sidebar-tree-focus 'w'
+set -g @sidebar-tree-command 'exa --tree --icons -L 2'
+#set -g @sidebar-tree-command 'tree -C'
 # list of plugins
 set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'leighmcculloch/tmux-colours-superhero'
 set -g @plugin 'christoomey/vim-tmux-navigator'
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-sidebar'
-# resize the panes
-bind -r h resize-pane -L 5
-bind -r j resize-pane -D 5
-bind -r k resize-pane -U 5
-bind -r l resize-pane -R 5
+#set -g @plugin 'tmux-plugins/tmux-sensible'
+bind -r S choose-window 'join-pane -v -s "%%"'
+bind -r V choose-window 'join-pane -h -s "%%"'
 # TMUX plugin manager (keep at the bottom of tmux.conf)
 run -b '~/.tmux/plugins/tpm/tpm'
-
