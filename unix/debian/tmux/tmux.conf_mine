@@ -2,18 +2,14 @@
 # https://github.com/tmux-plugins/tpm
 # git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Press prefix + I (capital i, as in Install) to fetch the plugins.
-# use this file as .tmux.conf file as your tmux configuration file.
 #
-# better prefix key
-# set -g prefix C-a
-# bind C-a send-prefix
-# better splitting
 # bind | split-window -h -c "#{pane_current_path}"
 # bind - split-window -v -c "#{pane_current_path}"
-# highlight window when it has new activity
-#set -g monitor-activity on
-#set -g visual-activity on
-# re-number windows when one is closed
+# example of condition
+#if-shell "uname | grep -q Darwin" "set -g default-shell /usr/local/bin/zsh"
+#if-shell "uname | grep -q Linux" "set -g default-shell /usr/bin/zsh"
+set -g repeat-time 1000
+set -g escape-time 1
 set -g renumber-windows on
 set -g status on
 set -g status-justify "centre"
@@ -24,17 +20,16 @@ set -g status-fg cyan
 set -g window-status-current-style fg=magenta,dim,underscore #,bg=black
 set -g pane-active-border-style bg=default,fg=green
 set -g pane-border-style fg=magenta
-# active window title colors
 # 256 colors support
 set -g default-terminal "screen-256color"
-# sane scrolling
 # set -g mouse on
+set -g history-limit 50000
 # set copy-paste mode in tmux
 set -g mode-keys vi
 set -g @sidebar-tree 'e'
 set -g @sidebar-tree-focus 'w'
 set -g @sidebar-tree-command 'exa --tree --icons -L 2'
-#set -g @sidebar-tree-command 'tree -C'
+# set -g @sidebar-tree-command 'tree -C'
 # list of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'leighmcculloch/tmux-colours-superhero'
