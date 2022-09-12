@@ -1,0 +1,23 @@
+
+
+... tmux has loading issue
+... ❯ tmux
+dyld: Library not loaded: /usr/local/opt/libevent/lib/libevent-2.1.6.dylib
+  Referenced from: /usr/local/bin/tmux
+  Reason: image not found
+[1]    3098 abort      tmux
+  /usr/local/opt/libevent/lib                                                                                                                         ✘ ABRT
+❯
+... there are couple of ways to fix it.
+... 1. instruct tmux to think your existing dylib as lievent-2.1.6
+
+$ pwd
+/usr/local/opt/libevent/lib/
+$ ls
+/usr/local/opt/libevent/lib/libevent-2.1.7.dylib
+$ ln -s libevent-2.1.6.dylib libevent-2.1.7.dylib
+
+... 2. simply copying it
+$ cp libevent-2.1.7.dylib libevent-2.1.6.dylib
+
+...
