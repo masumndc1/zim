@@ -19,3 +19,15 @@
 ... try to install vim-nox.
 
 sudo apt-get install vim-nox
+
+... if you have error related to conceal in identline
+... while git commit, comment out following lines in the
+... ~/.vim/plugged/indentline/after/plugin.
+...
+
+""if !has("conceal")
+""   echoerr "conceal is invalid. To use the plugin, please enable the conceal"
+""   finish
+""endif
+
+...
