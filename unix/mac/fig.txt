@@ -1,0 +1,15 @@
+
+
+... install fig
+
+brew install fig
+
+... you also need to give it permission in your settings.
+... and finally run fig command to activate it.
+
+fig
+
+... in the plugins section you will find many plugins.
+... i have used 256-color, oh-my-git, macOS zsh completions,
+... forgit, zsh brew sarvices,
+...
