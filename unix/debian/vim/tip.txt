@@ -11,9 +11,9 @@
 ... vim/nvim +PlugInstall
 ...
 ... add some spaces in fronts of lines.
-... C-v to selects lines. press:
-... it will enter : mode
-... write :norm I and then number of spaces and press enter
+... C-v to selects lines. press : (colon)
+... it will enter : '<,’> norm I <space><space>.
+... then press enter.
 ...
 ... remove some spaces from lines.
 ... C-v to select lines. press:
