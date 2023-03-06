@@ -109,6 +109,9 @@ class str(basestring)
 ... if I need to browse python help i should do following
 ... pydoc -p 0
 ... 
+... you can try with
+... python3 -m pydoc os
+... python3 -m pydoc os.path
 
 ... there is another way to invoke the help menu.
 
