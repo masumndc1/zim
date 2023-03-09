@@ -1,0 +1,8 @@
+
+
+... 
+... install xcode from command line.
+... xcode-select --install
+... xcode-select -p
+... xcode-select -s /Library/Developer/CommandLineTools 
+... 
