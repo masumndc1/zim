@@ -1,0 +1,10 @@
+
+
+... install gem
+... gem search <gem>
+... gem install <gem>
+
+... generate ri for all installed gems
+... gem rdoc --all --ri --no-rdoc
+... 
+
