@@ -7,4 +7,46 @@
 ... generate ri for all installed gems
 ... gem rdoc --all --ri --no-rdoc
 ... 
+... update the gem system itself.
+... gem --version
+... gem update --system
+... 
+
+❯ gem --version
+3.4.9
+❯ gem update --system
+Updating rubygems-update
+Fetching rubygems-update-3.4.10.gem
+Successfully installed rubygems-update-3.4.10
+Parsing documentation for rubygems-update-3.4.10
+Installing ri documentation for rubygems-update-3.4.10
+
+-- output cut --
+... 
+... checking gem for error
+... gem check --alien
+...
+... install a particular version of a gem
+... gem install -v 0.0.1 <gem>
+... gem install -v >"0.0.1" <gem>         -- something greater than 0.0.1
+...
+... updating gem
+
+❯ gem update colorize
+Updating installed gems
+Nothing to update
+Gems already up-to-date: colorize
+
+... update all of your gems.
+... gem update              
+
+❯ gem update
+Updating installed gems
+Updating bigdecimal
+Fetching bigdecimal-3.1.4.gem
+Building native extensions. This could take a while...
+
+... uninstalling gems
+... gem uninstall <gem>
+...
 
