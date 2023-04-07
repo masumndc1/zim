@@ -13,7 +13,7 @@
 
 ... "ubuntu dns resolve problem"
 
-# dhclient -v -4 
+# dhclient -v -4
 # apt install ifupdown
 # apt policy netplan
 # systemctl disable systemd-resolved
@@ -29,4 +29,10 @@ iface lo inet loopback
 auto ens3
 iface ens3 inet dhcp
 
-
+... virt-manager failes to connect to system qemu/kvm
+... this will also fix the "no polkit agent available to authenticate action"
+... and this will also fix "failed to initialize libnetcontrol.
+... management of interfaces devices is disabled"
+... the fix of all above is
+... usermod --amend --groups libvirt `whoami`
+...
