@@ -48,4 +48,5 @@ export CPPFLAGS="-I/usr/local/opt/ruby/include"
 export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
 
 ... 
-
+... install ruby in debian:
+bash <(curl -s https://gist.githubusercontent.com/makevoid/2be2170f17801c761aadfe7d9978b003/raw/0fd04b699b5ef461205f0e0ca831bc60b3b72a98/install-ruby-3-debian.sh
