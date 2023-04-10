@@ -1,0 +1,15 @@
+
+--
+-- install rofi:
+-- apt-get instal rofi
+--
+-- configure it
+-- mkdir -p ~/.config/rofi
+-- rofi -dump-config > ~/.config/rofi/config.rasi
+--
+/*  modi: "window,run,ssh,windowcd,drun";*/
+--
+-- add the above lines in config.rasi file.
+-- alternatively you can use any theme. for example.
+-- https://raw.githubusercontent.com/davatorium/rofi/next/themes/arthur.rasi
+--
