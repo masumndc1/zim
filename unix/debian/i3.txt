@@ -18,3 +18,6 @@ bar {
 }
 
 ...
+... how to exit i3: from dmenu(mod+d) run i3 exit
+... how to reboot/shutdown: from dmenu(mod+x) run reboot or shutdown
+...
