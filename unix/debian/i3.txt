@@ -8,7 +8,7 @@
 ... this will start konsole firefox and thunar at start time of i3
 ... edit ~/.config/i3/config
 
-exec --no-startup-id i3-msg 'workspace $ws2; exec konsole'
+exec --no-startup-id i3-msg 'workspace $ws2; exec konsole; focus'
 exec --no-startup-id i3-msg 'workspace $ws2; exec firefox'
 exec --no-startup-id i3-msg 'workspace $ws4; exec thunar; workspace $ws2'
 
