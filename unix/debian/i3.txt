@@ -8,9 +8,18 @@
 ... this will start konsole firefox and thunar at start time of i3
 ... edit ~/.config/i3/config
 
-exec --no-startup-id i3-msg 'workspace $ws2; exec konsole; focus'
-exec --no-startup-id i3-msg 'workspace $ws2; exec firefox'
-exec --no-startup-id i3-msg 'workspace $ws4; exec thunar; workspace $ws2'
+set $ws1 "1"
+set $ws1 "2: konsole"
+set $ws1 "3: firefox"
+set $ws1 "4: thunar"
+set $ws1 "3: virth"
+
+# run xrandr to find out your monitor
+exec --no-startup-id i3-msg 'workspace $ws1; output HDMI-0'
+exec --no-startup-id i3-msg 'workspace $ws2; exec konsole'
+exec --no-startup-id i3-msg 'workspace $ws3; exec firefox'
+exec --no-startup-id i3-msg 'workspace $ws4; exec thunar'
+exec --no-startup-id i3-msg 'workspace $ws5; exec virt-manager; workspace $ws2'
 
 bar {
     status_command i3status
