@@ -22,4 +22,7 @@ rm -rf ~/.config/nvim/.git
 nvim
 
 ... its good to run :checkhealth after the installation
+... on mac install fd by 
+brew install fd
+
 ... 
