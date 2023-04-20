@@ -1,0 +1,25 @@
+
+
+
+...
+... lazyvim
+... installation: https://www.lazyvim.org/installation
+
+# required
+mv ~/.config/nvim ~/.config/nvim.bak
+
+# optional but recommended
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+mv ~/.local/state/nvim ~/.local/state/nvim.bak
+mv ~/.cache/nvim ~/.cache/nvim.bak
+
+git clone https://github.com/LazyVim/starter ~/.config/nvim
+
+... remove the .git folder, so you can add it to your own repo later.
+rm -rf ~/.config/nvim/.git
+
+... start Neovim!
+nvim
+
+... its good to run :checkhealth after the installation
+... 
