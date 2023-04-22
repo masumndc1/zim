@@ -4,7 +4,8 @@
 
 apt-get install neovim
 brew install neovim
-
+snap install nvim --edge           # stable version
+snap install nvim --edge --classic # latest but unstable version
 ... configure neovim:
 ... copy existing .vimrc file to $HOME/.config/nvim/init.vim
 
