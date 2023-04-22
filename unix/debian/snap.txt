@@ -4,6 +4,7 @@
 ... 
 ... install snap
 ... apt-get install snapd
+... apt-get install core
 
 ... install something by snap
 ... snap install lxd
@@ -40,6 +41,7 @@ masum@cmp1-prod:~$
 
 ... install a snap
 ... snap install --stable lxd
+... snap install nvim --classic  # another way of install
 
 ... logs of a installed snap
 ... sudo snap log lxd
