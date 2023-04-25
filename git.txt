@@ -975,3 +975,25 @@ $git rebase --continue
 ... 
 ... "git config --global pull.rebase true" is equivalent to git pull --rebase
 ...
+... telling git to open file in your fav editor. for example nvim
+
+❯ git config --global --list
+user.name=Firstname Lastname
+user.email=user@email.com
+push.default=simple
+core.editor=vim
+core.pager=diff-so-fancy | less --tabs=4 -RFX
+alias.graph=log --all --graph --decorate --oneline
+
+❯ git config --global core.editor "nvim"
+
+❯ git config --global --list
+user.name=Firstname Lastname
+user.email=user@email.com
+push.default=simple
+core.editor=nvim
+core.pager=diff-so-fancy | less --tabs=4 -RFX
+alias.graph=log --all --graph --decorate --oneline
+❯
+
+...
