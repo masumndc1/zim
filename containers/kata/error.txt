@@ -1,0 +1,12 @@
+
+
+... initial value must be set at least 0x80000
+...
+... set default_mem = 1024 in the following file
+
+/usr/share/kata-containers/defaults/configuration.toml
+
+- default_mem = 2048
++ default_mem = 1024
+
+
