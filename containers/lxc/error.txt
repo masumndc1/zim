@@ -13,6 +13,12 @@
 ... kill -9 pid_of_dnsmasq
 ... sudo systemctl reload snap.lxd.daemon
 ...
+... you may also try to set following
+
+lxc network set lxdbr0 ipv4.firewall false
+firewall-cmd --zone=trusted --change-interface=lxdbr0 --permanent
+firewall-cmd --reload
+
 ... "Failed to add /run/systemd/ask-password to directory watch: No space left on device?"
 ...
 ... to make more watches available. The immediate fix is to run:
