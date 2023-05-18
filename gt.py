@@ -2,6 +2,7 @@
 # this is a simple python script to automate
 # git pull, commit and push to github.
 
+import os
 import shutil
 import sys
 import subprocess
@@ -18,11 +19,11 @@ class GitOperation():
         self._add_new_files()
 
     def _term_size(self):
-        c, _ = shutil.get_terminal_size()
-        return c
+        col, _ = shutil.get_terminal_size()
+        print("-" * col)
 
     def _add_new_files(self):
-        print("-" * self._term_size())
+        self._term_size()
         retcode = subprocess.call("git add .", shell=True)
         self._commit() if not retcode else sys.exit("could not add files")
 
@@ -34,15 +35,17 @@ class GitOperation():
     def _push(self):
         retcode = subprocess.call(
             'git push origin "%s"' % self.branch, shell=True)
-        print(f"Pushed to {self.branch} branch") if not retcode else sys.exit(
-            "could not push")
-        print("-" * self._term_size())
+        if not retcode:
+            print(f"Pushed to {self.branch} branch")
+            self._term_size()
+        else:
+            sys.exit("could not push")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3:
+    if len(sys.argv) >= 2:
         msg = sys.argv[1]
-        branch = sys.argv[2]
+        branch = sys.argv[2] or "master"
         GitOperation(msg, branch)
     else:
         print(GitOperation.__doc__)
