@@ -10,12 +10,12 @@ import subprocess
 
 class GitOperation():
     '''
-    gt.py "commit_msg" branch_name
+    gt.py "commit_msg" branch_name(optional) default_branch: master
     '''
 
-    def __init__(self, msg, branch):
-        self.msg = msg
-        self.branch = branch
+    def __init__(self):
+        self.msg = sys.argv[1]
+        self.branch = sys.argv[2] if len(sys.argv) == 3 else "master"
         self._add_new_files()
 
     def _term_size(self):
@@ -44,8 +44,6 @@ class GitOperation():
 
 if __name__ == "__main__":
     if len(sys.argv) >= 2:
-        msg = sys.argv[1]
-        branch = sys.argv[2] or "master"
-        GitOperation(msg, branch)
+        GitOperation()
     else:
         print(GitOperation.__doc__)
