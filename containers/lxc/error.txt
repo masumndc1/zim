@@ -31,4 +31,8 @@ exit
 
 fs.inotify.max_user_watches=1048576
 
-...
+... if any of the container is require cGroup do following.
+... sudo lxc config edit centos7
+... comment out cgroup requirement v1 line
+... start the container. inside the container you may need to run dhclient
+... 
