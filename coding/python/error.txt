@@ -23,4 +23,15 @@ pip install --user virtualenv
 brew update && brew upgrade
 
 ... 
+... error: command '/usr/bin/cland' failed with exit code 1 
+
+pip3 install --upgrade pip
+pip3 install --upgrade setuptools
+
+... openstack server list
+module 'lib' has no attribute 'OpenSSL_add_all_algorithms'
+
+cryptography==38.0.4
+
+
 
