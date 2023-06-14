@@ -27,5 +27,8 @@ root@slave:~#
 
 # pip install python-openstackclient
 
+... uninstalling something by pip 
+
+pip uninstall -r requirements.txt
 
 
