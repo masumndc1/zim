@@ -20,4 +20,7 @@ $ ln -s libevent-2.1.6.dylib libevent-2.1.7.dylib
 ... 2. simply copying it
 $ cp libevent-2.1.7.dylib libevent-2.1.6.dylib
 
-...
+... tmux plugins tpm returned 127
+... git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+... after that run prefix + I to install all the plugins.
+... 
