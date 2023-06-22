@@ -1,0 +1,45 @@
+
+
+... mixin in ruby
+... source: https://shorturl.at/bdLXZ
+... 
+
+module Mod
+ def self.hello
+  puts "saying hello..."
+ end
+end
+
+class A
+ include Mod
+
+ def self.bonjour
+  Mod::hello 
+ end
+
+ def self.done
+  puts "fini"
+ end
+end
+
+class B
+ include Mod
+
+ def self.ciao
+  Mod::hello
+ end
+
+ def self.done
+  puts "finitto"
+ end
+end
+
+... output:
+pry(main)> A::bonjour
+saying hello...
+fini
+pry(main)> B::ciao
+saying hello...
+finitto
+
+...
