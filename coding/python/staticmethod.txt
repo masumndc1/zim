@@ -28,3 +28,5 @@ if(date.getDate() == dateWithDash):
     print("Equal")
 else:
     print("Unequal")
+
+source: https://www.programiz.com/python-programming/methods/built-in/staticmethod

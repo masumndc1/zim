@@ -1,0 +1,31 @@
+
+
+...
+... class method works on directly on the class. 
+... note below, how its being called. it is being called
+... from the class not but the instance.
+...
+
+from datetime import date
+
+# random Person
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def fromBirthYear(cls, name, birthYear):
+        return cls(name, date.today().year - birthYear)
+
+    def display(self):
+        print(self.name + "'s age is: " + str(self.age))
+
+person = Person('Adam', 19)
+person.display()
+
+person1 = Person.fromBirthYear('John',  1985)
+person1.display()
+
+
+source: https://www.programiz.com/python-programming/methods/built-in/classmethod
