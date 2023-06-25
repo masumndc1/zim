@@ -1,0 +1,31 @@
+
+
+...
+... ruby super keyword.
+... note the code below. here, when super is called in Cat class, it
+... will look for the same method "name" from its parent class, and 
+... execute it.
+
+
+#!/usr/bin/evn ruby
+
+class Animal
+  def name
+    puts 'Animal class'
+  end
+end
+
+class Cat < Animal
+  def name
+    super
+  end
+end
+
+cat = Cat.new
+cat.name
+
+... output:
+# "Animal class"
+
+... we can use super() or super(arg1, arg2, .. argN) to pass its parameters.
+...
