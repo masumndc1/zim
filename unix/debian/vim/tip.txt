@@ -49,3 +49,6 @@
 ... auto indent to the whole file: gg=G
 ... go top, press =, and then press G.
 ...
+... remove all the whitespace from the end of the line of whole file.
+... :%s/\s\+$//
+
