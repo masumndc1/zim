@@ -1,0 +1,17 @@
+
+
+... install and update the gh
+
+Homebrew
+Install:
+brew install gh
+
+Upgrade:
+brew upgrade gh
+
+MacPorts
+Install:
+sudo port install gh
+
+Upgrade:
+sudo port selfupdate && sudo port upgrade gh
