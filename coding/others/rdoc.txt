@@ -1,0 +1,21 @@
+
+
+... If not using RVM:
+
+gem install rdoc-data
+
+# Regenerate system docs
+rdoc-data --install
+
+# Regenerate all gem docs (rdoc + ri)
+gem rdoc --all --overwrite 
+
+# Regenerate all gem docs (ri only)
+gem rdoc --all --overwrite --ri --no-rdoc
+
+# Regenerate specific gem doc with specific version
+gem rdoc gemname -v 1.2.3 --overwrite
+
+# search for documentation for the File
+ri File
+ri Array
