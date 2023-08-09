@@ -1,0 +1,22 @@
+
+
+...
+... how to use screen to capture your linux command for a long run.
+...
+... Create a name screen
+... # screen -S name_of_screen
+...
+... list all of the screen
+... # screen -ls
+...
+
+There are screens on:
+    10835.pts-0.linuxize-desktop   (Detached)
+    10366.pts-0.linuxize-desktop   (Detached)
+2 Sockets in /run/screens/S-linuxize.
+
+...
+... attach with active screen
+... # screen -r 10835
+...
+
