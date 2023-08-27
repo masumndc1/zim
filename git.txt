@@ -996,4 +996,7 @@ core.pager=diff-so-fancy | less --tabs=4 -RFX
 alias.graph=log --all --graph --decorate --oneline
 ❯
 
+... set the default as to pull and rebase
+git config --global pull.rebase true
+
 ...
