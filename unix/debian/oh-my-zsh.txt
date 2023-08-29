@@ -62,3 +62,4 @@ source $ZSH/oh-my-zsh.sh
 ... brew install diff-so-fancy
 ... run: git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
 ...
+... update oh-my-zsh manually by running "omz update"
