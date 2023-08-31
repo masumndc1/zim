@@ -1,6 +1,7 @@
 
 
 ... some example of find
+... 
 
 # daily - keep for 14 days
 find $storage/backup.daily/ -maxdepth 1 -mtime +14 -type d -exec rm -rv {} \;
@@ -11,3 +12,41 @@ find $storage/backup.weekly/ -maxdepth 1 -mtime +60 -type d -exec rm -rv {} \;
 # monthly - keep for 300 days
 find $storage/backup.monthly/ -maxdepth 1 -mtime +300 -type d -exec rm -rv {} \;
 
+# find ./foo -name foo.txt
+./foo/baz/foo.txt
+
+# find ./foo -type d -name bar  -- to find a directory name of bar
+
+... various operation on files in a folder
+# find ./foo -mtime 0         -- modification made within a day
+# find ./foo -mtime -1
+# find ./foo -mtime +1
+# find ./foo -perm 777
+# find ./foo -size -1024M     -- less than 1024M 
+# find ./foo -size +1024M     -- greater than 1024M
+# find ./foo -user masum
+# find ./foo -regex ".*\.txt"
+# find ./foo -regex ".*\.txt" || ".*\.sh"  -- combination of patterns
+# find ./foo -empty
+
+... searching in the folder of name foo and doing some operation on them
+# find ./foo -size +1k -and -name "*.txt"             -- combining multiple condition with -and
+# find ./foo -user root -type f -amin -2 -name *.rb   -- accesses in last two minutes
+# find ./foo -type f -name *.jpg ! -name autumn*      -- search for picture files but not autumn
+# find ./foo -name foo.txt -exec rm -i {} \;          -- or following
+# find ./foo -type f -name '*.txt' -delete            -- delete is better than -exec rm for speed
+# find ./foo -type f -name bar -exec chmod 777 {} \;
+# find ./ -type f -name "*.md" -exec grep 'foo' {} \;
+# find ./ -type f -exec sed -i 's/find/replace/g' {} \;
+
+... find the difference between following two commands
+# find ./ -type f -name "grep.txt" | xargs -0 grep -i "^-n" * \;  -- vs
+# find ./ -type f -name "grep.txt" -exec grep -i "^-n" * \;
+# find ./ -type d -print0 | xargs -0 chmod 755
+# find ./ -name “*.jpg” -o -name “*.gif” -o -name “*.png” -print0 \
+  | xargs -0 mv –target-directory ~/pic
+
+... more on find:
+https://shapeshed.com/unix-find/
+https://linuxhint.com/linux-find-command-tutorial/
+https://danielmiessler.com/p/find/
