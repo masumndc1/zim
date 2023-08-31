@@ -1,5 +1,35 @@
 
 
+... grep
+... grep [options] [pattern] [file]
+...
+... some good examples can be found in
+... https://www.softwaretestinghelp.com/grep-command-in-unix/
+...
+... ‘^’ beginning and ‘$’ at the end.
+... '.' is used to match any characters. '^.$' will match all lines with any single character.
+... '\' escape any characters.
+... '[aeiou]' will match all lines that contain a vowel.
+... '[0-9]' will match all lines that contain a digit. On the other hand, ^ in the range will exclude.
+... '[^xyz]' will match all lines that do not contain x, y or z.
+... ‘*’ will matching zero or more characters in the pattern.
+...
+... options:
+-i: performs a case-insensitive search.
+-n: displays the lines containing the pattern along with the line numbers.
+-v: displays the lines not containing the specified pattern.
+-c: displays the count of the matching patterns.
+-l: displays the file name only.
+-E: treats pattern as an extended regular expression (ERE)
+-w: match whole word
+-o: print only the matched parts of a matching line,
+-R: search recursively for a pattern in the directory
+-A n: prints searched line and nlines after the result.
+-B n: prints searched line and n line before the result.
+-C n: prints searched line and n lines after before the result.
+-e exp: specifies expression with this option. Can use multiple times.
+-f file: takes patterns from file, one per line.
+...
 ... some grep examples
 ... only showing non comment line of a file
 
@@ -11,3 +41,25 @@ elasticsearch.hosts: ["http://0.0.0.0:9200"]
 root@lxd-clster:/etc/kibana#
 
 ...
+... this how just grep lines which does not started with #
+... remove all empty space in between lines.
+
+cat glance-cache.conf | grep -v -e "^#" | grep -e "^."
+... another way can be
+cat glance-cache.conf | grep -v -e "^#" | grep -e "^$"
+
+... Match all lines that start with ‘hello’. E.g: “hello there”
+$ grep “^hello” file1
+
+... Match all lines that end with ‘done’. E.g: “well done”
+$ grep “done$” file1
+
+... Match all lines that contain any of the letters ‘a’, ‘b’, ‘c’, ‘d’ or ‘e’.
+$ grep “[a-e]” file1
+
+... Match all lines that do not contain a vowel
+$ grep “[^aeiou]” file1
+
+... Match all lines that contain the word hello in upper-case or lower-case
+$ grep -i “hello”
+
