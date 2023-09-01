@@ -1,0 +1,34 @@
+
+
+... if you have vpn connection and if it does freeze at some point
+... you might need to kill the vpnagentd and restart the vpn again.
+...
+... find out the pid of the vpnagentd.
+...
+... ps aux | grep vpnagentd
+
+❯ ps aux | grep vpnagent
+root               578   0.0  0.1 409658544  24224   ??  S<s  11:33AM   0:10.48 /opt/cisco/secureclient/bin/vpnagentd -execv_instance
+❯
+
+... now kill it with the kill -9 pid command.
+...
+... (optional)
+... you may also delete all the plist file from 
+... /Library/Preferences/SystemConfiguration
+...
+
+❯ ls
+ com.apple.accounts.exists.plist                     com.apple.wifi.message-tracer.plist              preferences.plist.old
+ com.apple.airport.preferences.plist                 NetworkInterfaces-pre-upgrade-new-target.plist
+ com.apple.airport.preferences.plist.backup          NetworkInterfaces-pre-upgrade-source.plist
+ com.apple.AutoWake.plist                            NetworkInterfaces.plist
+ com.apple.Boot.plist                                OSThermalStatus.plist
+ com.apple.network.eapolclient.configuration.plist   preferences-pre-upgrade-new-target.plist
+ com.apple.smb.server.plist                          preferences-pre-upgrade-source.plist
+ com.apple.vmnet.plist                               preferences.plist
+/Library/Preferences/SystemConfiguration
+❯
+
+... take the backup of one of them and delete that file and reboot mac
+...
