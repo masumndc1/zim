@@ -999,4 +999,7 @@ alias.graph=log --all --graph --decorate --oneline
 ... set the default as to pull and rebase
 git config --global pull.rebase true
 
+... set nvim or vim as commit editor for git system-wide
+... in your ~/.zshrc file
+... export GIT_EDITOR=nvim or export GIT_EDITOR=vim
 ...
