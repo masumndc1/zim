@@ -1,0 +1,95 @@
+
+
+... lua object oriented programming
+...
+... procedure
+... 1. create prototype
+... 2. create constructor
+...    setmetatable(o, self)
+...    self.__index = self
+... 3. create the methods
+...
+
+... sample files of lua
+...
+# tree .
+lua-class.lua
+lua-blass.lua
+lua-dlass.lua
+
+# cat lua-class.lua
+#!/usr/bin/env lua
+-- lua-class.lua file
+
+-- prototype
+-- initial balance
+local account = {
+	balance = 0,
+}
+
+-- constructor
+function account:new(o)
+	o = o or {}
+	-- this self = account itself
+	setmetatable(o, self)
+	self.__index = self
+	return o
+end
+
+function account:deposit(v)
+	-- deposit some money
+	self.balance = self.balance + v
+	return self.balance
+end
+
+function account:withdraw(v)
+	-- deposit some money
+	if self.balance > v then
+		self.balance = self.balance - v
+		return self.balance
+	else
+		error("in-sufficient balance")
+	end
+end
+
+return account
+
+... now we have created our class. in the file we will either
+... extend our class or change the class methods.
+
+#!/usr/bin/env lua
+-- lua-dlass.lua
+
+local class = require("lua-class")
+
+-- modify parent class method
+function class:withdraw(v)
+  if self.balance then
+	  self.balance = self.balance - v
+  end
+	return self.balance
+end
+
+-- adding new class method
+function class:increment(v)
+	self.balance = self.balance + self.balance * v
+	return self.balance
+end
+
+return class
+
+... now we will use this class in separate file.
+... so in the following file, we are making object a1 from
+... blass, which is out of dlass and dlass is out of lua-class.
+
+#!/usr/bin/env lua
+
+local blass = require("dlass")
+
+local a1 = blass:new({
+	balance = 1000,
+})
+
+print(a1:withdraw(100)) -- 900
+
+...
