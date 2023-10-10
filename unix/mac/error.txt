@@ -1,0 +1,17 @@
+
+
+... error and troubleshoot
+
+      error: command '/usr/bin/clang' failed with exit code 1
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for cryptography
+Failed to build cryptography
+ERROR: Could not build wheels for cryptography, which is required to install pyproject.toml-based projects
+
+... install openssl by brew in m1 processor.
+
+... try to install new version on cryptography for example >= 3.4.6
+... in your requirement.txt file.
+cryptography >= 3.4.6
