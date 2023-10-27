@@ -3,4 +3,9 @@
 ... this web page has nice info on how to make font smooth
 ...
 ... https://www.cleverfiles.com/help/mac-fonts-text-blurry.html
-... 
+...
+... run the following command in macOS to make your font smooth:
+
+$ defaults -currentHost write -g AppleFontSmoothing -int 0
+
+
