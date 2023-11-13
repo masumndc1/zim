@@ -147,7 +147,14 @@ local:
     - 2.86102294922e-06
 [root@salt ~]#
 
+... update the file server backed
 
+[root@saltmaster salt]# salt-run cache.clear_git_lock gitfs type=update
+cleared:
+    - Removed update lock for gitfs remote 'https://github.com/masumndc1/monitoring-formula.git'
+[root@saltmaster salt]# salt-run fileserver.update
+True
+[root@saltmaster salt]#
 
 
 
