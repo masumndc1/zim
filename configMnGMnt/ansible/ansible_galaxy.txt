@@ -61,5 +61,20 @@ Role: vkill.php7-phalcon
         commit: 3b9793f91a927c9304531036b8b268a8d46fe99a
         commit_message: Update README.md
 
+... list all installed roles
+$ ansible-galaxy role list
 
+... Install roles in specified roles directory from requirements.yml file.
+... contents of requirements file should look like:
 
+❯ cat requirements.yml
+- src: https://github.com/masumndc1/ansible-elasticsiem.git
+  scm: git
+  path: roles
+  version: master
+❯
+
+$ ansible-galaxy role install -r requirements.yml -p roles
+
+... delete a role
+$ ansible-galaxy role remove ansible-elasticsiem
