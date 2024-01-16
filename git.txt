@@ -1003,3 +1003,5 @@ git config --global pull.rebase true
 ... in your ~/.zshrc file
 ... export GIT_EDITOR=nvim or export GIT_EDITOR=vim
 ...
+... add following to add your editor
+git config --global core.editor "vim"
