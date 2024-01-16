@@ -27,5 +27,9 @@ masum	ALL=(ALL) 	ALL
 ... this will prevent us to edit /etc/sudoers file.
 bob	ALL=(ALL)	NOPASSWD: ALL
 
+-- make sudo remain for longer time, so that you dont need to re-enter password
+-- for a period of time. say, you need to set 15mins.
 
+-- cat /etc/sudoers or run visudo and edit the file and add following
+Defaults    env_reset,timestamp_timeout=15
 
