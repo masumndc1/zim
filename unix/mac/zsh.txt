@@ -19,5 +19,9 @@
         sudo sh -c 'echo /opt/local/bin/zsh >>/etc/shells'
 [mac/Documents] >
 
+... in mac if you want to set an export variable permanently, follow steps bellow
+... In macOS Catalina or newer, zsh is the default shell for new users. therefore,
+... add export line to bottom of ~/.zprofile
 
-
+vim ~/.zprofile
+export JBOSS_HOME=/Applications/wildfly-27.0.1.Final
