@@ -1,0 +1,23 @@
+
+
+... how to have qemu/kvm in mac
+... source: https://medium.com/@aryangodara_19887/qemu-virt-manager-and-libvirt-on-macos-with-apple-silicon-m2-dc677e6b8559
+...
+... first install qemu
+brew install qemu
+sudo port install qemu
+
+... install libvirt
+brew install libvirt
+
+... install virt-manager, you will need macports for this
+sudo port install virt-manager
+
+... Start libvirt services (to start the libvirt daemon)
+brew services start libvirt
+
+... you need to install xquartz package for mac from
+... https://www.xquartz.org/
+
+... start virt-manager
+virt-manager -c "qemu:///session" --no-fork
