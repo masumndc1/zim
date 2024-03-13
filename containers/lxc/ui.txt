@@ -1,0 +1,23 @@
+
+
+... Clone the repo
+git clone https://github.com/canonical/lxd-ui.git
+
+... yarn build
+yarn && yarn build
+
+... Copy build/ui directory to /var/lib/lxd
+
+... Change the LXD_UI environment variable of LXD.
+... This can be done using systemctl edit lxd command.
+... In that file add the following lines:
+[Service]
+Environment=LXD_UI=/var/lib/lxd/ui
+
+... reload lxd 
+systemctl daemon-reload && systemctl restart lxd
+
+... Set core.https_address of LXD to make it listen for remote connections
+lxc config set core.https_address :8443
+
+Open <your-server-ip>:8443 and see UI
