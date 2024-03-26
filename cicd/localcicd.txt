@@ -1,0 +1,9 @@
+
+
+... local example of cicd
+...
+... 1. https://docs.dagger.io/
+... 2. https://taskfile.dev/
+...
+... thought https://www.fabfile.org/ is not cicd
+... may be can be used as cicd
