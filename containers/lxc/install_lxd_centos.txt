@@ -1,5 +1,6 @@
 #!/bin/bash
 # this is a script to install and configure lxd in centos7
+# https://www.tecmint.com/install-lxc-rhel-rocky-almalinux/
 
 
 # Command to install EPEL repo on a CentOS Linux and RHEL 7.x:
