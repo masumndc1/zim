@@ -15,3 +15,18 @@ ERROR: Could not build wheels for cryptography, which is required to install pyp
 ... try to install new version on cryptography for example >= 3.4.6
 ... in your requirement.txt file.
 cryptography >= 3.4.6
+
+... another way of deal with this error.
+...
+... run following in cli and then try to install packages by pip
+... pip install -r requirement.txt
+
+#!/bin/bash
+
+export PATH="/opt/homebrew/opt/openssl@1.1/bin:/opt/homebrew/bin:$PATH"
+LDFLAGS="-L/opt/homebrew/opt/libffi/lib"
+LDFLAGS+=" -L/opt/homebrew/opt/openssl@1.1/lib"
+export LDFLAGS
+CPPFLAGS="-I/opt/homebrew/opt/libffi/include"
+CPPFLAGS+=" -I/opt/homebrew/opt/openssl@1.1/include"
+export CPPFLAGS
