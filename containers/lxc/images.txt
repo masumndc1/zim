@@ -1,0 +1,9 @@
+
+
+... adding new image source
+
+❯ lxc remote remove images
+❯ lxc remote add images https://images.lxd.canonical.com --protocol=simplestreams
+/usr/local/etc
+❯
+
