@@ -1,0 +1,51 @@
+
+
+... brew install lxc
+...
+...
+ubu-lxd #
+root@ubu-lxd:# lxc config trust add
+Please provide client name: ubu-lxd
+Client ubu-lxd certificate add token:
+--
+a-long-token-to-be-copy-and-paste-
+yNCIsImV4cGlyZXNfYXQiOiIwMDAxLTAxLTAxVDAwOjAwOjAwWiJ9
+--
+
+root@ubuntu:/home/masum#
+
+mac # lxc remote add ubu-lxd
+-- paste-token-here --
+
+mac # lxc remote set-default ubu-lxd
+mac # lxc list
+
+... web interface with lxd server
+...
+... expose lxd to the network
+
+root@ubu-lxd # lxc config set core.https_address :8443
+
+... access the server from browser:
+... https://<server>:8443
+...
+... when to create certificate, choose existing one.
+...
+... more on this:
+... https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/
+... https://documentation.ubuntu.com/lxd/en/latest/howto/server_expose/#server-expose
+... https://documentation.ubuntu.com/lxd/en/latest/remotes/
+
+... for incus
+
+ubu-lxd # incus config set core.https_address :8443
+ubu-lxd # incus config trust add <client_name>
+
+client # brew install incus
+client # incus remote add <remote_name> <token>
+
+... now you can run incus list to list containers
+
+client # incus list
+
+...
