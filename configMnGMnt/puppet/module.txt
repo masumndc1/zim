@@ -142,4 +142,51 @@ ntp::restrict:
       - '-6 fe80::'
 [root@puppet hieradata]#
 
+... another example:
+...
+... install a module
+...
+[masum@sys-alma8-dev1 ]$ sudo puppet module install puppetlabs-stdlib
 
+[masum@sys-alma8-dev1 examples]$ sudo puppet module list
+/etc/puppetlabs/code/modules
+└── puppetlabs-stdlib (v9.6.0)
+[masum@sys-alma8-dev1 examples]$
+
+... now use that module in a manifest file
+
+[masum@sys-alma8-dev1 examples]$ cat ~/test.pp
+
+include stdlib
+
+# of the file_line resource type.
+file { '/tmp/masumfile':
+  ensure => file,
+}
+-> file_line { 'masum_line':
+  line => 'masum is awesome',
+  path => '/tmp/masumfile',
+}
+
+[masum@sys-alma8-dev1 examples]$ cat /tmp/masumfile
+masum is awesome
+
+... after the execution, file_line resource also can be describe.
+
+
+[masum@sys-alma8-dev1 examples]$ sudo puppet resource --type | grep -i file
+file
+file_line
+filebucket
+[masum@sys-alma8-dev1 examples]$ sudo puppet resource describe file_line
+
+* Encoding example:
+
+```
+file_line { "XScreenSaver":
+ensure   => present,
+path     => '/root/XScreenSaver',
+line     => "*lock: 10:00:00",
+match    => '^*lock:',
+encoding => "iso-8859-1",
+}
