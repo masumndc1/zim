@@ -1,0 +1,15 @@
+
+--
+-- help: https://github.com/astral-sh/uv
+--
+-- uv: package manager in python
+--
+-- install: curl -LsSf https://astral.sh/uv/install.sh | sh
+-- source venv/bin/activate
+--
+-- install packages from requirement.txt
+-- uv pip install -r requirements.txt
+--
+-- list of dependency:
+-- uv pip freeze | uv pip compile - -o requirements.txt
+--
