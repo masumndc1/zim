@@ -1,5 +1,6 @@
 
 
+...
 
 [root@localhost ~]# gpg --keyserver pgp.mit.edu --recv-key ef8d349f
 gpg: directory `/root/.gnupg' created
@@ -18,4 +19,9 @@ gpg:               imported: 1  (RSA: 1)
 Could not request certificate: 
 The certificate retrieved from the master does not match the agent's private key.
 On the master:  puppet cert clean host.fqdn.com
-On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete 
+On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete
+
+... Puppet agent: Exiting; no certificate found and waitforcert is disabled – Solution
+... puppetmaster # puppet cert list
+... puppetmaster # puppet cert sign <servername>
+...
