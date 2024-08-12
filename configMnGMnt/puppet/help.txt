@@ -15,7 +15,5 @@
 ... full options of file resource.
   puppet describe file
 
-
-
-
-
+... puppet style guide. this is good to check always.
+https://www.puppet.com/docs/puppet/8/style_guide#style_guide
