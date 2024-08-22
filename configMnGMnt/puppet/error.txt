@@ -25,3 +25,22 @@ On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete
 ... puppetmaster # puppet cert list
 ... puppetmaster # puppet cert sign <servername>
 ...
+... if you are seeing this:
+...
+... /usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/util.rb:461: warning: URI.escape is obsolete
+/usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is ob
+
+... then add following: export RUBYOPT='-W0' in the terminal
