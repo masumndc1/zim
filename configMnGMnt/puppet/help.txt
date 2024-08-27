@@ -15,5 +15,23 @@
 ... full options of file resource.
   puppet describe file
 
+... describe providers in detail for file type
+  puppet describe file --providers
+
+... show the current settings
+  puppet resource user luke
+
+... search doc for something
+  puppet doc --list
+  puppet doc -r configuration
+
 ... puppet style guide. this is good to check always.
 https://www.puppet.com/docs/puppet/8/style_guide#style_guide
+
+... Using puppet code:
+https://www.puppet.com/docs/puppet/8/using-puppet-code
+
+... syntax and settings:
+https://www.puppet.com/docs/puppet/8/language-and-concepts
+
+...
