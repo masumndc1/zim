@@ -1,0 +1,20 @@
+
+
+...
+... in puppet file can be reference following 3 different ways.
+
+file { '/etc/puppetlabs/puppet/puppet.conf':
+  ensure => file,
+  owner  => 'root',
+  group  => 'wheel',
+  mode =>'0644',
+  source => 'puppet:///modules/puppet/puppet.conf',
+}
+
+... There are three valid URIs for use as file sources
+
+puppet:///modules/module_name/filename
+file:///path/to/file/on/local/system
+http: or https://web-server/filename (new in Puppet 4.4)
+
+...
