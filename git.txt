@@ -1020,6 +1020,7 @@ repos:
   hooks:
     - id: end-of-file-fixer
     - id: trailing-whitespace
+    - id: detect-private-key
 
 ... now run 'pre-commit install'
 ... from now on pre-commit will be run automatically when 'git commit' are run.
