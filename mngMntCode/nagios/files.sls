@@ -14,7 +14,7 @@ backup:
 /etc/nagios/conf.d/dragonfly.cfg:
  file.managed:
   - source: salt://nagios/dragonfly.cfg
-  
+
 /etc/nagios/conf.d/freebsd.cfg:
  file.managed:
   - source: salt://nagios/freebsdsalt.cfg

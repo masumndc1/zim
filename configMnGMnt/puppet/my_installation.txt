@@ -6,4 +6,3 @@
 # yum install puppet
 
 ...
-

@@ -22,5 +22,3 @@ success
 [root@ansible salt]# firewall-cmd --reload
 success
 [root@ansible salt]#
-
-

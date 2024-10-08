@@ -2,7 +2,7 @@
 
 ... configurating the dchp
 
-root@ubuntu:/etc/dhcp# apt-get install -y isc-dhcp-server			
+root@ubuntu:/etc/dhcp# apt-get install -y isc-dhcp-server
 
 root@ubuntu:/etc/dhcp# pwd
 /etc/dhcp
@@ -17,7 +17,7 @@ subnet 192.168.1.0 netmask 255.255.255.0 {
   option subnet-mask 255.255.255.0;
 }
 
-... If this DHCP server is the official DHCP server for the local network, 
+... If this DHCP server is the official DHCP server for the local network,
 ... the authoritative directive should be uncommented.
 
 authoritative;
@@ -42,25 +42,22 @@ lease {
 
 timeout 300;
 
-... interface option will only send the dhcp lease to ens160 interface. 
+... interface option will only send the dhcp lease to ens160 interface.
 
 ... Alternatively we can edit in /etc/default/isc-dhcp-server
 ... and set in which interface dhcp service will send ip address lease.
 ...
 ... INTERFACESv4="ens160"
-... 
+...
 ... you can check your distribution, where to add this settings.
 ... otherwise dhcp will listen to all its address, which is not good
-... 
+...
 ... testing dhcp service.
 ... # dhcpcd -T eth0
 ... # dhcp-lease-list  ,to see lease list.
 ... from client side
 ... # hostnamectl      ,to see the hostname provided
-... 
+...
 ... to see the dns server provided by dhcp
-... # systemd-resolve --status ens3 
-... 
-
-
-
+... # systemd-resolve --status ens3
+...

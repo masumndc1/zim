@@ -5,13 +5,12 @@
     https://ftp.openbsd.org/pub/OpenBSD
 
 
-or 
+or
 
  Multiple mirrors can be specified in the PKG_PATH environment variable, separated by colons:
 
     # export PKG_PATH=scp://user@company-build-server/usr/ports/packages/%a/all:https://trusted-public-server/%m:installpath
 
-after setting any of them we can run 
+after setting any of them we can run
 
 pkg_add to install packages
-

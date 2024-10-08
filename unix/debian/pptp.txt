@@ -5,7 +5,7 @@
 root@deb-7:~# dpkg -l | grep pptp
 pptp-linux                           1.7.2-7                        i386         Point-to-Point Tunneling Protocol (PPTP) Client
 pptpd                                1.3.4-5.2                      i386         PoPToP Point to Point Tunneling Server
-root@deb-7:~# 
+root@deb-7:~#
 
 
 root@deb-7:/etc/ppp# pwd
@@ -13,9 +13,9 @@ root@deb-7:/etc/ppp# pwd
 root@deb-7:/etc/ppp# ls
 chap-secrets  ip-down.d  ip-up.d    ipv6-down.d  ipv6-up.d  options.pptp    pap-secrets  pptpd-options
 ip-down       ip-up	 ipv6-down  ipv6-up	 options    options.xl2tpd  peers
-root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp#
 
-root@deb-7:/etc/ppp# cat pptpd-options 
+root@deb-7:/etc/ppp# cat pptpd-options
 name pptpd
 refuse-pap
 refuse-chap
@@ -29,8 +29,8 @@ proxyarp
 nodefaultroute
 debug
 lock
-nobsdcomp 
-root@deb-7:/etc/ppp# 
+nobsdcomp
+root@deb-7:/etc/ppp#
 
 root@deb-7:/etc# cat pptpd.conf
 option /etc/ppp/pptpd-options
@@ -39,26 +39,24 @@ logwtmp
 localip 192.168.0.1
 remoteip 192.168.0.234-238,192.168.0.245
 
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
-root@deb-7:/etc/ppp# cat chap-secrets 
+root@deb-7:/etc/ppp# cat chap-secrets
 alice	pptpd       	alice123	*
-bob	pptpd           bob123	    	* 
+bob	pptpd           bob123	    	*
 
-root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp#
 
 
 ... now start the pptpd server
 
 root@deb-7:/etc# /etc/init.d/pptpd status
-root@deb-7:/etc# 
+root@deb-7:/etc#
 root@deb-7:/etc# /etc/init.d/pptpd start
 Starting PPTP Daemon: pptpd.
 root@deb-7:/etc# /etc/init.d/pptpd restart
-Restarting PPTP: 
+Restarting PPTP:
 Stopping PPTP: pptpd.
 Starting PPTP Daemon: pptpd.
-root@deb-7:/etc# 
-root@deb-7:/etc# 
-
-
+root@deb-7:/etc#
+root@deb-7:/etc#

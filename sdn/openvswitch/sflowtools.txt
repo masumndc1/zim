@@ -24,30 +24,30 @@ Downloads                    midori_0.5.11-0_i386_.deb      pemu_2008-03-03_bin 
 dynamips_0.2.8-1~1_i386.deb  move_font.sh                   pemu_2008-03-03_bin.tar.bz2      tap_con.sh
 example.lua                  Music                          pib.enum.txt                     target.txt
 font.html                    Nessus-5.2.6-debian6_i386.deb  Pictures                         Templates
-root@masum:~# 
-root@masum:~# 
+root@masum:~#
+root@masum:~#
 root@masum:~# cd sflowtool/
 root@masum:~/sflowtool# ls
 AUTHORS    config.h.in   INSTALL          NEWS       scripts         sflowtool.vcxproj          src
 boot.sh    configure.ac  INSTALL.Windows  README     sflowtool.sln   sflowtool.vcxproj.filters
 ChangeLog  COPYING       Makefile.am      README.md  sflowtool.spec  sflowtool.vcxproj.user
-root@masum:~/sflowtool# 
-root@masum:~/sflowtool# 
-root@masum:~/sflowtool# ./boot.sh 
+root@masum:~/sflowtool#
+root@masum:~/sflowtool#
+root@masum:~/sflowtool# ./boot.sh
 ./boot.sh: line 1: autoreconf: command not found
 root@masum:~/sflowtool# apt-get install autoreconf
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 E: Unable to locate package autoreconf
-root@masum:~/sflowtool# 
+root@masum:~/sflowtool#
 root@masum:~/sflowtool# apt-cache search autoreconf
 autoconf2.13 - automatic configure script builder (obsolete version)
 dh-autoreconf - debhelper add-on to call autoreconf and clean up after the build
 dh-dist-zilla - debhelper add-on to call dzil build and clean up after the build
 root@masum:~/sflowtool# apt-get install autoconf2.13
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following extra packages will be installed:
   autoconf automake autotools-dev
@@ -63,7 +63,7 @@ Get:1 http://ftp.ca.debian.org/debian/ jessie/main autoconf all 2.69-8 [340 kB]
 Get:2 http://ftp.ca.debian.org/debian/ jessie/main autoconf2.13 all 2.13-63 [258 kB]
 Get:3 http://ftp.ca.debian.org/debian/ jessie/main autotools-dev all 20140911.1 [70.5 kB]
 Get:4 http://ftp.ca.debian.org/debian/ jessie/main automake all 1:1.14.1-4+deb8u1 [724 kB]
-Fetched 1,393 kB in 9s (149 kB/s)                                                                                                     
+Fetched 1,393 kB in 9s (149 kB/s)
 Selecting previously unselected package autoconf.
 (Reading database ... 396399 files and directories currently installed.)
 Preparing to unpack .../autoconf_2.69-8_all.deb ...
@@ -94,7 +94,7 @@ Setting up autoconf2.13 (2.13-63) ...
 Setting up autotools-dev (20140911.1) ...
 Setting up automake (1:1.14.1-4+deb8u1) ...
 update-alternatives: using /usr/bin/automake-1.14 to provide /usr/bin/automake (automake) in auto mode
-root@masum:~/sflowtool# ./boot.sh 
+root@masum:~/sflowtool# ./boot.sh
 configure.ac:8: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:
 configure.ac:8: http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation
 configure.ac:13: installing './compile'
@@ -108,7 +108,7 @@ aclocal.m4      ChangeLog     config.h.in~  COPYING     INSTALL.Windows  NEWS   
 AUTHORS         compile       config.sub    depcomp     Makefile.am      README     sflowtool.spec             src
 autom4te.cache  config.guess  configure     INSTALL     Makefile.in      README.md  sflowtool.vcxproj
 boot.sh         config.h.in   configure.ac  install-sh  missing          scripts    sflowtool.vcxproj.filters
-root@masum:~/sflowtool# ./configure 
+root@masum:~/sflowtool# ./configure
 checking for a BSD-compatible install... /usr/bin/install -c
 checking whether build environment is sane... yes
 checking for a thread-safe mkdir -p... /bin/mkdir -p
@@ -118,7 +118,7 @@ checking whether make supports nested variables... yes
 checking for gcc... gcc
 checking whether the C compiler works... yes
 checking for C compiler default output file name... a.out
-checking for suffix of executables... 
+checking for suffix of executables...
 checking whether we are cross compiling... no
 checking for suffix of object files... o
 checking whether we are using the GNU C compiler... yes
@@ -234,9 +234,4 @@ General options:
 | sFlowTrend (FREE)     - http://www.inmon.com/products/sFlowTrend.php      |
 | Traffic Sentinel      - http://www.inmon.com/support/sentinel_release.php |
 =============================================================================
-root@masum:~/sflowtool# 
-
-
-
-
-
+root@masum:~/sflowtool#

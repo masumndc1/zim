@@ -2,7 +2,7 @@
 
 ................ components of puppet......................
 
-.. facter 
+.. facter
 .. facter is the programe which finds out the node-specific information from the system
 .. for the example run the command facter like below.
 
@@ -112,21 +112,21 @@ uptime_hours => 0
 uptime_seconds => 3239
 uuid => 564D8BD4-FE23-A0B0-F0F3-53D411C0BEB0
 virtual => vmware
-[root@localhost opt]# 
+[root@localhost opt]#
 
 .. hiera: this components is used to manipulate the data used by puppet manifest and puppet modules.
 .. marionette collective: mco is an orchestration framework works with puppet tightly.
 .. manifest: manifest is the puppet configuration files which contain instruction how resources
-.. should be used. 
+.. should be used.
 
 .. our first manifest
 
 [root@localhost puppet]# vi hello.pp
-[root@localhost puppet]# 
+[root@localhost puppet]#
 [root@localhost puppet]# cat -n hello.pp
      1	notify { greeting: message => 'hello, world!'
      2	}
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
 .. here notify is the resource of puppet where greeting is the title for it.
 .. message is the only attribute of the resource notify and the values are given with the
@@ -140,7 +140,7 @@ Notice: Compiled catalog for localhost.localdomain in environment production in 
 Notice: hello, world!
 Notice: /Stage[main]/Main/Notify[greeting]/message: defined 'message' as 'hello, world!'
 Notice: Finished catalog run in 0.03 seconds
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
 .. output showing that it takes only 0.03 seconds to run the hello.pp
 .. resource declaration in puppet
@@ -153,9 +153,3 @@ attribute2 => 'value'			# string
 attribute3 => ['khabir','masum'], 	# array
 noop	   => false 			# boolean
 }
-
-
-
-
-
-

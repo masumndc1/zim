@@ -4,14 +4,14 @@
 
 bash-4.2# pwd
 /etc/sysconfig/network-scripts
-bash-4.2# 
+bash-4.2#
 bash-4.2# ls
 ifcfg-eth0   ifcfg-lo     ifdown-eth0  ifdown-lo    ifup-eth0    ifup-lo
 ifcfg-eth1   ifcfg-usb0   ifdown-eth1  ifdown-usb0  ifup-eth1    ifup-usb0
 ifcfg-eth2   ifcfg-usb1   ifdown-eth2  ifdown-usb1  ifup-eth2    ifup-usb1
 ifcfg-eth3   ifdown-eth   ifdown-eth3  ifup-eth     ifup-eth3
-bash-4.2# 
-bash-4.2# 
+bash-4.2#
+bash-4.2#
 bash-4.2# cat ifcfg-eth0
 ENABLE=yes
 NAME=Ethernet
@@ -22,12 +22,10 @@ NETMASK=255.255.255.0
 GATEWAY=192.168.1.1
 BROADCAST=192.168.1.255
 DHCP=yes
-bash-4.2# 
+bash-4.2#
 
 ... make ENABLE=no to yes
 
 bash-4.2# ifup eth0
 
 ... and ssh root@<ip_address_of_ttylinux>
-
-

@@ -7,4 +7,3 @@
 ... changing shell of an user
 
 # chsh -s /usr/local/bin/zsh masum
-

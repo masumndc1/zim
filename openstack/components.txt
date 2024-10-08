@@ -6,7 +6,7 @@
 ... keystone
 ... this is identity and access management for all of the services in openstack.
 ... keystone itself has identity management, resource allocation, token managent
-... policy etc. therefore when we use horizon or any other api to interact to 
+... policy etc. therefore when we use horizon or any other api to interact to
 ... other services within openstack we have to interact and grant access from it.
 ... This service is equivalent to the IAM service of the AWS public cloud
 
@@ -29,7 +29,7 @@
 ... the database service for openstack. in aws this is ebs.
 
 ... neutron
-... neutron is the networking services for openstack. though basic networking is 
+... neutron is the networking services for openstack. though basic networking is
 ... included with nova aditional networking services such as firewall as a service,
 ... load balancer as a services are provided by neutron. neutron is recommended for
 ... openstack networking for general to advance purpose.
@@ -52,7 +52,3 @@
 ... to improve migration option. This service is in some ways like Trove, it uses
 ... an image with Docker installed on it and orchestrates Magnum with Heat. It is
 ... effectively Container as a Service (CaaS) of OpenStack.
-
-
-
-

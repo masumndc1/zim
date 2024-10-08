@@ -3,25 +3,25 @@
 ... in solaris packages are installed in system by the command of pkg
 
 bash-3.2# pkg
-pkg-config  pkgadd      pkgask      pkgcond     pkginfo     pkgparam    pkgrm       
-pkg2du      pkgadm      pkgchk      pkgdep      pkgmk       pkgproto    pkgtrans    
-bash-3.2#    
+pkg-config  pkgadd      pkgask      pkgcond     pkginfo     pkgparam    pkgrm
+pkg2du      pkgadm      pkgchk      pkgdep      pkgmk       pkgproto    pkgtrans
+bash-3.2#
 
 bash-3.2# pkgadd -d http://get.opencsw.org/now -G CSWpkgutil
 
-... for example on above -d options is telling from where to collect the 
-... package location can be disk, cd, locale hard disks or even from 
+... for example on above -d options is telling from where to collect the
+... package location can be disk, cd, locale hard disks or even from
 ... internet as like above. and -G options is telling the name of the package
 
-... to remove we use the pkgrm command while pkginfo tells the information 
+... to remove we use the pkgrm command while pkginfo tells the information
 ... related to packge installed. to apply the patch patchadd command is used.
-... the syntax is "patchadd patch_id" similarly to remove the patch 
+... the syntax is "patchadd patch_id" similarly to remove the patch
 ... "patchrm patch_id" is used.
 
 bash-3.2# pkginfo SUNWcsr SUNWcsu
 system      SUNWcsr Core Solaris, (Root)
 system      SUNWcsu Core Solaris, (Usr)
-bash-3.2# 
+bash-3.2#
 
 ... installing package from network file system.
 
@@ -36,7 +36,7 @@ bash-3.2#
 ..............25%..............50%..............75%..............100%
 ## Download Complete
 
-... /var/spool/pkg directory is the default packages location therefore. when to 
+... /var/spool/pkg directory is the default packages location therefore. when to
 ... install anything from this location just type the following command
 
 # pkgadd SUNWpl5p
@@ -71,14 +71,14 @@ bash-3.2# pkginfo -l BRCMbnx
                    2 executables
                 2117 blocks used (approx)
 
-bash-3.2# 
+bash-3.2#
 
 ... integrity check is done by the following command
 
 bash-3.2# pkgchk -c SUNWbash
-bash-3.2# 
+bash-3.2#
 bash-3.2# pkgchk -a SUNWbash
-bash-3.2# 
+bash-3.2#
 bash-3.2# pkgchk -lp /usr/sbin/pkgadd
 
 Pathname: /usr/sbin/pkgadd
@@ -90,10 +90,10 @@ Expected file size (bytes): 282124
 Expected sum(1) of contents: 1887
 Expected last modification: Nov 16 04:06:16 2012
 Referenced by the following packages:
-SUNWpkgcmdsu   
+SUNWpkgcmdsu
 Current status: installed
 
-bash-3.2# 
+bash-3.2#
 
 ... package dependency
 
@@ -107,7 +107,7 @@ SUNWkvm
 bash-3.2#
 
 .... but we like to download and install the package from the opencsw source which
-... is now porting the package from solaris and opensolaris OS. we start from the 
+... is now porting the package from solaris and opensolaris OS. we start from the
 ... pkgutils installation.
 
 bash-3.2# pkgadd -d http://get.opencsw.org/now
@@ -122,7 +122,7 @@ The following packages are available:
                     (all) 2.6.7,REV=2014.10.16
 
 Select package(s) you wish to process (or 'all' to process
-all packages). (default: all) [?,??,q]: 
+all packages). (default: all) [?,??,q]:
 
 Processing package instance <CSWpkgutil> from <http://get.opencsw.org/now>
 
@@ -168,9 +168,9 @@ NOTE! Make sure to check out any changes in /etc/opt/csw/pkgutil.conf.CSW.
 NOTE!
 
 Installation of <CSWpkgutil> was successful.
-bash-3.2# 
+bash-3.2#
 bash-3.2# cd /opt
-bash-3.2# ls 
+bash-3.2# ls
 SUNWits     SUNWmlib    csw         lost+found  ocm
 bash-3.2# cd csw
 bash-3.2# ls
@@ -179,7 +179,7 @@ bash-3.2# cd etc
 bash-3.2# ls
 pkgutil.conf      pkgutil.conf.CSW
 
-... the configuration file of the pkgutil.conf 
+... the configuration file of the pkgutil.conf
 
 bash-3.2# cat pkgutil.conf
 # Configuration file for pkgutil
@@ -189,7 +189,7 @@ bash-3.2# cat pkgutil.conf
 # Master configuration file is placed in /opt/csw/etc. Place a pkgutil.conf
 # file in /etc/opt/csw if you want a local override setting-by-setting.
 
-# Nothing below is mandatory to change, pkgutil will use the default values 
+# Nothing below is mandatory to change, pkgutil will use the default values
 # noted below for each option unless something is uncommented.
 
 # Catalog not cached
@@ -238,11 +238,11 @@ bash-3.2# cat pkgutil.conf
 # Default: http://mirror.opencsw.org/opencsw/testing
 #mirror=http://mirror.opencsw.org/opencsw/testing
 
-... 
+...
 ... we can use the mirror and include new mirror in here.
-... the mirror list can be found from this url 
-... http://mirror.opencsw.org/status/ and key should be install 
-... with the command 
+... the mirror list can be found from this url
+... http://mirror.opencsw.org/status/ and key should be install
+... with the command
 
 # /opt/csw/bin/wget --output-document=/tmp/gpg.key https://www.opencsw.org/get-it/mirrors/
 # /opt/csw/bin/gpg --import /tmp/gpg.key
@@ -321,7 +321,7 @@ bash-3.2# cat pkgutil.conf
 # Default: blank
 #wgetopts=-U pkgutil
 
-bash-3.2# 
+bash-3.2#
 
 ... some of the options can be used with the pkgutil are listed below
 
@@ -374,9 +374,9 @@ Example: pkgutil -i CSWwget (install wget and its dependencies)
 
 Written and maintained by Peter Bonivart. Web site: http://pkgutil.net.
 
-bash-3.2# 
+bash-3.2#
 
-... current settings of the pkgutil is 
+... current settings of the pkgutil is
 
 bash-3.2# cd /opt/csw/bin
 bash-3.2# ./pkgutil -V
@@ -414,7 +414,7 @@ stop_on_hook_soft_error not set (default: false)
 use_gpg                 false (default: false)
 use_md5                 false (default: false)
 wgetopts                not set (default: none)
-bash-3.2# 
+bash-3.2#
 
 
 ... updating the catalog first
@@ -422,29 +422,29 @@ bash-3.2#
 bash-3.2# /opt/csw/bin/pkgutil -U
 => Fetching new catalog and descriptions (http://mirror.opencsw.org/opencsw/testing/i386/5.10) if available ...
 ==> 3986 packages loaded from /var/opt/csw/pkgutil/catalog.mirror.opencsw.org_opencsw_testing_i386_5.10
-bash-3.2# 
+bash-3.2#
 
-... checking the availability of the package in the opencsw 
+... checking the availability of the package in the opencsw
 
 bash-3.2# /opt/csw/bin/pkgutil -a vim
 common               package              catalog                        size
 gvim                 CSWgvim              8.0.238,REV=2017.01.30       1.2 MB
 vim                  CSWvim               8.0.238,REV=2017.01.30       1.1 MB
 vimrt                CSWvimrt             8.0.238,REV=2017.01.30       9.0 MB
-bash-3.2# 
-bash-3.2# 
+bash-3.2#
+bash-3.2#
 bash-3.2# /opt/csw/bin/pkgutil -a htop
 common               package              catalog                        size
 
 No exact matches found, doing fuzzy matching for first argument (htop) ...
 String::Approx required for fuzzy matching not found, install with pkgutil -i CSWpmstringapprox to enable.
-bash-3.2# 
+bash-3.2#
 bash-3.2# /opt/csw/bin/pkgutil -a iftop
 common               package              catalog                        size
 iftop                CSWiftop             1.0pre4,REV=2014.06.18      45.7 KB
-bash-3.2# 
+bash-3.2#
 
-... going to install the iftop package from the site 
+... going to install the iftop package from the site
 
 bash-3.2# /opt/csw/bin/pkgutil -y -i iftop
 Solving needed dependencies ...
@@ -493,13 +493,13 @@ Please see /opt/csw/share/doc/iftop/license for license information.
 
 Installation of <CSWiftop> was successful.
 
-bash-3.2# 
+bash-3.2#
 
 ... and installed iftop package can be found in the following directory
 
 bash-3.2# pwd
 /opt/csw/sbin
-bash-3.2# 
+bash-3.2#
 bash-3.2# ls
 iftop
 bash-3.2# iftop -i e1000g0 -p
@@ -508,8 +508,5 @@ bash-3.2# ./iftop -i e1000g0 -p
 interface: e1000g0
 IP address is: 192.168.35.100
 MAC address is: 08:00:27:ffffffdd:fffffffa:30
-bash-3.2# 
-bash-3.2# 
-
-
-
+bash-3.2#
+bash-3.2#

@@ -1,16 +1,16 @@
-root@masum-K42JZ:~# cat cpulimit_script.sh 
-#!/bin/bash 
+root@masum-K42JZ:~# cat cpulimit_script.sh
+#!/bin/bash
 
 for a in gns3 qemu dynamips ; do
         cpulimit -e $a -l 30 2>&1 /dev/null &
 done
-root@masum-K42JZ:~# 
+root@masum-K42JZ:~#
 
 this will limit cpu usage upto 30% for gns3 qemu and dynamips
-i run the gns3 and run an ASA device and run this scripts 
+i run the gns3 and run an ASA device and run this scripts
 not to exceed the cpu usage over 30%
 
-root@masum-K42JZ:~# ./cpulimit_script.sh 
+root@masum-K42JZ:~# ./cpulimit_script.sh
 root@masum-K42JZ:~# Warning: no target process found. Waiting for it...
 Process 4987 detected
 Warning: no target process found. Waiting for it...
@@ -19,4 +19,4 @@ and watch the output of my htop command in command promt dynamips does not cross
 
 if we need to limit a service by pid(say 12121) then step is following
 
-root@masum-K42JZ:~# cpulimit -p 12121 -l 30 
+root@masum-K42JZ:~# cpulimit -p 12121 -l 30

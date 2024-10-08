@@ -10,10 +10,10 @@ VMware vCenter Server Appliance 6.7.0.14000
 
 Type: vCenter Server with an embedded Platform Services Controller
 
-root@172.16.17.170's password: 
+root@172.16.17.170's password:
 
 Permission denied, please try again.
-root@172.16.17.170's password: 
+root@172.16.17.170's password:
 Connected to service
 
     * List APIs: "help api list"
@@ -22,6 +22,6 @@ Connected to service
 
 Command> shell
 Shell access is granted to root
-root@photon-machine [ ~ ]# 
+root@photon-machine [ ~ ]#
 
 .

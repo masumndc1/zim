@@ -21,7 +21,7 @@ root@deb-7:/var# mv www.tar /tmp
 
 root@deb-7:/var# ls
 backups  cache	lib  local  lock  log  mail  opt  run  spool  tmp  www
-root@deb-7:/var# 
+root@deb-7:/var#
 
 .. www.tar already gone to /tmp directory.
 
@@ -31,7 +31,7 @@ root@deb-7:/var# rm -fR www
 
 root@deb-7:/var# ls
 backups  cache	lib  local  lock  log  mail  opt  run  spool  tmp
-root@deb-7:/var# 
+root@deb-7:/var#
 
 root@deb-7:/var# mv /tmp/www.tar .
 
@@ -39,41 +39,41 @@ root@deb-7:/var# mv /tmp/www.tar .
 
 root@deb-7:/var# ls
 backups  cache	lib  local  lock  log  mail  opt  run  spool  tmp  www.tar
-root@deb-7:/var# 
-root@deb-7:/var# tar -tvf www.tar 
+root@deb-7:/var#
+root@deb-7:/var# tar -tvf www.tar
 drwxr-xr-x root/root         0 2016-09-08 07:58 www/
 -rw-r--r-- root/root       217 2016-09-08 07:58 www/index.html
 -rw-r--r-- root/root        45 2016-09-07 11:56 www/restricted.txt
 
 .. listing files inside www.tar
 
-root@deb-7:/var# tar -xf www.tar 
+root@deb-7:/var# tar -xf www.tar
 
 .. extracting www.tar file
 
 root@deb-7:/var# ls
 backups  cache	lib  local  lock  log  mail  opt  run  spool  tmp  www	www.tar
-root@deb-7:/var# 
+root@deb-7:/var#
 
 .. extracted www folder again
 
-root@deb-7:/var# rm www.tar 
+root@deb-7:/var# rm www.tar
 
 .. removing www.tar as files inside it already extracted.
 
 root@deb-7:/var# ls
 backups  cache	lib  local  lock  log  mail  opt  run  spool  tmp  www
-root@deb-7:/var# 
+root@deb-7:/var#
 root@deb-7:/var# cd www/
 root@deb-7:/var/www# ls
 index.html  restricted.txt
-root@deb-7:/var/www# 
+root@deb-7:/var/www#
 root@deb-7:/var/www# ls -la
 total 16
 drwxr-xr-x  2 root root 4096 Sep  8 07:58 .
 drwxr-xr-x 12 root root 4096 Sep  8 09:06 ..
 -rw-r--r--  1 root root  217 Sep  8 07:58 index.html
 -rw-r--r--  1 root root   45 Sep  7 11:56 restricted.txt
-root@deb-7:/var/www# 
+root@deb-7:/var/www#
 
 .. finally files are restored

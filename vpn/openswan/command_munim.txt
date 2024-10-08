@@ -15,6 +15,3 @@ echo -e "backing up ppp files "
 
 cp /etc/ppp/options.xl2tpd /etc/ppp/options.xl2tpd.bak
 cp /home/munim/Downloads/options.xl2tpd /etc/ppp/options.xl2tpd
-
-
-

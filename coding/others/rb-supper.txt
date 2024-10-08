@@ -3,7 +3,7 @@
 ...
 ... ruby super keyword.
 ... note the code below. here, when super is called in Cat class, it
-... will look for the same method "name" from its parent class, and 
+... will look for the same method "name" from its parent class, and
 ... execute it.
 
 

@@ -3,7 +3,7 @@
 ... source: https://www.programiz.com/python-programming/property
 
 -- The @property Decorator
--- In Python, property() is a built-in function that creates and returns a property object. 
+-- In Python, property() is a built-in function that creates and returns a property object.
 -- The syntax of this function is:
 
 property(fget=None, fset=None, fdel=None, doc=None)
@@ -14,7 +14,7 @@ property(fget=None, fset=None, fdel=None, doc=None)
 -- doc is a string (like a comment)
 
 -- As seen from the implementation, these function arguments are optional.
--- A property object has three methods, getter(), setter(), and deleter() to specify fget, fset and 
+-- A property object has three methods, getter(), setter(), and deleter() to specify fget, fset and
 -- fdel at a later point. This means, the line:
 
 temperature = property(get_temperature,set_temperature)
@@ -31,7 +31,7 @@ temperature = temperature.setter(set_temperature)
 
 -- These two pieces of code are equivalent.
 -- these can recognize that the above construct can be implemented as decorators.
--- For this, we reuse the temperature name while defining our getter and setter 
+-- For this, we reuse the temperature name while defining our getter and setter
 -- functions. Let's look at how to implement this as a decorator:
 
 # Using @property decorator
@@ -43,7 +43,7 @@ class Celsius:
         return (self.temperature * 1.8) + 32
 
 -- note here, while declaring the functions there is no options to put extra
--- parameters. 
+-- parameters.
 
     @property
     def temperature(self):
@@ -58,7 +58,7 @@ class Celsius:
         if value < -273.15:
             raise ValueError("Temperature below -273 is not possible")
         self._temperature = value
-        
+
     @temperature.deleter
     def temperature(self):
         print("deleting value")
@@ -69,5 +69,3 @@ human = Celsius(37)
 print(human.temperature)
 print(human.to_fahrenheit())
 coldest_thing = Celsius(-300)
-
-

@@ -3,25 +3,22 @@
 
 ...................... globally allowing icmp ........................
 
-ciscoasa(config)# show run access-list 
-access-list icmp-outside extended permit icmp any any 
-ciscoasa(config)# 
-ciscoasa(config)# show run access-group 
+ciscoasa(config)# show run access-list
+access-list icmp-outside extended permit icmp any any
+ciscoasa(config)#
+ciscoasa(config)# show run access-group
 access-group icmp-outside in interface outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
 
 .. we first configure an access-list then we place it to outside interface
-.. inbound direction. reason of inbound direction is asa permit traffic 
+.. inbound direction. reason of inbound direction is asa permit traffic
 .. from higher security interface to lower security interface but not from
 .. lower to higher. that why we need to place the access-list at outside
-.. interface, inbound direction for when icmp echo-reply comes back to 
+.. interface, inbound direction for when icmp echo-reply comes back to
 .. outside interface and trying to enter.
 
 ciscoasa(config)# show conn | grep ICMP
 ICMP out 206.190.36.45:0 in 192.168.244.132:16037 idle 0:00:00 bytes 280
 ICMP out 206.190.36.45:0 in 192.168.244.132:16037 idle 0:00:00 bytes 280
-ciscoasa(config)# 
-
-
-
+ciscoasa(config)#

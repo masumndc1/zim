@@ -4,7 +4,7 @@
 ..... multiple spanning tree.....
 
 .. for multiple spanning tree (MST) we first need to determine
-.. a. how many instance we need. 
+.. a. how many instance we need.
 .. b. and map of vlan per instance
 
 .. to configure mst two switches must have the same things
@@ -13,8 +13,8 @@
 .. mst instance-to-vlan mapping
 
 .. mst bpdus contain configuration attributes. if the attributes
-.. match it will be seen as within the region. if not it will 
-.. be in boundary between region or be in boundary in which 
+.. match it will be seen as within the region. if not it will
+.. be in boundary between region or be in boundary in which
 .. traditional 802.1d starts.
 
 .. cisco support maximum 16 mst instance in a region.
@@ -55,8 +55,3 @@ R3(config-mst)# show pending
 
 .. After MST is enabled and configured, PVST+ operation stops and the switch changes to
 .. RSTP operation. A switch cannot run both MST and PVST+ at the same time.
-
-
-
-
-

@@ -33,7 +33,7 @@ To Deactivate a volume group
 #varyoffvg sapvg
 
 To check
-#lsvg -o 
+#lsvg -o
 #lsvg
 
 To Activate a vg
@@ -43,7 +43,7 @@ To check
 #lsvg -o
 #lsvg
 
-To view the pvs in a vg 
+To view the pvs in a vg
 
 #lsvg -p sapvg
 
@@ -64,7 +64,7 @@ To view the lvs in a vg
 
 
 To create a logical volume in sapvg
-# mklv -y newlv sapvg 64m 
+# mklv -y newlv sapvg 64m
 
 #mklv -t jfs2 -y newlv1 sapvg 64m
 
@@ -97,12 +97,12 @@ To view the map
 
 
 To add a filesystem in the volume group with mount point
-#crfs -v jfs -d /dev/newlv -m /newlv 
+#crfs -v jfs -d /dev/newlv -m /newlv
 
 #lsvg -l sapvg|grep newlv    ----->showing close
 
 
-To mount the filesystem 
+To mount the filesystem
 #mount /newlv
 
 #lsvg -l sapvg|grep newlv    ----->showing open
@@ -111,7 +111,7 @@ To check the filesystem
 #df -m /newlv
 
 #cat /etc/filesystems|grep -ip newlv
- 
+
 
 #lsfs
 
@@ -122,22 +122,3 @@ To increase the size of the lv
 #lslv -m newlv
 
 #df -m /newlv
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

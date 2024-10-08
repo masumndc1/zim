@@ -6,8 +6,8 @@ root@controller:~# pwd
 /root
 root@controller:~# ls
 admin-openrc  demo-openrc  ip.sh
-root@controller:~# 
-root@controller:~# cat admin-openrc 
+root@controller:~#
+root@controller:~# cat admin-openrc
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_NAME=admin
@@ -16,8 +16,8 @@ export OS_PASSWORD=***
 export OS_AUTH_URL=http://controller:35357/v3
 export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
-root@controller:~# 
-root@controller:~# cat demo-openrc 
+root@controller:~#
+root@controller:~# cat demo-openrc
 export OS_PROJECT_DOMAIN_NAME=Default
 export OS_USER_DOMAIN_NAME=Default
 export OS_PROJECT_NAME=demo
@@ -26,25 +26,21 @@ export OS_PASSWORD=***
 export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 export OS_IMAGE_API_VERSION=2
-root@controller:~# 
+root@controller:~#
 
 ... now when to run the admin related task just run like below
 
-root@controller:~# . admin-openrc 
-root@controller:~# 
+root@controller:~# . admin-openrc
+root@controller:~#
 root@controller:~# openstack token issue
 +------------+-------------------------------------------------------------+
-| Field      | Value   
+| Field      | Value
 +------------+-------------------------------------------------------------+
-| expires    | 2017-07-01T20:21:14.000000Z      
+| expires    | 2017-07-01T20:21:14.000000Z
 | id         |  gAAAAABZV_YqtuSEob3FCx9Xi5AszlN9P6DHsM3-VEiG40RUDRS1LDjFjJL
 		MQgaML2DHpbHCjYHswh9nelT2ehhD5uhvge8XWasImXayFQK7d94d6oAbme
 		fcU_tVYlrO_wkb0UTntym9FjvQroONWKtWmjyzEhj1oXDjbkakPsRZaESHQF
-| project_id | 480ad842cc234d61909b942bae5b21f0   
-| user_id    | 791b88800a7f46ab9eac54268d9086c5      
+| project_id | 480ad842cc234d61909b942bae5b21f0
+| user_id    | 791b88800a7f46ab9eac54268d9086c5
 +------------+-------------------------------------------------------------+
-root@controller:~# 
-
-
-
-
+root@controller:~#

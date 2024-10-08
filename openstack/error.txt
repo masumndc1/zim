@@ -19,7 +19,7 @@ masum@devstack:~$ openstack compute service list --service nova-compute
 +----+--------------+----------+------+---------+-------+----------------------------+
 |  2 | nova-compute | devstack | nova | enabled | down  | 2019-02-13T13:40:29.000000 |
 +----+--------------+----------+------+---------+-------+----------------------------+
-masum@devstack:~$ 
+masum@devstack:~$
 
 ... then we need to manually up state by following.
 ... also we can try to restart the nova-compute service by following
@@ -28,7 +28,7 @@ masum@devstack:~$ service nova-compute restart
 
 masum@devstack:~$ openstack compute service set --enable --up devstack nova-compute
 
-... in devstack, we can also try to restart the nova service by 
+... in devstack, we can also try to restart the nova service by
 ... the every service: systemctl restart devstack@*
 ... to see the status: systemctl status devstack@n-*
 
@@ -51,7 +51,7 @@ masum@devstack:~$ openstack compute service list --service nova-compute
 +----+--------------+----------+------+---------+-------+----------------------------+
 |  2 | nova-compute | devstack | nova | enabled | up    | 2019-02-13T13:40:29.000000 |
 +----+--------------+----------+------+---------+-------+----------------------------+
-masum@devstack:~$ 
+masum@devstack:~$
 
 ... we can also check the nova related service status by following
 
@@ -61,7 +61,3 @@ masum@devstack:~$ nova service-list
 
 ... setting consecutive_build_service_disable_threshold = 0 in /etc/nova/nova.conf file
 ... which telling not to disable nova service for failure.
-
-
-
-  

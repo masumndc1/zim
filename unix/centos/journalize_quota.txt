@@ -28,4 +28,3 @@ quotacheck -avugm
 quotaon -avug
 
 That's it - journaled quota is now enabled.
-

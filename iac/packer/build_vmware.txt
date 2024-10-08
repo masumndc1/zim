@@ -28,7 +28,7 @@ CentOS-7-x86_64-Minimal-1804.iso  packer_cache  vmware.json
 
 └──╼ $
 
- $ packer build template.json 
+ $ packer build template.json
 vmware-iso output will be in this color.
 
 ==> vmware-iso: Retrieving ISO
@@ -94,4 +94,4 @@ output-vmware-vmx                 vmware.json
 
 ... following link is the nice collection of packer template
 ... https://github.com/upperstream/packer-templates
-... 
+...

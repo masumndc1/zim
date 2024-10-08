@@ -3,7 +3,7 @@
 ... wpa psk attack without the actual ap.
 ...
 ... say a client which used wpa psk to connect to an ap. now we can create
-... one fake ap with the same name and wpa psk authentication. 
+... one fake ap with the same name and wpa psk authentication.
 ... now when any previous client try to connect this ap wpa psk attack will
 ... on them and finally crack the key from stored file.
 
@@ -43,6 +43,3 @@ airbase-ng --help
  # aircrack-ng wpa_psk_without_ap.cap
 
 ... we can see the wep key if it is captured during the packets capturing sessions.
-
-
-

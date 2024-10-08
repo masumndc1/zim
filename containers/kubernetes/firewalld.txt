@@ -11,5 +11,4 @@ success
 success
 [root@kube-master kubernetes]# firewall-cmd --reload
 success
-[root@kube-master kubernetes]# 
-
+[root@kube-master kubernetes]#

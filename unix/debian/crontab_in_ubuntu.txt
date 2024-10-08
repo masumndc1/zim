@@ -16,17 +16,17 @@ Select an editor.  To change later, run 'select-editor'.
   3. /usr/bin/vim.basic
   4. /usr/bin/vim.tiny
 
-Choose 1-4 [2]: 
+Choose 1-4 [2]:
 No modification made
 masum@masum-K42JZ:~/test$ crontab -e
 no crontab for masum - using an empty one
 No modification made
-masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$
 masum@masum-K42JZ:~/test$ crontab -e
 no crontab for masum - using an empty one
 No modification made
-masum@masum-K42JZ:~/test$ 
-masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$
+masum@masum-K42JZ:~/test$
 masum@masum-K42JZ:~/test$ select-editor
 
 Select an editor.  To change later, run 'select-editor'.
@@ -40,4 +40,4 @@ Choose 1-4 [2]: 3
 masum@masum-K42JZ:~/test$ crontab -e
 no crontab for masum - using an empty one
 No modification made
-masum@masum-K42JZ:~/test$ 
+masum@masum-K42JZ:~/test$

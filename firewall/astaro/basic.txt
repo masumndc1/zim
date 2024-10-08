@@ -8,10 +8,6 @@
 .. gateway: 192.168.35.1
 
 .. browse https://192.168.35.155:4444
-.. 
-.. web admin password 
+..
+.. web admin password
 .. admin:admin
-
-
-
-

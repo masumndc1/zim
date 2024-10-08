@@ -42,6 +42,3 @@ root@masum:/etc/apt#apt-get install linux-headers-3.7-trunk-686-pae
 root@masum:/etc/apt#apt-get install linux-headers-$(uname -r)
 
 and run the vmware player now.
-
- 
-

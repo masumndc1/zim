@@ -3,20 +3,20 @@
 ... jinja is templating for python. we can use jinja2 with salt when we need to
 ... use variable and controll state and execution.
 
-... for variable: 	{{ variable }} {{ grains['user'] }} 
-   			{% set myvar = 'foo' %}	
+... for variable: 	{{ variable }} {{ grains['user'] }}
+   			{% set myvar = 'foo' %}
 
 ... for controlling:  	{% if myvar == 'foo' %}
 			{% elif myvar == 'bar' %}
 			{% else %}
-			{% endif %}	
+			{% endif %}
 
 ... for loop: 	 	{% for user in ['md', 'khabir', 'uddin'] %}
    			It's user {{ user }}!
    			Hello {{ user }}!
    			{% endfor %}
 
-... now we have the basic of jinja2 template, now will make our state to 
+... now we have the basic of jinja2 template, now will make our state to
 ... independent to os.
 
 [root@salt salt]# cat httpd.sls
@@ -129,6 +129,3 @@ backup:
   - name: {{ dst }}
   - source: {{ src }}
 {% endif %}
-
-
-

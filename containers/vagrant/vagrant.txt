@@ -8,10 +8,10 @@
 
 root@debian7:~# apt-cache search vagrant
 vagrant - Tool for building and distributing virtualized development environments
-root@debian7:~# 
-root@debian7:~# apt-get install vagrant 
+root@debian7:~#
+root@debian7:~# apt-get install vagrant
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 vagrant is already the newest version.
 The following packages were automatically installed and are no longer required:
@@ -29,10 +29,4 @@ The following packages were automatically installed and are no longer required:
   xulrunner-10.0
 Use 'apt-get autoremove' to remove them.
 0 upgraded, 0 newly installed, 0 to remove and 210 not upgraded.
-root@debian7:~# 
-
-
-
-
-
-
+root@debian7:~#

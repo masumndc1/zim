@@ -108,7 +108,7 @@ masum.txt
 this file can be found in /var/www
 /var/www $
 
-... another interesting file is .dockerignore 
+... another interesting file is .dockerignore
 
 root@controller:~/docker# pwd
 /root/docker
@@ -125,9 +125,6 @@ root@controller:~/docker# cat .dockerignore
 *.tmp
 root@controller:~/docker#
 
-... the content of .dockerignore file is telling docker not to 
-... include anything of extension tmp and .git directory with 
+... the content of .dockerignore file is telling docker not to
+... include anything of extension tmp and .git directory with
 ... image build with Dockerfile.
-
-
-

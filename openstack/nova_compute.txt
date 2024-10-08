@@ -13,7 +13,7 @@
 
 root@controller:~# egrep -c '(vmx|svm)' /proc/cpuinfo
 0
-root@controller:~# 
+root@controller:~#
 
 ... Install the packages:
 
@@ -92,7 +92,7 @@ user_domain_name = Default
 auth_url = http://controller:35357/v3
 username = placement
 password = ***
-root@controller:~# 
+root@controller:~#
 
 ... as my hardware does not support the kvm therefore we are going to add libvirt
 ... virt_type is qemu. Edit the [libvirt] section in the /etc/nova/nova-compute.conf file as follows:
@@ -108,18 +108,18 @@ root@controller:~# cat /etc/nova/nova-compute.conf
 [libvirt]
 virt_type = qemu
 
-root@controller:~# 
+root@controller:~#
 
-... restart the service 
+... restart the service
 
-root@controller:~# 
+root@controller:~#
 root@controller:~# service nova-compute status
 nova-compute start/running, process 1552
-root@controller:~# 
+root@controller:~#
 root@controller:~# service nova-compute restart
 nova-compute stop/waiting
 nova-compute start/running, process 4510
-root@controller:~# 
+root@controller:~#
 
 ... every time we configure our compute node we need to discover compute host
 ... you can set an appropriate interval in /etc/nova/nova.conf :
@@ -136,7 +136,7 @@ root@controller:~# openstack hypervisor list
 +----+---------------------+
 |  1 | controller          |
 +----+---------------------+
-root@controller:~# 
+root@controller:~#
 root@controller:~# openstack compute service list
 +----+------------------+------------+----------+---------+-------+----------------------------+
 | Id | Binary           | Host       | Zone     | Status  | State | Updated At                 |
@@ -146,7 +146,7 @@ root@controller:~# openstack compute service list
 |  5 | nova-compute     | controller | nova     | enabled | up    | 2017-07-04T12:11:37.000000 |
 |  6 | nova-scheduler   | controller | internal | enabled | up    | 2017-07-04T12:11:36.000000 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
-root@controller:~# 
+root@controller:~#
 root@controller:~# openstack catalog list
 +-----------+-----------+-----------------------------------------+
 | Name      | Type      | Endpoints                               |
@@ -180,22 +180,13 @@ root@controller:~# openstack catalog list
 |           |           |   internal: http://controller:8778      |
 |           |           |                                         |
 +-----------+-----------+-----------------------------------------+
-root@controller:~# 
-root@controller:~# 
+root@controller:~#
+root@controller:~#
 root@controller:~# openstack image list
 +--------------------------------------+--------+--------+
 | ID                                   | Name   | Status |
 +--------------------------------------+--------+--------+
 | 85b1003e-1de6-42a1-9541-c6198e53d5db | cirros | active |
 +--------------------------------------+--------+--------+
-root@controller:~# 
-root@controller:~# 
-
-
-
-
-
-
-
-
-
+root@controller:~#
+root@controller:~#

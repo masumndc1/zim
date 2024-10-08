@@ -4,7 +4,7 @@
 
 ... some options we have with x.509
 
-root@deb-7:/etc/ssl/certs# openssl x509 -in  
+root@deb-7:/etc/ssl/certs# openssl x509 -in
 usage: x509 args
  -inform arg     - input format - default PEM (one of DER, NET or PEM)
  -outform arg    - output format - default PEM (one of DER, NET or PEM)
@@ -61,7 +61,7 @@ usage: x509 args
  -nameopt arg    - various certificate name options
  -engine e       - use engine e, possibly a hardware device.
  -certopt arg    - various certificate text options
-root@deb-7:/etc/ssl/certs# 
+root@deb-7:/etc/ssl/certs#
 
 ... lets try some example with openssl
 
@@ -101,12 +101,12 @@ Certificate:
                     7c:43
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Subject Key Identifier: 
+            X509v3 Subject Key Identifier:
                 D8:41:BA:77:34:72:54:8F:87:EE:B1:95:90:37:CC:C5:F2:94:33:48
-            X509v3 Authority Key Identifier: 
+            X509v3 Authority Key Identifier:
                 keyid:D8:41:BA:77:34:72:54:8F:87:EE:B1:95:90:37:CC:C5:F2:94:33:48
 
-            X509v3 Basic Constraints: 
+            X509v3 Basic Constraints:
                 CA:TRUE
     Signature Algorithm: sha256WithRSAEncryption
          4e:67:62:20:8d:2d:7e:69:cb:e9:50:7b:17:c1:f7:02:c7:66:
@@ -125,7 +125,7 @@ Certificate:
          89:26:6f:d0:03:55:35:5f:a4:4f:95:ad:b6:bc:33:5a:ad:b1:
          13:c5:a5:09
 
-root@deb-7:/etc/ipsec.d/certs# 
+root@deb-7:/etc/ipsec.d/certs#
 
 root@deb-7:/etc/ipsec.d/certs# openssl x509 -in deb-7Cert.pem \
 -serial -purpose -dates -modulus -pubkey -fingerprint  -noout
@@ -170,7 +170,4 @@ upC4Lwjc2WHumycw3KthBgh51pWQxfilNoK7S03poGlXW9CNsNpZ6IczS4kLw/98
 QwIDAQAB
 -----END PUBLIC KEY-----
 SHA1 Fingerprint=FF:F3:FA:D0:A5:38:D3:DC:8B:99:11:83:0A:15:10:DB:7A:B1:86:ED
-root@deb-7:/etc/ipsec.d/certs# 
-
-
-
+root@deb-7:/etc/ipsec.d/certs#

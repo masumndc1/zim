@@ -21,9 +21,9 @@ p5-Apache-Session-Generate-UUID-0.2p0
 p5-Apache-Session-Memcached-0.03p1
 p5-Catalyst-Engine-Apache-1.16p1
 p5-Config-ApacheFormat-1.2p0
--bash-4.3# 
+-bash-4.3#
 
-... installing and deleting a package are done by 
+... installing and deleting a package are done by
 ... pkg_add and pkg_delete command.
 
 To upgrade your installed packages, use pkg_add with the -i and -u flags.
@@ -34,5 +34,3 @@ apr-1.4.6->1.4.6p0: ok
 apr-util-1.4.1-ldap:cyrus-sasl-2.1.25p3->2.1.25p3: ok
 apr-util-1.4.1-ldap:openldap-client-2.4.31->2.4.31: ok
 apr-util-1.4.1-ldap:libiconv-1.14->1.14: ok
-
-

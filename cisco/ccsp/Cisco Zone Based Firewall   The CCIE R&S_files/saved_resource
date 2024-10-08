@@ -1,6 +1,6 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans|Merriweather:700);
 /**
- * Smiley project CSS 
+ * Smiley project CSS
  */
 
 /* generic emoji styles */
@@ -15,13 +15,13 @@
 	/* this will be a line-height tall wrapper for vertically centering the smiley */
 	width: 1.375em;
 	overflow: hidden;
-	white-space: nowrap;	
+	white-space: nowrap;
 	text-indent: 9999px;
 	min-height: 1.2em; /* for really small lineheights */
 }
 
 /* Firefox does weird things with text-indent and selection */
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
 	.wp-emoji {
 		text-indent: 0;
 		text-align: center;
@@ -35,7 +35,7 @@
 	/* vertically center the smiley */
 	position: absolute;
 	content: "";
-	
+
 	/* height/width for IE, Firefox and non-webkit browsers */
 	height: 1.25em;
 	width: 1.375em;
@@ -269,7 +269,7 @@
 
 
 /* to enable text-selection of smileys in Firefox, we can't use text-indent or overflow to hide the text, so letterspace it instead */
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
 	.wp-emoji-rolleyes {
 		letter-spacing: -.2em;
 	}
@@ -836,7 +836,7 @@ Footer
 	position: relative;
     /*overflow: hidden; */       /* this hides "about these ads" when there's no adfill */
     display: inline-block !important;
-    max-width: 100%; 
+    max-width: 100%;
     text-align: left;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
@@ -844,7 +844,7 @@ Footer
 
 .wpa.wpwidesky, .wpa.wpleaderboard{
 	width: auto;
-} 
+}
 
 .wpa.top{
 	min-width: 728px;
@@ -905,7 +905,7 @@ Footer
 
 .wpa-notice {
 	display: block;
-	position: relative; 
+	position: relative;
 	padding: 20px;
 	overflow: hidden;
 	border: 5px solid #efefef;
@@ -1189,7 +1189,7 @@ div#jp-relatedposts div.jp-relatedposts-items-visual div.jp-relatedposts-post-no
 }
 /**
  * Add text colors to the playlist shortcode light color scheme.
- * 
+ *
  * Core ticket: https://core.trac.wordpress.org/ticket/27562
  */
 
@@ -1260,7 +1260,7 @@ i.mce-i-bold, i.mce-i-italic, i.mce-i-bullist, i.mce-i-numlist, i.mce-i-blockquo
 */
 
 
-/* IE8 and below use EOT and allow cross-site embedding. 
+/* IE8 and below use EOT and allow cross-site embedding.
    IE9 uses WOFF which is base64 encoded to allow cross-site embedding.
    So unfortunately, IE9 will throw a console error, but it'll still work.
    When the font is base64 encoded, cross-site embedding works in Firefox */
@@ -2327,7 +2327,7 @@ div.sharedaddy.sharedaddy-dark #sharing_email {
 */
 
 
-/* IE8 and below use EOT and allow cross-site embedding. 
+/* IE8 and below use EOT and allow cross-site embedding.
    IE9 uses WOFF which is base64 encoded to allow cross-site embedding.
    So unfortunately, IE9 will throw a console error, but it'll still work.
    When the font is base64 encoded, cross-site embedding works in Firefox */

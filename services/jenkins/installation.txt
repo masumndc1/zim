@@ -14,6 +14,3 @@ yum install jenkins
 
 ... adding java ans svn
 yum install mod_dav_svn subversion java
-
-
-

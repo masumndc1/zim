@@ -24,24 +24,24 @@ cache-size=1000
 log-queries
 log-facility=/var/log/dnsmasq.log
 
-... if we need dnsmasq to check other dns server instead of /etc/resolv.conf 
+... if we need dnsmasq to check other dns server instead of /etc/resolv.conf
 ... we will do them like below.
 
 resolv-file=/etc/resolv.orig
 
-... the content of my resolv-file is. 
+... the content of my resolv-file is.
 ... when dns request comes to dnsmasq, then it will forward those request
 ... to the following nameservers. we are adding only 3 here. we can use 4/5/6
 ... if we need or wish.
 
-└──╼ # cat /etc/resolv.orig 
+└──╼ # cat /etc/resolv.orig
 
 nameserver 1.1.1.1
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 
 ┌─[root@elxabl1vvp2]─[/home/edmudoh]
-└──╼ # 
+└──╼ #
 
 ... finally restart the dnsmasq service
 
@@ -50,17 +50,9 @@ nameserver 8.8.4.4
 ... and see the log file /var/log/dnsmasq.log
 
 ... in the client we need to configure this dnsmasq server ip address
-... as dns server in /etc/resolv.conf. 
+... as dns server in /etc/resolv.conf.
 
-... we can install NetworkManager, dhcpclient, resolvconf or systemresolv 
+... we can install NetworkManager, dhcpclient, resolvconf or systemresolv
 ... program in client to setup dnsmasq ip address as dns server automatically.
 
 ... i have found this setup working fine.
-
-
-
-
-
-
-
-

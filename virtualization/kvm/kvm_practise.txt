@@ -5,7 +5,7 @@ root@elxa6lj5k72:/home/edmudoh# virsh net-list --all
 ----------------------------------------------------------
  default              active     yes           yes
 
-root@elxa6lj5k72:/home/edmudoh# 
+root@elxa6lj5k72:/home/edmudoh#
 
 
 root@elxa6lj5k72:/home/edmudoh# virsh net-info default
@@ -16,5 +16,4 @@ Persistent:     yes
 Autostart:      yes
 Bridge:         virbr0
 
-root@elxa6lj5k72:/home/edmudoh# 
-
+root@elxa6lj5k72:/home/edmudoh#

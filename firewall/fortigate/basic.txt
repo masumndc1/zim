@@ -4,8 +4,8 @@
 // we will allow following.
 
 
-FortiGate-VM # config system interface 
-FortiGate-VM (interface) # 
+FortiGate-VM # config system interface
+FortiGate-VM (interface) #
 
 FortiGate-VM # show system interface port1
 config system interface
@@ -18,7 +18,7 @@ config system interface
     next
 end
 
-FortiGate-VM # 
+FortiGate-VM #
 
 // which we have done is allow the http,https,ping,ssh and telnet
 // now we will be allowed to do these.
@@ -31,19 +31,19 @@ FortiGate-VM #
 // for example we want to disable dst (daylight saving time) by cli
 // we do like below, dst enabled by default. here also note the
 // travelsal of cli to cli
-// 
+//
 
 
 FortiGate login: admin
 Password: 123456
 Welcome !
 
-FortiGate # 
-FortiGate # 
-FortiGate # 
-FortiGate # 
-FortiGate # 
-FortiGate # config 
+FortiGate #
+FortiGate #
+FortiGate #
+FortiGate #
+FortiGate #
+FortiGate # config
 antivirus              AntiVirus configuration.
 application            Application control configuration.
 client-reputation      Client reputation tracking configuration
@@ -68,17 +68,17 @@ wanopt                 WAN optimization configuration.
 web-proxy              Web proxy configuration.
 webfilter              Web filter configuration.
 wireless-controller    Wireless access point configuration.
- 
+
 FortiGate # config Connection closed by foreign host.
-masum@masum:~$ 
+masum@masum:~$
 
 
-FortiGate # config system global 
+FortiGate # config system global
  <Enter>
 
-FortiGate # config system global 
+FortiGate # config system global
 
-FortiGate (global) # 
+FortiGate (global) #
 set         Modify value.
 unset       Set to default value.
 select      Select multi-option values.
@@ -89,17 +89,17 @@ get         Get dynamic and system information.
 show        Show configuration.
 abort       End and discard last config.
 end         End and save last config.
- 
 
- 
-FortiGate (global) # set dst 
+
+
+FortiGate (global) # set dst
 
 disable    Disable daylight saving time.
 enable     Enable daylight saving time.
- 
-FortiGate (global) # set dst disable 
 
-FortiGate (global) # 
+FortiGate (global) # set dst disable
+
+FortiGate (global) #
 
 
 // default gateway configuration
@@ -110,15 +110,15 @@ FortiGate (global) #
 // first we configure our port1 as external (192.168.35.139/24)
 // therefore our gateway will be 192.168.35.1
 // and will mark this interface as outside.
-// we will also configure dns name also. and 
+// we will also configure dns name also. and
 // test like below.
 
 // we will set parameters from system/network tab
 // and select the interface port1 and click and
 // enter parameters there.
 
-// now configure the static route 
-// router/static/static routes 
+// now configure the static route
+// router/static/static routes
 // and add a default route (0/0) with the following parameter
 // and gateway 192.168.35.1 interface port1
 
@@ -130,8 +130,8 @@ FortiGate (global) #
 
 
 
-FortiGate # 
-FortiGate # 
+FortiGate #
+FortiGate #
 FortiGate # execute ping 4.2.2.1
 PING 4.2.2.1 (4.2.2.1): 56 data bytes
 64 bytes from 4.2.2.1: icmp_seq=0 ttl=48 time=461.0 ms
@@ -151,16 +151,16 @@ PING yahoo.com (98.138.253.109): 56 data bytes
 3 packets transmitted, 2 packets received, 33% packet loss
 round-trip min/avg/max = 205.6/214.5/223.5 ms
 
-FortiGate # 
+FortiGate #
 
 
-// time out value settings. we are setting idle-timeout is 
+// time out value settings. we are setting idle-timeout is
 // 60minutes.
 
 
-FortiGate # config user setting 
+FortiGate # config user setting
 
-FortiGate (setting) # set 
+FortiGate (setting) # set
 auth-blackout-time        Authentication blackout time (0 - 3600 s).
 auth-cert                 HTTPS server certificate for policy authentication.
 auth-http-basic           Enable/disable use of HTTP BASIC for HTTP authentication.
@@ -173,14 +173,14 @@ auth-timeout              Firewall user authentication time-out.
 auth-timeout-type         Authenticated policy expiration behavior.
 auth-type                 Allowed firewall policy authentication methods.
 radius-ses-timeout-act    RADIUS session timeout behavior.
- 
-FortiGate (setting) # set auth-timeout-type 
+
+FortiGate (setting) # set auth-timeout-type
 
 hard-timeout    Hard timeout.
 idle-timeout    Idle timeout.
 new-session     New session timeout.
- 
-FortiGate (setting) # set auth-timeout 
+
+FortiGate (setting) # set auth-timeout
 
 <timeout_interger>    The auth time-out range is 1-1440 minutes(24 hours)
 
@@ -188,5 +188,4 @@ FortiGate (setting) # set auth-timeout 60
 
 FortiGate (setting) # end
 
-FortiGate # 
-
+FortiGate #

@@ -63,9 +63,3 @@ root@elxa6lj5k72:/etc# virt-host-validate
   QEMU: Checking if device /dev/kvm is accessible                            : PASS
   QEMU: Checking if device /dev/vhost-net exists                             : PASS
 root@elxa6lj5k72:/etc#
-
-
-
-
-
-

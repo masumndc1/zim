@@ -13,13 +13,13 @@ Please update the IOS to enable the "macro" command!
 ***************************************************************
 
 
-By de-fault, all switch ports are assigned to VLAN 1, 
+By de-fault, all switch ports are assigned to VLAN 1,
 VLAN type of Ethernet, and have a maximum transmission unit (MTU)
 size of 1500 bytes.
 
 # vlan in gns3
 
-R1-SW#vlan database 
+R1-SW#vlan database
 
 R1-SW(vlan)#?
 VLAN database editing buffer manipulation commands:
@@ -36,7 +36,7 @@ R1-SW(vlan)#vlan ?
   <1-1005>  ISL VLAN index
 
 
-R1-SW(vlan)#vlan 2 
+R1-SW(vlan)#vlan 2
 VLAN 2 added:
     Name: VLAN0002
 
@@ -62,13 +62,13 @@ VLAN Name                             Status    Ports
                                                 Fa1/4, Fa1/5, Fa1/6, Fa1/7
                                                 Fa1/8, Fa1/9, Fa1/10, Fa1/11
                                                 Fa1/12, Fa1/13, Fa1/14, Fa1/15
-2    VLAN0002                         active    
-3    VLAN0003                         active    
-4    VLAN0004                         active    
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
+2    VLAN0002                         active
+3    VLAN0003                         active
+4    VLAN0004                         active
+1002 fddi-default                     active
+1003 token-ring-default               active
+1004 fddinet-default                  active
+1005 trnet-default                    active
 R1-SW#
 
 # the preconfigured vlans are below
@@ -82,10 +82,10 @@ VLAN Name                             Status    Ports
                                                 Fa1/4, Fa1/5, Fa1/6, Fa1/7
                                                 Fa1/8, Fa1/9, Fa1/10, Fa1/11
                                                 Fa1/12, Fa1/13, Fa1/14, Fa1/15
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
+1002 fddi-default                     active
+1003 token-ring-default               active
+1004 fddinet-default                  active
+1005 trnet-default                    active
 R1-SW(config)#
 
 R1-SW#
@@ -95,15 +95,15 @@ R1-SW#
 
 R1-SW(config)#interface fastEthernet 1/15
 
-R1-SW(config-if)#switchport 
+R1-SW(config-if)#switchport
 
 ****
 The initial switchport command configures the port for Layer 2 operation. By default,
-every Catalyst IOS switch port is ready for Layer 3 operation, something that doesnt 
+every Catalyst IOS switch port is ready for Layer 3 operation, something that doesnt
 coexits with layer2 vlan.
 ****
 
-R1-SW(config-if)#switchport mode access 
+R1-SW(config-if)#switchport mode access
 R1-SW(config-if)#switchport access vlan 2
 R1-SW(config-if)#
 
@@ -123,13 +123,10 @@ VLAN Name                             Status    Ports
 ****
 2    VLAN0002                         active    Fa1/14, Fa1/15
 ****
-3    VLAN0003                         active    
-4    VLAN0004                         active    
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
+3    VLAN0003                         active
+4    VLAN0004                         active
+1002 fddi-default                     active
+1003 token-ring-default               active
+1004 fddinet-default                  active
+1005 trnet-default                    active
 R1-SW(config-if)#
-
-
-

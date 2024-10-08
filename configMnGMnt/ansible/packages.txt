@@ -3,11 +3,11 @@
 ... packages installation by using dict/array
 ... first array
 
-└──╼ $ cat roles/bsd/vars/main.yml 
+└──╼ $ cat roles/bsd/vars/main.yml
 ---
 packages:
   dfly:
-   - vim 
+   - vim
    - htop
    - bash
 
@@ -22,40 +22,40 @@ packages:
    - bash
 ┌─[edmudoh@elxabl1vvp2]─[~/ansible_my]
 
-└──╼ $ cat roles/bsd/tasks/main.yml 
+└──╼ $ cat roles/bsd/tasks/main.yml
 ---
 - name: vim and htop latest version in openbsd
   openbsd_pkg:
     name: "{{ packages.openbsd }}"
     state: present
-  when: ansible_os_family == 'OpenBSD' 
+  when: ansible_os_family == 'OpenBSD'
 
 - name: vim and htop latest version in dragonfly
   pkgng:
     name: "{{ packages.dfly }}"
     state: present
-  when: ansible_os_family == 'DragonFly' 
+  when: ansible_os_family == 'DragonFly'
 
 - name: vim and htop latest version in freebsd
   pkgng:
     name: "{{ packages.freebsd }}"
     state: present
-  when: ansible_os_family == 'FreeBSD' 
+  when: ansible_os_family == 'FreeBSD'
 ┌─[edmudoh@elxabl1vvp2]─[~/ansible_my]
-└──╼ $ 
+└──╼ $
 
 ... dictionary
 
-/localhost/tasks/main.yml 
+/localhost/tasks/main.yml
 ---
 # tasks file for localhost
 - name: install packages
-  apt: 
-   name: "{{ packages }}" 
+  apt:
+   name: "{{ packages }}"
    update_cache: yes
 
 ┌─[edmudoh@elxabl1vvp2]─[~/ansible_my]
-└──╼ $ cat roles/localhost/vars/main.yml 
+└──╼ $ cat roles/localhost/vars/main.yml
 ---
 # vars file for localhost
 packages:
@@ -64,5 +64,4 @@ packages:
    - openvswitch-common
 
 ┌─[edmudoh@elxabl1vvp2]─[~/ansible_my]
-└──╼ $ 
-
+└──╼ $

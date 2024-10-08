@@ -1146,7 +1146,7 @@ var JetpackEmoji = {
 						case '2666':
 							return false;
 					}
-				
+
 					// directly from twemoji
 					return ''.concat(options.base, options.size, '/', icon, options.ext);
 				}
@@ -1155,7 +1155,7 @@ var JetpackEmoji = {
 }
 ;
 (function() {
-    var emoji = {	
+    var emoji = {
         init: function() {
 			if ( typeof JetpackEmoji === 'undefined' ) {
 				console.error( 'JetpackEmoji not found.' );
@@ -1166,7 +1166,7 @@ var JetpackEmoji = {
 			if ( typeof JetpackEmojiSettings !== 'undefined' ) {
 				size = JetpackEmojiSettings.size || null;
 				base_url = JetpackEmojiSettings.base_url || null;
-			}	
+			}
 
             JetpackEmoji.parse( document.body, size, base_url );
 

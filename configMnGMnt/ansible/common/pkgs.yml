@@ -5,7 +5,7 @@
 
   tasks:
   - name: Installing required packages
-    apt: 
+    apt:
       name: ['vim', 'tmux', 'iftop', 'zsh', 'net-tools', 'python3-pip',
              'chromium-browser', 'curl', 'wget', 'exfat-fuse', 'htop', 'vlc', 'ipython3']
       update_cache: yes

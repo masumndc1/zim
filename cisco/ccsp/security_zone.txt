@@ -4,7 +4,7 @@ configuration of zone based firewall in cisco router
 1. first configure proper routing otherwise host from one zone will not be able to communicate with host of other zone even also
 zone configuration is ok. im configuring eigrp. any other dynamic routing eg ospf rip are also work.after that testing the
 connectivity by ping. things to note that if you add interface to security zone before routing they will not communicat until
-zone-pair configuration is done. also if there is only one router with two interface one is dmz and another is internal then 
+zone-pair configuration is done. also if there is only one router with two interface one is dmz and another is internal then
 no dynamic routing is needed. if there is multiple router then dynamic routing is must.
 
 Router(config)#router eigrp 1
@@ -17,7 +17,7 @@ Router(config)#
 Router(config)#
 Router(config)#do show ip route
 Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
        E1 - OSPF external type 1, E2 - OSPF external type 2
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
@@ -33,14 +33,14 @@ C    192.168.1.0/24 is directly connected, FastEthernet0/0
 
 Router(config)#router eigrp 1
 Router(config-router)#
-Router(config-router)#no auto-summary 
+Router(config-router)#no auto-summary
 Router(config-router)#
 Router(config-router)#exit
 Router(config)#
 Router(config)#
 Router(config)#do show ip route
 Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
        E1 - OSPF external type 1, E2 - OSPF external type 2
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
@@ -73,7 +73,7 @@ Router(config)#interface fastEthernet 0/1
 Router(config-if)#zone-member security internal
 Router(config-if)#
 
-Router(config)#do show zone security 
+Router(config)#do show zone security
 zone self
   Description: System defined zone
 
@@ -112,7 +112,7 @@ Router(config)#class-map type inspect ?
   gnutella   Gnutella Version2 Traffic - BearShare, Shareeza, Morpheus ...
   http       Configure CBAC class-map for HTTP protocol
   imap       Configure CBAC class-map for IMAP protocol
-  kazaa2     Kazaa Version 2 
+  kazaa2     Kazaa Version 2
   match-all  Logical-AND all matching statements under this classmap
   match-any  Logical-OR all matching statements under this classmap
   msnmsgr    Configure CBAC class-map for IM-MSN protocol
@@ -129,7 +129,7 @@ Router(config-cmap)#description "class map for ssh from internal to dmz"
 
 Router(config-cmap)#do show class-map
  Class Map match-any class-default (id 0)
-   Match any 
+   Match any
 
 Router(config-cmap)#do show run
 !
@@ -155,9 +155,9 @@ interface FastEthernet0/0
 5. now policy-map and referenc the class-map to it.
 
 
-Router(config)#policy-map type inspect policy-map-internal-dmz 
-Router(config-pmap)#class type inspect class-map-internal-dmz 
-Router(config-pmap-c)#pass 
+Router(config)#policy-map type inspect policy-map-internal-dmz
+Router(config-pmap)#class type inspect class-map-internal-dmz
+Router(config-pmap-c)#pass
 Router(config-pmap-c)#
 
 Router(config-pmap-c)#do show policy-map type inspect
@@ -172,21 +172,21 @@ Router(config-pmap-c)#
 
 
 Router(config)#zone-pair security zone-pair-internal-dmz source internal destination dmz
-Router(config-sec-zone-pair)#description "internal zone to dmz zone configuration"     
-Router(config-sec-zone-pair)#$icy type inspect policy-map-internal-dmz       
-Router(config-sec-zone-pair)#        
+Router(config-sec-zone-pair)#description "internal zone to dmz zone configuration"
+Router(config-sec-zone-pair)#$icy type inspect policy-map-internal-dmz
+Router(config-sec-zone-pair)#
 
-Router#show zone-pair security source internal destination dmz 
+Router#show zone-pair security source internal destination dmz
 Zone-pair name zone-pair-internal-dmz
 Description: "internal zone to dmz zone configuration"
-    Source-Zone internal  Destination-Zone dmz 
+    Source-Zone internal  Destination-Zone dmz
     service-policy policy-map-internal-dmz
 
 Router#
 
 
 
-Router#show policy-map type inspect zone-pair sessions 
+Router#show policy-map type inspect zone-pair sessions
  Zone-pair: zone-pair-internal-dmz
 
   Service-policy inspect : policy-map-internal-dmz
@@ -199,11 +199,11 @@ Router#show policy-map type inspect zone-pair sessions
         0 packets, 0 bytes
 
     Class-map: class-default (match-any)
-      Match: any 
+      Match: any
       Drop
         351 packets, 17814 bytes
 Router#
-Router#show policy-map type inspect zone-pair          
+Router#show policy-map type inspect zone-pair
  Zone-pair: zone-pair-internal-dmz
 
   Service-policy inspect : policy-map-internal-dmz
@@ -216,7 +216,7 @@ Router#show policy-map type inspect zone-pair
         0 packets, 0 bytes
 
     Class-map: class-default (match-any)
-      Match: any 
+      Match: any
       Drop
         351 packets, 17814 bytes
 Router#
@@ -224,7 +224,7 @@ Router#
 
 7. troubleshooting...
 
-note below packets are being dropped due to default policy 
+note below packets are being dropped due to default policy
 
 *Mar  1 01:10:04.139: %FW-6-LOG_SUMMARY: 3 packets were dropped from 172.16.1.2:45927 => 192.168.1.2:22 (target:class)-(zone-pair-internal-dmz:class-default)
 
@@ -277,12 +277,12 @@ ip cef
 !
 !
 multilink bundle-name authenticated
-!         
+!
 !
 archive
  log config
   hidekeys
-! 
+!
 !
 !
 !
@@ -327,7 +327,7 @@ interface FastEthernet0/1
  zone-member security internal
  duplex auto
  speed auto
-!         
+!
 interface FastEthernet1/0
  no ip address
  shutdown
@@ -350,7 +350,7 @@ access-list 111 permit tcp any any
 !
 control-plane
 !
-!         
+!
 !
 !
 !

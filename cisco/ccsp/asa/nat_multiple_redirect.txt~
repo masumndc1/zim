@@ -8,33 +8,33 @@
 
 # then we will configure static like below
 
-ciscoasa(config)# show run static 
-static (dmz1,outside) tcp interface ssh 192.168.1.2 ssh netmask 255.255.255.255 
-static (dmz1,outside) tcp interface smtp 192.168.1.3 smtp netmask 255.255.255.255 
-static (dmz1,outside) tcp interface ftp 192.168.1.4 ftp netmask 255.255.255.255 
-static (dmz1,outside) tcp interface www 192.168.1.5 www netmask 255.255.255.255 
-ciscoasa(config)# 
+ciscoasa(config)# show run static
+static (dmz1,outside) tcp interface ssh 192.168.1.2 ssh netmask 255.255.255.255
+static (dmz1,outside) tcp interface smtp 192.168.1.3 smtp netmask 255.255.255.255
+static (dmz1,outside) tcp interface ftp 192.168.1.4 ftp netmask 255.255.255.255
+static (dmz1,outside) tcp interface www 192.168.1.5 www netmask 255.255.255.255
+ciscoasa(config)#
 
 # then the access-list like below.
 
-ciscoasa(config)# show run access-list 
-access-list www-allow extended permit tcp any any eq ssh 
-access-list www-allow extended permit tcp any any eq www 
-access-list www-allow extended permit tcp any any eq ftp 
-access-list www-allow extended permit tcp any any eq smtp 
+ciscoasa(config)# show run access-list
+access-list www-allow extended permit tcp any any eq ssh
+access-list www-allow extended permit tcp any any eq www
+access-list www-allow extended permit tcp any any eq ftp
+access-list www-allow extended permit tcp any any eq smtp
 ciscoasa(config)#
 
 # and finally the access-group
 
-ciscoasa(config)# show run access-group 
+ciscoasa(config)# show run access-group
 access-group www-allow in interface outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
 
 ### now verify from both client side and asa side.
 
 
-ciscoasa(config)# show xlate detail 
+ciscoasa(config)# show xlate detail
 8 in use, 17 most used
 Flags: D - DNS, d - dump, I - identity, i - dynamic, n - no random,
        r - portmap, s - static
@@ -45,7 +45,7 @@ UDP PAT from dmz1:192.168.1.2/55595 to outside:10.10.10.10/22924 flags ri
 UDP PAT from dmz1:192.168.1.2/51050 to outside:10.10.10.10/34961 flags ri
 UDP PAT from dmz1:192.168.1.2/37658 to outside:10.10.10.10/28515 flags ri
 UDP PAT from dmz1:192.168.1.4/40651 to outside:10.10.10.10/54866 flags ri
-ciscoasa(config)# 
+ciscoasa(config)#
 
 ciscoasa(config)# show conn detail protocol tcp
 7 in use, 17 most used
@@ -66,7 +66,7 @@ TCP outside:192.168.202.36/46074 dmz1:192.168.1.4/21,
     flags UIOB, idle 21s, uptime 23s, timeout 1h0m, bytes 146
 TCP outside:192.168.202.36/38404 dmz1:192.168.1.3/22,
     flags UIOB, idle 9m10s, uptime 9m10s, timeout 1h0m, bytes 5391
-ciscoasa(config)# 
+ciscoasa(config)#
 
 
 # from client site
@@ -74,11 +74,9 @@ ciscoasa(config)#
 root@ubuntu9:~# netstat -antp
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      2112/apache2    
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      2296/sshd       
-tcp        0    288 192.168.1.2:22          192.168.202.36:38451    ESTABLISHED 2449/0          
-tcp6       0      0 :::22                   :::*                    LISTEN      2296/sshd       
-root@ubuntu9:~# 
-root@ubuntu9:~# 
-
-
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      2112/apache2
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      2296/sshd
+tcp        0    288 192.168.1.2:22          192.168.202.36:38451    ESTABLISHED 2449/0
+tcp6       0      0 :::22                   :::*                    LISTEN      2296/sshd
+root@ubuntu9:~#
+root@ubuntu9:~#

@@ -7,8 +7,8 @@
 
 masum@masum:/media/masum/MASUM_32GB/firefox$ ls
 bookmarks.html  firefox-49.0.1.tar.bz2
-masum@masum:/media/masum/MASUM_32GB/firefox$ 
-masum@masum:/media/masum/MASUM_32GB/firefox$ tar xvfj firefox-49.0.1.tar.bz2 
+masum@masum:/media/masum/MASUM_32GB/firefox$
+masum@masum:/media/masum/MASUM_32GB/firefox$ tar xvfj firefox-49.0.1.tar.bz2
 firefox/
 firefox/libnss3.so
 firefox/platform.ini
@@ -83,12 +83,12 @@ firefox/precomplete
 firefox/libxul.so
 firefox/libplds4.so
 firefox/crashreporter
-masum@masum:/media/masum/MASUM_32GB/firefox$ su 
-Password: 
+masum@masum:/media/masum/MASUM_32GB/firefox$ su
+Password:
 root@masum:/media/masum/MASUM_32GB/firefox# ls
 bookmarks.html  firefox  firefox-49.0.1.tar.bz2
-root@masum:/media/masum/MASUM_32GB/firefox# 
-root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox#
+root@masum:/media/masum/MASUM_32GB/firefox#
 root@masum:/media/masum/MASUM_32GB/firefox# cd firefox/
 root@masum:/media/masum/MASUM_32GB/firefox/firefox# ls
 application.ini     firefox             libfreeblpriv3.so  libnss3.so      libsmime3.so     plugin-container    update-settings.in
@@ -100,7 +100,7 @@ dependentlibs.list  icudt56l.dat        libmozsqlite3.so   libplc4.so      omni.
 dictionaries        libfreeblpriv3.chk  libnspr4.so        libplds4.so     platform.ini     updater.ini
 root@masum:/media/masum/MASUM_32GB/firefox/firefox# ls firefox*
 firefox  firefox-bin
-root@masum:/media/masum/MASUM_32GB/firefox/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox/firefox#
 
 2. now move the firefox folder just created to /opt folder
 
@@ -111,25 +111,25 @@ root@masum:/media/masum/MASUM_32GB/firefox# mv firefox /opt/firefox
 
 root@masum:/media/masum/MASUM_32GB/firefox# ln -s /opt/firefox/firefox /usr/bin/firefox
 ln: failed to create symbolic link ‘/usr/bin/firefox’: File exists
-root@masum:/media/masum/MASUM_32GB/firefox# 
-root@masum:/media/masum/MASUM_32GB/firefox# rm /usr/bin/firefox 
-root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox#
+root@masum:/media/masum/MASUM_32GB/firefox# rm /usr/bin/firefox
+root@masum:/media/masum/MASUM_32GB/firefox#
 root@masum:/media/masum/MASUM_32GB/firefox# ln -s /opt/firefox/firefox /usr/bin/firefox
-root@masum:/media/masum/MASUM_32GB/firefox# 
+root@masum:/media/masum/MASUM_32GB/firefox#
 
 4. now try to run firefox from command line.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ firefox
 bash: /usr/bin/firefox: Permission denied
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 root@masum:/opt/firefox# ls -la firefox
 -rw-r--r-- 1 masum vboxusers 163320 Sep 23 09:24 firefox
 root@masum:/opt/firefox# chmod 755 firefox
-root@masum:/opt/firefox# 
+root@masum:/opt/firefox#
 
 
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ firefox
 
 (firefox:9283): GLib-GObject-CRITICAL **: g_object_ref: assertion 'object->ref_count > 0' failed
@@ -139,16 +139,13 @@ masum@masum:/media/masum/MASUM_32GB/zim$ firefox
 (firefox:9283): GLib-GObject-CRITICAL **: g_object_ref: assertion 'object->ref_count > 0' failed
 
 (firefox:9283): GLib-GObject-CRITICAL **: g_object_unref: assertion 'object->ref_count > 0' failed
-ARTUR: - SHOW 
+ARTUR: - SHOW
 ^C
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 5. now this is ok firefox is installed. check your current version by following.
 # which is showing it is 49 that means the latest.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ firefox -V
 Mozilla Firefox 49.0.1
-masum@masum:/media/masum/MASUM_32GB/zim$ 
-
-
-
+masum@masum:/media/masum/MASUM_32GB/zim$

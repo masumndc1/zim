@@ -9,7 +9,7 @@
   </remote>
 </ossec_config>
 
-... if we like to allow syslog instead of secure, we do that by 
+... if we like to allow syslog instead of secure, we do that by
 ... following.
 
 <ossec_config>
@@ -36,7 +36,5 @@
   </database_output>
 </ossec_config>
 
-... the integrity check can be found on server's 
+... the integrity check can be found on server's
 ... /var/ossec/logs/ossec.log
-
-

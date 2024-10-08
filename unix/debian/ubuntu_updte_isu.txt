@@ -16,6 +16,3 @@ removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_partner_i18
 removed '/var/lib/apt/lists/archive.canonical.com_ubuntu_dists_zesty_partner_source_Sour
 
 root@controller:~# apt-get update
-
-
-

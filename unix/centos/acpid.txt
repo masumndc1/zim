@@ -31,9 +31,9 @@ elo 06 15:49:32 localhost.localdomain acpid[1279]: skipping incomplete file /etc
 elo 06 15:49:32 localhost.localdomain acpid[1279]: 1 rule loaded
 elo 06 15:49:32 localhost.localdomain acpid[1279]: waiting for events: event logging is off
 Hint: Some lines were ellipsized, use -l to show in full.
-[root@localhost init.d]# 
+[root@localhost init.d]#
 
-... and finally set following 
+... and finally set following
 
 [root@localhost ~]# cd /etc/acpi/
 [root@localhost acpi]# ls
@@ -41,20 +41,14 @@ actions  events
 [root@localhost acpi]# cd events/
 [root@localhost events]# ls
 powerconf  powerconf.bk  videoconf
-[root@localhost events]# 
+[root@localhost events]#
 
-[root@localhost events]# cat powerconf 
+[root@localhost events]# cat powerconf
 # ACPID config to power down machine if powerbutton is pressed, but only if
 # no gnome-power-manager is running
 
 event=button/power.*
 action=/etc/acpi/actions/power.sh
-[root@localhost events]# 
+[root@localhost events]#
 
 ... from now on, pressing power button will shut down the machine.
-
-
-
-
-
-

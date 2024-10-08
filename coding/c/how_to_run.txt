@@ -8,31 +8,31 @@ int main(void)
 }
 
 ... How do I compile the program on Linux?
-... Use any one of the following syntax to 
+... Use any one of the following syntax to
 ... compile the program called demo.c:
- 
+
 cc program-source-code.c -o executable-file-name
 
 ... OR
- 
+
 gcc program-source-code.c -o executable-file-name
 
 ... OR
 
-... assuming that executable-file-name.c exists 
+... assuming that executable-file-name.c exists
 ... make executable-file-name
 ... In this example, compile demo.c, enter:
- 
+
 cc     demo.c   -o demo
 
 ... OR
-... assuming demo.c exists in the current directory 
+... assuming demo.c exists in the current directory
 
 make demo
 
-... If there is no error in your code or C program then the 
-... compiler will successfully create an executable file called 
-... demo in the current directory, otherwise you need fix the code. 
+... If there is no error in your code or C program then the
+... compiler will successfully create an executable file called
+... demo in the current directory, otherwise you need fix the code.
 ... To verify this, type:
 
 $ ls -l demo*
@@ -45,5 +45,3 @@ $ ./demo
 ... OR
 
 $ /path/to/demo
-
-

@@ -41,7 +41,7 @@ for detailed information.
 
 b.ns.c10r.facebook.com.	3215	IN	A	69.171.255.11
 
-root@masum:~# 
+root@masum:~#
 root@masum:~# dig www.facebook.com
 
 ; <<>> DiG 9.8.4-rpz2+rl005.12-P1 <<>> www.facebook.com
@@ -72,15 +72,15 @@ b.ns.c10r.facebook.com.	3215	IN	AAAA	2a03:2880:ffff:b:face:b00c:0:99
 ;; WHEN: Fri Sep 16 01:09:45 2016
 ;; MSG SIZE  rcvd: 202
 
-root@masum:~# 
+root@masum:~#
 
 .. therefore dns is damn important for webserver and mailserver and their delivery
 .. moreover dns offers us easy way to remember web and mailserver name rather
 .. than their difficult ip address. dns also act as routing in a sense say when
 .. one type www.facebook.com or mail.facebook.com in their browser then browser connect with its own
 .. configured dns server. dns server then reply the query of where is www.facebook.com?
-.. it then reply with ip address pointing to www.facebook.com and mail.facebook.com and then routing 
-.. takes places and go to that ip address and knock at webserver or mail server 
+.. it then reply with ip address pointing to www.facebook.com and mail.facebook.com and then routing
+.. takes places and go to that ip address and knock at webserver or mail server
 .. fetch webpage or email. therefore dns server plays a vital role in webserver and email delivery.
 
 .. my previous example where i configured mail and web server and use masum.com
@@ -119,4 +119,3 @@ www IN 192.168.35.10
 www.khabir.com CNAME www.masum.com
 
 ; EOF
-

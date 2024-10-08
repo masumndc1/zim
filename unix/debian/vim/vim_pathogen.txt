@@ -20,9 +20,9 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
-... Now any plugins you wish to install can be extracted to a subdirectory 
-... under ~/.vim/bundle, and they will be added to the 'runtimepath'. 
-... Observe: for example if you want to add vim-sensible with your vim just 
+... Now any plugins you wish to install can be extracted to a subdirectory
+... under ~/.vim/bundle, and they will be added to the 'runtimepath'.
+... Observe: for example if you want to add vim-sensible with your vim just
 ... run following and restart vim.
 
 cd ~/.vim/bundle && \
@@ -30,4 +30,3 @@ git clone https://github.com/tpope/vim-sensible.git
 
 ... also please note that if plugins need python module, you need to install
 ... that by using pip.
-

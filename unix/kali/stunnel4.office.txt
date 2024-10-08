@@ -18,4 +18,3 @@ delay = yes
 # sudo cp /etc/resolv.conf [[/var/lib/stunnel4/etc]]
 
 openssl req -new -nodes -x509 -out [[/etc/stunnel/stunnel.pem]] -keyout /etc/stunnel/stunnel.pem
-

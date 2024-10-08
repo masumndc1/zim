@@ -64,10 +64,10 @@ myminion:
 
         salt '*' test.fib 3
 
-[root@puppet salt]#  
+[root@puppet salt]#
 
 ... so we now know how to use test.fib and now running again it.
- 
+
 [root@puppet salt]#  salt 'myminion' test.fib 20
 myminion:
     |_
@@ -82,7 +82,7 @@ myminion:
     - 2.86102294922e-06
 [root@puppet salt]#
 
-... this took 2.86s to run. this module is solely to test the performance 
+... this took 2.86s to run. this module is solely to test the performance
 ... of they system.
 
 ... looking for options associated with sys
@@ -124,7 +124,7 @@ Exiting gracefully on Ctrl-c
 [root@salt ~]#
 
 ... when we stop our salt-master and run the command salt-call
-... this will try to connect with master but it failed and took 
+... this will try to connect with master but it failed and took
 ... a lot of time. therefore we need to add --local options with
 ... the salt-call to instruct salt that to execute this locally.
 
@@ -155,7 +155,3 @@ cleared:
 [root@saltmaster salt]# salt-run fileserver.update
 True
 [root@saltmaster salt]#
-
-
-
-

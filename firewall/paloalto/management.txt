@@ -5,18 +5,18 @@
 
 ... first decide dhcp or static
 ... enable static mode for ip assignment
-... 
+...
 
-admin@PA-VM# set deviceconfig system type 
+admin@PA-VM# set deviceconfig system type
 > dhcp-client   DHCP client option
   static        Static IP-address/Netmask
   <Enter>       Finish input
 
 admin@PA-VM# set deviceconfig system type static
-admin@PA-VM# set deviceconfig system ip-address 192.168.201.234 netmask 255.255.252.0 dns-setting servers primary 4.2.2.1 secondary 4.2.2.2 
+admin@PA-VM# set deviceconfig system ip-address 192.168.201.234 netmask 255.255.252.0 dns-setting servers primary 4.2.2.1 secondary 4.2.2.2
 admin@PA-VM# set deviceconfig system default-gateway 192.168.201.1
 
-... 
+...
 ... dhcp which is default mode for this
 ...
 
@@ -24,25 +24,25 @@ admin@PA-VM# set deviceconfig system default-gateway 192.168.201.1
 // setting some additional info to device.
 
 
-admin@PA-VM# set deviceconfig system hostname 
-admin@PA-VM# check pending-changes 
+admin@PA-VM# set deviceconfig system hostname
+admin@PA-VM# check pending-changes
 
 yes
-[edit]                                                                                                                                                        
+[edit]
 admin@PA-VM#
 
-admin@PA-VM# commit 
-> force      force 
-> partial    partial 
-> validate   validate 
+admin@PA-VM# commit
+> force      force
+> partial    partial
+> validate   validate
   <Enter>    Finish input
 
-admin@PA-VM# commit partial 
-+ device-and-network   device-and-network 
-+ policy-and-objects   policy-and-objects 
+admin@PA-VM# commit partial
++ device-and-network   device-and-network
++ policy-and-objects   policy-and-objects
   <Enter>              Finish input
 
-admin@PA-VM# commit validate 
+admin@PA-VM# commit validate
 
 
 ......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
@@ -50,8 +50,8 @@ Configuration is valid
 Interface ethernet1/2 has no virtual-router configuration.
 Interface ethernet1/3 has no virtual-router configuration.
 
-[edit]                                                                                                                                                        
-admin@PA-VM# commit 
+[edit]
+admin@PA-VM# commit
 
 
 ....55%75%99%.......100%
@@ -59,31 +59,31 @@ Configuration committed successfully
 Interface ethernet1/2 has no virtual-router configuration.
 Interface ethernet1/3 has no virtual-router configuration.
 
-[edit]                                                                                                                                                        
-admin@testpa# 
+[edit]
+admin@testpa#
 
-....                                                                                                                                            
-admin@PA-VM# run show interface management 
+.... 
+admin@PA-VM# run show interface management
   |        Pipe through a command
   <Enter>  Finish input
 
-admin@PA-VM# run show interface management 
+admin@PA-VM# run show interface management
 
 
 -------------------------------------------------------------------------------
 Name: Management Interface
 Link status:
   Runtime link speed/duplex/state: unknown/unknown/up
-  Configured link speed/duplex/state: auto/auto/auto 
+  Configured link speed/duplex/state: auto/auto/auto
 MAC address:
-  Port MAC address 00:0c:29:ba:23:d4 
+  Port MAC address 00:0c:29:ba:23:d4
 
 Ip address: 192.168.2.40
 Netmask: 255.255.255.0
 Default gateway: 192.168.2.1
 Ipv6 address: unknown
 Ipv6 link local address: fe80::20c:29ff:feba:23d4/64
-Ipv6 default gateway:  
+Ipv6 default gateway:
 -------------------------------------------------------------------------------
 
 
@@ -101,6 +101,5 @@ transmit packets dropped          0
 multicast packets received        0
 -------------------------------------------------------------------------------
 
-[edit]                                                                                                                                            
-admin@PA-VM# 
-
+[edit]
+admin@PA-VM#

@@ -2,26 +2,25 @@
 
 ... configuration networking in netbsd
 
-... dhcp 
+... dhcp
 ... put following in /etc/rc.conf file
 
 dhcpcd=YES
 dhcpcd_flags="re0"
 
-... now we can reboot the system or 
+... now we can reboot the system or
 ... we can restart the dhcpd service
 
 service dhcpcd start
 
-... normally dhcpd will write the /etc/resolv.conf file 
+... normally dhcpd will write the /etc/resolv.conf file
 ... if we dont want we can do following.
 
 ... we can add dhcpcd_flags="-C resolv.conf" to /etc/rc.conf.
 
 
-... static 
+... static
 ... for static we can write following in /etc/rc.conf file
 
 ifconfig_re0="192.168.122.100 netmask 255.255.255.0"
 defaultroute=192.168.122.1
-

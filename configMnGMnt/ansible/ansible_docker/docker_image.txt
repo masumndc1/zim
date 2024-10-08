@@ -10,11 +10,8 @@
         name: python3.6
         tag: v1
         state: present
-        source: build 
+        source: build
         build:
           path: /home/masum/python
           dockerfile: /home/masum/python/python3.6
           pull: yes
-
-
-

@@ -13,13 +13,10 @@ LICENSE  packer_cache  raw_cmds         requirements_bare.txt  script           
 ~/packer/packer-build master ✓ > ./script/generate_templates.sh
 
 ... the above command will generate template for the packer to make the os.
-... then run the following 
+... then run the following
 
-~/packer/packer-build master ✓ > ./script/vbox.sh template/ubuntu/16.04_xenial/base.json 
+~/packer/packer-build master ✓ > ./script/vbox.sh template/ubuntu/16.04_xenial/base.json
 
-... this will create a ova file to use in the virtual box, which can be found in the 
+... this will create a ova file to use in the virtual box, which can be found in the
 ... build folder. then just run that file in the virtual box and we will find a new running
 ... os in virtualbox.
-
-
-

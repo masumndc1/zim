@@ -19,5 +19,3 @@ root@kali:/usr/share/skipfish/dictionaries#
 
 ... output is placed at /root/skipfish.out/index.html which can be browse through
 ... firefox file://root/skipfish.out/index.html
-
- 

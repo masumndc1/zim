@@ -1,8 +1,8 @@
 
 ... some options listed in system
 
-[admin@MikroTik] > system                                                                     
-[admin@MikroTik] system>                                                                      
+[admin@MikroTik] > system
+[admin@MikroTik] system>
 System information and utilities
 
 .. -- go up to root
@@ -30,25 +30,25 @@ shutdown -- Shutdown the router
 scheduler/ -- Schedule scripts to be run at times
 ntp/ -- Network Time Protocol configuration
 ssh -- SSH options
-export -- 
+export --
 
 ... version related to software installed
 
-[admin@MikroTik] system>                                                                      
-[admin@MikroTik] system> package print                                                        
+[admin@MikroTik] system>
+[admin@MikroTik] system> package print
  # NAME                           VERSION                       BUILD-TIME           UNINSTALL
- 0 system                         2.9.6                         oct/10/2005 16:24:40 no       
- 1 advanced-tools                 2.9.6                         oct/10/2005 16:24:51 no       
- 2 dhcp                           2.9.6                         oct/10/2005 16:25:00 no       
- 3 ntp                            2.9.6                         oct/10/2005 16:29:27 no       
- 4 routing                        2.9.6                         oct/10/2005 16:25:35 no       
- 5 security                       2.9.6                         oct/10/2005 16:24:57 no       
- 6 web-proxy                      2.9.6                         oct/10/2005 16:30:40 no       
-[admin@MikroTik] system>                                                                      
+ 0 system                         2.9.6                         oct/10/2005 16:24:40 no
+ 1 advanced-tools                 2.9.6                         oct/10/2005 16:24:51 no
+ 2 dhcp                           2.9.6                         oct/10/2005 16:25:00 no
+ 3 ntp                            2.9.6                         oct/10/2005 16:29:27 no
+ 4 routing                        2.9.6                         oct/10/2005 16:25:35 no
+ 5 security                       2.9.6                         oct/10/2005 16:24:57 no
+ 6 web-proxy                      2.9.6                         oct/10/2005 16:30:40 no
+[admin@MikroTik] system>
 
 ... resources related to systems are displayed
 
-[admin@MikroTik] system resource>  ?                                                           
+[admin@MikroTik] system resource>  ?
 System resources
 
 .. -- go up to system
@@ -57,14 +57,14 @@ irq/ -- Interrupt Request usage information
 io/ -- Input/Output ports usage information
 usb/ -- List of all USB devices
 pci/ -- List of all PCI devices
-print -- 
+print --
 get -- get value of property
-export -- 
+export --
 
-[admin@MikroTik] system resource> 
+[admin@MikroTik] system resource>
 
-[admin@MikroTik] system> resource                                                             
-[admin@MikroTik] system resource> print                                                       
+[admin@MikroTik] system> resource
+[admin@MikroTik] system resource> print
                    uptime: 2h14m1s
               free-memory: 747528kB
              total-memory: 763840kB
@@ -75,61 +75,61 @@ export --
           total-hdd-space: 20631952kB
   write-sect-since-reboot: 3936
          write-sect-total: 15032
-[admin@MikroTik] system resource>                                                             
- 
-[admin@MikroTik] system identity> print                                                       
+[admin@MikroTik] system resource>
+
+[admin@MikroTik] system identity> print
   name: "MikroTik"
-[admin@MikroTik] system identity> 
-    
+[admin@MikroTik] system identity>
+
 ... we can also do one thing called ip bandwidth test like below
 
-[admin@masum] tool> ping-speed 4.2.2.1 interval=1s                                            
-  current: 298.2kbps                                                                          
-  average: 298.2kbps                                                                          
-  current: 298.2kbps                                                                          
-  average: 298.2kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 91kbps                                                                             
-  average: 194.6kbps                                                                          
-  current: 727.2kbps                                                                          
-  average: 372.1kbps                                                                          
-  current: 727.2kbps                                                                          
-  average: 372.1kbps                                                                          
-  current: 727.2kbps                                                                          
-  average: 372.1kbps                                                                          
+[admin@masum] tool> ping-speed 4.2.2.1 interval=1s
+  current: 298.2kbps
+  average: 298.2kbps
+  current: 298.2kbps
+  average: 298.2kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 91kbps
+  average: 194.6kbps
+  current: 727.2kbps
+  average: 372.1kbps
+  current: 727.2kbps
+  average: 372.1kbps
+  current: 727.2kbps
+  average: 372.1kbps
 -- [Q quit|D dump|C-z pause]
 [admin@masum] tool>
- 
-... tool torch 
 
-[admin@masum] tool> torch ether1 protocol=any                                                 
-PRO.. TX         RX                                                                           
-tcp   3.9kbps    368bps                                                                       
-udp   584bps     888bps                                                                       
-icmp  672bps     672bps                                                                       
+... tool torch
+
+[admin@masum] tool> torch ether1 protocol=any
+PRO.. TX         RX
+tcp   3.9kbps    368bps
+udp   584bps     888bps
+icmp  672bps     672bps
 -- [Q quit|D dump|C-z pause]
-[admin@masum] tool>       
+[admin@masum] tool>
 
-[admin@masum] tool> torch ether1 protocol=any-ip port=any                                     
-PRO.. SRC-PORT                          DST-PORT                         TX         RX        
-PRO.. SRC-PORT                          DST-PORT                         TX         RX        
-tcp   49257                             22 (ssh)                         2.1kbps    368bps    
-PRO.. SRC-PORT                          DST-PORT                         TX         RX        
-tcp   49257                             22 (ssh)                         2.4kbps    368bps  
+[admin@masum] tool> torch ether1 protocol=any-ip port=any
+PRO.. SRC-PORT                          DST-PORT                         TX         RX
+PRO.. SRC-PORT                          DST-PORT                         TX         RX
+tcp   49257                             22 (ssh)                         2.1kbps    368bps
+PRO.. SRC-PORT                          DST-PORT                         TX         RX
+tcp   49257                             22 (ssh)                         2.4kbps    368bps
 
-[admin@masum] tool> torch ether1 src-address=4.2.2.1 protocol=any-ip port=any                        
-PRO.. SRC-ADDRESS     SRC-PORT                  DST-PORT                 TX         RX        
-udp   4.2.2.1         53 (dns)                  48050                    0bps       880bps    
-udp   4.2.2.1         53 (dns)                  59723                    576bps     0bps      
-PRO.. SRC-ADDRESS     SRC-PORT                  DST-PORT                 TX         RX        
-udp   4.2.2.1         53 (dns)                  59723                    0bps       880bps    
-udp   4.2.2.1         53 (dns)                  35801                    576bps     0bps   
+[admin@masum] tool> torch ether1 src-address=4.2.2.1 protocol=any-ip port=any
+PRO.. SRC-ADDRESS     SRC-PORT                  DST-PORT                 TX         RX
+udp   4.2.2.1         53 (dns)                  48050                    0bps       880bps
+udp   4.2.2.1         53 (dns)                  59723                    576bps     0bps
+PRO.. SRC-ADDRESS     SRC-PORT                  DST-PORT                 TX         RX
+udp   4.2.2.1         53 (dns)                  59723                    0bps       880bps
+udp   4.2.2.1         53 (dns)                  35801                    576bps     0bps

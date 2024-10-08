@@ -1,6 +1,6 @@
 
 up vote 5 down vote
-	
+
 
 Try doing this in terminal
 
@@ -12,16 +12,16 @@ startx
 
 Source: http://ubuntuforums.org/showpost.php?p=10783266&postcount=5
 share|improve this answer
-	
+
 edited Dec 25 '11 at 7:07
-	
+
 answered Dec 25 '11 at 1:43
 user89272
-	
-	
-add a comment | 
+
+
+add a comment |
 up vote 3 down vote
-	
+
 
 first of all sudo apt-get purge gnome-session.
 
@@ -35,47 +35,47 @@ i have this kind of crazy issue once i have messed up with gtk or multiple sessi
 
 this will help you out form the session issue.
 share|improve this answer
-	
+
 edited Aug 13 '15 at 16:44
-	
+
 answered Aug 6 '15 at 18:39
 Vallabh Kansagara
 313
-	
-	
-add a comment | 
+
+
+add a comment |
 up vote 0 down vote
-	
+
 
 After upgrading from Squeeze to Wheezy a virtual machine running on KVM, I had to install "gnome-session-falback" in order to open successfully a session in gnome:
 
 sudo apt-get install gnome-session-fallback
 
 share|improve this answer
-	
+
 answered May 13 '13 at 20:54
 Sylvain Leroux
 1012
-	
-	
-add a comment | 
+
+
+add a comment |
 up vote 0 down vote
-	
+
 
 I discovered that I was missing Xorg. Installed it with this;
 
 sudo apt-get install xorg
 
 share|improve this answer
-	
+
 answered Jul 24 '14 at 22:13
 Daantje
 1012
-	
-	
-add a comment | 
+
+
+add a comment |
 up vote -1 down vote
-	
+
 
 You will need to install aptitude and tasksel before install gnome
 
@@ -105,19 +105,19 @@ The easiest way to fix a bad VGA driver is to disable the driver and to use a ge
     PHP
     sudo rm /etc/X11/xorg.conf
     1
-    	
+
     sudo rm /etc/X11/xorg.conf
     Paying attention to the capital X, recreate a default xorg.conf file with
     PHP
     sudo Xorg -configure
     1
-    	
+
     sudo Xorg -configure
     The new xorg.conf file will be in your home directory. Move it to /etc/X11/ with
     PHP
     sudo mv ~/xorg.conf.new /etc/X11/xorg.conf
     1
-    	
+
     sudo mv ~/xorg.conf.new /etc/X11/xorg.conf
     Restart your display manager with “sudo start kdm” or “sudo start gdm” etc…
     Access the graphical environment with Ctrl+Alt+F7
@@ -137,7 +137,7 @@ sudo apt-get build-dep ubuntu-desktop
 sudo aptitude reinstall ubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep ubuntu-desktop
 sudo aptitude reinstall ubuntu-desktop
 
@@ -147,7 +147,7 @@ sudo apt-get build-dep kubuntu-desktop
 sudo aptitude reinstall kubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep kubuntu-desktop
 sudo aptitude reinstall kubuntu-desktop
 
@@ -157,7 +157,7 @@ sudo apt-get build-dep lubuntu-desktop
 sudo aptitude reinstall lubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep lubuntu-desktop
 sudo aptitude reinstall lubuntu-desktop
 
@@ -167,7 +167,7 @@ sudo apt-get build-dep xubuntu-desktop
 sudo aptitude reinstall xubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep xubuntu-desktop
 sudo aptitude reinstall xubuntu-desktop
 
@@ -177,7 +177,7 @@ sudo apt-get build-dep edubuntu-desktop
 sudo aptitude reinstall edubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep edubuntu-desktop
 sudo aptitude reinstall edubuntu-desktop
 
@@ -191,7 +191,7 @@ sudo apt-get build-dep kubuntu-desktop
 sudo apt-get install kubuntu-desktop
 1
 2
-	
+
 sudo apt-get build-dep kubuntu-desktop
 sudo apt-get install kubuntu-desktop
 
@@ -205,7 +205,7 @@ Reconfiguration is achieved with
 PHP
 sudo dpkg-reconfigure -a --priority=critical
 1
-	
+
 sudo dpkg-reconfigure -a --priority=critical
 
 The option –priority=critical instructs DPKG to show questions that absolutely must be answered by a human to enable a package to be configured. Keep watching the shell because you will need to answer occasional questions that must be answered before DPKG can continue processing software.
@@ -214,21 +214,21 @@ A common error chucked out by dpkg while everything is being reconfigured is
 PHP
 dpkg-maintscript-helper: error: couldn't identify the package
 1
-	
+
 dpkg-maintscript-helper: error: couldn't identify the package
 
 The solution is to run the following sed command to comment out any lines beginning “dpkg-maintscript-helper”. These lines are found in all cron files stored in /var/lib/dpkg/info/
 PHP
 sudo sed -ir 's/^\(dpkg-maintscript-helper\)/#\1/' /var/lib/dpkg/info/cron.*
 1
-	
+
 sudo sed -ir 's/^\(dpkg-maintscript-helper\)/#\1/' /var/lib/dpkg/info/cron.*
 
 After DPKG has reconfigured everything, uncomment those lines with the sed command
 PHP
 sudo sed -ir 's/^#dpkg-maintscript-helper/dpkg-maintscript-helper/' /var/lib/dpkg/info/cron.*
 1
-	
+
 sudo sed -ir 's/^#dpkg-maintscript-helper/dpkg-maintscript-helper/' /var/lib/dpkg/info/cron.*
 
 If reconfiguring everything does not enable you to gain access to a desktop and none of the other solutions presented in this guide to fixing desktop loading errors revives your desktop then I suggest you use a Live Disc to access your hard drive then backup your home directory and any files you want to keep then reinstall your OS. Alternatively, keep searching for solutions and post them here so we can all benefit from them.
@@ -270,7 +270,7 @@ in the terminal. Then it directly taken me to the graphical mode..
 http://www.blackmoreops.com/2014/01/28/revert-kali-linux-login-classic-backtrack-command-line-login/
 
 
-dpkg-reconfigure gdm3 
+dpkg-reconfigure gdm3
 
 
 i had the same problem.. fixed it in these steps
@@ -289,8 +289,3 @@ Code:
 Code:
 
 #startx
-
-
-
-
-

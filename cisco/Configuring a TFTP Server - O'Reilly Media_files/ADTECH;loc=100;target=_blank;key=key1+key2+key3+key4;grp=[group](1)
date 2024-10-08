@@ -17,5 +17,3 @@ document.write("</head>\n");
 document.write("<scr"+"ipt type='text/javascript'>\n");
 document.write("GA_googleFillSlot(\"OReilly_RON_728x15\");\n");
 document.write("</scr"+"ipt>\n");
-
-

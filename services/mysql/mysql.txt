@@ -23,26 +23,26 @@ You can use mysqldump to create a simple backup of your database using the follo
         [password] - this is the password for your database
         [databasename] - the name of your database
         [backupfile.sql] - the file to which the backup should be written.
-         
+
 
 The resultant dump file will contain all the SQL statements needed to create the table and populate the table in a new database server. To backup your database 'Customers' with the username 'sadmin' and password 'pass21' to a file custback.sql, you would issue the command:
 
-    mysqldump -u sadmin -p pass21 Customers > custback.sql 
+    mysqldump -u sadmin -p pass21 Customers > custback.sql
 
 You can also ask mysqldump to add a drop table command before every create command by using the option --add-drop-table. This option is useful if you would like to create a backup file which can rewrite an existing database without having to delete the older database manually first.
 
-    mysqldump --add-drop-table -u sadmin -p pass21 Customers > custback.sql 
+    mysqldump --add-drop-table -u sadmin -p pass21 Customers > custback.sql
 
 Backing up only specified tables
 
 If you'd like restrict the backup to only certain tables of your database, you can also specify the tables you want to backup. Let's say that you want to backup only customer_master & customer_details from the Customers database, you do that by issuing
 
-    mysqldump --add-drop-table -u sadmin -p pass21 Customers customer_master customer_details> custback.sql 
+    mysqldump --add-drop-table -u sadmin -p pass21 Customers customer_master customer_details> custback.sql
 
 So the syntax for the command to issue is:
 
     mysqldump -u [username] -p [password] [databasename] [table1 table2 ....]
 
-        [tables] - This is a list of tables to backup. Each table is separated by a space. 
+        [tables] - This is a list of tables to backup. Each table is separated by a space.
 
 Next: What about Multiple Databases? >>

@@ -83,14 +83,14 @@ Connection closed by foreign host.
 // complete squirrelmail configuration. in redhat 5.
 
 //first install dovecot which comes with redhat5. and edit [[/etc/dovecot.conf]] file.
-[root@mail ~]# vi /etc/dovecot.conf 
-[root@mail ~]# 
+[root@mail ~]# vi /etc/dovecot.conf
+[root@mail ~]#
 #Protocols we want to be serving: imap imaps pop3 pop3s
 # If you only want to use dovecot-auth, you can set this to "none".
 #protocols = imap imaps pop3 pop3s
 protocols = imap imaps pop3 pop3s
 
-// and test the setting. 
+// and test the setting.
 
 [root@mail ~]# telnet localhost 143
 Trying 127.0.0.1...
@@ -120,7 +120,7 @@ compose.php               folders_rename_do.php       mailto.php              pr
 configtest.php            folders_rename_getname.php  move_messages.php       read_body.php                webmail.php
 delete_message.php        folders_subscribe.php       options_highlight.php   redirect.php
 download.php              help.php                    options_identities.php  right_main.php
-[root@mail src]# 
+[root@mail src]#
 [root@mail config]# ./conf.pl
 SquirrelMail Configuration : Read: config.php (1.4.0)
 ---------------------------------------------------------
@@ -190,10 +190,10 @@ C   Turn color on
 S   Save data
 Q   Quit
 
-Command >> 
+Command >>
 
 // now back to main menu pressing 4 the general settings. leave this page if u dont need to change anything.
- 
+
 SquirrelMail Configuration : Read: config.php (1.4.0)
 ---------------------------------------------------------
 General Options
@@ -213,16 +213,16 @@ General Options
 12. Allow server charset search : true
 13. Enable UID support          : true
 14. PHP session name            : SQMSESSID
-15. Location base               : 
+15. Location base               :
 
 R   Return to Main Menu
 C   Turn color on
 S   Save data
 Q   Quit
 
-Command >> 
+Command >>
 
-// installing spamassassin 
+// installing spamassassin
 
 # apt-get install spamassassin spamc
 
@@ -243,7 +243,7 @@ drwx------ 10 bob  bob     4096 Mar 16 14:33 Maildir
 -rw-r--r--  1 bob  bob      371 Mar 16 14:34 .procmailrc
 -rw-------  1 bob  bob     2823 Mar 16 14:34 .viminfo
 drwxr-xr-x  3 root apache  4096 Mar 14 19:15 web
--bash-3.2$ vi .procmailrc 
+-bash-3.2$ vi .procmailrc
 #
 #        Here we assign variables
 #
@@ -279,7 +279,7 @@ masum/
 /home/bob
 [root@mail bob]# ls
 index.html  mail  Maildir  mas.txt  procmail.log  web
-[root@mail bob]# tail -f procmail.log 
+[root@mail bob]# tail -f procmail.log
 procmail: [12360] Fri Mar 16 14:32:15 2012
 procmail: Match on "(^((Original-)?(Resent-)?(To|Cc|Bcc)|(X-Envelope|Apparently(-Resent)?)-To):(.*[^-a-zA-Z0-9_.])?)root@mail.example.com"
 procmail: Locking "masum/.lock"
@@ -310,5 +310,5 @@ procmail: Assigning "LASTFOLDER=masum/new/1331886791.12360_0.mail.example.com"
 procmail: Notified comsat: "bob@0:/home/bob/Maildir/masum/new/1331886791.12360_0.mail.example.com"
 From root@mail.example.com  Fri Mar 16 14:32:15 2012
  Subject: what is this
-  Folder: masum/new/1331886791.12360_0.mail.example.com		
-~                              
+  Folder: masum/new/1331886791.12360_0.mail.example.com
+~

@@ -1,19 +1,19 @@
 
 
 // we want to load balance our incoming request like below.
-// /nagios will served by one server while 
+// /nagios will served by one server while
 // /webapp will be served by other.
 
 // so we have written the pp file like below.
 
 [root@masum manifests]# pwd
 /etc/puppet/modules/loadbalancer/manifests
-[root@masum manifests]# 
+[root@masum manifests]#
 [root@masum manifests]# ls
 init.pp
-[root@masum manifests]# 
-[root@masum manifests]# 
-[root@masum manifests]# cat init.pp 
+[root@masum manifests]#
+[root@masum manifests]#
+[root@masum manifests]# cat init.pp
 
 #
 class loadbalancer {
@@ -30,21 +30,21 @@ class loadbalancer {
 
 // now run it like below.
 
-[root@masum manifests]# puppet apply init.pp 
+[root@masum manifests]# puppet apply init.pp
 
 Notice: Compiled catalog for masum.puppet.com in environment production in 0.07 seconds
 Notice: Finished catalog run in 0.07 seconds
 
-[root@masum manifests]# 
+[root@masum manifests]#
 
 // however we could write the init.pp file like below.
-// 
+//
 
 
 class loadbalancer ( $nagios_path = '/nagios',
-			$nagios_url = 'http://192.168.35.145/nagios', 
+			$nagios_url = 'http://192.168.35.145/nagios',
 			$webapp_path = '/webapp',
-			$webapp_url = 'http://192.168.35.144/webapp' ) 
+			$webapp_url = 'http://192.168.35.144/webapp' )
  	{
         include apache
         apache::vhost {'loadbalancer':
@@ -58,7 +58,7 @@ class loadbalancer ( $nagios_path = '/nagios',
 }
 
 
-// now we can apply like following like bellow with the above parameterized 
+// now we can apply like following like bellow with the above parameterized
 // pp file.
 
 
@@ -94,26 +94,26 @@ The same command in simpler format using the include keyword looks like this:
 
 ///////////////// horizontal scalling of the services //////////////
 
-// to include the additional servers to the cluster we have following 
-// scripts. 
+// to include the additional servers to the cluster we have following
+// scripts.
 
 
 class loadbalancer ( $nagios_path = '/nagios',
-			$nagios_url = 'http://192.168.35.145/nagios', 
+			$nagios_url = 'http://192.168.35.145/nagios',
 			$webapp_path = '/webapp',
-			$webapp_url = 'http://192.168.35.144/webapp' ) 
+			$webapp_url = 'http://192.168.35.144/webapp' )
  	{
         include apache
 
 // these there lines we are going to add additionally
- 
+
 	$balancer_name = 'webapp'
 	$balancer_url = "balancer://${balancer_name}"
 	include loadbalancer::create
 
 // the above lines we are going to add
 // we gonna create aditional files in that we will declare loadbalancer::create
-//  
+//
         apache::vhost {'loadbalancer':
         ip => $::ipaddress_eth10,
         docroot => '/var/www/html',
@@ -125,10 +125,10 @@ class loadbalancer ( $nagios_path = '/nagios',
 }
 
 // we will write another file create.pp file like below
-// 
+//
 
 class loadbalancer::create {
-	apache::balancer { $::loadbalancer::balancer_name: 
+	apache::balancer { $::loadbalancer::balancer_name:
 	collect_exported => false;
 	}
 	apache::balancermember { "web1":
@@ -140,5 +140,3 @@ class loadbalancer::create {
 	url		=> 'http://192.168.56.13/',
 	}
 }
-
-

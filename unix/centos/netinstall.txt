@@ -3,5 +3,3 @@
 ... enter the following formate while installing the netinstall centos iso
 
 centos.mirror.far.fi/7/os/x86_64/
-
-

@@ -1,4 +1,4 @@
-.. 
+..
 .. openswan configuraiton step by step.
 
 .. my operating system is debian you can also work on any
@@ -6,39 +6,39 @@
 
 root@deb-7:~# uname -a
 Linux deb-7 3.2.0-4-686-pae #1 SMP Debian 3.2.81-1 i686 GNU/Linux
-root@deb-7:~# 
+root@deb-7:~#
 
-.. and I have following two interfaces. between them eth1 will be 
+.. and I have following two interfaces. between them eth1 will be
 .. bound for ipsec incoming request.
 
 root@deb-7:~# ifconfig
-eth0      Link encap:Ethernet  HWaddr 00:0c:29:92:49:3b  
+eth0      Link encap:Ethernet  HWaddr 00:0c:29:92:49:3b
           inet addr:192.168.206.128  Bcast:192.168.206.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fe92:493b/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:636 errors:0 dropped:0 overruns:0 frame:0
           TX packets:65821 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:64130 (62.6 KiB)  TX bytes:4319755 (4.1 MiB)
-          Interrupt:19 Base address:0x2000 
+          Interrupt:19 Base address:0x2000
 
-eth1      Link encap:Ethernet  HWaddr 00:0c:29:92:49:45  
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:92:49:45
           inet addr:192.168.179.128  Bcast:192.168.179.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fe92:4945/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:66037 errors:0 dropped:0 overruns:0 frame:0
           TX packets:76 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:9946034 (9.4 MiB)  TX bytes:9404 (9.1 KiB)
-          Interrupt:16 Base address:0x2080 
+          Interrupt:16 Base address:0x2080
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 .. now installing openswan and the xl2tpd package
@@ -58,21 +58,21 @@ version 2.0     # conforms to second version of ipsec.conf specification
 
 # basic configuration
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
-conn L2TP-PSK  
-        authby=secret  
-        pfs=no  
-        auto=add  
-        keyingtries=3  
-        rekey=yes  
-        ikelifetime=8h  
-        keylife=1h  
-        type=transport  
-		
+conn L2TP-PSK
+        authby=secret
+        pfs=no
+        auto=add
+        keyingtries=3
+        rekey=yes
+        ikelifetime=8h
+        keylife=1h
+        type=transport
+
 # the left is the eth1 ip address as ipsec incoming request will be coming
 # to this interface.
 
@@ -80,19 +80,19 @@ conn L2TP-PSK
         leftprotoport=17/%any
         right=%any
         rightprotoport=17/%any
-		
-root@deb-7:~# 
+
+root@deb-7:~#
 
 .. the secret file for ipsec tunneling. I am using psk as authentication.
-.. another nice option is to use rsa certificate. 192.168.179.128 is my 
+.. another nice option is to use rsa certificate. 192.168.179.128 is my
 .. local ip to accept ipsec incoming request. I could use like %any to mean
 .. for any incoming request. like below i could do. for my case ipsec incoming
-.. request is from 192.168.179.1 and they will be authenticated for ipsec 
+.. request is from 192.168.179.1 and they will be authenticated for ipsec
 .. by psk.
 
 %any 192.168.179.128: PSK "123456"
 
-root@deb-7:~# cat /etc/ipsec.secrets 
+root@deb-7:~# cat /etc/ipsec.secrets
 
 # this file is managed with debconf and will contain the automatically created RSA keys
 include /var/lib/openswan/ipsec.secrets.inc
@@ -101,24 +101,24 @@ include /var/lib/openswan/ipsec.secrets.inc
 
 .. for ip forwarding we will edit the /etc/sysctl.conf file
 
-root@deb-7:~# root@deb-7:/etc/xl2tpd# cat /etc/sysctl.conf 
+root@deb-7:~# root@deb-7:/etc/xl2tpd# cat /etc/sysctl.conf
 net.ipv4.ip_forward=1
 
 .. also will run the following command to disable redirect
 
-root@deb-7:/etc/xl2tpd# bash /root/command.sh 
+root@deb-7:/etc/xl2tpd# bash /root/command.sh
 #!/bin/bash
 
-for vpn in /proc/sys/net/ipv4/conf/* ; do 
-        echo 0 > $vpn/accept_redirects  
-        echo 0 > $vpn/send_redirects  
+for vpn in /proc/sys/net/ipv4/conf/* ; do
+        echo 0 > $vpn/accept_redirects
+        echo 0 > $vpn/send_redirects
 done
 
 .. we will now start ipsec and check the configuration.
 
 root@deb-7:/etc# /etc/init.d/ipsec start
 ipsec_setup: Starting Openswan IPsec U2.6.37/K3.2.0-4-686-pae...
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
 root@deb-7:/etc# ipsec verify
 Checking your system to see if IPsec got installed and started correctly:
@@ -138,19 +138,19 @@ Checking for 'ip' command                                       [OK]
 Checking /bin/sh is not /bin/dash                               [WARNING]
 Checking for 'iptables' command                                 [OK]
 Opportunistic Encryption Support                                [DISABLED]
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
-.. now l2tp tunneling configuraiton 
+.. now l2tp tunneling configuraiton
 
 root@deb-7:~# cd /etc/xl2tpd/
 root@deb-7:/etc/xl2tpd# pwd
 /etc/xl2tpd
 root@deb-7:/etc/xl2tpd# ls
 l2tp-secrets  xl2tpd.conf  xl2tpd.conf.bak
-root@deb-7:/etc/xl2tpd# 
-root@deb-7:/etc/xl2tpd# 
+root@deb-7:/etc/xl2tpd#
+root@deb-7:/etc/xl2tpd#
 
-root@deb-7:/etc/xl2tpd# cat l2tp-secrets 
+root@deb-7:/etc/xl2tpd# cat l2tp-secrets
 # Secrets for authenticating l2tp tunnels
 # us    them    secret
 # *             marko blah2
@@ -158,7 +158,7 @@ root@deb-7:/etc/xl2tpd# cat l2tp-secrets
 # *     *       interop
 #alice  alice123        *       interop
 *       *       123456
-root@deb-7:/etc/xl2tpd# 
+root@deb-7:/etc/xl2tpd#
 
 .. same here when l2tp tunneling will be taking place between two
 .. system then password from this file will checked. this passkey
@@ -193,56 +193,56 @@ length bit = yes
 #.. in our /etc/ppp/chap-secret file
 
 name=l2tp
-root@deb-7:/etc/xl2tpd# 
+root@deb-7:/etc/xl2tpd#
 
 .. our xl2tp configuration is done lets start it too.
 
 root@deb-7:/etc/xl2tpd# /etc/init.d/xl2tpd start
 Starting xl2tpd: xl2tpd.
-root@deb-7:/etc/xl2tpd# 
+root@deb-7:/etc/xl2tpd#
 
 .. now secret file configuration for the user who request to connnect
 .. the vpn server
 
 root@deb-7:/etc# cd /etc/ppp
-root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp#
 root@deb-7:/etc/ppp# ls
 chap-secrets  ip-up      ipv6-down.d  options         pap-secrets
 ip-down       ip-up.d    ipv6-up      options.pptp    peers
 ip-down.d     ipv6-down  ipv6-up.d    options.xl2tpd  pptpd-options
-root@deb-7:/etc/ppp# 
-root@deb-7:/etc/ppp# cat options.xl2tpd 
+root@deb-7:/etc/ppp#
+root@deb-7:/etc/ppp# cat options.xl2tpd
 
 # we will accept only mschap and mschap-v2 so the following two lines
 # is required.
 
-require-mschap  
+require-mschap
 require-mschap-v2
 
-# dns server ip provided to client 
-  
-ms-dns 8.8.8.8  
-ms-dns 4.2.2.1  
-ms-dns 8.8.4.4  
-proxyarp  
-asyncmap 0  
-auth  
-crtscts  
-lock  
-hide-password  
-modem  
-debug  
-root@deb-7:/etc/ppp# 
+# dns server ip provided to client
 
-root@deb-7:/etc/ppp# cat chap-secrets 
+ms-dns 8.8.8.8
+ms-dns 4.2.2.1
+ms-dns 8.8.4.4
+proxyarp
+asyncmap 0
+auth
+crtscts
+lock
+hide-password
+modem
+debug
+root@deb-7:/etc/ppp#
+
+root@deb-7:/etc/ppp# cat chap-secrets
 # Secrets for authentication using CHAP
 # client        server  secret                  IP addresses
 alice          l2tp     alice123        *
-bob            l2tp    bob123           * 
-root@deb-7:/etc/ppp# 
+bob            l2tp    bob123           *
+root@deb-7:/etc/ppp#
 
 .. note here the server name is l2tp. this name is used in the
-.. /etc/xl2tpd/xl2tpd.conf file as name=l2tp and * means 
+.. /etc/xl2tpd/xl2tpd.conf file as name=l2tp and * means
 .. when alice is successfully authenticated by alice123 he
 .. will be provided any available ip from the ip range
 .. declared at /etc/xl2tpd/xl2tpd.conf file.
@@ -253,7 +253,7 @@ root@deb-7:/etc/ppp# /etc/init.d/ipsec status
 IPsec running  - pluto pid: 3743
 pluto pid 3743
 No tunnels up
-root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp#
 
 .. our openswan ipsec vpn server is running and waiting for the incoming request.
 .. the following happens when we dial to the vpn server.
@@ -261,7 +261,7 @@ root@deb-7:/etc/ppp#
 root@deb-7:/etc/xl2tpd# tail -f /var/log/auth.log/auth
 
 Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [MS NT5 ISAKMPOAKLEY 00000008]
-Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: received Vendor ID payload [RFC 3947] method set to=109 
+Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: received Vendor ID payload [RFC 3947] method set to=109
 Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: received Vendor ID payload [draft-ietf-ipsec-nat-t-ike-02_n] meth=106, but already using method 109
 Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [FRAGMENTATION]
 Apr  9 10:53:41 deb-7 pluto[3743]: packet from 192.168.179.1:500: ignoring Vendor ID payload [MS-Negotiation Discovery Capable]
@@ -292,12 +292,12 @@ IPsec running  - pluto pid: 3743
 pluto pid 3743
 1 tunnels up
 some eroutes exist
-root@deb-7:/etc/ppp# 
+root@deb-7:/etc/ppp#
 
-.. now configure the dialer on windows 7. on dialer from 
+.. now configure the dialer on windows 7. on dialer from
 .. security tab select layer 2 tunneling protocol with ipsec(lt2p/ipsec)
 .. as type of vpn. from advance setting select use preshared key and on
-.. key paste 123456 as our key and click ok. 
+.. key paste 123456 as our key and click ok.
 .. for data encryption select optional encryption(connect even if no encryptions)
 .. and select chap and MS-CHAP v2 and ok. and finally use the vpn server ip
 .. user name and password.
@@ -306,12 +306,12 @@ root@deb-7:/etc/ppp#
 
 root@deb-7:/etc/xl2tpd# ifconfig
 
-ppp0      Link encap:Point-to-Point Protocol  
+ppp0      Link encap:Point-to-Point Protocol
           inet addr:172.16.1.1  P-t-P:172.16.1.30  Mask:255.255.255.255
           UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1400  Metric:1
           RX packets:10970 errors:0 dropped:0 overruns:0 frame:0
           TX packets:18 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:3 
+          collisions:0 txqueuelen:3
           RX bytes:574415 (560.9 KiB)  TX bytes:741 (741.0 B)
 
 root@deb-7:/etc/xl2tpd# tcpdump -vv -i ppp0
@@ -322,4 +322,3 @@ root@deb-7:/etc/xl2tpd# tcpdump -vv -i ppp0
 10:57:36.053218 IP (tos 0x0, ttl 63, id 22571, offset 0, flags [none], proto UDP (17), length 69)
 
 .. it has some output when it gets ping request from the client ip 172.16.1.30 .
-

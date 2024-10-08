@@ -59,20 +59,20 @@ masum
 | options             | {}                               |
 | password_expires_at | None                             |
 +---------------------+----------------------------------+
-masum@devstack:~$ 
+masum@devstack:~$
 
 ... adding user masum to project general with the role admin.
 
 openstack role add \
 --project df91df579d8a481f81fe2cbd1dae18f9 \  # this is the id of the project, general
---user masum 
+--user masum
 admin
 
 ... creating a network for our general project
 
 masum@devstack:~$ openstack network create \
 --enable --project df91df579d8a481f81fe2cbd1dae18f9 \
-> --enable-port-security --internal 
+> --enable-port-security --internal
 GeneralNetwork
 
 +---------------------------+--------------------------------------+
@@ -107,7 +107,7 @@ GeneralNetwork
 | tags                      |                                      |
 | updated_at                | 2019-02-07T21:13:25Z                 |
 +---------------------------+--------------------------------------+
-masum@devstack:~$ 
+masum@devstack:~$
 
 ... now create a subnet for the network GeneralNetwork in general project
 
@@ -115,7 +115,7 @@ masum@devstack:~$ openstack subnet create \
 --project df91df579d8a481f81fe2cbd1dae18f9 \
 --dhcp --ip-version 4 --subnet-range 10.10.20.0/24 \
 --network GeneralNetwork --gateway=10.10.20.1 \
---dns-nameserver 4.2.2.1 
+--dns-nameserver 4.2.2.1
 GeneralNetworkSubnet
 
 +-------------------+--------------------------------------+
@@ -144,7 +144,7 @@ GeneralNetworkSubnet
 | tags              |                                      |
 | updated_at        | 2019-02-07T21:29:41Z                 |
 +-------------------+--------------------------------------+
-masum@devstack:~$ 
+masum@devstack:~$
 
 ... running an instance by following
 
@@ -168,16 +168,12 @@ masum@devstack:/opt/stack/devstack$ openstack hypervisor list
 +----+---------------------+-----------------+-----------------+-------+
 |  1 | devstack            | QEMU            | 192.168.122.204 | up    |
 +----+---------------------+-----------------+-----------------+-------+
-masum@devstack:/opt/stack/devstack$ 
+masum@devstack:/opt/stack/devstack$
 
 ... creation of a vm by using openstack command.
 
 masum@devstack:/opt/stack/devstack$ openstack server create \
 --image debian-9.7.0-openstack-amd64 \
 --flavor m1.micro --security-group group1 \
---nic net-id=private1,v4-fixed-ip=10.10.10.10 
+--nic net-id=private1,v4-fixed-ip=10.10.10.10
 debiantest
-
-
-
-

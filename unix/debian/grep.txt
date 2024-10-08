@@ -62,4 +62,3 @@ $ grep “[^aeiou]” file1
 
 ... Match all lines that contain the word hello in upper-case or lower-case
 $ grep -i “hello”
-

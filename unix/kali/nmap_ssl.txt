@@ -9,9 +9,9 @@ PORT     STATE SERVICE
 139/tcp  open  netbios-ssn
 143/tcp  open  imap
 443/tcp  open  https
-| ssl-enum-ciphers: 
-|   SSLv3: 
-|     ciphers: 
+| ssl-enum-ciphers:
+|   SSLv3:
+|     ciphers:
 |       TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (dh 1024) - D
 |       TLS_DHE_RSA_WITH_AES_128_CBC_SHA (dh 1024) - A
 |       TLS_DHE_RSA_WITH_AES_256_CBC_SHA (dh 1024) - A
@@ -20,18 +20,18 @@ PORT     STATE SERVICE
 |       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 1024) - A
 |       TLS_RSA_WITH_RC4_128_MD5 (rsa 1024) - D
 |       TLS_RSA_WITH_RC4_128_SHA (rsa 1024) - D
-|     compressors: 
+|     compressors:
 |       DEFLATE
 |       NULL
 |     cipher preference: client
-|     warnings: 
+|     warnings:
 |       64-bit block cipher 3DES vulnerable to SWEET32 attack
 |       Broken cipher RC4 is deprecated by RFC 7465
 |       CBC-mode cipher in SSLv3 (CVE-2014-3566)
 |       Ciphersuite uses MD5 for message integrity
 |       Weak certificate signature: SHA1
-|   TLSv1.0: 
-|     ciphers: 
+|   TLSv1.0:
+|     ciphers:
 |       TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (dh 1024) - D
 |       TLS_DHE_RSA_WITH_AES_128_CBC_SHA (dh 1024) - A
 |       TLS_DHE_RSA_WITH_AES_256_CBC_SHA (dh 1024) - A
@@ -40,11 +40,11 @@ PORT     STATE SERVICE
 |       TLS_RSA_WITH_AES_256_CBC_SHA (rsa 1024) - A
 |       TLS_RSA_WITH_RC4_128_MD5 (rsa 1024) - D
 |       TLS_RSA_WITH_RC4_128_SHA (rsa 1024) - D
-|     compressors: 
+|     compressors:
 |       DEFLATE
 |       NULL
 |     cipher preference: client
-|     warnings: 
+|     warnings:
 |       64-bit block cipher 3DES vulnerable to SWEET32 attack
 |       Broken cipher RC4 is deprecated by RFC 7465
 |       Ciphersuite uses MD5 for message integrity

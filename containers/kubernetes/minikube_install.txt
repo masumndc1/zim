@@ -6,10 +6,10 @@
     https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
    # chmod +x minikube
 
-...$ sudo cp minikube /usr/local/bin 
+...$ sudo cp minikube /usr/local/bin
 
 ... now run the minikube to set up the cluster
-... 
+...
 ...$ minikube start --vm-driver kvm
 ...
 ... driver installation.
@@ -23,6 +23,6 @@ sudo usermod -a -G libvirt $(whoami)
 # NOTE: For older Debian/Ubuntu versions change the group to `libvirtd`
 newgrp libvirt
 
-... for reference 
-... https://kubernetes.io/docs/setup/minikube/ 
+... for reference
+... https://kubernetes.io/docs/setup/minikube/
 ...

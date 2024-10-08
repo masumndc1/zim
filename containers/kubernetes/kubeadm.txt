@@ -4,7 +4,7 @@
 
 ... adding repos
 
-[root@kube-master kube]# 
+[root@kube-master kube]#
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -14,17 +14,17 @@ gpgcheck=1
 repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 ... enabling repo and update repo and accept key
 
 [root@kube-master kube]# yum update
 Loaded plugins: fastestmirror
-base                                                                                      | 3.6 kB  00:00:00     
-centos-virt-xen                                                                           | 2.9 kB  00:00:00     
-epel/x86_64/metalink                                                                      |  29 kB  00:00:00     
-extras                                                                                    | 3.4 kB  00:00:00     
-kubernetes/signature                                                                      |  454 B  00:00:00     
+base                                                                                      | 3.6 kB  00:00:00
+centos-virt-xen                                                                           | 2.9 kB  00:00:00
+epel/x86_64/metalink                                                                      |  29 kB  00:00:00
+extras                                                                                    | 3.4 kB  00:00:00
+kubernetes/signature                                                                      |  454 B  00:00:00
 Retrieving key from https://packages.cloud.google.com/yum/doc/yum-key.gpg
 Importing GPG key 0xA7317B0F:
  Userid     : "Google Cloud Packages Automatic Signing Key <gc-team@google.com>"
@@ -32,9 +32,9 @@ Importing GPG key 0xA7317B0F:
  From       : https://packages.cloud.google.com/yum/doc/yum-key.gpg
 Is this ok [y/N]: y
 Retrieving key from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-kubernetes/signature                                                                      | 1.4 kB  00:00:03 !!! 
+kubernetes/signature                                                                      | 1.4 kB  00:00:03 !!!
 
-... disable selinux 
+... disable selinux
 
 [root@kube-master kube]# setenforce 0
 
@@ -43,9 +43,9 @@ kubernetes/signature                                                            
 [root@kube-master kube]# yum install -y kubelet kubeadm kubectl
 [root@kube-master kube]# systemctl enable kubelet && systemctl start kubelet
 
-... in this case i am only installing kubeadm  
+... in this case i am only installing kubeadm
 
-[root@kube-master kube]# yum install -y kubeadm 
+[root@kube-master kube]# yum install -y kubeadm
 
 ... init kubeadm
 
@@ -77,6 +77,3 @@ kubernetes/signature                                                            
 [kubeconfig] Wrote KubeConfig file to disk: "kubelet.conf"
 [kubeconfig] Wrote KubeConfig file to disk: "controller-manager.conf"
 [kubeconfig] Wrote KubeConfig file to disk: "scheduler.conf"
-
-
-

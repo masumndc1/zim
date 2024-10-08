@@ -20,7 +20,7 @@ Proceed with this action? [y/N]: y
 [1/1] Installing iftop-1.0.p4...
 [1/1] Extracting iftop-1.0.p4: 100%
 
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 ... pkg delete
 
@@ -37,7 +37,7 @@ Proceed with deinstalling packages? [y/N]: y
 [1/1] Deinstalling iftop-1.0.p4...
 [1/1] Deleting files for iftop-1.0.p4: 100%
 
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 root@masum:~ # pkg delete -fx kde
 Checking integrity... done (0 conflicting)
@@ -102,7 +102,7 @@ pkg: No package(s) matching ift
 ... -x switch also acts like regular expression
 ... -i along with -x will prompt for the user
 ... interation. therefore deleting any package including
-... -i is highly recommended to avoid any accedental 
+... -i is highly recommended to avoid any accedental
 ... delete.
 
 root@masum:/home/masum/test # pkg info -x if
@@ -112,19 +112,19 @@ libexif-0.6.21_4
 libkomparediff2-4.14.3_1
 startup-notification-0.12_4
 tiff-4.0.6_2
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 root@masum:/home/masum/test # pkg info -x ift
 iftop-1.0.p4
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 root@masum:/home/masum/test # pkg info | grep -i iftop
 iftop-1.0.p4                   Display bandwidth usage on an interface by host
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 root@masum:/home/masum/test # pkg info -ix iftop
 iftop-1.0.p4
-root@masum:/home/masum/test # 
+root@masum:/home/masum/test #
 
 ... now we have found the iftop package has been installed
 ... in the system. now we will get the information regarding
@@ -158,5 +158,4 @@ information, but on most systems this means that  it  must
 be run as root.
 
 WWW: http://www.ex-parrot.com/~pdw/iftop/
-root@masum:/home/masum/test # 
-
+root@masum:/home/masum/test #

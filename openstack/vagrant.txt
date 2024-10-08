@@ -5,7 +5,7 @@
 
 root@debian7:~# apt-get install vagrant
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following package was automatically installed and is no longer required:
   xulrunner-10.0
@@ -46,17 +46,14 @@ Building initial module for 3.2.0-4-686-pae
 Done.
 Setting up vagrant (1.0.3-1) ...
 Processing triggers for menu ...
-root@debian7:~# 
-root@debian7:~# 
-root@debian7:~# 
+root@debian7:~#
+root@debian7:~#
+root@debian7:~#
 
 .. checking wheather the virtualbox modules are all loaded
 
 root@debian7:/etc/init.d# ./virtualbox status
 VirtualBox kernel modules are loaded.
-root@debian7:/etc/init.d# 
+root@debian7:/etc/init.d#
 
 .. the modules are loaded successfully.
-
-
-

@@ -1,7 +1,7 @@
 
 
 ... we can make vim easily an ide.
-... to do so we need to install pathogen as well as 
+... to do so we need to install pathogen as well as
 ... pathogen made super easy to install plugins in vim.
 ... this is how we can install pathogen.
 ... full doc can be found in the following link
@@ -21,9 +21,9 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
-... Now any plugins you wish to install can be extracted to a subdirectory 
-... under ~/.vim/bundle, and they will be added to the 'runtimepath'. 
-... Observe: for example if you want to add vim-sensible with your vim just 
+... Now any plugins you wish to install can be extracted to a subdirectory
+... under ~/.vim/bundle, and they will be added to the 'runtimepath'.
+... Observe: for example if you want to add vim-sensible with your vim just
 ... run following and restart vim.
 
 cd ~/.vim/bundle && \
@@ -37,8 +37,8 @@ git clone https://github.com/tpope/vim-sensible.git
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-... now we will need one .vimrc file. one of the good vimrc file I have found 
-... from https://raw.githubusercontent.com/amacgregor/dot-files/master/vimrc 
+... now we will need one .vimrc file. one of the good vimrc file I have found
+... from https://raw.githubusercontent.com/amacgregor/dot-files/master/vimrc
 ... download it. this .vimrc file is nice for making vim as ide.
 
 cp vimrc ~/.vimrc
@@ -50,6 +50,4 @@ cp vimrc ~/.vimrc
 ... we need to uninstall neocomplete, as this does not work with vim below 7.3
 ... remove vim-wakatime too from ~/.vim/bundle
 ... also remove vim-airline and vim-airlime-themes.
-... 
-
-
+...

@@ -6,12 +6,10 @@ root@masum:~/.ssh# pwd
 /root/.ssh
 root@masum:~/.ssh# ls
 config  id_dsa  id_dsa.pub  known_hosts
-root@masum:~/.ssh# 
-root@masum:~/.ssh# cat config 
+root@masum:~/.ssh#
+root@masum:~/.ssh# cat config
 Host *
 ControlMaster auto
 ControlPath /tmp/%r@%h:%p
 ControlPersist 10m
-root@masum:~/.ssh# 
-
-
+root@masum:~/.ssh#

@@ -2,23 +2,23 @@
 
 .... ssh service in solaris10
 
-... following is the location of files for ssh and anything we need to 
+... following is the location of files for ssh and anything we need to
 ... change in settings.
 
 bash-3.2# cd /etc/ssh
 bash-3.2# ls
 moduli                ssh_host_dsa_key      ssh_host_rsa_key      sshd_config
 ssh_config            ssh_host_dsa_key.pub  ssh_host_rsa_key.pub
-bash-3.2# 
-bash-3.2# cat sshd_config | grep -i permitroot 
+bash-3.2#
+bash-3.2# cat sshd_config | grep -i permitroot
 #PermitRootLogin no
 PermitRootLogin yes
-bash-3.2# 
+bash-3.2#
 
 ... after changing any setting we need to restart the service like below
-... however we can see the status of the services 
+... however we can see the status of the services
 
-bash-3.2# svcs -a           
+bash-3.2# svcs -a
 STATE          STIME    FMRI
 legacy_run      7:52:25 lrc:/etc/rcS_d/S50sk98sol
 legacy_run      7:54:50 lrc:/etc/rc2_d/S10lu
@@ -35,13 +35,13 @@ online          7:50:23 svc:/network/tnctl:default
 online          7:50:23 svc:/network/pfil:default
 online          7:50:23 svc:/network/loopback:default
 
-bash-3.2# svcs -a | grep ssh 
+bash-3.2# svcs -a | grep ssh
 online          7:54:34 svc:/network/ssh:default
-bash-3.2# 
+bash-3.2#
 bash-3.2# svcs -v ssh
 STATE          NSTATE        STIME    CTID      FMRI
 online         -              7:54:34        67 svc:/network/ssh:default
-bash-3.2# 
+bash-3.2#
 
 ... the above command and output is saying that ssh is running therefore
 ... we need to restart it.
@@ -67,17 +67,17 @@ Usage: svcadm [-v] [cmd [args ... ]]
         svcadm <cmd> smtp:sendmail
         svcadm <cmd> smtp
         svcadm <cmd> sendmail
-bash-3.2# 
+bash-3.2#
 bash-3.2# svcadm disable network/ssh
 bash-3.2# svcadm enable network/ssh
 bash-3.2# svcadm restart network/ssh
-bash-3.2# 
+bash-3.2#
 
 ... we can also do the following
 
 bash-3.2# svcadm restart svc:/network/ssh:default
-bash-3.2# svcadm restart ssh                     
-bash-3.2# 
+bash-3.2# svcadm restart ssh
+bash-3.2#
 
 bash-3.2# svcs ssh
 STATE          STIME    FMRI
@@ -90,5 +90,5 @@ bash-3.2# svcadm enable ssh
 bash-3.2# svcs ssh
 STATE          STIME    FMRI
 online          8:55:27 svc:/network/ssh:default
-bash-3.2# 
-bash-3.2# 
+bash-3.2#
+bash-3.2#

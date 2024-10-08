@@ -15,5 +15,3 @@ url = template.format(rfc_number)
 rfc_raw = urlopen(url).read()
 rfc = rfc_raw.decode()
 print(rfc)
-
-

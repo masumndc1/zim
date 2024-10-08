@@ -43,7 +43,7 @@ R1-SW(config)#interface range fastEthernet 1/1 - 4
 
 R1-SW(config-if-range)#channel-group 1 mode on
 
-Creating a port-channel interface Port-channel1 
+Creating a port-channel interface Port-channel1
 
 R1-SW(config-if-range)#
 *Mar  1 00:02:15.499: %EC-5-BUNDLE: Interface Fa1/1 joined port-channel Po1
@@ -60,7 +60,7 @@ R1-SW(config-if-range)#
 # now configure on other switch.
 
 
-          
+
 R6-SW#config t
 
 Enter configuration commands, one per line.  End with CNTL/Z.
@@ -69,7 +69,7 @@ R6-SW(config)#interface range fastEthernet 1/1 - 4
 
 R6-SW(config-if-range)#channel-group 1 mode on
 
-Creating a port-channel interface Port-channel1 
+Creating a port-channel interface Port-channel1
 
 ### this will create a port channel auto matic.
 
@@ -89,16 +89,16 @@ R6-SW(config)#exit
 R6-SW#
 
 
-# verify 
+# verify
 
-R6-SW#show etherchannel summary 
+R6-SW#show etherchannel summary
 Flags:  D - down        P - in port-channel
         I - stand-alone s - suspended
         R - Layer3      S - Layer2
         U - in use
 Group Port-channel  Ports
 -----+------------+-----------------------------------------------------------
-1     Po1(SU)     Fa1/1(P)   Fa1/2(P)   Fa1/3(P)   Fa1/4(P)   
+1     Po1(SU)     Fa1/1(P)   Fa1/2(P)   Fa1/3(P)   Fa1/4(P)
 
 R6-SW#
 
@@ -109,7 +109,7 @@ Flags:  D - down        P - in port-channel
         U - in use
 Group Port-channel  Ports
 -----+------------+-----------------------------------------------------------
-1     Po1(SU)     Fa1/1(P)   Fa1/2(P)   Fa1/3(P)   Fa1/4(P)   
+1     Po1(SU)     Fa1/1(P)   Fa1/2(P)   Fa1/3(P)   Fa1/4(P)
 
 R1-SW(config-if-range)#
 
@@ -124,15 +124,15 @@ R1-SW#show etherchannel ?
   port-channel  Port-channel information
   summary       One-line summary per channel-group
 
-R1-SW#show etherchannel brief 
+R1-SW#show etherchannel brief
 
-		Channel-group listing: 
+		Channel-group listing:
 		-----------------------
 
-Group: 1 
+Group: 1
 ----------
-Group state = L2 
-Ports: 4   Maxports = 8 
+Group state = L2
+Ports: 4   Maxports = 8
 Port-channels: 1 Max Port-channels = 1
 
 R1-SW#
@@ -147,21 +147,21 @@ R1-SW#show etherchannel ?
   port-channel  Port-channel information
   summary       One-line summary per channel-group
 
-R1-SW#show etherchannel detail 
-		Channel-group listing: 
+R1-SW#show etherchannel detail
+		Channel-group listing:
 		-----------------------
 
-Group: 1 
+Group: 1
 ----------
-Group state = L2 
-Ports: 4   Maxports = 8 
+Group state = L2
+Ports: 4   Maxports = 8
 Port-channels: 1 Max Port-channels = 1
 		Ports in the group:
 		-------------------
 Port: Fa1/1
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 0
@@ -169,7 +169,7 @@ Age of the port in the current state: 00d:00h:05m:10s
 Port: Fa1/2
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 1
@@ -177,7 +177,7 @@ Age of the port in the current state: 00d:00h:05m:10s
 Port: Fa1/3
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 2
@@ -185,12 +185,12 @@ Age of the port in the current state: 00d:00h:05m:13s
 Port: Fa1/4
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 3
 Age of the port in the current state: 00d:00h:05m:13s
-		Port-channels in the group: 
+		Port-channels in the group:
 		----------------------
 
 Port-channel: Po1
@@ -199,16 +199,16 @@ Port-channel: Po1
 Age of the Port-channel   = 00d:00h:05m:14s
 Logical slot/port   = 8/0           Number of ports = 4
 GC                  = 0x00010001      HotStandBy port = null
-Port state          = Port-channel Ag-Inuse 
+Port state          = Port-channel Ag-Inuse
 
-Ports in the Port-channel: 
+Ports in the Port-channel:
 
 Index   Port   EC state
 ------+------+------------
-  0     Fa1/1    on         
-  1     Fa1/2    on         
-  2     Fa1/3    on         
-  3     Fa1/4    on         
+  0     Fa1/1    on
+  1     Fa1/2    on
+  2     Fa1/3    on
+  3     Fa1/4    on
 
 Time since last port bundled:    00d:00h:05m:14s    Fa1/4
 
@@ -226,7 +226,7 @@ R1-SW#show etherchannel load-balance ?
   |  Output modifiers
   <cr>
 
-R1-SW#show etherchannel load-balance 
+R1-SW#show etherchannel load-balance
  Po1 ---> Source XOR Destination IP address
 R1-SW#
 R1-SW#show etherchannel ?
@@ -239,18 +239,18 @@ R1-SW#show etherchannel ?
   port-channel  Port-channel information
   summary       One-line summary per channel-group
 
-R1-SW#show etherchannel port 
-		Channel-group listing: 
+R1-SW#show etherchannel port
+		Channel-group listing:
 		-----------------------
 
-Group: 1 
+Group: 1
 ----------
 		Ports in the group:
 		-------------------
 Port: Fa1/1
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 0
@@ -258,7 +258,7 @@ Age of the port in the current state: 00d:00h:05m:35s
 Port: Fa1/2
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 1
@@ -266,7 +266,7 @@ Age of the port in the current state: 00d:00h:05m:35s
 Port: Fa1/3
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 2
@@ -274,7 +274,7 @@ Age of the port in the current state: 00d:00h:05m:36s
 Port: Fa1/4
 ------------
 
-Port state    = Up Mstr In-Bndl 
+Port state    = Up Mstr In-Bndl
 Channel group = 1           Mode = On/FEC     Gcchange = 0
 Port-channel  = Po1         GC   = 0x00010001    Pseudo port-channel = Po1
 Port index    = 3
@@ -295,13 +295,13 @@ R1-SW# show etherchannel port-channel ?
   |  Output modifiers
   <cr>
 
-R1-SW# show etherchannel port-channel 
-		Channel-group listing: 
+R1-SW# show etherchannel port-channel
+		Channel-group listing:
 		-----------------------
 
-Group: 1 
+Group: 1
 ----------
-		Port-channels in the group: 
+		Port-channels in the group:
 		----------------------
 
 Port-channel: Po1
@@ -310,16 +310,16 @@ Port-channel: Po1
 Age of the Port-channel   = 00d:00h:05m:46s
 Logical slot/port   = 8/0           Number of ports = 4
 GC                  = 0x00010001      HotStandBy port = null
-Port state          = Port-channel Ag-Inuse 
+Port state          = Port-channel Ag-Inuse
 
-Ports in the Port-channel: 
+Ports in the Port-channel:
 
 Index   Port   EC state
 ------+------+------------
-  0     Fa1/1    on         
-  1     Fa1/2    on         
-  2     Fa1/3    on         
-  3     Fa1/4    on         
+  0     Fa1/1    on
+  1     Fa1/2    on
+  2     Fa1/3    on
+  3     Fa1/4    on
 
 Time since last port bundled:    00d:00h:05m:46s    Fa1/4
 
@@ -342,5 +342,3 @@ Switch(config)# interface type mod/num
 Switch(config-if)# channel-protocol lacp
 Switch(config-if)# channel-group number mode {on | passive | active}
 Switch(config-if)# lacp port-priority priority
-
-

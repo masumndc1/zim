@@ -11,91 +11,91 @@ At the very begining we will setup the MTA postfix. To do so we have to do some 
      2	#127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
      3	#127.0.0.1   localhost localhost.example.com
      4	#::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-     5	
+     5
      6	# added by me
      7	127.0.0.1   localhost localhost.example.com
      8	172.16.246.141 mail mail.example.com
-     9	
+     9
     10	# following one is my host pc.
     11	172.16.246.1 ubuntu ubuntu.masum.com
-[root@localhost ~]# 
+[root@localhost ~]#
 
 [root@localhost ~]# yum install postfix
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Loading mirror speeds from cached hostfile
-base                                                                                                                           | 3.7 kB     00:00     
-centosplus                                                                                                                     | 3.7 kB     00:00     
-contrib                                                                                                                        | 3.7 kB     00:00     
-extras                                                                                                                         | 3.7 kB     00:00     
-livna                                                                                                                          | 1.3 kB     00:00     
-rpmfind                                                                                                                        | 3.7 kB     00:00     
-rpmforge                                                                                                                       | 1.9 kB     00:00     
-updates                                                                                                                        | 3.7 kB     00:00     
+base                                                                                                                           | 3.7 kB     00:00
+centosplus                                                                                                                     | 3.7 kB     00:00
+contrib                                                                                                                        | 3.7 kB     00:00
+extras                                                                                                                         | 3.7 kB     00:00
+livna                                                                                                                          | 1.3 kB     00:00
+rpmfind                                                                                                                        | 3.7 kB     00:00
+rpmforge                                                                                                                       | 1.9 kB     00:00
+updates                                                                                                                        | 3.7 kB     00:00
 Setting up Install Process
 Package 2:postfix-2.6.6-2.2.el6_1.i686 already installed and latest version
 Nothing to do
-[root@localhost ~]# 
+[root@localhost ~]#
 As I have already Installed the postfix so nothing to do. Now I have to configure it. the main configuration file of the postfix is main.cf which resides on /etc/postfix directory. on the main.cf file we have to edit the following lines. I did as my own requirements and configurations someone's will be definitely different. the contents in main.cf is self-explanatory and there is lot of explation on the main.cf to make it easily understandable.
 
 [root@localhost ~]# cd /etc/postfix
 [root@localhost postfix]# ls
 access  canonical  generic  header_checks  main.cf  main.cf.bak  master.cf  master.cf.bak  relocated  transport  virtual
-[root@localhost postfix]# cat -n main.cf 
+[root@localhost postfix]# cat -n main.cf
      1  myhostname = mail.example.com
      2	#myhostname = host.domain.tld
      3	#myhostname = virtual.domain.tld
-     4	
+     4
      5	#mydomain = domain.tld
      6	mydomain = example.com
-     7	
+     7
      8	myorigin = $myhostname
      9	#myorigin = $myhostname
     10	#myorigin = $mydomain
-    11	
-    12	
+    11
+    12
     13	#inet_interfaces = all
     14	#inet_interfaces = $myhostname
     15	#inet_interfaces = $myhostname, localhost
     16	#inet_interfaces = localhost
     17	inet_interfaces = $myhostname, localhost
-    18	
-    19	
+    18
+    19
     20	mydestination = $myhostname, localhost.$mydomain, localhost
     21	#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
     22	#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
     23	#       mail.$mydomain, www.$mydomain, ftp.$mydomain
-    24	
-    25	
+    24
+    25
     26	#mynetworks_style = class
     27	#mynetworks_style = subnet
     28	#mynetworks_style = host
     29	mynetworks_style = host
 
-    30  as i am using a just a vmware standalone host so i kept my mynetworks_style as host.	
-    31	
+    30  as i am using a just a vmware standalone host so i kept my mynetworks_style as host.
+    31
     32	mynetworks = 172.16.246.0/24, 127.0.0.0/8
     33	#mynetworks = 168.100.189.0/28, 127.0.0.0/8
     34	#mynetworks = $config_directory/mynetworks
     35	#mynetworks = hash:/etc/postfix/network_table
     36
 
-	 I like to keep my emails in home directory of the users so i kept my home_mailbox as Mailbox. 
-	 later we will see that a Mailbox file is exist on users home directory ( Mailbox in /home/pbl as an user is pbl) 
-	 This is my favourite. other mine fav style is to keep mails in /var/spool/mail/ as separate file as same name of users 
+	 I like to keep my emails in home directory of the users so i kept my home_mailbox as Mailbox.
+	 later we will see that a Mailbox file is exist on users home directory ( Mailbox in /home/pbl as an user is pbl)
+	 This is my favourite. other mine fav style is to keep mails in /var/spool/mail/ as separate file as same name of users
 	 another so common mail storing style is qmail style Maildir/ which create various folders under Maildir in home directory of users
-	
+
     37	home_mailbox = Mailbox
     38	#home_mailbox = Mailbox
     39	#home_mailbox = Maildir/
     40	#home_mailbox = Maildir/
-    41	
-    42	the following style is used in output we run the commands $ telnet localhost 25 
- 
+    41
+    42	the following style is used in output we run the commands $ telnet localhost 25
+
     44	smtpd_banner = $myhostname ESMTP $mail_name
     45	#smtpd_banner = $myhostname ESMTP $mail_name
     46	#smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
-    47	
-    48	
+    47
+    48
 
 [root@localhost mail]# service postfix start
 [root@localhost mail]# service postfix restart
@@ -110,10 +110,10 @@ Nov 30 05:35:25 localhost postfix/postfix-script[5152]: stopping the Postfix mai
 Nov 30 05:35:25 localhost postfix/master[2302]: terminating on signal 15
 Nov 30 05:35:26 localhost postfix/postfix-script[5224]: starting the Postfix mail system
 Nov 30 05:35:26 localhost postfix/master[5225]: daemon started -- version 2.6.6, configuration /etc/postfix
-	
+
 
  let check the postfix is listening the connections
-	
+
 [root@localhost mail]# telnet localhost 25
 Trying 127.0.0.1...
 Connected to localhost.
@@ -124,7 +124,7 @@ helo mail.example.com
 quit
 221 2.0.0 Bye
 Connection closed by foreign host.
-[root@localhost mail]# 
+[root@localhost mail]#
 
 and note here the bannder 220 mail.example.com ESMTP Postfix we set exact formate in main.cf file.smtpd_banner = $myhostname ESMTP $mail_name
 
@@ -146,7 +146,7 @@ Loading mirror speeds from cached hostfile
 Setting up Install Process
 Package spamassassin-3.3.1-2.el6.i686 already installed and latest version
 Nothing to do
-[root@localhost mail]#	
+[root@localhost mail]#
 [root@localhost mail]# cd /etc/mail
 [root@localhost mail]# pwd
 /etc/mail
@@ -157,29 +157,29 @@ spamassassin
 channel.d  local.cf      sa-update-keys           spamassassin-helper.sh  v310.pre  v320.pre
 init.pre   local.cf.bak  spamassassin-default.rc  spamassassin-spamc.rc   v312.pre  v330.pre
 [root@localhost spamassassin]# cat -n local.cf
-     1	# These values can be overridden by editing ~/.spamassassin/user_prefs.cf 
+     1	# These values can be overridden by editing ~/.spamassassin/user_prefs.cf
      2	# (see spamassassin(1) for details)
-     3	
+     3
      4	# These should be safe assumptions and allow for simple visual sifting
      5	# without risking lost emails.
-     6	
+     6
      7	#required_hits 5
      8	#report_safe 0
      9	#rewrite_header Subject [SPAM]
-    10	
-    11	
-    12	
+    10
+    11
+    12
     13	required_hits 5
     14	report_safe 0
     15	required_score 5
     16	rewrite_header Subject ***SPAM***
-    17	
+    17
 [root@localhost spamassassin]#
 Say wellcome to amavisd-new and ClamAV
 
 Now time to install and configure amavisd-new and clamav. amavisd-new is the mail scanner for virus and it will call the spamassassin to scan the emails for spams. also clamav is virus scanner for systems and mails too. I did not update the clamav anti-virus as the signatures inclu	ded with it just of 7 days old.
 
-[root@localhost ~]# yum install amavisd-new clamav 
+[root@localhost ~]# yum install amavisd-new clamav
 
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Loading mirror speeds from cached hostfile
@@ -188,11 +188,11 @@ Package amavisd-new-2.8.0-1.el6.rf.i686 already installed and latest version
 Package clamav-0.98-2.el6.rf.i686 already installed and latest version
 Nothing to do
 
-[root@localhost ~]#  
-[root@localhost ~]# vi /etc/amavisd.conf 
+[root@localhost ~]#
+[root@localhost ~]# vi /etc/amavisd.conf
 
 in my amavisd.conf, i have edited as follwoing.and when an email is tagged as spam, then the subject will tagged as ***Spam*** as
-$sa_spam_subject_tag = '***Spam*** '; 
+$sa_spam_subject_tag = '***Spam*** ';
 
 $mydomain = 'example.com';   # a convenient default for other settings
 
@@ -213,7 +213,7 @@ $pid_file  = "$MYHOME/var/amavisd.pid";     # Uncomment, -P
    qr/\bOK$/m, qr/\bFOUND$/m,
    qr/^.*?: (?!Infected Archive)(.*) FOUND$/m ],
 
-[root@localhost ~]# 
+[root@localhost ~]#
 Now we will integrate the amavisd-new with postfix so amavisd-new can scan the emails which postfix deliver. To do so we have to edit /etc/postfix/main.cf and /etc/postfix/master.cf as follows. We will add those lines at the end of files.
 
 [root@localhost postfix]# vi main.cf
@@ -264,7 +264,7 @@ Now we will restart amavisd-new and clamav package and test the configuration to
 Shutting down postfix:                                     [  OK  ]
 Starting postfix:                                          [  OK  ]
 [root@localhost postfix]#
- 
+
 
 [root@localhost postfix]# tail -f /var/log/maillog
 
@@ -284,12 +284,12 @@ LibClamAV Warning: ***  The virus database is older than 7 days!  ***
 LibClamAV Warning: ***   Please update it as soon as possible.    ***
 LibClamAV Warning: **************************************************
                                                            [  OK  ]
-[root@localhost postfix]# 
+[root@localhost postfix]#
 
 [root@localhost postfix]# /etc/init.d/amavisd restart
 Shutting down Mail Virus Scanner (amavisd):                [  OK  ]
 Starting Mail Virus Scanner (amavisd):                     [  OK  ]
-[root@localhost postfix]# 	
+[root@localhost postfix]#
 
 Nov 30 07:04:28 localhost amavis[5809]: starting. /usr/sbin/amavisd at mail.example.com amavisd-new-2.8.0 (20120630), Unicode aware, LANG="en_US.UTF-8
 Nov 30 07:04:30 localhost amavis[5811]: Net::Server: Group Not Defined.  Defaulting to EGID '490 490'
@@ -378,18 +378,18 @@ Nov 30 07:04:30 localhost amavis[5811]: No ext program for   .swf, tried: 7z
 Nov 30 07:04:30 localhost amavis[5811]: No ext program for   .lha, tried: 7z
 Nov 30 07:04:30 localhost amavis[5811]: No ext program for   .iso, tried: 7z
 Nov 30 07:04:30 localhost amavis[5811]: Found decoder for    .exe  at /usr/bin/unrar; /usr/bin/lha; /usr/bin/unarj
-Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .iso 
-Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .jar 
-Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .lha 
-Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .lrz 
-Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .swf 
+Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .iso
+Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .jar
+Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .lha
+Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .lrz
+Nov 30 07:04:30 localhost amavis[5811]: No decoder for       .swf
 Nov 30 07:04:30 localhost amavis[5811]: Using primary internal av scanner code for ClamAV-clamd
 Nov 30 07:04:30 localhost amavis[5811]: Found secondary av scanner ClamAV-clamscan at /usr/bin/clamscan
 Nov 30 07:04:30 localhost amavis[5811]: Deleting db files __db.003,__db.001,nanny.db,__db.002,snmp.db,__db.004 in /var/amavis/db
 Nov 30 07:04:30 localhost amavis[5811]: Creating db in /var/amavis/db/; BerkeleyDB 0.43, libdb 4.7
 
  now checking amavisd-new
-	
+
 [root@localhost postfix]# telnet localhost 10024
 
 Trying 127.0.0.1...
@@ -443,12 +443,12 @@ anaconda-ks.cfg  install.log                     Pictures          rpmfind.txt  
 Desktop          install.log.syslog              Public            rpmforge-release-0.5.2-2.el6.rf.i686.rpm  spam.txt
 Documents        lzop-1.02-0.9.rc1.el6.i686.rpm  RepoCreate_files  rpmforge-release-0.5.3-1.el6.rf.i686.rpm  Templates
 Downloads        Music                           RepoCreate.html   RPM-GPG-KEY-CentOS-6                      Videos
-[root@localhost ~]# cat -n spam.txt 
+[root@localhost ~]# cat -n spam.txt
      1	XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X
-[root@localhost ~]# cat -n virus.txt 
+[root@localhost ~]# cat -n virus.txt
      1	X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
-[root@localhost ~]# 
-	
+[root@localhost ~]#
+
 
 [root@localhost ~]# mail -s "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X" pbl@mail.example.com < spam.txt
 
@@ -468,7 +468,7 @@ Downloads        Music                           RepoCreate.html   RPM-GPG-KEY-C
     12	Nov 30 07:23:44 localhost postfix/qmgr[5773]: 88264A1EBF: removed
 
 from the maillog we can see this email has been tagged as SPAM. see 8 Number line.
-now check the last email the pbl get in /home/pbl/Mailbox	
+now check the last email the pbl get in /home/pbl/Mailbox
 
 [root@localhost ~]# cd /home/pbl
 [root@localhost pbl]# ls
@@ -477,13 +477,13 @@ Desktop  Documents  Downloads  Mailbox  Music  Pictures  Public  Templates  Vide
 [root@localhost pbl]# cat -n Mailbox
 
    395	From root@mail.example.com  Sat Nov 30 07:23:44 2013
-   396	Return-Path: 
+   396	Return-Path:
    397	X-Original-To: pbl@mail.example.com
    398	Delivered-To: pbl@mail.example.com
    399	Received: from localhost (localhost [127.0.0.1])
    400		by mail.example.com (Postfix) with ESMTP id 88264A1EBF
    401		for ; Sat, 30 Nov 2013 07:23:44 -0800 (PST)
-   402	X-Quarantine-ID: 
+   402	X-Quarantine-ID:
    403	X-Virus-Scanned: amavisd-new at example.com
    404	X-Spam-Flag: YES
    405	X-Spam-Score: 1000
@@ -506,9 +506,9 @@ Desktop  Documents  Downloads  Mailbox  Music  Pictures  Public  Templates  Vide
    422	Content-Transfer-Encoding: 7bit
    423	Message-Id: <20131130152335.1C238A1728@mail.example.com>
    424	From: root@mail.example.com (root)
-   425	
+   425
    426	XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X
-   427	
+   427
 
 [root@localhost pbl]#
 
@@ -540,7 +540,7 @@ Nov 30 07:39:46 localhost postfix/smtpd[5908]: disconnect from localhost[127.0.0
     15  Nov 30 07:41:31 localhost postfix/smtp[5933]: 79A07A1EE0: to=, relay=none, delay=405, delays=395/0.04/10/0, dsn=4.4.3, status=deferred (Host or domain name not found. Name service error for name=example.com type=MX: Host not found, try again)
     16  Nov 30 07:41:31 localhost postfix/smtp[5934]: BC1AEA1EC2: to=, relay=none, delay=13051, delays=13041/0.03/10/0, dsn=4.4.3, status=deferred (Host or domain name not found. Name service error for name=example.com type=MX: Host not found, try again)
 
-[root@localhost ~]# 
+[root@localhost ~]#
 
 line number 8,9 we can see that the mail has been detected that it has virus within it as it is tagged as infected and this email is not been delivered rather than it is deferred and we will find it in out mail queue which can be seen by mailq command
 also to note that BC1AEA1EC2 is same as in mailq. host name mail.example.com can not be found as this vmware host is not publicly located.
@@ -553,23 +553,23 @@ BC1AEA1EC2     2087 Sat Nov 30 04:04:00  virusalert@example.com
                                          virusalert@example.com
 
 -- 10 Kbytes in 4 Requests.
-[root@localhost ~]# 
+[root@localhost ~]#
 
-[root@localhost ~]# pwd 
+[root@localhost ~]# pwd
 /home/pbl
-[root@localhost ~]# 
+[root@localhost ~]#
 Desktop  Documents  Downloads  Mailbox  Music  Pictures  Public  Templates  Videos
-[root@localhost ~]# 
+[root@localhost ~]#
 [root@localhost pbl]# cat -n Mailbox
 
    395	From root@mail.example.com  Sat Nov 30 07:23:44 2013
-   396	Return-Path: 
+   396	Return-Path:
    397	X-Original-To: pbl@mail.example.com
    398	Delivered-To: pbl@mail.example.com
    399	Received: from localhost (localhost [127.0.0.1])
    400		by mail.example.com (Postfix) with ESMTP id 88264A1EBF
    401		for ; Sat, 30 Nov 2013 07:23:44 -0800 (PST)
-   402	X-Quarantine-ID: 
+   402	X-Quarantine-ID:
    403	X-Virus-Scanned: amavisd-new at example.com
    404	X-Spam-Flag: YES
    405	X-Spam-Score: 1000
@@ -592,14 +592,14 @@ Desktop  Documents  Downloads  Mailbox  Music  Pictures  Public  Templates  Vide
    422	Content-Transfer-Encoding: 7bit
    423	Message-Id: <20131130152335.1C238A1728@mail.example.com>
    424	From: root@mail.example.com (root)
-   425	
+   425
    426	XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X
-   427	
+   427
 [root@localhost pbl]# date
 Sat Nov 30 07:43:33 PST 2013
 [root@localhost pbl]#
-	
-we can see that pbl did not get the virus email as time of the system is now 07:43:33 PST 2013 and amavisd-new also blocked the virus email around the same time. 
+
+we can see that pbl did not get the virus email as time of the system is now 07:43:33 PST 2013 and amavisd-new also blocked the virus email around the same time.
 
 System Architect and Package Version
 
@@ -616,7 +616,3 @@ clamav-devel-0.98-2.el6.rf.i686
 
 
 © This is created by masum and can be distributed to others without his permission.©
-
-
-
-

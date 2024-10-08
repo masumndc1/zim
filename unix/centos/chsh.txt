@@ -3,5 +3,3 @@
 ... by following we can change shell of any user
 
 [root@ ~]# chsh -s /usr/local/bin/bash
-
-

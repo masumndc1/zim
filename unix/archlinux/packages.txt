@@ -3,24 +3,24 @@
 ... package management in arch linux
 
 ... if we need to install packages from source like freebsd port source
-... we can do that by using ABS. to do so, we need to install the ABS 
+... we can do that by using ABS. to do so, we need to install the ABS
 ... along with base-devel.
 
 ... we can also install packages from AUS, arch user repository which
-... is similar to ubuntu ppa. to install packages from aur we need to 
+... is similar to ubuntu ppa. to install packages from aur we need to
 ... install base-devel first.
 
-... using the makepkg: is a tool to use for package buildup. this is the 
+... using the makepkg: is a tool to use for package buildup. this is the
 ... way when we build tool from ABS or AUR. we run the commake makepkg
 ... from the directory where PKGBUILD resides.
 
-... full system upgrade we do by folloing 
+... full system upgrade we do by folloing
 ... pacman -Syu
 
-... install a package 
+... install a package
 
 [masum@arch pacman.d]$ yay -S htop
-[sudo] password for masum: 
+[sudo] password for masum:
 warning: htop-2.2.0-2 is up to date -- reinstalling
 resolving dependencies...
 looking for conflicting packages...
@@ -30,41 +30,41 @@ Packages (1) htop-2.2.0-2
 Total Installed Size:  0.19 MiB
 Net Upgrade Size:      0.00 MiB
 
-:: Proceed with installation? [Y/n] 
- ❐ 0  ↑ 4h 37m  1 vi  2 arch             
+:: Proceed with installation? [Y/n]
+ ❐ 0  ↑ 4h 37m  1 vi  2 arch
 
-... for searching for a packages 
+... for searching for a packages
 
 [masum@arch pacman.d]$ pacman -Ss htop
 
 [masum@arch pacman.d]$ yay -Ss htop
-aur/htop-temperature-rpi 2.2.0-4 (+0 0.00%) 
+aur/htop-temperature-rpi 2.2.0-4 (+0 0.00%)
     Interactive process viewer with added support for CPU temperature. Version for gathering Raspberry Pi CPU temperature from vcgencmd
-aur/htop-temperature-git 1057.04cc193-1 (+0 0.00%) 
+aur/htop-temperature-git 1057.04cc193-1 (+0 0.00%)
     Interactive text-mode process viewer
-aur/htop-blueweb 1.0.3-1 (+1 0.00%) 
+aur/htop-blueweb 1.0.3-1 (+1 0.00%)
     Interactive process viewer with blueweb theme patch
-aur/htop-vim-solarized 2.1.0-1 (+1 0.00%) 
+aur/htop-vim-solarized 2.1.0-1 (+1 0.00%)
     Interactive process viewer with solarized and vim keybindings patch
-aur/splashtop-client 2.4.0.1-1 (+2 0.00%) (Orphaned) (Out-of-date 2018-01-09) 
+aur/splashtop-client 2.4.0.1-1 (+2 0.00%) (Orphaned) (Out-of-date 2018-01-09)
     A client for splashtop.
-aur/splashtop-streamer 2.2.5.1_4-6 (+2 0.00%) (Orphaned) (Out-of-date 2017-02-06) 
+aur/splashtop-streamer 2.2.5.1_4-6 (+2 0.00%) (Orphaned) (Out-of-date 2017-02-06)
     Remotely access your desktop from any device from anywhere! - Server version
-aur/nvtop 0.2.3-3 (+5 0.02%) 
+aur/nvtop 0.2.3-3 (+5 0.02%)
     An htop like monitoring tool for NVIDIA GPUs
-aur/htop-vim-git 981.e3f65c8-1 (+7 0.00%) 
+aur/htop-vim-git 981.e3f65c8-1 (+7 0.00%)
     Interactive text-mode process viewer. Patched for vim keybindings
-aur/htop-vim-solarized-git 2.2.0.r15.g67e3689-1 (+11 0.00%) 
+aur/htop-vim-solarized-git 2.2.0.r15.g67e3689-1 (+11 0.00%)
     Interactive process viewer with solarized and vim keybindings patch
-aur/htop-temperature 2.2.0-3 (+23 0.61%) 
+aur/htop-temperature 2.2.0-3 (+23 0.61%)
     Interactive process viewer with added support for CPU temperature
-aur/htop-git 997.f37a050-1 (+31 0.00%) 
+aur/htop-git 997.f37a050-1 (+31 0.00%)
     Interactive text-mode process viewer
-aur/htop-solarized 2.0.2-1 (+38 0.11%) (Out-of-date 2018-02-04) 
+aur/htop-solarized 2.0.2-1 (+38 0.11%) (Out-of-date 2018-02-04)
     Interactive process viewer with solarized patch
 extra/htop 2.2.0-2 (76.8 KiB 196.0 KiB) (Installed)
     Interactive process viewer
-[masum@arch pacman.d]$ 
+[masum@arch pacman.d]$
 
 ... installing a package from local disk
 
@@ -74,9 +74,9 @@ extra/htop 2.2.0-2 (76.8 KiB 196.0 KiB) (Installed)
 
 [masum@arch pacman.d]$ yay -R somepackage.pkg.tar.xz
 
-... cleaning the package cache 
+... cleaning the package cache
 
-[masum@arch pacman.d]$ yay -Sc     
+[masum@arch pacman.d]$ yay -Sc
 Packages to keep:
   All locally installed packages
 
@@ -90,7 +90,4 @@ Build directory: /home/masum/.cache/yay
 ==> Do you want to remove all other AUR packages from cache? [Y/n] n
 ==> Do you want to remove ALL untracked AUR files? [Y/n] n
 
-[masum@arch pacman.d]$ 
-
-
-
+[masum@arch pacman.d]$

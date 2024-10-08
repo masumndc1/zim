@@ -11,8 +11,8 @@ root@masum-desktop:/etc/bind# ls
 1.168.192.in-addr.arpa.zone  db.127    db.local                  mike.com.zone                 named.conf.dpkg-old       tsig.key
 bind.keys                    db.255    db.root                   named.conf                    named.conf.local          zones.rfc1918
 bob.com.zone                 db.empty  Krndc.key.+157+15702.key  named.conf.bak                named.conf.options
-root@masum-desktop:/etc/bind# 
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
+root@masum-desktop:/etc/bind#
 root@masum-desktop:/etc/bind# **cat 1.168.192.in-addr.arpa.zone **
 ;
 ; BIND reverse data file for local loopback interface
@@ -52,11 +52,11 @@ $TTL	86400
 
 
 ; EOF
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 
 
-root@masum-desktop:/etc/bind# 
-root@masum-desktop:/etc/bind# **cat bob.com.zone** 
+root@masum-desktop:/etc/bind#
+root@masum-desktop:/etc/bind# **cat bob.com.zone**
 ;
 ; BIND data file for local loopback interface
 ;
@@ -72,19 +72,19 @@ $TTL	86400
 	IN	NS	ns1.bob.com.
 
 ns1 	IN 	A 	192.168.1.22
-ns2 	IN	A 	192.168.1.23	
+ns2 	IN	A 	192.168.1.23
 mail	IN	A	192.168.1.25
 www	IN	A 	192.168.1.30
 ftp	IN	A	192.168.1.27
 bob.com.	IN A	192.168.1.30
 ; EOF
 
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 root@masum-desktop:/etc/bind# **cat named.conf**
 // This is the primary configuration file for the BIND DNS server named.
 //
-// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
-// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the
+// structure of BIND configuration files in Debian, *BEFORE* you customize
 // this configuration file.
 //
 // If you are just adding zones, please do that in /etc/bind/named.conf.local
@@ -95,8 +95,8 @@ include "/etc/bind/named.conf.default-zones";
 //include "/etc/bind/rndc.key";
 include "/etc/bind/tsig.key";
 
-root@masum-desktop:/etc/bind# 
-root@masum-desktop:/etc/bind# **cat named.conf.local** 
+root@masum-desktop:/etc/bind#
+root@masum-desktop:/etc/bind# **cat named.conf.local**
 //
 // Do any local configuration here
 //
@@ -139,8 +139,8 @@ zone "mike.com" {
         allow-transfer {key masum;};
 };
 
-root@masum-desktop:/etc/bind# 
-root@masum-desktop:/etc/bind# **cat tsig.key** 
+root@masum-desktop:/etc/bind#
+root@masum-desktop:/etc/bind# **cat tsig.key**
 key "masum" {
 	algorithm hmac-md5;
 	secret "4brKEyQdyhAQClHOkgKp4Q==";
@@ -153,7 +153,7 @@ server 192.168.1.1 {
 	};
 };
 
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 
 root@masum-desktop:/etc/bind# **cat db.example.com.zone **
 ;
@@ -173,7 +173,7 @@ $TTL	86400
 	IN	MX 10 	mail.example.com.
 
 ns1 	IN 	A 	192.168.1.254
-ns2 	IN	A 	192.168.1.1	
+ns2 	IN	A 	192.168.1.1
 masum	IN	A 	192.168.1.7
 mail	IN	A	192.168.1.5
 www	IN	A 	192.168.1.10
@@ -181,8 +181,8 @@ ftp	IN	A	192.168.1.20
 example.com. IN	A	192.168.1.10
 ; EOF
 
-root@masum-desktop:/etc/bind# 
-root@masum-desktop:/etc/bind# **cat mike.com.zone** 
+root@masum-desktop:/etc/bind#
+root@masum-desktop:/etc/bind# **cat mike.com.zone**
 ;
 ; BIND data file for local loopback interface
 ;
@@ -197,32 +197,32 @@ $TTL	86400
 	IN	NS	ns1.mike.com.
 
 ns1 	IN 	A 	192.168.1.52
-ns2 	IN	A 	192.168.1.53	
+ns2 	IN	A 	192.168.1.53
 mail	IN	A	192.168.1.55
 www	IN	A 	192.168.1.60
 ftp	IN	A	192.168.1.57
 mike.com.	IN A	192.168.1.60
 ; EOF
 
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 root@masum-desktop:/etc/bind# **cat Krndc.key.+157+15702.key**
 rndc.key. IN KEY 512 3 157 4brKEyQdyhAQClHOkgKp4Q==
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 root@masum-desktop:/etc/bind# **cat Krndc.key.+157+15702.private**
 Private-key-format: v1.2
 Algorithm: 157 (HMAC_MD5)
 Key: 4brKEyQdyhAQClHOkgKp4Q==
 Bits: AAA=
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 root@mail:/home/pbl/html# cd /etc/bind
 root@mail:/etc/bind# ls
 202.168.192.in-addr.arpa.zone  bob.com.zone  db.empty             mike.com.zone             named.conf.dpkg-old  tsig.key
 Krndc.key.+157+15702.key       db.0          db.example.com.zone  named.conf                named.conf.local     zones.rfc1918
 Krndc.key.+157+15702.private   db.127        db.local             named.conf.bak            named.conf.options
 bind.keys                      db.255        db.root              named.conf.default-zones  rndc.key
-root@mail:/etc/bind# 
-root@mail:/etc/bind# 
-root@mail:/etc/bind# **cat tsig.key** 
+root@mail:/etc/bind#
+root@mail:/etc/bind#
+root@mail:/etc/bind# **cat tsig.key**
 key "masum" {
 	algorithm hmac-md5;
 	secret "4brKEyQdyhAQClHOkgKp4Q==";
@@ -242,21 +242,21 @@ key "rndc-key" {
 	secret "4Z9DX5GQUHaVuC96fpjqlw==";
 };
 
-root@mail:/etc/bind# **cat bind.keys** 
+root@mail:/etc/bind# **cat bind.keys**
 managed-keys {
         # NOTE: This key is current as of October 2009.
         # If it fails to initialize correctly, it may have expired;
         # see https://www.isc.org/solutions/dlv for a replacement.
 	dlv.isc.org. initial-key 257 3 5 "BEAAAAPHMu/5onzrEE7z1egmhg/WPO0+juoZrW3euWEn4MxDCE1+lLy2 brhQv5rN32RKtMzX6Mj70jdzeND4XknW58dnJNPCxn8+jAGl2FZLK8t+ 1uq4W+nnA3qO2+DL+k6BD4mewMLbIYFwe0PG73Te9fZ2kJb56dhgMde5 ymX4BI/oQ+cAK50/xvJv00Frf8kw6ucMTwFlgPe+jnGxPPEmHAte/URk Y62ZfkLoBAADLHQ9IrS2tryAe7mbBZVcOwIeU/Rw/mRx/vwwMCTgNboM QKtUdvNXDrYJDSHZws3xiRXF1Rf+al9UmZfSav/4NWLKjHzpT59k/VSt TDN0YUuWrBNh";
 };
-root@mail:/etc/bind# 
+root@mail:/etc/bind#
 
 
 root@masum-desktop:/etc/bind# **ls**
 1                            db.0      db.example.com.zone       Krndc.key.+157+15702.private  named.conf.default-zones  rndc.key
 1.168.192.in-addr.arpa.zone  db.127    db.local                  mike.com.zone                 named.conf.dpkg-old       tsig.key
 bind.keys                    db.255    db.root                   named.conf                    named.conf.local          zones.rfc1918                bob.com.zone                        db.empty                      Krndc.key.+157+15702.key  named.conf.bak               named.conf.options
-root@masum-desktop:/etc/bind# 
+root@masum-desktop:/etc/bind#
 root@masum-desktop:/etc/bind# **tail -f /var/log/syslog**
 Apr 14 14:55:14 masum-desktop named[836]: error (network unreachable) resolving 'changelogs.ubuntu.com/A/IN': 2001:7fd::1#53
 Apr 14 14:55:20 masum-desktop named[836]: error (network unreachable) resolving 'ntp.ubuntu.com/A/IN': 2001:500:1::803f:235#53
@@ -367,4 +367,3 @@ Apr 14 15:08:44 masum-desktop named[2032]: zone 1.168.192.in-addr.arpa/IN: sendi
 Apr 14 15:08:44 masum-desktop named[2032]: zone example.com/IN: sending notifies (serial 2012041507)
 Apr 14 15:08:44 masum-desktop named[2032]: zone mike.com/IN: sending notifies (serial 2012031802)
 Apr 14 15:08:44 masum-desktop named[2032]: zone bob.com/IN: sending notifies (serial 2012031802)
-

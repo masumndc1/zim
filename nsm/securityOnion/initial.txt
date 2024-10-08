@@ -66,6 +66,3 @@ Salt                       ALLOW       Anywhere
 Salt (v6)                  ALLOW       Anywhere (v6)
 
 root@onion:~#
-
-
-

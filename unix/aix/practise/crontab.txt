@@ -6,7 +6,7 @@ $ vi cron_anjan
 * * * * * /usr/bin/date >> /tmp/date_anjan
 :wq
 
-To assign the file in crontab 
+To assign the file in crontab
 
 $ crontab cron_anjan
 
@@ -14,7 +14,7 @@ To check the task in crontab
 
 $crontab -l
 
-wait for 1 minute,then check that every minute the output of date command is added into the date_anjan file. 
+wait for 1 minute,then check that every minute the output of date command is added into the date_anjan file.
 
 $tail -f /tmp/date_anjan
 
@@ -26,7 +26,7 @@ To remove the crontab file
 
 $crontab -r
 
-To check 
+To check
 
 $crontab -l
 

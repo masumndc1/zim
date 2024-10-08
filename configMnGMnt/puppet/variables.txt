@@ -6,9 +6,9 @@
 
 $myvar 		# valid . they start with small letter and underscore.
 $MyVar 		# invalid as variable should start with small letter
-$my_var 	# valid 
+$my_var 	# valid
 $my-var 	# invalid
-$my3numbers 	# valid 
+$my3numbers 	# valid
 $3numbers 	# invalid as should not start with numbers.
 
 ... we have one sample manifest with variables
@@ -40,7 +40,7 @@ $my_name = 'masum'
 $num_tokens = '030905'
 
 # now watching the variable type.
-# this stdlib is a module installed by 
+# this stdlib is a module installed by
 # puppet module install puppetlabs-stdlib
 
 include stdlib
@@ -51,24 +51,24 @@ notify { valtype:
  message => "masum is $nametype and 030905 is $numtype type variable"
 }
 
-... output of the sometest.pp is 
+... output of the sometest.pp is
 
 root@controller:~/puppet/manifests# puppet apply sometest.pp
 Notice: Compiled catalog for controller in environment production in 0.16 seconds
 Notice: hello masum and your roll is 030905
 Notice: /Stage[main]/Main/Notify[grettings]/message: defined 'message' as 'hello masum and your roll is 030905'
 Notice: masum is String[5, 5] and 030905 is String[6, 6] type variable
-Notice: /Stage[main]/Main/Notify[valtype]/message: defined 'message' as 'masum is 
+Notice: /Stage[main]/Main/Notify[valtype]/message: defined 'message' as 'masum is
 String[5, 5] and 030905 is String[6, 6] type variable'
 Notice: Applied catalog in 0.03 seconds
-root@controller:~/puppet/manifests# 
+root@controller:~/puppet/manifests#
 
 
 ... arrays
 
 $embedded = [4,5,['a','b']]   				# mixed of arrays.
 
-... Array-to-array assignment works if there are equal 
+... Array-to-array assignment works if there are equal
 ... variables and values:
 
 [$first,$middle,$last] = ['md','khabir','uddin'] 	# good
@@ -77,14 +77,14 @@ $embedded = [4,5,['a','b']]   				# mixed of arrays.
 
 myfunction( *$array_of_arguments ) { ... }
 
-... Some functions require a list of input values, instead of an array. 
-... In a function call, the splat operator (*) operator will convert 
+... Some functions require a list of input values, instead of an array.
+... In a function call, the splat operator (*) operator will convert
 ... an Array into a comma-separated list of values:
 ... This provides a concise, readable way to pass a list of unknown size to a function.
 
 ... hashes:
 ... hash defination can be like below.
-... Hash keys must be Scalar (string or number), but values can be any data type. 
+... Hash keys must be Scalar (string or number), but values can be any data type.
 ... This means that the value assigned to a key could be a nested Array or Hash.
 
 $homes = { 'masum' => '/home/masum', 'khabir' => '/home/khabir', }
@@ -106,7 +106,7 @@ Notice: Compiled catalog for controller in environment production in 0.15 second
 Notice: Applied catalog in 0.02 seconds
 root@controller:~/puppet/manifests#
 
-... we have another following pp 
+... we have another following pp
 
 root@controller:~/puppet/manifests# cat -n sometest.pp
      1	include stdlib
@@ -140,7 +140,7 @@ root@controller:~/puppet/manifests# cat -n longline.pp
      4
      5	$text = @("END")
      6	this is a long line ${user},
-     7	your id therefore ${roll} 
+     7	your id therefore ${roll}
 	spread over multiple lines
      8	like this.
      9	END
@@ -161,9 +161,3 @@ like this.
 Notice: Compiled catalog for controller in environment production in 0.18 seconds
 Notice: Applied catalog in 0.02 seconds
 root@controller:~/puppet/manifests#
-
-
-
-
-
-

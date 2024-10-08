@@ -6,7 +6,7 @@
 .. user administration using radius server with pfsense does the following.
 .. we configure the radius server in pfsense like below.
 .. on gui system/user manager/authentication server. click on add
-.. and provide the required parameters.  
+.. and provide the required parameters.
 
 .. on radius server 192.168.35.147 we have the following settings.
 
@@ -30,9 +30,9 @@ client 192.168.35.152 {
 #       login       = !root
 #       password    = someadminpas
 }
-   
+
 .. on radius_server we have the following output on port 1812
-.. when user masum:masum03 log in pf by using the browser. 
+.. when user masum:masum03 log in pf by using the browser.
 
 root@deb-7:~# tcpdump -n -n -v -v port 1812
 tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
@@ -49,7 +49,7 @@ pfSense php-fpm[303]: /index.php: Successful login for user 'masum' from: 192.16
 	    0x0010:  6d
 	  Username Attribute (1), length: 7, Value: masum
 	    0x0000:  6d61 7375 6d
-	  Password Attribute (2), length: 18, Value: 
+	  Password Attribute (2), length: 18, Value:
 	    0x0000:  d63e 9f2b 9b72 4662 755a 3c0a 7e99 a99b
 12:35:07.688743 IP (tos 0x0, ttl 64, id 29313, offset 0, flags [none], proto UDP (17), length 48)
     192.168.35.147.1812 > 192.168.35.152.46774: [udp sum ok] RADIUS, length: 20
@@ -60,9 +60,6 @@ pfSense php-fpm[303]: /index.php: Successful login for user 'masum' from: 192.16
 Message from syslogd@pfSense at Sep  6 01:54:31 ...
 pfSense php-fpm[303]: /index.php: Successful login for user 'masum' from: 192.168.244.1
 
-.. moreover we can authenticate our users to configured radius server by 
+.. moreover we can authenticate our users to configured radius server by
 .. diagnostics/authentication tab providing the username and the corresponding
-.. password. 
-
-
-
+.. password.

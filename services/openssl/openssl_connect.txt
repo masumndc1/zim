@@ -44,7 +44,7 @@ SSL-Session:
     Protocol  : TLSv1
     Cipher    : DHE-RSA-AES256-SHA
     Session-ID: CC3E063FC88C0281757A0DC3B03A79F5F2F26ECC470828FE12F0245B04A3EEF4
-    Session-ID-ctx: 
+    Session-ID-ctx:
     Master-Key: FE3F9D4942E9AF46C232E7405AD1C29C8460E04098E1991E09F403EB93A6D132EBBF3615E56E80427B7E4EB565E99E21
     Key-Arg   : None
     PSK identity: None
@@ -69,5 +69,4 @@ SSL-Session:
     Verify return code: 18 (self signed certificate)
 ---
 closed
-└──╼ # 
-
+└──╼ #

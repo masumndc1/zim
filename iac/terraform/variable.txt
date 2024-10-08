@@ -14,7 +14,7 @@ resource "provider_resourcename" "name" {
 
 ... description
 ... For variable we can have description,default and type.
-... description is good to use for why this variable is being used 
+... description is good to use for why this variable is being used
 ... in the code. while running plan or apply, this description will be displayed.
 
 ... default
@@ -134,4 +134,3 @@ data "vsphere_network" "mgmt_lan" {
 
 ... above is an example of how block of data source is used. the working mechanism
 ... of data source here is, data will ask provider for "vshpere_network" information.
-

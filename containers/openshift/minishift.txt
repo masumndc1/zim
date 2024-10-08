@@ -1,7 +1,7 @@
 
 
 ... how to install minishift in linux.
-... 
+...
 ... install the kvm first
 
 Install libvirt and qemu-kvm on your system:
@@ -15,8 +15,8 @@ Update your current session to apply the group change:
 $ newgrp libvirt
 As root, install the KVM driver binary and make it executable as follows:
 
-# curl -L \ 
-https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0/docker-machine-driver-kvm-centos7 \ 
+# curl -L \
+https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0/docker-machine-driver-kvm-centos7 \
 -o /usr/local/bin/docker-machine-driver-kvm
 # chmod +x /usr/local/bin/docker-machine-driver-kvm
 
@@ -32,10 +32,9 @@ https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.10.0/docker-
 # minishift start
 
 ... references
-... for installation 
+... for installation
 ... https://docs.okd.io/latest/minishift/getting-started/setting-up-virtualization-environment.html
-... 
+...
 ... for administration:
 ... https://docs.okd.io/latest/minishift/getting-started/quickstart.html
 ...
-

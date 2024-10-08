@@ -11,7 +11,7 @@
 ... default routing
 root@masum:~ # route add default 192.168.35.1
 add net default: gateway 192.168.35.1
-root@masum:~ # 
+root@masum:~ #
 
 ... changing the default gateway
 # route change default 192.168.0.21
@@ -26,12 +26,12 @@ destination: default
   interface: em0
       flags: <UP,GATEWAY,DONE,STATIC>
  recvpipe  sendpipe  ssthresh  rtt,msec    mtu        weight    expire
-       0         0         0         0      1500         1         0 
-root@masum:~ # 
+       0         0         0         0      1500         1         0
+root@masum:~ #
 
 ... list of sockets.
 root@masum:~ # sockstat -l
-USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS      
+USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS
 haldaemon hald      1275  9  stream /var/run/hald/dbus-4FTGhXKXtG
 haldaemon hald      1275  11 stream /var/run/hald/dbus-sHnExBtaUK
 root     sendmail   1198  3  tcp4   127.0.0.1:25          *:*
@@ -44,10 +44,10 @@ root     syslogd    997   6  udp6   *:514                 *:*
 root     syslogd    997   7  udp4   *:514                 *:*
 root     devd       828   4  stream /var/run/devd.pipe
 root     devd       828   5  seqpac /var/run/devd.seqpacket.pipe
-root@masum:~ # 
+root@masum:~ #
 
 root@masum:~ # sockstat -c
-USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS      
+USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS
 root     sshd       55813 3  tcp4   192.168.35.155:22     192.168.35.1:59326
 root     hald-addon 1303  3  stream -> /var/run/hald/dbus-4FTGhXKXtG
 root     hald-addon 1303  4  stream -> /var/run/dbus/system_bus_socket
@@ -88,9 +88,9 @@ root     pflogd     840   4  stream -> ??
 root     pflogd     840   5  dgram  -> ??
 root     devd       828   7  dgram  -> ??
 root     devd       828   8  stream /var/run/devd.pipe
-root@masum:~ # 
+root@masum:~ #
 
-... tcpdump 
+... tcpdump
 
 root@masum:~ # tcpdump -i em0 -c 10 -n
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -108,8 +108,4 @@ listening on em0, link-type EN10MB (Ethernet), capture size 262144 bytes
 10 packets captured
 10 packets received by filter
 0 packets dropped by kernel
-root@masum:~ # 
-
-
-
-
+root@masum:~ #

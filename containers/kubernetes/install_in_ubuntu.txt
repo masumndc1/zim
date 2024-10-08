@@ -1,20 +1,20 @@
 
 
-... 
+...
 ... this tuotorial will setup an kubernetes cluster of two nodes in ubuntu 18.04
 ... this guide is based on https://phoenixnap.com/kb/install-kubernetes-on-ubuntu
 ... thanks for its page creator.
-... 
+...
 ... prerequisites:
 ... Install docker on all nodes.
-... 
+...
 
-sudo apt-get install docker.io 
+sudo apt-get install docker.io
 sudo systemctl enable docker
 sudo systemctl status docker
 sudo systemctl start docker
 
-... 
+...
 ... Add signing key and Software Repositories. Repeat this for both
 ... controller and compute type node. Installing curl optional here.
 
@@ -22,15 +22,15 @@ sudo apt-get install curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 
-... if we need to install kubernetes in ubuntu 16.04 or ubuntu 18.04 
+... if we need to install kubernetes in ubuntu 16.04 or ubuntu 18.04
 ... ubuntu 20.04, apt-add-repository still be kubernetes-xenial.
 
-... 
-... Kubeadm (Kubernetes Admin) is a tool that helps initialize a cluster. 
-... Kubelet is the work package, which runs on every node and starts containers. 
+...
+... Kubeadm (Kubernetes Admin) is a tool that helps initialize a cluster.
+... Kubelet is the work package, which runs on every node and starts containers.
 ... The tool gives you command-line access to clusters.
 ... Repeat for each server node.
-... 
+...
 
 sudo apt-get install kubeadm kubelet kubectl
 sudo apt-mark hold kubeadm kubelet kubectl
@@ -43,16 +43,16 @@ kubeadm version
 
 sudo swapoff –a
 
-... Assign Unique Hostname for Each Server Node. 
-... Decide which server to set as the master node and worker node. 
+... Assign Unique Hostname for Each Server Node.
+... Decide which server to set as the master node and worker node.
 ... If you have additional worker nodes, use this process to set a unique hostname on each.
 
 sudo hostnamectl set-hostname master-node
 sudo hostnamectl set-hostname worker01
 
-... 
+...
 ... On master server node enter following:
-... Once this command finishes, it will display a kubeadm join message at the end. 
+... Once this command finishes, it will display a kubeadm join message at the end.
 ... Make a note of the whole entry. This will be used to join the worker nodes to the cluster.
 
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -63,7 +63,7 @@ kubernetes-master:~$ mkdir -p $HOME/.kube
 kubernetes-master:~$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 kubernetes-master:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-... Deploy Pod Network(flannel virtual network, for this case) to Cluster. 
+... Deploy Pod Network(flannel virtual network, for this case) to Cluster.
 ... A Pod Network is a way to allow communication between nodes in the cluster.
 
 sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
@@ -73,12 +73,12 @@ sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Do
 kubectl get pods --all-namespaces
 
 ... To add worker nodes to Cluster, for example, switch to worker01 and enter
-... 
+...
 
 kubeadm join --discovery-token abcdef.1234567890abcdef --discovery-token-ca-cert-hash sha256:1234..cdef 1.2.3.4:6443
 
-... Replace the alphanumeric codes with those from your master server. 
-... Repeat for each worker node on the cluster. Wait a few minutes. 
+... Replace the alphanumeric codes with those from your master server.
+... Repeat for each worker node on the cluster. Wait a few minutes.
 
 ... Then you can check the status of the nodes, From master server, enter following
 ... Following should display all worker nodes of cluster.
@@ -88,4 +88,4 @@ kubectl get nodes
 ...
 ... Make sure you install the same version of each package on each machine.
 ... Different versions can create instability.
-... 
+...

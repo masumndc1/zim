@@ -8,7 +8,7 @@ root@debian:/etc/psad# /etc/init.d/psad restart
 [info] Stopping the psad process.
 [ ok ] Stopping Port Scan Attack Detector: psad.
 [ ok ] Starting Port Scan Attack Detector: psad.
-root@debian:/etc/psad# 
+root@debian:/etc/psad#
 
 root@debian:/var/log/psad# cd ..
 root@debian:/var/log# tail -f messages | grep psad
@@ -35,7 +35,7 @@ PORT   STATE SERVICE
 MAC Address: 00:0C:29:25:09:32 (VMware)
 
 Nmap done: 1 IP address (1 host up) scanned in 4.78 seconds
-root@masum:~# 
+root@masum:~#
 
 
 // and the corresponding log from targetted system
@@ -44,7 +44,7 @@ Jun 16 19:07:05 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: 
 
 // note here that the log is showing that the scanning is coming from 192.168.35.1 and 1-63331 ports have been scanned and due
 // to this the attacker has send 369 of packets and the lastly psad consider this scanning with a danger level of 5.
-// danger level of 5 with only 369 packets? because i have put 192.168.25.1 in the auto_dl packet to show that 
+// danger level of 5 with only 369 packets? because i have put 192.168.25.1 in the auto_dl packet to show that
 // if scanning coming from this ip on port 22 ie ssh will be market as danger level 5
 // portion of the auto_dl file is given below.
 
@@ -57,7 +57,7 @@ Jun 16 19:24:48 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 tcp: 
 
 
 // now scan the targeted system with the xmas scan
-// 
+//
 
 root@masum:~# nmap -sX  -n deb --max-rtt-timeout 500ms
 
@@ -68,10 +68,10 @@ All 1000 scanned ports on deb (192.168.35.132) are open|filtered
 MAC Address: 00:0C:29:25:09:32 (VMware)
 
 Nmap done: 1 IP address (1 host up) scanned in 21.15 seconds
-root@masum:~# 
+root@masum:~#
 
 
-// when we scan the system with nmap xmas scan the following output appeared at 
+// when we scan the system with nmap xmas scan the following output appeared at
 // log output. note here all the URG PSH FIN flags are set on.
 
 Jun 17 03:02:12 debian psad: src: 192.168.35.1 signature match: "SCAN nmap XMAS" (sid: 1228) tcp port: 110
@@ -91,7 +91,7 @@ All 1000 scanned ports on deb (192.168.35.132) are open|filtered
 MAC Address: 00:0C:29:25:09:32 (VMware)
 
 Nmap done: 1 IP address (1 host up) scanned in 21.16 seconds
-root@masum:~# 
+root@masum:~#
 
 // and the output related to psad is like below.
 //
@@ -99,5 +99,3 @@ root@masum:~#
 Jun 17 03:07:05 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [9-64590] udp pkts: 530 DL: 5
 Jun 17 03:07:10 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [19-64727] udp pkts: 530 DL: 5
 Jun 17 03:07:15 debian psad: scan detected: 192.168.35.1 -> 192.168.35.132 udp: [2-64080] udp pkts: 440 DL: 5
-
-

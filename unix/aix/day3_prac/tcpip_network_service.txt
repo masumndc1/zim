@@ -1,6 +1,6 @@
 ----To start or stop the services displayed by
 
-lssrc -T 
+lssrc -T
 
 
 example ftp

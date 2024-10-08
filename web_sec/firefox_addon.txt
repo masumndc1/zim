@@ -17,5 +17,3 @@
 ... RESTClient
 ... Wappalyzer
 ... owasp-mantra
-
-

@@ -5,7 +5,7 @@
 ... lets first create one access-point where we will lure client to connect
 ... once any client connect there immidiately hirte attack will be imposed
 ... on the clients. hirte attack is almost same as the caffe-latte attack.
-... but only exception is that packets are used as fragmentations and any 
+... but only exception is that packets are used as fragmentations and any
 ... number of packets will be used.
 
 ... to create one fake or rouge access point we do the following.
@@ -42,6 +42,3 @@ airbase-ng --help
  # aircrack-ng hirte_packets.cap
 
 ... we can see the wep key if it is captured during the packets capturing sessions.
-
-
-

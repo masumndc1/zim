@@ -469,7 +469,7 @@ function googlePlusOnClickCustomButton() {
 		target: window.parent,
 		type: 'googlePlusButtonClick',
 		data: 0,
-		origin: originUrl // defined on the page 
+		origin: originUrl // defined on the page
 	} );
 }
 

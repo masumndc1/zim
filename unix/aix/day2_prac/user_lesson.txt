@@ -2,7 +2,7 @@
 
 #mkuser anjan_1
 
------2) assign a passwd to that user 
+-----2) assign a passwd to that user
 
 #pwdadm anjan_1
 
@@ -24,13 +24,13 @@
 
 
 ----9) configure name_1 in the security group by smit chuser,then
-----login with name_1,and create a user name_4,assign a passwd,then ----login with name_4 
+----login with name_1,and create a user name_4,assign a passwd,then ----login with name_4
 
 #smit mkuser
-#pwdadm 
+#pwdadm
 ----10) configure name_2 that when name_2 changes passwd the minimum ----length will be 5
 
-----11)check the effect of primary group and secondary group by newgrp ----command,istat of a file  
+----11)check the effect of primary group and secondary group by newgrp ----command,istat of a file
 
 
 close all the putty

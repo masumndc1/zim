@@ -2,7 +2,7 @@
 
 ... we will miss windows xp booting after installing ubuntu/debian/centos
 ... in another partision of the computer. we can solve this by following
-... fot the harddisk whether it is /dev/sda or /dev/sdb try to find out 
+... fot the harddisk whether it is /dev/sda or /dev/sdb try to find out
 ... by fdisk -l command
 
 [root@puppet manifest]# os-prober
@@ -26,4 +26,3 @@ GRUB_CMDLINE_LINUX=""
 
 GRUB_HIDDEN_TIMEOUT=30
 GRUB_TIMEOUT_STYLE=menu
-

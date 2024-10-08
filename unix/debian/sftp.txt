@@ -1,16 +1,16 @@
 
 
 ... Unix systems provide the chroot command which allows you to reset the / of
-... the user to some directory in the filesystem hierarchy, where they cannot 
+... the user to some directory in the filesystem hierarchy, where they cannot
 ... access "higher-up" files and directories.
 
 ... However in your case, it would appropriate to provide a virtual
-... chroot implemented by the remote shell service. sftp can be easily 
+... chroot implemented by the remote shell service. sftp can be easily
 ... configured to restrict a local user to a specific subset of the filesystem.
 
 ... hence in your case, you want to chroot let's say, user foo user into the /var/www/vhosts/ directory.
 
-... You can set a chroot directory for your user to confine them to the 
+... You can set a chroot directory for your user to confine them to the
 ... subdirectory /var/www/vhosts/ like so in /etc/ssh/sshd_config;
 
 Create user foo with password
@@ -20,10 +20,10 @@ sudo passwd foo
 
 Create for SFTP only group
 
-$ sudo groupadd sftp_users 
+$ sudo groupadd sftp_users
 Add to a user foo for SFTP only group
 
-$ sudo usermod -G sftp_users foo 
+$ sudo usermod -G sftp_users foo
 Change owner, because read/write permission
 
 sudo chown root.root /var/www/vhosts/
@@ -64,5 +64,3 @@ foo:x:1001:1001::/var/www/vhosts/:
 ..
 
 This will change user foo home folder to your sftp server folder.
-
-

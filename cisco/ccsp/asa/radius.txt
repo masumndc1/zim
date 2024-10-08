@@ -1,6 +1,6 @@
 
 // we gonna configure a radius server for the user authentication
-// in the asa. 
+// in the asa.
 
 // configuring the aaa-server configuraiton
 
@@ -12,7 +12,7 @@ aaa-server radius_server (dmz1) host 192.168.35.147
  key testing123
  authentication-port 1812
 
-ciscoasa(config)# 
+ciscoasa(config)#
 
 // now configure the additional settings for the aaa
 
@@ -24,7 +24,7 @@ aaa authentication telnet console radius_server LOCAL
 aaa proxy-limit 14
 aaa local authentication attempts max-fail 5
 
-ciscoasa(config)# 
+ciscoasa(config)#
 
 // now testing
 
@@ -46,7 +46,7 @@ Password: ****
 
 Username: masum
 Password: *******
-ciscoasa# 
+ciscoasa#
 
 
 
@@ -64,7 +64,7 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 	    0x0000:  c0a8 230a
 	  Calling Station Attribute (31), length: 9, Value: 0.0.0.0
 	    0x0000:  302e 302e 302e 30
-	  Password Attribute (2), length: 18, Value: 
+	  Password Attribute (2), length: 18, Value:
 	    0x0000:  8114 e40b 8744 80db bc93 8f18 ee56 2839
 	  NAS Port Attribute (5), length: 6, Value: 3
 	    0x0000:  0000 0003
@@ -89,7 +89,7 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 	    0x0000:  c0a8 230a
 	  Calling Station Attribute (31), length: 9, Value: 0.0.0.0
 	    0x0000:  302e 302e 302e 30
-	  Password Attribute (2), length: 18, Value: 
+	  Password Attribute (2), length: 18, Value:
 	    0x0000:  7a77 c7c6 09d4 2ac9 3d62 950b d0ba ad1e
 	  NAS Port Attribute (5), length: 6, Value: 4
 	    0x0000:  0000 0004
@@ -100,7 +100,3 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 13:47:17.197519 IP (tos 0x0, ttl 64, id 22635, offset 0, flags [none], proto UDP (17), length 48)
     192.168.35.147.1812 > 192.168.35.10.1025: [udp sum ok] RADIUS, length: 20
 	Access Accept (2), id: 0x04, Authenticator: 66f67272b7bd581584dd0e6d30918f8a
-
-
-
-

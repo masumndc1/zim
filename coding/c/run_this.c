@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "lib.h"
 
-int 
+int
 main ()
 {
     masum("hellow");

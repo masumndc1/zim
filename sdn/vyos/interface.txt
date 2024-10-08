@@ -2,36 +2,36 @@
 
 ... configure the interface of vyos
 
-vyos@vyos# set interfaces ethernet eth6 address 172.16.17.159/24 
+vyos@vyos# set interfaces ethernet eth6 address 172.16.17.159/24
 [edit]
-vyos@vyos# commit-confirm 
+vyos@vyos# commit-confirm
 commit confirm will be automatically reboot in 10 minutes unless confirmed
 Proceed? [confirm][y]
 [edit]
 vyos@vyos# commit
 No configuration changes to commit
 [edit]
-vyos@vyos# run show interfaces 
+vyos@vyos# run show interfaces
 Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
 Interface        IP Address                        S/L  Description
 ---------        ----------                        ---  -----------
-eth4             172.16.15.139/24                  u/u  
-eth5             172.16.15.138/24                  u/u  
-eth6             172.16.17.159/24                  u/u  
-eth7             -                                 u/u  
-lo               127.0.0.1/8                       u/u  
+eth4             172.16.15.139/24                  u/u
+eth5             172.16.15.138/24                  u/u
+eth6             172.16.17.159/24                  u/u
+eth7             -                                 u/u
+lo               127.0.0.1/8                       u/u
                  ::1/128
 [edit]
-vyos@vyos# 
+vyos@vyos#
 
 ... setting static route
 
-vyos@vyos# set protocols static route 0.0.0.0/0 next-hop 172.16.17.2 
+vyos@vyos# set protocols static route 0.0.0.0/0 next-hop 172.16.17.2
 [edit]
 vyos@vyos# save
-vyos@vyos# commit-confirm 
+vyos@vyos# commit-confirm
 
-vyos@vyos# run show configuration commands 
+vyos@vyos# run show configuration commands
 set interfaces ethernet eth4 hw-id '00:0c:29:81:9c:fd'
 set interfaces ethernet eth5 address '172.16.15.138/24'
 set interfaces ethernet eth5 hw-id '00:0c:29:81:9c:07'
@@ -42,4 +42,3 @@ set interfaces ethernet eth7 hw-id '00:0c:29:81:9c:f3'
 set interfaces loopback 'lo'
 set protocols static route 0.0.0.0/0 next-hop '172.16.17.2'
 set service ssh port '22'
-

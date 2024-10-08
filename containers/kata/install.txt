@@ -7,4 +7,3 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/kata-containers/tests/ma
 
 ... running docker container with kata-runtime.
 docker run -ti — runtime kata-runtime busybox sh
-

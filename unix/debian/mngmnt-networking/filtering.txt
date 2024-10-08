@@ -49,23 +49,20 @@ tc filter add dev eth1 protocol ip parent 1:0 prio 1 handle 1 fw flowid 1:30
 
 root@deb-7:~# iptables -t mangle -L -v -n
 Chain PREROUTING (policy ACCEPT 1048 packets, 802K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
   553 40130 MARK       tcp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x6
   100  7210 MARK       udp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            udp dpt:53 MARK set 0x5
   162  710K MARK       icmp --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x1
 
 Chain INPUT (policy ACCEPT 527 packets, 38649 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain FORWARD (policy ACCEPT 518 packets, 763K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain OUTPUT (policy ACCEPT 530 packets, 83494 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain POSTROUTING (policy ACCEPT 1048 packets, 846K bytes)
- pkts bytes target     prot opt in     out     source               destination         
-root@deb-7:~# 
-
-
-
+ pkts bytes target     prot opt in     out     source               destination
+root@deb-7:~#

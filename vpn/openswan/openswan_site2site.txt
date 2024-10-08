@@ -13,27 +13,27 @@ system:			debian7.9							   debian7
 
 root@deb-7:~# uname -a
 Linux deb-7 3.2.0-4-686-pae #1 SMP Debian 3.2.81-1 i686 GNU/Linux
-root@deb-7:~# 
+root@deb-7:~#
 
-...  
+...
 root@deb-7:~/openswan_conf# pwd
 /root/openswan_conf
 root@deb-7:~/openswan_conf# ls
 command.sh
-root@deb-7:~/openswan_conf# cat -n command.sh 
+root@deb-7:~/openswan_conf# cat -n command.sh
      1  #!/bin/bash
      2
      3  #!/bin/bash
      4
-     5  for vpn in /proc/sys/net/ipv4/conf/* ; do 
-     6          echo 0 > $vpn/accept_redirects  
-     7          echo 0 > $vpn/send_redirects  
+     5  for vpn in /proc/sys/net/ipv4/conf/* ; do
+     6          echo 0 > $vpn/accept_redirects
+     7          echo 0 > $vpn/send_redirects
      8  done
      9
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 
-root@deb-7:~/openswan_conf# chmod +x command.sh 
-root@deb-7:~/openswan_conf# ./command.sh 
+root@deb-7:~/openswan_conf# chmod +x command.sh
+root@deb-7:~/openswan_conf# ./command.sh
 root@deb-7:~/openswan_conf# ipsec verify
 Checking your system to see if IPsec got installed and started correctly:
 Version check and ipsec on-path                                 [OK]
@@ -52,13 +52,13 @@ Checking for 'ip' command                                       [OK]
 Checking /bin/sh is not /bin/dash                               [WARNING]
 Checking for 'iptables' command                                 [OK]
 Opportunistic Encryption Support                                [DISABLED]
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 
 root@deb-7:~/openswan_conf# /etc/init.d/ipsec status
 IPsec running  - pluto pid: 4715
 pluto pid 4715
 No tunnels up
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 
 ... B part configuration
 **********************************************************************
@@ -67,21 +67,21 @@ root@deb-7:~/openswan_conf#
 
 root@debian7:~/openswan_doc# uname -a
 Linux debian7.masum.com 3.2.0-4-686-pae #1 SMP Debian 3.2.81-2 i686 GNU/Linux
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 
-root@debian7:~/openswan_doc# cat command.sh 
+root@debian7:~/openswan_doc# cat command.sh
 #!/bin/bash
 
 #!/bin/bash
 
-for vpn in /proc/sys/net/ipv4/conf/* ; do 
-        echo 0 > $vpn/accept_redirects  
-        echo 0 > $vpn/send_redirects  
+for vpn in /proc/sys/net/ipv4/conf/* ; do
+        echo 0 > $vpn/accept_redirects
+        echo 0 > $vpn/send_redirects
 done
 
-root@debian7:~/openswan_doc# chmod +x command.sh 
-root@debian7:~/openswan_doc# ./command.sh 
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc# chmod +x command.sh
+root@debian7:~/openswan_doc# ./command.sh
+root@debian7:~/openswan_doc#
 root@debian7:~/openswan_doc# ipsec verify
 Checking your system to see if IPsec got installed and started correctly:
 Version check and ipsec on-path                                 [OK]
@@ -99,13 +99,13 @@ Checking for 'ip' command                                       [OK]
 Checking /bin/sh is not /bin/dash                               [WARNING]
 Checking for 'iptables' command                                 [OK]
 Opportunistic Encryption Support                                [DISABLED]
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 
 root@debian7:~/openswan_doc# /etc/init.d/ipsec status
 IPsec running  - pluto pid: 5723
 pluto pid 5723
 No tunnels up
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 
 ... upto this openswan ipsec vpn is running on both server without any
 ... configuration. now we are going to add them
@@ -113,41 +113,41 @@ root@debian7:~/openswan_doc#
 ... A part configuration
 **********************************************************************
 
-root@deb-7:/etc# 
+root@deb-7:/etc#
 root@deb-7:/etc# cat ipsec.conf
 version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=secret  
+        authby=secret
         auto=start
-        type=tunnel 
+        type=tunnel
         left=192.168.179.128
         right=192.168.179.129
-		
+
 ... one thing here I want to mention when configuring any linux-linux
 ... site to site configuration we should not include %any in ipsec.conf file
 ... like below. we should avoid this.
 
 		right=%any
 
-root@deb-7:/etc# 
+root@deb-7:/etc#
 root@deb-7:/etc# cat ipsec.secrets
 
 192.168.179.128 192.168.179.129: PSK "123456"
 
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
 root@deb-7:/etc# /etc/init.d/ipsec status
 IPsec running  - pluto pid: 8337
 pluto pid 8337
 1 tunnels up
 some eroutes exist
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
 root@deb-7:/etc# ipsec auto --status
 
@@ -156,42 +156,42 @@ root@deb-7:/etc# ipsec auto --status
 000 "linux-linux":     myip=unset; hisip=unset;
 000 "linux-linux":   ike_life: 3600s; ipsec_life: 28800s; rekey_margin:
  540s; rekey_fuzz: 100%; keyingtries: 0
-000 "linux-linux":   policy: PSK+ENCRYPT+TUNNEL+PFS+UP+IKEv2ALLOW+SAREFTRACK+lKOD+rKOD; 
-prio: 32,32; interface: eth1; 
-000 "linux-linux":   newest ISAKMP SA: #1; newest IPsec SA: #2; 
+000 "linux-linux":   policy: PSK+ENCRYPT+TUNNEL+PFS+UP+IKEv2ALLOW+SAREFTRACK+lKOD+rKOD;
+prio: 32,32; interface: eth1;
+000 "linux-linux":   newest ISAKMP SA: #1; newest IPsec SA: #2;
 000 "linux-linux":   IKE algorithm newest: AES_CBC_128-SHA1-MODP2048
-000  
-000 #2: "linux-linux":500 STATE_QUICK_I2 (sent QI2, IPsec SA established); EVENT_SA_REPLACE in 
+000
+000 #2: "linux-linux":500 STATE_QUICK_I2 (sent QI2, IPsec SA established); EVENT_SA_REPLACE in
 27064s; newest IPSEC; eroute owner; isakmp#1; idle; import:admin initiate
 000 #2: "linux-linux" esp.37397d03@192.168.179.129 esp.d05a2b01@192.168.179.128 tun.0@192.168.179.129
  tun.0@192.168.179.128 ref=0 refhim=4294901761
-000 #1: "linux-linux":500 STATE_MAIN_I4 (ISAKMP SA established); 
+000 #1: "linux-linux":500 STATE_MAIN_I4 (ISAKMP SA established);
 EVENT_SA_REPLACE in 1661s; newest ISAKMP; lastdpd=-1s(seq in:0 out:0); idle; import:admin initiate
-000  
+000
 
 root@deb-7:/etc#  ipsec auto --listall
-000  
+000
 000 List of Public Keys:
-000  
+000
 000 List of Pre-shared secrets (from /etc/ipsec.secrets)
 000     18: PSK 192.168.179.129 192.168.179.128
-root@deb-7:/etc# 
+root@deb-7:/etc#
 
 ... B part configuration
 **********************************************************************
 
 root@debian7:/etc# cat ipsec.conf
-version 2.0  
+version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=secret  
-        auto=start 
-        type=tunnel  
+        authby=secret
+        auto=start
+        type=tunnel
         left=192.168.179.129
         right=192.168.179.128
 
@@ -200,19 +200,19 @@ conn linux-linux
 ... like below. we should avoid this.
 
 		right=%any
-		
+
 root@debian7:/etc# cat ipsec.secrets
 
 192.168.179.129 192.168.179.128: PSK "123456"
 
-root@debian7:/etc# 
+root@debian7:/etc#
 
 root@debian7:/etc# /etc/init.d/ipsec status
 IPsec running  - pluto pid: 14812
 pluto pid 14812
 1 tunnels up
 some eroutes exist
-root@debian7:/etc# 
+root@debian7:/etc#
 
 ... upto this our site-to-site openswan vpn server is running with psk
 ... we will now move on to configuring this with rsa certificates.
@@ -222,17 +222,17 @@ root@debian7:/etc#
 
 ... A part configuration
 **********************************************************************
-  
+
 root@deb-7:~/openswan_conf# openssl genrsa -out deb7.9.key 1024
 Generating RSA private key, 1024 bit long modulus
 ...................................++++++
 ..................++++++
 e is 65537 (0x10001)
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# ls
 command.sh  deb7.9.key
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf#  openssl req -new -key deb7.9.key -x509 -out deb7.9.cert
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -248,42 +248,42 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:deb7.9
 Email Address []:deb7.9@gmail.com
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# ls
 command.sh  deb7.9.cert  deb7.9.key
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# cp deb7.9.cert /etc/ipsec.d/certs/
 root@deb-7:~/openswan_conf# cp deb7.9.key /etc/ipsec.d/private/
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 
 
 root@deb-7:~# cat /etc/ipsec.conf
 version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=rsasig 
+        authby=rsasig
         auto=start
-        type=tunnel 
+        type=tunnel
         left=192.168.179.128
         leftcert=deb7.9cert
         right=192.168.179.129
         rightcert=deb7.cert
 
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# cat /etc/ipsec.secrets
 
 # this file is managed with debconf and will contain the automatically created RSA keys
 #include /var/lib/openswan/ipsec.secrets.inc
 
 192.168.179.128 192.168.179.129: RSA /etc/ipsec.d/private/deb7.9.key
-root@deb-7:~# 
+root@deb-7:~#
 
 
 ... B part configuration
@@ -293,7 +293,7 @@ Generating RSA private key, 1024 bit long modulus
 ..............++++++
 ...........++++++
 e is 65537 (0x10001)
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 root@debian7:~/openswan_doc# openssl req -new -key deb7.key -x509 -out deb7.cert
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -309,11 +309,11 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:deb7
 Email Address []:deb7@gmail.com
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 root@debian7:~/openswan_doc# ls
 command.sh  deb7.cert  deb7.key
-root@debian7:~/openswan_doc# 
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
+root@debian7:~/openswan_doc#
 
 ... placing them
 
@@ -324,43 +324,37 @@ root@debian7:/etc/ipsec.d/certs# cp /root/openswan_doc/deb7.key ../private/
 root@debian7:/etc/ipsec.d/certs# cd ../private/
 root@debian7:/etc/ipsec.d/private# ls
 deb7.key
-root@debian7:/etc/ipsec.d/private# 
- 
- 
+root@debian7:/etc/ipsec.d/private#
+
+
 root@debian7:~# cat /etc/ipsec.conf
-version 2.0  
+version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=rsasig 
-        auto=start 
-        type=tunnel  
+        authby=rsasig
+        auto=start
+        type=tunnel
         left=192.168.179.129
-        leftcert=deb7.cert 
+        leftcert=deb7.cert
         right=192.168.179.128
         rightcert=deb7.9cert
-root@debian7:~# 
+root@debian7:~#
 root@debian7:~# cat /etc/ipsec.secrets
 
 # this file is managed with debconf and will contain the automatically created RSA keys
 #include /var/lib/openswan/ipsec.secrets.inc
 #192.168.179.129 %any: PSK "123456"
 192.168.179.129 192.168.179.128: RSA /etc/ipsec.d/private/deb7.key
-root@debian7:~# 
+root@debian7:~#
 
 .... if we have any error like then we have to remove the passphrass from private key file.
 
-... 003 "/etc/ipsec.secrets" line 25: error loading RSA private key file 
+... 003 "/etc/ipsec.secrets" line 25: error loading RSA private key file
 
 
 root@deb-7:~/masum_cert# openssl rsa -passin pass:**** -in deb7.key -out deb7.key
-
-
-
-
-
-

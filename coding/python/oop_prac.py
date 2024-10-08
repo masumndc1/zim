@@ -18,11 +18,10 @@ class Employee:
   @classmethod
   def raise_amount(cls, amount):
     cls.raise_amt = amount
-    
+
 emp_1 = Employee('khabir','uddin', 100)
 emp_2 = Employee('mahrus','muktadir', 200)
 
 print(emp_1.fullname())
 print(emp_2.fullname())
 print(Employee.numberOfEmployee)
-

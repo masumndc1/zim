@@ -3,15 +3,15 @@
  *
  *       Filename:  write_test.c
  *
- *    Description:  
+ *    Description:
  *
  *        Version:  1.0
  *        Created:  08/31/2021 14:18:36
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
- *   Organization:  
+ *         Author:  YOUR NAME (),
+ *   Organization:
  *
  * =====================================================================================
  */

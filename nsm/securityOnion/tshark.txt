@@ -11,14 +11,14 @@
 
 root@onion:~/tcpdump# tshark -i eth1
  13.027321 192.168.10.128 -> 192.168.10.1 SSH 314 Encrypted response packet len=248
- 13.027614 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8185 Win=4088 
+ 13.027614 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8185 Win=4088
  Len=0 TSval=294679253 TSecr=10696243
  13.528243 192.168.10.128 -> 192.168.10.1 SSH 314 Encrypted response packet len=248
- 13.528557 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8433 Win=4088 
+ 13.528557 192.168.10.1 -> 192.168.10.128 TCP 66 59082 > ssh [ACK] Seq=1 Ack=8433 Win=4088
  Len=0 TSval=294679753 TSecr=10696368
  13.829270 192.168.10.1 -> 192.168.10.128 SSH 106 Encrypted request packet len=40
  73 packets captured
-root@onion:~/tcpdump# 
+root@onion:~/tcpdump#
 
 ... dumpcap
 ............................................................................................
@@ -101,6 +101,3 @@ root@onion:/# tshark -n -t ad -r snort.log.1502544233 udp.port == 53 or icmp
 59437 2017-08-12 21:00:15.486657 192.168.35.2 -> 192.168.35.128 DNS 87 Standard query response, No such name
 59442 2017-08-12 21:00:38.998572 192.168.35.2 -> 192.168.35.128 ICMP 115 Destination unreachable (Port unreachable)
 59483 2017-08-12 21:09:53.451337 192.168.35.128 -> 192.168.35.2 DNS 69 Standard query A id.orig_poo
-
-
-

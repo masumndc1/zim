@@ -2,7 +2,7 @@
 
 ... enabling one local registry
 
-... If the /etc/docker/daemon.json file does not exist, create it. 
+... If the /etc/docker/daemon.json file does not exist, create it.
 ... Assuming there are no other settings in the file, it should have the following contents:
 
 {
@@ -10,7 +10,7 @@
 }
 
 ... other options instead of myregistrydomain.com are localhost or ip of the registry host.
-... in this example we are going to use localhost. 
+... in this example we are going to use localhost.
 
 {
   "insecure-registries" : ["localhost:5000"]
@@ -52,11 +52,4 @@ registry
 
 [root@openshift docker]# docker start registry
 registry
-[root@openshift docker]# 
-
-
-
-
-
-
-
+[root@openshift docker]#

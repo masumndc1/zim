@@ -14,7 +14,7 @@
 # bastille --help
 
 ... bootstrap first
-# bastille bootstrap 12.1-RELEASE 
+# bastille bootstrap 12.1-RELEASE
 Bootstrapping FreeBSD distfiles...
 Bootstrap appears complete.
 #
@@ -33,7 +33,7 @@ Bootstrap appears complete.
 # bastille stop devel1
 # bastille destroy devel1
 
-... now you can log in to container as well if you have set up openssh and 
+... now you can log in to container as well if you have set up openssh and
 ... a user and password
 # ssh user@192.168.20.155
 
@@ -44,7 +44,7 @@ Bootstrap appears complete.
 # bastille template devel1 bastillebsd-templates/openssh-server
 
 ... list of template
-# bastille list template 
+# bastille list template
 /usr/local/bastille/templates
 /usr/local/bastille/templates/bastillebsd-templates
 /usr/local/bastille/templates/bastillebsd-templates/python
@@ -59,11 +59,10 @@ Bootstrap appears complete.
 ... list of running containers
 # bastille list
 
-... Important folders are jails, releases and 
+... Important folders are jails, releases and
 ... templates. check the content of this folders.
 root@freebsd:/usr/local/bastille # pwd
 /usr/local/bastille
 root@freebsd:/usr/local/bastille # ls
 backups         cache           jails           releases        templates
 root@freebsd:/usr/local/bastille #
-

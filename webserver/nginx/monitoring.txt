@@ -14,5 +14,3 @@ jmeter
 
 # tail -f /var/log/nginx/access_log
 # tail -f /var/log/nginx/error_log
-
-

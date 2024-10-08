@@ -1,25 +1,25 @@
 
 
 ~ >>> sudo mkdir /mnt/cdrom
-[sudo] password for masum: 
+[sudo] password for masum:
 
 ~ >>> sudo mount /dev/cdrom /mnt/cdrom
 mount: /mnt/cdrom: WARNING: device write-protected, mounted read-only.
-~ >>> 
+~ >>>
 
-/mnt/cdrom >>> mkdir /tmp 
-/tmp >>> tar zxvf VMwareTools-10.2.5-8068393.tar.gz  
+/mnt/cdrom >>> mkdir /tmp
+/tmp >>> tar zxvf VMwareTools-10.2.5-8068393.tar.gz
 
-/tmp/vmware >>> ls                                                                                                                          
+/tmp/vmware >>> ls
 VMwareTools-10.2.5-8068393.tar.gz  vmware-tools-distrib
-/tmp/vmware >>>  
+/tmp/vmware >>>
 
 /tmp/vmware >>> cd vmware-tools-distrib
-/tmp/vmware >>> 
+/tmp/vmware >>>
 
 bin  caf  doc  etc  FILES  INSTALL  installer  lib  vgauth  vmware-install.pl
-/tmp/vmware/vmware-tools-distrib >>>                                                                                                        
-/tmp/vmware/vmware-tools-distrib >>> ./vmware-install.pl                                                                                    
+/tmp/vmware/vmware-tools-distrib >>>
+/tmp/vmware/vmware-tools-distrib >>> ./vmware-install.pl
 Please re-run this program as the super user.
 
 Execution aborted.
@@ -28,9 +28,7 @@ Found VMware Tools CDROM mounted at /mnt/cdrom. Ejecting device /dev/sr0 ...
 umount: /mnt/cdrom: umount failed: Operation not permitted.
 eject: unmount of `/mnt/cdrom' failed
 
-Eject Failed:  If possible manually eject the Tools installer from the guest 
+Eject Failed:  If possible manually eject the Tools installer from the guest
 cdrom mounted at /mnt/cdrom before canceling tools install on the host.
 
 /tmp/vmware/vmware-tools-distrib >>> sudo ./vmware-install.pl `
-
-

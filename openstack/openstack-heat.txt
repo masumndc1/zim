@@ -13,7 +13,4 @@ Apro13-HKHV2F:osclient khuddin$ pip install openstack-heat
 ... some of the examples are below.
 
 ... openstack stack list
-... openstack stack help 
-
-
-
+... openstack stack help

@@ -2,8 +2,8 @@
 
 ............................... monitoring .....................
 
-.. pftop command will show you all the connection related info 
-.. like below. 
+.. pftop command will show you all the connection related info
+.. like below.
 
 [root@pfsense ~]# pftop
 
@@ -39,7 +39,7 @@ tcp       In  192.168.244.1:37236           192.168.244.152:80             FIN_W
 tcp       In  192.168.244.1:37237           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:40  00:00:55       15     3298
 tcp       In  192.168.244.1:37238           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:37  00:00:55       15     3320
 [root@pfsense ~]# 168.244.1:37239           192.168.244.152:80             FIN_WAIT_2:FIN_WAIT_2   00:00:35  00:01:10       15     3310
-[root@pfsense ~]# 
+[root@pfsense ~]#
 
 .. the gui command diagnostic/pfinfo will also show you the all
 .. packet coming and going out.
@@ -61,12 +61,12 @@ Interface Stats for le0               IPv4             IPv6
     Blocked                              0                0
 
 State Table                          Total             Rate
-  current entries                       40               
+  current entries                       40
   searches                           12258           10.6/s
   inserts                              530            0.5/s
   removals                             489            0.4/s
 Source Tracking Table
-  current entries                        0               
+  current entries                        0
   searches                               0            0.0/s
   inserts                                0            0.0/s
   removals                               0            0.0/s
@@ -121,7 +121,7 @@ adaptive.end              56400 states
 src.track                     0s
 all
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  2                 
+	References:  2
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -132,7 +132,7 @@ all
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 em0
 	Cleared:     Wed Sep  7 21:45:06 2016
-	References:  20                
+	References:  20
 	In4/Pass:    [ Packets: 2588               Bytes: 225921             ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 3166               Bytes: 261971             ]
@@ -143,7 +143,7 @@ em0
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 enc
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -154,7 +154,7 @@ enc
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 enc0
 	Cleared:     Wed Sep  7 21:45:08 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -165,7 +165,7 @@ enc0
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 le0
 	Cleared:     Wed Sep  7 21:45:08 2016
-	References:  8                 
+	References:  8
 	In4/Pass:    [ Packets: 2704               Bytes: 395925             ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 3660               Bytes: 1913948            ]
@@ -176,7 +176,7 @@ le0
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 le1
 	Cleared:     Wed Sep  7 21:45:08 2016
-	References:  6                 
+	References:  6
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -187,7 +187,7 @@ le1
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 lo
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -198,7 +198,7 @@ lo
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 lo0
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  4                 
+	References:  4
 	In4/Pass:    [ Packets: 52                 Bytes: 4960               ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 52                 Bytes: 4960               ]
@@ -209,7 +209,7 @@ lo0
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 pflog
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -220,7 +220,7 @@ pflog
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 pflog0
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -231,7 +231,7 @@ pflog0
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 pfsync
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -242,7 +242,7 @@ pfsync
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 pfsync0 (skip)
 	Cleared:     Wed Sep  7 21:58:19 2016
-	References:  0                 
+	References:  0
 	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
 	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
 	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
@@ -253,6 +253,3 @@ pfsync0 (skip)
 	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
 
 .. this is the long output of the gui command dianostic/pfinfo.
-
-
-

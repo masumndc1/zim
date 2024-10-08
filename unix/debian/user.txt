@@ -18,4 +18,4 @@
 
 ... then kill all the process of user masum, that is kicking out the user masum
 
-# pkill -KILL -u masum 
+# pkill -KILL -u masum

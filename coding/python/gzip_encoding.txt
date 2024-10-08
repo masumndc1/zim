@@ -1,13 +1,13 @@
 
 
-... when we want server will send us a specific encoding as response 
+... when we want server will send us a specific encoding as response
 ... say, gzip encoding we do that as following.
 
->>> 
+>>>
 >>> from urllib.request import urlopen
 >>> from urllib.request import Request
->>> 
->>> 
+>>>
+>>>
 >>> req=Request('http://www.debian.org')
 >>> req.add_header('Accept-Encoding', 'gzip')
 
@@ -20,25 +20,20 @@
 
 >>> response.getheader('Content-encoding')
 'gzip'
->>> 
+>>>
 
-... as the response, we got is compressed with the gzip therefore we have to 
+... as the response, we got is compressed with the gzip therefore we have to
 ... decompres it with gzip decompress utility like below.
 
 >>> import gzip
 >>> content = gzip.decompress(response.read())
->>> 
+>>>
 >>> content.splitlines()[:5]
- [b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">', 
- b'<html lang="en">', b'<head>', b'  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">', b'  
+ [b'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
+ b'<html lang="en">', b'<head>', b'  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">', b'
  <title>Debian -- The Universal Operating System </title>']
->>> 
+>>>
 
 
-... Encodings are gzip , compress ,deflate , and identity . 
+... Encodings are gzip , compress ,deflate , and identity .
 ... The identity says the client does not want any specific encoding applied.
-
-
-
-
-

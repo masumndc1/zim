@@ -16,9 +16,9 @@ R1(config)#spanning-tree ?
 R1(config)#spanning-tree vlan ?
   <1-1005>  Spanning tree VLAN id
 
-R1(config)#spanning-tree vlan 
+R1(config)#spanning-tree vlan
 
-.. if also we need to activate stp on a particular port then we do 
+.. if also we need to activate stp on a particular port then we do
 .. that like below.
 
 R2(config)#interface fastEthernet 1/2
@@ -31,7 +31,7 @@ R2(config-if)#spanning-tree ?
 R2(config-if)#spanning-tree vlan ?
   <1-1005>  Spanning tree VLAN id
 
-R2(config-if)#spanning-tree vlan 
+R2(config-if)#spanning-tree vlan
 
 ... root bridge selection
 
@@ -41,14 +41,14 @@ R2(config-if)#spanning-tree vlan
 ... root bridge configuration.
 
 .. for stp bridge id catalyst switches use the following rules.
-.. traditional 802.1d bridge id: which is unique mac address along with 
+.. traditional 802.1d bridge id: which is unique mac address along with
 .. 16bit bridge priority value.
-.. extended 802.1t system id: (4bit priority + 12bit vlan) along with 
+.. extended 802.1t system id: (4bit priority + 12bit vlan) along with
 .. non unique mac address.
 
 .. moreover if the switch cant support 1024 unique mac address then system id
-.. enabled by default.otherwise traditional bridge id is used. to use the 
-.. system id 
+.. enabled by default.otherwise traditional bridge id is used. to use the
+.. system id
 
 R2(config)# spanning-tree extend system-id
 
@@ -74,15 +74,15 @@ R1(config)#spanning-tree vlan 1 ?
 R1(config)#spanning-tree vlan 1 priority ?
   <0-65535>  bridge priority
 
-R1(config)#spanning-tree vlan 1 priority 
+R1(config)#spanning-tree vlan 1 priority
 
 .. the lowest bridge priority than default 32678 will become
 .. root bridge if the traditional bridge id is configured.
-.. if system id is configured the default 32678 plus with 
+.. if system id is configured the default 32678 plus with
 .. vlan id is used. same here the lowest id will become the root
 .. bridge.
 
-.. alternatively we can set a switch as root bridge for a 
+.. alternatively we can set a switch as root bridge for a
 .. particular vlan like below.
 
 R1(config)#spanning-tree vlan 5 ?
@@ -103,7 +103,7 @@ R1(config)#spanning-tree vlan 5 root primary
 
 ... portfast,uplinkfast,backbonefast
 
-.. portfast 
+.. portfast
 
 R1(config)#spanning-tree ?
   backbonefast  Enable BackboneFast Feature
@@ -117,7 +117,7 @@ R1(config)#spanning-tree portfast ?
 R1(config)#spanning-tree portfast bpduguard ?
   <cr>
 
-R1(config)#spanning-tree portfast bpduguard 
+R1(config)#spanning-tree portfast bpduguard
 
 .. uplinkfast
 
@@ -125,11 +125,11 @@ R1(config)#spanning-tree uplinkfast ?
   max-update-rate  Rate at which station address updates are sent
   <cr>
 
-R1(config)#spanning-tree uplinkfast 
+R1(config)#spanning-tree uplinkfast
 
 .. backbonefast
 
-R1(config)#spanning-tree backbonefast 
+R1(config)#spanning-tree backbonefast
 R1(config)#
 R1(config)#do show spanning-tree backbonefast
 BackboneFast is enabled
@@ -146,7 +146,7 @@ R1(config)#
 
 ... monitoring stp
 
-R1#show spanning-tree 
+R1#show spanning-tree
 
  VLAN1 is executing the ieee compatible Spanning Tree protocol
   Bridge Identifier has priority 16384, address c200.10e3.0000
@@ -157,7 +157,7 @@ R1#show spanning-tree
   Number of topology changes 2 last change occurred 01:09:36 ago
           from FastEthernet1/1
   Times:  hold 1, topology change 35, notification 2
-          hello 2, max age 20, forward delay 15 
+          hello 2, max age 20, forward delay 15
   Timers: hello 0, topology change 0, notification 0, aging 300
 
  Port 41 (FastEthernet1/0) of VLAN1 is forwarding
@@ -188,7 +188,7 @@ R1#show spanning-tree
    BPDU: sent 13470, received 0
 
 R1#
-R1#show spanning-tree ? 
+R1#show spanning-tree ?
   <1-255>            Bridge Group number
   active             Report on active interfaces only
   backbonefast       Show spanning tree backbonefast status
@@ -204,7 +204,7 @@ R1#show spanning-tree ?
   |                  Output modifiers
   <cr>
 
-R1#show spanning-tree summary 
+R1#show spanning-tree summary
 Root bridge for: none.
 PortFast BPDU Guard is enabled
 UplinkFast is disabled
@@ -212,9 +212,9 @@ BackboneFast is enabled
 
 Name                 Blocking Listening Learning Forwarding STP Active
 -------------------- -------- --------- -------- ---------- ----------
-VLAN1                1        0         0        2          3         
+VLAN1                1        0         0        2          3
 -------------------- -------- --------- -------- ---------- ----------
-              1 VLAN 1        0         0        2          3         
+              1 VLAN 1        0         0        2          3
 
 BackboneFast statistics
 -----------------------
@@ -225,7 +225,7 @@ Number of RLQ response PDUs received (all VLANs)            : 0
 Number of RLQ request PDUs sent (all VLANs)                 : 0
 Number of RLQ response PDUs sent (all VLANs)                : 0
 R1#
-R1#show spanning-tree ?  
+R1#show spanning-tree ?
   <1-255>            Bridge Group number
   active             Report on active interfaces only
   backbonefast       Show spanning tree backbonefast status
@@ -241,24 +241,24 @@ R1#show spanning-tree ?
   |                  Output modifiers
   <cr>
 
-R1#show spanning-tree root 
-VLAN1            
+R1#show spanning-tree root
+VLAN1
   Root ID    Priority    8192
              Address     c201.10e3.0000
              Cost        38
              Port        41 (FastEthernet1/0)
              Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
 
-R1#show spanning-tree bridge 
-VLAN1            
+R1#show spanning-tree bridge
+VLAN1
   Bridge ID  Priority    16384
              Address     c200.10e3.0000
              Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
 R1#
-R1#show spanning-tree uplinkfast 
+R1#show spanning-tree uplinkfast
 UplinkFast is disabled
 
-R1#show spanning-tree backbonefast 
+R1#show spanning-tree backbonefast
 BackboneFast is enabled
 
 BackboneFast statistics
@@ -273,7 +273,7 @@ R1#
 
 .. when a switch is the root we got the following output
 
-R2#show spanning-tree summary 
+R2#show spanning-tree summary
 Root bridge for: VLAN1.
 PortFast BPDU Guard is disabled
 UplinkFast is disabled
@@ -281,21 +281,21 @@ BackboneFast is disabled
 
 Name                 Blocking Listening Learning Forwarding STP Active
 -------------------- -------- --------- -------- ---------- ----------
-VLAN1                0        0         0        2          2         
+VLAN1                0        0         0        2          2
 -------------------- -------- --------- -------- ---------- ----------
-              1 VLAN 0        0         0        2          2         
+              1 VLAN 0        0         0        2          2
 R2#
 R2#
 R2#show sp
 R2#show spanning-tree root
-VLAN1            
+VLAN1
   Root ID    Priority    8192
              Address     c201.10e3.0000
              This bridge is the root
              Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
 R2#
 
-.. it says this switch is the root bridge from the output of 
+.. it says this switch is the root bridge from the output of
 .. show spanning-tree root command
 
 R2#show spanning-tree interface fastEthernet 1/0
@@ -308,13 +308,3 @@ R2#show spanning-tree interface fastEthernet 1/0
    Number of transitions to forwarding state: 1
    BPDU: sent 13736, received 0
 R2#
-
-
-
-
-
-
-
-
-
-

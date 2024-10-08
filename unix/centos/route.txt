@@ -18,5 +18,3 @@
 # ping <gw-ip>
 # ping 8.8.8.8
 # ping google.com
-
-

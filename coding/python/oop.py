@@ -20,6 +20,4 @@ class shareddata:
 
     @property
     def spam_only(self):
-       return self.spam 
-
-
+       return self.spam

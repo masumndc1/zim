@@ -6,24 +6,22 @@
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   978  100   978    0     0   4205      0 --:--:-- --:--:-- --:--:--  4197
-[root@kube-master kube]# 
+[root@kube-master kube]#
 [root@kube-master kube]# ls
 traefik.yaml
-[root@kube-master kube]# 
-[root@kube-master kube]# kubectl create -f traefik.yaml 
+[root@kube-master kube]#
+[root@kube-master kube]# kubectl create -f traefik.yaml
 serviceaccount "traefik-ingress-controller" created
 deployment "traefik-ingress-controller" created
 service "traefik-ingress-service" created
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 [root@kube-master kube]# kubectl get svc --namespace=kube-system
 NAME                      CLUSTER-IP       EXTERNAL-IP   PORT(S)                       AGE
 kubernetes-dashboard      10.254.20.212    <none>        443/TCP                       1d
 traefik-ingress-service   10.254.126.188   <nodes>       80:30362/TCP,8080:32204/TCP   4m
-[root@kube-master kube]# 
+[root@kube-master kube]#
 [root@kube-master kube]# kubectl get deployment --namespace=kube-system
 NAME                         DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 traefik-ingress-controller   1         1         1            1           4m
-[root@kube-master kube]# 
-
-
+[root@kube-master kube]#

@@ -2,14 +2,14 @@ Fetched 3,191 kB in 50s (63.3 kB/s)
 Reading package lists... Done
 W: GPG error: http://ftp.ca.debian.org wheezy Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 8B48AD6246925553 NO_PUBKEY 7638D0442B90D010 NO_PUBKEY 6FB2A1C265FFB764
 W: GPG error: http://security.debian.org wheezy/updates InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 9D6D8F6BC857C906 NO_PUBKEY 8B48AD6246925553
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 root@masum:/etc/apt# gpg --recv-keys 8B48AD6246925553
 gpg: requesting key 46925553 from hkp server keys.gnupg.net
 gpg: key 46925553: public key "Debian Archive Automatic Signing Key (7.0/wheezy) <ftpmaster@debian.org>" imported
 gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1  (RSA: 1)
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 root@masum:/etc/apt# gpg --recv-keys 8B48AD6246925553 7638D0442B90D010 6FB2A1C265FFB764
 gpg: requesting key 46925553 from hkp server keys.gnupg.net
 gpg: requesting key 2B90D010 from hkp server keys.gnupg.net
@@ -21,7 +21,7 @@ gpg: no ultimately trusted keys found
 gpg: Total number processed: 3
 gpg:               imported: 2  (RSA: 2)
 gpg:              unchanged: 1
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 root@masum:/etc/apt# gpg --recv-keys 9D6D8F6BC857C906 8B48AD6246925553
 gpg: requesting key C857C906 from hkp server keys.gnupg.net
 gpg: requesting key 46925553 from hkp server keys.gnupg.net
@@ -31,11 +31,10 @@ gpg: no ultimately trusted keys found
 gpg: Total number processed: 2
 gpg:               imported: 1  (RSA: 1)
 gpg:              unchanged: 1
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 root@masum:/etc/apt# apt-key add /root/.gnupg/pubring.gpg
 OK
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 
 // for key server we can also use pgp.mit.edu
 //
-

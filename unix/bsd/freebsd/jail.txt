@@ -11,7 +11,7 @@ export: Command not found.
 ... instead may be we are using C shell or its variants.
 
 root@masum:/usr # setenv D /usr/jails/khabir
-root@masum:/usr # 
+root@masum:/usr #
 
 ... here khabir will be jail servers home directory name as well as
 ... hostname of the jail server.

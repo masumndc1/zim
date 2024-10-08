@@ -1,6 +1,6 @@
 
 
-... facters 
+... facters
 ... facters provide useful setting regarding the host.
 
 [masum@puppet ~]$ facter
@@ -63,11 +63,3 @@ notify { facts:
 
 [root@puppet manifest]# facter --yaml
 [root@puppet manifest]# facter --json
-
-
-
-
-
-
-
-

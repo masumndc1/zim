@@ -2,7 +2,7 @@ configure automatic update
 
 
 [edit security idp security-package]
-root# show 
+root# show
 automatic {
     start-time "2015-9-5.01:35:00 +0000";
     interval 24;
@@ -10,9 +10,7 @@ automatic {
 }
 
 [edit security idp security-package]
-root# commit check 
+root# commit check
 configuration check succeeds
 
 [edit security idp security-package]
-
-

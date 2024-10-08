@@ -8,7 +8,7 @@ ubuntu@ip-172-31-32-74:~$ wget https://s3.amazonaws.com/aws-cloudwatch/downloads
 Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.1.219
 
 ubuntu@ip-172-31-32-74:~$ sudo python ./awslogs-agent-setup.py --region --us-east-1
-Launching interactive setup of CloudWatch Logs agent ... 
+Launching interactive setup of CloudWatch Logs agent ...
 
 Step 1 of 5: Installing pip ...libyaml-dev does not exist in system DONE
 
@@ -21,15 +21,15 @@ To see help text, you can run:
 aws: error: too few arguments
 DONE
 
-Step 3 of 5: Configuring AWS CLI ... 
-AWS Access Key ID [None]: 
-AWS Secret Access Key [None]: 
-Default region name [None]: 
-Default output format [None]: 
+Step 3 of 5: Configuring AWS CLI ...
+AWS Access Key ID [None]:
+AWS Secret Access Key [None]:
+Default region name [None]:
+Default output format [None]:
 
-Step 4 of 5: Configuring the CloudWatch Logs Agent ... 
-Path of log file to upload [/var/log/syslog]: 
-Destination Log Group name [/var/log/syslog]: 
+Step 4 of 5: Configuring the CloudWatch Logs Agent ...
+Path of log file to upload [/var/log/syslog]:
+Destination Log Group name [/var/log/syslog]:
 
 Choose Log Stream name:
   1. Use EC2 instance id.
@@ -60,10 +60,6 @@ Step 5 of 5: Setting up agent as a daemon ...DONE
 - To see diagnostic information for the CloudWatch Logs Agent, see /var/log/awslogs.log
 - You can rerun interactive setup using 'sudo python ./awslogs-agent-setup.py --region --us-east-1 --only-generate-config'
 ------------------------------------------------------
-ubuntu@ip-172-31-32-74:~$ 
+ubuntu@ip-172-31-32-74:~$
 
 ... now browse https://console.aws.amazon.com/cloudwatch/home?region=--us-east-1#logs
-
-
-
-

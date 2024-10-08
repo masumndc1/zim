@@ -8,7 +8,7 @@
 ... precedence over other file. variable has the following format and we can
 ... use the value of variable by {{ variable }}. example like below.
 
-[masum@nginx tasks]$ cat nginx.yml 
+[masum@nginx tasks]$ cat nginx.yml
 ---
 - name: nginx installation
   yum: name={{ pac }} state=installed
@@ -23,19 +23,17 @@
 - name: iftop installation
   package: name={{ band }} state=installed
 
-[masum@nginx tasks]$ 
+[masum@nginx tasks]$
 
 ... variable we define as below.
 
-[masum@nginx tasks]$ cat ../vars/main.yml 
+[masum@nginx tasks]$ cat ../vars/main.yml
 ---
 # vars file for roles/masum.prac
 pac: nginx
 mon: htop
-[masum@nginx tasks]$ cat ../defaults/main.yml 
+[masum@nginx tasks]$ cat ../defaults/main.yml
 ---
 # defaults file for roles/masum.prac
 band: iftop
-[masum@nginx tasks]$ 
-
-
+[masum@nginx tasks]$

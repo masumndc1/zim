@@ -3,10 +3,10 @@
 
 ..................... multi layer switching ..................
 ..
-.. we can test whether the interface operates in layer 2 
+.. we can test whether the interface operates in layer 2
 .. or layer 3 by following commands.
 
-R1#show interfaces fastEthernet 1/0 switchport 
+R1#show interfaces fastEthernet 1/0 switchport
 Name: Fa1/0
 Switchport: Enabled
 Administrative Mode: static access
@@ -20,12 +20,12 @@ Trunking VLANs Enabled: ALL
 Trunking VLANs Active: 1
 Priority for untagged frames: 0
 Override vlan tag priority: FALSE
-Voice VLAN: none 
+Voice VLAN: none
 Appliance trust: none
 R1#
 
 .. switchport enabled says that the interface is in layer 2
-.. if switchport is disabled then the port is operating 
+.. if switchport is disabled then the port is operating
 .. on layer 3
 
 .. again a port in a multilayer switch can also be operating in layer 3
@@ -33,10 +33,10 @@ R1#
 
 (config)#interface fastEthernet 1/11
 R1(config-if)#
-R1(config-if)#no switchport 
+R1(config-if)#no switchport
 
 .. this above command instructing the multilayer switch that the port
-.. fa1/11 will not be operating on layer 2. 
+.. fa1/11 will not be operating on layer 2.
 
 R1(config-if)# ip address <address> <mask>
 R1(config-if)#exit
@@ -45,18 +45,18 @@ R1(config)#
 R1(config)#
 R1(config)#exit
 R1#
-R1#show interfaces fastEthernet 1/11 switchport 
+R1#show interfaces fastEthernet 1/11 switchport
 Name: Fa1/11
 Switchport: Disabled
 
 .. the output says layer 2 functionality is disabled. therefore
-.. it is now operating on layer 3. 
+.. it is now operating on layer 3.
 
 ... switched virtual interface (SVI)
 ..
 .. the logical layer 3 interface is known as svi. we configure a svi like below
 
-R1(config)#interface vlan 10 
+R1(config)#interface vlan 10
 R1(config-if)#
 R1(config-if)#ip address ?
   A.B.C.D  IP address
@@ -64,7 +64,7 @@ R1(config-if)#ip address ?
   pool     IP Address autoconfigured from a local DHCP pool
 
 R1(config-if)#
-R1(config-if)#no shutdown 
+R1(config-if)#no shutdown
 
 .. we have to consider vlan as a physical layer 3 interface same functionality
 .. and also enable it with the no shutdown command. moreover the vlan must be
@@ -73,21 +73,21 @@ R1(config-if)#no shutdown
 
 ... multi layer switching (MLS) ..
 
-.. multi layer switching works with the help of routing processor along with 
+.. multi layer switching works with the help of routing processor along with
 .. switching engine. after first packets reached to its destination swithcing
 .. engine (SE), se know the shortcut path and the subsecuent packets of similar
 .. will be forwarded so quick. this approach also known as netflow switching
-.. or route cache switching. 
+.. or route cache switching.
 
 .. forwarding information base (FIB) is like routing tables which also determines
-.. routes to specific destination. 
+.. routes to specific destination.
 
-R1#show ip cef vlan 1        
+R1#show ip cef vlan 1
 Prefix              Next Hop             Interface
 
 R1#
 
-R1#show ip cef vlan 1 detail 
+R1#show ip cef vlan 1 detail
 IP CEF with switching (Table Version 9), flags=0x0
   5 routes, 0 reresolve, 0 unresolved (0 old, 0 new), peak 0
   8 leaves, 8 nodes, 9536 bytes, 12 inserts, 4 invalidations
@@ -101,11 +101,11 @@ IP CEF with switching (Table Version 9), flags=0x0
 
 R1#
 
-... adjacency table 
+... adjacency table
 
 .. the portion of fib where it contains layer 2 arp address is the adjacency table.
 
-R1#show adjacency summary 
+R1#show adjacency summary
   Table epoch: 0
 
   Interface                 Adjacency Count
@@ -117,17 +117,17 @@ R1#show adjacency vlan 1 ?
   |         Output modifiers
   <cr>
 
-R1#show adjacency vlan 1 detail 
+R1#show adjacency vlan 1 detail
 Protocol Interface                 Address
 
 R1#
-R1#show adjacency vlan 1        
+R1#show adjacency vlan 1
 Protocol Interface                 Address
 
 R1#
 
 .. when time comes to forward the packet to a destination mac address but routing
-.. processor does not know then it goes into adjacent glean mode. in this mode, 
+.. processor does not know then it goes into adjacent glean mode. in this mode,
 .. rp request arp query.
 
 R1#show ip cef adjacency glean ?
@@ -135,7 +135,7 @@ R1#show ip cef adjacency glean ?
   |       Output modifiers
   <cr>
 
-R1#show ip cef adjacency glean 
+R1#show ip cef adjacency glean
 Prefix              Next Hop             Interface
 R1#
 
@@ -152,18 +152,18 @@ Slot  Encap_fail  Unresolved Unsupported    No_route      No_adj  ChkSum_Err
 RP             0           0           0           0           0           0
 R1#
 
-.. packets at punt state due to undelivery and finally forwared to routing 
+.. packets at punt state due to undelivery and finally forwared to routing
 .. engines determines by the following.
 
-R1#show cef not-cef-switched 
+R1#show cef not-cef-switched
 CEF Packets passed on to next switching layer
 Slot  No_adj No_encap Unsupp'ted Redirect  Receive  Options   Access     Frag
 RP         0       0           0        0        0        0        0        0
 R1#
 
-.. we can see some interesting fact of cef from 
+.. we can see some interesting fact of cef from
 
-R1#show ip cef 
+R1#show ip cef
 Prefix              Next Hop             Interface
 0.0.0.0/0           drop                 Null0 (default route handler entry)
 0.0.0.0/8           drop
@@ -175,7 +175,7 @@ Prefix              Next Hop             Interface
 255.255.255.255/32  receive
 R1#
 
-R1#show vlan-switch 
+R1#show vlan-switch
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
@@ -183,18 +183,17 @@ VLAN Name                             Status    Ports
                                                 Fa1/4, Fa1/5, Fa1/6, Fa1/7
                                                 Fa1/8, Fa1/9, Fa1/10, Fa1/12
                                                 Fa1/13, Fa1/14, Fa1/15
-1002 fddi-default                     active    
-1003 token-ring-default               active    
-1004 fddinet-default                  active    
-1005 trnet-default                    active    
+1002 fddi-default                     active
+1003 token-ring-default               active
+1004 fddinet-default                  active
+1005 trnet-default                    active
 
 VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
 ---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
 1    enet  100001     1500  -      -      -        -    -        1002   1003
 1002 fddi  101002     1500  -      -      -        -    -        1      1003
 1003 tr    101003     1500  1005   0      -        -    srb      1      1002
-1004 fdnet 101004     1500  -      -      1        ibm  -        0      0   
-1005 trnet 101005     1500  -      -      1        ibm  -        0      0   
+1004 fdnet 101004     1500  -      -      1        ibm  -        0      0
+1005 trnet 101005     1500  -      -      1        ibm  -        0      0
 R1#
 R1#
-

@@ -8,26 +8,26 @@
 .. the ip address of the bridge.
 
 root@mininet-vm:~# ifconfig s1
-s1        Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d  
+s1        Link encap:Ethernet  HWaddr 00:0c:29:25:55:1d
           inet addr:192.168.10.129  Bcast:192.168.10.255  Mask:255.255.255.0
           UP BROADCAST RUNNING  MTU:1500  Metric:1
           RX packets:116073 errors:0 dropped:0 overruns:0 frame:0
           TX packets:115846 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:11322074 (11.3 MB)  TX bytes:11206607 (11.2 MB)
 
 root@mininet-vm:~# ifconfig s2
-s2        Link encap:Ethernet  HWaddr 00:0c:29:25:55:13  
+s2        Link encap:Ethernet  HWaddr 00:0c:29:25:55:13
           inet addr:192.168.244.148  Bcast:192.168.244.255  Mask:255.255.255.0
           UP BROADCAST RUNNING  MTU:1500  Metric:1
           RX packets:881 errors:0 dropped:0 overruns:0 frame:0
           TX packets:6678 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:104257 (104.2 KB)  TX bytes:403234 (403.2 KB)
 
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
-.. the configure of the controller 
+.. the configure of the controller
 
 root@mininet-vm:~# ovs-vsctl show
 8945dad2-35b4-4549-9122-23d5558992e7
@@ -63,19 +63,19 @@ root@mininet-vm:~# ovs-vsctl show
             tag: 100
             Interface "tap1"
     ovs_version: "2.0.2"
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 
 .. the target : "tcp:192.168.244.148:6633" is connected.
 
-root@mininet-vm:~# ovs-vsctl --id=@s create sFlow agent=s1 target=\"192.168.10.1:6343\" header=128 sampling=5000 polling=30 
+root@mininet-vm:~# ovs-vsctl --id=@s create sFlow agent=s1 target=\"192.168.10.1:6343\" header=128 sampling=5000 polling=30
 -- set Bridge s1 sflow=@s
 aac8c425-b4ae-47fc-8542-9edd3360c3a2
-root@mininet-vm:~# 
+root@mininet-vm:~#
 root@mininet-vm:~# ovs-vsctl --id=@s create sFlow agent=s2 target=\"192.168.244.1:6343\" header=128 sampling=5000 polling=3
 0 -- set Bridge s2 sflow=@s
 f5aaa572-b6c9-4412-9a1a-32d9d630c76e
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 root@mininet-vm:~# ovs-vsctl list controller
 _uuid               : 913c36cc-4234-4ca7-95e9-ad26f9d4f0dc
@@ -111,7 +111,7 @@ other_config        : {}
 role                : other
 status              : {last_error="End of file", sec_since_connect="0", sec_since_disconnect="8", state=ACTIVE}
 target              : "tcp:192.168.10.129:6633"
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 .. our configuration is the follows. here the two parameters we are paying our attension most.
 
@@ -119,9 +119,9 @@ root@mininet-vm:~#
 .. we are using sflowtrend software to depicts the sflow data
 .. to visually see the operations. when we install the sflowtrend deb package in 192.168.244.1
 .. it listen for the sflow traffic on port 6343. when we browse http://localhost:8087 it just
-.. collect the data from 6343 port and show us the operation nicely. 
+.. collect the data from 6343 port and show us the operation nicely.
 
-.. target=\"192.168.244.148.1:6343\" this is the ip where the sflow data will be send to. 
+.. target=\"192.168.244.148.1:6343\" this is the ip where the sflow data will be send to.
 .. on this ip there is a agent running on this port which will receive the sflow data.
 .. we will use this parameters to watch the data grafically on browser by sflowtrend.
 
@@ -141,22 +141,17 @@ header              : 128
 polling             : 30
 sampling            : 5000
 targets             : ["192.168.244.1:6343"]
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 .. the above command matches the parameters we have given when we configured our sflow.
 
-.. ovs configuration is done. now we will install and configure the sflowtrend to 
+.. ovs configuration is done. now we will install and configure the sflowtrend to
 .. see the sflow data.
 
 root@masum # wget -c http://www.inmon.com/products/sFlowTrend/downloads/sFlowTrend-linux-6_4_01.deb
 root@masum # dpkg -i sFlowTrend-linux-6_4_01.deb
 
-.. now open on the browser http://localhost:8087 and configure the system configuration from 
+.. now open on the browser http://localhost:8087 and configure the system configuration from
 .. right hand site bar. and on sflow tab input your sflow collector address and sflow collector
 .. udp port.
 .. this is the browser based sflow agent so all the other options are self-explanatory.
-
-
-
-
-

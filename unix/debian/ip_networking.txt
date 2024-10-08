@@ -14,13 +14,13 @@ how to change the hostname in redhat5.
      1	NETWORKING=yes
      2	NETWORKING_IPV6=no
      3	HOSTNAME=mail.example.com
-[root@ sysconfig]# 
+[root@ sysconfig]#
 
 how to change the hostname in debian/ubuntu
 
-pbl@pbl-OptiPlex-755:~$ cat /etc/hostname 
+pbl@pbl-OptiPlex-755:~$ cat /etc/hostname
 pbl-OptiPlex-755
-pbl@pbl-OptiPlex-755:~$ 
+pbl@pbl-OptiPlex-755:~$
 
 //The ip link command shows the network device's configurations that can be
 //changed with ip link set. This command is used to modify the device's proprieties
@@ -35,5 +35,3 @@ kernel by a dynamic routing protocol.
 
 ip tunnel is used to manage tunneled connections. Tunnels can be gre, ipip, and
 sit. We will include an example later in the book on how to build IP tunnels.
-
-

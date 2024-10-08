@@ -26,12 +26,11 @@ Administrator. It usually boils down to these three things:
     #2) Think before you type.
     #3) With great power comes great responsibility.
 
-[sudo] password for masum: 
+[sudo] password for masum:
 Sorry, try again.
-[sudo] password for masum: 
+[sudo] password for masum:
 sudo: 1 incorrect password attempt
 
 ==> ERROR: Aborted by user! Exiting...
 
-[masum@archlinux yay]$ 
-
+[masum@archlinux yay]$

@@ -17,7 +17,7 @@
 
             if (value < 1) {
                 jQuery('#yasr_visitor_votes_' + postid).html('You can\'t vote 0');
-            } 
+            }
 
             else {
 
@@ -52,18 +52,18 @@
                 //Send value to the Server
                 jQuery.post(ajaxurl, data, function(response) {
                     //response
-                    jQuery('#yasr_visitor_votes_' + postid).html(response); 
+                    jQuery('#yasr_visitor_votes_' + postid).html(response);
                     jQuery('.rateit').rateit();
 
-                }) ;      
+                }) ;
 
             } //End else value <1
 
         });//End function insert/update vote
 
     } //End function yasr visitor votes
-   
-    
+
+
     function yasrVisitorsMultiSet (postId, setType, ajaxurl, nonce) {
 
         //will have field id and vote
@@ -72,10 +72,10 @@
         //an array with all the ratingonjects
         var ratingArray = new Array();
 
-        jQuery('.yasr-visitor-multi-'+postId+'-'+setType).on('rated', function() { 
+        jQuery('.yasr-visitor-multi-'+postId+'-'+setType).on('rated', function() {
             var el = jQuery(this);
             var value = el.rateit('value');
-            var value = value.toFixed(1); 
+            var value = value.toFixed(1);
             var idField = el.attr('id');
 
             ratingObject = {
@@ -101,7 +101,7 @@
             var data = {
 
                 action: 'yasr_visitor_multiset_field_vote',
-                nonce: nonce, 
+                nonce: nonce,
                 post_id: postId,
                 rating: ratingArray,
                 set_type: setType
@@ -115,7 +115,7 @@
 
         });
 
-    } //End function 
+    } //End function
 
 
     function yasrMostOrHighestRatedChart (ajaxurl) {
@@ -169,7 +169,7 @@
             j=j+1;
 
         }
-        
+
     }
 
     //used in shortcode page and ajax page
@@ -195,7 +195,7 @@
                         tipsContent(response);
                     });
 
-                } 
+                }
 
                 else {
                     return varTipsContent;
@@ -203,8 +203,8 @@
 
             },
             disabled: true,
-            close: function( event, ui ) { 
-                jQuery(this).tooltip('disable'); 
+            close: function( event, ui ) {
+                jQuery(this).tooltip('disable');
             }
 
         });
@@ -239,7 +239,7 @@
                 j=j+1;
 
             }
-            
+
         }
 
 /****** End progressbar function *******/

@@ -17,13 +17,13 @@
 
 [root@nginx etc]# uname -a
 Linux nginx 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
-[root@nginx etc]# 
+[root@nginx etc]#
 
-[root@nginx etc]# cat /etc/redhat-release 
-CentOS Linux release 7.3.1611 (Core) 
-[root@nginx etc]# 
+[root@nginx etc]# cat /etc/redhat-release
+CentOS Linux release 7.3.1611 (Core)
+[root@nginx etc]#
 
-[root@nginx etc]# yum install -y ansible 
+[root@nginx etc]# yum install -y ansible
 
 ... installation in debian
 
@@ -34,6 +34,3 @@ echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/a
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 sudo apt update
 sudo apt install ansible
-
-
-

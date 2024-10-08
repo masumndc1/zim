@@ -5,4 +5,4 @@
 [root@dfly /home/masum]# ifconfig em1 mtu 9000  # mtu setting
 
 # monitor mode, where interface does not send packet but listen and accept
-[root@dfly /home/masum]# ifconfig em1 monitor   
+[root@dfly /home/masum]# ifconfig em1 monitor

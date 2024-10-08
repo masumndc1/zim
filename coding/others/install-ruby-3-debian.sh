@@ -1,7 +1,7 @@
 # onliner usage:
 # bash <(curl -s https://gist.githubusercontent.com/makevoid/2be2170f17801c761aadfe7d9978b003/raw/fef3435e36729fc46d34c3b3d46c13cfa3b32b9b/install-ruby-3-debian.sh)
 
-set -xe 
+set -xe
 
 apt update -y
 
@@ -9,7 +9,7 @@ apt install -y build-essential git redis-server cmake vim wget curl libsqlite3-d
 
 mkdir -p ~/tmp
 
-cd ~/tmp 
+cd ~/tmp
 
 wget https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.3.tar.xz
 
@@ -23,4 +23,4 @@ make
 
 make install
 
-gem i -N bundler 
+gem i -N bundler

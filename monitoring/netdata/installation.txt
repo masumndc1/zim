@@ -1,6 +1,6 @@
 
 
-... installation of netdata 
+... installation of netdata
 ... my two systems both are centos 7.5
 
 [root@saltstack netdata]# salt -G os:centos cmd.run 'cat /etc/redhat-release'
@@ -18,18 +18,18 @@ https://github.com/netdata/netdata/tree/master/installer#installation
 ... for centos/redhat run the following script.
 
 [root@minion ~]# bash <(curl -Ss https://my-netdata.io/kickstart-static64.sh)
- --- Checking the latest version of static build... --- 
+ --- Checking the latest version of static build... ---
 
-[/root]# /bin/curl https://raw.githubusercontent.com/netdata/binary-packages/master/netdata-latest.gz.run 
+[/root]# /bin/curl https://raw.githubusercontent.com/netdata/binary-packages/master/netdata-latest.gz.run
 
-... for ubuntu/debian run 
+... for ubuntu/debian run
 
 [root@minion ~]# apt install netdata
 
 ... now we can monitor using http://<ip>:19999
 ... see config files from http://172.16.17.228:19999//netdata.conf
 
-... controlling netdata 
+... controlling netdata
 
 [root@minion ~]# systemctl status netdata
 ● netdata.service - Real time performance monitoring
@@ -38,12 +38,12 @@ https://github.com/netdata/netdata/tree/master/installer#installation
 ... netdata can generates it own conf file. to generate one do following
 
   wget -O /opt/netdata/etc/netdata/netdata.conf "http://localhost:19999/netdata.conf"
- 
+
 [root@minion netdata]# pwd
 /opt/netdata/etc/netdata
 [root@minion netdata]# ls
 charts.d  edit-config  health.d  netdata.conf  node.d  orig  python.d  statsd.d
-[root@minion netdata]# 
+[root@minion netdata]#
 
 ... now we need to edit the netdata.conf file and reload the systemctl restart netdata
 
@@ -97,13 +97,13 @@ include:
  - .firewall
 [root@saltstack netdata]#
 
-... now running the command 
+... now running the command
 
-[root@saltstack netdata]# salt -G os:centos cmd.run cwd=/root/netdata './netdata-installer.sh' stdin='\n'   
-                                                                              
+[root@saltstack netdata]# salt -G os:centos cmd.run cwd=/root/netdata './netdata-installer.sh' stdin='\n'
+
 ... it should be installed and running fine. if so, then we can see output using http://<ip>:19999
 
-[root@saltstack netdata]# salt -G os:centos grains.item ipv4                                             
+[root@saltstack netdata]# salt -G os:centos grains.item ipv4
 splunk:
     ----------
     ipv4:
@@ -114,7 +114,7 @@ minion:
     ipv4:
         - 127.0.0.1
         - 172.16.17.228
-[root@saltstack netdata]# 
+[root@saltstack netdata]#
 
 ... we may want to enable 19999/tcp port to access netdata from browser.
 

@@ -1,11 +1,9 @@
 
 
-... after booting the live cd, open one terminal and run the 
+... after booting the live cd, open one terminal and run the
 ... blackarch-install command and follow the prompt.
 ... choose dos at type when prompt for partitioning.
 
 ... updating the newly installed system.
 
 # pacman -Syyu --needed --overwrite '*' blackarch
-
-

@@ -3,7 +3,7 @@
 .... user management
 
 ... adding user
--bash-4.3# adduser 
+-bash-4.3# adduser
 Use option ``-silent'' if you don't want to see all warnings and questions.
 
 Reading /etc/shells
@@ -15,30 +15,30 @@ Don't worry about mistakes. There will be a chance later to correct any input.
 Enter username []: khabir
 Enter full name []: md khabir uddin
 Enter shell bash csh ksh nologin sh [bash]: bash
-Uid [1001]: 
-Login group khabir [khabir]: 
-Login group is ``khabir''. Invite khabir into other groups: guest no 
-[no]: 
-Login class authpf bgpd daemon default pbuild staff unbound 
-[default]: 
-Enter password []: 
-Enter password again []: 
+Uid [1001]:
+Login group khabir [khabir]:
+Login group is ``khabir''. Invite khabir into other groups: guest no
+[no]:
+Login class authpf bgpd daemon default pbuild staff unbound
+[default]:
+Enter password []:
+Enter password again []:
 
 Name:        khabir
 Password:    ****
 Fullname:    md khabir uddin
 Uid:         1001
 Gid:         1001 (khabir)
-Groups:      khabir 
+Groups:      khabir
 Login Class: default
 HOME:        /home/khabir
 Shell:       /usr/local/bin/bash
-OK? (y/n) [y]: 
+OK? (y/n) [y]:
 Added user ``khabir''
 Copy files from /etc/skel to /home/khabir
 Add another user? (y/n) [y]: n
 Goodbye!
--bash-4.3# 
+-bash-4.3#
 
 ... removing user
 -bash-4.3# rmuser khabir
@@ -46,19 +46,19 @@ Matching password entry:
 
 khabir:$2b$08$cCrVRXSWQvKlGdDv25hpfuZodw3OA8XQRsvpm0KjTPgzr0l35hSo.:1001:1001::0:0:md khabir uddin:/home/khabir:/usr/local/bin/bas
 
-Is this the entry you wish to remove? 
+Is this the entry you wish to remove?
 Please answer (y)es or (n)o.
 Is this the entry you wish to remove? yes
-Remove user's home directory (/home/khabir)? 
+Remove user's home directory (/home/khabir)?
 Please answer (y)es or (n)o.
 Remove user's home directory (/home/khabir)? yes
 Updating password file, updating databases, done.
 Updating group file:Removing group khabir -- personal group is empty
  done.
 Removing user's home directory (/home/khabir): done.
--bash-4.3# 
+-bash-4.3#
 
-... editing the user 
+... editing the user
 ... user can change his informatin by him self.
 $ chpass
 $ Changing user database information for mwlucas.
@@ -89,15 +89,14 @@ Office Phone:
 Changing password for masum.
 New password: weak_pass
 Please enter a longer password.
-New password: weak_pass 
+New password: weak_pass
 Please enter a longer password.
 New password: weak_pass
 Please enter a longer password.
 New password: weak_pass
 Retype new password: weak_pass
-openbsd#   
+openbsd#
 
 ... here if you try to use weak password, openbsd will complain but if you
 ... want to use weak password anyhow, keep putting weak passwd and it will accept it.
 ... after few time.
-

@@ -22,11 +22,11 @@ system_u:system_r:ftpd_t:s0-s0:c0.c1023 7141 ? 00:00:00 vsftpd
 [root@kube-node1 files]#
 
 ... the systemd runs the binary file /usr/sbin/vsftpd which has the context
-... ftpd_exec_t which then spawns process of type ftpd_t 
+... ftpd_exec_t which then spawns process of type ftpd_t
 
 ... this transition from one process to another process user cant
 ... control. also application cant control this transition. this has
-... been written in the policy of the selinux. 
+... been written in the policy of the selinux.
 
 ... we can search this policy for example by following
 
@@ -55,6 +55,3 @@ Found 1 semantic av rules:
    allow init_t ftpd_t : process transition ;
 
 [root@kube-node1 files]#
-
-
-

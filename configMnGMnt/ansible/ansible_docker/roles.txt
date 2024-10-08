@@ -2,7 +2,7 @@
 
 ... we can use ansible roles inside a container by following.
 ...
-... the purpose of using roles is install pkg, configure 
+... the purpose of using roles is install pkg, configure
 ... service inside a container etc.
 
 ... also we need to remember that python should be installed
@@ -40,20 +40,20 @@ ansible-galaxy init --init-path=./ test
           └── main.yml
 
           8 directories, 8 files
-          08:46:55 root@docker-master:~/ansible/test  
+          08:46:55 root@docker-master:~/ansible/test
 
 ... we will put required files in according place.
-... 
+...
 ... now will make a playbook and add that role with target container.
 ...
 ... example ansible playbook is below.
 
- 
+
        ▶  $ cat test.yaml
-       --- 
+       ---
        - hosts: localhost
          tasks:
-           - name: running container 
+           - name: running container
              docker_container:
                name: masumtst
                image: masumpy:latest
@@ -62,14 +62,14 @@ ansible-galaxy init --init-path=./ test
            #   command: ["sleep", "1d"]
                ports:
                  - 8080:80
-       
+
         - hosts: masumtst
-          roles: 
+          roles:
             - test
 
 ... and the mail.yaml file in tasks is
 
-        ▶  $ cat test/tasks/main.yml 
+        ▶  $ cat test/tasks/main.yml
         ---
         # tasks file for test
         - apt:
@@ -77,8 +77,6 @@ ansible-galaxy init --init-path=./ test
                 state: present
 
 
-... and finally when we run the ansible-playbook test.yaml, we have found 
+... and finally when we run the ansible-playbook test.yaml, we have found
 ... an running container named masumtst. and the ansible will also install
 ... required packages in instructed in the ansible role.
-
-

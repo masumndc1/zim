@@ -13,9 +13,9 @@ to upgrade the system.. centos and redhat
 
 If you have forgotten the root password it is possible to set a new one as follows:
 
-Interrupt the boot at the GRUB stage and boot to runlevel 1, AKA single user mode. 
-1.Interrupt GRUB by typing a character such as "space" then append to the kernel line by typing "a", 
-2.backspacing through "rhgb quiet" and appending " 1<enter>". 
+Interrupt the boot at the GRUB stage and boot to runlevel 1, AKA single user mode.
+1.Interrupt GRUB by typing a character such as "space" then append to the kernel line by typing "a",
+2.backspacing through "rhgb quiet" and appending " 1<enter>".
 
 This will give you a root shell and not a login prompt. From there you can use the "passwd" command to set a new root password.
 
@@ -58,12 +58,7 @@ Apache perform file caching.
 MemTotal:         511052 kB
 MemFree:           84692 kB
 Shmem:              3916 kB
-[root@localhost kernel]# 
+[root@localhost kernel]#
 
 
 #yum --enablerepo=base clean metadata
-
-
-
-
-

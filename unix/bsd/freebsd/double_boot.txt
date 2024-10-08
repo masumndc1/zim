@@ -4,7 +4,7 @@
 
 1. after installing ubuntu18.04, i have install freebsd12.01
 
-partition: 
+partition:
 I had three partions,
 
 freebsd-ufs mounted /
@@ -21,7 +21,7 @@ exec tail -n +3 $0
 # menu entries you want to add after this comment.  Be careful not to change
 # the 'exec tail' line above.
 
-➜  grub.d cat 40_custom 
+➜  grub.d cat 40_custom
 #!/bin/sh
 exec tail -n +3 $0
 # This file provides an easy way to add custom menu entries.  Simply type the
@@ -35,7 +35,7 @@ menuentry "FreeBSD" {
         chainloader +1
 }
 
-3. make some changes in /etc/default/grub.conf to increase grub-timeout 
+3. make some changes in /etc/default/grub.conf to increase grub-timeout
 and disable grub-hidden so you can select freebsd during machine booting.
 
 GRUB_DEFAULT=0
@@ -62,5 +62,3 @@ Found memtest86+ image: /boot/memtest86+.bin
 Found unknown Linux distribution on /dev/sda5
 done
 root@nobody:/etc/grub.d#
-
-

@@ -7,5 +7,3 @@
 ... run the following command in macOS to make your font smooth:
 
 $ defaults -currentHost write -g AppleFontSmoothing -int 0
-
-

@@ -3,16 +3,16 @@
 
   This is a good source of document..
 
-  Python tutorial can be found from. 
+  Python tutorial can be found from.
   https://docs.python.org/3/tutorial/
-  
+
 ... "python3 setup.py build" is equivalent to unix "make" command
 ... "python3 setup.py install" is equivalent to unix "make install" command
-... 
+...
 
 ... where does pip install its packages
 
-(osclient) ➜  ~ pip show python-novaclient 
+(osclient) ➜  ~ pip show python-novaclient
 Name: python-novaclient
 Version: 17.5.0
 Summary: Client library for OpenStack Compute API
@@ -23,6 +23,6 @@ License: Apache License, Version 2.0
 Location: /Users/khuddin/.virtualenvs/osclient/lib/python3.7/site-packages
 Requires: iso8601, keystoneauth1, oslo.i18n, oslo.serialization, oslo.utils, pbr, PrettyTable, stevedore
 Required-by: python-openstackclient
-(osclient) ➜  ~ 
+(osclient) ➜  ~
 
 ...

@@ -1,8 +1,8 @@
 
 snort normally requires application layer data to detect
-the attack. psad also can detect the attack from the sid 
+the attack. psad also can detect the attack from the sid
 value of snort. but if snort does not have the application
-layer data then alternatively psad can detect the attack 
+layer data then alternatively psad can detect the attack
 from iptables log message. thats one beauty of psad.
 
 snort signature used by psad from the file
@@ -23,7 +23,7 @@ root@debian:~# psad --sig-update
 	Length: 45267 (44K) [text/plain]
 	Saving to: `signatures'
 
-	100%[=============================================================================================>] 45,267       142K/s   in 0.3s    
+	100%[=============================================================================================>] 45,267       142K/s   in 0.3s
 
 	2016-06-17 21:01:42 (142 KB/s) - `signatures' saved [45267/45267]
 
@@ -33,17 +33,17 @@ root@debian:~# psad --sig-update
 		root@debian:~# psad -H
 		[+] HUP signal sent to psadwatchd (pid: 25164)
 		[+] HUP signal sent to psad (pid: 25161)
-root@debian:~# 
-		
-// there are two other option we can use with psad one 
+root@debian:~#
+
+// there are two other option we can use with psad one
 // is status another is running psad with forensic mode
-// 
+//
 
 root@debian # psad --Status
 
-// another way to use psad as forensic mode like 
+// another way to use psad as forensic mode like
 // pursing previous syslog message to psad to generate
-// a file which indicates the previous attack 
+// a file which indicates the previous attack
 // incidents in past
 
 
@@ -63,19 +63,19 @@ root@debian # psad --Status
 					    [+] These results are available in: /var/log/psad/analysis.out
 
 					    [+] Finished --Analyze cycle.
-					    
+
 
  // in forensic mode psad tries to purse from /var/log/messages
- // but we can also purge different files from different locations 
+ // but we can also purge different files from different locations
  // with the options like -m
- // 
+ //
 
- root@debian:/var/log# psad -A -m /var/log/messages.1 
+ root@debian:/var/log# psad -A -m /var/log/messages.1
 
  // lastly we can also tell psad not to run as daemon but in debug mode.
  // like below..
 
-  
+
 root@debian:/var/log# psad --debug
 [+] import_perl_modules(): The @INC array:
 /etc/perl
@@ -91,20 +91,20 @@ Sat Jun 18 05:34:57 2016 [+] IPTables::ChainMgr::run_ipt_cmd(waitpid()) /sbin/ip
 Sat Jun 18 05:34:57 2016 [+] IPTables::ChainMgr: Setting SIGCHLD handler to: CODE(0xa088a58)
 Sat Jun 18 05:34:57 2016     iptables command stdout:
 Chain INPUT (policy DROP 2412 packets, 127K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
    16   880 LOG        tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW LOG flags 6 level 4
    16   880 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW
 24478   29M ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
     4   336 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
    34  7252 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
  2412  127K LOG        all  --  !lo    *       0.0.0.0/0            0.0.0.0/0            LOG flags 6 level 4 prefix "DROP "
-   25  1500 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
+   25  1500 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0
 Sat Jun 18 05:34:57 2016     iptables command stderr:
 Sat Jun 18 05:34:57 2016 [+] IPTables::ChainMgr::run_ipt_cmd(waitpid()) /sbin/iptables -t filter -v -n -L OUTPUT
 Sat Jun 18 05:34:57 2016 [+] IPTables::ChainMgr: Setting SIGCHLD handler to: CODE(0xa088a58)
 Sat Jun 18 05:34:57 2016     iptables command stdout:
 Chain OUTPUT (policy DROP 643 packets, 188K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
     0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            state INVALID LOG flags 6 level 4 prefix "DROP INVALID "
     0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            state INVALID
 14014 1320K ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
@@ -113,9 +113,8 @@ Chain OUTPUT (policy DROP 643 packets, 188K bytes)
   616 37565 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:53 state NEW
    65  3900 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80
   643  188K LOG        all  --  *      !lo     0.0.0.0/0            0.0.0.0/0            LOG flags 6 level 4 prefix "DROP "
-   25  1500 ACCEPT     all  --  *      lo      0.0.0.0/0            0.0.0.0/0           
+   25  1500 ACCEPT     all  --  *      lo      0.0.0.0/0            0.0.0.0/0
 Sat Jun 18 05:34:57 2016     iptables command stderr:
 
 // therefore we are instructing psad not to be daemon ...
 // the whole output will be here.
-

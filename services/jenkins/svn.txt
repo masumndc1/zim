@@ -8,12 +8,12 @@
 
 [root@nginx subversion]# pwd
 /etc/subversion
-[root@nginx subversion]# 
+[root@nginx subversion]#
 [root@nginx subversion]# htpasswd -cm .svn-auth-conf masum
-New password: 
-Re-type new password: 
+New password:
+Re-type new password:
 Adding password for user masum
-[root@nginx subversion]# 
+[root@nginx subversion]#
 
 // -c will create the file .svn-auth-conf for the first time
 // and -m will encrypt the content of the file using md5.
@@ -24,14 +24,14 @@ total 16
 drwxr-xr-x    2 root root   28 Dec 12 17:28 .
 drwxr-xr-x. 103 root root 8192 Dec 12 17:20 ..
 -rw-r--r--    1 root root   44 Dec 12 17:28 .svn-auth-conf
-[root@nginx subversion]# 
+[root@nginx subversion]#
 
 ... subversion configuration related to apache
 
 [root@nginx conf.d]# pwd
 /etc/httpd/conf.d
-[root@nginx conf.d]# 
-[root@nginx conf.d]# cat subversion.conf 
+[root@nginx conf.d]#
+[root@nginx conf.d]# cat subversion.conf
 
 LoadModule dav_svn_module     modules/mod_dav_svn.so
 LoadModule authz_svn_module   modules/mod_authz_svn.so
@@ -43,13 +43,13 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 #   # chown -R apache.apache stuff
 #   # chcon -R -t httpd_sys_content_t stuff
 
-<Location />   
-    DAV svn   
+<Location />
+    DAV svn
     SVNParentPath /var/www/svn/
-    AuthType Basic        
-    SVNListParentPath on      
-    AuthName "Subversion repos"      
-    AuthUserFile /etc/subversion/.svn-auth-conf      
+    AuthType Basic
+    SVNListParentPath on
+    AuthName "Subversion repos"
+    AuthUserFile /etc/subversion/.svn-auth-conf
     Require valid-user
 </Location>
 
@@ -57,7 +57,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 #   <LimitExcept GET PROPFIND OPTIONS REPORT>
 #   # Require SSL connection for password protection.
 #   # SSLRequireSSL
-[root@nginx conf.d]# 
+[root@nginx conf.d]#
 
 ... making appropiate directory and setting ownership
 
@@ -73,7 +73,7 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 
 [masum@nginx svn]$ svn co http://192.168.10.140:8088/repos/khabirproj/
 Authentication realm: <http://192.168.10.140:8088> Subversion repos
-Password for 'masum': 
+Password for 'masum':
 
 -----------------------------------------------------------------------
 ATTENTION!  Your password for authentication realm:
@@ -92,12 +92,10 @@ Store password unencrypted (yes/no)? no
 A    khabirproj/masum
 A    khabirproj/uddin
 Checked out revision 1.
-[masum@nginx svn]$ 
+[masum@nginx svn]$
 [masum@nginx svn]$ ls
 khabirproj
 [masum@nginx svn]$ cd khabirproj/
 [masum@nginx khabirproj]$ ls
 masum  uddin
-[masum@nginx khabirproj]$ 
-
-
+[masum@nginx khabirproj]$

@@ -2,7 +2,7 @@
 
 ... replication controller creation
 
-[root@kube-master kube]# cat nodejs-controller.yaml 
+[root@kube-master kube]# cat nodejs-controller.yaml
 apiVersion: v1
 kind: ReplicationController
 metadata:
@@ -23,15 +23,14 @@ spec:
        image: jonbaier/node-express-info:latest
        ports:
        - containerPort: 80
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
-[root@kube-master kube]# kubectl create -f nodejs-controller.yaml 
+[root@kube-master kube]# kubectl create -f nodejs-controller.yaml
 replicationcontroller "node-js" created
-[root@kube-master kube]# 
+[root@kube-master kube]#
 [root@kube-master kube]# kubectl get rc
 NAME      DESIRED   CURRENT   READY     AGE
 nginx     4         4         4         8h
 node-js   3         3         0         12s
-[root@kube-master kube]# 
-[root@kube-master kube]# 
-
+[root@kube-master kube]#
+[root@kube-master kube]#

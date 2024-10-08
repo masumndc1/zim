@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
     size_t const len = strlen(argv[0]); // Computes the length
     char name[len+1];                   // Creates a VLA

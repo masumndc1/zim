@@ -34,4 +34,3 @@ apt-get -t jessie-backports install "package"
 of course you can use aptitude as well:
 
 aptitude -t jessie-backports install "package"
-

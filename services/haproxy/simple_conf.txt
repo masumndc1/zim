@@ -61,7 +61,7 @@ haproxy.cfg  haproxy.cfg.bk
 #	    mode tcp
 
 # mode tcp is another mode along with http mode. this mode is required when we need
-# to handle traffic rather than http. 
+# to handle traffic rather than http.
 
 	    bind 192.168.10.130:81
     	    default_backend             static
@@ -83,9 +83,9 @@ haproxy.cfg  haproxy.cfg.bk
 
 [root@nginx haproxy]# haproxy -f /etc/haproxy/haproxy.cfg -c
 
-[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:80] : backend 'static', 
+[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:80] : backend 'static',
 another server named 'static' was defined without an explicit ID at line 79, this is not recommended.
-[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:92] : backend 'app', 
+[WARNING] 255/204944 (2929) : parsing [/etc/haproxy/haproxy.cfg:92] : backend 'app',
 another server named 'static' was defined without an explicit ID at line 91, this is not recommended.
 Configuration file is valid
 [root@nginx haproxy]#
@@ -118,13 +118,3 @@ monitor-uri /check
 Service ready.
 </body></html>
 [root@nginx httpd]#
-
-
-
-
-
-
-
-
-
-

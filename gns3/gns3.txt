@@ -12,8 +12,7 @@ installing gns3 in debian
 # locate qemu
 # locate qemu-img
 
-if qemuwraper.py not found then download gns3-0.8.tar.gz and then untar 
+if qemuwraper.py not found then download gns3-0.8.tar.gz and then untar
 it and then on extract folder qemuwrapper.py can be found.
 
 {{~/my_work/gns3/Workspace 1_004.png}}
-

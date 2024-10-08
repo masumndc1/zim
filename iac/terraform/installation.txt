@@ -4,7 +4,3 @@
 
 ... first we need to install the terraform from the sites
 ... https://www.terraform.io/downloads.html
-    
-
-
-

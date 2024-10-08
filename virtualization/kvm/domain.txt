@@ -25,7 +25,7 @@ root@elxa6lj5k72:~# virsh list
  1     centos7.0                      running
  2     cirros                         running
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... listing the interface related info
 
@@ -35,15 +35,11 @@ Interface  Type       Source     Model       MAC
 vnet0      network    default    virtio      52:54:00:02:40:ac
 vnet1      network    isolated   virtio      52:54:00:f0:11:df
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# virsh domiflist cirros
 Interface  Type       Source     Model       MAC
 -------------------------------------------------------
 vnet2      network    default    rtl8139     52:54:00:3f:2d:bf
 vnet3      network    isolated1  virtio      52:54:00:8b:59:98
 
-root@elxa6lj5k72:~# 
-
-
-
-
+root@elxa6lj5k72:~#

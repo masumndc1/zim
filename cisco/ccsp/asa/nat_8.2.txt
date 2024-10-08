@@ -14,10 +14,10 @@ asa by default nat enabled. on the other hand
 enforcing nat means we have to configure nat for all
 of the packets going toward lower security interface
 that means outbound interface. before os version 7.0
-we had to do that. 
+we had to do that.
 
-enforcing nat is a kind of security enhancement. no 
-outbound traffic is allowed if no rules are applied 
+enforcing nat is a kind of security enhancement. no
+outbound traffic is allowed if no rules are applied
 and packets are dropped.
 
 and we can force asa to use enforce nat by the following
@@ -34,7 +34,7 @@ are there on configuration. other packets will not be touched.
 
 there are other scenario where nat is not applied
 
-a. if there is needed any kind of end-to-end encryption. 
+a. if there is needed any kind of end-to-end encryption.
 decryption failes on the other hand.
 
 b. if we need to encrypt the entire packets ie authetication
@@ -44,9 +44,9 @@ end when it tries to decrypt the packet.
 
 c. if we need additional dynamic sessions to be build and ASA
 fails to inspect the content of the packets after NAT/PAT then we
-should not use NAT/PAT.	
+should not use NAT/PAT.
 
-d. we should not also use nat/pat in case of vpn and internal 
+d. we should not also use nat/pat in case of vpn and internal
 communication like internal interface to dmz. in later case
 we can use dynamic routing like ospf/eigrp because communication
 between private does not need natting though it can be done.
@@ -60,28 +60,28 @@ asa(config)# global (outside) 1 209.165.200.235-209.165.200.254 netmask 255.255.
 asa(config)# nat (inside) 1 10.0.0.0 255.255.255.0
 
 global
-the key word for natting pool 
+the key word for natting pool
 
-outside 
+outside
 means outside interface
 
 1
-a nat id 
+a nat id
 
 ip range with subnet mask
 
 timeout xlate 1:00:00
 timeout value for translation
 
-nat 
-keyword 
+nat
+keyword
 
 inside
 inside interface from where the ips will be natted.
 
 1
 again the nat id which match the previous nat id to be used.
-inside ips will use this nat id. 
+inside ips will use this nat id.
 
 there can be multiple nat id
 and we have flexibility to configure which nat id to use.
@@ -118,10 +118,6 @@ note here in first two line of configuration. inside interfaces ips are being
 natted to outside interface ( no matter what will be the ips of that interface).
 in that case port will be used for as the single ip of outside interface.
 
-next two lines are also same type. direct interface ip is use instead of 
+next two lines are also same type. direct interface ip is use instead of
 key word interface. here dmz's 172.16.0.0/24 will be natted to 172.16.0.254 with
 different outgoing ports.
-
- 
-
- 

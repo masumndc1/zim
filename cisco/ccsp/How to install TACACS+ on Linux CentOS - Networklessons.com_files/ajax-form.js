@@ -50,7 +50,7 @@ jQuery(document).ready(function(){
 	/** post-processing on postmatic form */
 	jQuery('body').on('mab_process_optin', '.magic-action-box.mab-ajax form.mab-postmatic', function(event, data){
 		var form = jQuery(this);
-		var msgDiv = form.find('.mab-form-msg'); 
+		var msgDiv = form.find('.mab-form-msg');
 		msgDiv.addClass('mab-alert');
 
 		if(data.result === false){

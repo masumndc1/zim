@@ -8,7 +8,7 @@ AIDE, version 0.15.1
 
 ### AIDE database at /var/lib/aide/aide.db.new.gz initialized.
 
-[root@localhost ~]# 
+[root@localhost ~]#
 
 [root@localhost aide]# aide -v
 Aide 0.15.1
@@ -27,19 +27,19 @@ WITH_ZLIB
 WITH_GCRYPT
 WITH_AUDIT
 CONFIG_FILE = "/etc/aide.conf"
-[root@localhost aide]# 
+[root@localhost aide]#
 
-... after the initialization it will create the aide.db.new.gz which need to 
+... after the initialization it will create the aide.db.new.gz which need to
 ... move to new location. best options is the move to the read only medium.
 
 
 [root@localhost aide]# mv aide.db.new.gz aide.db.gz
 [root@localhost aide]# ls
 aide.db.gz
-[root@localhost aide]# 
+[root@localhost aide]#
 
-... now we will install some packages into the system and then run the aide to 
-... check the integrity changes 
+... now we will install some packages into the system and then run the aide to
+... check the integrity changes
 
 [root@localhost aide]# yum install nmap
 
@@ -97,11 +97,11 @@ Directory: /usr/share/man
 
 Directory: /usr/share/man/sk
  Linkcount: 3                                , 4
-[root@localhost aide]# 
+[root@localhost aide]#
 
 ... now we have checked that the new changes have been
-... detected by aide, now we need to update the changes 
-... by the following. this will create one new 
+... detected by aide, now we need to update the changes
+... by the following. this will create one new
 ... aide.db.new.gz file.
 
 [root@localhost aide]# aide -u
@@ -136,12 +136,12 @@ Directory: /usr/share
 
 Directory: /usr/share/doc
  Linkcount: 364                              , 363
-[root@localhost aide]# 
+[root@localhost aide]#
 
 ... up to this point we have checked the changes in
 ... they file system then now we can update our database
 ... again and move like above and use that things
-... 
+...
 
 ... we can use cron and script found in internet to make
 ... this checking and updating thing easier.
@@ -150,7 +150,7 @@ Directory: /usr/share/doc
 
 [root@myserver ~]# cat /var/log/aide/chaide.sh
 #! /bin/sh
-#chkaide.sh 
+#chkaide.sh
 MYDATE`date +%Y-%m-%d`
 MYFILENAME"Aide-"$MYDATE.txt
 /bin/echo "Aide check !! `date`" > /tmp/$MYFILENAME
@@ -160,12 +160,3 @@ MYFILENAME"Aide-"$MYDATE.txt
 /usr/bin/tail -20 /tmp/myAide.txt >> /tmp/$MYFILENAME
 /bin/echo "****************DONE******************" >> /tmp/$MYFILENAME
 /bin/mail -s"$MYFILENAME `date`" user1@example.com < /tmp/$MYFILENAME
-
-
-
-
-
-
-
-
-

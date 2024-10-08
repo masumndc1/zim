@@ -11,14 +11,14 @@ DNS2=8.8.4.4
 ... now check the interface
 
 [root@kube ~]# nmcli d
-DEVICE      TYPE      STATE      CONNECTION 
-docker0     bridge    connected  docker0    
-virbr0      bridge    connected  virbr0     
-enp0s3      ethernet  connected  enp0s3     
-enp0s8      ethernet  connected  enp0s8     
-lo          loopback  unmanaged  --         
-virbr0-nic  tun       unmanaged  --         
-[root@kube ~]# 
+DEVICE      TYPE      STATE      CONNECTION
+docker0     bridge    connected  docker0
+virbr0      bridge    connected  virbr0
+enp0s3      ethernet  connected  enp0s3
+enp0s8      ethernet  connected  enp0s8
+lo          loopback  unmanaged  --
+virbr0-nic  tun       unmanaged  --
+[root@kube ~]#
 
 ... setting DNS1 in ifcfg-eth0 will add and entry in /etc/resolv.conf
 ... like below

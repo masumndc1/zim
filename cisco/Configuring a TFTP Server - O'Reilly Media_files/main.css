@@ -130,11 +130,11 @@ ol.plain, ul.plain {
   text-align:center;
 }
 
-.topmenu a { 
-   font-family: Verdana, Arial, Helvetica, sans-serif; 
-   font-size: 7.5pt; 
-   font-weight: bold; 
-   text-decoration : none; 
+.topmenu a {
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 7.5pt;
+   font-weight: bold;
+   text-decoration : none;
    color: #fff;
 }
 
@@ -175,11 +175,11 @@ ol.plain, ul.plain {
     font-family: 'Times New Roman',Times,serif;
 }
 .secondary3 {
-    font-size: 14px; 
+    font-size: 14px;
 	font-family: 'Times New Roman',Times,serif;
 }
 .secondary4 {
-    font-size: 17px; 
+    font-size: 17px;
 	font-family: 'Times New Roman',Times,serif;
 }
 .intro {
@@ -216,32 +216,32 @@ ol.plain, ul.plain {
 	text-decoration : none;
 	color : #666666;
 }
-.hdr3 { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+.hdr3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 13pt;
-	font-weight: bold; 
-	text-decoration : none; 
+	font-weight: bold;
+	text-decoration : none;
 	color: #000000;
 }
-.hdr4 { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+.hdr4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 9.5pt;
-	font-weight: bold; 
-	text-decoration : none; 
+	font-weight: bold;
+	text-decoration : none;
 	color: #000000;
 }
-.hdr3-w { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+.hdr3-w {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 11.5pt;
-	font-weight: bold; 
-	text-decoration : none; 
+	font-weight: bold;
+	text-decoration : none;
 	color: #ffffff;
 }
-.hdr4-w { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+.hdr4-w {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 8.5pt;
-	font-weight: bold; 
-	text-decoration : none; 
+	font-weight: bold;
+	text-decoration : none;
 	color: #ffffff;
 	clear: left;
 }
@@ -288,8 +288,8 @@ ol.plain, ul.plain {
     font-family: 'Times New Roman',Times,serif;
 }
 .smalltext3 {
-    font-size: 11px; 
-    font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 11px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 .smalllist {
     font-size: 10px;
@@ -304,9 +304,9 @@ ol.plain, ul.plain {
     margin-top: 6px;
 }
 .smalllist3 {
-    font-size: 10px; 
-    font-family: Verdana, Arial, Helvetica, sans-serif; 
-    margin-bottom: 6px; 
+    font-size: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-bottom: 6px;
     margin-top: 6px;
     text-decoration: none;
 }
@@ -343,7 +343,7 @@ ol.plain, ul.plain {
     text-decoration: none;
     font-weight: normal;
 }
-.nav2 { 
+.nav2 {
     font-size: 10px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     color: white;
@@ -365,8 +365,8 @@ ol.plain, ul.plain {
     font-weight: normal;
     margin-left: 12px;
 }
-.nav4 { 
-	font-size: 11px; 
+.nav4 {
+	font-size: 11px;
 	font-family: Verdana, Helvetica, sans-serif;
 	color: white;
 	text-decoration: none;
@@ -381,16 +381,16 @@ ol.plain, ul.plain {
         font-weight: bold;
 }
 
-.new1 { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
-	font-size: 8.5pt; 
-	text-decoration : none; 
+.new1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8.5pt;
+	text-decoration : none;
 	color: #000000;
 }
-.new3 { 
-	font-family: Verdana, Arial, Helvetica, sans-serif; 
+.new3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 7.5pt;
-	text-decoration : none; 
+	text-decoration : none;
 	color: #000000;
 }
 A.nav:link {
@@ -553,7 +553,7 @@ A.nav2:link, A.nav2:visited {
 
 .gray {
     color: #666666;
-}   
+}
 .network {
     color: #990000;
 }
@@ -611,7 +611,7 @@ A.nav2:link, A.nav2:visited {
 /*added  for article formatting of email newsletters --mjl 9/16/05*/
 div.newsletter{
 white-space: pre;
-}   
+}
 .rbox {
 	color:#000;
 	background-color:#ccc;
@@ -656,7 +656,7 @@ white-space: pre;
 }
 .trb_right {
     text-align: right;
-    width: 30%; 
+    width: 30%;
     height: 20px;
     float: right;
     margin-top:0.5em;
@@ -690,17 +690,17 @@ div.commenttext ul li {
 
 /* added for oreilly.com book column */
 .redline {
-width:100%; 
-height:3px; 
-margin:4px 0; 
-clear:both; 
+width:100%;
+height:3px;
+margin:4px 0;
+clear:both;
 border-bottom:2px #990000 solid;
 }
 
 .booklist {
     font-size: 13px;
     font-family: 'Times New Roman',Times,serif;
-    line-height: 16pt; 
+    line-height: 16pt;
 }
 
 ul.booklist {
@@ -724,11 +724,11 @@ ul.events {
     border:1px solid #000;
     width:290px;
     padding:0px;
-}   
-    
+}
+
 #roughcutheader {
     height:30px;
-    padding:10px; 
+    padding:10px;
     padding-bottom:15px;
     background-color:#000;
     background-image:url(/images/roughcuts/roughcuts.gif);
@@ -746,62 +746,62 @@ ul.events {
 /* begin items added for safari box */
 ul.related {margin:0 10px 10px 0; padding-left:16px;}
 .cover {margin: 4px 8px 4px 0;}
-.box    { 
-        font-family: "Trebuchet MS",verdana, arial, sans-serif; 
-        font-size: x-small; 
-        color: #000000; 
+.box    {
+        font-family: "Trebuchet MS",verdana, arial, sans-serif;
+        font-size: x-small;
+        color: #000000;
         border:1pt solid #cccccc;
         padding:3pt;
         margin-bottom:12pt;
         margin-bottom:12pt;
         font-weight:normal;
-        }   
-.trial  { 
-        font-family: "Trebuchet MS",verdana, arial, sans-serif; 
-        font-size: small; 
-        color: #000000; 
+        }
+.trial  {
+        font-family: "Trebuchet MS",verdana, arial, sans-serif;
+        font-size: small;
+        color: #000000;
         padding:2pt;
         margin-top:0pt;
         margin-bottom:0pt;
         font-weight:normal;
-        }   
-.main   { 
-        font-family: "Trebuchet MS",verdana, arial, sans-serif; 
-        font-size: small; 
-        color: #000000; 
+        }
+.main   {
+        font-family: "Trebuchet MS",verdana, arial, sans-serif;
+        font-size: small;
+        color: #000000;
         font-weight:normal;
-        }   
-.box-main   { 
-        font-family: "Trebuchet MS",verdana, arial, sans-serif; 
-        font-size: small; 
-        color: #000000; 
+        }
+.box-main   {
+        font-family: "Trebuchet MS",verdana, arial, sans-serif;
+        font-size: small;
+        color: #000000;
         border:1pt solid #cccccc;
         padding:3pt;
         margin-bottom:12pt;
         margin-bottom:12pt;
         font-weight:normal;
-        }           
-.box-main2  { 
-        font-family: "Trebuchet MS",verdana, arial, sans-serif; 
-        font-size: small; 
-        color: #000000; 
+        }
+.box-main2  {
+        font-family: "Trebuchet MS",verdana, arial, sans-serif;
+        font-size: small;
+        color: #000000;
         padding:3pt;
         margin-bottom:12pt;
         margin-bottom:12pt;
         font-weight:normal;
-        }   
-.header-box { 
-        font-family: verdana, arial, sans-serif; 
-        font-size: large; 
-        color: #000000; 
+        }
+.header-box {
+        font-family: verdana, arial, sans-serif;
+        font-size: large;
+        color: #000000;
         font-weight:bold;
-        }       
-.sub-header-box { 
-        font-family: verdana, arial, sans-serif; 
-        font-size: medium; 
-        color: #000000; 
+        }
+.sub-header-box {
+        font-family: verdana, arial, sans-serif;
+        font-size: medium;
+        color: #000000;
         font-weight:bold;
-        }   
+        }
 /* end items added for safari box */
 
 /* items for header section of pages */
@@ -887,15 +887,15 @@ ul#menubar li a, ol#menubar li a {
     clear: both;
 }
 
-#textbar { 
-    font: 10px/2em Verdana, Arial, Helvetica, sans-serif; 
-    margin:0 1px; 
+#textbar {
+    font: 10px/2em Verdana, Arial, Helvetica, sans-serif;
+    margin:0 1px;
     text-align: center;
     line-height:2.2em;
 }
 
-#textbar table { 
-    display: none; 
+#textbar table {
+    display: none;
 }
 
 /* network specific */
@@ -949,15 +949,15 @@ ul#menubar li a, ol#menubar li a {
     background:#0000FF;color:#FFF;
 }
 
-/* footer */ 
+/* footer */
 #footer {
     border-top: 1px solid #ccc;
     background-color: #fff;
     font: 10px verdana;
     padding-bottom: 10px;
     margin:0 1px;
-    clear: both; 
-     z-index: 1; 
+    clear: both;
+     z-index: 1;
 }
 
 /* editor used for edit links that show up for editors only */
@@ -966,7 +966,7 @@ ul#menubar li a, ol#menubar li a {
     font-size: 9px;
     color: #777;
     background-color: #eee;
-}  
+}
 /* for flickr strips, used on etech coverage page */
 img.flickrimg {
     padding: 10px 5px 10px 5px;
@@ -984,7 +984,7 @@ img.flickrimg {
        vertical-align: middle;
        border-style: none;
        border-width: 0px;
-}  
+}
 td.flickr_badge_image img  {
    border-width: 0px;
 }
@@ -1041,11 +1041,11 @@ margin-right:2px;
 */
 
     .listen .button {
-    font-size:12px;    
+    font-size:12px;
     margin-left: 10px;
 }
     .listen .option {
-    font-size:12px;    
+    font-size:12px;
     display: none;
 }
 
@@ -1123,21 +1123,21 @@ p.ciAuthor {
 }
 
 p.ciTime {
-    
+
     margin-top: 0px
 }
 
 .ciFooter {
     font-size: 11px;
-    
-    
-}    
+
+
+}
 
 .ciLogo {
       display: block;
       background: white url( http://www.oreillynet.com/images/cilogo.png ) top left;
       width: 180px;
-      height: 38px; 
-      text-indent: -9000px;   
+      height: 38px;
+      text-indent: -9000px;
       text-decoration:  none;
     }

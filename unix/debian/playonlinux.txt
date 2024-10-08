@@ -12,21 +12,21 @@ Proxy request sent, awaiting response... 200 OK
 Length: 926 [text/plain]
 Saving to: `public.gpg'
 
-100%[======================================================================================================>] 926         --.-K/s   in 0s      
+100%[======================================================================================================>] 926         --.-K/s   in 0s
 
 2013-07-21 19:47:07 (85.8 MB/s) - `public.gpg' saved [926/926]
 
 root@mail:~# ;s
 -bash: syntax error near unexpected token `;'
-root@mail:~# 
+root@mail:~#
 root@mail:~# ls
 Desktop    Music      Videos                chromium.sh          ip_forwarx~  key.txt              new             smsenabler_setup.exe  vlc.sh
 Documents  Pictures   WebScarab.properties  cpulimit_service.sh  ip_forwary~  key_script.sh        photorec.ses    ssh.sh
 Downloads  Public     backtrack_key         exception.log        ip_forwarz~  mailbangla.net.html  playonlinux.sh  test.sh
 Maildir    Templates  change.sh             ip_forward~          ke.txt       missfont.log         public.gpg      usage.sh
-root@mail:~# 
-root@mail:~# 
-root@mail:~# 
+root@mail:~#
+root@mail:~#
+root@mail:~#
 root@mail:~# apt-key list
 /etc/apt/trusted.gpg
 --------------------
@@ -57,8 +57,8 @@ uid                  Debian Archive Automatic Signing Key (7.0/wheezy) <ftpmaste
 pub   4096R/65FFB764 2012-05-08 [expires: 2019-05-07]
 uid                  Wheezy Stable Release Key <debian-release@lists.debian.org>
 
-root@mail:~# 
-root@mail:~# 
+root@mail:~#
+root@mail:~#
 root@mail:~# apt-key add public.gpg
 OK
 root@mail:~# apt-key list
@@ -101,57 +101,57 @@ Proxy request sent, awaiting response... 200 OK
 Length: 45 [text/plain]
 Saving to: `/etc/apt/sources.list.d/playonlinux.list'
 
-100%[======================================================================================================>] 45          --.-K/s   in 0s      
+100%[======================================================================================================>] 45          --.-K/s   in 0s
 
 2013-07-21 19:50:47 (6.44 MB/s) - `/etc/apt/sources.list.d/playonlinux.list' saved [45/45]
 
 root@mail:~# apt-get update
 Get:1 http://deb.playonlinux.com squeeze Release.gpg [198B]
-Ign http://deb.playonlinux.com/ squeeze/main Translation-en                                         
-Get:2 http://ftp.debian.org squeeze Release.gpg [1672B]                                    
-Get:3 http://deb.playonlinux.com squeeze Release [1722B]                                   
-Ign http://ftp.debian.org/debian/ squeeze/contrib Translation-en                                  
-Ign http://ftp.debian.org/debian/ squeeze/main Translation-en                               
-Ign http://deb.playonlinux.com squeeze/main i386 Packages            
-Ign http://ftp.debian.org/debian/ squeeze/non-free Translation-en    
-Hit http://ftp.debian.org squeeze Release                            
-Ign http://deb.playonlinux.com squeeze/main i386 Packages                                  
-Hit http://ftp.debian.org squeeze/main Sources                       
-Hit http://ftp.debian.org squeeze/contrib Sources                    
-Get:4 http://deb.playonlinux.com squeeze/main i386 Packages [535B]   
-Hit http://ftp.debian.org squeeze/non-free Sources                                               
-Hit http://ftp.debian.org squeeze/main i386 Packages                 
+Ign http://deb.playonlinux.com/ squeeze/main Translation-en
+Get:2 http://ftp.debian.org squeeze Release.gpg [1672B]
+Get:3 http://deb.playonlinux.com squeeze Release [1722B]
+Ign http://ftp.debian.org/debian/ squeeze/contrib Translation-en
+Ign http://ftp.debian.org/debian/ squeeze/main Translation-en
+Ign http://deb.playonlinux.com squeeze/main i386 Packages
+Ign http://ftp.debian.org/debian/ squeeze/non-free Translation-en
+Hit http://ftp.debian.org squeeze Release
+Ign http://deb.playonlinux.com squeeze/main i386 Packages
+Hit http://ftp.debian.org squeeze/main Sources
+Hit http://ftp.debian.org squeeze/contrib Sources
+Get:4 http://deb.playonlinux.com squeeze/main i386 Packages [535B]
+Hit http://ftp.debian.org squeeze/non-free Sources
+Hit http://ftp.debian.org squeeze/main i386 Packages
 Hit http://ftp.debian.org squeeze/contrib i386 Packages
 Hit http://ftp.debian.org squeeze/non-free i386 Packages
-Get:5 http://ftp.ca.debian.org squeeze Release.gpg[1672B]                                                                                     
-Ign http://ftp.ca.debian.org/debian/ squeeze/contrib Translation-en                                                                            
-Ign http://ftp.ca.debian.org/debian/ squeeze/main Translation-en                                                                               
-Ign http://ftp.ca.debian.org/debian/ squeeze/non-free Translation-en                                                                           
-Hit http://ftp.ca.debian.org squeeze Release                                                                                                   
-Get:6 http://security.debian.org squeeze/updates Release.gpg [836B]                                                                            
-Hit http://ftp.ca.debian.org squeeze/main Sources                                                                                              
-Ign http://security.debian.org/ squeeze/updates/contrib Translation-en                                                                         
-Ign http://security.debian.org/ squeeze/updates/main Translation-en                                                                            
-Hit http://ftp.ca.debian.org squeeze/contrib Sources                                                                                           
-Ign http://security.debian.org/ squeeze/updates/non-free Translation-en                                                                        
-Get:7 http://security.debian.org squeeze/updates Release [86.9kB]                                                                              
-Hit http://ftp.ca.debian.org squeeze/non-free Sources                                                                                          
-Hit http://ftp.ca.debian.org squeeze/main i386 Packages                                                                                        
-Hit http://ftp.ca.debian.org squeeze/contrib i386 Packages                                                                                     
-Get:8 http://security.debian.org squeeze/updates/main Sources [110kB]                                                                          
-Hit http://ftp.ca.debian.org squeeze/non-free i386 Packages                                                                                    
-Get:9 http://security.debian.org squeeze/updates/contrib Sources [14B]                                                                         
-Get:10 http://security.debian.org squeeze/updates/non-free Sources [14B]                                                                       
-Get:11 http://security.debian.org squeeze/updates/main i386 Packages [335kB]                                                                   
-Get:12 http://security.debian.org squeeze/updates/contrib i386 Packages [681B]                                                                 
-Get:13 http://security.debian.org squeeze/updates/non-free i386 Packages [14B]                                                                 
-Fetched 539kB in 22s (23.5kB/s)                                                                                                                
+Get:5 http://ftp.ca.debian.org squeeze Release.gpg[1672B]
+Ign http://ftp.ca.debian.org/debian/ squeeze/contrib Translation-en
+Ign http://ftp.ca.debian.org/debian/ squeeze/main Translation-en
+Ign http://ftp.ca.debian.org/debian/ squeeze/non-free Translation-en
+Hit http://ftp.ca.debian.org squeeze Release
+Get:6 http://security.debian.org squeeze/updates Release.gpg [836B]
+Hit http://ftp.ca.debian.org squeeze/main Sources
+Ign http://security.debian.org/ squeeze/updates/contrib Translation-en
+Ign http://security.debian.org/ squeeze/updates/main Translation-en
+Hit http://ftp.ca.debian.org squeeze/contrib Sources
+Ign http://security.debian.org/ squeeze/updates/non-free Translation-en
+Get:7 http://security.debian.org squeeze/updates Release [86.9kB]
+Hit http://ftp.ca.debian.org squeeze/non-free Sources
+Hit http://ftp.ca.debian.org squeeze/main i386 Packages
+Hit http://ftp.ca.debian.org squeeze/contrib i386 Packages
+Get:8 http://security.debian.org squeeze/updates/main Sources [110kB]
+Hit http://ftp.ca.debian.org squeeze/non-free i386 Packages
+Get:9 http://security.debian.org squeeze/updates/contrib Sources [14B]
+Get:10 http://security.debian.org squeeze/updates/non-free Sources [14B]
+Get:11 http://security.debian.org squeeze/updates/main i386 Packages [335kB]
+Get:12 http://security.debian.org squeeze/updates/contrib i386 Packages [681B]
+Get:13 http://security.debian.org squeeze/updates/non-free i386 Packages [14B]
+Fetched 539kB in 22s (23.5kB/s)
 Reading package lists... Done
-root@mail:~# 
-root@mail:~# 
+root@mail:~#
+root@mail:~#
 root@mail:~# apt-get install playonlinux
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following packages will be upgraded:
   playonlinux
@@ -159,7 +159,7 @@ The following packages will be upgraded:
 Need to get 4283kB of archives.
 After this operation, 11.5MB of additional disk space will be used.
 Get:1 http://deb.playonlinux.com/ squeeze/main playonlinux all 4.2.1 [4283kB]
-Fetched 4283kB in 18s (227kB/s)                                                                                                                
+Fetched 4283kB in 18s (227kB/s)
 (Reading database ... 294819 files and directories currently installed.)
 Preparing to replace playonlinux 3.7.6-1 (using .../playonlinux_4.2.1_all.deb) ...
 Unpacking replacement playonlinux ...
@@ -173,4 +173,4 @@ Processing triggers for python-support ...
 
 Setting up playonlinux (4.2.1) ...
 gconf-schemas is /usr/sbin/gconf-schemas
-root@mail:~# 
+root@mail:~#

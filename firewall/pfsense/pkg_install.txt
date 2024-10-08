@@ -24,7 +24,7 @@ The process will require 5 MiB more space.
 992 KiB to be downloaded.
 
 Proceed with this action? [y/N]: y
-Fetching bash-4.3.46_1.txz: 100%  992 KiB 338.8kB/s    00:03    
+Fetching bash-4.3.46_1.txz: 100%  992 KiB 338.8kB/s    00:03
 Checking integrity... done (0 conflicting)
 [1/1] Installing bash-4.3.46_1...
 [1/1] Extracting bash-4.3.46_1: 100%
@@ -43,7 +43,7 @@ To make it permanent, you need the following lines in /etc/fstab:
 
 ======================================================================
 # mount -t fdescfs fdesc /dev/fd
-# 
+#
 #  pkg install bash
 Updating pfSense-core repository catalogue...
 pfSense-core repository is up-to-date.
@@ -52,5 +52,4 @@ pfSense repository is up-to-date.
 All repositories are up-to-date.
 Checking integrity... done (0 conflicting)
 The most recent version of packages are already installed
-# 
-
+#

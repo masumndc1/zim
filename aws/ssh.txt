@@ -1,8 +1,8 @@
 masum@masum:~/Downloads$ ls *.pem
 masumpen.pem
 masum@masum:~/Downloads$ chmod 400 masumpen.pem
-masum@masum:~/Downloads$ 
-masum@masum:~/Downloads$ 
+masum@masum:~/Downloads$
+masum@masum:~/Downloads$
 masum@masum:~/Downloads$ ssh -i ****.compute-1.amazonaws.com
 Permission denied (publickey).
 masum@masum:~/Downloads$ ssh -i masumpen.pem ****.compute-1.amazonaws.com
@@ -14,13 +14,12 @@ masum@masum:~/Downloads$ ssh -i masumpen.pem ****.compute-1.amazonaws.com
 https://aws.amazon.com/amazon-linux-ami/2016.03-release-notes/
 1 package(s) needed for security, out of 1 available
 Run "sudo yum update" to apply all updates.
-[ec2-user@ip-172-31-54-206 ~]$ 
-[ec2-user@ip-172-31-54-206 ~]$ 
-[ec2-user@ip-172-31-54-206 ~]$ 
+[ec2-user@ip-172-31-54-206 ~]$
+[ec2-user@ip-172-31-54-206 ~]$
+[ec2-user@ip-172-31-54-206 ~]$
 [ec2-user@ip-172-31-54-206 ~]$ ls
 [ec2-user@ip-172-31-54-206 ~]$ pwd
 /home/ec2-user
-[ec2-user@ip-172-31-54-206 ~]$ 
-[ec2-user@ip-172-31-54-206 ~]$ 
-[ec2-user@ip-172-31-54-206 ~]$ 
-
+[ec2-user@ip-172-31-54-206 ~]$
+[ec2-user@ip-172-31-54-206 ~]$
+[ec2-user@ip-172-31-54-206 ~]$

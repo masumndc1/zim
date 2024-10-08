@@ -5,7 +5,7 @@
 
 1. first configure a vlan-pseudo interface
 [root@dfly /home/masum]# ifconfig vlan10 create
- 
+
   here vlan is the keyword and 10 is the random number. this number
   does not have any relevance with vlan tagging. But for convenience,
   we do so for ease of indentification. We then assume that vlan tag 10
@@ -14,8 +14,8 @@
 2. now configure, vlan tag and attach this interface to a parent physical interface
 [root@dfly /home/masum]# ifconfig vlan10 vlan 10 vlandev em1
 
-  here, vlan10 is the pseudo-interface that we have created before, vlan is the 
-  keyword and then 10 is the vlan tag. this vlan tag will be added to the 802.1q 
+  here, vlan10 is the pseudo-interface that we have created before, vlan is the
+  keyword and then 10 is the vlan tag. this vlan tag will be added to the 802.1q
   vlan header. vlandev is a keyword and finally em1, is the physical interface
   vlan10 pseudo-interface will be attached to. this em1 will act like a trunk interface.
 
@@ -40,7 +40,7 @@ vlan10: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 [root@dfly /home/masum]# ifconfig vlan20 create
 [root@dfly /home/masum]# ifconfig vlan20 vlan 20 vlandev em1
 [root@dfly /home/masum]# ifconfig vlan20 10.10.20.1/24
-[root@dfly /home/masum]# ifconfig 
+[root@dfly /home/masum]# ifconfig
 vlan20: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
         inet 10.10.20.1 netmask 0xffffff00 broadcast 10.10.20.255
         inet6 fe80::20c:29ff:fe60:10b0%vlan20 prefixlen 64 scopeid 0x6
@@ -59,7 +59,7 @@ vlan20: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
 
   a. detach vlan from parent interface
   [root@dfly /home/masum]# ifconfig vlan20 -vlandev
-  
+
   b. reattach it to a new interface by following
   [root@dfly /home/masum]# ifconfig vlan20 vlan 20 vlandev em2
   [root@dfly /home/masum]# ifconfig
@@ -86,5 +86,3 @@ ifconfig_vlan20="inet 10.10.20.1/24 vlan 20 vlandev em1"
 ifconfig_vlan30="inet 172.16.30.1/24 vlan 30 vlandev em2"
 ifconfig_em1="up"
 ifconfig_em2="up"
-
-

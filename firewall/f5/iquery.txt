@@ -1,7 +1,7 @@
 
 
-// the communication between two big ip servers is done by the 
-// irule called iquery. 
+// the communication between two big ip servers is done by the
+// irule called iquery.
 
 // we have to do this by command line like below
 
@@ -9,13 +9,9 @@ root@bigip config # bigip_add 10.10.15.31     		# the ip we need to to add with 
 
 // this will then communicate with using the certificates between them.
 // they will use the ssh to communicate therefore it has to be allow port
-// 22 between them. along this we will need the root passward of the remote 
+// 22 between them. along this we will need the root passward of the remote
 // bigip system.
 
 
 // also when we need to add another dns server and need to synchronys them together
 // then we will use gtm_add 10.10.4.31 dns server.
-
-
-
-

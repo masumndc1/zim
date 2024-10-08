@@ -9,7 +9,7 @@ or
 To add a filesystem in the volume group with mount point
 #crfs -v jfs2 -d /dev/anjlv1 -m /anjlv1
 
-To mount the filesystem 
+To mount the filesystem
 #mount /anjlv1
 
 To check the filesystem

@@ -11,14 +11,14 @@ root@mail:/home/pbl/html# **cat /bin/fileshorter **
 if [ $# -lt 1 ] ; then
 	echo -e "usage: $0 filename"
 
-else 
+else
 	a=$1
 	b=${a#*_}
 	mv $a $b
 	c=${b%_*}
 	mv $b $c.mp3
 fi
-root@mail:/home/pbl/html# 
+root@mail:/home/pbl/html#
 
 root@mail:/home/pbl/html# **fileshorter Bhoot-FM_2013-07-26_\(Bhoot-FM.com\).mp3 **
 + '[' 1 -lt 1 ']'
@@ -29,5 +29,4 @@ root@mail:/home/pbl/html# **fileshorter Bhoot-FM_2013-07-26_\(Bhoot-FM.com\).mp3
 + mv '2013-07-26_(Bhoot-FM.com).mp3' 2013-07-26.mp3
 root@mail:/home/pbl/html# **ls**
 **2013-07-26.mp3**
-root@mail:/home/pbl/html# 
-
+root@mail:/home/pbl/html#

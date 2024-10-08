@@ -8,8 +8,8 @@ Created Sunday 01 April 2012
 root@masum-K42JZ:/etc/bind# **cat named.conf**
 // This is the primary configuration file for the BIND DNS server named.
 //
-// Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
-// structure of BIND configuration files in Debian, *BEFORE* you customize 
+// Please read /usr/share/doc/bind9/README.Debian.gz for information on the
+// structure of BIND configuration files in Debian, *BEFORE* you customize
 // this configuration file.
 //
 // If you are just adding zones, please do that in /etc/bind/named.conf.local
@@ -20,9 +20,9 @@ include "/etc/bind/named.conf.default-zones";
 //include "/etc/bind/rndc.key";
 include "/etc/bind/tsig.key";
 
-root@masum-K42JZ:/etc/bind# 
+root@masum-K42JZ:/etc/bind#
 
-root@masum-K42JZ:/etc/bind# **cat named.conf.local** 
+root@masum-K42JZ:/etc/bind# **cat named.conf.local**
 //
 // Do any local configuration here
 //
@@ -57,7 +57,7 @@ zone "mike.com" {
         masters {192.168.1.254;};
 };
 
-root@masum-K42JZ:/etc/bind# 
+root@masum-K42JZ:/etc/bind#
 
 root@masum-K42JZ:/etc/bind# **cat tsig.key **
 key "masum" {
@@ -73,16 +73,16 @@ server 192.168.1.254 {
 	};
 
 };
-root@masum-K42JZ:/etc/bind# 
+root@masum-K42JZ:/etc/bind#
 
 
 root@masum-K42JZ:/var/cache/bind# **ls**
 1.168.192.in-addr.arpa.zone  bob.com.zone  db.example.com.zone	mike.com.zone
-root@masum-K42JZ:/var/cache/bind# 
-root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind#
+root@masum-K42JZ:/var/cache/bind#
 
 
-root@masum-K42JZ:/var/cache/bind# **cat 1.168.192.in-addr.arpa.zone** 
+root@masum-K42JZ:/var/cache/bind# **cat 1.168.192.in-addr.arpa.zone**
 $ORIGIN .
 $TTL 86400	; 1 day
 1.168.192.in-addr.arpa	IN SOA	ns1.example.com. root.example.com. (
@@ -111,7 +111,7 @@ $ORIGIN 1.168.192.in-addr.arpa.
 57			PTR	ftp.mike.com.
 60			PTR	www.mike.com.
 7			PTR	masum.example.com.
-root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind#
 
 root@masum-K42JZ:/var/cache/bind# **cat bob.com.zone **
 $ORIGIN .
@@ -131,10 +131,10 @@ mail			A	192.168.1.25
 ns1			A	192.168.1.22
 ns2			A	192.168.1.23
 www			A	192.168.1.30
-root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind#
 
 
-root@masum-K42JZ:/var/cache/bind# **cat db.example.com.zone** 
+root@masum-K42JZ:/var/cache/bind# **cat db.example.com.zone**
 $ORIGIN .
 $TTL 86400	; 1 day
 example.com		IN SOA	example.com. root.example.com. (
@@ -155,9 +155,9 @@ masum			A	192.168.1.7
 ns1			A	192.168.1.254
 ns2			A	192.168.1.1
 www			A	192.168.1.10
-root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind#
 
-root@masum-K42JZ:/var/cache/bind# **cat mike.com.zone** 
+root@masum-K42JZ:/var/cache/bind# **cat mike.com.zone**
 $ORIGIN .
 $TTL 86400	; 1 day
 mike.com		IN SOA	mike.com. root.mike.com. (
@@ -175,11 +175,11 @@ mail			A	192.168.1.55
 ns1			A	192.168.1.52
 ns2			A	192.168.1.53
 www			A	192.168.1.60
-root@masum-K42JZ:/var/cache/bind# 
+root@masum-K42JZ:/var/cache/bind#
 
 
 root@masum-K42JZ:/etc/bind# **cat /etc/resolv.conf**
 search mike.com bob.com example.com
 nameserver 192.168.1.254  # primary dns
-nameserver 192.168.1.1	  # secondary dns	
-root@masum-K42JZ:/etc/bind# 
+nameserver 192.168.1.1	  # secondary dns
+root@masum-K42JZ:/etc/bind#

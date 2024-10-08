@@ -1,6 +1,6 @@
 
 
-... we are now using john the ripper to generate password 
+... we are now using john the ripper to generate password
 ... list from another word list like below.
 
 └──╼ # john --stdout --wordlist=cewl.txt >> john_file.txt
@@ -24,4 +24,3 @@ Press 'q' or Ctrl-C to abort, almost any other key for status
 ┌─[root@parrot]─[/home/masum]
 
 ... john config file can be defined in the /etc/john/john.conf file
-

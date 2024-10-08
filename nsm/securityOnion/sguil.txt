@@ -7,13 +7,8 @@
 ... sguil collects data from ids(snort,suricata), hostbased-ids(ossec), or
 ... network profiling tools like passive real time attack detection system
 ... (prads), http transanction from bro. except for bro, squil displays event msg
-... from other sources. for bro we need to create event query.  
+... from other sources. for bro we need to create event query.
 
 ... the session data aka sancp data for sguil. the searching ability for sancp
 ... data is another key capability for squil. sancp stands for security analyst
 ... network connection profiler.
-
-
-
-
-

@@ -1,7 +1,7 @@
 
 // info on interface
 
-admin@PA-VM> show interface 
+admin@PA-VM> show interface
   all          Show all interface information
   hardware     Show all hardware interface information
   logical      Show all logical interface information
@@ -12,7 +12,7 @@ admin@PA-VM> show interface all
 
 total configured hardware interfaces: 0
 
-name                    id    speed/duplex/state        mac address       
+name                    id    speed/duplex/state        mac address
 --------------------------------------------------------------------------------
 
 aggregation groups: 0
@@ -20,30 +20,30 @@ aggregation groups: 0
 
 total configured logical interfaces: 0
 
-name                id    vsys zone             forwarding               tag    address                                         
+name                id    vsys zone             forwarding               tag    address
 ------------------- ----- ---- ---------------- ------------------------ ------ ------------------
 
-admin@PA-VM> show interface management 
+admin@PA-VM> show interface management
   |        Pipe through a command
   <Enter>  Finish input
 
-admin@PA-VM> show interface management 
+admin@PA-VM> show interface management
 
 
 -------------------------------------------------------------------------------
 Name: Management Interface
 Link status:
   Runtime link speed/duplex/state: unknown/unknown/up
-  Configured link speed/duplex/state: auto/auto/auto 
+  Configured link speed/duplex/state: auto/auto/auto
 MAC address:
-  Port MAC addresss 00:0c:29:a2:e5:90 
+  Port MAC addresss 00:0c:29:a2:e5:90
 
 Ip address: 192.168.201.234
 Netmask: 255.255.252.0
-Default gateway: 
+Default gateway:
 Ipv6 address: unknown
 Ipv6 link local address: unknown
-Ipv6 default gateway: unknown 
+Ipv6 default gateway: unknown
 -------------------------------------------------------------------------------
 
 
@@ -61,17 +61,17 @@ transmit packets dropped          0
 multicast packets received        61
 -------------------------------------------------------------------------------
 
-admin@PA-VM> show interface hardware 
+admin@PA-VM> show interface hardware
 
 total configured hardware interfaces: 0
 
-name                    id    speed/duplex/state        mac address       
+name                    id    speed/duplex/state        mac address
 --------------------------------------------------------------------------------
 
 aggregation groups: 0
 
-admin@PA-VM> 
-admin@PA-VM> show interface 
+admin@PA-VM>
+admin@PA-VM> show interface
   all          Show all interface information
   hardware     Show all hardware interface information
   logical      Show all logical interface information
@@ -79,14 +79,14 @@ admin@PA-VM> show interface
   <value>      <name> interface name
 
 
-admin@PA-VM> show interface logical 
+admin@PA-VM> show interface logical
 
 total configured logical interfaces: 0
 
-name                id    vsys zone             forwarding               tag    address                                         
+name                id    vsys zone             forwarding               tag    address
 ------------------- ----- ---- ---------------- ------------------------ ------ ------------------
 
-admin@PA-VM> 
+admin@PA-VM>
 
 
 // configuring one of them
@@ -95,18 +95,18 @@ admin@PA-VM>
 
 admin@PA-VM# set network interface ethernet ethernet1/3 layer3 ip 172.16.1.1/24
 
-[edit]                                                                                                                                                        
-admin@PA-VM# 
+[edit]
+admin@PA-VM#
 
-// now commit with error checking. 
+// now commit with error checking.
 
-admin@PA-VM# commit 
-> force      force 
-> partial    partial 
-> validate   validate 
+admin@PA-VM# commit
+> force      force
+> partial    partial
+> validate   validate
   <Enter>    Finish input
 
-admin@PA-VM# commit validate 
+admin@PA-VM# commit validate
 
 
 ......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
@@ -115,24 +115,24 @@ Interface ethernet1/2 has no virtual-router configuration.
 Interface ethernet1/3 has no zone configuration.
 Interface ethernet1/3 has no virtual-router configuration.
 
-// configuration is valid but 
-// since we can see that there is no zone associated with 
-// ethernet1/3 so we are creating a zone of name 
+// configuration is valid but
+// since we can see that there is no zone associated with
+// ethernet1/3 so we are creating a zone of name
 // inside and adding ethernet1/3 with it.
 
-[edit]                                                                                                                                                        
+[edit]
 
-admin@PA-VM# set zone 
+admin@PA-VM# set zone
   DMZ     DMZ
   <name>  <name>
 
-admin@PA-VM# set zone inside 
-+ enable-user-identification   enable-user-identification 
+admin@PA-VM# set zone inside
++ enable-user-identification   enable-user-identification
 > network                      Zone network configuration
 > user-acl                     User ACL configuration
   <Enter>                      Finish input
 
-admin@PA-VM# set zone inside network 
+admin@PA-VM# set zone inside network
 + log-setting               Log setting for forwarding scan logs
 + zone-protection-profile   Zone protection profile
 > layer2                    Layer2 interfaces
@@ -141,7 +141,7 @@ admin@PA-VM# set zone inside network
 > virtual-wire              Virtual-wire interfaces
   <Enter>                   Finish input
 
-admin@PA-VM# set zone inside network layer3 
+admin@PA-VM# set zone inside network layer3
   [             Start a list of values.
   ethernet1/3   layer3 ethernet1/3
   loopback      loopback loopback
@@ -149,13 +149,13 @@ admin@PA-VM# set zone inside network layer3
   vlan          vlan vlan
   <value>       member value
 
-admin@PA-VM# set zone inside network layer3 ethernet1/3 
+admin@PA-VM# set zone inside network layer3 ethernet1/3
   <Enter>  Finish input
 
-admin@PA-VM# set zone inside network layer3 ethernet1/3 
+admin@PA-VM# set zone inside network layer3 ethernet1/3
 
-[edit]                                                                                                                                                        
-admin@PA-VM# commit validate 
+[edit]
+admin@PA-VM# commit validate
 
 
 ......10%.....20%.....30%.....40%.....50%.....60%.....70%.....80%.....90%.....100%
@@ -163,12 +163,12 @@ Configuration is valid
 Interface ethernet1/2 has no virtual-router configuration.
 Interface ethernet1/3 has no virtual-router configuration.
 
-[edit]                                                                                                                                                        
-admin@PA-VM# 
+[edit]
+admin@PA-VM#
 
 // finally commiting
-[edit]                                                                                                                                                        
-admin@PA-VM# commit 
+[edit]
+admin@PA-VM# commit
 
 
 .....55%.75%98%........100%
@@ -176,15 +176,15 @@ Configuration committed successfully
 Interface ethernet1/2 has no virtual-router configuration.
 Interface ethernet1/3 has no virtual-router configuration.
 
-[edit]                                                                                                                                                        
-admin@PA-VM# 
+[edit]
+admin@PA-VM#
 
 // and configuration is committed successfully.
 // now we will check it with our previous commands.
 // from web we could see the changes now from cli
 
 
-admin@PA-VM# show network interface ethernet 
+admin@PA-VM# show network interface ethernet
 ethernet {
   ethernet1/2 {
     layer3 {
@@ -209,23 +209,23 @@ ethernet {
     }
   }
 }
-[edit]                                                                                                                                                        
-admin@PA-VM# 
+[edit]
+admin@PA-VM#
 
 // setting comments on ethernet ip by command line
 
 admin@PA-VM# set  network interface ethernet ethernet1/3 comment "this is my local lan"
 
-[edit]                                                                                                                                                        
-admin@PA-VM# 
+[edit]
+admin@PA-VM#
 
 
-[edit]                                                                                                                                                        
+[edit]
 admin@PA-VM# exit
 Exiting configuration mode
-admin@PA-VM> 
-admin@PA-VM> 
-admin@PA-VM> show interface 
+admin@PA-VM>
+admin@PA-VM>
+admin@PA-VM> show interface
   all           Show all interface information
   ethernet1/2   ethernet1/2
   ethernet1/3   ethernet1/3
@@ -238,22 +238,22 @@ admin@PA-VM> show interface all
 
 total configured hardware interfaces: 2
 
-name                    id    speed/duplex/state        mac address       
+name                    id    speed/duplex/state        mac address
 --------------------------------------------------------------------------------
-ethernet1/2             17    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:11 
-ethernet1/3             18    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:12 
+ethernet1/2             17    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:11
+ethernet1/3             18    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:12
 
 aggregation groups: 0
 
 
 total configured logical interfaces: 2
 
-name                id    vsys zone             forwarding               tag    address                                         
+name                id    vsys zone             forwarding               tag    address
 ------------------- ----- ---- ---------------- ------------------------ ------ ------------------
-ethernet1/2         17    1    DMZ              N/A                      0      192.168.1.1/24    
-ethernet1/3         18    1    inside           N/A                      0      172.16.1.1/24     
+ethernet1/2         17    1    DMZ              N/A                      0      192.168.1.1/24
+ethernet1/3         18    1    inside           N/A                      0      172.16.1.1/24
 
-admin@PA-VM> show interface 
+admin@PA-VM> show interface
   all           Show all interface information
   ethernet1/2   ethernet1/2
   ethernet1/3   ethernet1/3
@@ -266,17 +266,17 @@ admin@PA-VM> show interface loc
   <value>  <name> interface name
   <Enter>  Finish input
 
-admin@PA-VM> show interface logical 
+admin@PA-VM> show interface logical
 
 total configured logical interfaces: 2
 
-name                id    vsys zone             forwarding               tag    address                                         
+name                id    vsys zone             forwarding               tag    address
 ------------------- ----- ---- ---------------- ------------------------ ------ ------------------
-ethernet1/2         17    1    DMZ              N/A                      0      192.168.1.1/24    
-ethernet1/3         18    1    inside           N/A                      0      172.16.1.1/24     
+ethernet1/2         17    1    DMZ              N/A                      0      192.168.1.1/24
+ethernet1/3         18    1    inside           N/A                      0      172.16.1.1/24
 
-admin@PA-VM> 
-admin@PA-VM> show interface 
+admin@PA-VM>
+admin@PA-VM> show interface
   all           Show all interface information
   ethernet1/2   ethernet1/2
   ethernet1/3   ethernet1/3
@@ -285,19 +285,19 @@ admin@PA-VM> show interface
   management    Show management interface information
   <value>       <name> interface name
 
-admin@PA-VM> show interface hardware 
+admin@PA-VM> show interface hardware
 
 total configured hardware interfaces: 2
 
-name                    id    speed/duplex/state        mac address       
+name                    id    speed/duplex/state        mac address
 --------------------------------------------------------------------------------
-ethernet1/2             17    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:11 
-ethernet1/3             18    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:12 
+ethernet1/2             17    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:11
+ethernet1/3             18    ukn/ukn/down(autoneg)     ba:db:ee:fb:ad:12
 
 aggregation groups: 0
 
-admin@PA-VM> 
-admin@PA-VM> show interface 
+admin@PA-VM>
+admin@PA-VM> show interface
   all           Show all interface information
   ethernet1/2   ethernet1/2
   ethernet1/3   ethernet1/3
@@ -312,7 +312,7 @@ admin@PA-VM> show interface ethernet1/2
 Name: ethernet1/2, ID: 17
 Link status:
   Runtime link speed/duplex/state: unknown/unknown/down
-  Configured link speed/duplex/state: auto/auto/auto            
+  Configured link speed/duplex/state: auto/auto/auto
 MAC address:
   Port MAC address ba:db:ee:fb:ad:11
 Operation mode: layer3
@@ -322,7 +322,7 @@ Name: ethernet1/2, ID: 17
 Operation mode: layer3
 Interface IP address: 192.168.1.1/24
 Interface management profile: N/A
-Service configured: 
+Service configured:
 Zone: DMZ, virtual system: vsys1
 Adjust TCP MSS: no
 --------------------------------------------------------------------------------
@@ -337,7 +337,7 @@ rx-unicast                    0
 tx-broadcast                  0
 tx-bytes                      0
 tx-multicast                  0
-tx-unicast                    0                
+tx-unicast                    0
 --------------------------------------------------------------------------------
 
 Hardware interface counters read from CPU:
@@ -347,7 +347,7 @@ bytes transmitted                        0
 packets received                         0
 packets transmitted                      0
 receive errors                           0
-packets dropped                          0        
+packets dropped                          0
 --------------------------------------------------------------------------------
 
 Logical interface counters read from CPU:
@@ -377,5 +377,4 @@ layer2 decapsulated packets              0
 --------------------------------------------------------------------------------
 
 
-admin@PA-VM> 
-
+admin@PA-VM>

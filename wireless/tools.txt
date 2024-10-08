@@ -2,7 +2,7 @@
 
 .. we will use some tools to test our wireless network here.
 
- ⚡ 1996 [03:30 PM]  /home/masum   master ●   airmon-ng 
+ ⚡ 1996 [03:30 PM]  /home/masum   master ●   airmon-ng
 
 
 Interface	Chipset		Driver
@@ -15,7 +15,7 @@ wlan0		Atheros AR9285	ath9k - [phy0]
 Found 3 processes that could cause trouble.
 If airodump-ng, aireplay-ng or airtun-ng stops working after
 a short period of time, you may want to kill (some of) them!
--e 
+-e
 PID	Name
 4125	NetworkManager
 4424	wpa_supplicant
@@ -29,10 +29,10 @@ wlan0		Atheros AR9285	ath9k - [phy0]SIOCSIFFLAGS: Name not unique on network
 
 				(monitor mode enabled on mon0)
 
- ⚡ 1998 [03:32 PM]  /home/masum   master ●   
- 
+ ⚡ 1998 [03:32 PM]  /home/masum   master ●  
+
 .. if you dont find any interface which will work for the command
-.. airodump-ng mon0 then better start kismet which will creat one 
+.. airodump-ng mon0 then better start kismet which will creat one
 .. mon0mon monitor interfacce for you and you can then run the command
 .. airodump-ng mon0mon like the follwoing
 
@@ -58,7 +58,7 @@ Attack was unsuccessful. Possible reasons:
     * The card is not on the same channel as the AP.
     * You're too far from the AP. Get closer, or lower
       the transmit rate.
-... 
+...
 ... see aireplay-ng --help for more details.
 
 .. then type the followings
@@ -111,21 +111,19 @@ Copyright (c) 2011, Tactical Network Solutions, Craig Heffner <cheffner@tacnetso
 macchanger –-random wlan0::
 macchanger --–mac=00:11:22:33:44:55 wlan0
 
-.. kermasploit: which is used to do mitm can configure and offer rougue AP to 
+.. kermasploit: which is used to do mitm can configure and offer rougue AP to
 .. connect and it them exploit the user based on metasploit vulnerability. this
 .. can be downloaded from git clone git://github.com/SilverFoxx/PwnSTAR.git
 .. setup is easy.
 
 .. jasager is another wireless tools to audit and xploit wireless network.
-.. sslstrip 
+.. sslstrip
 .. urlsnarf is another tool to allow attacker to see which websites
 .. are viewed by the victims.
-.. to prevent any of this happens on you, you can use http strict transport 
+.. to prevent any of this happens on you, you can use http strict transport
 .. security(HSTS) which prevent https from downgrading the security when
 .. any cockie or browser hijacking happens.
 
 .. java signed applet is another plugins in metasploit which will creat
-.. one vulnerable website which will exploit the client windows machine if 
+.. one vulnerable website which will exploit the client windows machine if
 .. he visits the site with absolute java plugins.
-
-

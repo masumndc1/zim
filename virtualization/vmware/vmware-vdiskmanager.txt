@@ -22,7 +22,7 @@ Virtual disk conversion successful.
 
 ┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
 └──╼ $ sudo qemu-img convert -O qcow2 Debian9.5_kvm.vmdk debian9.5.qcow2
-[sudo] password for edmudoh: 
+[sudo] password for edmudoh:
 
 ┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
 └──╼ $ ls
@@ -30,8 +30,6 @@ Debian9.5_kvm.vmdk  Debian9.5-s001.vmdk  Debian9.5-s004.vmdk  Debian9.5-s007.vmd
 Debian9.5.nvram     Debian9.5-s002.vmdk  Debian9.5-s005.vmdk  Debian9.5-s008.vmdk  Debian9.5.vmx   vmware.log
 debian9.5.qcow2     Debian9.5-s003.vmdk  Debian9.5-s006.vmdk  Debian9.5.vmdk       Debian9.5.vmxf
 ┌─[edmudoh@elxabl1vvp2]─[~/vmware/Debian9.5]
-└──╼ $ 
+└──╼ $
 
 ... we can now use this debian9.5.qcow2 in kvm
-
-

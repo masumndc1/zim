@@ -2,7 +2,7 @@
 
 ... testing web with various tools
 
-root@kali:/usr/share# nikto -host meta -port 80 
+root@kali:/usr/share# nikto -host meta -port 80
 - Nikto v2.1.6
 ---------------------------------------------------------------------------
 + Target IP:          192.168.122.193
@@ -43,23 +43,23 @@ root@kali:/usr/share# nikto -host meta -port 80
 + End Time:           2018-07-24 16:03:10 (GMT-4) (16 seconds)
 ---------------------------------------------------------------------------
 + 1 host(s) tested
-root@kali:/usr/share# 
-root@kali:/usr/share# 
-root@kali:/usr/share# 
+root@kali:/usr/share#
+root@kali:/usr/share#
+root@kali:/usr/share#
 root@kali:/usr/share# nikto -host meta -port 80 -ssl
 - Nikto v2.1.6
 ---------------------------------------------------------------------------
 + No web server found on meta:80
 ---------------------------------------------------------------------------
 + 0 host(s) tested
-root@kali:/usr/share# 
+root@kali:/usr/share#
 
 ... when there are multiple web servers are running in a single ip then we need to
 ... add vhost option with nikto.
 
 root@KaliLinux:~# nikto -host 192.168.122.193 -port 80 -nossl -vhost khabir.com
 
-... sslscan/sslyze 
+... sslscan/sslyze
 
 root@kali:/usr/share# sslscan https://meta
 Version: 1.11.9-static
@@ -76,14 +76,14 @@ Secure session renegotiation supported
   TLS Compression:
 Compression disabled
 
-... if TLS compresssion is enabled then this would be crime 
+... if TLS compresssion is enabled then this would be crime
 ... attack like below.
 
   TLS Compression:
 Compression enabled (CRIME)
 
 ... this above is found from the scanning of OWASP BWA.
-... 
+...
 
   Heartbleed:
 TLS 1.2 not vulnerable to heartbleed
@@ -97,24 +97,24 @@ Accepted  TLSv1.2  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
 Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-GCM-SHA256     DHE 1024 bits
 Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-SHA256         DHE 1024 bits
 Accepted  TLSv1.2  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
-Accepted  TLSv1.2  128 bits  AES128-GCM-SHA256            
-Accepted  TLSv1.2  128 bits  AES128-SHA256                
-Accepted  TLSv1.2  128 bits  AES128-SHA                   
+Accepted  TLSv1.2  128 bits  AES128-GCM-SHA256
+Accepted  TLSv1.2  128 bits  AES128-SHA256
+Accepted  TLSv1.2  128 bits  AES128-SHA
 Accepted  TLSv1.2  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
 Accepted  TLSv1.2  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
-Accepted  TLSv1.2  112 bits  DES-CBC3-SHA                 
+Accepted  TLSv1.2  112 bits  DES-CBC3-SHA
 Preferred TLSv1.1  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
 Accepted  TLSv1.1  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
-Accepted  TLSv1.1  128 bits  AES128-SHA                   
+Accepted  TLSv1.1  128 bits  AES128-SHA
 Accepted  TLSv1.1  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
 Accepted  TLSv1.1  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
-Accepted  TLSv1.1  112 bits  DES-CBC3-SHA                 
+Accepted  TLSv1.1  112 bits  DES-CBC3-SHA
 Preferred TLSv1.0  128 bits  ECDHE-RSA-AES128-SHA          Curve P-256 DHE 256
 Accepted  TLSv1.0  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits
-Accepted  TLSv1.0  128 bits  AES128-SHA                   
+Accepted  TLSv1.0  128 bits  AES128-SHA
 Accepted  TLSv1.0  112 bits  ECDHE-RSA-DES-CBC3-SHA        Curve P-256 DHE 256
 Accepted  TLSv1.0  112 bits  EDH-RSA-DES-CBC3-SHA          DHE 1024 bits
-Accepted  TLSv1.0  112 bits  DES-CBC3-SHA                 
+Accepted  TLSv1.0  112 bits  DES-CBC3-SHA
 
   SSL Certificate:
 Signature Algorithm: sha256WithRSAEncryption
@@ -126,12 +126,12 @@ Issuer:   DigiCert SHA2 Extended Validation Server CA
 
 Not valid before: Mar  1 00:00:00 2018 GMT
 Not valid after:  Mar  8 12:00:00 2020 GMT
-root@kali:/usr/share# 
+root@kali:/usr/share#
 
 ... we can also test one mail server's capabilities on transport layer security
 ... tls using --starttls options with sslscan like bellow.
 
-root@kali:/usr/share# 
+root@kali:/usr/share#
 root@kali:/usr/share# nmap -A -p 25 meta
 
 Starting Nmap 7.40 ( https://nmap.org ) at 2018-07-24 16:51 EDT
@@ -139,14 +139,14 @@ Nmap scan report for meta (192.168.122.193)
 Host is up (0.0011s latency).
 PORT   STATE SERVICE VERSION
 25/tcp open  smtp    Postfix smtpd
-|_smtp-commands: metasploitable.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, 
+|_smtp-commands: metasploitable.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN,
 | ssl-cert: Subject: commonName=ubuntu804-base.localdomain/organizationName=OCOSA/stateOrProvinceName=There is no such thing outside US/countryName=XX
 | Not valid before: 2010-03-17T14:07:45
 |_Not valid after:  2010-04-16T14:07:45
 |_ssl-date: 2018-07-24T20:51:36+00:00; -6s from scanner time.
-| sslv2: 
+| sslv2:
 |   SSLv2 supported
-|   ciphers: 
+|   ciphers:
 |     SSL2_RC2_128_CBC_EXPORT40_WITH_MD5
 |     SSL2_RC2_128_CBC_WITH_MD5
 |     SSL2_RC4_128_WITH_MD5
@@ -171,8 +171,8 @@ HOP RTT     ADDRESS
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 1.89 seconds
-root@kali:/usr/share# 
-root@kali:/usr/share# 
+root@kali:/usr/share#
+root@kali:/usr/share#
 root@kali:/usr/share# sslscan --help | grep starttls
   --starttls-ftp       STARTTLS setup for FTP
   --starttls-imap      STARTTLS setup for IMAP
@@ -205,22 +205,22 @@ TLS 1.1 not vulnerable to heartbleed
 TLS 1.0 not vulnerable to heartbleed
 
   Supported Server Cipher(s):
-root@kali:/usr/share# 
+root@kali:/usr/share#
 
 ... sslscan actually tries to determine the ciphers and key length by establishing
 ... the ssl session.
 
-... sslyze 
+... sslyze
 ... use of sslyze as follows
-... this will scan for the basic scan as well as finding for the zlib compression 
+... this will scan for the basic scan as well as finding for the zlib compression
 ... error which also known as Compression Ratio Info-leak Made Easy (CRIME).
 
 root@kali:/usr/share# sslyze meta --regular --compression
 
-... 
+...
 ... SSL Server Test ( https://www.ssllabs.com/ssltest/ ) is an online tool hosted
 ... by Qualys that performs deep analysis of the SSL configuration of a website.
 ... its a free tools.
-... 
+...
 
-... 
+...

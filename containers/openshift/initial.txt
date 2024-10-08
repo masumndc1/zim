@@ -28,13 +28,13 @@ You are logged in as:
 To login as administrator:
     oc login -u system:admin
 
-[root@openshift ~]# 
+[root@openshift ~]#
 
 [root@openshift ~]# oc version
 oc v3.7.0+7ed6862
 kubernetes v1.7.6+a08f5eeb62
 features: Basic-Auth GSSAPI Kerberos SPNEGO
-[root@openshift ~]# 
+[root@openshift ~]#
 
 ... or we can simply restart the openshift and do the following
 
@@ -43,21 +43,21 @@ features: Basic-Auth GSSAPI Kerberos SPNEGO
 Redirecting to /bin/systemctl start openshift.service
 [root@openshift ~]# service openshift restart
 Redirecting to /bin/systemctl restart openshift.service
-[root@openshift ~]# 
+[root@openshift ~]#
 [root@openshift ~]# oc version
 oc v3.7.0+7ed6862
 kubernetes v1.7.6+a08f5eeb62
 features: Basic-Auth GSSAPI Kerberos SPNEGO
-[root@openshift ~]# 
+[root@openshift ~]#
 
-[root@openshift ~]# 
+[root@openshift ~]#
 [root@openshift ~]# oc login -u masum -p ********
 Login successful.
 
 You have one project on this server: "my-project"
 
 Using project "my-project".
-[root@openshift ~]# 
+[root@openshift ~]#
 
 [root@openshift ~]# oc project myproject
 error: You are not a member of project "myproject".
@@ -65,7 +65,6 @@ You have one project on this server: auckland (my-project)
 To see projects on another server, pass '--server=<server>'.
 [root@openshift ~]# oc project my-project
 Already on project "my-project" on server "https://192.168.10.141:8443".
-[root@openshift ~]# 
+[root@openshift ~]#
 
-... 
-
+...

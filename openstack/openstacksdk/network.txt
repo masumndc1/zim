@@ -22,7 +22,7 @@ if network is None:
 
 ... explanation is below.
 
-... first we made the connection with 
+... first we made the connection with
 conn = openstack.connect(cloud=TEST_CLOUD)
 
 ... then try to find the network first. if not present then will create
@@ -34,7 +34,3 @@ if network is None:
 ... we have found a created network in dashboard.
 
 ... creating a router and subnet by using openstacksdk
-
-
-
-

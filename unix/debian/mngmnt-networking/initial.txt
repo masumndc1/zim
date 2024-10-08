@@ -3,7 +3,7 @@
 ... some usefull command related to networking
 
 root@deb-7:~# ip link list
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN mode DEFAULT
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN mode DEFAULT qlen 1000
     link/ether 00:0c:29:92:49:3b brd ff:ff:ff:ff:ff:ff
@@ -13,89 +13,89 @@ root@deb-7:~# ip link list
     link/ether 00:0c:29:92:49:4f brd ff:ff:ff:ff:ff:ff
 5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT qlen 1000
     link/ether 00:0c:29:92:49:59 brd ff:ff:ff:ff:ff:ff
-root@deb-7:~# 
+root@deb-7:~#
 
 ... showing ip address
 
 root@deb-7:~# ip address show
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue state UNKNOWN
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
-    inet6 ::1/128 scope host 
+    inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 1000
     link/ether 00:0c:29:92:49:3b brd ff:ff:ff:ff:ff:ff
     inet 192.168.206.128/24 brd 192.168.206.255 scope global eth0
-    inet6 fe80::20c:29ff:fe92:493b/64 scope link 
+    inet6 fe80::20c:29ff:fe92:493b/64 scope link
        valid_lft forever preferred_lft forever
 3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 1000
     link/ether 00:0c:29:92:49:45 brd ff:ff:ff:ff:ff:ff
     inet 192.168.179.128/24 brd 192.168.179.255 scope global eth1
-    inet6 fe80::20c:29ff:fe92:4945/64 scope link 
+    inet6 fe80::20c:29ff:fe92:4945/64 scope link
        valid_lft forever preferred_lft forever
 4: eth2: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN qlen 1000
     link/ether 00:0c:29:92:49:4f brd ff:ff:ff:ff:ff:ff
 5: eth3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN qlen 1000
     link/ether 00:0c:29:92:49:59 brd ff:ff:ff:ff:ff:ff
-root@deb-7:~# 
+root@deb-7:~#
 
 root@deb-7:~# ip route show
-default via 192.168.179.131 dev eth1 
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+default via 192.168.179.131 dev eth1
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 
-... ARP 
+... ARP
 
 root@deb-7:~# ip neighbour show
 192.168.179.254 dev eth1 lladdr 00:50:56:fa:d6:35 STALE
 192.168.179.1 dev eth1 lladdr 00:50:56:c0:00:01 REACHABLE
 192.168.179.131 dev eth1 lladdr 00:0c:29:c0:22:03 REACHABLE
-root@deb-7:~# 
+root@deb-7:~#
 
 ... ip rule. there are three route table we have from the below output.
 
 root@deb-7:~# ip rule list
-0:      from all lookup local 
-32766:  from all lookup main 
-32767:  from all lookup default 
-root@deb-7:~# 
+0:      from all lookup local
+32766:  from all lookup main
+32767:  from all lookup default
+root@deb-7:~#
 root@deb-7:~# ip route ls
-default via 192.168.179.131 dev eth1 
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+default via 192.168.179.131 dev eth1
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 root@deb-7:~# ip route list
-default via 192.168.179.131 dev eth1 
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+default via 192.168.179.131 dev eth1
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 
 ... listing route from the various table found from the "ip rule list" command.
 
 root@deb-7:~# ip route list table local
-broadcast 127.0.0.0 dev lo  proto kernel  scope link  src 127.0.0.1 
-local 127.0.0.0/8 dev lo  proto kernel  scope host  src 127.0.0.1 
-local 127.0.0.1 dev lo  proto kernel  scope host  src 127.0.0.1 
-broadcast 127.255.255.255 dev lo  proto kernel  scope link  src 127.0.0.1 
-broadcast 192.168.179.0 dev eth1  proto kernel  scope link  src 192.168.179.128 
-local 192.168.179.128 dev eth1  proto kernel  scope host  src 192.168.179.128 
-broadcast 192.168.179.255 dev eth1  proto kernel  scope link  src 192.168.179.128 
-broadcast 192.168.206.0 dev eth0  proto kernel  scope link  src 192.168.206.128 
-local 192.168.206.128 dev eth0  proto kernel  scope host  src 192.168.206.128 
-broadcast 192.168.206.255 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+broadcast 127.0.0.0 dev lo  proto kernel  scope link  src 127.0.0.1
+local 127.0.0.0/8 dev lo  proto kernel  scope host  src 127.0.0.1
+local 127.0.0.1 dev lo  proto kernel  scope host  src 127.0.0.1
+broadcast 127.255.255.255 dev lo  proto kernel  scope link  src 127.0.0.1
+broadcast 192.168.179.0 dev eth1  proto kernel  scope link  src 192.168.179.128
+local 192.168.179.128 dev eth1  proto kernel  scope host  src 192.168.179.128
+broadcast 192.168.179.255 dev eth1  proto kernel  scope link  src 192.168.179.128
+broadcast 192.168.206.0 dev eth0  proto kernel  scope link  src 192.168.206.128
+local 192.168.206.128 dev eth0  proto kernel  scope host  src 192.168.206.128
+broadcast 192.168.206.255 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 root@deb-7:~# ip route list table main
-default via 192.168.179.131 dev eth1 
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+default via 192.168.179.131 dev eth1
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 root@deb-7:~# ip route list table default
-root@deb-7:~# 
+root@deb-7:~#
 
 ... if we add routing table in following files
 
-root@deb-7:~# cat /etc/iproute2/rt_tables 
+root@deb-7:~# cat /etc/iproute2/rt_tables
 #
 # reserved values
 #
@@ -108,10 +108,9 @@ root@deb-7:~# cat /etc/iproute2/rt_tables
 # local
 #
 #1      inr.ruhep
-root@deb-7:~# 
+root@deb-7:~#
 
 ... then we can add the entry like below.
 
 # ip route add default via 195.96.98.253 dev ppp2 table John
 # ip route flush cache
-

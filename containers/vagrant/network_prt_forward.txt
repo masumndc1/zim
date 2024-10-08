@@ -1,9 +1,9 @@
 
 
-... networking and port forwarding 
+... networking and port forwarding
 
 ... port forwarding can be done following. the following line in Vagrantfile
-... will do the port forwarding. 
+... will do the port forwarding.
 
 config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
 
@@ -11,7 +11,7 @@ config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
 ... the guest will serve it on port 80.
 
 vagrant@vagrant-ubuntu-trusty-32:~$ sudo su
-root@vagrant-ubuntu-trusty-32:/home/vagrant# 
+root@vagrant-ubuntu-trusty-32:/home/vagrant#
 root@vagrant-ubuntu-trusty-32:/home/vagrant# python2.7 -m SimpleHTTPServer 80
 Serving HTTP on 0.0.0.0 port 80 ...
 10.0.2.2 - - [24/Jun/2017 09:52:00] "GET / HTTP/1.1" 200 -
@@ -23,10 +23,10 @@ Serving HTTP on 0.0.0.0 port 80 ...
 10.0.2.2 - - [24/Jun/2017 09:52:15] "GET /.ssh/ HTTP/1.1" 200 -
 10.0.2.2 - - [24/Jun/2017 09:52:25] "GET / HTTP/1.1" 200 -
 
-... we have found the above output when we run the command 
+... we have found the above output when we run the command
 ... http://localhost8080 on host.
 
-... by default vagrant will report error if it clashes with one existing configured 
+... by default vagrant will report error if it clashes with one existing configured
 ... port. but we have an options to tell vagrant that correct this by itself.
 
 config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1", auto_correct: true
@@ -37,7 +37,7 @@ config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1",
 config.vm.usable_port_range = (2200..2250)
 
 ... by default port forwarding occers on tcp port but if we need udp protocol
-... port forwarding then we can do so by adding a line like below. we then have 
+... port forwarding then we can do so by adding a line like below. we then have
 ... to add another line for tcp protocol port forwarding too.
 
 config.vm.network "forwarded_port", guest: 80, host: 8080, protocol: "tcp"
@@ -50,15 +50,13 @@ config.vm.network "private_network", ip: "192.168.33.10"
 
 vagrant@vagrant-ubuntu-trusty-32:~$ ifconfig
 
-eth1      Link encap:Ethernet  HWaddr 08:00:27:f4:9f:26  
+eth1      Link encap:Ethernet  HWaddr 08:00:27:f4:9f:26
           inet addr:192.168.33.10  Bcast:192.168.33.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fef4:9f26/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1 errors:0 dropped:0 overruns:0 frame:0
           TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:60 (60.0 B)  TX bytes:648 (648.0 B)
 
-vagrant@vagrant-ubuntu-trusty-32:~$ 
-  
-
+vagrant@vagrant-ubuntu-trusty-32:~$

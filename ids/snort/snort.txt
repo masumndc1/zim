@@ -4,9 +4,9 @@ at first we install the snort
 first of all
 
 by the command apt-get install snort
-and the it will install all the required software it 
-needed also at the point ask for the network which 
-will work as home_net 
+and the it will install all the required software it
+needed also at the point ask for the network which
+will work as home_net
 
 now test the snort by the command
 snort -evi eth0
@@ -31,18 +31,18 @@ snort -T -c /etc/snort/snort.conf
 
 	--== Initialization Complete ==--
 
-   ,,_     Snort! 
-  o"  )~   Version 2.9.2.2 IPv6 GRE (Build 121) 
+   ,,_     Snort!
+  o"  )~   Version 2.9.2.2 IPv6 GRE (Build 121)
    ''''    By Martin Roesch & The Snort Team: http://www.snort.org/snort/snort-team
            Copyright (C) 1998-2012 Sourcefire, Inc., et al.
            Using libpcap version 1.3.0
            Using PCRE version: 8.30 2012-02-04
            Using ZLIB version: 1.2.7
 
-           
+
 Snort successfully validated the configuration!
 Snort exiting
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
 
 and again
 
@@ -50,16 +50,16 @@ root@debian:/etc/snort# snort -Dd -c snort.conf
 Spawning daemon child...
 My daemon child 13974 lives...
 Daemon parent exiting (0)
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
 
 
- now creating database for snort to store all the 
+ now creating database for snort to store all the
  alerts and logs.
 
 
 root@debian:~# apt-get install snort-mysql
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following package was automatically installed and is no longer required:
   xulrunner-10.0
@@ -78,7 +78,7 @@ WARNING: The following packages cannot be authenticated!
   snort-mysql
 Install these packages without verification [y/N]? y
 Get:1 http://ftp.ca.debian.org/debian/ wheezy/main snort-mysql i386 2.9.2.2-3 [874 kB]
-Fetched 874 kB in 0s (1,339 kB/s)    
+Fetched 874 kB in 0s (1,339 kB/s)
 Preconfiguring packages ...
 (Reading database ... 87302 files and directories currently installed.)
 Removing snort ...
@@ -96,13 +96,13 @@ Snort will not start as its database is not yet configured.
 Please configure the database as described in
 /usr/share/doc/snort-mysql/README-database.Debian
 and then remove /etc/snort/db-pending-config
-root@debian:~# 
+root@debian:~#
 root@debian:~# ls
 root@debian:~# cd /usr/share/doc/snort-mysql/
 
 
 
-root@debian:/usr/share/doc/snort-mysql# zcat README.database.gz 
+root@debian:/usr/share/doc/snort-mysql# zcat README.database.gz
 
 and create the database accordingly to mysql section found in README.database.gz.
 
@@ -134,7 +134,7 @@ changelog.Debian.gz  create_mysql  NEWS.gz	   README.database.gz	      README.Ma
 
 root@debian:/usr/share/doc/snort-mysql#
 
-a lot of important things can be found in README-database.Debian.gz and README.database.gz 
+a lot of important things can be found in README-database.Debian.gz and README.database.gz
 
 root@debian:/usr/share/doc/snort-mysql# cp create_mysql /etc/snort
 root@debian:/usr/share/doc/snort-mysql# cp README-database.Debian /etc/snort/
@@ -142,11 +142,11 @@ root@debian:/usr/share/doc/snort-mysql# cd /etc/snort
 root@debian:/etc/snort# ls
 classification.config  create_mysql   db-pending-config  README-database.Debian  rules	     snort.conf.bak	snort.debian.conf.bak  unicode.map
 community-sid-msg.map  database.conf  gen-msg.map	 reference.config	 snort.conf  snort.debian.conf	threshold.conf
-root@debian:/etc/snort# 
-root@debian:/etc/snort# 
-root@debian:/etc/snort# mysql -u snort -D snort -p < ./create_mysql 
+root@debian:/etc/snort#
+root@debian:/etc/snort#
+root@debian:/etc/snort# mysql -u snort -D snort -p < ./create_mysql
 Enter password: [ snort-db as password ]
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
 
 
 
@@ -157,8 +157,8 @@ root@debian:/etc/snort#
  google them for the installation.
 
  you may have to have libpcap header
- to do so you have to install 
- 
+ to do so you have to install
+
 apt-get install libpcap0.8
 apt-get install libpcap0.8-deb
 
@@ -177,25 +177,25 @@ remote: Reusing existing pack: 10471, done.
 remote: Total 10471 (delta 0), reused 0 (delta 0)
 Receiving objects: 100% (10471/10471), 9.91 MiB | 58 KiB/s, done.
 Resolving deltas: 100% (4764/4764), done.
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
 root@debian:/etc/snort# git clone http://github.com/Snorby/snorby.git
 fatal: destination path 'snorby' already exists and is not an empty directory.
 
 
 root@debian:/etc/snort# git clone http://github.com/Snorby/snorby.git
-root@debian:/etc/snort# 
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
+root@debian:/etc/snort#
 root@debian:/etc/snort# ls
 barnyard2	       community-sid-msg.map  gen-msg.map	      rules	  snort.conf.bak	 threshold.conf
 barnyard2.conf	       create_mysql	      README-database.Debian  snorby	  snort.debian.conf	 unicode.map
 classification.config  database.conf	      reference.config	      snort.conf  snort.debian.conf.bak
-root@debian:/etc/snort# 
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
+root@debian:/etc/snort#
 root@debian:/etc/snort# cd snorby/
 root@debian:/etc/snort/snorby# ls
 app  ChangeLog.md  config  config.ru  db  Gemfile  Gemfile.lock  lib  LICENSE  log  public  Rakefile  README.md  script  spec  test  tmp  vendor
-root@debian:/etc/snort/snorby# 
-root@debian:/etc/snort/snorby# 
+root@debian:/etc/snort/snorby#
+root@debian:/etc/snort/snorby#
 root@debian:/etc/snort/snorby# bundle install
 Don't run Bundler as root. Bundler can ask for sudo if it is needed, and installing your bundle as root will break this application for all non-root
 users on this machine.
@@ -214,7 +214,7 @@ Resolving dependencies.......
 Installing rake 0.9.2
 Installing Platform 0.4.0
 
-mysql> 
+mysql>
 mysql> create database snorby;
 Query OK, 1 row affected (0.03 sec)
 
@@ -228,12 +228,12 @@ Query OK, 0 rows affected (0.00 sec)
 mysql> GRANT ALL PRIVILEGES ON snorby.* TO snorby IDENTIFIED BY 'snorby-db' WITH GRANT OPTION;
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> 
-mysql> 
+mysql>
+mysql>
 mysql> flush privileges;
 Query OK, 0 rows affected (0.07 sec)
 
-mysql> 
+mysql>
 
 
 
@@ -253,14 +253,14 @@ root@debian:/etc/init.d# locate wkhtmltopdf
 /var/cache/apt/archives/wkhtmltopdf_0.9.9-4_i386.deb
 /var/lib/dpkg/info/wkhtmltopdf.list
 /var/lib/dpkg/info/wkhtmltopdf.md5sums
-root@debian:/etc/init.d# 
+root@debian:/etc/init.d#
 
 root@debian:/etc/snort/snorby/config# bundle exec rake snorby:setup
 (in /etc/snort/snorby)
 Jammit Warning: Asset compression disabled -- Java unavailable.
 No time_zone specified in snorby_config.yml; detected time_zone: US/Pacific-New
 
-root@debian:/etc/snort/snorby/config# 
+root@debian:/etc/snort/snorby/config#
 root@debian:/etc/snort/snorby/config# bundle exec rails server -e production
 Jammit Warning: Asset compression disabled -- Java unavailable.
 No time_zone specified in snorby_config.yml; detected time_zone: US/Pacific-New
@@ -288,7 +288,7 @@ installing oinkmaster to automate the updating of snort rules.
 
 root@debian:~# apt-get install oinkmaster
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 oinkmaster is already the newest version.
 oinkmaster set to manually installed.
@@ -296,8 +296,8 @@ The following package was automatically installed and is no longer required:
   xulrunner-10.0
 Use 'apt-get autoremove' to remove it.
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-root@debian:~# 
-root@debian:~# 
+root@debian:~#
+root@debian:~#
 
 
 
@@ -330,7 +330,7 @@ root@debian:~# locate oinkmaster
 /var/lib/dpkg/info/oinkmaster.conffiles
 /var/lib/dpkg/info/oinkmaster.list
 /var/lib/dpkg/info/oinkmaster.md5sums
-root@debian:~# 
+root@debian:~#
 
 
 
@@ -344,7 +344,7 @@ As we can see oinkmaster.conf and binary is placed in the corresponding director
 
 root@debian:~# oinkmaster -h | less
 
-Oinkmaster v2.0, Copyright (C) 2001-2008 Andreas �stling 
+Oinkmaster v2.0, Copyright (C) 2001-2008 Andreas �stling
 
 Usage: oinkmaster -o  [options]
 
@@ -352,8 +352,8 @@ Usage: oinkmaster -o  [options]
 This should be the directory where you store your Snort rules.
 
 Options:
--b 
-  Backup your old rules into 
+-b
+  Backup your old rules into
  before overwriting them
 -c        Careful mode (dry run) - check for changes but do not update anything
 -C  Use this configuration file instead of the default
@@ -375,7 +375,7 @@ Options:
           (http|https|ftp|file|scp:// ... .tar.gz|.gz, or dir://
 )
           May be specified multiple times to grab multiple rules archives
--U  Merge new variables from downloaded snort.conf(s) into 
+-U  Merge new variables from downloaded snort.conf(s) into
 -v        Verbose mode (debug)
 -V        Show version and exit
 
@@ -404,14 +404,14 @@ community-game.rules	       community-web-attacks.rules    finger.rules		other-i
 community-icmp.rules	       community-web-cgi.rules	      ftp.rules			p2p.rules	  tftp.rules
 community-imap.rules	       community-web-client.rules     icmp-info.rules		policy.rules	  virus.rules
 community-inappropriate.rules  community-web-dos.rules	      icmp.rules		pop2.rules	  web-attacks.rules
-root@debian:/etc/snort/rules# 
-root@debian:/etc/snort/rules# 
+root@debian:/etc/snort/rules#
+root@debian:/etc/snort/rules#
 root@debian:/etc/snort/rules# pwd
 /etc/snort/rules
-root@debian:/etc/snort/rules# 
+root@debian:/etc/snort/rules#
 root@debian:/etc/snort/rules# ls | wc -l
 73
-root@debian:/etc/snort/rules# 
+root@debian:/etc/snort/rules#
 
 updating rules by downloading and manually
 
@@ -420,11 +420,11 @@ updating rules by downloading and manually
 
 root@debian:# wget -c https://s3.amazonaws.com/snort-org/www/rules/community/community-rules.tar.gz
 root@debian:# tar xzvf community-rules.tar.gz
-root@debian:# 
+root@debian:#
 root@debian:~# ls
 barnayard2.bak	community-rules.tar.gz	Image_Canvas-0.3.5.tgz	Image_Color-1.0.4.tgz  Image_Graph-0.8.0.tgz
-root@debian:~# 
-root@debian:~# tar xvfz community-rules.tar.gz 
+root@debian:~#
+root@debian:~# tar xvfz community-rules.tar.gz
 community-rules/
 community-rules/community.rules
 community-rules/AUTHORS
@@ -433,7 +433,7 @@ community-rules/sid-msg.map
 community-rules/VRT-License.txt
 root@debian:~# ls
 barnayard2.bak	community-rules  community-rules.tar.gz  Image_Canvas-0.3.5.tgz  Image_Color-1.0.4.tgz	Image_Graph-0.8.0.tgz
-root@debian:~# 
+root@debian:~#
 root@debian:~#
 
 
@@ -449,8 +449,8 @@ we will download rules from emerging threads this site also provide rules of sur
 
 
 root@debian:/etc/snort# vi /etc/oinkmaster.conf
- 
-url = http://rules.emergingthreats.net/open/snort-2.9.0/emerging.rules.tar.gz 
+
+url = http://rules.emergingthreats.net/open/snort-2.9.0/emerging.rules.tar.gz
 
 
 root@debian:/etc/snort# oinkmaster -o /etc/snort/rules
@@ -539,7 +539,7 @@ Updating local rules files... done.
     -> snort-2.9.0-open.txt
     -> unicode.map
 
-root@debian:/etc/snort# 
+root@debian:/etc/snort#
 
 
 
@@ -558,7 +558,7 @@ and we finally update our snort. lets see increase in rules in /etc/snort/rules 
 
 root@debian:/etc/snort/rules# ls | wc -l
 130
-root@debian:/etc/snort/rules# 
+root@debian:/etc/snort/rules#
 
 
 
@@ -692,7 +692,7 @@ ruletype redalert
 This custom rule action tells Snort that it behaves like the alert rule action,
 but specifies that the alerts should be sent to the syslog daemon, while the
 packets will be logged to a database. When defining a custom action, you
-can use any of Snort’s output plug-ins, just as you would if you were 
+can use any of Snort’s output plug-ins, just as you would if you were
 configuring them as your primary output method.
 
 protocol field - snort supports ip,icmp,udp,tcp.
@@ -715,9 +715,9 @@ content: "search able content will be placed inside within an double quote"
 	 content:"|90|";
 
 depth and offset -
-	
+
 if you want to limit content matches for NOP instruc-tions to between
-bytes 40 and 75 of the data portion of a packet, you can modify the 
+bytes 40 and 75 of the data portion of a packet, you can modify the
 previously shown rule to look like this:
 
 alert tcp any any -> any any (msg:"Possible exploit"; offset:40; depth:75;)
@@ -741,11 +741,11 @@ alert any any -> any any (flags:SF,12; msg:"Possible SYN FIN scan";)
 Valid flags are S for SYN, F for FIN, R for RST, P for PSH, A for ACK, and U for URG.
 
 In addition, Snort lets you check the values of the two reserved flag bits. You
-can specify these by using either 1 or 2. 
+can specify these by using either 1 or 2.
 
-You can also match packets that have no flags set by using 0. 
-The flags option will accept several operators. You can prepend either a +, *, or ! to the flags, 
-to match on all the flags plus any others, any of the flags, 
+You can also match packets that have no flags set by using 0.
+The flags option will accept several operators. You can prepend either a +, *, or ! to the flags,
+to match on all the flags plus any others, any of the flags,
 or only if none of the flags are set, respectively.
 
 
@@ -755,11 +755,11 @@ thresolding
 
 
 
-when a rules creates lot of false positive then we can control its behaviour in a tolerance 
-level by using snort's thresolding. to enable thresolding to a rule we have to put rule in 
+when a rules creates lot of false positive then we can control its behaviour in a tolerance
+level by using snort's thresolding. to enable thresolding to a rule we have to put rule in
 
 
-root@debian:~# cat /etc/snort/threshold.conf 
+root@debian:~# cat /etc/snort/threshold.conf
 # Configure Thresholding and Suppression
 # ======================================
 #
@@ -828,7 +828,7 @@ root@debian:~# cat /etc/snort/threshold.conf
 # suppress gen_id 1, sig_id 1852, track by_dst, ip 10.1.1.0/24
 #
 
-the above config file is enough to make it clear as the file is 
+the above config file is enough to make it clear as the file is
 self explanatory.
 
 
@@ -849,7 +849,7 @@ the general rule is below. note thresold command is not included with snort any 
 The generator ID gen_id is the portion of Snort that generates the alert you want
 to threshold. This is used to track which preprocessor an alert came from.
 Since all alerts for signatures are generated by Snort’s signature engine, this
-should always be set to 1. 
+should always be set to 1.
 
 
 The signature ID corresponds to the signa-
@@ -879,7 +879,7 @@ event_filter gen_id 1, sig_id 1000001, \
      type both, track by_src 192.168.1.1,  by_dst 192.168.1.2, \
      count 1 , seconds 60
 
-which means that the rule of signature id of 1000001 will be logged only 1 time within 
+which means that the rule of signature id of 1000001 will be logged only 1 time within
 the time limit of 60 seconds.
 
 
@@ -887,7 +887,7 @@ the time limit of 60 seconds.
 
 thresolding rule options
 
- 
+
 
 The other way to use thresholding is to
 include the thresholding parameters in the rule itself. For instance, if some-
@@ -915,8 +915,3 @@ also we can suppress a rule by signature id too with the following command.
 
 
 suppress gen_id 1, sig_id 1000001, track by_src, ip 192.168.1.1, track by_dst 192.168.1.2
-
-
-
-
-

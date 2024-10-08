@@ -5,15 +5,15 @@ Creation-Date: 2013-06-03T00:51:07+06:00
 ====== NMON ======
 Created Monday 03 June 2013
 
-$export NMON=cmt 
+$export NMON=cmt
 	c=cpu
 	m=memory
 	t=top
-$nmon -s 2 -f 
+$nmon -s 2 -f
 	-s for interval. default is 2 second.
 	-f spreadsheet output format [note: default -s300 -c288]
-	
-which then create file.nmon to use this file with nmon analyzer run 
+
+which then create file.nmon to use this file with nmon analyzer run
 
 $sort file.nmon > file.csv
 
@@ -23,10 +23,5 @@ https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/Power+Sys
 https://www.ibm.com/developerworks/community/wikis/form/anonymous/api/wiki/61ad9cf2-c6a3-4d2c-b779-61ff0266d32a/page/b7fc61a1-eef9-4756-8028-6e687997f176/attachment/721e9797-b5fc-41d7-9b2f-5bd2aa2c8f7d/media/nmon_analyser_34a.zip
 unzip it and use id with excel.
 
-these commands are continously running on host. so to stop them 
+these commands are continously running on host. so to stop them
 $ps -ef | grep nmon and kill the pid
-
-
-
-
-

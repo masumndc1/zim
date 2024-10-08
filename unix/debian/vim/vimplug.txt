@@ -11,14 +11,11 @@ vim ~/.vimrc
 :source %
 :PlugInstall
 
-... this will automatically install all the plugins defined in the .vimrc 
+... this will automatically install all the plugins defined in the .vimrc
 ... file. we can install a lot of plugins from https://vimawesome.com
 
-... one of the sample .vimrc file can be downloaded from 
+... one of the sample .vimrc file can be downloaded from
 ... https://github.com/masumndc1/zim/blob/master/unix/debian/vim/vimrc_mine.txt
 
 ... one of another sample vimrc file can be found from this folder
 ... as named vimrc_mine.txt
-
-
-

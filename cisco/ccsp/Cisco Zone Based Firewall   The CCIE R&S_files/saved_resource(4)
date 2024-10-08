@@ -103,7 +103,7 @@
 			function setWidth() {
 				var width;
 				var style = window.getComputedStyle ? window.getComputedStyle(ta, null) : false;
-				
+
 				if (style) {
 
 					width = ta.getBoundingClientRect().width;
@@ -164,8 +164,8 @@
 				}
 
 				if (!ta.value && options.placeholder) {
-					// If the textarea is empty, copy the placeholder text into 
-					// the mirror control and use that for sizing so that we 
+					// If the textarea is empty, copy the placeholder text into
+					// the mirror control and use that for sizing so that we
 					// don't end up with placeholder getting trimmed.
 					mirror.value = ($ta.attr("placeholder") || '') + options.append;
 				} else {
@@ -1117,7 +1117,7 @@ var HighlanderComments = jQuery.extend( HighlanderComments, {
 		var nameEQ = c + "=",
 		    cookieStrings = document.cookie.split( ';' ),
 		    i, cookieString, num, chunk, pairs, pair, cookie_data;
-		
+
 		if( 'wpc_gpc' == c && !document.cookie ) { // Needed for IE because it doesn’t allow setting cookies in iframes from another domain, unless we send P3P headers
 			cookieStrings = HighlanderComments.temp_cookie_data.split( ';' );
 		}
@@ -1157,7 +1157,7 @@ var HighlanderComments = jQuery.extend( HighlanderComments, {
 		}
 
 		HighlanderComments.temp_cookie_data = document.cookie = name + "=" + value + expires + "; path=/" + domain;
-		
+
 	}
 } );
 

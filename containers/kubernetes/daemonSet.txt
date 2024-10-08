@@ -1,7 +1,7 @@
 
 
 ... if we need to run a pod in every nodes in a kube cluster then
-... DaemonSet is the best choice for this. DaemonSet use a template to 
+... DaemonSet is the best choice for this. DaemonSet use a template to
 ... create pods in everynode.
 ...
 ... we can also use nodeSelector to run pod in specific node.
@@ -9,10 +9,10 @@
 ...
 ... daemonSets are also controlled by reconciliation loop, that means
 ... it ensures the desired states of the pods.
-...  
+...
 
 ... an example of daemonSets can be.
-... this example is taken from 
+... this example is taken from
 ... https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
 
 apiVersion: apps/v1
@@ -42,7 +42,7 @@ spec:
 // if we want to use a nodeSelector then we do by following
       nodeSelector:
         ssd: "true"
-// 
+//
       containers:
       - name: fluentd-elasticsearch
         image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
@@ -67,17 +67,17 @@ spec:
         hostPath:
           path: /var/lib/docker/containers
 
-... 
+...
 
-masum@controller:~$ kubectl apply -f files/daemon.txt 
+masum@controller:~$ kubectl apply -f files/daemon.txt
 daemonset.apps/fluentd-elasticsearch created
-masum@controller:~$ 
+masum@controller:~$
 
 masum@controller:~$ k get pods -n kube-system
 NAME                                 READY   STATUS    RESTARTS         AGE
 fluentd-elasticsearch-d2sfw          1/1     Running   0                3m31s
 fluentd-elasticsearch-mcfjp          1/1     Running   0                3m31s
-masum@controller:~$ 
+masum@controller:~$
 
 masum@controller:~$ k get daemonset fluentd-elasticsearch -n kube-system
 NAME                    DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
@@ -88,13 +88,13 @@ masum@controller:~$
 
 masum@controller:~$ k describe daemonset fluentd-elasticsearch  -n kube-system
 Name:           fluentd-elasticsearch
-Selector:       name=fluentd-elasticsearch 
-Node-Selector:  <none> 
-Labels:         k8s-app=fluentd-logging 
-Annotations:    deprecated.daemonset.template.generation: 1 
+Selector:       name=fluentd-elasticsearch
+Node-Selector:  <none>
+Labels:         k8s-app=fluentd-logging
+Annotations:    deprecated.daemonset.template.generation: 1
 Desired Number of Nodes Scheduled: 2
-Current Number of Nodes Scheduled: 2 
-Number of Nodes Scheduled with Up-to-date Pods: 2   
+Current Number of Nodes Scheduled: 2
+Number of Nodes Scheduled with Up-to-date Pods: 2
 Number of Nodes Scheduled with Available Pods: 2
 Number of Nodes Misscheduled: 0
 Pods Status:  2 Running / 0 Waiting / 0 Succeeded / 0 Failed
@@ -114,6 +114,3 @@ Pod Template:
     Mounts:
 
 -- output cut --
-
-
-

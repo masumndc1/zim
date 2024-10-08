@@ -3,7 +3,7 @@ The authenticity of host 'astaro (192.168.35.155)' can't be established.
 RSA key fingerprint is 03:0f:5b:3a:b8:2b:48:18:05:cc:b6:1e:37:c2:10:35.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added 'astaro,192.168.35.155' (RSA) to the list of known hosts.
-loginuser@astaro's password: 
+loginuser@astaro's password:
 Last login: Mon Sep 12 03:33:10 2016 from 192.168.10.1
 
 
@@ -15,46 +15,46 @@ or http://www.astaro.com/doc/astaro-license.txt
 NOTE: Any modifications done by root will void your support.
       Please use WebAdmin for any configuration changes.
 
-loginuser@astaro:/home/login > 
+loginuser@astaro:/home/login >
 loginuser@astaro:/home/login > su -
-Password: 
-astaro:/root # 
-astaro:/root # 
+Password:
+astaro:/root #
+astaro:/root #
 astaro:/root # ifconfig
-eth0      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:62  
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:62
           inet addr:192.168.35.155  Bcast:192.168.35.255  Mask:255.255.255.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:29215 errors:0 dropped:0 overruns:0 frame:0
           TX packets:18219 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:40598056 (38.7 Mb)  TX bytes:1656454 (1.5 Mb)
-          Interrupt:19 Base address:0x2024 
+          Interrupt:19 Base address:0x2024
 
-eth1      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:6C  
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:6C
           inet addr:192.168.244.155  Bcast:192.168.244.255  Mask:255.255.255.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1199 errors:0 dropped:0 overruns:0 frame:0
           TX packets:1542 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:246163 (240.3 Kb)  TX bytes:1614328 (1.5 Mb)
-          Interrupt:16 Base address:0x20a4 
+          Interrupt:16 Base address:0x20a4
 
-eth2      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:76  
+eth2      Link encap:Ethernet  HWaddr 00:0C:29:E9:B4:76
           inet addr:192.168.10.155  Bcast:192.168.10.255  Mask:255.255.255.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1866 errors:0 dropped:0 overruns:0 frame:0
           TX packets:2496 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:398064 (388.7 Kb)  TX bytes:2168087 (2.0 Mb)
-          Interrupt:17 Base address:0x2424 
+          Interrupt:17 Base address:0x2424
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
           RX packets:36967 errors:0 dropped:0 overruns:0 frame:0
           TX packets:36967 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:10623536 (10.1 Mb)  TX bytes:10623536 (10.1 Mb)
 
 astaro:/root # ping yahoo.com
@@ -67,5 +67,4 @@ PING yahoo.com (206.190.36.45) 56(84) bytes of data.
 --- yahoo.com ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3005ms
 rtt min/avg/max/mdev = 168.772/179.310/186.029/6.791 ms
-astaro:/root # 
-
+astaro:/root #

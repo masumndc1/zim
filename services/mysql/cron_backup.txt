@@ -13,8 +13,4 @@
 
 1 0 * * sun find /root/*.sql.gz -maxdepth 1 -mtime +7 -type f -exec rm -rv {} \;
 
-[root@node25922-eskotest22 ~]# 
-
-
-
-
+[root@node25922-eskotest22 ~]#

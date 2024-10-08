@@ -5,5 +5,3 @@
 ... the following command on the host operating system as root:
 
     chmod a+rw /dev/vmnet0
-
-

@@ -7,10 +7,10 @@ virt-install \
 --vcpus=1  \
 --memory 128 \
 --disk /var/lib/libvirt/images/testvm6.img,size=2 \
---location "/var/lib/xen/CentOS-7-x86_64-Minimal-1611.iso" 
+--location "/var/lib/xen/CentOS-7-x86_64-Minimal-1611.iso"
 
 ... ready image used by xen can be found from internet in various location.
-... among many the following are good. they might be unmodified which need 
+... among many the following are good. they might be unmodified which need
 ... to be modified before the use.
 
 • Jailtime: http://jailtime.org/
@@ -58,5 +58,3 @@ root@slave:~/xen/netbsd# mkfs.ext3 netbsd.img
 root@slave:~/xen/netbsd# mkswap netbsd_swap.img
 
 ... creating the configuration file that will be used for xl
-
-

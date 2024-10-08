@@ -20,21 +20,21 @@ mbit = 1024 kbit => kilo bit.
 root@deb-7:~# tc qdisc show
 qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 qdisc pfifo_fast 0: dev eth1 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
-root@deb-7:~# 
+root@deb-7:~#
 
 ... 1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1 is some parameters how default pfifo_fast
-... qdisc handles the tos bits. tc cant configure this parameters as 
+... qdisc handles the tos bits. tc cant configure this parameters as
 ... it is kernel job.
 
 ... SFQ
-... sfq has different pifo queue for the flow(session) say one for the tcp and another for 
-... udp. it likely to send the data round robin for the flow from queue. actually it has 
-... a hashing algorithm to divide the data to subqueue. 
+... sfq has different pifo queue for the flow(session) say one for the tcp and another for
+... udp. it likely to send the data round robin for the flow from queue. actually it has
+... a hashing algorithm to divide the data to subqueue.
 
 ... few settings and parameters
 
 ... perturb: time interval in second on which hashing will change. 10s
-... probably the good time. 
+... probably the good time.
 
 ... quantum: dont set the quantum less than MTU
 
@@ -44,18 +44,18 @@ root@deb-7:~#
 
 
 root@deb-7:~# tc qdisc add dev eth1 root sfq perturb 10
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# tc -s -d qdisc ls
 qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
- Sent 6840 bytes 54 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 8001: dev eth1 root refcnt 2 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
- Sent 558 bytes 5 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
-root@deb-7:~# 
+ Sent 6840 bytes 54 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
 
- 
+qdisc sfq 8001: dev eth1 root refcnt 2 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec
+ Sent 558 bytes 5 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+root@deb-7:~#
+
+
 root@deb-7:~# ping 192.168.179.1
 PING 192.168.179.1 (192.168.179.1) 56(84) bytes of data.
 64 bytes from 192.168.179.1: icmp_req=1 ttl=128 time=1.42 ms
@@ -66,20 +66,20 @@ PING 192.168.179.1 (192.168.179.1) 56(84) bytes of data.
 --- 192.168.179.1 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3001ms
 rtt min/avg/max/mdev = 0.407/0.706/1.428/0.420 ms
-root@deb-7:~# 
-root@deb-7:~# 
+root@deb-7:~#
+root@deb-7:~#
 root@deb-7:~# tc -s -d qdisc ls
 qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
- Sent 6840 bytes 54 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 8001: dev eth1 root refcnt 2 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
- Sent 6552 bytes 56 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
-root@deb-7:~# 
-root@deb-7:~# 
+ Sent 6840 bytes 54 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
 
-... note here the packets go. 8001 is the handler number. and limit 127packet 
+qdisc sfq 8001: dev eth1 root refcnt 2 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec
+ Sent 6552 bytes 56 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+root@deb-7:~#
+root@deb-7:~#
+
+... note here the packets go. 8001 is the handler number. and limit 127packet
 ... can be placed in queue. and bucket size is 1024 on which 127 packets are waiting
 ... and in every 10s the hash will reconfigure.
 
@@ -113,7 +113,7 @@ root@deb-7:~#
 
 ... The qdisc family: roots, handles, siblings and parents
 ... each interface has one default pfifo type default root qdisc. handle which is
-... used to indicates the qdisc it has the <major>:<minor> format. 
+... used to indicates the qdisc it has the <major>:<minor> format.
 ... It is customary to name the root qdisc ’1:’, which is equal to ’1:0’. The minor
 ... number of a qdisc is always 0.Classes need to have the same major number as their parent.
 
@@ -132,7 +132,7 @@ root@deb-7:~#
 /   |   \
 1:1 1:2 1:3  classes
 |   |    |
-10: 20: 30:  qdiscs 
+10: 20: 30:  qdiscs
 sfq tbf sfq
  0  1   2    band
 
@@ -152,11 +152,11 @@ root@deb-7:~# tc qdisc add dev eth1 root handle 1: prio
 root@deb-7:~# tc qdisc list
 qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 qdisc prio 1: dev eth1 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# tc qdisc add dev eth1 parent 1:1 handle 10: sfq
 root@deb-7:~# tc qdisc add dev eth1 parent 1:2 handle 20: tbf rate 20kbit buffer 1600 limit 3000
 root@deb-7:~# tc qdisc add dev eth1 parent 1:3 handle 30: sfq
-root@deb-7:~# 
+root@deb-7:~#
 
 ... In general (not just for HTB but for all qdiscs and classes in tc), handles are written x:y where x
 ... is an integer identifying a qdisc and y is an integer identifying a class belonging to that qdisc. The
@@ -166,24 +166,18 @@ root@deb-7:~#
 
 root@deb-7:~# tc -s qdisc ls dev eth1
 qdisc prio 1: root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
- Sent 8710 bytes 81 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 10: parent 1:1 limit 127p quantum 1514b divisor 1024 
- Sent 5276 bytes 50 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc tbf 20: parent 1:2 rate 20000bit burst 1600b lat 560.0ms 
- Sent 42 bytes 1 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 30: parent 1:3 limit 127p quantum 1514b divisor 1024 
- Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
-root@deb-7:~# 
+ Sent 8710 bytes 81 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
 
+qdisc sfq 10: parent 1:1 limit 127p quantum 1514b divisor 1024
+ Sent 5276 bytes 50 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
 
+qdisc tbf 20: parent 1:2 rate 20000bit burst 1600b lat 560.0ms
+ Sent 42 bytes 1 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
 
-
-
-
+qdisc sfq 30: parent 1:3 limit 127p quantum 1514b divisor 1024
+ Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+root@deb-7:~#

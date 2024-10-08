@@ -13,4 +13,3 @@ provider "vsphere" {
 output "testing" {
   value = "${data.vsphere_datastore.datastore.id}"
 }
-

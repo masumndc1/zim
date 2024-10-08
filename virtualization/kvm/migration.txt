@@ -5,7 +5,7 @@
 ... in another word p2v is something like converting one physical to virtual world.
 
 ... v2v we use to convert vms running on a virtual machine to run in kvm, openstack, ovirt
-... and rhev (red hat enterprise virtualization). 
+... and rhev (red hat enterprise virtualization).
 
 ... virt-v2v can currently convert RHEL4, RHEL 5, RHEL 6, RHEL 7, Windows XP,
 ... Windows Vista, Windows 7, Windows Server 2003, Windows Server 2008 virtual
@@ -24,17 +24,17 @@
 ... guest operating system prerequisits:
 
 ... for linux
-... the guest operating linux system kernel should have the virtio drivers. we can check 
+... the guest operating linux system kernel should have the virtio drivers. we can check
 
 [root@centos7 ~]# lsmod | grep virtio
-virtio_balloon         13864  0 
-virtio_blk             18156  3 
-virtio_console         28066  0 
-virtio_net             28096  0 
-virtio_pci             22913  0 
+virtio_balloon         13864  0
+virtio_blk             18156  3
+virtio_console         28066  0
+virtio_net             28096  0
+virtio_pci             22913  0
 virtio_ring            22746  5 virtio_blk,virtio_net,virtio_pci,virtio_balloon,virtio_console
 virtio                 14959  5 virtio_blk,virtio_net,virtio_pci,virtio_balloon,virtio_console
-[root@centos7 ~]# 
+[root@centos7 ~]#
 
 ... for windows.
 
@@ -74,12 +74,7 @@ virtio                 14959  5 virtio_blk,virtio_net,virtio_pci,virtio_balloon,
 
 ... converting from ova to kvm.
 
-root@elxa6lj5k72:/# virt-v2v -v -i ova -of qcow2 -os default OWASP_Broken_Web_Apps_VM_1.2.ova 
+root@elxa6lj5k72:/# virt-v2v -v -i ova -of qcow2 -os default OWASP_Broken_Web_Apps_VM_1.2.ova
 
 ... but i have problem with it. so what i did is I extracted the ova with tar command and use
 ... the vmdk file into kvm as storage.
-
-
-
-
-

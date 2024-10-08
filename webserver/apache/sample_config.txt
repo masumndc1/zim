@@ -10,5 +10,3 @@ Listen 8080
     ServerName www.example.org
     DocumentRoot "/www/otherdomain-80"
 </VirtualHost>
-
-

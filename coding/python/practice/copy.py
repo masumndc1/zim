@@ -2,7 +2,7 @@
 
 import sys
 
-if len(sys.argv) < 3: 
+if len(sys.argv) < 3:
     print "usages:\t\t copy.py from_file to_file"
 
 else:

@@ -16,30 +16,30 @@
 	<pre>
 enterprise(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  10.1.1.1        YES manual up                    up      
-Serial1/1                  10.1.1.5        YES manual up                    up      
-Serial1/2                  192.168.1.1     YES manual up                    up      
-Serial1/3                  unassigned      YES unset  administratively down down    
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  10.1.1.1        YES manual up                    up
+Serial1/1                  10.1.1.5        YES manual up                    up
+Serial1/2                  192.168.1.1     YES manual up                    up
+Serial1/3                  unassigned      YES unset  administratively down down
 enterprise(config-if)#
 
 isp1(config)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  10.1.1.2        YES manual up                    up      
-Serial1/1                  10.1.1.6        YES manual up                    up      
-Serial1/2                  unassigned      YES unset  administratively down down    
-Serial1/3                  unassigned      YES unset  administratively down down    
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  10.1.1.2        YES manual up                    up
+Serial1/1                  10.1.1.6        YES manual up                    up
+Serial1/2                  unassigned      YES unset  administratively down down
+Serial1/3                  unassigned      YES unset  administratively down down
 isp1(config)#
 isp1(config)#
 
 isp3(config-line)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  192.168.1.2     YES manual up                    up      
-Serial1/1                  unassigned      YES unset  administratively down down    
-Serial1/2                  unassigned      YES unset  administratively down down    
-Serial1/3                  unassigned      YES unset  administratively down down    
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  192.168.1.2     YES manual up                    up
+Serial1/1                  unassigned      YES unset  administratively down down
+Serial1/2                  unassigned      YES unset  administratively down down
+Serial1/3                  unassigned      YES unset  administratively down down
 isp3(config-line)#
 
 enterprise(config)#router bgp 11
@@ -88,18 +88,18 @@ enterprise(config-router)#neighbor 10.1.1.2 ?
 
 enterprise(config-router)#neighbor 10.1.1.2 remote-as 1
 enterprise(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 enterprise(config-router)#
-*Nov 18 07:46:45.887: %BGP-5-ADJCHANGE: neighbor 10.1.1.2 Up 
+*Nov 18 07:46:45.887: %BGP-5-ADJCHANGE: neighbor 10.1.1.2 Up
 enterprise(config-router)#
 
 isp1(config)#router bgp 1
 isp1(config-router)#neighbor 10.1.1.1 remote-as 11
 isp1(config-router)#
 isp1(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 isp1(config-router)#
@@ -138,7 +138,7 @@ router bgp 3
 now testing summary and neighbourship in each router.
 <pre>
 
-enterprise#show ip bgp neighbors 
+enterprise#show ip bgp neighbors
 BGP neighbor is 10.1.1.2,  remote AS 1, external link
   BGP version 4, remote router ID 10.1.1.6
   BGP state = Established, up for 00:21:14
@@ -179,7 +179,7 @@ BGP neighbor is 10.1.1.2,  remote AS 1, external link
 
   Connections established 1; dropped 0
   Last reset never
-Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0
 Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 1
 Local host: 10.1.1.1, Local port: 62501
 Foreign host: 10.1.1.2, Foreign port: 179
@@ -208,7 +208,7 @@ IP Precedence value : 6
 Datagrams (max data segment is 1460 bytes):
 Rcvd: 25 (out of order: 0), with data: 23, total data bytes: 482
 Sent: 48 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0), with data: 24, total data bytes: 482
-          
+
 BGP neighbor is 10.1.1.6,  remote AS 1, external link
   BGP version 4, remote router ID 0.0.0.0
   BGP state = Active
@@ -247,7 +247,7 @@ BGP neighbor is 10.1.1.6,  remote AS 1, external link
   Connections established 0; dropped 0
   Last reset never
   No active TCP connection
-          
+
 BGP neighbor is 192.168.1.2,  remote AS 3, external link
   BGP version 4, remote router ID 192.168.1.1
   BGP state = Established, up for 00:10:02
@@ -288,7 +288,7 @@ BGP neighbor is 192.168.1.2,  remote AS 3, external link
 
   Connections established 1; dropped 0
   Last reset never
-Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0
 Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 1
 Local host: 192.168.1.1, Local port: 32504
 Foreign host: 192.168.1.2, Foreign port: 179
@@ -319,7 +319,7 @@ Rcvd: 25 (out of order: 0), with data: 12, total data bytes: 292
 Sent: 26 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0), with data: 13, total data bytes: 292
 enterprise#
 
-enterprise#show ip bgp summary 
+enterprise#show ip bgp summary
 BGP router identifier 10.1.1.5, local AS number 11
 BGP table version is 1, main routing table version 1
 
@@ -329,14 +329,14 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 192.168.1.2     4     3      14      14        1    0    0 00:10:25        0
 enterprise#
 
-enterprise#show ip bgp update-group 
+enterprise#show ip bgp update-group
 BGP version 4 update-group 1, external, Address Family: IPv4 Unicast
   BGP Update version : 1/0, messages 0
   Update messages formatted 0, replicated 0
   Number of NLRIs in the update sent: max 0, min 0
   Minimum time between advertisement runs is 30 seconds
-  Has 3 members (* indicates the members currently being sent updates): 
-   10.1.1.2         10.1.1.6         192.168.1.2     
+  Has 3 members (* indicates the members currently being sent updates):
+   10.1.1.2         10.1.1.6         192.168.1.2
 
 enterprise#
 
@@ -364,7 +364,7 @@ isp3(config-router)#
 	<li>peering routers remote-id will not be same</li>
 	<li>if configured MD5 must pass</li>
 	<li>must have a tcp connection with other router: actually this done not like other protocols unlike eigrp and ospf: the thing
-	is bgp routers first form a TCP connection first then they exchanges the bgp messages to track town when messages come and 
+	is bgp routers first form a TCP connection first then they exchanges the bgp messages to track town when messages come and
 	when they not.actually ios does not required any ip address explicitly configured for tcp as source address. it infact it does
 	like it took the interface ip address as source address when it needs to go to its neighbor.</li>
 </ul>
@@ -391,7 +391,7 @@ router bgp 11
  neighbor 192.168.1.2 password 7 13061E010803
  !
 
-isp3(config-router)#neighbor 192.168.1.1 password cisco     
+isp3(config-router)#neighbor 192.168.1.1 password cisco
 isp3(config-router)#
 isp3(config-router)#
 isp3(config-router)#do show run | begin bgp
@@ -404,17 +404,17 @@ router bgp 3
 isp3#clear ip bgp *
 isp3#
 *Nov 18 09:10:06.795: %BGP-5-ADJCHANGE: neighbor 192.168.1.1 Down User reset
-*Nov 18 09:10:08.007: %BGP-5-ADJCHANGE: neighbor 192.168.1.1 Up 
+*Nov 18 09:10:08.007: %BGP-5-ADJCHANGE: neighbor 192.168.1.1 Up
 isp3#
 
 
 enterprise(config-router)#
 *Nov 18 09:10:07.723: %BGP-5-ADJCHANGE: neighbor 192.168.1.2 Down Peer closed the session
-*Nov 18 09:10:08.399: %BGP-5-ADJCHANGE: neighbor 192.168.1.2 Up 
+*Nov 18 09:10:08.399: %BGP-5-ADJCHANGE: neighbor 192.168.1.2 Up
 </pre>
 
 <h3>issues when redundancy exists between eBGP neighbor</h3>
-if one router has two link towards a AS for redundancy then its ok however it will take more bandwidth and memore as the router will send 
+if one router has two link towards a AS for redundancy then its ok however it will take more bandwidth and memore as the router will send
 neighbor update for the both link as both neighborship will send bgp routes.
 <br /><br />
 one of the alternatives can be configuring loopback interface in routers and use this loopback interface as source of TCP communication.
@@ -434,32 +434,32 @@ still use as redundancy.
 <pre>
 enterprise(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  10.1.1.1        YES manual up                    up      
-Serial1/1                  10.1.1.5        YES manual up                    up      
-Serial1/2                  192.168.1.1     YES manual up                    up      
-Serial1/3                  unassigned      YES unset  administratively down down    
-Loopback1                  11.11.11.11     YES manual up                    up      
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  10.1.1.1        YES manual up                    up
+Serial1/1                  10.1.1.5        YES manual up                    up
+Serial1/2                  192.168.1.1     YES manual up                    up
+Serial1/3                  unassigned      YES unset  administratively down down
+Loopback1                  11.11.11.11     YES manual up                    up
 enterprise(config-if)#
 
-isp1(config-if)#do show ip interface brief 
+isp1(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  10.1.1.2        YES manual up                    up      
-Serial1/1                  10.1.1.6        YES manual up                    up      
-Serial1/2                  unassigned      YES unset  administratively down down    
-Serial1/3                  unassigned      YES unset  administratively down down    
-Loopback2                  1.1.1.1         YES manual up                    up      
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  10.1.1.2        YES manual up                    up
+Serial1/1                  10.1.1.6        YES manual up                    up
+Serial1/2                  unassigned      YES unset  administratively down down
+Serial1/3                  unassigned      YES unset  administratively down down
+Loopback2                  1.1.1.1         YES manual up                    up
 isp1(config-if)#
 
 isp3(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES unset  administratively down down    
-Serial1/0                  192.168.1.2     YES manual up                    up      
-Serial1/1                  unassigned      YES unset  administratively down down    
-Serial1/2                  unassigned      YES unset  administratively down down    
-Serial1/3                  unassigned      YES unset  administratively down down    
-Loopback3                  3.3.3.3         YES manual up                    up      
+FastEthernet0/0            unassigned      YES unset  administratively down down
+Serial1/0                  192.168.1.2     YES manual up                    up
+Serial1/1                  unassigned      YES unset  administratively down down
+Serial1/2                  unassigned      YES unset  administratively down down
+Serial1/3                  unassigned      YES unset  administratively down down
+Loopback3                  3.3.3.3         YES manual up                    up
 isp3(config-if)#
 
 
@@ -517,14 +517,14 @@ isp1(config)#
 
 <h2>eBGP multihop concept</h2>
 when sending a packet bgp by default set ttl=1 for which the packet does not reach up to loopback as receiving router decrease the ttl by 1 when
-its reach to its interface. there fore we need to instruct sending router to set ttl higher value toward receiving router by the command 
+its reach to its interface. there fore we need to instruct sending router to set ttl higher value toward receiving router by the command
 <strong>ebgp multi-hop 2</strong> and thats why neighborship was not formed in previous example when we configured loopback interface and used
 loopback for its source ip. lets do it.
 
 <pre>
 
 enterprise(config-router)#neighbor 3.3.3.3 ebgp-multihop 2
-*Nov 18 10:50:18.587: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up 
+*Nov 18 10:50:18.587: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up
 
 enterprise(config-router)#do show ip bgp summ
 BGP router identifier 11.11.11.11, local AS number 11
@@ -578,7 +578,7 @@ like ospf bgp neighborship goes under series of process and states. although fin
 exceptions, retires and failures, the overall steps are as follows.
 <ol>
 <li>bgp got the neighbor ip from the <strong>neighbor</strong> command and establish a tcp connection through 179 ports.</li>
-<li>the three-way handshake completed, then bgp send first bgp open message similar to ospf/eigrp hello message containing important information 
+<li>the three-way handshake completed, then bgp send first bgp open message similar to ospf/eigrp hello message containing important information
 related to becoming neighbor.</li>
 <li>when open message send and received and required information verified and two routers become neighbor with established state. bgp update
 message along with PA and prefix send after this established state</li>
@@ -628,7 +628,7 @@ typical reasons
 
 </table>
 
-a sample <strong>show ip bgp neighbor 3.3.3.3</strong> and <strong>show tcp brief</strong> command 
+a sample <strong>show ip bgp neighbor 3.3.3.3</strong> and <strong>show tcp brief</strong> command
 
 <pre>
 
@@ -681,7 +681,7 @@ enterprise#show ip bgp neighbors 3.3.3.3
 
   <strong>### neighbor 3.3.3.3 ebgp-multihop 2 command issued</strong>
 
-Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0
 Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 2
 
 <strong>Local host: 11.11.11.11, Local port: 12062
@@ -708,7 +708,7 @@ ProcessQ            0          0             0x0
 
 iss: 4038996153  snduna: 4038997624  sndnxt: 4038997624     sndwnd:  15966
 irs: 1846012204  rcvnxt: 1846013675  rcvwnd:      15966  delrcvwnd:    418
-          
+
 SRTT: 300 ms, RTTO: 303 ms, RTV: 3 ms, KRTT: 0 ms
 minRTT: 8 ms, maxRTT: 300 ms, ACK hold: 200 ms
 Status Flags: active open
@@ -724,7 +724,7 @@ Sent: 152 (retransmit: 0, fastretransmit: 0, partialack: 0, Second Congestion: 0
 <strong>### telling us how many packets are send and received</strong>
  Packets received in fast path: 0, fast processed: 0, slow path: 0
  fast lock acquisition failures: 0, slow path: 0
-enterprise# 
+enterprise#
 
 enterprise#show tcp brief
 TCB       Local Address               Foreign Address             (state)
@@ -744,7 +744,7 @@ enterprise#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
 enterprise(config)#
 enterprise(config)#router bgp 11
-<strong>enterprise(config-router)#neighbor 3.3.3.3 shutdown</strong> 
+<strong>enterprise(config-router)#neighbor 3.3.3.3 shutdown</strong>
 enterprise(config-router)#
 *Nov 18 20:57:40.723: BGPNSF state: 3.3.3.3 went from nsf_not_active to nsf_not_active
 *Nov 18 20:57:40.723: BGP: 3.3.3.3 went from Established to Idle
@@ -784,12 +784,12 @@ enterprise(config-router)#
 *Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has ROUTE-REFRESH capability(old) for all address-families
 *Nov 18 20:59:56.755: BGP: 3.3.3.3 rcvd OPEN w/ optional parameter type 2 (Capability) len 2
 *Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has CAPABILITY code: 2, length 0
-*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has ROUTE-REFRESH capability(new) for all address-families 
+*Nov 18 20:59:56.755: BGP: 3.3.3.3 OPEN has ROUTE-REFRESH capability(new) for all address-families
 BGP: 3.3.3.3 rcvd OPEN w/ remote AS 3
 *Nov 18 20:59:56.755: BGP: 3.3.3.3 went from OpenSent to OpenConfirm
 *Nov 18 20:59:56.755: BGP: 3.3.3.3 went from OpenConfirm to Established
 enterprise(config-router)#
-*Nov 18 20:59:56.755: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up 
+*Nov 18 20:59:56.755: %BGP-5-ADJCHANGE: neighbor 3.3.3.3 Up
 </strong>
 enterprise(config-router)#
 
@@ -848,8 +848,8 @@ along with bgp summary
 
 we will do that to our all router one by one.
 <pre>
-isp2(config)#router bgp 2 
-isp2(config-router)#redistribute ?      
+isp2(config)#router bgp 2
+isp2(config-router)#redistribute ?
   bgp        Border Gateway Protocol (BGP)
   connected  Connected
   dvmrp      Redistribution of DVMRP into BGP IPv4 Multicast
@@ -936,7 +936,7 @@ r>                  4.4.4.4                  0             0 4 ?
 *> 192.135.250.0/28 4.4.4.4                  0             0 4 ?
 isp3(config-router)#
 
-isp3(config-router)#do show ip bgp summary 
+isp3(config-router)#do show ip bgp summary
 
 BGP router identifier 3.3.3.3, local AS number 3
 BGP table version is 18, main routing table version 18
@@ -1053,10 +1053,10 @@ r>                  3.3.3.3                  0             0 3 ?
 *>                  3.3.3.3                                0 3 4 ?
 enterprise(config-router)#
 
-enterprise(config-router)#do show ip route    
+enterprise(config-router)#do show ip route
 
 Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
        E1 - OSPF external type 1, E2 - OSPF external type 2
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
@@ -1137,10 +1137,10 @@ enterprise#show ip bgp neighbors 1.1.1.1 ?
   |                  Output modifiers
   <cr>
 
-enterprise#show ip bgp neighbors 1.1.1.1 
+enterprise#show ip bgp neighbors 1.1.1.1
 
 
-enterprise#show ip bgp neighbors 1.1.1.1 routes          
+enterprise#show ip bgp neighbors 1.1.1.1 routes
 BGP table version is 24, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -1158,10 +1158,10 @@ r  11.11.11.11/32   1.1.1.1                  0             0 1 ?
 *> 185.0.0.0/8      1.1.1.1                                0 1 2 ?
 *  192.135.250.0/28 1.1.1.1                                0 1 2 3 4 ?
 
-Total number of prefixes 10 
+Total number of prefixes 10
 
 enterprise#
-enterprise#show ip bgp neighbors 1.1.1.1 ?     
+enterprise#show ip bgp neighbors 1.1.1.1 ?
   advertised-routes  Display the routes advertised to a BGP neighbor
   dampened-routes    Display the dampened routes received from neighbor (eBGP
                      peers only)
@@ -1175,7 +1175,7 @@ enterprise#show ip bgp neighbors 1.1.1.1 ?
   |                  Output modifiers
   <cr>
 
-enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes
 
 BGP table version is 24, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
@@ -1195,11 +1195,11 @@ r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
 *> 185.0.0.0/8      1.1.1.1                                0 1 2 ?
 *> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
 
-Total number of prefixes 11 
+Total number of prefixes 11
 
 enterprise#
 
-enterprise#show ip bgp summary           
+enterprise#show ip bgp summary
 BGP router identifier 11.11.11.11, local AS number 11
 BGP table version is 24, main routing table version 24
 11 network entries using 1320 bytes of memory
@@ -1223,7 +1223,7 @@ enterprise#
 BGP also support network command but that is not like eigrp or ospf. actually it has no connection on interface like eigrp and ospd do.
 any internal route will be included into BGP tables only when that route is in routing tables as well as will be distributed if we like.
 
-Note: The preceding statement, and the remaining logic in this section, assumes a BGP default setting of no auto-summary. 
+Note: The preceding statement, and the remaining logic in this section, assumes a BGP default setting of no auto-summary.
 
 so to advertise enterprise network 128.107.0.0/19 into BGP tables and advertise it to other router we do following.
 <ol>
@@ -1233,9 +1233,9 @@ enterprise(config)#ip route 128.107.0.0 255.255.224.0 null0
 	</pre>
 	<li>then verify this into routing table</li>
 	<pre>
-enterprise(config)#do show ip route 
+enterprise(config)#do show ip route
 Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
        E1 - OSPF external type 1, E2 - OSPF external type 2
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
@@ -1253,7 +1253,7 @@ B       2.2.2.2 [20/0] via 3.3.3.3, 01:10:19
 S       3.3.3.3 is directly connected, Serial1/2
      4.0.0.0/32 is subnetted, 1 subnets
 B       4.4.4.4 [20/0] via 3.3.3.3, 01:10:19
-<strong>     128.107.0.0/19 is subnetted, 1 subnets 
+<strong>     128.107.0.0/19 is subnetted, 1 subnets
 S       128.107.0.0 is directly connected, Null0</strong>
      192.135.250.0/28 is subnetted, 1 subnets
 B       192.135.250.0 [20/0] via 3.3.3.3, 01:16:09
@@ -1318,8 +1318,8 @@ other wise it will assume a full class-ful network like <strong>cisco(config-rou
 for class B and 255.255.255.0 for class A.
 
 <h2>effect of auto-summary</h2>
-IOS from 12.3 comes with default no auto-summary. 
-additionally there is a change in logic only occured when <strong>mask </strong> is not used with 
+IOS from 12.3 comes with default no auto-summary.
+additionally there is a change in logic only occured when <strong>mask </strong> is not used with
 <strong>network</strong>. if mask is used explicitly then there is no change in logic.
 if network command add a network with no mask and with <strong>auto-summary</strong> configured, router then add the a route for that classful network
 to bgp table if
@@ -1385,7 +1385,7 @@ ip route 128.107.3.0 255.255.255.0 Null0
 <pre>
 enterprise(config-router)#do show ip route
 Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
        E1 - OSPF external type 1, E2 - OSPF external type 2
        i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
@@ -1401,7 +1401,7 @@ S       128.107.1.0/24 is directly connected, Null0
 B       128.107.0.0/19 [200/0] via 0.0.0.0, 00:17:30, Null0
 enterprise(config-router)#
 
-enterprise#show ip bgp 128.107.0.0 255.255.224.0 longer-prefixes 
+enterprise#show ip bgp 128.107.0.0 255.255.224.0 longer-prefixes
 BGP table version is 40, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -1439,4 +1439,3 @@ isp1(config-router)#
 
 </body>
 </html>
-

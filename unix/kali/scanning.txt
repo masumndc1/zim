@@ -115,6 +115,3 @@ len=46 ip=192.168.25.141 ttl=64 DF id=0 sport=0 flags=RA seq=1 win=0 rtt=6.1 ms
 2 packets transmitted, 2 packets received, 0% packet loss
 round-trip min/avg/max = 6.1/6.3/6.4 ms
 root@kali:/#
-
-
-

@@ -31,11 +31,10 @@ gem install --user-install solargraph
 ... Update nvchad
 :NvChadUpdate
 
-... 
+...
 ... how to remove nvchad
 # Linux / Macos (unix)
 rm -rf ~/.config/nvim
 rm -rf ~/.local/share/nvim
 
-... 
-
+...

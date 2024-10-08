@@ -4,5 +4,3 @@
 ... in that case we can do the following
 
 # service network-manager restart
-
-

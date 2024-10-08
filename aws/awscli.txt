@@ -16,7 +16,7 @@ yum -y install python-pip
 [root@nginx yum.repos.d]# pip install --upgrade pip
 Collecting pip
   Downloading pip-9.0.1-py2.py3-none-any.whl (1.3MB)
-    100% |████████████████████████████████| 1.3MB 570kB/s 
+    100% |████████████████████████████████| 1.3MB 570kB/s
 Installing collected packages: pip
   Found existing installation: pip 8.1.2
     Uninstalling pip-8.1.2:
@@ -35,7 +35,7 @@ Requirement already satisfied: jmespath<1.0.0,>=0.7.1 in /usr/lib/python2.7/site
 Requirement already satisfied: python-dateutil<3.0.0,>=1.4 in /usr/lib/python2.7/site-packages (from botocore=li)
 Requirement already satisfied: pyasn1>=0.1.3 in /usr/lib/python2.7/site-packages (from rsa<=3.5.0,>=3.1.2->awscli)
 Requirement already satisfied: futures<4.0.0,>=2.2.0 in /usr/lib/python2.7/site-packages (from s3transfer<0)
-[root@nginx yum.repos.d]# 
+[root@nginx yum.repos.d]#
 
 ... now verifying wether it is installed or not
 
@@ -48,19 +48,19 @@ To see help text, you can run:
   aws <command> <subcommand> help
 aws: error: argument subcommand: Invalid choice, valid choices are:
 
-s3-config                                | topics                                  
-s3-faq                                   | config-vars                             
-return-codes                            
+s3-config                                | topics
+s3-faq                                   | config-vars
+return-codes
 [masum@nginx playbook]$ aws ec2 help
 
-... aws configure command 
+... aws configure command
 
 [masum@nginx ~]$ aws configure
 AWS Access Key ID: ****************
 AWS Secret Access Key: ****************
-Default region name [None]: 
-Default output format [None]: 
-[masum@nginx ~]$ 
+Default region name [None]:
+Default output format [None]:
+[masum@nginx ~]$
 
 ... after configuring access key id and secret access key any service
 ... related command will return output in JSON format.
@@ -69,7 +69,7 @@ Default output format [None]:
 {
     "HostedZones": []
 }
-[masum@nginx ~]$ 
+[masum@nginx ~]$
 
 ... this output could be a page long. therefore searching something
 ... from a json output we can use jq. we can install jq in linux system.
@@ -80,8 +80,8 @@ Default output format [None]:
 
 export JAVA_HOME=/usr
 export EC2_HOME=/usr/local/aws/ec2
-export AWS_ACCESS_KEY=your_access_key_ID 
-export AWS_SECRET_KEY=your_secret_access_key 
+export AWS_ACCESS_KEY=your_access_key_ID
+export AWS_SECRET_KEY=your_secret_access_key
 export PATH=$PATH:/usr/local/aws/ec2/bin
 
 ... when we run from mac to search for region
@@ -94,7 +94,7 @@ macs-MacBook-Pro-2:~ khabir$ aws ec2 describe-regions
             "Endpoint": "ec2.ap-south-1.amazonaws.com",
             "RegionName": "ap-south-1"
 
-... 
+...
 
 macs-MacBook-Pro-2:~ khabir$  aws ec2 describe-instances --filters "Name=instance-type,Values=t2.micro"
 {
@@ -112,6 +112,4 @@ macs-MacBook-Pro-2:~ khabir$  aws ec2 describe-instances --filters "Name=instanc
                     "Monitoring": {
                         "State": "disabled"
 
-... 
-
-
+...

@@ -5,13 +5,13 @@
 
 https://github.com/openshift/source-to-image/releases/tag/v1.1.8
 
-[root@openshift openshift]# tar zxvf source-to-image-v1.1.8-e3140d01-linux-amd64.tar.gz 
+[root@openshift openshift]# tar zxvf source-to-image-v1.1.8-e3140d01-linux-amd64.tar.gz
 ./
 ./s2i
 ./sti
-[root@openshift openshift]# 
+[root@openshift openshift]#
 [root@openshift openshift]# cp s2i* /usr/local/bin
-[root@openshift openshift]# 
+[root@openshift openshift]#
 
 ... usage like
 
@@ -19,7 +19,7 @@ $ s2i build https://github.com/openshift/django-ex centos/python-35-centos7 hell
 $ docker run -p 8080:8080 hello-python
 
 [root@openshift openshift]# docker pull centos/python-35-centos7
-[root@openshift openshift]# 
+[root@openshift openshift]#
 [root@openshift openshift]# s2i build https://github.com/openshift/django-ex centos/python-35-centos7 hello-pytho
 
 ---> Installing application source ...
@@ -43,6 +43,3 @@ Running migrations:
   Applying auth.0002_alter_permission_name_max_length... OK
 
 ... when we browse http://192.168.10.141:8080/ it hits to localhost:8080
-
-
-

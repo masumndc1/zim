@@ -21,7 +21,7 @@ press ^d
 #ls -ld /anj_sr
 
 
------Add the entry in the /etc/exports files 
+-----Add the entry in the /etc/exports files
 
 #mknfsexp -B -d /anj_sr
 
@@ -35,7 +35,7 @@ press ^d
 
 
 ------Now goto partner(telnet partner ip)
-#showmount -e nfsserver_ip 
+#showmount -e nfsserver_ip
 #mkdir /anj_cl
 
 #mount  -v nfs yourlparip:/anj_sr /anj_cl
@@ -45,8 +45,3 @@ press ^d
 #touch f3
 
 #umount /anj_cl
-
-
-
-
-

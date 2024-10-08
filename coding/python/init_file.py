@@ -1,7 +1,7 @@
 
 
 ... the content of __init__.py file.
-... definition in __init__.py file will tell other 
+... definition in __init__.py file will tell other
 ... python files how is the code hierarchy.
 
 your_package/
@@ -28,4 +28,3 @@ def add():
 ... without knowing file1's inside functions, like
 
  from your_package.file1 import add
-

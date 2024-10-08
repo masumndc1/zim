@@ -4,11 +4,11 @@
 
 
 [masum@nginx playbook]$ ansible-vault encrypt nginx.yml
-New Vault password: 
-Confirm New Vault password: 
+New Vault password:
+Confirm New Vault password:
 Encryption successful
-[masum@nginx playbook]$ 
-[masum@nginx playbook]$ cat nginx.yml 
+[masum@nginx playbook]$
+[masum@nginx playbook]$ cat nginx.yml
 $ANSIBLE_VAULT;1.1;AES256
 36343965663866323739633265356666633665623634303864393361363632623331363666613131
 6537666162643638616164666362626461643530323835330a363539386332613266303466373132
@@ -17,41 +17,39 @@ $ANSIBLE_VAULT;1.1;AES256
 35613564623766663233653133613731643465623964663763396565623765313937356536376432
 31633036383931653032326664626335316337383665616533396238363237303137326438363163
 353137633664653339613064386336346439
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 ... it will ask for password when to run it
 
 [masum@nginx playbook]$ ansible-playbook --ask-become-pass nginx.yml
-SSH password: 
-SUDO password[defaults to SSH password]: 
+SSH password:
+SUDO password[defaults to SSH password]:
 ERROR! Attempting to decrypt but no vault secrets found
 
 // running yml file failed as no password has been provided.
 
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 [masum@nginx playbook]$ ansible-playbook --ask-become-pass --ask-vault-pass nginx.yml
-SSH password: 
-SUDO password[defaults to SSH password]: 
-Vault password: 
+SSH password:
+SUDO password[defaults to SSH password]:
+Vault password:
 
 ... however we can change the content of the nginx.yml by following
 
-[masum@nginx playbook]$ ansible-vault edit nginx.yml 
-Vault password: 
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$ ansible-vault edit nginx.yml
+Vault password:
+[masum@nginx playbook]$
 
 ... decrypt the file and remove the password protection.
 
-[masum@nginx playbook]$  ansible-vault decrypt nginx.yml 
-Vault password: 
+[masum@nginx playbook]$  ansible-vault decrypt nginx.yml
+Vault password:
 Decryption successful
-[masum@nginx playbook]$ 
-[masum@nginx playbook]$ cat nginx.yml 
+[masum@nginx playbook]$
+[masum@nginx playbook]$ cat nginx.yml
 ---
 - hosts: ansible
   become: yes
   roles:
    - masum.prac
-[masum@nginx playbook]$ 
-
-
+[masum@nginx playbook]$

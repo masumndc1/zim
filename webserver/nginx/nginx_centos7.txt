@@ -7,7 +7,7 @@ Linux puppet 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86
 [root@puppet manifest]#
 
 ... If you are running a firewall, run the following commands to allow HTTP and HTTPS traffic:
-sudo firewall-cmd --permanent --zone=public --add-service=http 
+sudo firewall-cmd --permanent --zone=public --add-service=http
 sudo firewall-cmd --permanent --zone=public --add-service=https
 sudo firewall-cmd --reload
 
@@ -75,12 +75,9 @@ nginx version: nginx/1.10.2
 built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC)
 built with OpenSSL 1.0.1e-fips 11 Feb 2013
 TLS SNI support enabled
-[root@puppet manifest]# 
+[root@puppet manifest]#
 
 [root@puppet manifest]# nginx -t
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 [root@puppet manifest]#
-
-
-

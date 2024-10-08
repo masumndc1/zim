@@ -1,5 +1,5 @@
 1. install vsftp ftp server
 
-2. edit /etc/vsftp.conf file 
+2. edit /etc/vsftp.conf file
 
 3. and finally restart the server

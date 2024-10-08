@@ -3,7 +3,7 @@
 
 // ip configuraton on interface
 
-// show interfaces 
+// show interfaces
 
 masum> show inter
 interface  - interface All
@@ -31,29 +31,29 @@ ipv6-autoconfig Not configured
 duplex full
 monitor-mode Not configured
 link-speed 1000M/full
-comments 
+comments
 ipv4-address 192.168.35.10/24
 ipv6-address Not Configured
 ipv6-local-link-address Not Configured
 
-Statistics: 
+Statistics:
 TX bytes:29183 packets:348 errors:0 dropped:0 overruns:0 carrier:0
 RX bytes:30337 packets:248 errors:0 dropped:0 overruns:0 frame:0
 
-masum> 
+masum>
 
 
 // how to set interface on other interface
 
-masum> set interface eth2 ipv4-address 172.16.1.1 subnet-mask 255.255.255.0 
+masum> set interface eth2 ipv4-address 172.16.1.1 subnet-mask 255.255.255.0
 
 CLINFR0519  Configuration lock present. Can not execute this command. To acquire the lock use the command 'lock database override'.
 
 masum> lock database override
 
-masum> set interface eth2 ipv4-address 172.16.1.1 subnet-mask 255.255.255.0 
-masum> 
-masum> show interface eth2 
+masum> set interface eth2 ipv4-address 172.16.1.1 subnet-mask 255.255.255.0
+masum>
+masum> show interface eth2
 state on
 mac-addr 08:00:27:0e:32:c8
 type ethernet
@@ -65,14 +65,14 @@ ipv6-autoconfig Not configured
 duplex full
 monitor-mode off
 link-speed 1000M/full
-comments 
+comments
 ipv4-address 172.16.1.1/24
 ipv6-address Not Configured
 ipv6-local-link-address Not Configured
 
-Statistics: 
+Statistics:
 TX bytes:4924 packets:52 errors:0 dropped:0 overruns:0 carrier:0
 RX bytes:4304 packets:30 errors:0 dropped:0 overruns:0 frame:0
-masum>masum> 
+masum>masum>
 
 // bytes and packets are showing that data is entering this interface.

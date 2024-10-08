@@ -44,7 +44,7 @@ to get rid of this type of favicon.ico or robot.txt error add log_not_found at t
 **root@pbl-OptiPlex-755:/etc/nginx# nginx -t**
 **the configuration file /etc/nginx/nginx.conf syntax is ok**
 **configuration file /etc/nginx/nginx.conf test is successful**
-**root@pbl-OptiPlex-755:/etc/nginx#** 
+**root@pbl-OptiPlex-755:/etc/nginx#**
 
 do not add **log_not_found **at any other place other than** http core module. **if log_not_found is added to any other place then error is generated like following.
 
@@ -84,10 +84,10 @@ do not add **log_not_found **at any other place other than** http core module. *
 **root@pbl-OptiPlex-755:/etc/nginx/sites-enabled#**
 
 note here if you browse for http://localhost/images then according to this file images will be searched from [[/usr/share/images]]
-similarly [[/usr/share/doc]] will be searched for http://localhost/doc. similarly i have created the following one 
+similarly [[/usr/share/doc]] will be searched for http://localhost/doc. similarly i have created the following one
 
 **root@pbl-OptiPlex-755:/etc/nginx/sites-available# vi default **
- 
+
 
 **       location /angry {**
 **                root /home/pbl;**
@@ -151,7 +151,7 @@ finding the master process of the nginx and binary location.
 **root@pbl-OptiPlex-755:/usr/sbin# **
 **root@pbl-OptiPlex-755:/usr/sbin# **
 
-module and directives in perticulars error_page, index, rewrite, try_files, add_before_body, add_after_body 
+module and directives in perticulars error_page, index, rewrite, try_files, add_before_body, add_after_body
 
 **root@pbl-OptiPlex-755:/etc/nginx# openssl genrsa -out secure.localhost.com.key 1024**
 **Generating RSA private key, 1024 bit long modulus**
@@ -259,21 +259,13 @@ the 3lines of command make the necessary files needed for the secure web server 
 **DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:RC4-SHA:RC4-MD5:RC4-MD5:EDH-RSA-DES-CBC-SHA:EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-RC4-MD5:EXP-RC4-MD5**
 **root@pbl-OptiPlex-755:/usr/local# **
 
-to install php for nginx 
+to install php for nginx
 
 **root@pbl-OptiPlex-755:/etc/nginx/sites-available# apt-get install php5-fpm**
 
 
-django 
+django
 
 **root@pbl-OptiPlex-755:/etc/nginx/sites-available#**tar xzvf Django-1.4.tar.gz
 **root@pbl-OptiPlex-755:/etc/nginx/sites-available#**cd Django-1.4
 **root@pbl-OptiPlex-755:/etc/nginx/sites-available#**sudo python setup.py install
-
-
-
-
-
-
-
- 

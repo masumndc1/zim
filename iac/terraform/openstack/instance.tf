@@ -1,6 +1,6 @@
 
 
-... my full openstack config file 
+... my full openstack config file
 
 provider "openstack" {
   user_name   = "username"
@@ -51,7 +51,7 @@ resource "openstack_networking_subnet_v2" "private2_subnet" {
   ip_version = 4
 }
 
-### security group 
+### security group
 
 resource "openstack_compute_secgroup_v2" "secgroup2" {
   name        = "secgroup2"
@@ -63,21 +63,21 @@ resource "openstack_compute_secgroup_v2" "secgroup2" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-  
+
   rule {
-    from_port   = 80 
-    to_port     = 80 
+    from_port   = 80
+    to_port     = 80
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
 
   rule {
     from_port   = 443
-    to_port     = 443 
+    to_port     = 443
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-  
+
   rule {
     from_port   = 8080
     to_port     = 8080
@@ -93,7 +93,7 @@ resource "openstack_compute_secgroup_v2" "secgroup2" {
   }
 }
 
-### networking port 
+### networking port
 
 resource "openstack_networking_port_v2" "debianport2" {
   name               = "debianport2"
@@ -101,7 +101,7 @@ resource "openstack_networking_port_v2" "debianport2" {
   admin_state_up     = "true"
 }
 
-# key pair 
+# key pair
 
 resource "openstack_compute_keypair_v2" "stack-keypair" {
   name       = "stack-keypair"
@@ -137,6 +137,3 @@ output "floating-ip" {
 }
 
 ### end
-
-
-

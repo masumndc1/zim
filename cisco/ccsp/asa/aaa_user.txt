@@ -2,19 +2,19 @@
 
 ................... aaa .....................................
 
-.. our configuration is to authentication user coming from 
-.. outside interface and accessing webserver dmz1 site. 
+.. our configuration is to authentication user coming from
+.. outside interface and accessing webserver dmz1 site.
 .. if the authentication successfull then allow to see the
-.. content otherwise not. 
+.. content otherwise not.
 
-.. as http request coming at outside interface 
+.. as http request coming at outside interface
 .. redirection to dmz1 site needs static natting. the following says
-.. when an http redirection coming at the outside it will redirect the 
-.. request to dmz1 site webserver 192.168.35.147 
+.. when an http redirection coming at the outside it will redirect the
+.. request to dmz1 site webserver 192.168.35.147
 
 ciscoasa(config)# show run static
-static (dmz1,outside) tcp interface www 192.168.35.147 www netmask 255.255.255.255 
-ciscoasa(config)# 
+static (dmz1,outside) tcp interface www 192.168.35.147 www netmask 255.255.255.255
+ciscoasa(config)#
 
 .. as outside interface is security 0 and dmz1 50. so allowing
 .. lower security to higher needs access control also and place them in
@@ -22,18 +22,18 @@ ciscoasa(config)#
 .. as sigher security interface can go lower but lower cant cross the
 .. higher. therefore we are placing them inbound at the outside interface.
 .. now when outside user browse the outside interface of asa they will see
-.. webserver of dmz1 
+.. webserver of dmz1
 
 ciscoasa(config)# show run access-list
-access-list www-allow extended permit tcp any any eq www 
-ciscoasa(config)# 
+access-list www-allow extended permit tcp any any eq www
+ciscoasa(config)#
 ciscoasa(config)# show run access-group
 access-group www-allow in interface outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
-.. now configuring aaa user authentication and first the radius 
-.. server and the aaa configuration. 
-.. first the radius server 
+.. now configuring aaa user authentication and first the radius
+.. server and the aaa configuration.
+.. first the radius server
 
 ciscoasa(config)# show run aaa-server
 aaa-server radius_server protocol radius
@@ -41,14 +41,14 @@ aaa-server radius_server protocol radius
 aaa-server radius_server (dmz1) host 192.168.35.147
  key testing123
  authentication-port 1812
-ciscoasa(config)# 
+ciscoasa(config)#
 
 .. then the authentication users. now user will be promted and
 .. if supply username and password they will be showed the webserver
 
 ciscoasa(config)# show run aaa
 aaa authentication match www-allow outside radius_server
-ciscoasa(config)# 
+ciscoasa(config)#
 
 .. when asa authenticate user then we got them following.
 
@@ -59,11 +59,11 @@ Authen In Progress 	  0	     1
 user 'masum' at 10.10.10.1, authenticated
    absolute   timeout: 0:05:00
    inactivity timeout: 0:00:00
-ciscoasa(config)# 
+ciscoasa(config)#
 
-.. and finally radius server has the following output 
+.. and finally radius server has the following output
 .. when a radius authentication request comes to it port
-.. 1812.  
+.. 1812.
 
 root@deb-7:~# tcpdump -v -v -n -n port 1812
 tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
@@ -78,7 +78,7 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 	    0x0000:  c0a8 230a
 	  Calling Station Attribute (31), length: 12, Value: 10.10.10.1
 	    0x0000:  3130 2e31 302e 3130 2e31
-	  Password Attribute (2), length: 18, Value: 
+	  Password Attribute (2), length: 18, Value:
 	    0x0000:  b9a7 baf8 61cc 941f 54af d14b 1743 ce12
 	  NAS Port Attribute (5), length: 6, Value: 1
 	    0x0000:  0000 0001
@@ -89,6 +89,3 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 65535 byte
 10:50:49.427538 IP (tos 0x0, ttl 64, id 23447, offset 0, flags [none], proto UDP (17), length 48)
     192.168.35.147.1812 > 192.168.35.10.1025: [udp sum ok] RADIUS, length: 20
 	Access Accept (2), id: 0x01, Authenticator: f30263dbc8020798cbe262b24982ff82
-
-
-

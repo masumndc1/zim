@@ -45,7 +45,7 @@ myminion:
     True
 [root@salt ~]#
 
-... custom grains we can set custom grains which will be persistence through 
+... custom grains we can set custom grains which will be persistence through
 ... reboot.
 
 [root@ansible master.d]# salt myminion grains.setval osversion centos7.5
@@ -86,5 +86,3 @@ osversion: centos7.5
 ... delval is used to delete certain grain
 
 [root@ansible master.d]# salt myminion grains.delval my_items
-
-

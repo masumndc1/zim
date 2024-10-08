@@ -10,13 +10,10 @@ root@controller:~/puppet/manifests#
 
 **[NOTFOUND=return]**
 
-... and /etc/nsswitch.conf should look like following. 
+... and /etc/nsswitch.conf should look like following.
 hosts:	file dns
 
 ... the reason of rejecting host dns mapping is when its first nameserver
 ... in /etc/resolv.conf gives error it then ignore all further lookup.
 ... therefore we have to change the nameserver in /etc/resolv.conf and
 ... the restart the networking.
-
-
-

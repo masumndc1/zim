@@ -10,5 +10,3 @@ sudo yum install -y python36u python36u-libs python36u-devel python36u-pip
 ... now test, python3.6 installed or not
 
 python3.6 -V
-
-

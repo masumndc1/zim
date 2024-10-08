@@ -2,7 +2,7 @@
 
 ... puppet modules are combination of data, code, templates.
 
-... we will first make one test environment to test our code before 
+... we will first make one test environment to test our code before
 ... implement them in production environment.
 
 ... pre installed production environment is
@@ -38,22 +38,22 @@ notify { 'testing':
 }
 [root@puppet test]#
 
-... the following two lines in /etc/puppetlabs/puppet/puppet.conf 
+... the following two lines in /etc/puppetlabs/puppet/puppet.conf
 ... describes any new environment will be placed under environments
 ... directory. and then basemodulepath is telling us that any module
 ... can not be found in production environment can be found in
-... /etc/puppetlabs/code/modules. 
+... /etc/puppetlabs/code/modules.
 
 [root@puppet test]# cat /etc/puppetlabs/puppet/puppet.conf
 [main]
 # these are both default values
-environmentpath = /etc/puppetlabs/code/environments 
+environmentpath = /etc/puppetlabs/code/environments
 basemodulepath = /etc/puppetlabs/code/modules
 
 ... puppet uses hiera to provide data (value) to code (manifest) for
 ... dynamically use the manifest in different node which allow code
-... reuse. hiera can organize the data in yaml and json format. 
-... string, number, boolean, array and hash the types of data 
+... reuse. hiera can organize the data in yaml and json format.
+... string, number, boolean, array and hash the types of data
 ... supported by hiera in puppet.
 
 ... modules can be searched and installed by following
@@ -77,7 +77,7 @@ root@controller:~/puppet/manifests#
 
 ... installing module in test environment. after some time when we found our
 ... newly installed module in test is working perfectly we can move the module
-... from test to production enviroment. however we can also install module 
+... from test to production enviroment. however we can also install module
 ... from github account if anyone develop puppet module there.
 
 # puppet module install puppetlabs-stdlib --environment test
@@ -87,7 +87,7 @@ root@controller:~/puppet/manifests#
 
 [root@puppet modules]# pwd
 /etc/puppetlabs/code/environments/test/modules
-[root@puppet modules]# 
+[root@puppet modules]#
 [root@puppet modules]# puppet module install --modulepath=. puppetlabs-ntp
 Notice: Preparing to install into /etc/puppetlabs/code/environments/test/modules ...
 Notice: Downloading from https://forgeapi.puppet.com ...
@@ -109,9 +109,9 @@ Warning: Defining "data_provider": "hiera" in metadata.json is deprecated
    (in /etc/puppetlabs/code/environments/test/modules/ntp/metadata.json)
 Notice: Compiled catalog for puppet in environment test in 0.33 seconds
 Notice: /Stage[main]/Ntp::Install/Package[ntp]/ensure: created
-Notice: /Stage[main]/Ntp::Config/File[/etc/ntp.conf]/content: content changed 
+Notice: /Stage[main]/Ntp::Config/File[/etc/ntp.conf]/content: content changed
 '{md5}dc9e5754ad2bb6f6c32b954c04431d0a' to '{md5}b9a1b7b0853a0de6fc7302577f5b015d'
-Notice: /Stage[main]/Ntp::Config/File[/etc/ntp/step-tickers]/content: content changed 
+Notice: /Stage[main]/Ntp::Config/File[/etc/ntp/step-tickers]/content: content changed
 '{md5}9b77b3b3eb41daf0b9abb8ed01c5499b' to '{md5}413c531d0533c4dba18b9acf7a29ad5d'
 Notice: /Stage[main]/Ntp::Service/Service[ntp]/ensure: ensure changed 'stopped' to 'running'
 Notice: Applied catalog in 28.16 seconds

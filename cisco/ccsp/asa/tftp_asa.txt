@@ -1,11 +1,11 @@
 
 ##### copy running-config file to tftp
-##### 
+#####
 
 ###################### topology
 
 
-asa------tftp server (linuxcore-4.7.7 in gns3 0.8.7) 
+asa------tftp server (linuxcore-4.7.7 in gns3 0.8.7)
 
 asa: ethernet0 : 192.168.1.1
 
@@ -21,15 +21,15 @@ tftp: ethernet0: 192.168.1.2
 
 pixfirewall# copy running-config tftp:
 
-Source filename [running-config]? 
+Source filename [running-config]?
 
 Address or name of remote host []? 192.168.1.2
 
-Destination filename [running-config]? 
-Cryptochecksum: 571317af 54e21ff7 fb94de3a 8aaf2ad2 
+Destination filename [running-config]?
+Cryptochecksum: 571317af 54e21ff7 fb94de3a 8aaf2ad2
 !
 1620 bytes copied in 0.940 secs
-pixfirewall# 
+pixfirewall#
 
 "! indicates writing is ok"
 
@@ -38,7 +38,7 @@ pixfirewall#
 
 root@box:/etc/init.d/services# ls
 crond  dhcp   tftpd
-root@box:/etc/init.d/services# 
+root@box:/etc/init.d/services#
 root@box:/etc/init.d/services# tftpd start
 BusyBox v1.20.2 (2012-08-07 01:31:01 UTC) multi-call binary.
 
@@ -59,7 +59,7 @@ It also can be ran from udpsvd:
 
 root@box:/etc/init.d/services# cd /root
 root@box:~# ls
-root@box:~# 
+root@box:~#
 
 root@box:~# udpsvd -vE 0.0.0.0 69 tftpd -c /root
 
@@ -84,13 +84,13 @@ running-config
 
 root@box:~# pwd
 /root
-root@box:~# 
-root@box:~# 
-root@box:~# cat running-config 
+root@box:~#
+root@box:~#
+root@box:~# cat running-config
 : Saved
 : Written by enable_15 at 18:15:45.568 UTC Wed Oct 7 2015
 !
-PIX Version 8.0(4)28 
+PIX Version 8.0(4)28
 !
 hostname pixfirewall
 enable password 8Ry2YjIyt7RRXU24 encrypted
@@ -100,7 +100,7 @@ names
 interface Ethernet0
  nameif inside
  security-level 100
- ip address 192.168.1.1 255.255.255.0 
+ ip address 192.168.1.1 255.255.255.0
 !
 interface Ethernet1
  shutdown
@@ -153,11 +153,11 @@ threat-detection statistics access-list
 no threat-detection statistics tcp-intercept
 !
 !
-prompt hostname context 
+prompt hostname context
 Cryptochecksum:571317af54e21ff7fb94de3a8aaf2ad2
 : end
-root@box:~# 
-root@box:~# 
+root@box:~#
+root@box:~#
 
 root@box:~# tcpdump -v -i eth0
 tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 68 bytes
@@ -176,6 +176,3 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), capture size 68 bytes
 18:24:04.020716 arp who-has 192.168.1.1 tell 192.168.1.2
 18:24:04.026233 arp reply 192.168.1.1 is-at 00:ab:bf:fb:c4:00 (oui Unknown)
 18:24:15.194756 IP (tos 0x0, ttl 64, id 0, offset 0, flags [none], proto UDP (17), length 313) 0.0.0.0.bootpc > 255.255.255.255.bootps: BOOTP/DHCP, Request [|bootp]
-
-
-

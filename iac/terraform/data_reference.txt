@@ -1,7 +1,7 @@
 
 
-... we can use data to ask for data from provider 
-... then we can also use the achieved data to reference in 
+... we can use data to ask for data from provider
+... then we can also use the achieved data to reference in
 ... another place.
 
 # router external gateway data block here

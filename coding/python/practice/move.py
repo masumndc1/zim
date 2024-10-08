@@ -3,7 +3,7 @@
 import os
 import sys
 
-if len(sys.argv) < 3: 
+if len(sys.argv) < 3:
     print "usage: move.py from_file to_file"
 
 else:

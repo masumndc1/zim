@@ -5,12 +5,12 @@
 macs-MacBook-Pro-2:ssh_doc khabir$ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/mac/.ssh/id_rsa): /Users/mac/Documents/ssh_doc/id_rsa
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
 Your identification has been saved in /Users/mac/Documents/ssh_doc/id_rsa.
 Your public key has been saved in /Users/mac/Documents/ssh_doc/id_rsa.pub.
 The key fingerprint is:
-SHA256:9PWWhW5EH/noECI/VhrTWQOlCWFyA 
+SHA256:9PWWhW5EH/noECI/VhrTWQOlCWFyA
 The key's randomart image is:
 +---[RSA 2048]----+
 |      E.=+O=     |
@@ -25,23 +25,23 @@ The key's randomart image is:
 +----[SHA256]-----+
 macs-MacBook-Pro-2:ssh_doc khabir$ ls
 	id_rsa		id_rsa.pub
-macs-MacBook-Pro-2:ssh_doc khabir$ 
+macs-MacBook-Pro-2:ssh_doc khabir$
 
 macs-MacBook-Pro-2:ssh_doc khabir$ scp id_rsa.pub root@192.168.10.140:/root
-root@192.168.10.140's password: 
-id_rsa.pub                                                                 100%  413    10.2KB/s   00:00    
+root@192.168.10.140's password:
+id_rsa.pub                                                                 100%  413    10.2KB/s   00:00
 macs-MacBook-Pro-2:ssh_doc khabir$ ssh root@192.168.10.140
-root@192.168.10.140's password: 
+root@192.168.10.140's password:
 Last login: Wed Dec 27 23:08:02 2017 from 192.168.10.1
-[root@kube-node2 ~]# 
+[root@kube-node2 ~]#
 [root@kube-node2 ~]# ls
 id_rsa.pub  kube  puppet
 [root@kube-node2 ~]# pwd
 /root
-[root@kube-node2 ~]# 
+[root@kube-node2 ~]#
 [root@kube-node2 ~]# pwd
 /root
-[root@kube-node2 ~]# 
+[root@kube-node2 ~]#
 
 ... we have ran the following command to make the .ssh directory automatically.
 
@@ -51,7 +51,7 @@ ECDSA key fingerprint is SHA256:E2ygd9BDTLnWWczMk8PvMok2sQW7VOeE2URdEXhgxhs.
 ECDSA key fingerprint is MD5:d5:1e:d3:65:bb:e4:1c:06:73:55:38:ce:27:4a:91:b2.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added 'localhost' (ECDSA) to the list of known hosts.
-root@localhost's password: 
+root@localhost's password:
 Last login: Sun Jan 21 05:00:06 2018 from 192.168.10.1
 [root@kube-node2 ~]# exit
 logout
@@ -63,14 +63,14 @@ Connection to localhost closed.
 [root@kube-node2 .ssh]# ls
 known_hosts
 [root@kube-node2 ~]# cat id_rsa.pub >> .ssh/authorized_keys
-[root@kube-node2 ~]# cat .ssh/authorized_keys 
-ssh-rsa 0h2rsA7pvM/1VePxMJZH+jV8NDkVaJu/AGpceIwO3SHKtW0sVA4wEfOfMyES6qiqLXcd2H5TDWyXkIVAcLzr6niUME0VfJKNyJ/L6LIZ1VANlfaD743Et8wltJpFa43Mfa7md57e2LKLJtxnR7bHRyRq262pHQ06oJ1WtDgp/6Y+0dfKrnmqOfNXX7d7wMumvAlQ+iRT9P5Yq935mMU3zUYhQgUdC9bV965cBPLWb7N7D/TmkEWswjqS/7LoyWCOfkI2lruWGNJpMeqbbp8YXmoXzDsjJWw4nHXsptrxwcbaeeZQvTtwATzBkF4TJoanlIpUFE6z 
+[root@kube-node2 ~]# cat .ssh/authorized_keys
+ssh-rsa 0h2rsA7pvM/1VePxMJZH+jV8NDkVaJu/AGpceIwO3SHKtW0sVA4wEfOfMyES6qiqLXcd2H5TDWyXkIVAcLzr6niUME0VfJKNyJ/L6LIZ1VANlfaD743Et8wltJpFa43Mfa7md57e2LKLJtxnR7bHRyRq262pHQ06oJ1WtDgp/6Y+0dfKrnmqOfNXX7d7wMumvAlQ+iRT9P5Yq935mMU3zUYhQgUdC9bV965cBPLWb7N7D/TmkEWswjqS/7LoyWCOfkI2lruWGNJpMeqbbp8YXmoXzDsjJWw4nHXsptrxwcbaeeZQvTtwATzBkF4TJoanlIpUFE6z
 [root@kube-node2 ~]# exit
 logout
 Connection to 192.168.10.140 closed.
-macs-MacBook-Pro-2:ssh_doc khabir$ 
-macs-MacBook-Pro-2:ssh_doc khabir$ ssh -i 
-000-default  id_rsa       id_rsa.pub   index.py     
+macs-MacBook-Pro-2:ssh_doc khabir$
+macs-MacBook-Pro-2:ssh_doc khabir$ ssh -i
+000-default  id_rsa       id_rsa.pub   index.py
 macs-MacBook-Pro-2:ssh_doc khabir$ ssh -i id_rsa.pub root@kube2
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
@@ -79,7 +79,7 @@ Permissions 0644 for 'id_rsa.pub' are too open.
 It is required that your private key files are NOT accessible by others.
 This private key will be ignored.
 Load key "id_rsa.pub": bad permissions
-root@kube2's password: 
+root@kube2's password:
 Last login: Sun Jan 21 05:04:51 2018 from 192.168.10.1
 [root@kube-node2 ~]# exit
 logout
@@ -90,21 +90,21 @@ macs-MacBook-Pro-2:ssh_doc khabir$ ls -la
 
 macs-MacBook-Pro-2:ssh_doc khabir$ ssh -i id_rsa root@kube2
 Last login: Sun Jan 21 05:05:48 2018 from 192.168.10.1
-[root@kube-node2 ~]# 
+[root@kube-node2 ~]#
 
 ... optionally we can configure following on the target host
 
 [root@kube-node2 ssh]# cat sshd_config | grep -i PasswordAuthentication
 #PasswordAuthentication yes
 PasswordAuthentication no
-[root@kube-node2 ssh]# 
+[root@kube-node2 ssh]#
 
-... it will disable any ssh login try with password. 
+... it will disable any ssh login try with password.
 
 [root@kube-node2 ssh]# service sshd restart
 
 ... there is another options to copy the pubkey into the target system
-        
+
 macs-MacBook-Pro-2:.ssh khabir$ ssh-copy-id --help
 
 /usr/bin/ssh-copy-id: ERROR: invalid option (--help)
@@ -121,7 +121,7 @@ ECDSA key fingerprint is SHA256:MsJQCiB6npgHFG2MRNWWZx+mmup6ZoFfdf0xvCg2BV8.
 Are you sure you want to continue connecting (yes/no)? yes
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-root@slave's password: 
+root@slave's password:
 
 Number of key(s) added:        1
 
@@ -131,8 +131,4 @@ and check to make sure that only the key(s) you wanted were added.
 macs-MacBook-Pro-2:.ssh khabir$ ssh -i id_rsa_vm root@slave
 
 Last login: Sun Jan 21 18:08:03 2018 from 192.168.10.1
-root@slave:~# 
-
-
-
-
+root@slave:~#

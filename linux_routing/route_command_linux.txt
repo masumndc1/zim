@@ -47,9 +47,9 @@ Edit /etc/sysconfig/network and set default gateway IP address:
 # vi /etc/sysconfig/network
 Sample outputs:
 
- 
+
 GATEWAY=192.168.1.254
- 
+
 
 You can add additional static route for eth0 by editing /etc/sysconfig/network-scripts/route-eth0 file as follows:
 

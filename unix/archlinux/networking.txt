@@ -38,7 +38,7 @@ bonding		 ethernet-static  openvswitch  vlan-dhcp      wireless-wpa
 bridge		 macvlan-dhcp	  pppoe        vlan-static    wireless-wpa-config
 ethernet-custom  macvlan-static   tunnel       wireless-open  wireless-wpa-configsection
 ethernet-dhcp	 mobile_ppp	  tuntap       wireless-wep   wireless-wpa-static
-[root@archlinux examples]# cat ethernet-static 
+[root@archlinux examples]# cat ethernet-static
 Description='A basic static ethernet connection'
 Interface=eth0
 Connection=ethernet
@@ -97,7 +97,7 @@ $ sudo systemctl disable dhcpcd
 
 ... another way of staic assigning
 
-... systemd is a system and service manager for Linux operating systems. 
+... systemd is a system and service manager for Linux operating systems.
 
 $ sudo vi /etc/systemd/network/ens3.network
 
@@ -130,6 +130,3 @@ $ sudo systemctl start systemd-networkd
 ... Reboot your system and check IP address.
 
 $ ip addr
-
-
-

@@ -42,7 +42,7 @@ Redirecting to /bin/systemctl status  httpd.service
            └─1630 /usr/sbin/httpd -DFOREGROUND
 
 Aug 05 07:02:51 puppet systemd[1]: Starting The Apache HTTP Server...
-Aug 05 07:02:56 puppet httpd[1083]: AH00558: httpd: Could not reliably determine the server's fully qualified domain 
+Aug 05 07:02:56 puppet httpd[1083]: AH00558: httpd: Could not reliably determine the server's fully qualified domain
 Aug 05 07:02:57 puppet systemd[1]: Started The Apache HTTP Server.
 Hint: Some lines were ellipsized, use -l to show in full.
 [root@puppet ~]#
@@ -245,8 +245,8 @@ ExtendedStatus On
 
 # yum install webalizer
 
-... Based on the information in the /etc/webalizer.conf file, the /var/log/httpd/access_log 
-... log file is read and an index.html file is copied to the /var/www/html/webalizer directory. 
+... Based on the information in the /etc/webalizer.conf file, the /var/log/httpd/access_log
+... log file is read and an index.html file is copied to the /var/www/html/webalizer directory.
 ... therefore making permission on that directory.
 
 ... we have following settings in the /etc/webalizer.conf file
@@ -254,7 +254,7 @@ ExtendedStatus On
 [root@puppet html]# cat /etc/webalizer.conf | grep -i outputdir
 #OutputDir      /var/www/html/usage
 OutputDir      /var/www/html/webalizer
-[root@puppet html]# 
+[root@puppet html]#
 [root@puppet html]# webalizer
 
 <Directory "/var/www/html/webalizer/">
@@ -265,7 +265,7 @@ OutputDir      /var/www/html/webalizer
 
 # lynx http://<web_server_address>/webalizer
 
-... password protected web directory 
+... password protected web directory
 
 [root@puppet html]# htpasswd --help
 Usage:
@@ -299,6 +299,3 @@ masum:$sini93ysnusXm4v$yvO.8lpW6nq9moBl1NTOm.
 </Directory>
 
 ... thats it
-
-
-

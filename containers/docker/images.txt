@@ -2,7 +2,7 @@
 
 .... docker images
 
-... we can search and pull some prebuild docker images 
+... we can search and pull some prebuild docker images
 
 root@controller:~# docker search ubuntu
 NAME                       DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
@@ -13,7 +13,7 @@ neurodebian                NeuroDebian provides neuroscience research...   37   
 ubuntu-debootstrap         debootstrap --variant=minbase --components...   30        [OK]
 32bit/ubuntu               Ubuntu for i386 (32bit)                         30
 
-... now will pull one image 
+... now will pull one image
 
 root@controller:~# docker pull i386/busybox
 Using default tag: latest
@@ -33,7 +33,7 @@ coreos/apache       latest              5a3024d885c8        3 years ago         
 root@controller:~#
 
 ... by default when we search and pull images, it pulls from the docker repository
-... index.docker.com. 
+... index.docker.com.
 
 root@controller:~# docker info | grep -i registry
 Registry: https://index.docker.io/v1/
@@ -44,7 +44,7 @@ root@controller:~#
 
 root@controller:~# docker pull registry.example.com/myapp
 
-... now running one image 
+... now running one image
 
 root@controller:~# docker run -it 32bit/debian /bin/bash
 
@@ -62,7 +62,7 @@ PING yahoo.com (98.138.253.109) 56(84) bytes of data.
 rtt min/avg/max/mdev = 412.078/423.321/434.564/11.243 ms
 root@84a7cb0de7e7:/#
 
-... seeing docker image is running 
+... seeing docker image is running
 
 root@controller:~# docker ps
 CONTAINER ID        IMAGE                COMMAND             CREATED             STATUS              NAMES
@@ -81,7 +81,7 @@ root@f2e45401c01c:/#
 
 ... then changes made within docker can be seen by using docker diff <container id>
 
-... the command docker ps -a will list all the images are in stopped stage. 
+... the command docker ps -a will list all the images are in stopped stage.
 ... from there we can start images again like below.
 
 root@controller:~# docker start f2e45401c01c
@@ -110,15 +110,15 @@ c2924c787b0ac930f8126e8604861a498bf40c194996d338f337e4328ccc390d
 69a170151feea31bbfbe20de8bcaaf0c56b9a79209741421fa8a2f2a2b0efb23
 0a884c8cdd3d4034cecac0b6c601dd4a0aef53decc5971175a9f071cf6561116
 
-... and then remove them by following 
+... and then remove them by following
 
 root@controller:~# docker rm `docker ps -aq --no-trunc`
 
 .... building images from containers.
 
-... after doing all the works and making all the changes we can 
+... after doing all the works and making all the changes we can
 ... make an image from a container for future work. this image
-... we can also distribute to others. 
+... we can also distribute to others.
 
 ... first we will stop the container for safety purpose
 
@@ -145,7 +145,3 @@ i386/busybox                    latest              6d33efaf2a5e        16 hours
 ... lets run it. and we have found it runs ok.
 
 root@controller:~# docker run -it masum/debian_htop /usr/bin/htop
-
-
-
-

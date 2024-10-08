@@ -10,15 +10,15 @@ HTTP request sent, awaiting response... 200 OK
 Length: 96275298 (92M) [application/octet-stream]
 Saving to: ‘logstash-5.5.0.deb’
 
-logstash-5.5.0.deb           100%[===========================================>]  91.81M  2.43MB/s    in 39s     
+logstash-5.5.0.deb           100%[===========================================>]  91.81M  2.43MB/s    in 39s
 
 2017-12-29 22:55:22 (2.35 MB/s) - ‘logstash-5.5.0.deb’ saved [96275298/96275298]
 
 root@kibana:~# ls
 logstash-5.5.0.deb
 elasticsearch-5.5.0.deb                  kibana-5.5.0-i386.deb
-root@kibana:~# 
-root@kibana:~# dpkg -i logstash-5.5.0.deb 
+root@kibana:~#
+root@kibana:~# dpkg -i logstash-5.5.0.deb
 Selecting previously unselected package logstash.
 (Reading database ... 106693 files and directories currently installed.)
 Preparing to unpack logstash-5.5.0.deb ...
@@ -27,13 +27,13 @@ Setting up logstash (1:5.5.0-1) ...
 Using provided startup.options file: /etc/logstash/startup.options
 Java HotSpot(TM) Client VM warning: TieredCompilation is disabled in this release.
 Successfully created system startup script for Logstash
-root@kibana:~# 
+root@kibana:~#
 
 ... configuring the logstash yml file.
 
 root@kibana:/etc/logstash# ls
 conf.d  jvm.options  log4j2.properties  logstash.yml  logstash.yml.bk  startup.options
-root@kibana:/etc/logstash# 
+root@kibana:/etc/logstash#
 root@kibana:/etc/logstash# cat logstash.yml | grep -v -e ^#
 path.data: /var/lib/logstash
 path.config: /etc/logstash/conf.d
@@ -43,7 +43,7 @@ output {
          elasticsearch { hosts => ["localhost:9200"] }
          stdout { codec => rubydebug }
 }
-root@kibana:/etc/logstash# 
+root@kibana:/etc/logstash#
 
 ... restart and run logstash.service.
 
@@ -54,6 +54,3 @@ root@kibana:/etc/logstash# systemctl status logstash.service
    Active: active (running) since Fri 2017-12-29 23:07:16 +06; 8s ago
  Main PID: 3222 (java)
     Tasks: 13 (limit: 4915)
-
-
-

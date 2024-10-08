@@ -52,7 +52,7 @@ masum(config)#**ip ssh logging ?**
   events  					Log SSH events
 masum(config)#**ip ssh logging events **
 masum(config)#**do copy run start**
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 masum(config)#
@@ -71,7 +71,3 @@ masum(config)#
 masum(config)#
 *Mar  1 00:35:14.387: %SSH-5-SSH2_USERAUTH: User 'masum' authentication for SSH2 Session from 10.10.10.1 (tty = 0) using crypto cipher 'aes128-cbc', hmac 'hmac-md5' Succeeded
 masum(config)#
-
-
-
-

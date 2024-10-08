@@ -1,15 +1,15 @@
 
 
 ... vagrant can run multiple instance of virtual machine.
-... to do so we have the following vagrantfile. here we are 
-... running only two machines but vagrant can run more than 
+... to do so we have the following vagrantfile. here we are
+... running only two machines but vagrant can run more than
 ... that.
 
 
 Vagrant.configure("2") do |config|
 config.ssh.insert_key = false
 
-... the global options which will be applicable for all machines, will reside 
+... the global options which will be applicable for all machines, will reside
 ... outside of the virtual machine settings blocks like the above line.
 
 ... following are only specific for the vagrant machines.
@@ -119,9 +119,9 @@ VM, run `vagrant status NAME`.
  ✘⚙ 520 [10:33 AM]  ~   master ●   vagrant ssh vagrant1
 Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.13.0-119-generic i686)
 
-vagrant@vagrant-ubuntu-trusty-32:~$ ifconfig 
+vagrant@vagrant-ubuntu-trusty-32:~$ ifconfig
 
-eth1      Link encap:Ethernet  HWaddr 08:00:27:80:23:cb  
+eth1      Link encap:Ethernet  HWaddr 08:00:27:80:23:cb
           inet addr:192.168.33.20  Bcast:192.168.33.255  Mask:255.255.255.0
 
 vagrant@vagrant-ubuntu-trusty-32:~$ ping 192.168.33.10
@@ -132,7 +132,7 @@ PING 192.168.33.10 (192.168.33.10) 56(84) bytes of data.
 --- 192.168.33.10 ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
 rtt min/avg/max/mdev = 1.804/2.276/2.748/0.472 ms
-vagrant@vagrant-ubuntu-trusty-32:~$ 
+vagrant@vagrant-ubuntu-trusty-32:~$
 
 
  $ vagrant ssh vagrant2
@@ -141,13 +141,13 @@ Last login: Sun Jun 25 04:24:36 2017 from 10.0.2.2
 
 vagrant@vagrant-ubuntu-trusty-32:~$ ifconfig
 
-eth1      Link encap:Ethernet  HWaddr 08:00:27:4b:37:2b  
+eth1      Link encap:Ethernet  HWaddr 08:00:27:4b:37:2b
           inet addr:192.168.33.10  Bcast:192.168.33.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe4b:372b/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:10 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:0 (0.0 B)  TX bytes:828 (828.0 B)
 
 vagrant@vagrant-ubuntu-trusty-32:~$ ping 192.168.33.20
@@ -157,8 +157,6 @@ PING 192.168.33.20 (192.168.33.20) 56(84) bytes of data.
 --- 192.168.33.20 ping statistics ---
 1 packets transmitted, 1 received, 0% packet loss, time 0ms
 rtt min/avg/max/mdev = 1.737/1.737/1.737/0.000 ms
-vagrant@vagrant-ubuntu-trusty-32:~$ 
+vagrant@vagrant-ubuntu-trusty-32:~$
 
 ... therefore networking is working fine.
-
-

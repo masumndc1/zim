@@ -1,7 +1,7 @@
 
 
 ... following is the way of generating keypair. and using the public key
-... 
+...
 
 resource "openstack_compute_keypair_v2" "stack-keypair" {
   name       = "stack-keypair"
@@ -30,8 +30,3 @@ resource "openstack_compute_keypair_v2" "stack-keypair" {
 
 ... note here: dont use id_rsa.pub key to login.
 ... use id_rsa private key to login.
-
-
-
-
-

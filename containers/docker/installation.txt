@@ -30,7 +30,7 @@ root@controller:/etc/apt#
 
 ... now install docker by following
 
-# apt-get install -y docker-ce 
+# apt-get install -y docker-ce
 
 ... or
 
@@ -115,6 +115,3 @@ root@controller:/etc/docker/registry#
 ... add the following line in the /etc/apt/source.list
 
 deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
-
-
-

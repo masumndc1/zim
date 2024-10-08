@@ -4,31 +4,31 @@
 
 [root@docker ~]# docker --version
 Docker version 1.13.1, build 774336d/1.13.1
-[root@docker ~]#  
-[root@docker ~]# 
+[root@docker ~]#
+[root@docker ~]#
 [root@docker ~]# docker node ls
 Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
-[root@docker ~]# 
-[root@docker ~]# 
+[root@docker ~]#
+[root@docker ~]#
 [root@docker ~]# systemctl enable docker.service
 Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
-[root@docker ~]# 
-[root@docker ~]# 
-[root@docker ~]# 
+[root@docker ~]#
+[root@docker ~]#
+[root@docker ~]#
 [root@docker ~]# systemctl start docker.service
-[root@docker ~]# 
-[root@docker ~]# 
-[root@docker ~]# 
+[root@docker ~]#
+[root@docker ~]#
+[root@docker ~]#
 [root@docker ~]# docker node ls
-Error response from daemon: This node is not a swarm manager. Use "docker swarm init" or "docker swarm join" 
+Error response from daemon: This node is not a swarm manager. Use "docker swarm init" or "docker swarm join"
 to connect this node to swarm and try again.
-[root@docker ~]# 
-[root@docker ~]# 
+[root@docker ~]#
+[root@docker ~]#
 [root@docker ~]# docker swarm init
 Error response from daemon: could not choose an IP address to advertise since this system
- has multiple addresses on different interfaces (10.0.2.15 on enp0s3 and 
+ has multiple addresses on different interfaces (10.0.2.15 on enp0s3 and
  192.168.56.103 on enp0s8) - specify one with --advertise-addr
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker swarm init --advertise-addr 192.168.56.103
 Swarm initialized: current node (4yeibwrirwg0w8gb16xgd8r22) is now a manager.
 
@@ -40,11 +40,11 @@ To add a worker to this swarm, run the following command:
 
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker node ls
 ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
 4yeibwrirwg0w8gb16xgd8r22 *  docker    Ready   Active        Leader
-[root@docker ~]# 
+[root@docker ~]#
 
 [root@docker ~]# docker info
 Containers: 5
@@ -59,7 +59,7 @@ Storage Driver: overlay2
  Native Overlay Diff: true
 Logging Driver: journald
 Cgroup Driver: systemd
-Plugins: 
+Plugins:
  Volume: local
  Network: bridge host macvlan null overlay
 Swarm: active
@@ -111,13 +111,13 @@ Insecure Registries:
  127.0.0.0/8
 Live Restore Enabled: false
 Registries: docker.io (secure)
-[root@docker ~]# 
+[root@docker ~]#
 
 ... creating one script to enable following ports on firewall on both
 ... manager and worker node.
 
-[root@swarm ~]# chmod +x script.sh 
-[root@swarm ~]# cat script.sh 
+[root@swarm ~]# chmod +x script.sh
+[root@swarm ~]# cat script.sh
 
 #!/bin/bash
 # allowing the following ports.
@@ -129,13 +129,13 @@ iptables -A INPUT -p udp --dport 7946 -j ACCEPT
 iptables -A INPUT -p udp --dport 4789 -j ACCEPT
 
 # saving iptable rules and restarting iptables
-service iptables save 
+service iptables save
 service iptables restart
 
 # restarting the docker service
 service docker restart
 
-[root@swarm ~]# 
+[root@swarm ~]#
 
 ... we were having problem to join our worknode into swarm manager. therefore
 ... we have disabled our firewalld and tried again.
@@ -143,16 +143,16 @@ service docker restart
 [root@swarm ~]# docker swarm join --token SWMTKN-1-07v6a0fc02xh3rcpsmgrswhyfrcxo
 y6lodsechny166tu37877-2ylp6ek7yhvln8b6rbpkv5xcm 192.168.56.103
 Error response from daemon: rpc error: code = 14 desc = grpc: the connection is unavailable
-[root@swarm ~]# 
+[root@swarm ~]#
 [root@swarm ~]# service firewalld stop
 Redirecting to /bin/systemctl stop firewalld.service
-[root@swarm ~]# 
-[root@swarm ~]# 
+[root@swarm ~]#
+[root@swarm ~]#
 [root@swarm ~]# docker swarm join --token \
 		SWMTKN-1-07v6a0fc02xh3rcpsmgrswhyfrcxoy6lodsechny166tu37877-2ylp6ek7yhvln8b6rbpkv5xcm \
 		192.168.56.103
 This node joined a swarm as a worker.
-[root@swarm ~]# 
+[root@swarm ~]#
 
 ... to leave a node from docker swarm cluster run the following command.
 
@@ -160,16 +160,16 @@ This node joined a swarm as a worker.
 
 [root@docker log]# docker node ls
 ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
-nw0vvl6whssvnq8yu8eyrlkp7    swarm     Ready   Active        
+nw0vvl6whssvnq8yu8eyrlkp7    swarm     Ready   Active
 yhgn1muaegml8lun3h880mgyi *  docker    Ready   Active        Leader
-[root@docker log]# 
+[root@docker log]#
 
 ... to see the token for worker and manager
 
 # docker swarm join-token worker
 docker-master:
 To add a worker to this swarm, run the following command:
-  
+
 docker swarm join --token \
 SWMTKN-1-1tj1rx5whv40sip8gr4djyl16qyoab24hwka1kd2-714olahvx7cpoinhpxwz19aka \
 192.168.122.91:2377
@@ -178,7 +178,7 @@ SWMTKN-1-1tj1rx5whv40sip8gr4djyl16qyoab24hwka1kd2-714olahvx7cpoinhpxwz19aka \
 
 docker-master:
 To add a manager to this swarm, run the following command:
-    
+
 docker swarm join --token \
 SWMTKN-1-1tj1rx5whv40sip8gr4djylykayoab24hwka1kd2-8gkdmxvwqqjewv1npla1l4xxq \
 192.168.122.91:2377
@@ -191,32 +191,32 @@ SWMTKN-1-1tj1rx5whv40sip8gr4djylykayoab24hwka1kd2-8gkdmxvwqqjewv1npla1l4xxq \
 
 [root@docker log]# docker service create -p 80:80 --name webserver --replicas 5 httpd
 m5vwb7oaqz7pe76gc877g541f
-[root@docker log]# 
+[root@docker log]#
 
 [root@docker log]# docker service ls
 ID            NAME       MODE        REPLICAS  IMAGE
 m5vwb7oaqz7p  webserver  replicated  5/5       httpd:latest
-[root@docker log]# 
+[root@docker log]#
 
 [root@docker log]# docker service ps webserver
 ID            NAME             IMAGE         NODE    DESIRED STATE  CURRENT STATE                ERROR                             PORTS
-coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running about a minute ago                                     
-srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected about a minute ago  "No such image: httpd@sha256:bâ¦"  
-wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running about a minute ago                                     
-scd01o6z7ash  webserver.3      httpd:latest  docker  Running        Running about a minute ago                                     
-vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running about a minute ago                                     
-d6q4hna6d0j0  webserver.5      httpd:latest  docker  Running        Running about a minute ago                                     
-[root@docker log]# 
+coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running about a minute ago
+srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected about a minute ago  "No such image: httpd@sha256:bâ¦"
+wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running about a minute ago
+scd01o6z7ash  webserver.3      httpd:latest  docker  Running        Running about a minute ago
+vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running about a minute ago
+d6q4hna6d0j0  webserver.5      httpd:latest  docker  Running        Running about a minute ago
+[root@docker log]#
 
 ... note here these services are running both in docker(manager) and swarm(node)
-... now we can access the service by accessing any of the node where the service 
+... now we can access the service by accessing any of the node where the service
 ... httpd has been deployed. like below.
- 
+
 [root@docker log]#  curl http://192.168.56.103
 <html><body><h1>It works!</h1></body></html>
 [root@docker log]#  curl http://192.168.56.104
 <html><body><h1>It works!</h1></body></html>
-[root@docker log]# 
+[root@docker log]#
 
 ... container self healing service.
 ... the docker swarm has one feature of self-healing. that means, if one/two containers
@@ -229,31 +229,31 @@ CONTAINER ID        IMAGE                                                       
 224e9fe36434        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.1.coia87ta7f9o6e1t1vlut0tis
 cbb99968de07        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.3.scd01o6z7ashg9go0bh9ey3rm
 8c23f850019d        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.5.d6q4hna6d0j02wb8g6g8m0o06
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker rm 8c23f850019d -f
 8c23f850019d
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker ps
 CONTAINER ID        IMAGE                                                                           COMMAND              CREATED             STATUS              PORTS               NAMES
 224e9fe36434        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.1.coia87ta7f9o6e1t1vlut0tis
 cbb99968de07        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   20 minutes ago      Up 20 minutes       80/tcp              webserver.3.scd01o6z7ashg9go0bh9ey3rm
-[root@docker ~]# 
+[root@docker ~]#
 
 ... now checking, whether there are 5 containers running or not.
 ... we have found they are running.
 
 [root@docker ~]# docker service ps webserver
 ID            NAME             IMAGE         NODE    DESIRED STATE  CURRENT STATE            ERROR                             PORTS
-coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 20 minutes ago                                     
-srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 20 minutes ago  "No such image: httpd@sha256:bâ¦"  
-wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 20 minutes ago                                     
-scd01o6z7ash  webserver.3      httpd:latest  docker  Running        Running 20 minutes ago                                     
-vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 20 minutes ago                                     
-uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running 10 seconds ago                                     
-d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 16 seconds ago    "task: non-zero exit (137)"       
-[root@docker ~]# 
+coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 20 minutes ago
+srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 20 minutes ago  "No such image: httpd@sha256:bâ¦"
+wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 20 minutes ago
+scd01o6z7ash  webserver.3      httpd:latest  docker  Running        Running 20 minutes ago
+vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 20 minutes ago
+uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running 10 seconds ago
+d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 16 seconds ago    "task: non-zero exit (137)"
+[root@docker ~]#
 
-... deleting one more container and checking if service webserver. Are there 5 
+... deleting one more container and checking if service webserver. Are there 5
 ... webserver running or not? and found yes they are running. first section below
 ... showed us one is ready to run. and second section saying it is running now.
 ... and total number of containers running on both manager(docker) and worker node(swarm)
@@ -261,29 +261,29 @@ d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 16 se
 
 [root@docker ~]# docker rm cbb99968de07 -f
 cbb99968de07
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker service ps webserver
 ID            NAME             IMAGE         NODE    DESIRED STATE  CURRENT STATE            ERROR                             PORTS
-coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 21 minutes ago                                     
-srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 21 minutes ago  "No such image: httpd@sha256:bâ¦"  
-wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 21 minutes ago                                     
-mpecpw91gn9r  webserver.3      httpd:latest  docker  Ready          Ready 1 second ago                                         
-scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 2 seconds ago     "task: non-zero exit (137)"       
-vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 21 minutes ago                                     
-uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running 48 seconds ago                                     
-d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 54 seconds ago    "task: non-zero exit (137)"       
-[root@docker ~]# 
+coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 21 minutes ago
+srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 21 minutes ago  "No such image: httpd@sha256:bâ¦"
+wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 21 minutes ago
+mpecpw91gn9r  webserver.3      httpd:latest  docker  Ready          Ready 1 second ago
+scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 2 seconds ago     "task: non-zero exit (137)"
+vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 21 minutes ago
+uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running 48 seconds ago
+d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed 54 seconds ago    "task: non-zero exit (137)"
+[root@docker ~]#
 [root@docker ~]# docker service ps webserver
 ID            NAME             IMAGE         NODE    DESIRED STATE  CURRENT STATE               ERROR                             PORTS
-coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 21 minutes ago                                        
-srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 21 minutes ago     "No such image: httpd@sha256:bâ¦"  
-wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 21 minutes ago                                        
-mpecpw91gn9r  webserver.3      httpd:latest  docker  Running        Running 10 seconds ago                                        
-scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 16 seconds ago       "task: non-zero exit (137)"       
-vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 21 minutes ago                                        
-uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running about a minute ago                                    
-d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed about a minute ago   "task: non-zero exit (137)"       
-[root@docker ~]# 
+coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 21 minutes ago
+srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 21 minutes ago     "No such image: httpd@sha256:bâ¦"
+wuahj7vscjy2  webserver.2      httpd:latest  swarm   Running        Running 21 minutes ago
+mpecpw91gn9r  webserver.3      httpd:latest  docker  Running        Running 10 seconds ago
+scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 16 seconds ago       "task: non-zero exit (137)"
+vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 21 minutes ago
+uue4wc9cvhxg  webserver.5      httpd:latest  docker  Running        Running about a minute ago
+d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed about a minute ago   "task: non-zero exit (137)"
+[root@docker ~]#
 
 ... below, the total number of containers are 5, running on both node.
 
@@ -291,15 +291,15 @@ d6q4hna6d0j0   \_ webserver.5  httpd:latest  docker  Shutdown       Failed about
 CONTAINER ID        IMAGE                                                                           COMMAND              CREATED             STATUS              PORTS               NAMES
 31dfbd6ac3dd        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   25 minutes ago      Up 25 minutes       80/tcp              webserver.4.vdtc2cfzssdp7w18c1ioasyyt
 c5a8a554a62e        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   25 minutes ago      Up 25 minutes       80/tcp              webserver.2.wuahj7vscjy2ecvhlhgbctlvs
-[root@swarm ~]# 
-[root@swarm ~]# 
- 
+[root@swarm ~]#
+[root@swarm ~]#
+
 [root@docker ~]# docker ps
 CONTAINER ID        IMAGE                                                                           COMMAND              CREATED             STATUS              PORTS               NAMES
 a9fc9e0ac04a        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   6 minutes ago       Up 6 minutes        80/tcp              webserver.3.mpecpw91gn9rj86mve9np80vn
 96b5ac68150a        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   7 minutes ago       Up 7 minutes        80/tcp              webserver.5.uue4wc9cvhxgb4l0b1rld8qxu
 224e9fe36434        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b5730bca96a2245a34f9d   "httpd-foreground"   27 minutes ago      Up 27 minutes       80/tcp              webserver.1.coia87ta7f9o6e1t1vlut0tis
-[root@docker ~]# 
+[root@docker ~]#
 
 ... scaling up and scaling down.
 ... we can also scale up/down the number of containers running on a service.
@@ -308,20 +308,20 @@ a9fc9e0ac04a        httpd@sha256:b54c05d62f0af6759c0a9b53a9f124ea2ca7a631dd7b573
 
 [root@docker ~]# docker service create -p 8080:80 --name nginx --replicas 5 nginx
 oy3wevjl255zp9f16yvbsilxs
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker service ls
 ID            NAME       MODE        REPLICAS  IMAGE
 m5vwb7oaqz7p  webserver  replicated  5/5       httpd:latest
 oy3wevjl255z  nginx      replicated  5/5       nginx:latest
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker service ps nginx
 ID            NAME     IMAGE         NODE    DESIRED STATE  CURRENT STATE           ERROR  PORTS
-l1u5tf5co2sk  nginx.1  nginx:latest  swarm   Running        Running 9 seconds ago          
-4lb1pbe5pcga  nginx.2  nginx:latest  swarm   Running        Running 9 seconds ago          
-d7dg9cwnoe6p  nginx.3  nginx:latest  docker  Running        Running 10 seconds ago         
-0zu6ojn56o6f  nginx.4  nginx:latest  swarm   Running        Running 9 seconds ago          
-of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 10 seconds ago         
-[root@docker ~]# 
+l1u5tf5co2sk  nginx.1  nginx:latest  swarm   Running        Running 9 seconds ago
+4lb1pbe5pcga  nginx.2  nginx:latest  swarm   Running        Running 9 seconds ago
+d7dg9cwnoe6p  nginx.3  nginx:latest  docker  Running        Running 10 seconds ago
+0zu6ojn56o6f  nginx.4  nginx:latest  swarm   Running        Running 9 seconds ago
+of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 10 seconds ago
+[root@docker ~]#
 
 ... and both of the services are now working fine.
 
@@ -335,8 +335,8 @@ of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 10 seconds a
 <a href="http://nginx.org/">nginx.org</a>.<br/>
 <a href="http://nginx.com/">nginx.com</a>.</p>
 <p><em>Thank you for using nginx.</em></p>
-[root@swarm ~]# 
-[root@swarm ~]# 
+[root@swarm ~]#
+[root@swarm ~]#
 [root@swarm ~]# curl http://192.168.56.103:8080 | grep nginx
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
@@ -347,34 +347,34 @@ of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 10 seconds a
 <a href="http://nginx.org/">nginx.org</a>.<br/>
 <a href="http://nginx.com/">nginx.com</a>.</p>
 <p><em>Thank you for using nginx.</em></p>
-[root@swarm ~]# 
+[root@swarm ~]#
 
 ... now running the following command.
 
 [root@docker ~]# docker service scale nginx=7
 nginx scaled to 7
-[root@docker ~]# 
+[root@docker ~]#
 [root@docker ~]# docker service ps nginx
 ID            NAME     IMAGE         NODE    DESIRED STATE  CURRENT STATE           ERROR  PORTS
-l1u5tf5co2sk  nginx.1  nginx:latest  swarm   Running        Running 6 minutes ago          
-4lb1pbe5pcga  nginx.2  nginx:latest  swarm   Running        Running 5 minutes ago          
-d7dg9cwnoe6p  nginx.3  nginx:latest  docker  Running        Running 6 minutes ago          
-0zu6ojn56o6f  nginx.4  nginx:latest  swarm   Running        Running 6 minutes ago          
-of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 6 minutes ago          
-lbmai609omlb  nginx.6  nginx:latest  swarm   Running        Running 15 seconds ago         
-yc5xo9mi9trf  nginx.7  nginx:latest  docker  Running        Running 16 seconds ago         
-[root@docker ~]# 
+l1u5tf5co2sk  nginx.1  nginx:latest  swarm   Running        Running 6 minutes ago
+4lb1pbe5pcga  nginx.2  nginx:latest  swarm   Running        Running 5 minutes ago
+d7dg9cwnoe6p  nginx.3  nginx:latest  docker  Running        Running 6 minutes ago
+0zu6ojn56o6f  nginx.4  nginx:latest  swarm   Running        Running 6 minutes ago
+of9rzjqb04uh  nginx.5  nginx:latest  docker  Running        Running 6 minutes ago
+lbmai609omlb  nginx.6  nginx:latest  swarm   Running        Running 15 seconds ago
+yc5xo9mi9trf  nginx.7  nginx:latest  docker  Running        Running 16 seconds ago
+[root@docker ~]#
 [root@docker ~]# docker service scale webserver=3
 webserver scaled to 3
 [root@docker ~]#
 [root@docker ~]# docker service ps webserver
 ID            NAME             IMAGE         NODE    DESIRED STATE  CURRENT STATE            ERROR                             PORTS
-coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 39 minutes ago                                     
-srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 40 minutes ago  "No such image: httpd@sha256:bâ¦"  
-mpecpw91gn9r  webserver.3      httpd:latest  docker  Running        Running 18 minutes ago                                     
-scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 18 minutes ago    "task: non-zero exit (137)"       
-vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 39 minutes ago                                     
-[root@docker ~]# 
+coia87ta7f9o  webserver.1      httpd:latest  docker  Running        Running 39 minutes ago
+srskyatwnibf   \_ webserver.1  httpd:latest  swarm   Shutdown       Rejected 40 minutes ago  "No such image: httpd@sha256:bâ¦"
+mpecpw91gn9r  webserver.3      httpd:latest  docker  Running        Running 18 minutes ago
+scd01o6z7ash   \_ webserver.3  httpd:latest  docker  Shutdown       Failed 18 minutes ago    "task: non-zero exit (137)"
+vdtc2cfzssdp  webserver.4      httpd:latest  swarm   Running        Running 39 minutes ago
+[root@docker ~]#
 
 ... we can see logs and the other options related to service created earlier by following
 
@@ -436,7 +436,7 @@ docker-master:
 ~/ $ salt docker-master cmd.run "docker node rm lr94fywcyngst2jknczjfypwq"
 docker-master:
     lr94fywcyngst2jknczjfypwq
-~/ $ 
+~/ $
 ~/ $ salt docker-master cmd.run "docker node rm c1y26pcg2foji3n84cphsjj14"
 docker-master:
     c1y26pcg2foji3n84cphsjj14
@@ -448,12 +448,6 @@ docker-master:
     9mle2f6gsggex6118v4qf8yu1     docker-host3-debian   Ready               Active                                  18.09.0
     vbclnxiuikt98snvxav837mse     docker-host6-ubuntu   Ready               Active                                  18.09.0
     v9tmp77pjs0kk9707aalrzjbq *   docker-master         Ready               Active              Leader              18.09.0
-~/ $ 
+~/ $
 
 ... deletion of docker-swarm
-
-
-
-
-
-

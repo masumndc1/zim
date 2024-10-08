@@ -2,11 +2,11 @@
 
 ... we can set label to node,pods like bellow
 
-[root@kube-master kube]# kubectl get nodes 
+[root@kube-master kube]# kubectl get nodes
 NAME             STATUS    AGE
 192.168.10.137   Ready     9d
 192.168.10.140   Ready     8d
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 [root@kube-master kube]# kubectl label nodes <node-name> nodenickname=a-name
 [root@kube-master kube]# kubectl label nodes 192.168.10.137 nodenickname=node1
@@ -29,4 +29,3 @@ spec:
          restartPolicy: OnFailure
          nodeSelector:
 	    nodenickname: node1
-

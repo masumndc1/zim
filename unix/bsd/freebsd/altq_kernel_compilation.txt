@@ -11,13 +11,13 @@
 # cp GENERIC MYKERNEL
 
 .. on MYKERNEL file put the following lines
- 
+
 # vi MYKERNEL
 
 device pf
 device pflog
 device pfsync
- 
+
 options         ALTQ
 options         ALTQ_CBQ        # Class Bases Queuing (CBQ)
 options         ALTQ_RED        # Random Early Detection (RED)
@@ -36,7 +36,7 @@ Compile the new kernel by specifying the name of the custom kernel configuration
 
 # make buildkernel KERNCONF=MYKERNEL
 
-Install the new kernel associated with the specified kernel configuration file. This command will copy the new kernel 
+Install the new kernel associated with the specified kernel configuration file. This command will copy the new kernel
 to /boot/kernel/kernel and save the old kernel to /boot/kernel.old/kernel:
 
 # make installkernel KERNCONF=MYKERNEL
@@ -44,6 +44,3 @@ to /boot/kernel/kernel and save the old kernel to /boot/kernel.old/kernel:
 .. reboot into the new kernel.
 
 .. now we can use altq on pf.conf file.
-
-
-

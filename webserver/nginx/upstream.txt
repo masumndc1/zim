@@ -6,7 +6,7 @@
 ... to upstream and wait for the response from the upstream and upon
 ... getting the response it again delivers the response to requester.
 
-... we have to define upstream up above the server tag in nginx.conf 
+... we have to define upstream up above the server tag in nginx.conf
 ... file like the example below.
 
 upstream php {
@@ -18,7 +18,7 @@ server {
 }
 
 ... that means any php request will be forwarded to corresponding sockets.
-... to determine which socket or port is listening our php request we can issue 
+... to determine which socket or port is listening our php request we can issue
 
 [root@nginx php-fpm.d]# pwd
 /etc/php-fpm.d
@@ -26,18 +26,16 @@ server {
 www.conf
 [root@nginx php-fpm.d]# cat www.conf | grep "listen ="
 listen = 127.0.0.1:9000
-[root@nginx php-fpm.d]# 
+[root@nginx php-fpm.d]#
 
 ... in that case to pass php request with fastcgi_pass like below
 
 location ~ *.php {
  fastcgi_pass 127.0.0.1:9000
 }
- 
+
 or using upstream syntax
 
 location ~ *.php {
  fastcgi_pass php
 }
-
-

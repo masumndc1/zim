@@ -5,19 +5,17 @@
 
 [root@openshift docker-image]# docker pull openshift/hello-openshift
 Using default tag: latest
-Trying to pull repository docker.io/openshift/hello-openshift ... 
+Trying to pull repository docker.io/openshift/hello-openshift ...
 latest: Pulling from docker.io/openshift/hello-openshift
-4f4fb700ef54: Pull complete 
-0fd0bfa630e7: Pull complete 
+4f4fb700ef54: Pull complete
+0fd0bfa630e7: Pull complete
 Digest: sha256:4c37ad2abbf5494afb27cf061e17dc7fc35ca80d966d6d679289392001b4f238
-[root@openshift docker-image]# 
+[root@openshift docker-image]#
 
 ... now using this image to run a pod and deploy it in openshift origin web browser.
 
 [root@openshift docker-image]# oc run hello-web --image=docker.io/openshift/hello-openshift:latest
 deploymentconfig "hello-web" created
-[root@openshift docker-image]# 
+[root@openshift docker-image]#
 
-... now we can see the pod is running in https://192.168.10.141:8443 
-
-
+... now we can see the pod is running in https://192.168.10.141:8443

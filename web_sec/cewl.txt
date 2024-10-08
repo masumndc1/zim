@@ -9,6 +9,3 @@
 
 ... similar tools to make password list included in parrot and
 ... kali is crunch.
-
-
-

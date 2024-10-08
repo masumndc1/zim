@@ -26,9 +26,9 @@ debiantest
 ... before that we need to change the permission of the pem file.
 ... it should be either 400 or 600.
 
-stack@devstack:~$ ls -la masumtest.pem 
+stack@devstack:~$ ls -la masumtest.pem
 -rw------- 1 stack stack 1679 Feb 15 13:28 masumtest.pem
-stack@devstack:~$ 
+stack@devstack:~$
 stack@devstack:~$ ssh -i masumtest.pem cirros@172.24.4.20
 $ ping yahoo.com
 PING yahoo.com (72.30.35.10): 56 data bytes
@@ -41,17 +41,17 @@ PING yahoo.com (72.30.35.10): 56 data bytes
 --- yahoo.com ping statistics ---
 5 packets transmitted, 4 packets received, 20% packet loss
 round-trip min/avg/max = 122.298/133.698/151.964 ms
-$ 
+$
 $ exit
 
 ... # additional:
 ... # we can see the public key from the pem by following.
 ... now try to find the public key from the pem.
 
-... the general format of finding public key from a pem file is 
+... the general format of finding public key from a pem file is
 ...  ssh-keygen -y [-f input_keyfile]
 
-→ ssh-keygen -y -f masumtest.pem 
+→ ssh-keygen -y -f masumtest.pem
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -60,7 +60,7 @@ It is required that your private key files are NOT accessible by others.
 This private key will be ignored.
 Load key "masumtest.pem": bad permissions
 
-→ ls -la masumtest.pem 
+→ ls -la masumtest.pem
 -rw-r--r-- 1 15 13:16 masumtest.pem
 
 ... changing the file permission like below.
@@ -68,11 +68,8 @@ Load key "masumtest.pem": bad permissions
 ... we can also do the "chmod 400 masumtest.pem"
 ... cause no need to read/write by others.
 
-→ chmod 600 masumtest.pem 
+→ chmod 600 masumtest.pem
 
-→ ssh-keygen -y -f masumtest.pem 
+→ ssh-keygen -y -f masumtest.pem
 ssh-rsa iY4yZ3r1qslVTS4yNQSP3P2cOcvnTNsvUL3y0HKROsGGB3XihzO+woRaA4wfIZV3SStILX4eK8eX...
 // output cut //
-
-
-

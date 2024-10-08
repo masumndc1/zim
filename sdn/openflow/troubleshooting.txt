@@ -11,4 +11,3 @@ $ startx
 
 .. now we can run the wireshark & command it will pops up
 .. in the vmware.
-

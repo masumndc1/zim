@@ -14,7 +14,7 @@ community-rules		  dns_pf.sh		  Image_Graph-0.8.0.tgz  oflops		    openvswitch.s
 community-rules.tar.gz	  dns_route.sh		  ipscript_reset.sh	 oftest		    pox
 debian_script_office.txt  dns.sh		  ipscript.sh		 openflow	    route.sh
 dns_as.sh		  Image_Canvas-0.3.5.tgz  masum.txt		 openvswitch-2.5.1  Vagrantfile
-root@debian7:~# 
+root@debian7:~#
 root@debian7:~# cd openvswitch-2.5.1/
 
 root@debian7:~/openvswitch-2.5.1# ls
@@ -32,16 +32,13 @@ configure.ac	INSTALL.Debian.md  INSTALL.SSL.md      NEWS		     README.md	       
 root@debian7:~/openvswitch-2.5.1# ./configure
 root@debian7:~/openvswitch-2.5.1# make && make install
 
-.. alternative way is to install the mininet which includes all the 
-.. openvswitch and openflow. 
+.. alternative way is to install the mininet which includes all the
+.. openvswitch and openflow.
 
-... another way of installing open-vswitch is just type 
+... another way of installing open-vswitch is just type
 
 └──╼ # apt-cache search openvswitch
 openvswitch-common
 openvswitch-switch
 
 ... and install the common and switch packages.
-
-
-

@@ -17,5 +17,3 @@ Apro13-HKHV2F:osclient khuddin$ source bin/activate
 ... openstack help image
 ... openstack image list
 ... openstack server list
-
-

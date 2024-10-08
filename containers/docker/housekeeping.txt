@@ -48,7 +48,7 @@ CONTAINER ID        IMAGE                    COMMAND
 f2e45401c01c        32bit/ubuntu:16.04       "/bin/bash"         31 hours ago
 root@controller:~/docker#
 
-... now exporting it to tar.gz format 
+... now exporting it to tar.gz format
 
 root@controller:~/docker# docker export 3d7a979521a7 -o busyboxthree.tar.gz
 
@@ -57,7 +57,7 @@ total 1276
 -rw------- 1 root root 1285120 Jul 21 01:51 busyboxthree.tar.gz
 root@controller:~/docker#
 
-... deleting the images 
+... deleting the images
 
 root@controller:~/docker# docker rmi masumndc1/busyboxthree
 Untagged: masumndc1/busyboxthree:latest
@@ -85,10 +85,10 @@ root@controller:~/docker#
 
 root@controller:~/docker# docker save masumndc1/busyboxthree | gzip > busybox3.tar.gz
 root@controller:~/docker# ls
- busybox3.tar.gz  
+ busybox3.tar.gz
 root@controller:~/docker#
 
-... another way of doing so 
+... another way of doing so
 
 root@controller:~/docker# docker save -o busybox3.tar.gz masum:latest
 
@@ -117,18 +117,14 @@ masumapache                     10.2                9fe60073dbbd        About an
 ... running it like before
 
 root@controller:~/docker# docker run -it --rm masumndc1/busyboxthree /bin/sh
-/# 
+/#
 
 ... how to remove one image from docker
 
 [root@openshift docker]# docker images
 myweg                       latest              2cc7fca9b1ef        20 months ago       306.3 MB
-[root@openshift docker]# 
+[root@openshift docker]#
 [root@openshift docker]# docker rmi myweg
 Untagged: myweg:latest
 Untagged: docker.io/publici/httpd@sha256:25f818b19c77117e6703fbdbd27548b4c9f85f098ec6db3bcb1668a788940d62
-[root@openshift docker]# 
-
-
-
-
+[root@openshift docker]#

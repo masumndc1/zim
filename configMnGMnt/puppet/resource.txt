@@ -12,7 +12,7 @@
 Usage: puppet <subcommand> [options] <action> [options]
 
 Available subcommands:
-    
+
   agent             The puppet agent daemon
   apply             Apply Puppet manifests locally
   ca                Local Puppet Certificate Authority management.
@@ -51,12 +51,12 @@ Available subcommands:
 See 'puppet help <subcommand> <action>' for help on a specific subcommand action.
 See 'puppet help <subcommand>' for help on a specific subcommand.
 Puppet v3.8.7
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
 .. then we have used describe sub command with puppet to see describe subcommand
 .. parameters.
 
-[root@localhost puppet]# puppet describe 
+[root@localhost puppet]# puppet describe
 
 puppet-describe(8) -- Display help about resource types
 ========
@@ -105,10 +105,10 @@ COPYRIGHT
 ---------
 Copyright (c) 2011 Puppet Labs, LLC Licensed under the Apache 2.0 License
 
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
-.. the command puppet describe --list will show number of things 
-.. it can describe 
+.. the command puppet describe --list will show number of things
+.. it can describe
 
 [root@localhost puppet]# puppet describe --list
 These are the types known to puppet:
@@ -161,7 +161,7 @@ yumrepo         - The client-side description of a yum reposito ...
 zfs             - Manage zfs
 zone            - Manages Solaris zones
 zpool           - Manage zpools
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
 .. then we have taken notify to show its options and parameters.
 
@@ -183,18 +183,18 @@ Parameters
 
 - **withpath**
     Whether to show the full object path. Defaults to false.
-    Valid values are `true`, `false`. 
-[root@localhost puppet]# 
+    Valid values are `true`, `false`.
+[root@localhost puppet]#
 
 .. example can be our first manifest
 
 [root@localhost puppet]# vi hello.pp
-[root@localhost puppet]# 
+[root@localhost puppet]#
 [root@localhost puppet]# cat -n hello.pp
-     1	notify { greeting: 
+     1	notify { greeting:
      2  message => 'hello, world!'
      3	}
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
 .. when we need to list the options of any subcommands we do that following.
 .. say we need to know options of resource subcommand, we do that after issueing
@@ -209,7 +209,7 @@ puppet resource [-h|--help] [-d|--debug] [-v|--verbose] [-e|--edit]
   [<name>] [<attribute>=<value> ...]
 
 .. the above command is particularly important
-.. # puppet resource --type 
+.. # puppet resource --type
 .. is a important command to see the all type of resources available
 
 [root@localhost puppet]# puppet resource --help
@@ -310,10 +310,10 @@ COPYRIGHT
 ---------
 Copyright (c) 2011 Puppet Labs, LLC Licensed under the Apache 2.0 License
 
-[root@localhost puppet]# 
+[root@localhost puppet]#
 
-.. therefore if we want to know current configuration of a resource 'user' found 
-.. from the 'puppet resource --list' we do the following. 
+.. therefore if we want to know current configuration of a resource 'user' found
+.. from the 'puppet resource --list' we do the following.
 
 [root@localhost puppet]# puppet resource user root
 user { 'root':
@@ -328,15 +328,10 @@ user { 'root':
   shell            => '/bin/bash',
   uid              => '0',
 }
-[root@localhost puppet]# 
-[root@localhost puppet]# 
+[root@localhost puppet]#
+[root@localhost puppet]#
 
-.. from the above command we can also see how to configure a resourse type and its 
-.. parameters. parameters as string, as array, as value, and notice here every 
+.. from the above command we can also see how to configure a resourse type and its
+.. parameters. parameters as string, as array, as value, and notice here every
 .. value ends with a comma. resource type has resource title, attributes are all
 .. in the curly brackets.
-
-
-
-
-

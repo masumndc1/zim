@@ -10,14 +10,14 @@ to install freeradius type following.
 
 CentOS
 #> yum install freeradius2 freeradius2-utils
-	
+
 SUSE
 #> zypper in freeradius-server freeradius-server-utils freeradius-server-doc
-	
+
 Ubuntu
 $> sudo apt-get install freeradius
 
-if it is centos6 then type 
+if it is centos6 then type
 # yum install freeradius freeradius-utils
 
 __login-time attribute:__
@@ -63,4 +63,3 @@ found:
 	 NP or ! or null (No password)
 	 LK or * (Account is locked)
 	 !! (Password expired)
-

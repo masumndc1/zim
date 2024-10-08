@@ -7,13 +7,13 @@
 .. we are setting controller like below.
 .. the ruls is setting the options where the ovsdb is running
 .. in our instance the db is running on the same ip where
-.. the openvswitch is running on. therefore we are configuring 
+.. the openvswitch is running on. therefore we are configuring
 .. like below. this ip is the same ip where the db running and
 .. the host also.
 
 root@mininet-vm:~# ovs-vsctl set-controller s2 tcp:192.168.244.148:6633
 root@mininet-vm:~# ovs-vsctl set-controller s1 tcp:192.168.10.129:6633
-root@mininet-vm:~# 
+root@mininet-vm:~#
 root@mininet-vm:~# ovs-vsctl show
 8945dad2-35b4-4549-9122-23d5558992e7
     Bridge "s2"
@@ -90,11 +90,5 @@ other_config        : {}
 role                : other
 status              : {last_error="End of file", sec_since_connect="1", sec_since_disconnect="1", state=BACKOFF}
 target              : "tcp:192.168.10.129:6633"
-root@mininet-vm:~# 
+root@mininet-vm:~#
 root@mininet-vm:~# ovs-vsctl show
-
-
-
-
-
-

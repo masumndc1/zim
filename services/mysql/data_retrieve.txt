@@ -149,5 +149,3 @@ MariaDB [masum]> SELECT surname, COUNT(*) FROM employees GROUP BY surname;
 | Todd    |        1 |
 +---------+----------+
 3 rows in set (0.00 sec)
-
-

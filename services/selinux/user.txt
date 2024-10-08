@@ -82,7 +82,7 @@ system_u             system_u             s0-s15:c0.c1023      *
 [root@localhost masum]# semanage login -d myuser
 
 ... creating seuser.
-... the options are used here are 
+... the options are used here are
 -a add
 -L s0 : default severity
 -r severity and the category
@@ -117,7 +117,7 @@ s0-s2:c1.c100=john
 s0-s2:c1.c200=myuser
 
 ... we can see the value by the following command
-... here we have our custome value too.  
+... here we have our custome value too.
 
 [root@localhost mls]# chcat -L
 s0                             SystemLow
@@ -189,6 +189,3 @@ guest_exec_content --> off
 
 ... so we are setting guest_exec_content off to disallow guest_u
 ... to run script from his home_directory.
-
-
-

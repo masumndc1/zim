@@ -16,11 +16,11 @@ Router(config)#exit
 Enter configuration commands, one per line.  End with CNTL/Z.
 *Jul 11 01:45:18.247: %SYS-5-CONFIG_I: Configured from console by console
 Router#enable view
-Password: 
+Password:
 % Authentication failed
 
 Router#enable view
-Password: 
+Password:
 % Authentication failed
 
 Router#
@@ -32,13 +32,13 @@ Router(config)#
 Router(config)#enable secret cisco
 Router(config)#
 Router(config)#exit
-Router#      
+Router#
 *Jul 11 01:45:51.335: %SYS-5-CONFIG_I: Configured from console by console
 Router#
 Router#
 Router#
 Router#enable view
-Password: 
+Password:
 
 Router#
 Router#
@@ -58,7 +58,7 @@ Router(config-view)#
 Router(config-view)#secret 0 masum
 Router(config-view)#
 Router(config-view)#
-Router(config-view)#?           
+Router(config-view)#?
 View commands:
   commands  Configure commands for a view
   default   Set a command to its defaults
@@ -68,7 +68,7 @@ View commands:
 
 Router(config-view)#
 Router(config-view)#
-Router(config-view)#commands exec ?     
+Router(config-view)#commands exec ?
   exclude            Exclude the command from the view
   include            Add command to the view
   include-exclusive  Include in this view but exclude from others
@@ -78,7 +78,7 @@ Router(config-view)#commands exec include traceroute
 Router(config-view)#
 Router(config-view)#
 Router(config-view)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 Router(config-view)#
@@ -128,7 +128,7 @@ control-plane
 !
 gatekeeper
  shutdown
-!         
+!
 !
 line con 0
  logging synchronous
@@ -159,18 +159,18 @@ Router#
 Router#exit
 *Jul 11 01:48:13.507: %SYS-5-CONFIG_I: Configured from console by console
 Router#enable view noc
-Password: 
+Password:
 % Authentication failed
 
 Router#
 Router#
 Router#enable view noc
-Password: 
+Password:
 % Authentication failed
 
 Router#
 Router#enable view noc
-Password: 
+Password:
 
 Router#
 Router#

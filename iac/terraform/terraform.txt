@@ -2,8 +2,8 @@
 
 ... Using terraform to make VM in esxi and vCenter.
 
-... First of all we need a Template. Template is a plan which is needed to make 
-... VMs by using terraform. If we dont have vcenter, we need to define an empty 
+... First of all we need a Template. Template is a plan which is needed to make
+... VMs by using terraform. If we dont have vcenter, we need to define an empty
 ... resource pool for a standalone ESXi host.
 
 ... basic
@@ -12,7 +12,7 @@
 [root@localhost ~]# terraform
 Usage: terraform [-version] [-help] <command> [args]
 
-If you're just getting started with Terraform, stick with the 
+If you're just getting started with Terraform, stick with the
 common commands. For the other commands, please read the help and docs before usage.
 
 Common commands:
@@ -57,11 +57,11 @@ with Terraform immediately by creating Terraform configuration files.
 ... we will test and run the terraform to make virtual machines.
 
 ... we will need following three files.
-... 1. terraform.tfvars:  Optional: if you have a large amount of variables 
-                          needs to be define. Apply by 
+... 1. terraform.tfvars:  Optional: if you have a large amount of variables
+                          needs to be define. Apply by
                           terraform apply -var-file="terraform.tfvars"
 ... 2. instance.tf:       contains most of the infrastructure definition
-... 3. variables.tf       contains the variables which can be passed into 
+... 3. variables.tf       contains the variables which can be passed into
                           the instance.tf file for processing.
 
 ... and the content of the files can be are below.
@@ -307,7 +307,7 @@ vsphere_virtual_machine.test2: Creating...
   vmx_path:                                  "" => "<computed>"
   wait_for_guest_net_routable:               "" => "true"
   wait_for_guest_net_timeout:                "" => "0"
-vsphere_virtual_machine.test2: Creation complete after 1s 
+vsphere_virtual_machine.test2: Creation complete after 1s
 (ID: 564d83c6-4871-6800-5709-48680862588c)
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
@@ -315,4 +315,3 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 ... after all the testing if we need to destroy the infrastructure and clean up,
 ... run "terraform cleanup"
-

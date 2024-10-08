@@ -16,12 +16,12 @@ root@kibana:~# node -v
 v4.8.7
 root@kibana:~# npm -v
 2.15.11
-root@kibana:~# 
+root@kibana:~#
 
-... now install elasticdump 
+... now install elasticdump
 
 root@kibana:~# npm install elasticdump -g
-root@kibana:~# 
+root@kibana:~#
 root@kibana:~# npm install elasticdump -g
 /usr/bin/elasticdump -> /usr/lib/node_modules/elasticdump/bin/elasticdump
 /usr/bin/multielasticdump -> /usr/lib/node_modules/elasticdump/bin/multielasticdump
@@ -33,7 +33,7 @@ elasticdump@3.3.1 /usr/lib/node_modules/elasticdump
 ├── request@2.83.0 (aws-sign2@0.7.0, forever-agent@0.6.1, oauth-sign@0.8.2, tunnel-agent@0.6.0, caseless@0.12.0, is-typedarray@1.0.0, safe-buffer@5.1.1, stringstream@0.0.5, isstream@0.1.2, json-stringify-safe@5.0.1, extend@3.0.1, performance-now@2.1.0, qs@6.5.1, combined-stream@1.0.5, mime-types@2.1.17, uuid@3.1.0, tough-cookie@2.3.3, form-data@2.3.1, hawk@6.0.2, http-signature@1.2.0, har-validator@5.0.3)
 ├── async@2.6.0 (lodash@4.17.4)
 └── aws-sdk@2.176.0 (sax@1.2.1, xml2js@0.4.17, querystring@0.2.0, events@1.1.1, url@0.10.3, jmespath@0.15.0, uuid@3.1.0, buffer@4.9.1, crypto-browserify@1.0.9, xmlbuilder@4.2.1)
-root@kibana:~# 
+root@kibana:~#
 
 ... another way to input json file as
 
@@ -51,10 +51,10 @@ root@kibana:~/Kibana_Essentials# curl -XPUT http://localhost:9200/shakespeare -d
 >  }
 > }
 > ';
-{"error":{"root_cause":[{"type":"index_already_exists_exception","reason":"index [shakespeare/J4493oxuR8OrzrtYszJp_Q] already exists","index_uuid":"J4493oxuR8OrzrtYszJp_Q","index":"shakespeare"}],"type":"index_already_exists_exception","reason":"index [shakespeare/J4493oxuR8OrzrtYszJp_Q] already exists","index_uuid":"J4493oxuR8OrzrtYszJp_Q","index":"shakespeare"},"status":400}root@kibana:~/Kibana_Essentials# 
-root@kibana:~/Kibana_Essentials# 
+{"error":{"root_cause":[{"type":"index_already_exists_exception","reason":"index [shakespeare/J4493oxuR8OrzrtYszJp_Q] already exists","index_uuid":"J4493oxuR8OrzrtYszJp_Q","index":"shakespeare"}],"type":"index_already_exists_exception","reason":"index [shakespeare/J4493oxuR8OrzrtYszJp_Q] already exists","index_uuid":"J4493oxuR8OrzrtYszJp_Q","index":"shakespeare"},"status":400}root@kibana:~/Kibana_Essentials#
+root@kibana:~/Kibana_Essentials#
 root@kibana:~/Kibana_Essentials# curl -XPUT localhost:9200/_bulk --data-binary @shakespeare.json
-root@kibana:~/Kibana_Essentials# 
+root@kibana:~/Kibana_Essentials#
 
 root@kibana:~/my_work# curl -XGET 'localhost:9200/_cat/indices?v&pretty'
 health status index               uuid                   pri rep docs.count docs.deleted store.size pri.store.siz
@@ -65,13 +65,9 @@ yellow open   shakespeare         O4DBCQCsTFGQNar7v1G4CQ   5   1     111396     
 yellow open   logstash-2015.05.19 MSdz58ZuSn-DEFUGgVfx-Q   5   1       4624            0     30.6mb         30.6m
 yellow open   logstash-2015.05.18 C_OTPLvvQDe2jUm76tnP4A   5   1       4631            0     33.8mb         33.8m
 
-root@kibana:~/my_work# 
+root@kibana:~/my_work#
 
 
 ... importing some logstash data
 
 root@kibana:~/my_work# curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
-
-
-
-

@@ -3,4 +3,3 @@
 ... classic gnome in ubuntu
 
 root@elxa6lj5k72:/ # apt-get install gnome-session-flashback
-

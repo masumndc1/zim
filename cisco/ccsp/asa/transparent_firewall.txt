@@ -3,33 +3,33 @@
 
 .. there are two differents mode of operation of an asa firewall.
 .. one is routed more another is transparent mode or bridge mode.
-.. we can check which mode the asa is running on by the following 
+.. we can check which mode the asa is running on by the following
 .. command
 
-.. when we enter the transparent mode the previous configuration 
+.. when we enter the transparent mode the previous configuration
 .. will be cleared out and therefore we have to configure the
 .. transparent mode from the scratch.
 
 .. therefore it is always better to save the running config to
 .. flash or external device before continuing.
 
-ciscoasa# show firewall 
+ciscoasa# show firewall
 Firewall mode: Router
-ciscoasa# 
+ciscoasa#
 ciscoasa# config t
-ciscoasa(config)# firewall ? 
+ciscoasa(config)# firewall ?
 configure mode commands/options:
   transparent  Switch to transparent mode
 
 ..
 .. switch to transparent mode like below
-..  
+..
 
-ciscoasa(config)# firewall transparent 
-pixfirewall(config)# 
-pixfirewall(config)# show firewall 
+ciscoasa(config)# firewall transparent
+pixfirewall(config)#
+pixfirewall(config)# show firewall
 Firewall mode: Transparent
-pixfirewall(config)# 
+pixfirewall(config)#
 
 
 .. now when we configure the interface we provide the following
@@ -51,7 +51,7 @@ ciscoasa(config-if)#
 ciscoasa(config-if)#exit
 
 ciscoasa(config)#interface fastEthernet 0/1
-ciscoasa(config-if)#no ip address 
+ciscoasa(config-if)#no ip address
 ciscoasa(config-if)#no shut
 ciscoasa(config-if)#
 ciscoasa(config-if)#bridge-group 1
@@ -59,8 +59,8 @@ ciscoasa(config-if)#
 ciscoasa(config-if)#
 ciscoasa(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES manual up                    up      
-FastEthernet0/1            unassigned      YES manual up                    up      
+FastEthernet0/0            unassigned      YES manual up                    up
+FastEthernet0/1            unassigned      YES manual up                    up
 ciscoasa(config-if)#
 ciscoasa(config-if)#
 ciscoasa(config-if)#exit
@@ -79,29 +79,29 @@ ciscoasa(config)#interface ?
   MFR                Multilink Frame Relay bundle interface
   Multilink          Multilink-group interface
 
-ciscoasa(config)#          
+ciscoasa(config)#
 
 
 .. now we will assign single ip address per bridge group.
 .. this will use for management purpose like telnet,ssh,http,https
 .. snmp,syslog,tftp and ftp. if there are multiple security context
-.. then we have to provide ip address to each bridge group per 
+.. then we have to provide ip address to each bridge group per
 .. security context.
 
-ciscoasa(config)#interface bvi 1 
+ciscoasa(config)#interface bvi 1
 ciscoasa(config-if)#ip address 192.168.100.100 255.255.255.0
 ciscoasa(config-if)#no shut
 ciscoasa(config-if)#
 
 ciscoasa(config-if)#do show ip interf brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES manual up                    up      
-FastEthernet0/1            unassigned      YES manual up                    up      
-BVI1                       192.168.100.100 YES manual up                    up      
+FastEthernet0/0            unassigned      YES manual up                    up
+FastEthernet0/1            unassigned      YES manual up                    up
+BVI1                       192.168.100.100 YES manual up                    up
 ciscoasa(config-if)#
 
-.. now as dynamic routing protocol is not possible when firewall running as 
-.. transparent mode we need to configure static route for the connectivity 
+.. now as dynamic routing protocol is not possible when firewall running as
+.. transparent mode we need to configure static route for the connectivity
 .. and default route also for outer connectivity.
 
 
@@ -109,7 +109,7 @@ ciscoasa(config)# route ..interface.. ..net/mask.. ..metric..
 
 .. metric is used to tell the router how many hop away is our destination
 .. network. if metric omitted then it is default one hop.
-.. we should also configure static route for voice traffic when the 
+.. we should also configure static route for voice traffic when the
 .. gateway is more than one hop away like above configuration.
 
 .. packet inspections as well as all the security policies are permitted
@@ -126,7 +126,7 @@ ciscoasa(config)# route ..interface.. ..net/mask.. ..metric..
 .. on the both interface. this kind of broadcasting/multicasting acl should
 .. be more specific. like below
 
-.. when an asa has two routers on the both inside and outside interface and 
+.. when an asa has two routers on the both inside and outside interface and
 .. need to pass ospf related multicas at 224.0.0.5 and 224.0.0.6 then we place
 .. the access list like below. note here the placing order in of the access-list
 
@@ -139,16 +139,16 @@ ciscoasa(config)# access-group extra-traffic in interface inside
 
 .. ethertype access-list has the syntax like below
 
-ciscoasa(config)# show firewall 
+ciscoasa(config)# show firewall
 Firewall mode: Router
 
-ciscoasa(config)# firewall transparent 
-pixfirewall(config)# 
+ciscoasa(config)# firewall transparent
+pixfirewall(config)#
 pixfirewall(config)# access-list ?
 
 configure mode commands/options:
   WORD < 241 char  Access list identifier
-  alert-interval   Specify the alert interval for generating syslog message 
+  alert-interval   Specify the alert interval for generating syslog message
                    106001 which alerts that the system has reached a deny
                    flow maximum. If not specified, the default value is 300 sec
   deny-flow-max    Specify the maximum number of concurrent deny flows that can
@@ -193,7 +193,7 @@ ciscoasa(config)# access-list MY-ETHERTYPES ethertype permit 0x22f3
 ciscoasa(config)# access-group MY-ETHERTYPES in interface outside
 ciscoasa(config)# access-group MY-ETHERTYPES in interface inside
 
-.. note here that access-list is place in both interface inbound direction. 
+.. note here that access-list is place in both interface inbound direction.
 
 .................. arp and arp inspection .......................
 

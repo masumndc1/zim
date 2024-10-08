@@ -13,18 +13,17 @@ kubectl cordon nodeA
 ... kubectl delete nodes nodeA
 
 ... on nodes:
-... Revert changes made to the node 
-... by ‘kubeadm join‘ 
+... Revert changes made to the node
+... by ‘kubeadm join‘
 ... Run on worker node to be removed
-sudo kubeadm reset 
+sudo kubeadm reset
 
 ... when again rejoining
 ... On controller:
-... check token 
+... check token
 kubeadm token list
 ... if you need to create a token
 sudo kubeadm token create
 ... run this command on nodes.
 ... generate token and rejoin command at the same time
 kubeadm token create --print-join-command
-

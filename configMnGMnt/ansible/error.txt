@@ -2,14 +2,14 @@
 
 ... one ssh related error and solution
 
-fatal: [php]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible 
-because Host Key checking is enabled and sshpass does not support this.  Please add this 
+fatal: [php]: FAILED! => {"msg": "Using a SSH password instead of a key is not possible
+because Host Key checking is enabled and sshpass does not support this.  Please add this
 host's fingerprint to your known_hosts file to manage this host."}
 
-└──╼ # ssh-keyscan -H 192.168.122.227 >> /home/user/.ssh/known_hosts 
+└──╼ # ssh-keyscan -H 192.168.122.227 >> /home/user/.ssh/known_hosts
 
 ... if you have encounter following error.
 "unsupported parameter for module: path"
 
-Then you might have ansible version 2.0.0 or less. 
+Then you might have ansible version 2.0.0 or less.
 its better to update your ansible.

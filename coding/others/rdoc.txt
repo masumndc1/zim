@@ -8,7 +8,7 @@ gem install rdoc-data
 rdoc-data --install
 
 # Regenerate all gem docs (rdoc + ri)
-gem rdoc --all --overwrite 
+gem rdoc --all --overwrite
 
 # Regenerate all gem docs (ri only)
 gem rdoc --all --overwrite --ri --no-rdoc

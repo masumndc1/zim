@@ -1,12 +1,10 @@
 
 
 ... No password for sudo
-... Add yourself to the sudoers list so that you don't have 
+... Add yourself to the sudoers list so that you don't have
 ... to enter your password over and over again:
 
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
 ... also we can place a file bob with content like below in /etc/sudoers.d
 bob ALL=(ALL:ALL) NOPASSWD: ALL
-
-

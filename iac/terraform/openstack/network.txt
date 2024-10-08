@@ -29,21 +29,21 @@ resource "openstack_compute_secgroup_v2" "secgroup2" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-  
+
   rule {
-    from_port   = 80 
-    to_port     = 80 
+    from_port   = 80
+    to_port     = 80
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
 
   rule {
     from_port   = 443
-    to_port     = 443 
+    to_port     = 443
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-  
+
   rule {
     from_port   = 8080
     to_port     = 8080
@@ -72,7 +72,3 @@ resource "openstack_networking_port_v2" "debianport2" {
     "ip_address" = "10.10.30.10"
   }
 }
-
-
-
-

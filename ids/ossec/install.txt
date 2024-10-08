@@ -1,7 +1,7 @@
 
 
 ... installing the ossec on centos7
-... 
+...
 ... first installing the dependency
 
 ... installing the database related things if needed. otherwise not
@@ -11,7 +11,7 @@
 
 # wget -q -O - https://updates.atomicorp.com/installers/atomic |sh
 
-Next use yum to install the specific packages. 
+Next use yum to install the specific packages.
 
 For an OSSEC server run:
 
@@ -98,7 +98,7 @@ ossec-execd is running...
 [root@localhost bin]#
 
 ... the our ossec server is running now.
-... on firewall we need to allow port 1514/udp and 514/udp 
+... on firewall we need to allow port 1514/udp and 514/udp
 ... so that it can receive request from the client/agent.
 
 
@@ -203,5 +203,3 @@ root@slave:/var/ossec/bin#
 2018/05/27 21:12:14 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
 2018/05/27 21:13:33 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
 2018/05/27 21:15:10 INFO: Connected to 192.168.10.152 at address 192.168.10.152, port 1514
-
-

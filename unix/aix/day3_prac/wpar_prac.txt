@@ -6,8 +6,8 @@ hostname
 #hostname
 #lsvg -l rootvg
 
-#mount 
- 
+#mount
+
 ----To view the wpar
 #lswpar
 
@@ -28,7 +28,7 @@ hostname
 	#mkuser anjanw
 
 chwpar -N address=127.0.0.10 wpar1
-open another putty 
+open another putty
 lswpar
 
 	#exit
@@ -65,7 +65,7 @@ restwpar -f /wb/back1
 
  mkwpar -n wpar2 -D devname=hdisk3 rootvg=yes
 
-startwpar wpar2 
+startwpar wpar2
 
 clogin wpar2
 
@@ -107,4 +107,4 @@ chwpar -R CPU=0%-10%,10% shares_CPU=2 wpar2
 
 #wparexec -n anjapp /usr/bin/sleep 10 &
 
-#lswpar     
+#lswpar

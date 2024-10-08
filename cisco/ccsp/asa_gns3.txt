@@ -11,5 +11,3 @@ qemu options: -vnc none -vga none -icount auto -hdachs 980,16,32 -cpu coreduo -n
 kernel cmd line: ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536 ide1=noprobe no-hlt
 RAM: 1024 MiB
 NIC model: e1000
-
-

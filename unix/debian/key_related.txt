@@ -42,7 +42,7 @@ to install all the key for a debian based system
 **# apt-get install debian-archive-keyring**
 **# aptitude install debian-keyring debian-archive-keyring**
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following NEW packages will be installed:
   debian-archive-keyring debian-keyring
@@ -53,7 +53,7 @@ WARNING: The following packages cannot be authenticated!
   debian-archive-keyring debian-keyring
 Install these packages without verification [y/N]? y
 Get:1 http://ftp.de.debian.org/debian/ sid/main debian-keyring all 2013.06.25 [45.7MB]
-Fetched 45.7MB in 35s(1272kB/)                                                                                                               
+Fetched 45.7MB in 35s(1272kB/)
 Selecting previously deselected package debian-archive-keyring.
 (Reading database ... 343352 files and directories currently installed.)
 Unpacking debian-archive-keyring (from .../debian-archive-keyring_2012.4_all.deb) ...
@@ -61,9 +61,9 @@ Selecting previously deselected package debian-keyring.
 Unpacking debian-keyring (from .../debian-keyring_2013.06.25_all.deb) ...
 Setting up debian-archive-keyring (2012.4) ...
 Setting up debian-keyring (2013.06.25) ...
-root@mail:~# 
-root@mail:~# 
-root@mail:~# 
+root@mail:~#
+root@mail:~#
+root@mail:~#
 root@mail:~#** apt-key list**
 /etc/apt/trusted.gpg
 --------------------
@@ -103,7 +103,7 @@ uid                  Launchpad PPA for BackBox Linux
 
 
 //these are new key list//
- 
+
 /etc/apt/trusted.gpg.d//debian-archive-squeeze-automatic.gpg
 ------------------------------------------------------------
 pub   4096R/473041FA 2010-08-27 [expires: 2018-03-05]
@@ -124,7 +124,7 @@ uid                  Debian Archive Automatic Signing Key (7.0/wheezy) <ftpmaste
 pub   4096R/65FFB764 2012-05-08 [expires: 2019-05-07]
 uid                  Wheezy Stable Release Key <debian-release@lists.debian.org>
 
-root@mail:~# 
+root@mail:~#
 
 //if you like to skip not to go to a particular site for update then delete the entry from root@mail:/etc/apt/sources.list.d#//
 
@@ -136,13 +136,10 @@ deb-src http://ftp.ca.debian.org/debian/ squeeze main contrib non-free
 
 
 #####"another key servers
-keys.gnupg.net 
+keys.gnupg.net
 
 .... when we are behind of proxy server we do that following
 
 root@mail:~# apt-key adv --recv-keys --keyserver-options \
 		http-proxy=http://proxy_ip:proxy_port --keyserver \
 		hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-
-
-

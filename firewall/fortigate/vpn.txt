@@ -6,10 +6,10 @@ the router has the following parameters.
 3700(config)#
 3700(config)#do show ip inter brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            10.10.10.10     YES manual up                    up      
-FastEthernet0/1            192.168.244.10  YES manual up                    up      
-FastEthernet1/0            unassigned      YES unset  administratively down down    
-FastEthernet2/0            192.168.35.10   YES manual up                    up      
+FastEthernet0/0            10.10.10.10     YES manual up                    up
+FastEthernet0/1            192.168.244.10  YES manual up                    up
+FastEthernet1/0            unassigned      YES unset  administratively down down
+FastEthernet2/0            192.168.35.10   YES manual up                    up
 3700(config)#
 
 we are using the FastEthernet2/0 interface to connect and setup the vpn with the fortigate utm
@@ -27,9 +27,9 @@ config system interface
     next
 end
 
-FortiGate # 
+FortiGate #
 
-****************now we will configure the cisco vpn first  
+****************now we will configure the cisco vpn first
 
 
 3700#show run | begin crypto
@@ -41,10 +41,10 @@ crypto isakmp policy 10
 crypto isakmp key khabir address 192.168.35.139
 !
 !
-crypto ipsec transform-set cisco-set esp-des esp-sha-hmac 
+crypto ipsec transform-set cisco-set esp-des esp-sha-hmac
 !
 crypto ipsec profile cisco-profile
- set transform-set cisco-set 
+ set transform-set cisco-set
 !
 !
 !
@@ -57,30 +57,30 @@ interface Tunnel0
  tunnel destination 192.168.35.139
  tunnel mode ipsec ipv4
  tunnel protection ipsec profile cisco-profile
-!         
+!
 
 ### now we will configure the fortigate part.
 
 // the full configuration we can find in two png files called ike_phase1.png and ike_phase2.png file
-// the authentication and the encryptions settings are important here. any mismatch will not set 
+// the authentication and the encryptions settings are important here. any mismatch will not set
 // the vpn between fortigate and cisco.
 
 
 // now testing at cisco site.
 
 
-3700#show crypto ipsec profile 
+3700#show crypto ipsec profile
 IPSEC profile cisco-profile
 	Security association lifetime: 4608000 kilobytes/3600 seconds
 	PFS (Y/N): N
-	Transform sets={ 
-		cisco-set, 
+	Transform sets={
+		cisco-set,
 	}
 
 3700#
 3700#
 
-3700#show crypto ipsec sa 
+3700#show crypto ipsec sa
 
 interface: Tunnel0
     Crypto map tag: Tunnel0-head-0, local addr 192.168.35.10
@@ -128,36 +128,36 @@ interface: Tunnel0
      outbound ah sas:
 
      outbound pcp sas:
-3700# 
+3700#
 
-3700#show crypto ipsec security-association 
+3700#show crypto ipsec security-association
 Security association lifetime: 4608000 kilobytes/3600 seconds
 
 3700#
 
-3700#show crypto ipsec transform-set 
-Transform set cisco-set: { esp-des esp-sha-hmac  } 
-   will negotiate = { Tunnel,  }, 
-   
+3700#show crypto ipsec transform-set
+Transform set cisco-set: { esp-des esp-sha-hmac  }
+   will negotiate = { Tunnel,  },
+
 
 3700#
 
 
 // now isakmp related
 
-3700#show crypto isakmp key 
+3700#show crypto isakmp key
 Keyring               Hostname/Address                   Preshared Key
 
 default               192.168.35.139                     khabir
 3700#
-3700#show crypto isakmp pee 
-3700#show crypto isakmp peers 
+3700#show crypto isakmp pee
+3700#show crypto isakmp peers
 Peer: 192.168.35.139 Port: 500 Local: 192.168.35.10
  Phase1 id: 192.168.35.139
 3700#
 3700#
-3700#show crypto isakmp po    
-3700#show crypto isakmp policy 
+3700#show crypto isakmp po
+3700#show crypto isakmp policy
 
 Global IKE policy
 Protection suite of priority 10
@@ -174,17 +174,16 @@ Default protection suite
 	lifetime:		86400 seconds, no volume limit
 3700#
 3700#
-3700#show crypto isakmp sa     
-3700#show crypto isakmp sa 
+3700#show crypto isakmp sa
+3700#show crypto isakmp sa
 dst             src             state          conn-id slot status
 192.168.35.10   192.168.35.139  QM_IDLE              2    0 ACTIVE
 
 3700#
 3700#
 3700#show crypto isakmp pro
-3700#show crypto isakmp profile 
+3700#show crypto isakmp profile
 
 3700#
 3700#
 3700#
-

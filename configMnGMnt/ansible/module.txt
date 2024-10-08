@@ -1,59 +1,59 @@
 
 
 ... ansible has many modules which can be used in playbooks.
-... among many we can introduce few of them. and they are 
+... among many we can introduce few of them. and they are
 ... used with -m options in command line.
 
 [root@nginx ansible]# ansible ansible -u root -m command -a 'uptime'
-SSH password: 
+SSH password:
 ansible | SUCCESS | rc=0 >>
  14:47:45 up  2:16,  4 users,  load average: 0.00, 0.00, 0.00
 
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# ansible ansible -u root -m ping
-SSH password: 
+SSH password:
 ansible | SUCCESS => {
-    "changed": false, 
-    "failed": false, 
+    "changed": false,
+    "failed": false,
     "ping": "pong"
 }
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# ansible ansible -u root -m file -a 'path=/etc/resolv.conf'
-SSH password: 
+SSH password:
 ansible | SUCCESS => {
-    "changed": false, 
-    "failed": false, 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0644", 
-    "owner": "root", 
-    "path": "/etc/resolv.conf", 
-    "size": 73, 
-    "state": "file", 
+    "changed": false,
+    "failed": false,
+    "gid": 0,
+    "group": "root",
+    "mode": "0644",
+    "owner": "root",
+    "path": "/etc/resolv.conf",
+    "size": 73,
+    "state": "file",
     "uid": 0
 }
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
 [root@nginx ansible]# ansible ansible -m copy -a 'src=/etc/fstab dest=/tmp/fstab'
-SSH password: 
+SSH password:
 ansible | SUCCESS => {
-    "changed": true, 
-    "checksum": "e85ceb127f121e5c979f9df76fed5556a84b85fe", 
-    "dest": "/tmp/fstab", 
-    "failed": false, 
-    "gid": 0, 
-    "group": "root", 
-    "md5sum": "11b936bc5631ebb98aa931977583a4a7", 
-    "mode": "0644", 
-    "owner": "root", 
-    "size": 501, 
-    "src": "/root/.ansible/tmp/ansible-tmp-1512118499.81-728269990841/source", 
-    "state": "file", 
+    "changed": true,
+    "checksum": "e85ceb127f121e5c979f9df76fed5556a84b85fe",
+    "dest": "/tmp/fstab",
+    "failed": false,
+    "gid": 0,
+    "group": "root",
+    "md5sum": "11b936bc5631ebb98aa931977583a4a7",
+    "mode": "0644",
+    "owner": "root",
+    "size": 501,
+    "src": "/root/.ansible/tmp/ansible-tmp-1512118499.81-728269990841/source",
+    "state": "file",
     "uid": 0
 }
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
 ... another module is command. command module does not run like a shell command.
 ... therefore we cannot use redirect, pipe, expand shell variable and background
@@ -61,8 +61,8 @@ ansible | SUCCESS => {
 ... in that case we have to use shell module to have those functionality.
 
 ... command module will not give idempotency which means it will run the command
-... on managed host and will not check idempotency. but we can help ansible to 
-... become idempotent with the creates and removes arguments. 
+... on managed host and will not check idempotency. but we can help ansible to
+... become idempotent with the creates and removes arguments.
 
 ... when creates is used ansible will only creates a file if it is not there.
 ... oposite is true for the removes arguments. an example is below.
@@ -70,26 +70,26 @@ ansible | SUCCESS => {
 [root@nginx ansible]# touch /tmp/khabir
 [root@nginx ansible]# ls /tmp/khabir
 /tmp/khabir
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# ansible ansible -u root -k -m command -a 'touch /tmp/khabir creates=/tmp/khabir'
-SSH password: 
+SSH password:
 ansible | SUCCESS | rc=0 >>
 skipped, since /tmp/khabir exists
 
 ... the command skipped to creates the file /tmp/khabir as this file
 ... is already exists.
 
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# rm /tmp/khabir
 rm: remove regular empty file ‘/tmp/khabir’? y
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# ansible ansible -u root -k -m command -a 'touch /tmp/khabir creates=/tmp/khabir'
-SSH password: 
+SSH password:
 ansible | SUCCESS | rc=0 >>
 
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
-... removing it 
+... removing it
 
 [root@nginx ansible]# ansible ansible -u root -k -m command -a 'rm -f /tmp/khabir removes=/tmp/khabir'
 
@@ -97,45 +97,45 @@ ansible | SUCCESS | rc=0 >>
 
 [root@nginx ansible]# ls /tmp/khabir
 ls: cannot access /tmp/khabir: No such file or directory
-[root@nginx ansible]# 
+[root@nginx ansible]#
 [root@nginx ansible]# ansible ansible -u root -k -m command -a 'rm -f /tmp/khabir removes=/tmp/khabir'
-SSH password: 
+SSH password:
 ansible | SUCCESS | rc=0 >>
 skipped, since /tmp/khabir does not exist
 
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
 ... we could do the same thing with file module like below
 
 [root@nginx ansible]#  ansible ansible -m file -a 'path=/tmp/khabir state=absent'
-SSH password: 
+SSH password:
 ansible | SUCCESS => {
-    "changed": true, 
-    "failed": false, 
-    "path": "/tmp/khabir", 
+    "changed": true,
+    "failed": false,
+    "path": "/tmp/khabir",
     "state": "absent"
 }
 [root@nginx ansible]# ls /tmp/khabir
 ls: cannot access /tmp/khabir: No such file or directory
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
 [root@nginx ansible]#  ansible ansible -m file -a 'path=/tmp/khabir state=touch'
-SSH password: 
+SSH password:
 ansible | SUCCESS => {
-    "changed": true, 
-    "dest": "/tmp/khabir", 
-    "failed": false, 
-    "gid": 0, 
-    "group": "root", 
-    "mode": "0644", 
-    "owner": "root", 
-    "size": 0, 
-    "state": "file", 
+    "changed": true,
+    "dest": "/tmp/khabir",
+    "failed": false,
+    "gid": 0,
+    "group": "root",
+    "mode": "0644",
+    "owner": "root",
+    "size": 0,
+    "state": "file",
     "uid": 0
 }
 [root@nginx ansible]# ls /tmp/khabir
 /tmp/khabir
-[root@nginx ansible]# 
+[root@nginx ansible]#
 
 ... we can find description on any of the module of ansible by using ansible-doc
 
@@ -162,13 +162,13 @@ Options:
 See man pages for Ansible CLI options or website for tutorials
 https://docs.ansible.com
 [root@nginx ansible]# ansible-doc -l
-accelerate                                Enable accelerated mode on remote node                    
+accelerate                                Enable accelerated mode on remote node
 aci_aep                                   Manage attachable Access Entity Profile (AEP) on Cisco ACI...
 aci_ap                                    Manage top level Application Profile (AP) objects on Cisco...
-aci_bd                                    Manage Bridge Domains (BD) on Cisco ACI Fabrics (fv:BD)   
-aci_epg_to_domain                         Bind EPGs to Domains on Cisco ACI fabrics (fv:RsDomAtt)   
+aci_bd                                    Manage Bridge Domains (BD) on Cisco ACI Fabrics (fv:BD)
+aci_epg_to_domain                         Bind EPGs to Domains on Cisco ACI fabrics (fv:RsDomAtt)
 aci_filter                                Manages top level filter objects on Cisco ACI fabrics (vz:...
-aci_filter_entry                          Manage filter entries on Cisco ACI fabrics (vz:Entry)     
+aci_filter_entry                          Manage filter entries on Cisco ACI fabrics (vz:Entry)
 [root@nginx ansible]# ansible-dock aci_aep
 bash: ansible-dock: command not found
 [root@nginx ansible]# ansible-doc aci_aep
@@ -193,16 +193,4 @@ OPTIONS (= is mandatory):
         IP Address or hostname of APIC resolvable by Ansible control host.
         (Aliases: host)
 
-[root@nginx ansible]# 
-
-
-
-
-
-
-
-
-
-
-
-
+[root@nginx ansible]#

@@ -51,7 +51,7 @@ smb-enum-domains.nse    smb-enum-sessions.nse  smb-mbenum.nse
 smb-enum-groups.nse     smb-enum-shares.nse
 smb-enum-processes.nse  smb-enum-users.nse
 
-... as we want to run all smb-enum* and smb-mbenum.nse together 
+... as we want to run all smb-enum* and smb-mbenum.nse together
 ... so we use pcre and run following
 
 ┌─[root@parrot]─[/usr/share/nmap/scripts]
@@ -243,6 +243,3 @@ Module options (auxiliary/dos/smb/smb_loris):
    RPORT  445              yes       The target port (TCP)
 
 msf auxiliary(smb_loris) >
-
-
-

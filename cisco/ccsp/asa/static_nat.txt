@@ -1,6 +1,6 @@
 ####################################port or destination redirection
 
-#static nat mainly used for the redirection. 
+#static nat mainly used for the redirection.
 #that means when a request say www or ssh or ftp or any other
 #reached at a certain interface of asa then redirection is configured
 #for the pass that service through asa to a certain host to serve.
@@ -15,29 +15,29 @@
 
 #to configure static nat we just only need three things not more.
 
-1. static natting to define where request will arrive and the destination interface where the 
+1. static natting to define where request will arrive and the destination interface where the
 request will be passed.
 
 ciscoasa(config)# show run static
-static (dmz1,outside) interface 192.168.1.2 netmask 255.255.255.255 
-ciscoasa(config)# 
+static (dmz1,outside) interface 192.168.1.2 netmask 255.255.255.255
+ciscoasa(config)#
 
 static 	the command syntax
 dmz1	the local interface
 outside	the outside interface whre the request will arrive
 interface
-	we are using pat. so leaving any specified ip address, this means 
+	we are using pat. so leaving any specified ip address, this means
 	the ip address of interface of outside will be used.
 192.168.1.2
-	to the host of the dmz1 where the request will be pass to. 
+	to the host of the dmz1 where the request will be pass to.
 netmask	to define the range of host. as we want only one host to pass the request.
 
 
 2. a access-list to define what sort of services wil be redirected.
 
 ciscoasa(config)# show run access-list
-access-list www-allow extended permit tcp any host 10.10.10.10 eq www 
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh 
+access-list www-allow extended permit tcp any host 10.10.10.10 eq www
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh
 ciscoasa(config)#
 
 #2a. the first line will pass a tcp www request to dmz1 site from any host comming to outside interface.
@@ -47,7 +47,7 @@ ciscoasa(config)#
 
 ciscoasa(config)# show run access-group
 access-group www-allow in interface outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
 #this command saying a access-group which is referencing access-list www-allow
 #also this command is indicating any inbound request at outside interface with the
@@ -57,7 +57,7 @@ ciscoasa(config)#
 
 #now note a scenario where host 192.168.1.2 of dmz1 is listening a ssh connection at its
 #2222 port. this is done by administrator to fool the attacker by changing the default
-#port for ssh is 22. 
+#port for ssh is 22.
 
 root@debian7:~# vi /etc/ssh/sshd_config
 
@@ -79,19 +79,19 @@ Protocol 2
 # in that case we will add an access-list like below.
 
 ciscoasa(config)# show run access-list
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq 2222 
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq 2222
 
 4. verify the operation static.
 
-4a. ciscoasa(config)# show xlate detail 
+4a. ciscoasa(config)# show xlate detail
 2 in use, 5 most used
 Flags: D - DNS, d - dump, I - identity, i - dynamic, n - no random,
        r - portmap, s - static
 NAT from dmz1:192.168.1.2 to outside:10.10.10.10 flags s
 TCP PAT from inside:172.16.1.2/35743 to dmz1:192.168.1.1/48445 flags ri
-ciscoasa(config)# 
+ciscoasa(config)#
 
-4b. ciscoasa(config)# show conn  detail long 
+4b. ciscoasa(config)# show conn  detail long
 5 in use, 11 most used
 Flags: A - awaiting inside ACK to SYN, a - awaiting outside ACK to SYN,
        B - initial SYN from outside, C - CTIQBE media, D - DNS, d - dump,
@@ -106,7 +106,7 @@ Flags: A - awaiting inside ACK to SYN, a - awaiting outside ACK to SYN,
        V - VPN orphan, W - WAAS
 TCP dmz1:192.168.1.2/2222 (192.168.1.2/2222) inside:172.16.1.2/35743 (192.168.1.1/48445), flags UIO, idle 6m12s, uptime 6m18s, timeout 1h0m, bytes 9012
 TCP outside:10.10.10.1/49979 (10.10.10.1/49979) dmz1:192.168.1.2/2222 (10.10.10.10/2222), flags UIOB, idle 6m29s, uptime 6m37s, timeout 1h0m, bytes 5382
-ciscoasa(config)# 
+ciscoasa(config)#
 
 4c. now from the host of dmz1 site:
 
@@ -144,37 +144,36 @@ Protocol 2
 # note the port is listening 2222 instead of port 22
 
 root@debian7:~# ifconfig eth0
-eth0      Link encap:Ethernet  HWaddr 08:00:27:9f:5a:57  
+eth0      Link encap:Ethernet  HWaddr 08:00:27:9f:5a:57
           inet addr:192.168.1.2  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe9f:5a57/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:800 errors:0 dropped:0 overruns:0 frame:0
           TX packets:626 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:78187 (76.3 KiB)  TX bytes:95157 (92.9 KiB)
 
-root@debian7:~# 
+root@debian7:~#
 
 
 root@debian7:~# netstat -antp
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
-tcp        0      0 0.0.0.0:44875           0.0.0.0:*               LISTEN      1613/rpc.statd  
-tcp        0      0 0.0.0.0:2222            0.0.0.0:*               LISTEN      2689/sshd       
-tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      1582/rpcbind    
-tcp        0      0 0.0.0.0:21              0.0.0.0:*               LISTEN      2436/vsftpd     
-tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      2474/exim4      
-tcp        0    336 192.168.1.2:2222        192.168.1.1:48445       ESTABLISHED 2753/1          
-tcp        0      0 192.168.1.2:2222        10.10.10.1:49979        ESTABLISHED 2708/0          
-tcp6       0      0 :::2222                 :::*                    LISTEN      2689/sshd       
-tcp6       0      0 :::111                  :::*                    LISTEN      1582/rpcbind    
-tcp6       0      0 :::80                   :::*                    LISTEN      2006/apache2    
-tcp6       0      0 ::1:25                  :::*                    LISTEN      2474/exim4      
-tcp6       0      0 :::34431                :::*                    LISTEN      1613/rpc.statd  
-tcp6       0      0 192.168.1.2:80          10.10.10.1:43410        ESTABLISHED 2010/apache2    
-tcp6       0      0 192.168.1.2:80          10.10.10.1:43409        ESTABLISHED 2012/apache2    
-root@debian7:~# 
+tcp        0      0 0.0.0.0:44875           0.0.0.0:*               LISTEN      1613/rpc.statd
+tcp        0      0 0.0.0.0:2222            0.0.0.0:*               LISTEN      2689/sshd
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      1582/rpcbind
+tcp        0      0 0.0.0.0:21              0.0.0.0:*               LISTEN      2436/vsftpd
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      2474/exim4
+tcp        0    336 192.168.1.2:2222        192.168.1.1:48445       ESTABLISHED 2753/1
+tcp        0      0 192.168.1.2:2222        10.10.10.1:49979        ESTABLISHED 2708/0
+tcp6       0      0 :::2222                 :::*                    LISTEN      2689/sshd
+tcp6       0      0 :::111                  :::*                    LISTEN      1582/rpcbind
+tcp6       0      0 :::80                   :::*                    LISTEN      2006/apache2
+tcp6       0      0 ::1:25                  :::*                    LISTEN      2474/exim4
+tcp6       0      0 :::34431                :::*                    LISTEN      1613/rpc.statd
+tcp6       0      0 192.168.1.2:80          10.10.10.1:43410        ESTABLISHED 2010/apache2
+tcp6       0      0 192.168.1.2:80          10.10.10.1:43409        ESTABLISHED 2012/apache2
+root@debian7:~#
 
 see the connection is made at 2222 and www port comming of 10.10.10.1 as asa's outside 10.10.10.10 is passing those toward
 host.
-

@@ -10,7 +10,7 @@
 
  # cd /usr/local/etc/raddb/certs/
  # ./bootstrap
- 
+
 ... now run the radius server
 
  # radiusd -v
@@ -23,7 +23,7 @@ You may redistribute copies of FreeRADIUS under the terms of the
 GNU General Public License.
 For more information about these matters, see the file named COPYRIGHT
 
-... so our freeradius-wpe installation has been complete. now we will configure it 
+... so our freeradius-wpe installation has been complete. now we will configure it
 ... as our requirement. we will just set the default_eap_type=peap in eap.conf file
 ... list below and leave the rest of the file as it is.
 
@@ -39,14 +39,14 @@ client 192.168.1.0/24 {
 }
 
 ... now we will start the radius like below.
- 
+
  # radiusd -s -X
- 
-... if you find the following error then just make sure the radiusd directory is 
-... present on /usr/local/var/run. if not then make radiusd directory with the 
+
+... if you find the following error then just make sure the radiusd directory is
+... present on /usr/local/var/run. if not then make radiusd directory with the
 ... mkdir command.
 
-Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or directory 
+Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or directory
 
 
 ... as we dont have any physical ap we are going to install and setup the hostapd.
@@ -58,7 +58,7 @@ Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or direc
  # ls
 hostapd.conf  ifupdown.sh
 
- # cat -n hostapd.conf 
+ # cat -n hostapd.conf
 
      1	interface=wlan0
      2	driver=nl80211
@@ -77,10 +77,8 @@ hostapd.conf  ifupdown.sh
     15	wpa_key_mgmt=WPA-EAP
     16	channel=1
     17	wpa_pairwise=TKIP CCMP
-  
+
 
 ... now we will start hostapd
 
- # hostapd /etc/hostapd/hostapd.conf 
-
-
+ # hostapd /etc/hostapd/hostapd.conf

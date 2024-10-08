@@ -2,7 +2,7 @@
 
 
 ... installation of puppet in centos 7
-... installation of puppet can be found in 
+... installation of puppet can be found in
 ... https://docs.puppet.com/puppet/latest/puppet_platform.html
 
 [root@localhost network-scripts]# rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
@@ -21,7 +21,7 @@ Loading mirror speeds from cached hostfile
  * extras: centos.myfahim.com
  * updates: centos.myfahim.com
 ===================================================== N/S matched: puppet ================================================
-puppet-agent.x86_64 : The Puppet Agent package contains all of the elements needed to run puppet, including ruby, 
+puppet-agent.x86_64 : The Puppet Agent package contains all of the elements needed to run puppet, including ruby,
 			facter, hiera
                     : and mcollective.
 puppet-release.noarch : Release packages for the Puppet repository
@@ -36,5 +36,3 @@ puppetserver.noarch : Puppet Labs - puppetserver
 ... installing packages related to puppet
 
 [root@localhost network-scripts]# yum install -y puppet puppetdb puppetserver puppetdb-termini
-
-

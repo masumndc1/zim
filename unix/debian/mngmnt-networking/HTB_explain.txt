@@ -1,6 +1,6 @@
 
 
-... the script 
+... the script
 
 #!/bin/bash
 
@@ -13,13 +13,13 @@
  tc class add dev eth1 parent 1:1 classid 1:20 htb rate 150kbit ceil 500kbit burst 15k
  tc class add dev eth1 parent 1:1 classid 1:30 htb rate 50kbit ceil 500kbit burst 15k
 
-# adding sfq type qdisc for the leaf classes  
+# adding sfq type qdisc for the leaf classes
  tc qdisc add dev eth1 parent 1:10 handle 10: sfq perturb 10
  tc qdisc add dev eth1 parent 1:20 handle 20: sfq perturb 10
  tc qdisc add dev eth1 parent 1:30 handle 30: sfq perturb 10
 
 # ... Unclassified traffic gets routed to 30:, which has little bandwidth of its
-# ... own but can borrow everything that is left over. Because we chose 
+# ... own but can borrow everything that is left over. Because we chose
 # ... SFQ internally, we get fairness thrown in for free!
 
 # filtering traffic by u32 for port 80 and port 25
@@ -64,93 +64,91 @@ tc filter add dev eth1 protocol ip parent 1:0 prio 1 handle 1 fw flowid 1:30
 
 root@deb-7:~# iptables -t mangle -L -v -n
 Chain PREROUTING (policy ACCEPT 1048 packets, 802K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
   553 40130 MARK       tcp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x6
   100  7210 MARK       udp  --  eth1   *       192.168.179.0/24     0.0.0.0/0            udp dpt:53 MARK set 0x5
   162  710K MARK       icmp --  eth1   *       192.168.179.0/24     0.0.0.0/0            MARK set 0x1
 
 Chain INPUT (policy ACCEPT 527 packets, 38649 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain FORWARD (policy ACCEPT 518 packets, 763K bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain OUTPUT (policy ACCEPT 530 packets, 83494 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain POSTROUTING (policy ACCEPT 1048 packets, 846K bytes)
- pkts bytes target     prot opt in     out     source               destination         
-root@deb-7:~# 
+ pkts bytes target     prot opt in     out     source               destination
+root@deb-7:~#
 
 # ... and finally the routing
 root@deb-7:~# iptables -t nat -A POSTROUTING -s 192.168.179.0/24 -j SNAT --to-source 192.168.206.128
 
-# ... we can see the natting 
- 
+# ... we can see the natting
+
 root@deb-7:~# iptables -t nat -L -v -n
 Chain PREROUTING (policy ACCEPT 191 packets, 38139 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain INPUT (policy ACCEPT 21 packets, 4178 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain OUTPUT (policy ACCEPT 34 packets, 3490 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
 
 Chain POSTROUTING (policy ACCEPT 31 packets, 2746 bytes)
- pkts bytes target     prot opt in     out     source               destination         
+ pkts bytes target     prot opt in     out     source               destination
   141 30412 SNAT       all  --  *      *       192.168.179.0/24     0.0.0.0/0            to:192.168.206.128
-root@deb-7:~# 
+root@deb-7:~#
 
 # ... now statistic of packets flowing through qdisc and classes
 
 root@deb-7:~# tc -s -d qdisc show dev eth1
 qdisc htb 1: root refcnt 2 r2q 10 default 0 direct_packets_stat 1722 ver 3.17
- Sent 1244935 bytes 3050 pkt (dropped 50625, overlimits 55190 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 10: parent 1:10 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
- Sent 861615 bytes 1157 pkt (dropped 51628, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 20: parent 1:20 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
- Sent 11170 bytes 88 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
- 
-qdisc sfq 30: parent 1:30 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec 
- Sent 82710 bytes 83 pkt (dropped 0, overlimits 0 requeues 0) 
- backlog 0b 0p requeues 0 
-root@deb-7:~# 
+ Sent 1244935 bytes 3050 pkt (dropped 50625, overlimits 55190 requeues 0)
+ backlog 0b 0p requeues 0
+
+qdisc sfq 10: parent 1:10 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec
+ Sent 861615 bytes 1157 pkt (dropped 51628, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+
+qdisc sfq 20: parent 1:20 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec
+ Sent 11170 bytes 88 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+
+qdisc sfq 30: parent 1:30 limit 127p quantum 1514b flows 127/1024 divisor 1024 perturb 10sec
+ Sent 82710 bytes 83 pkt (dropped 0, overlimits 0 requeues 0)
+ backlog 0b 0p requeues 0
+root@deb-7:~#
 
 root@deb-7:~# tc -s -d class show dev eth1
 class htb 1:1 root rate 500000bit ceil 500000bit burst 15Kb/8 mpu
- 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 7 
- Sent 955495 bytes 1328 pkt (dropped 0, overlimits 0 requeues 0) 
- rate 0bit 0pps backlog 0b 0p requeues 0 
+ 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 7
+ Sent 955495 bytes 1328 pkt (dropped 0, overlimits 0 requeues 0)
+ rate 0bit 0pps backlog 0b 0p requeues 0
  lended: 0 borrowed: 0 giants: 0
  tokens: 3460000 ctokens: 20000
 
 class htb 1:10 parent 1:1 leaf 10: prio 0 quantum 1000 rate 20000bit
- ceil 20000bit burst 15Kb/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0 
- Sent 2046444 bytes 2160 pkt (dropped 50625, overlimits 0 requeues 0) 
- rate 0bit 0pps backlog 0b 0p requeues 0 
+ ceil 20000bit burst 15Kb/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0
+ Sent 2046444 bytes 2160 pkt (dropped 50625, overlimits 0 requeues 0)
+ rate 0bit 0pps backlog 0b 0p requeues 0
  lended: 1157 borrowed: 0 giants: 0
  tokens: 76726462 ctokens: -9273538
 
 class htb 1:20 parent 1:1 leaf 20: prio 0 quantum 1000 rate 10000bit
- ceil 10000bit burst 15Kb/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0 
- Sent 11170 bytes 88 pkt (dropped 0, overlimits 0 requeues 0) 
- rate 0bit 0pps backlog 0b 0p requeues 0 
+ ceil 10000bit burst 15Kb/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0
+ Sent 11170 bytes 88 pkt (dropped 0, overlimits 0 requeues 0)
+ rate 0bit 0pps backlog 0b 0p requeues 0
  lended: 88 borrowed: 0 giants: 0
  tokens: 189800000 ctokens: 17800000
 
 class htb 1:30 parent 1:1 leaf 30: prio 0 quantum 1000 rate 10000bit
- ceil 10000bit burst 1600b/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0 
- Sent 82710 bytes 83 pkt (dropped 0, overlimits 0 requeues 0) 
- rate 0bit 0pps backlog 0b 0p requeues 0 
+ ceil 10000bit burst 1600b/8 mpu 0b overhead 0b cburst 1600b/8 mpu 0b overhead 0b level 0
+ Sent 82710 bytes 83 pkt (dropped 0, overlimits 0 requeues 0)
+ rate 0bit 0pps backlog 0b 0p requeues 0
  lended: 83 borrowed: 0 giants: 0
  tokens: 6900000 ctokens: 6900000
 
-root@deb-7:~# 
-
-
+root@deb-7:~#

@@ -11,7 +11,7 @@ include:
  - .srvce
  - .file
  - .debian
-→ 
+→
 ... and in the debian.sls file, our state declarations are there
 
 → cat debian.sls
@@ -22,12 +22,12 @@ debian:
 mydebian:
   docker_container.running:
     - image: debian
-    - sls: 
+    - sls:
        - nginx
        - vim
     - port_bindings: {8080: 80}
     - command: sleep infinity
- 
+
 → cat nginx.sls
 nginx:
  pkg.installed
@@ -35,15 +35,7 @@ nginx:
 → cat vim.sls
 vim:
   pkg.installed
-→ 
+→
 
 ... we havenot added nginx.sls and vim.sls in top.sls file because that will
 ... execute nginx and vim in docker-master node. not in the container node.
-
-
-
-
-
-
-
-

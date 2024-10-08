@@ -4,15 +4,15 @@
 
 ... we have following things with us when configuring the cgi to run pythong programs.
 
-.... first of all the modules 
+.... first of all the modules
 
 root@deb-7:/etc/apache2/mods-enabled# ls mime*
 mime.conf  mime.load  mime_magic.conf  mime_magic.load
-root@deb-7:/etc/apache2/mods-enabled# 
+root@deb-7:/etc/apache2/mods-enabled#
 root@deb-7:/etc/apache2/mods-enabled# ls cgi*
 cgi.load  cgid.conf  cgid.load
-root@deb-7:/etc/apache2/mods-enabled# 
-root@deb-7:/etc/apache2/mods-enabled# 
+root@deb-7:/etc/apache2/mods-enabled#
+root@deb-7:/etc/apache2/mods-enabled#
 
 ... the config file of apache sites-enables
 
@@ -20,7 +20,7 @@ root@deb-7:/etc/apache2/mods-enabled# cat ../sites-enabled/000-default.conf
 <VirtualHost *:80>
 	ServerAdmin webmaster@localhost
 	DocumentRoot /var/www
-	
+
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride None
@@ -41,14 +41,14 @@ root@deb-7:/etc/apache2/mods-enabled# cat ../sites-enabled/000-default.conf
 		Allow from all
 		AddHandler cgi-script .py
 	</Directory>
-	
+
 	LogLevel warn
 	ErrorLog ${APACHE_LOG_DIR}/error.log
 	CustomLog ${APACHE_LOG_DIR}/access.log combined
-	
+
 </VirtualHost>
 
-root@deb-7:/etc/apache2/mods-enabled# 
+root@deb-7:/etc/apache2/mods-enabled#
 
 ... some say programmes file (*.py)  should be placed in /usr/lib/cgi-bin. in that case
 ... place your all program to /usr/lib/cgi-bin and alias the folder in apache conf
@@ -61,14 +61,14 @@ root@deb-7:/etc/apache2/mods-enabled#
 root@deb-7:/etc/apache2/mods-enabled# mkdir /var/www/cgi-bin
 root@deb-7:/etc/apache2/mods-enabled# cp /var/www/index.py /var/www/cgi-bin/
 root@deb-7:/etc/apache2/mods-enabled# cp /var/www/masum.py /var/www/cgi-bin/
-root@deb-7:/etc/apache2/mods-enabled# 
+root@deb-7:/etc/apache2/mods-enabled#
 
 
 root@deb-7:/etc/apache2/mods-enabled# cd /var/www
 root@deb-7:/var/www# ls
 cgi-bin  html  index.html  index.py  masum.py  restricted.txt
-root@deb-7:/var/www# 
-root@deb-7:/var/www# cat index.py 
+root@deb-7:/var/www#
+root@deb-7:/var/www# cat index.py
 #!/usr/bin/python
 
 #import sys
@@ -83,10 +83,10 @@ print (
 <html>
 <head>
 
-<style> 
-h1 { 
-color: red ;  
-} 
+<style>
+h1 {
+color: red ;
+}
 
 pre {
 color: blue;
@@ -106,19 +106,19 @@ x = -1
 scope = vars()
 for i in a:
     scope['x']+=1
-    print ( a[x]) 
+    print ( a[x])
 
 for b in 'masum':
 	print (b) ;
 
 print("\n", time.localtime())
 print ("</pre></body></html>")
-root@deb-7:/var/www# 
+root@deb-7:/var/www#
 
 root@deb-7:/var/www# cd cgi-bin/
 root@deb-7:/var/www/cgi-bin# ls
 index.py  masum.py
-root@deb-7:/var/www/cgi-bin# cat masum.py 
+root@deb-7:/var/www/cgi-bin# cat masum.py
 #!/usr/bin/python
 
 #import sys
@@ -133,10 +133,10 @@ print (
 <html>
 <head>
 
-<style> 
-h1 { 
-color: red ;  
-} 
+<style>
+h1 {
+color: red ;
+}
 
 pre {
 color: blue;
@@ -156,21 +156,20 @@ x = -1
 scope = vars()
 for i in a:
     scope['x']+=1
-    print ( a[x]) 
+    print ( a[x])
 
 for b in 'masum':
 	print (b) ;
 
 print("\n", time.localtime())
 print ("</pre></body></html>")
-root@deb-7:/var/www/cgi-bin# 
+root@deb-7:/var/www/cgi-bin#
 
-... the syntax in the .py files are extremely important here. otherwise 
-... the programme will not run and apache cant handle the cgi. 
+... the syntax in the .py files are extremely important here. otherwise
+... the programme will not run and apache cant handle the cgi.
 
 .... now test them
 ...
 ... we can test them like http://localhost/cgi-bin/masum.py as the masum.py
 ... is in /var/www/cgi-bin/masum.py. also there is another index.py in
 ... /var/www/ then we can browse http://localhost/index.py
-

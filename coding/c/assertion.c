@@ -7,7 +7,7 @@ int do_status (void) {
   return 1;
 }
 
-int 
+int
 main (void)
 {
   int status = 1;
@@ -20,4 +20,3 @@ main (void)
      assert (do_status());
   }
 }
-

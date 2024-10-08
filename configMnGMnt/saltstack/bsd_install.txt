@@ -13,5 +13,3 @@ sysrc salt_minion_enable="YES"
 ... Start the Salt Minion as follows:
 
 service salt_minion start
-
-

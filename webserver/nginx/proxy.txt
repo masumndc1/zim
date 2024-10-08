@@ -5,9 +5,9 @@
 ... we are using nginx and apache on the same server but on different ports.
 ... nginx will listen on default 80 port but apache will do on 8080 port.
 ...
-... therefore we are configurating as say when connections come in 
+... therefore we are configurating as say when connections come in
 ... https://<server_ip>/masum will go to apache on the same server.
-... there are various options we can use with nginx proxy server as 
+... there are various options we can use with nginx proxy server as
 ... well as load balancing.
 
 http {
@@ -46,8 +46,8 @@ upstream balancing {
 
 }
 
-... therefore when request comes for https://<server_ip> it will 
-... proxy to http://<server_ip>:8080 which is apache server. 
+... therefore when request comes for https://<server_ip> it will
+... proxy to http://<server_ip>:8080 which is apache server.
 
 ... there are many options possible with upstream like below.
 
@@ -67,6 +67,3 @@ upstream balancing {
         server 192.168.10.131:8081;
         server 192.168.10.132:8082;
 }
-
-
-

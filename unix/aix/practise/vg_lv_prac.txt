@@ -26,7 +26,7 @@
 #varyoffvg anjvg
 
 ----To check
-#lsvg -o 
+#lsvg -o
 #lsvg
 
 ----To Activate a vg
@@ -36,7 +36,7 @@
 #lsvg -o
 #lsvg
 
-----To view the pvs in a vg 
+----To view the pvs in a vg
 
 #lsvg -p anjvg
 
@@ -46,7 +46,7 @@
 
 ----To create a logical volume in sapvg
 
-# mklv -y anjlv anjvg 64m 
+# mklv -y anjlv anjvg 64m
 #lsvg -l anjvg
 
 #mklv -t jfs2 -y anjlv1 anjvg 64m
@@ -74,12 +74,12 @@
 #lslv -m anjlv
 
 To add a filesystem in the volume group with mount point
-#crfs -v jfs -A yes -d /dev/anjlv -m /anjlv 
+#crfs -v jfs -A yes -d /dev/anjlv -m /anjlv
 
 #lsvg -l anjvg|grep anjlv    ----->showing close
 
 
-To mount the filesystem 
+To mount the filesystem
 #mount /anjlv
 
 #lsvg -l sapvg|grep newlv    ----->showing open
@@ -88,7 +88,7 @@ To check the filesystem
 #df -m /anjlv
 
 #cat /etc/filesystems|grep -ip anjlv
- 
+
 
 #lsfs
 
@@ -99,4 +99,3 @@ To increase the size of the lv
 #lslv -m anjlv
 
 #df -m /anjlv
-

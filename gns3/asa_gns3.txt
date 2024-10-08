@@ -9,9 +9,9 @@ Qemu Options: **-vnc none -vga none -m 1024 -icount auto -hdachs 980,16,32**
 Kernel cmd line: **-append ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nousb console=ttyS0,9600 bigphysarea=65536**
 
 
-ciscoasa> 
+ciscoasa>
 ciscoasa> **ena**
-Password: 
+Password:
 ciscoasa# **activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5**
 ciscoasa# **reload**
 ciscoasa# **activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6**
@@ -24,11 +24,11 @@ INFO: UC proxy will be limited to maximum of 10 sessions by the UC Proxy license
 
 INFO: "tls-proxy maximum-sessions" config is changed, please save the running-config before system reboot
 Both Running and Flash permanent activation key was updated with the requested key.
-ciscoasa# 
+ciscoasa#
 ciscoasa# **copy run start**
 
-Source filename [running-config]? 
-Cryptochecksum: 215bacd5 82b12218 cd2f2115 07bf6beb 
+Source filename [running-config]?
+Cryptochecksum: 215bacd5 82b12218 cd2f2115 07bf6beb
 
 2170 bytes copied in 0.700 secs
-ciscoasa# 
+ciscoasa#

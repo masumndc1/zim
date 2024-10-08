@@ -1,6 +1,5 @@
 
 
-F5 (LTM, DNS, APM & ASM). 
+F5 (LTM, DNS, APM & ASM).
 vyattas
 ;w
-

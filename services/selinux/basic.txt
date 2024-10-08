@@ -23,5 +23,3 @@ selinux-policy-mls-3.13.1-192.el7_5.3.noarch
 libselinux-utils-2.5-12.el7.x86_64
 selinux-policy-targeted-3.13.1-192.el7_5.3.noarch
 [root@localhost ~]#
-
-

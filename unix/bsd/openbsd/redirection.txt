@@ -4,31 +4,31 @@
 ............................ redirection ...........................
 
 
--bash-4.3# cat -n pf.conf 
+-bash-4.3# cat -n pf.conf
      1  #       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
      2  #
      3  # See pf.conf(5) and /etc/examples/pf.conf
-     4  
+     4
      5  set skip on lo
      6  ext_if = em0
      7  int_if = vic0
-     8  
+     8
      9  localnet = $int_if:network
-    10  
+    10
     11  table <webserver> persist { 192.168.244.132, 192.168.244.147 }
-    12  
+    12
     14  udp_services = "{ domain, ntp }"
     16  client_services = "{ ftp, ssh, smtp, domain, www, pop3, auth, https, pop3s }"
-    17  
+    17
     18  block all
 
-.. these following two lines, line no 19 and line no.20 are important. the first line 
+.. these following two lines, line no 19 and line no.20 are important. the first line
 .. is telling to redirect the
 .. traffic matched incoming to tcp www and https to ext_if outside) interface to be
 .. redirect to <webserver> pools.
 
 .. and the second line, number 20 is allowing that traffic to pass.
- 
+
     19  match in on $ext_if proto tcp to port { www, https } rdr-to <webserver> round-robin
     20  pass on $ext_if proto tcp to port { www, https }
 
@@ -40,27 +40,27 @@
     24  pass log (all) proto tcp to port $client_services label "pass in"
     25  pass log (all) quick inet proto { tcp, udp } to port $udp_services label "dns"
     26  pass log (all) proto icmp label "icmp" keep state (pflow)
-    27  #pass log (all) proto tcp to port ssh 
-    28  pass log (all) proto icmp 
-    29  
+    27  #pass log (all) proto tcp to port ssh
+    28  pass log (all) proto icmp
+    29
     30  #pass proto tcp from vic0:network to port $tcp_services
     31  #pass proto udp from vic0:network to port $udp_services
     32  #pass proto $icmp_services from vic0:network
-    33  
+    33
     34  #pass out all keep state
-    35  
+    35
     36  #block return   # block stateless traffic
     37  #pass           # establish keep-state
-    38  
+    38
     39  #table <masum> persist file "/etc/hosts"
     40  # By default, do not permit remote connections to X11
     41  block return in on ! lo0 proto tcp to port 6000:6010
--bash-4.3# 
+-bash-4.3#
 
--bash-4.3# 
--bash-4.3# pfctl -d 
+-bash-4.3#
+-bash-4.3# pfctl -d
 pf disabled
--bash-4.3# pfctl -evf /etc/pf.conf 
+-bash-4.3# pfctl -evf /etc/pf.conf
 set skip on { lo }
 ext_if = "em0"
 int_if = "vic0"
@@ -96,8 +96,8 @@ pass log (all) proto icmp all keep state (pflow) label "icmp"
 pass log (all) proto icmp all
 block return in on ! lo0 proto tcp from any to any port 6000:6010
 pf enabled
--bash-4.3# 
--bash-4.3# 
+-bash-4.3#
+-bash-4.3#
 
 .. corresponding tcpdump traffic when we browse http://192.168.35.20 which is ext_if
 .. external ip of the openbsd. also it round robin the webpage.
@@ -121,8 +121,8 @@ Nov 10 17:40:51.492471 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 97
 
 .. the previous method of redirection does not detect the availability of servers
 .. from the pools. rather it keep trying to hit on a out of reach of the servers.
-.. this problem can be resolved by the service relayed comes with bsd. relayd 
-.. monitors the hosts from the pools and staves it off when it is down. 
+.. this problem can be resolved by the service relayed comes with bsd. relayd
+.. monitors the hosts from the pools and staves it off when it is down.
 .. it can add or minus the host from the table of host from pf configuration.
 .. it interact with pf configuration by special purpose of anchor relayd.
 
@@ -130,20 +130,16 @@ Nov 10 17:40:51.492471 192.168.244.132.80 > 192.168.35.1.47890: . ack 428 win 97
 
 -bash-4.3# relayd -n
 pushfile: /etc/relayd.conf: No such file or directory
--bash-4.3# 
+-bash-4.3#
 
 -bash-4.3# relayd -n
 no actions, nothing to do
--bash-4.3# cat -n /etc/relayd.conf 
+-bash-4.3# cat -n /etc/relayd.conf
      1  web1="192.168.244.132"
      2  web2="192.168.244.147"
--bash-4.3# 
+-bash-4.3#
 -bash-4.3# relayd -n
 no actions, nothing to do
--bash-4.3# 
+-bash-4.3#
 
 ... will be done later...in complete....
-
-
-
-

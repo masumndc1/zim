@@ -3,19 +3,19 @@
 ... allow ping in a particular interface
 
 root# set security zones security-zone untrust interfaces ge-0/0/1.0 host-inbound-traffic
-system-services ping  
+system-services ping
 
-root# run show config 
-               
-                }                       
-                ge-0/0/1.0 {            
+root# run show config
+
+                }
+                ge-0/0/1.0 {
                     host-inbound-traffic {
                         system-services {
-                            dhcp;       
-                            ping;       
-                        }      
+                            dhcp;
+                            ping;
+                        }
 
 root# run show config | display set
 
 root# set security zones security-zone untrust interfaces ge-0/0/1.0 host-inbound-traffic
-system-services ping  
+system-services ping

@@ -1,26 +1,24 @@
 
 
-// say we need to create a virtual servers and 
+// say we need to create a virtual servers and
 // some pool of members associated with it.
 
-1. create the pools 
+1. create the pools
 
 local traffic/ pools/ pools list and click on create
 add the name and the servers ip address and the ports
 
 2. virtual servers
 
-local traffic/ virtual servers/ server list 
-click on create. enter the name/ destination address/ 
-service port/ and select from the pools 
+local traffic/ virtual servers/ server list
+click on create. enter the name/ destination address/
+service port/ and select from the pools
 
 now its all done.
 
 3. now try to connect to the virtual address ip
-from the browser and see what happens. it should come 
+from the browser and see what happens. it should come
 
 *** for the auto mapping just select on the auto map
 for the source address translation. this auto mapping
 can be found in the virtual server creation list ***
-
-

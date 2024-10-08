@@ -11,7 +11,7 @@
 
 ... Set default session to Xfce.
 
-# pwd  
+# pwd
 /etc/lxdm
 
 # which startxfce4
@@ -26,5 +26,3 @@
 ... and finally reboot to the system
 
 # reboot
-
-

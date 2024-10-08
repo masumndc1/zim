@@ -46,7 +46,3 @@ MAC Address: 00:0C:29:40:F0:05 (VMware)
 Nmap done: 1 IP address (1 host up) scanned in 2.44 seconds
 ┌─[root@parrot]─[/modules/auxiliary/scanner/portscan]
 └──╼ #
-
-
-
-

@@ -1,12 +1,12 @@
 
 
-... we can see that the definition is very similar to a Replication Controller. 
-... The main difference is that we now have an ability to make changes and 
-... updates to the deployment objects and let Kubernetes manage updating the 
+... we can see that the definition is very similar to a Replication Controller.
+... The main difference is that we now have an ability to make changes and
+... updates to the deployment objects and let Kubernetes manage updating the
 ... underlying pods and replicas for us:
 ... we can also update the image and rollout during a deployment is running.
 
-[root@kube-master kube]# cat node-js-deploy-service.yaml 
+[root@kube-master kube]# cat node-js-deploy-service.yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -39,7 +39,7 @@ spec:
      sessionAffinity: ClientIP
      selector:
        name: node-js-deploy
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 ... scaling the deployment if we need. changing image and watching rollout status
 
@@ -50,12 +50,12 @@ spec:
 
 ... undoing rollout
 
-masum@controller:~$ kubectl rollout history deployments pu-dv1 
-deployment.apps/pu-dv1 
+masum@controller:~$ kubectl rollout history deployments pu-dv1
+deployment.apps/pu-dv1
 REVISION  CHANGE-CAUSE
 1         <none>
 
-masum@controller:~$ 
+masum@controller:~$
 masum@controller:~$ kubectl rollout history deployments pu-dv1 --revision=1
 deployment.apps/pu-dv1 with revision #1
 Pod Template:
@@ -70,7 +70,7 @@ Pod Template:
     Mounts:     <none>
   Volumes:      <none>
 
-masum@controller:~$ 
+masum@controller:~$
 [root@kube-master kube]# kubectl rollout undo deployment/node-js-deploy
 
 ... list of deployment
@@ -87,28 +87,28 @@ nginx-on         3         0         0            0           6d
 nginx-test       3         4         2            0           6d
 node-js-deploy   1         1         1            1           1h
 rc               2         2         2            0           1d
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
-... for my example, when i have changed pod containers ports from 8080 to 80 
+... for my example, when i have changed pod containers ports from 8080 to 80
 ... and run again "kubectl apply -f files/nginx/pu-dv1.yml" its update
 ... automatically itself
 
 masum@controller:~$ k get deployment -o wide
 NAME     READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES         SELECTOR
 pu-dv1   4/4     4            4           3d23h   pu-dv1       nginx:latest   app=pu-dv1
-masum@controller:~$ 
+masum@controller:~$
 
-masum@controller:~$ kubectl apply -f files/puppet/pu-dv1.yml   
+masum@controller:~$ kubectl apply -f files/puppet/pu-dv1.yml
 deployment.apps/pu-dv1 unchanged
 service/pu-dv1 unchanged
-The Pod "pu-dv1" is invalid: 
-mage`, `spec.activeDeadlineSeconds`, `spec.tolerations` (only additions to existing tolerations) 
+The Pod "pu-dv1" is invalid:
+mage`, `spec.activeDeadlineSeconds`, `spec.tolerations` (only additions to existing tolerations)
 or `spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
     core.PodSpe{
-            Volumes:        {{Name: "kube-api-access-zbdqd", VolumeSource: {Projected: 
-            &{Sources: {{ServiceAccountToken: &{ExpirationSeconds: 3607, Path: "token"}}, 
-            {ConfigMap: &{LocalObjectReference: {Name: "kube-root-ca.crt"}, Items: 
-            {{Key: "ca.crt", Path: "ca.crt"}}}}, {DownwardAPI: &{Items: {{Path: "namespace", 
+            Volumes:        {{Name: "kube-api-access-zbdqd", VolumeSource: {Projected:
+            &{Sources: {{ServiceAccountToken: &{ExpirationSeconds: 3607, Path: "token"}},
+            {ConfigMap: &{LocalObjectReference: {Name: "kube-root-ca.crt"}, Items:
+            {{Key: "ca.crt", Path: "ca.crt"}}}}, {DownwardAPI: &{Items: {{Path: "namespace",
             FieldRef: &{APIVersion: "v1", FieldPath: "metadata.namespace"}}}}}}, DefaultMode: &420}}}},
                     InitContainers: nil,
                             Containers: []core.Container{
@@ -125,7 +125,7 @@ or `spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previ
 masum@controller:~$ k get svc pu-dv1 -o wide
 NAME     TYPE        CLUSTER-IP     EXTERNAL-IP      PORT(S)    AGE   SELECTOR
 pu-dv1   ClusterIP   10.106.18.86   192.168.20.168   9024/TCP   17m   app=pu-dv1
-masum@controller:~$ 
+masum@controller:~$
 
 masum@controller:~$ curl http://192.168.20.168:9024
 <!DOCTYPE html>
@@ -151,17 +151,17 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
-masum@controller:~$ 
+masum@controller:~$
 
 ... watching history
 
 masum@controller:~$ kubectl rollout history deployment pu-dv1
-deployment.apps/pu-dv1 
+deployment.apps/pu-dv1
 REVISION  CHANGE-CAUSE
 1         <none>
 2         <none>
 
-masum@controller:~$ 
+masum@controller:~$
 
 masum@controller:~$ kubectl rollout history deployment pu-dv1 --revision=1
 deployment.apps/pu-dv1 with revision #1
@@ -190,5 +190,3 @@ Pod Template:
     Environment:        <none>
     Mounts:     <none>
   Volumes:      <none>
-
-

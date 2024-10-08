@@ -2,7 +2,7 @@
 
 ... the sample copy of the .profile file is below.
 
--bash-4.3# cat .profile 
+-bash-4.3# cat .profile
 # $OpenBSD: dot.profile,v 1.9 2010/12/13 12:54:31 millert Exp $
 #
 # sh/ksh initialization
@@ -26,9 +26,8 @@ case "$-" in
 esac
 
 export PKG_PATH=http://ftp.openbsd.org/pub/OpenBSD/`uname -r`/packages/`uname -m`/
--bash-4.3# 
+-bash-4.3#
 
 ... the export line is saying that from where to download the packages for
 ... openbsd. another options is saying where to find the command for logged user
 ... by the PATH.
-

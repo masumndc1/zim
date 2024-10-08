@@ -6,21 +6,21 @@ pkg install doas
 
 $ cat /usr/local/etc/doas.conf
 permit nopass keepenv masum as root
-$ 
+$
 
-... if you need to give privilege to run a single command 
+... if you need to give privilege to run a single command
 ... to an user do following.
 
-$ cat /usr/local/etc/doas.conf 
+$ cat /usr/local/etc/doas.conf
 permit nopass keepenv masum cmd shutdown
-$ 
+$
 
 ... you can combine both of them as follows.
 
 $ cat /usr/local/etc/doas.conf
 permit nopass keepenv masum as root
 permit nopass keepenv masum cmd shutdown
-$ 
+$
 
 ... nopass: no asking user masum for pass
 ... persist: to keep session for a while
@@ -31,5 +31,3 @@ $
 ... then we can run any command as root
 
 $ doas pkg install htop
-
-

@@ -2,8 +2,8 @@
 ciscoasa(config)# crypto key generate rsa modulus 1024
 INFO: The name for the keys will be: <Default-RSA-Key>
 Keypair generation process begin. Please wait...
-ciscoasa(config)# 
-ciscoasa(config)# 
+ciscoasa(config)#
+ciscoasa(config)#
 ciscoasa(config)# ssh ?
 
 configure mode commands/options:
@@ -28,8 +28,8 @@ Current available interface(s):
   outside  Name of interface Ethernet0
 
 ciscoasa(config)# ssh 0 0 outside
-ciscoasa(config)# 
-ciscoasa(config)# 
+ciscoasa(config)#
+ciscoasa(config)#
 ciscoasa(config)# aaa authentication ?
 
 configure mode commands/options:
@@ -65,8 +65,8 @@ ciscoasa(config)# aaa authentication ssh console LOCAL ?
 
 configure mode commands/options:
   <cr>
-ciscoasa(config)# aaa authentication ssh console LOCAL 
-ciscoasa(config)# 
-ciscoasa(config)# username masum password masum03 privilege 15 
-ciscoasa(config)# 
-ciscoasa(config)# 
+ciscoasa(config)# aaa authentication ssh console LOCAL
+ciscoasa(config)#
+ciscoasa(config)# username masum password masum03 privilege 15
+ciscoasa(config)#
+ciscoasa(config)#

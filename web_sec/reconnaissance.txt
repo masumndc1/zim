@@ -13,7 +13,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.01 seconds
 root@kali:~#
 
 ... found the ping is ok. but not responding to ping, does not mean
-... that the server/service is down. 
+... that the server/service is down.
 
 ... now checking which service is up on bwa.
 
@@ -59,7 +59,7 @@ PORT     STATE SERVICE     VERSION
 
 ... nmap is the best scanner so far but there are many others.
 
-... unicornscan 
+... unicornscan
 ... hping3
 ... masscan
 ... amap
@@ -201,7 +201,7 @@ root@kali:~#
 
 ... using CeWL to create password file from an application.
 
-... cewl crawl webside to see multiple incident of word to make one word 
+... cewl crawl webside to see multiple incident of word to make one word
 ... list. this list can then be used for brute force attack.
 
 
@@ -235,11 +235,11 @@ person, 18
   john --stdout --wordlist=cewl.lst
   john --stdout --wordlist=cewl.lst --rules
   john --stdout --wordlist=cewl.lst --rules > john_cewl.lst
- 
-... in first line we just stdout word list taking words from previously 
+
+... in first line we just stdout word list taking words from previously
 ... made cewl.lst file. then 2nd line we applied rules on that stdout
 ... to and stored new file john_cewl.lst file for future use. john with
-... rules option just applied permutation and combination on the word 
+... rules option just applied permutation and combination on the word
 ... from cewl.lst and make new word based on john's own rules.
 ... john's rules can be defined in the /etc/john/john.conf file in kali.
 ... more information can be found regarding john in the following web page.
@@ -250,10 +250,3 @@ person, 18
 ... zap. zap has many other options for web application auditing.
 
 ... another tools we can use is burpsuite.
-
-
-
-
-
-
-

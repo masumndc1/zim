@@ -1,6 +1,6 @@
 
 
-... in centos7 
+... in centos7
 
 ... running following if we have previously installed docker
 
@@ -14,7 +14,7 @@ No Match for argument: docker-common
 No Match for argument: docker-selinux
 No Match for argument: docker-engine
 No Packages marked for removal
-[root@salt ~]# 
+[root@salt ~]#
 
 ... installing some supportive packages
 
@@ -31,7 +31,7 @@ Package yum-utils-1.1.31-42.el7.noarch already installed and latest version
 Package device-mapper-persistent-data-0.7.0-0.1.rc6.el7.x86_64 already installed and latest version
 Package 7:lvm2-2.02.171-8.el7.x86_64 already installed and latest version
 Nothing to do
-[root@salt ~]# 
+[root@salt ~]#
 
 ... adding docker repo and enabling it.
 
@@ -42,8 +42,8 @@ Loaded plugins: fastestmirror
 adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
 grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
 repo saved to /etc/yum.repos.d/docker-ce.repo
-[root@salt ~]# 
-[root@salt ~]# 
+[root@salt ~]#
+[root@salt ~]#
 [root@salt ~]# yum-config-manager --enable docker-ce-edge
 Loaded plugins: fastestmirror
 ============================================== repo: docker-ce-edge ==============================================
@@ -60,6 +60,3 @@ async = True
 ... and install it by using "yum install *docker*.rpm" command.
 
 https://download.docker.com/linux/centos/7/x86_64/stable/Packages/
-
-
-

@@ -19,8 +19,8 @@
 # wget -c https://www.openinfosecfoundation.org/download/suricata-4.0.4.tar.gz
 # tar zxvf suricata-4.0.4.tar.gz
 # cd suricata-4.0.4
-# ./configure 
-# make 
+# ./configure
+# make
 # make install
 
 ... or we need to install configuration file and download the rulez too.
@@ -40,7 +40,7 @@ tar -x -z -C "/usr/local/etc/suricata/" -f -
 
 https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Rule_Management_with_Oinkmaster
 
-[root@localhost suricata-4.0.4]# 
+[root@localhost suricata-4.0.4]#
 
 ... starting suricata
 
@@ -51,17 +51,17 @@ https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Rule_Management
 ... this is an instance of suricata without any changes in configuration file.
 ... and above out shows that suricata is running fine with the default configuration.
 
-... This will install Suricata into 
-... /usr/local/bin/, 
-... the default configuration in /usr/local/etc/suricata/ 
+... This will install Suricata into
+... /usr/local/bin/,
+... the default configuration in /usr/local/etc/suricata/
 ... and will output to /usr/local/var/log/suricata
 
 ... log files are from
 
 [root@suricata suricata]# pwd
 /usr/local/var/log/suricata
-[root@suricata suricata]# 
-[root@suricata suricata]# tail -f stats.log 
+[root@suricata suricata]#
+[root@suricata suricata]# tail -f stats.log
 app_layer.tx.dns_udp                       | Total                     | 3
 app_layer.flow.failed_udp                  | Total                     | 421
 flow_mgr.new_pruned                        | Total                     | 121
@@ -73,7 +73,7 @@ tcp.memuse                                 | Total                     | 1720320
 tcp.reassembly_memuse                      | Total                     | 245760
 flow.memuse                                | Total                     | 7075456
 
-[root@suricata suricata]# tail -f suricata.log 
+[root@suricata suricata]# tail -f suricata.log
 28/5/2018 -- 10:23:55 - <Notice> - This is Suricata version 4.0.4 RELEASE
 28/5/2018 -- 10:24:00 - <Notice> - all 3 packet processing threads, 4 management threads initialized, engine started.
 28/5/2018 -- 10:24:11 - <Notice> - Signal Received.  Stopping engine.
@@ -86,9 +86,7 @@ flow.memuse                                | Total                     | 7075456
 
 ... installing suricata using yum
 
-[root@suricata /]# yum install epel-release 
+[root@suricata /]# yum install epel-release
 [root@suricata /]# yum install suricata pulledpork
 
 ... using yum is the simplest way to install suricata.
-
- 

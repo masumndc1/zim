@@ -18,9 +18,5 @@ root@onion:/etc/init.d#
 
 ... network-miner
 =================
-... run network miner from security oninon icon at the top 
+... run network miner from security oninon icon at the top
 ... and load nitroba.pcap from file>open> select the location of pcap file.
-
-
-
-

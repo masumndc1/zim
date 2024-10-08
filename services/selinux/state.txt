@@ -17,7 +17,7 @@ SELINUXTYPE=targeted
 ... the other states are permissive and disabled.
 ... in our settings the policy is targeted.
 
-... in permissive state any violation will be logged and reported and 
+... in permissive state any violation will be logged and reported and
 ... it will not impose any policy on the system.
 
 ... in enforcing state selinux will enforce its policy and
@@ -59,11 +59,11 @@ ipmievd_t
 targetd_t
 [root@localhost masum]#
 
-... and to see full list of services are now under control of selinux we can run 
+... and to see full list of services are now under control of selinux we can run
 
 [root@localhost masum]# ps -eZ
 
-... 
+...
 ... from this list, if we need, can exclude any domain out of selinux control to
 ... run as if, it is running on a selinux disabled system.
 ... for example one service minildna_t .
@@ -87,7 +87,7 @@ targetd_t
 
 ... knowing if any application if selinux aware or not.
 ... we check it by seeing weather any services linked with libselinux
-... the application which is selinux aware can change the behaviour 
+... the application which is selinux aware can change the behaviour
 ... knowing any application is selinux aware helps to troubleshoot them
 
 [root@localhost masum]# ldd /bin/ls | grep selinux
@@ -95,10 +95,3 @@ targetd_t
 [root@localhost masum]#
 
 ...
-
-
-
-
-
-
-

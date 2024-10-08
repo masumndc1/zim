@@ -1,17 +1,17 @@
 #### vtp pruning
 
 
-without going much details of the vtp pruning just its need to 
+without going much details of the vtp pruning just its need to
 mention that vtp pruning disable unnecessary brodcast of a vlan
 in a trunk port.
 
 by default vtp pruning is disabled. so we need to enable it.
-if we enable vtp pruning in a server then it advertises all 
+if we enable vtp pruning in a server then it advertises all
 the client that vtp needs to be enable in a particular domain.
 
 1. configure pruning
 
-R1-SW#vlan database 
+R1-SW#vlan database
 
 R1-SW(vlan)#vtp ?
   client       Set the device to client mode.
@@ -29,7 +29,7 @@ R1-SW(vlan)#vtp pruning ?
 R1-SW(vlan)#vtp pruning v2-mode ?
   <cr>
 
-R1-SW(vlan)#vtp pruning v2-mode 
+R1-SW(vlan)#vtp pruning v2-mode
 
 Pruning switched ON
 V2 mode already enabled.
@@ -38,7 +38,7 @@ R1-SW(vlan)#exit
 APPLY completed.
 Exiting....
 
-R1-SW#show vtp counters 
+R1-SW#show vtp counters
 VTP statistics:
 Summary advertisements received    : 2
 Subset advertisements received     : 2
@@ -56,7 +56,7 @@ VTP pruning statistics:
 Trunk            Join Transmitted Join Received    Summary advts received from
                                                    non-pruning-capable device
 ---------------- ---------------- ---------------- ---------------------------
-Fa1/0               1                1                0        
+Fa1/0               1                1                0
 R1-SW#
 
 configuring pruning is simple and is global and applicable for
@@ -70,7 +70,7 @@ Switch(config-if)# switchport trunk pruning vlan {{{add | except |
 
 ### on the client
 
-R6-SW#show vtp counters 
+R6-SW#show vtp counters
 VTP statistics:
 Summary advertisements received    : 6
 Subset advertisements received     : 2
@@ -88,7 +88,5 @@ VTP pruning statistics:
 Trunk            Join Transmitted Join Received    Summary advts received from
                                                    non-pruning-capable device
 ---------------- ---------------- ---------------- ---------------------------
-Fa1/0               3                3                0        
+Fa1/0               3                3                0
 R6-SW#
-
-

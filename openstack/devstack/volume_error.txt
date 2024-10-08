@@ -17,19 +17,17 @@ apt-get install -y python-systemd
 ... edit the sudo file
 "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
 
-sudo su -l stack 
+sudo su -l stack
 
 ... we have to see vg group name matches with the system in
 ... /etc/cinder/cinder.conf file
 
 ... run vgdisplay and change in /etc/cinder/cinder.conf file.
 
-stack@:~$ grep -i Volume_group /etc/cinder/cinder.conf 
+stack@:~$ grep -i Volume_group /etc/cinder/cinder.conf
 volume_group = stack-volumes-lvmdriver-1
 stack@:~$
 
-... and run losetup -f /opt/stack/data/stack-volumes-default-backing-file 
+... and run losetup -f /opt/stack/data/stack-volumes-default-backing-file
 
 ... then run /etc/stack/devstack/unstack.sh and then run ./stack.sh again.
-
-

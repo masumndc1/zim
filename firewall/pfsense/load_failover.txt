@@ -2,36 +2,36 @@
 
 ..................... load balancing and failover ......................
 
-... multi wan interface and failover 
+... multi wan interface and failover
 
 .. first we have to configure the gateway group from system/routing/gateway
-.. group. we will configure a gateway group clicking the add button 
-.. 
+.. group. we will configure a gateway group clicking the add button
+..
 .. group name: GatewayGroup1
 .. gateway priority: select the gateways you wanna to add and select
 .. tier1.
 .. trigger lever: member down.
 .. optional: add description.
 .. and finally save.
-.. 
-.. now edit the two wan gateways and put the monitor ip for ips of 
+..
+.. now edit the two wan gateways and put the monitor ip for ips of
 .. yahoo.com (98.138.253.109) and google.com (203.184.8.53).
 .. and finally save and apply changes.
 
 .. now we have to configure a firewall rule from firewall/rule
 .. select the interface lan1 as this is our internal lan interface.
 .. all the host from this interface will go toward internet throush
-.. the newly created gateway group GatewayGroup1. and this is the way 
+.. the newly created gateway group GatewayGroup1. and this is the way
 .. we are going to configure it.
 
 .. interface: lan1
 .. protocol: tcp/udp
 .. source: lan1
 .. destination: any
-.. log: check 
+.. log: check
 .. from advance options: gateway our newly created GatewayGroup1
 .. and save and apply.
-.. failover is effect by default 
+.. failover is effect by default
 .. and finally send the traceroute from the host to test.
 
 ... webserver load balancing.
@@ -54,13 +54,13 @@
 .. mode: load balance
 .. descripion: options
 .. port:80
-.. on add item to the pool section 
+.. on add item to the pool section
 .. monitor: locate our newly created webloadbalancermonitor to monitor
 .. server ip address: add here and click on add to pool button.
 .. save and apply change.
 
 .. finally the virtual server from service/loadbalancer/virtual server
-.. tab. 
+.. tab.
 .. name: webload
 .. description: ooptional.
 .. ipaddress: virtual ip address
@@ -72,28 +72,28 @@
 .. then the traffic will come from both server which we gonna test below.
 ..
 ... troubleshooting.
-.. 
+..
 .. we have two web servers in pools 192.168.244.147 and 192.168.244.132.
 .. and our virtual ip address configured in pfsense 192.168.10.123 where
 .. the web request will come. that means when web request comes to pfsense
-.. 192.168.10.123 it will load balace to between 192.168.244.147 and 
-.. 192.168.244.132. below our two servers.  
+.. 192.168.10.123 it will load balace to between 192.168.244.147 and
+.. 192.168.244.132. below our two servers.
 
-root@debian7:~# 
+root@debian7:~#
 root@debian7:~# ifconfig eth1
-eth1      Link encap:Ethernet  HWaddr 00:0c:29:c8:cc:25  
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:c8:cc:25
           inet addr:192.168.244.132  Bcast:192.168.244.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fec8:cc25/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:20860 errors:0 dropped:0 overruns:0 frame:0
           TX packets:22850 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:15013795 (14.3 MiB)  TX bytes:3600321 (3.4 MiB)
-          Interrupt:19 Base address:0x2080 
+          Interrupt:19 Base address:0x2080
 
-root@debian7:~# 
-root@debian7:~# 
-root@debian7:~# 
+root@debian7:~#
+root@debian7:~#
+root@debian7:~#
 root@debian7:~# tcpdump -i eth1 -n -n -v -v port 80
 tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
 06:10:13.591390 IP (tos 0x0, ttl 64, id 6936, offset 0, flags [DF], proto TCP (6), length 60)
@@ -102,40 +102,33 @@ tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 byte
     192.168.244.132.80 > 192.168.244.152.24121: Flags [S.], cksum 0x6a9d (incorrect -> 0xb9cf), seq 2308752948, ack 3229260833, win 14480, options [mss 1460,sackOK,TS val 13132068 ecr 49183571,nop,wscale 4], length 0
 06:10:13.599721 IP (tos 0x0, ttl 64, id 47611, offset 0, flags [DF], proto TCP (6), length 52)
 
-.. here above web request between 192.168.244.152(pfsense) to 192.168.244.132(webserver of pool). 
+.. here above web request between 192.168.244.152(pfsense) to 192.168.244.132(webserver of pool).
 
 root@deb-7:~# ifconfig eth1
-eth1      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:47  
+eth1      Link encap:Ethernet  HWaddr 00:0c:29:8c:8e:47
           inet addr:192.168.244.147  Bcast:192.168.244.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fe8c:8e47/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:158352 errors:0 dropped:0 overruns:0 frame:0
           TX packets:341084 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:10831344 (10.3 MiB)  TX bytes:167194759 (159.4 MiB)
-          Interrupt:16 Base address:0x2080 
+          Interrupt:16 Base address:0x2080
 
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# tcpdump -i eth1 -n -n -v -v port 80
 
-    192.168.244.152.7010 > 192.168.244.147.80: Flags [S], cksum 0xbf18 (correct), seq 3697250682, win 65228, options 
+    192.168.244.152.7010 > 192.168.244.147.80: Flags [S], cksum 0xbf18 (correct), seq 3697250682, win 65228, options
     [mss 1460,nop,wscale 7,sackOK,TS val 50434831 ecr 0], length 0
 05:54:06.521833 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
-    192.168.244.147.80 > 192.168.244.152.7010: Flags [S.], cksum 0x6aac (incorrect -> 0xfda2), seq 3527920458, 
+    192.168.244.147.80 > 192.168.244.152.7010: Flags [S.], cksum 0x6aac (incorrect -> 0xfda2), seq 3527920458,
     ack 3697250683, win 14480, options [mss 1460,sackOK,TS val 21227728 ecr 50434831,nop,wscale 2], length 0
 05:54:06.522181 IP (tos 0x0, ttl 64, id 525, offset 0, flags [DF], proto TCP (6), length 52)
 
-.. here above web request between 192.168.244.152(pfsense) to 192.168.244.147(another webserver of pool). 
-.. that means the load balancing is going on. 
+.. here above web request between 192.168.244.152(pfsense) to 192.168.244.147(another webserver of pool).
+.. that means the load balancing is going on.
 
 ... fail over web server configuration
 .. we can also configure for the failover the same way.
 .. only we have to do is change the mode: from load balance to failover.
 .. and all the other procedure is same like load balancer.
-
-
-
-
-
-
-

@@ -26,16 +26,16 @@ edmudoh@elxa6lj5k72:/etc/oz$ cat -n oz.cfg
     19
     20  [icicle]
     21  safe_generation = no
-edmudoh@elxa6lj5k72:/etc/oz$ 
- 
+edmudoh@elxa6lj5k72:/etc/oz$
+
 ... now we have to make one tdl file related to each virtual machine
 ... tdl stands for the template description language.
-... the full example of how to write the tdl can be found in the 
+... the full example of how to write the tdl can be found in the
 ... https://github.com/clalancette/oz/wiki/Oz-template-description-language
 
 ... one example of tdl file is below
 
-root@elxa6lj5k72:~/tdl# cat centos7.tdl 
+root@elxa6lj5k72:~/tdl# cat centos7.tdl
 <template version="1.0">
   <name>centos</name>
   <os>
@@ -51,17 +51,14 @@ root@elxa6lj5k72:~/tdl# cat centos7.tdl
 </disk>
 <description>minimal ubuntu </description>
 </template>
-root@elxa6lj5k72:~/tdl# 
+root@elxa6lj5k72:~/tdl#
 
 ... now we can try to run following
 
-root@elxa6lj5k72:~/tdl# oz-install -u -d3 /root/tdl/centos7.tdl 
+root@elxa6lj5k72:~/tdl# oz-install -u -d3 /root/tdl/centos7.tdl
 
 ... if successfull then fine if not we should have to troubleshoot.
 ... after successfull operation we can do following
 
 #virsh define centos7_may
 #virsh start centos7
-
-
-

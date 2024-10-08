@@ -10,15 +10,15 @@ partion of flash memory.
 
 we can change the startup config file to be used in next boot time
 with the command "boot config <url>" where url is the pointing location
-where to find the new statup config file. 
+where to find the new statup config file.
 
 as soon as we issue the above said command asa is to be said to use
-the new location file. 
+the new location file.
 
 moreover any new command like "copy running-config startup-config" will
 write the current running config to the new file say newconfig in new location.
 the rule is if the file is already exist then it will merge the content to
-it. if not exits asa will create the file. also asa will change the 
+it. if not exits asa will create the file. also asa will change the
 environmental parameters to use this new file from then next reboot.
 
 therefore it is always safe to store current running config before.
@@ -27,17 +27,16 @@ asa(config)# boot config ?
 
 configure mode commands/options:
   flash:  Path and filename on flash:
-asa(config)# boot config 
+asa(config)# boot config
 
 "show bootvar" is used to see the current environment variable
 which indicates the current location of startup-config along
 with other parameters.
 
-asa(config)# show bootvar 
+asa(config)# show bootvar
 
-BOOT variable = 
-Current BOOT variable = 
-CONFIG_FILE variable = 
-Current CONFIG_FILE variable = 
-asa(config)# 
-
+BOOT variable =
+Current BOOT variable =
+CONFIG_FILE variable =
+Current CONFIG_FILE variable =
+asa(config)#

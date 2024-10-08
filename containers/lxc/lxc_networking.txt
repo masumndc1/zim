@@ -3,7 +3,7 @@
 
 ..................... lxc networking ................................
 
-.. here we will demonstrate the networking between lxc and try the 
+.. here we will demonstrate the networking between lxc and try the
 .. connectivity step by step
 
 .. cloning and snapshot of lxc host
@@ -12,9 +12,9 @@
 
 root@masum:~# lxc-clone -o masum -n khabir
 Created container khabir as copy of masum
-root@masum:~# 
+root@masum:~#
 root@masum:~# lxc-ls
-khabir  masum   
+khabir  masum
 root@masum:~#
 
 .. if we needed to create a snapshot we did that by following
@@ -28,11 +28,11 @@ root@masum:~# lxc-clone -s -o masum -n khabir
 root@masum:~# cat -n /etc/network/interfaces
      1	# This file describes the network interfaces available on your system
      2	# and how to activate them. For more information, see interfaces(5).
-     3	
+     3
      4	# The loopback network interface
      5	auto lo
      6	iface lo inet loopback
-     7	
+     7
      8	auto br0
      9	iface br0 inet static
     10	        bridge_ports vmnet3
@@ -40,31 +40,31 @@ root@masum:~# cat -n /etc/network/interfaces
     12		bridge_maxwait 0
     13		address 192.168.20.2
     14		netmask 255.255.255.0
-root@masum:~# 
+root@masum:~#
 
 root@masum:~# ifconfig br0
-br0       Link encap:Ethernet  HWaddr 00:00:00:00:00:00  
+br0       Link encap:Ethernet  HWaddr 00:00:00:00:00:00
           inet addr:192.168.20.2  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::cc80:16ff:fe40:268d/64 Scope:Link
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
           RX packets:4950 errors:0 dropped:0 overruns:0 frame:0
           TX packets:9429 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:280109 (273.5 KiB)  TX bytes:12708275 (12.1 MiB)
 
-root@masum:~# 
+root@masum:~#
 
 root@masum:~# ifconfig vmnet3
-vmnet3    Link encap:Ethernet  HWaddr 00:50:56:c0:00:03  
+vmnet3    Link encap:Ethernet  HWaddr 00:50:56:c0:00:03
           inet addr:192.168.20.1  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::250:56ff:fec0:3/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:10 errors:0 dropped:0 overruns:0 frame:0
           TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-root@masum:~# 
+root@masum:~#
 
 .. this bridge is important if we dont have any other interface configured
 .. except eth0. in my debian system i have 3 vmware interface. i am using
@@ -88,7 +88,7 @@ root@masum:/var/lib/lxc/masum# cat -n config
 
 .. for networking purpose the following line is important. as my network type for lxc
 .. is virtual eth. on line 6 saying that network should be up. next line, line 7 is saying
-.. lxc container eth0 interface. line 8 is instructing eth0, lxc interface will be 
+.. lxc container eth0 interface. line 8 is instructing eth0, lxc interface will be
 .. connecting to the bridge interface of the host br0. alternatively as we have vmware
 .. interface we could instruct to connect to any vmware interface say vmware3.
 .. line 9 and line 10 for ip address and gateway. enough for the networking and outer
@@ -106,7 +106,7 @@ root@masum:/var/lib/lxc/masum# cat -n config
     14	#lxc.start.auto = 1
     15	# Common configuration
     16	lxc.include = /usr/share/lxc/config/debian.common.conf
-    17	
+    17
     18	# Container specific configuration
     19	lxc.mount = /var/lib/lxc/masum/fstab
     20	lxc.utsname = masum
@@ -114,9 +114,9 @@ root@masum:/var/lib/lxc/masum# cat -n config
     22	lxc.autodev = 1
     23	lxc.kmsg = 0
 
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 
-.. the previous one was the config file for the lxc host masum. following one 
+.. the previous one was the config file for the lxc host masum. following one
 .. is the config file for the lxc host khabir.
 
 root@masum:/var/lib/lxc# cd khabir/
@@ -165,27 +165,27 @@ lxc.cap.drop = mac_override
 lxc.cap.drop = sys_time
 lxc.rootfs = /var/lib/lxc/khabir/rootfs
 lxc.pivotdir = lxc_putold
-root@masum:/var/lib/lxc/khabir# 
+root@masum:/var/lib/lxc/khabir#
 
 .. network setting and connectivity of each other
 
 root@masum:~# ifconfig
-eth0      Link encap:Ethernet  HWaddr b2:58:e1:d4:de:6c  
+eth0      Link encap:Ethernet  HWaddr b2:58:e1:d4:de:6c
           inet addr:192.168.20.10  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::b058:e1ff:fed4:de6c/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:21 errors:0 dropped:0 overruns:0 frame:0
           TX packets:19 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:2066 (2.0 KiB)  TX bytes:3074 (3.0 KiB)
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 root@masum:~# ping -c 1 192.168.20.20
@@ -194,25 +194,25 @@ PING 192.168.20.20 (192.168.20.20): 56 data bytes
 --- 192.168.20.20 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
 round-trip min/avg/max/stddev = 0.114/0.114/0.114/0.000 ms
-root@masum:~# 
+root@masum:~#
 
 root@khabir:~# ifconfig
-eth0      Link encap:Ethernet  HWaddr a2:1e:02:4a:3f:37  
+eth0      Link encap:Ethernet  HWaddr a2:1e:02:4a:3f:37
           inet addr:192.168.20.20  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::a01e:2ff:fe4a:3f37/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:31 errors:0 dropped:0 overruns:0 frame:0
           TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:3937 (3.8 KiB)  TX bytes:3031 (2.9 KiB)
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 root@khabir:~# ping 192.168.20.10
@@ -221,9 +221,9 @@ PING 192.168.20.10 (192.168.20.10): 56 data bytes
 ^C--- 192.168.20.10 ping statistics ---
 1 packets transmitted, 1 packets received, 0% packet loss
 round-trip min/avg/max/stddev = 0.154/0.154/0.154/0.000 ms
-root@khabir:~# 
+root@khabir:~#
 
-.. after running both we got following info 
+.. after running both we got following info
 
 root@masum:~# lxc-info -n khabir ; lxc-info -n masum
 Name:           khabir
@@ -246,7 +246,7 @@ Link:           veth6TLEEY
  RX bytes:      146.45 KiB
  Total bytes:   219.29 KiB
 
-root@masum:~# 
+root@masum:~#
 
 .. now what our bridge interface is showing to us. it is showing our bridge id
 .. and it has two interfaces and stp is not enabled.
@@ -255,12 +255,12 @@ root@masum:/etc/resolvconf/update-libc.d# brctl show
 bridge name	bridge id		STP enabled	interfaces
 br0		8000.feabbc323da3	no		veth6TLEEY
 							vethNDCL6X
-root@masum:/etc/resolvconf/update-libc.d# 
+root@masum:/etc/resolvconf/update-libc.d#
 
 
 .............................. another way of networking setup ...................
 
-.. our /etc/default/lxc-net file content. this is the interesting file we got 
+.. our /etc/default/lxc-net file content. this is the interesting file we got
 .. here. alternatively the previous options and networking we can use the following
 .. setting which i should say good. the content of the file is self explanatory.
 .. and i am going to use the networking setting accordingly to this.
@@ -271,12 +271,12 @@ root@masum:/etc/resolvconf/update-libc.d#
 root@masum:~# cd /etc/lxc
 root@masum:/etc/lxc# ls
 default.conf
-root@masum:/etc/lxc# cat -n default.conf 
+root@masum:/etc/lxc# cat -n default.conf
      1	lxc.network.type = veth
      2	lxc.network.link = lxcbr0
      3	lxc.network.flags = up
      4	#lxc.network.hwaddr = 00:16:3e:23:43:ab
-root@masum:/etc/lxc# 
+root@masum:/etc/lxc#
 
 .. now attach this interface bridge with host eth0 like below
 
@@ -295,7 +295,7 @@ iface lxcbr0 inet static
 
 .. this above line bridge_stp off means spanning-tree protocol is off
 .. forward delay is 0 by following.
- 
+
 #	bridge_fd 0
 #	bridge_maxwait 0
 	address 10.10.100.1
@@ -306,7 +306,7 @@ iface br0 inet dhcp
 	bridge_ports eth0
 	bridge_stp off
 
-.. here above we have another br0 interface. say we have two lxc we can 
+.. here above we have another br0 interface. say we have two lxc we can
 .. attach one with br0 another with lxcbr0. we just need to do is change
 .. the configuration in lxc config file.
 
@@ -314,31 +314,31 @@ root@masum:/etc/network# /etc/init.d/networking restart
 root@masum:/etc/network# ifconfig lxcbr0
 
 root@masum:/etc/network# ifconfig lxcbr0
-lxcbr0    Link encap:Ethernet  HWaddr f4:6d:04:52:96:e5  
+lxcbr0    Link encap:Ethernet  HWaddr f4:6d:04:52:96:e5
           inet addr:10.10.100.1  Bcast:10.0.3.255  Mask:255.255.255.0
           inet6 addr: fe80::f66d:4ff:fe52:96e5/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:48 errors:0 dropped:0 overruns:0 frame:0
           TX packets:47 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:8159 (7.9 KiB)  TX bytes:7801 (7.6 KiB)
 
-root@masum:/etc/network# 
+root@masum:/etc/network#
 
 root@masum:/etc/network# brctl show
 bridge name	bridge id		STP enabled	interfaces
-br0		8000.000000000000	no		
+br0		8000.000000000000	no
 lxcbr0		8000.f46d045296e5	no		eth0
 							vethQHLUAO
-root@masum:/etc/network# 
+root@masum:/etc/network#
 
 .. again on the other hand the content of /etc/default/lxc-net has also some particular importance.
 
 root@masum:/etc/default# ls l
-locale   lxc-net  
-root@masum:/etc/default# ls lxc-net 
+locale   lxc-net
+root@masum:/etc/default# ls lxc-net
 lxc-net
-root@masum:/etc/default# cat -n lxc-net 
+root@masum:/etc/default# cat -n lxc-net
      1	USE_LXC_BRIDGE="true"
      2	LXC_BRIDGE="lxcbr0"
      3	LXC_ADDR="10.0.3.1"
@@ -348,10 +348,10 @@ root@masum:/etc/default# cat -n lxc-net
      7	LXC_DHCP_MAX="253"
      8	LXC_DHCP_CONFILE=""
      9	LXC_DOMAIN=""
-root@masum:/etc/default# 
+root@masum:/etc/default#
 
 .. now we will configure the config file of the lxc host as below.
- 
+
 root@masum:/var/lib/lxc/masum# cat -n config
      1	# Template used to create this container: /usr/share/lxc/templates/lxc-debian
      2	# Parameters passed to the template:
@@ -369,14 +369,14 @@ root@masum:/var/lib/lxc/masum# cat -n config
     14	#lxc.start.auto = 1
     15	# Common configuration
     16	lxc.include = /usr/share/lxc/config/debian.common.conf
-    17	
+    17
     18	# Container specific configuration
     19	lxc.mount = /var/lib/lxc/masum/fstab
     20	lxc.utsname = masum
     21	lxc.arch = i386
     22	lxc.autodev = 1
     23	lxc.kmsg = 0
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 
 root@masum:/var/lib/lxc/khabir# cat -n config
      1	lxc.mount = /var/lib/lxc/khabir/fstab
@@ -418,33 +418,33 @@ root@masum:/var/lib/lxc/khabir# cat -n config
     37	lxc.cap.drop = sys_time
     38	lxc.rootfs = /var/lib/lxc/khabir/rootfs
     39	lxc.pivotdir = lxc_putold
-root@masum:/var/lib/lxc/khabir# 
+root@masum:/var/lib/lxc/khabir#
 
 .. now we have to configure routing on my linux host like below
 
-root@masum:~# cat -n iptables.sh 
+root@masum:~# cat -n iptables.sh
      1	#!/bin/bash
-     2	
+     2
      3	iptables -F
      4	iptables -F -t nat
      5	echo 1 > /proc/sys/net/ipv4/ip_forward
-     6	
+     6
      7	#iptables -t nat -A PREROUTING -j LOG --log-ip-options --log-tcp-options
     13	iptables -t nat -A POSTROUTING -s 10.10.100.0/24 -o wlan0 -j MASQUERADE
-    15	
+    15
     16	#iptables -t nat -A PREROUTING -i wlan0 -p tcp --dport 8080 -j LOG --log-ip-options --log-tcp-options
     17	#iptables -t nat -A PREROUTING -i wlan0 -p tcp --dport 8080 -j DNAT --to 192.168.35.139:80
     18	iptables -t nat -L
-root@masum:~# 
+root@masum:~#
 
 .. now will start the lxc and see what happens.
 
 root@masum:~# lxc-ls --fancy
-NAME    STATE    IPV4          IPV6  AUTOSTART  
+NAME    STATE    IPV4          IPV6  AUTOSTART
 ----------------------------------------------
-khabir  RUNNING  10.10.100.20  -     NO         
-masum   RUNNING  10.10.100.10  -     NO         
-root@masum:~# 
+khabir  RUNNING  10.10.100.20  -     NO
+masum   RUNNING  10.10.100.10  -     NO
+root@masum:~#
 
 .. we have tested the connectivity is ok.
 
@@ -454,19 +454,19 @@ root@masum:/var/lib/lxc/khabir# cat -n config
 
     34	lxc.network.veth.pair = khabir
 
-root@masum:/var/lib/lxc/khabir# 
+root@masum:/var/lib/lxc/khabir#
 
-.. we did the same to the masum lxc too.now the different is 
+.. we did the same to the masum lxc too.now the different is
 
 root@masum:/var/lib/lxc/khabir# brctl show
 bridge name	bridge id		STP enabled	interfaces
-br0		8000.000000000000	no		
+br0		8000.000000000000	no
 lxcbr0		8000.f46d045296e5	no		eth0
 							khabir
 							masum
-root@masum:/var/lib/lxc/khabir# 
+root@masum:/var/lib/lxc/khabir#
 
-.. and finally our connectivity from container to outside as well as 
+.. and finally our connectivity from container to outside as well as
 .. between container is ok.
 
 ... another way of configuring networking lxc is installing libvirt and virsh
@@ -484,6 +484,3 @@ lxc.network.flags = up
 
 root@masum:/var/lib/lxc/khabir# virsh net-info default
 root@masum:/var/lib/lxc/khabir# virsh auto-start default
-
-
-

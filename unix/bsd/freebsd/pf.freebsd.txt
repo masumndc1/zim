@@ -5,27 +5,27 @@
 ....................... packet filtering pf ..............................
 
 .. freebsd
- 
+
 root@masum:~ # pfctl -d
 pfctl: pf not enabled
-root@masum:~ # 
+root@masum:~ #
 
 .. we enable it like below.
 
 root@masum:~ # pfctl -e
 pf enabled
-root@masum:~ # 
+root@masum:~ #
 
 .. ok now we got pf enabled in both of our freebsd as well as openbsd.
 
-.. on freebsd file we can manually disable enable pf by editing the 
+.. on freebsd file we can manually disable enable pf by editing the
 .. /etc/local/rc.local file like below.
 
 root@masum:/etc/defaults # pwd
 /etc/defaults
 root@masum:/etc/defaults # ls
 bluetooth.device.conf	devfs.rules		periodic.conf		rc.conf
-root@masum:/etc/defaults # vi rc.conf 
+root@masum:/etc/defaults # vi rc.conf
 
 // output cut //
 
@@ -42,14 +42,14 @@ pflog_flags=""                  # additional flags for pflogd
 
 // output cut //
 
-.. now as we enabled the pf in /etc/default/rc.local file 
+.. now as we enabled the pf in /etc/default/rc.local file
 .. now can start/stop/status by /etc/rc.d/pf start|stop|status
 
 root@masum:/etc/rc.d # ./pf status
 Status: Enabled for 0 days 00:14:34           Debug: Urgent
 
 State Table                          Total             Rate
-  current entries                        0               
+  current entries                        0
   searches                            1426            1.6/s
   inserts                                0            0.0/s
   removals                               0            0.0/s
@@ -70,11 +70,11 @@ Counters
   src-limit                              0            0.0/s
   synproxy                               0            0.0/s
   map-failed                             0            0.0/s
-root@masum:/etc/rc.d # 
+root@masum:/etc/rc.d #
 
-.. other options are 
+.. other options are
 
-root@masum:/etc/rc.d # ./pf 
+root@masum:/etc/rc.d # ./pf
 Usage: ./pf [fast|force|one|quiet](start|stop|restart|rcvar|enabled|describe|extracommands|check|reload|resync|status|poll)
 root@masum:/etc/rc.d # ./pf reload
 Reloading pf rules.
@@ -84,9 +84,9 @@ root@masum:/etc/rc.d # ./pf poll
 root@masum:/etc/rc.d # ./pf enabled
 root@masum:/etc/rc.d # ./pf describe
 Packet filter
-root@masum:/etc/rc.d # 
+root@masum:/etc/rc.d #
 
-.. in freebsd /etc/rc.d/pf script requires pf_enable="YES" line in /etc/rc.conf 
+.. in freebsd /etc/rc.d/pf script requires pf_enable="YES" line in /etc/rc.conf
 .. as well as /etc/pf.conf file like below.
 
 root@masum:/etc # pwd
@@ -103,9 +103,9 @@ root@masum:/etc # cat -n rc.conf
      9	hald_enable="YES"
     10	kdm4_enable="YES"
     11	pf_enable="YES"
-root@masum:/etc # 
+root@masum:/etc #
 
-.. as when we try to start pf like below it has error like below as it 
+.. as when we try to start pf like below it has error like below as it
 .. does not have the /etc/pf.conf file. so we create the file /etc/pf.conf
 .. file like below.
 
@@ -120,31 +120,31 @@ root@masum:/etc # touch pf.conf
 root@masum:/etc # /etc/rc.d/pf start
 Enabling pf.
 root@masum:/etc # cat pf.conf
-root@masum:/etc # 
+root@masum:/etc #
 
 .. another option can be use a prestored pf.conf to /etc/ location.
 
-root@masum:/etc # cp /usr/share/examples/pf/pf.conf pf.conf 
-root@masum:/etc # 
+root@masum:/etc # cp /usr/share/examples/pf/pf.conf pf.conf
+root@masum:/etc #
 root@masum:/etc # cat -n pf.
-pf.conf  pf.os    
-root@masum:/etc # cat -n pf.conf 
+pf.conf  pf.os
+root@masum:/etc # cat -n pf.conf
      1	#	$FreeBSD: releng/11.0/share/examples/pf/pf.conf 293862 2016-01-14 01:32:17Z kevlo $
      2	#	$OpenBSD: pf.conf,v 1.34 2007/02/24 19:30:59 millert Exp $
      3	#
      4	# See pf.conf(5) and /usr/share/examples/pf for syntax and examples.
      5	# Remember to set gateway_enable="YES" and/or ipv6_gateway_enable="YES"
      6	# in /etc/rc.conf if packets are to be forwarded between interfaces.
-     7	
+     7
      8	#ext_if="ext0"
      9	#int_if="int0"
-    10	
+    10
     11	#table <spamd-white> persist
-    12	
+    12
     13	#set skip on lo
-    14	
+    14
     15	#scrub in
-    16	
+    16
     17	#nat-anchor "ftp-proxy/*"
     18	#rdr-anchor "ftp-proxy/*"
     19	#nat on $ext_if inet from !($ext_if) -> ($ext_if:0)
@@ -152,28 +152,28 @@ root@masum:/etc # cat -n pf.conf
     21	#no rdr on $ext_if proto tcp from <spamd-white> to any port smtp
     22	#rdr pass on $ext_if proto tcp from any to any port smtp \
     23	#	-> 127.0.0.1 port spamd
-    24	
+    24
     25	#anchor "ftp-proxy/*"
     26	#block in
     27	#pass out
-    28	
+    28
     29	#pass quick on $int_if no state
     30	#antispoof quick for { lo $int_if }
-    31	
+    31
     32	#pass in on $ext_if proto tcp to ($ext_if) port ssh
     33	#pass in log on $ext_if proto tcp to ($ext_if) port smtp
     34	#pass out log on $ext_if proto tcp from ($ext_if) to port smtp
     35	#pass in on $ext_if inet proto icmp from any to ($ext_if) icmp-type { unreach, redir, timex }
-root@masum:/etc # 
+root@masum:/etc #
 
 root@masum:/etc # vi pf.conf
 
 block in all
 pass proto tcp to port 22
-pass proto icmp 
+pass proto icmp
 pass out all keep state
 
-root@masum:~ # 
+root@masum:~ #
 
 .. now we will use the macro more like below.
 
@@ -219,9 +219,6 @@ root@masum:~ # /etc/rc.d/pf restart
 
 .. checking the rules without loading while -F will flushes all the rules.
 .. flushing rules is good for the test as soon as the rules flushes it
-.. will permits the all traffic. 
+.. will permits the all traffic.
 
 root@masum:~ # pfctl -nf /etc/pf.conf
-
-
-

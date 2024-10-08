@@ -55,7 +55,7 @@
 
 #smit errdemon
 
-timeformat 
+timeformat
 
 0630032710
 MMddhhmmyy

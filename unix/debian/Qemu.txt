@@ -7,9 +7,9 @@ Created Thursday 04 July 2013
 
 go to  http://www.gns3.net/qemu/ then download the Qemu from http://sourceforge.net/projects/gns-3/files/Qemu/Linux/QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz/download
 
-masum@masum-K42JZ:~$ ls 
+masum@masum-K42JZ:~$ ls
  QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz
-masum@masum-K42JZ:~$ tar -zxvf QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz  
+masum@masum-K42JZ:~$ tar -zxvf QEMU-0.14.1b-GNS3-Ubuntu-Linux.tgz
 masum@masum-K42JZ:~$ cp -fr QEMU-0.14.1-GNS3-Ubuntu-Linux qemu
 masum@masum-K42JZ:~$ ls
 batb                        Documents              list         Public                              Templates
@@ -18,7 +18,7 @@ CX Release.doc              examples.desktop       Pictures     QEMU-0.14.1b-GNS
 Desktop                     libpeerconnection.log  playonlinux  QEMU-0.14.1-GNS3-Ubuntu-Linux       VirtualBox VMs
 masum@masum-K42JZ:~$ rm -fr QEMU-0.14.1-GNS3-Ubuntu-Linux/
 masum@masum-K42JZ:~$ ls
-qemu                             
+qemu
 masum@masum-K42JZ:~$
 masum@masum-K42JZ:~/qemu/install/bin$ pwd
 /home/masum/qemu/install/bin
@@ -39,4 +39,3 @@ download** linux-microcore-3.8.2.img **from http://garr.dl.sourceforge.net/proje
 
 
 and now qemu image will boot...
-

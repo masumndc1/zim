@@ -5,7 +5,7 @@
 
 https://docs.jelastic.com/setting-custom-firewall
 
-... at first we have to check that /etc/jelastic/metainf.conf file and find the 
+... at first we have to check that /etc/jelastic/metainf.conf file and find the
 FIREWALL_ENABLED=1 parameter:
 
 ... =1 is telling us the firewall is enabled.
@@ -26,7 +26,7 @@ COMMIT
 
 sudo /usr/bin/jem firewall fwstart
 
-... to check the applied rule. other options are 
+... to check the applied rule. other options are
 
 sudo /usr/bin/jem firewall list [ filter | nat | mangle ] {iptables_options}
 
@@ -34,6 +34,3 @@ sudo /usr/bin/jem firewall list filter -vn
 
 ... the rules at upper position have the higher priority than lower. therefore
 ... we can put our rule into position, based on our requirement.
-
-
-

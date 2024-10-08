@@ -5,12 +5,12 @@ Creation-Date: 2013-07-15T21:56:33+06:00
 ====== offline update manual ======
 Created Monday 15 July 2013
 
-root@mail:~# **apt-cache search playonlinux **   
+root@mail:~# **apt-cache search playonlinux **
 playonlinux - front-end for Wine
-root@mail:~# 
+root@mail:~#
 root@mail:~# **apt-get install playonlinux --print-uris**
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following NEW packages will be installed:
   playonlinux
@@ -18,9 +18,9 @@ The following NEW packages will be installed:
 Need to get 776kB of archives.
 After this operation, 2068kB of additional disk space will be used.
 'http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb' playonlinux_3.7.6-1_all.deb 775696 MD5Sum:63dc500337aff08de082666c0cccd591
-root@mail:~# 
+root@mail:~#
 root@mail:~#** apt-get install playonlinux --print-uris > key.txt**
-root@mail:~# 
+root@mail:~#
 root@mail:~# **cat key.txt **
 Reading package lists...
 Building dependency tree...
@@ -31,7 +31,7 @@ The following NEW packages will be installed:
 Need to get 776kB of archives.
 After this operation, 2068kB of additional disk space will be used.
 'http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb' playonlinux_3.7.6-1_all.deb 775696 MD5Sum:63dc500337aff08de082666c0cccd591
-root@mail:~# 
+root@mail:~#
 root@mail:~# **vi key.txt **
 //to edit the file according to my need.//
 
@@ -40,20 +40,20 @@ root@mail:~# **cat key.txt**
 
 root@mail:~# **cat key.txt | cut -f1 -d' '**
 'http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb'
-root@mail:~# 
+root@mail:~#
 root@mail:~# **cat key.txt | cut -f1 -d' ' > ke.txt**
-root@mail:~# 
+root@mail:~#
 root@mail:~# **cat ke.txt**
 'http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb'
-root@mail:~# 
+root@mail:~#
 root@mail:~# **cat ke.txt | sed s/\'//g **
 http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb
-root@mail:~# 
+root@mail:~#
 root@mail:~# **cat ke.txt | sed s/\'//g > key.txt**
-root@mail:~#  
+root@mail:~#
 root@mail:~# **cat key.txt**
 http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb
-root@mail:~# 
+root@mail:~#
 root@mail:~# **wget -c `cat key.txt`**
 --2013-07-15 21:59:39--  http://ftp.debian.org/debian/pool/contrib/p/playonlinux/playonlinux_3.7.6-1_all.deb
 Connecting to 10.100.100.103:3128... connected.
@@ -61,12 +61,12 @@ Proxy request sent, awaiting response... 200 OK
 Length: 775696 (758K) [application/x-debian-package]
 Saving to: `playonlinux_3.7.6-1_all.deb'
 
-100%[======================================================================================================>] 775,696      124K/s   in 6.3s    
+100%[======================================================================================================>] 775,696      124K/s   in 6.3s
 
 2013-07-15 21:59:46 (120 KB/s) - `playonlinux_3.7.6-1_all.deb' saved [775696/775696]
 
-root@mail:~# 
-root@mail:~# **dpkg -i playonlinux_3.7.6-1_all.deb** 
+root@mail:~#
+root@mail:~# **dpkg -i playonlinux_3.7.6-1_all.deb**
 Selecting previously deselected package playonlinux.
 (Reading database ... 295604 files and directories currently installed.)
 Unpacking playonlinux (from playonlinux_3.7.6-1_all.deb) ...
@@ -77,7 +77,7 @@ Rebuilding /usr/share/applications/desktop.C.cache...
 Processing triggers for man-db ...
 Processing triggers for menu ...
 Processing triggers for python-support ...
-root@mail:~# 
+root@mail:~#
 
 
 pbl@mail:~/deb$ **cat download_script.sh **
@@ -92,6 +92,4 @@ for a in `cat $1` ; do
 done
 
 rm $1.bak
-pbl@mail:~/deb$ 
-
-
+pbl@mail:~/deb$

@@ -145,4 +145,3 @@ MariaDB [masum]> select * from employees;
 3 rows in set (0.00 sec)
 
 MariaDB [masum]>
-

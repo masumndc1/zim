@@ -29,6 +29,6 @@ You must allow udp port 69 in firewall.
 
 also u must comment out any entry related to tftp in previously configured tftp
 
-also verify the connectivity with 
+also verify the connectivity with
 
 #netstat -anu  u for udp and t for tcp

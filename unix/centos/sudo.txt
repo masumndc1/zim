@@ -32,4 +32,3 @@ bob	ALL=(ALL)	NOPASSWD: ALL
 
 -- cat /etc/sudoers or run visudo and edit the file and add following
 Defaults    env_reset,timestamp_timeout=15
-

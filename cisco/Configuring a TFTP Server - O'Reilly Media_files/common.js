@@ -28,7 +28,7 @@ function PlayerOpen(soundfiledesc,soundfilepath, width, height) {
       height = 42;
    }
    else{
-      winHeight   = winPadding  + Number(height);                              
+      winHeight   = winPadding  + Number(height);
    }
 
 
@@ -60,7 +60,7 @@ function PopImage(filedesc,filepath,origwidth,origheight,caption) {
 	winPadding = 100;//for the header and caption
 	winWidth   = winPadding  + Number(origwidth);
    winHeight  = winPadding  + Number(origheight);
-	
+
     PlayWin = window.open('','Image','width=' + winWidth + ',height=' + winHeight + ',resizable=1,scrollbars=1,titlebar=0,toolbar=0,menubar=0,status=0,directories=0');
 	PlayWin.document.write("<html><head><title>" + filedesc + "</title>");
 	PlayWin.document.write("<link rel='STYLESHEET' type='text/css' href='http://www.oreillynet.com/styles/main.css' /></head>");
@@ -93,7 +93,7 @@ MediaWin = window.open('',UniqueID,'width=' + winWidth + ',height=' + winHeight 
      var winContent = "<html><head><title>" + popuptitle + "</title>";
      winContent += "<link rel='STYLESHEET' type='text/css' href='http://www.oreillynet.com/styles/main.css' /></head>";
      winContent += "<body style='background-color:#fff; text-align:center;padding-top:1em;'>";
-     
+
       winContent += "<div align='center'>";
       winContent += "<div style='width: " + imgwidth + "px; margin: 0px; padding: 0px; text-align:left;'>"; // restrict width
      winContent += "<img src='" + imgpath + "' id='image1' border='0' alt='" + popuptitle + "' width='" + imgwidth + "' height='" + imgheight + " 'title='" + popuptitle + "' style='border: 2px solid #000;'/>";
@@ -112,21 +112,21 @@ MediaWin = window.open('',UniqueID,'width=' + winWidth + ',height=' + winHeight 
     //winContent += "<form><input type='button' value='Close this window' OnClick='javascript:window.close();'></form>"; // Close button
      winContent += " &#8226; <a href='#' OnClick='javascript:window.close();'>Close this window</a></p>";
 
-	
+
 
      winContent += "</div></div>";
       winContent += "</body></html>";
-     MediaWin.document.write(winContent); 
+     MediaWin.document.write(winContent);
      MediaWin.document.close(); // "Finalizes" new window
 }
 
 //Atomz Search Code
 
-function searchverif() { 
+function searchverif() {
    if (document.searchForm.query.value.length < 1) {
        alert("Your search query is blank. Please enter a search term.");
        return false;
-   } 
+   }
    return true;
 }
 
@@ -137,7 +137,7 @@ var q = d.elements['query'].value;
 q = q.replace(/&quot;/g, "%22");
 
 // set collection
-d.elements['c'].value = d.elements['sp-q-1'].value; 
+d.elements['c'].value = d.elements['sp-q-1'].value;
 // set sp-q
 d.elements['sp-q'].value = d.elements['query'].value;
 
@@ -154,4 +154,3 @@ if (test != null) {
    }
 
 }
-

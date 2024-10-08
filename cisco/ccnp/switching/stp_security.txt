@@ -4,38 +4,38 @@
 .............................. stp security ..................
 
 .. cisco has developed two technigues to protect stp operation
-.. one is root guard another is bpdu guard. 
+.. one is root guard another is bpdu guard.
 
 .. the ports in switches are assigned the following roles after
-.. stp converge. 
+.. stp converge.
 
 .. root port: a port on a switch which is the closest to the root.
 .. designated port: this port on a lan segment transmit and relay
 .. bpdu down the tree.
 .. blocking port: which is neither root port nor a designated port
-.. alternative port: which is another candidate of root port but is 
+.. alternative port: which is another candidate of root port but is
 .. in blocking mode which will be root port in case of root port
 .. failure. this is the port normally used by the stp uplinkfast.
 .. forwarding port: this port is not part of stp operation rather
 .. than use for normal data carry for the end user connectivity.
 
 .. when a switch of lower bridge id is attached in a port where the
-.. root guard is activated of a switch, the port enter in a state 
+.. root guard is activated of a switch, the port enter in a state
 .. of root inconsistent stp. in this stage a port cant be used for
 .. end user operation rather than only can listen to the bpdu coming
-.. toward itself.  
+.. toward itself.
 .. this is done to prevent any rough or unwanted switch which is trying
 .. to become root bridge intentionally or accidentally.
 .. normally root port receives bpdu from root bridge. but in this case
-.. when root guard is enabled, the port is not allowed to 
+.. when root guard is enabled, the port is not allowed to
 .. receive bpdu but can relay and transmit the bpdu.
 
-.. normally root guard is disabled on a switch. but we can only 
+.. normally root guard is disabled on a switch. but we can only
 .. enable it per interface
 
 R1(config-if)# spanning-tree guard root
 
-.. when a port no longer receives the superior bpdu, the port 
+.. when a port no longer receives the superior bpdu, the port
 .. revert back to normal operation and no longer part of stp operation.
 
 .. when we need a switch never becomes root bridge in a port then we
@@ -45,7 +45,7 @@ R1(config-if)# spanning-tree guard root
 .. we can see which ports are now inconsistent mode due to root guard
 .. by following.
 
-R1#show spanning-tree inconsistentports 
+R1#show spanning-tree inconsistentports
 
 Name                 Interface            Inconsistency
 -------------------- -------------------- ------------------
@@ -62,10 +62,10 @@ R1#
 .. forwarding states for normal end user after port comes back.
 .. potentially it is still prone to form bridge loop for a short
 .. temporary time from port goes down and up. moreover problem
-.. can occurs when a switch which is trying to be root bridge 
+.. can occurs when a switch which is trying to be root bridge
 .. mistakenly connects to a port where portfast is enabled.
 
-.. a port enabled with bpdu guard enters into errdisable state 
+.. a port enabled with bpdu guard enters into errdisable state
 .. when a bpdu receives on that port. and it must be enabled manually
 .. by administrator or it will comes back into normal function
 .. after errdisable times out.
@@ -88,7 +88,7 @@ R2(config)#spanning-tree portfast ?
 R2(config)#spanning-tree portfast bpduguard ?
   <cr>
 
-R2(config)#spanning-tree portfast bpduguard 
+R2(config)#spanning-tree portfast bpduguard
 
 .. alternatively we do enable it per interface like below.
 
@@ -103,7 +103,7 @@ R2(config-if)#spanning-tree ?
 R2(config-if)#spanning-tree portfast ?
   <cr>
 
-R2(config-if)#spanning-tree portfast 
+R2(config-if)#spanning-tree portfast
 
 %Warning: portfast should only be enabled on ports connected to a single host.
  Connecting hubs, concentrators, switches,  bridges, etc.to this interface
@@ -115,7 +115,7 @@ R2(config-if)#spanning-tree portfast
 
 R2(config-if)#
 
-.. we should enable bpdu guard where a portfast is enabled. it is a 
+.. we should enable bpdu guard where a portfast is enabled. it is a
 .. protection against a switch plugged into a port accidentally and
 .. mistakenly where it is expected that the port will be used for
 .. end user.
@@ -125,13 +125,4 @@ R2(config-if)#
 .. where a root bridge will be connected. and also if a switch has two
 .. links toward root bridge even also one link is in disabled temporary
 .. for uplinkfast. the reason is that, the link will be put into errdisable
-.. state when bpdu is detected.  
-
-
-
-
-
-
-
-
-
+.. state when bpdu is detected.

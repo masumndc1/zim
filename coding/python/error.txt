@@ -1,7 +1,7 @@
 
-... 
+...
 ... ssl related error in mac.
-... 
+...
 ... install openssl in mac by port
 
 port install openssl or
@@ -16,13 +16,13 @@ port install py36-openssl
 pip install --user pep8
 pip install --user virtualenv
 
-... 
+...
 ... if you have error in making virtualenv then you can try to
 ... updating all packages installed by brew.
 
 brew update && brew upgrade
 
-... 
+...
 ... error: command '/usr/bin/cland' failed with exit code 1
 
 pip3 install --upgrade pip
@@ -33,6 +33,3 @@ module 'lib' has no attribute 'OpenSSL_add_all_algorithms' or
 Weird python dlopen: symbol not found in flat namespace
 
 cryptography==38.0.4
-
-
-

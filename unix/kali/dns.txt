@@ -21,4 +21,3 @@ root@kali:/etc/apt# host www.google.com
 www.google.com has address 172.217.20.36
 www.google.com has IPv6 address 2a00:1450:400f:806::2004
 root@kali:/etc/apt#
-

@@ -1,14 +1,14 @@
 
 
 ... argus and ra client
-... argus is a session generating and analysis tool and ra is a client to read the 
+... argus is a session generating and analysis tool and ra is a client to read the
 ... data by argus in following directory
 
 root@onion:/nsm/sensor_data/onion-eth0/argus# pwd
 /nsm/sensor_data/onion-eth0/argus
 root@onion:/nsm/sensor_data/onion-eth0/argus# ls
 2017-08-12.log  2017-08-13.log
-root@onion:/nsm/sensor_data/onion-eth0/argus# 
+root@onion:/nsm/sensor_data/onion-eth0/argus#
 
 ... argus is enabled in SO by default. we can check the status and restart it by following.
 
@@ -114,7 +114,7 @@ root@onion:# racluster -n -r 2017-08-13.log - tcp and dst port 80 -s stime saddr
    02:53:39.008891     192.168.35.131.35814      123.58.190.234.80              632         1562
    02:53:46.806294     192.168.35.131.51660       5.160.200.196.80               74            0
 
-... another example 
+... another example
 
 root@onion:# racluster -n -r 2017-08-12.log - tcp and port 22 -s stime saddr sport daddr dport sbytes dbytes
 
@@ -124,15 +124,11 @@ root@onion:# racluster -n -r 2017-08-12.log - tcp and port 22 -s stime saddr spo
 root@onion:/nsm/sensor_data/onion-eth0/argus#
 
 ... another example collected from a well written book
-... to tell it to use the following as configuration file and not to include some port on result 
+... to tell it to use the following as configuration file and not to include some port on result
 
 cat /tmp/ra.conf
 RA_TIME_FORMAT="%Y-%m-%d %T"
 
-root@onion:# racluster -F /tmp/ra.conf -n -r 2014-02-10.log 2013-02-16.log 2014-02-17.log - udp 
-and not \(port 53 or port 123 or host 192.168.2.120\) -m saddr daddr -s stime:20 saddr sport daddr 
+root@onion:# racluster -F /tmp/ra.conf -n -r 2014-02-10.log 2013-02-16.log 2014-02-17.log - udp
+and not \(port 53 or port 123 or host 192.168.2.120\) -m saddr daddr -s stime:20 saddr sport daddr
 dport sbytes dbytes
-
-
-
-

@@ -8,7 +8,7 @@
 - jenkins, (unknown version)
 - sebastianlach.htop, master
 - masum.prac, (unknown version)
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 [masum@nginx playbook]$ ansible-galaxy remove -p roles sebastianlach.htop
 
@@ -21,7 +21,7 @@ Found 3 roles matching your search:
  howtodojo.htop     install htop
  sebastianlach.htop Custom htop role
  tersmitten.htop    Set up htop in Debian-like systems
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 [masum@nginx playbook]$ ansible-galaxy search --author geerlingguy
 
@@ -40,7 +40,7 @@ Found 90 roles matching your search:
  geerlingguy.hdparm                hdparm installation and configuration for Linux.
 
 
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 [masum@nginx playbook]$ ansible-galaxy search php7 --platforms=ubuntu
 
 Found 374 roles matching your search:

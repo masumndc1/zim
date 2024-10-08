@@ -6,7 +6,7 @@
 ... here our private key is private.key which will be kept secret and our public
 ... key will be cert.crt which will be send to browser.
 
-[root@nginx nginx]# openssl req -nodes -days 3650 -x509 -newkey rsa:2048 -keyout \ 
+[root@nginx nginx]# openssl req -nodes -days 3650 -x509 -newkey rsa:2048 -keyout \
 /etc/ssl/nginx/private.key -out /etc/ssl/nginx/cert.crt
 
 Generating a 2048 bit RSA private key
@@ -30,7 +30,7 @@ Common Name (eg, your name or your server's hostname) []:md khabir uddin
 Email Address []:masum@gmail.com
 [root@nginx nginx]# ls
 cert.crt  private.key
-[root@nginx nginx]# 
+[root@nginx nginx]#
 
 ... now placing these key's location to nginx configuration section.
 
@@ -57,15 +57,10 @@ Redirecting to /bin/systemctl restart  nginx.service
 ... generating csr(certificates sign request). csr will be send to any CA
 ... to give us public certificates. command is as follows
 
-openssl req -new -newkey rsa:2048 -nodes -keyout /etc/ssl/nginx/myprivate.key \ 
--out /etc/ssl/nginx/my.csr 
+openssl req -new -newkey rsa:2048 -nodes -keyout /etc/ssl/nginx/myprivate.key \
+-out /etc/ssl/nginx/my.csr
 
 ... this above command will generate one my.csr which we will then send to any CA
-... to authorize it and provide us the public certificates. after using that 
+... to authorize it and provide us the public certificates. after using that
 ... certificate browser will not generate any error.
 ... https://letsencrypt.org is a CA which gives free certificates.
-
-
-
-
-

@@ -14,7 +14,7 @@ kernel cmd line: ide_generic.probe_mask=0x01 ide_core.chs=0.0:980,16,32 auto nou
 RAM: 1024 MiB
 NIC model: e1000
 
-now run the asa 
+now run the asa
 
 
 ciscoasa# activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
@@ -31,7 +31,7 @@ RAM: 256 MiB
 Qemu Options: -hdachs 980,16,32 -vnc :1
 Initrd: asa802-k8.initrd.gz
 Kernel: asa802-k8.kernel
-Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32 
+Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32
 
 
 for a second asa802 use just following
@@ -40,7 +40,7 @@ RAM: 256 MiB
 Qemu Options: -hdachs 980,16,32 -vnc :2
 Initrd: asa802-k8.initrd.gz
 Kernel: asa802-k8.kernel
-Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32 
+Kernel Cmd Line: console=ttyS0,9600n8 bigphysarea=65536 auto nousb ide1=noprobe hda=980,16,32
 
 
 
@@ -68,12 +68,12 @@ activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
 activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
 
 Running Activation Key: 0x2h3bdd58 0x88390dcd0 0xf123cda4 0x908784a0 0x4dd5ae9f
- 
+
 activation-key 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
 activation-key 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6
 
 serial number: 403340212
-activation key: 0x497acdef 0x39ef68ac 0x36d54110 0x2f9868d7 
+activation key: 0x497acdef 0x39ef68ac 0x36d54110 0x2f9868d7
 
 activation key: 0x4a3ec071 0x0d86fbf6 0x7cb1bc48 0x8b48b8b0 0xf317c0b5
 activation key: 0xb23bcf4a 0x1c713b4f 0x7d53bcbc 0xc4f8d09c 0x0e24c6b6

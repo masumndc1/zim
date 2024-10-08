@@ -62,17 +62,17 @@ Examples:
        <(crudini --get --format=lines file2.ini|sort)
 
 
-... now practicat example 
+... now practicat example
 
-... as we know the usages 
+... as we know the usages
 
-# crudini 
+# crudini
 One of --set|--del|--get|--merge must be specified
 /usr/bin/crudini --set [--existing] config_file section [param] [value]
 /usr/bin/crudini --get [--format=sh|ini] config_file [section] [param]
 /usr/bin/crudini --del [--existing] config_file section [param]
 /usr/bin/crudini --merge [--existing] config_file [section]
-root@controller:~# 
+root@controller:~#
 
 ... when just wanna know the section in a configuration file. a section
 ... in a configuration normally enclosed within [] .
@@ -87,20 +87,17 @@ cors
 cors.subdomain
 credential
 database
-root@controller:~# 
+root@controller:~#
 
 ... therefore these are the sections
 ... now wanna know what is the parameters in section database
 
 root@controller:~# crudini --get /etc/keystone/keystone.conf database
 connection
-root@controller:~# 
+root@controller:~#
 
 ... and now what is the value of parameter connection
 
 root@controller:~# crudini --get /etc/keystone/keystone.conf database connection
 mysql+pymysql://keystone:*****@controller/keystone
-root@controller:~# 
-
-
-
+root@controller:~#

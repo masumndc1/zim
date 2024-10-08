@@ -13,10 +13,10 @@ def mountpoint(device=None, mount_point= None):
 
     if not len(sys.argv) > 1:
         print(__doc__)
-        
+
     else:
         print("Mounting ext4 partition")
-        device = sys.argv[1] 
+        device = sys.argv[1]
         mount_point = sys.argv[2]
         cmd = "sudo mount -t ext2fs -o rw {} {}".format(device,mount_point)
         os.system(cmd)

@@ -1,7 +1,7 @@
 
 
 ... snap is new package manager tools for all variety of linux
-... 
+...
 ... install snap
 ... apt-get install snapd
 ... apt-get install core
@@ -9,7 +9,7 @@
 ... install something by snap
 ... snap install lxd
 
-... list packages installed by snap 
+... list packages installed by snap
 masum@cmp1-prod:~$ snap list
 Name    Version   Rev    Tracking       Publisher   Notes
 core18  20200724  1885   latest/stable  canonical✓  base
@@ -21,7 +21,7 @@ masum@cmp1-prod:~$
 ... snap download --stable vlc
 
 ... enable or disable any snap from system
-... snap enable lxd 
+... snap enable lxd
 ... snap disable vlc
 
 ... find a package to install
@@ -62,7 +62,7 @@ masum@cmp1-prod:~$
 ... snap services lxd
 
 ... start a service installed by snap
-... snap start lxd    # if this is stop 
+... snap start lxd    # if this is stop
 ... snap stop lxd     # if want to stop
 
 ... show version of all installed snap

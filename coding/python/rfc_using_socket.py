@@ -13,6 +13,3 @@ host = 'www.ietf.org'
 port = 80
 
 sock = socket.create_connection((host, port))
-
-
-

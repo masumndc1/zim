@@ -1,8 +1,8 @@
 
 
-... environment is salt 
+... environment is salt
 ... so far we have worked with only one base environment.
-... but we can configure as many environment we need in the master 
+... but we can configure as many environment we need in the master
 ... configure file like below.
 
 [root@salt salt]# cd /etc/salt
@@ -18,7 +18,7 @@ file_roots:
 
 [root@salt salt]#
 
-... we are configuring base enviroment files can be found /srv/salt 
+... we are configuring base enviroment files can be found /srv/salt
 ... and webserver environment files can be found in /srv/web directory.
 ... we can also add separate topfiles as well.
 ... and our main base topfile is located at /srv/salt/top.sls
@@ -133,20 +133,8 @@ webserver:
 [root@salt salt]# cat master | grep pillar_roots
 pillar_roots:
  base:
- - /srv/pillar 
+ - /srv/pillar
 
-[root@salt salt]# 
+[root@salt salt]#
 
 ... we can also add top file in /srv/pillar/top.sls as like above.
-
-
-
-
-
-
-
-
-
-
-
-

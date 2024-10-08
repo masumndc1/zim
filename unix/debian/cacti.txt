@@ -11,7 +11,7 @@ and then i have changed the password at cacti:user@cacti
 
 if u counter the error on snmp the run the following.
 
-snmpwalk -v 2c -c public 192.168.202.36 sysUpTimeInstance or 
+snmpwalk -v 2c -c public 192.168.202.36 sysUpTimeInstance or
 
 root@mail:/etc/snmp# vi snmpd.conf
 # EXAMPLE.conf:
@@ -40,7 +40,4 @@ the location of all files are located at
 
 root@mail:/usr/share/cacti# pwd
 /usr/share/cacti
-root@mail:/usr/share/cacti# 
-
-
-
+root@mail:/usr/share/cacti#

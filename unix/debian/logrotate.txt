@@ -4,7 +4,7 @@
 
 ... content of /etc/logrotate.conf
 
-└──╼ # cat logrotate.conf 
+└──╼ # cat logrotate.conf
 
 # rotate log files weekly
 weekly
@@ -43,11 +43,11 @@ include /etc/logrotate.d
 # system-specific logs may be configured here
 
 ┌─[root@elxabl1vvp2]─[/etc]
-└──╼ # 
+└──╼ #
 
 ... then the /etc/logrotate.d/dnsmasq file is bellow
 
-└──╼ # cat /etc/logrotate.d/dnsmasq 
+└──╼ # cat /etc/logrotate.d/dnsmasq
 /var/log/dnsmasq.log
 {
 	daily
@@ -63,19 +63,19 @@ include /etc/logrotate.d
 /var/log/dnsmasq.log  /var/log/dnsmasq.log.1.gz
 
 ┌─[root@]─[/var/log]
-└──╼ # 
+└──╼ #
 
 
 ┌─[root@]─[/etc/logrotate.d]
-└──╼ # 
+└──╼ #
 
-... the dnsmasq.log file will be created after compressing previous log 
+... the dnsmasq.log file will be created after compressing previous log
 ... file and that file permission will be 644 so that in the new file
 ... dnsmasq can write in.
 
 ... now run following
 
-└──╼ # logrotate -dfv dnsmasq 
+└──╼ # logrotate -dfv dnsmasq
 reading config file dnsmasq
 
 Handling 1 logs
@@ -89,14 +89,14 @@ considering log /var/log/dnsmasq.log
 rotating log /var/log/dnsmasq.log, log->rotateCount is 7
 dateext suffix '-20180808'
 glob pattern '-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
-renaming /var/log/dnsmasq.log.7.gz to /var/log/dnsmasq.log.8.gz (rotatecount 7, logstart 1, i 7), 
-renaming /var/log/dnsmasq.log.6.gz to /var/log/dnsmasq.log.7.gz (rotatecount 7, logstart 1, i 6), 
-renaming /var/log/dnsmasq.log.5.gz to /var/log/dnsmasq.log.6.gz (rotatecount 7, logstart 1, i 5), 
-renaming /var/log/dnsmasq.log.4.gz to /var/log/dnsmasq.log.5.gz (rotatecount 7, logstart 1, i 4), 
-renaming /var/log/dnsmasq.log.3.gz to /var/log/dnsmasq.log.4.gz (rotatecount 7, logstart 1, i 3), 
-renaming /var/log/dnsmasq.log.2.gz to /var/log/dnsmasq.log.3.gz (rotatecount 7, logstart 1, i 2), 
-renaming /var/log/dnsmasq.log.1.gz to /var/log/dnsmasq.log.2.gz (rotatecount 7, logstart 1, i 1), 
-renaming /var/log/dnsmasq.log.0.gz to /var/log/dnsmasq.log.1.gz (rotatecount 7, logstart 1, i 0), 
+renaming /var/log/dnsmasq.log.7.gz to /var/log/dnsmasq.log.8.gz (rotatecount 7, logstart 1, i 7),
+renaming /var/log/dnsmasq.log.6.gz to /var/log/dnsmasq.log.7.gz (rotatecount 7, logstart 1, i 6),
+renaming /var/log/dnsmasq.log.5.gz to /var/log/dnsmasq.log.6.gz (rotatecount 7, logstart 1, i 5),
+renaming /var/log/dnsmasq.log.4.gz to /var/log/dnsmasq.log.5.gz (rotatecount 7, logstart 1, i 4),
+renaming /var/log/dnsmasq.log.3.gz to /var/log/dnsmasq.log.4.gz (rotatecount 7, logstart 1, i 3),
+renaming /var/log/dnsmasq.log.2.gz to /var/log/dnsmasq.log.3.gz (rotatecount 7, logstart 1, i 2),
+renaming /var/log/dnsmasq.log.1.gz to /var/log/dnsmasq.log.2.gz (rotatecount 7, logstart 1, i 1),
+renaming /var/log/dnsmasq.log.0.gz to /var/log/dnsmasq.log.1.gz (rotatecount 7, logstart 1, i 0),
 renaming /var/log/dnsmasq.log to /var/log/dnsmasq.log.1
 creating new /var/log/dnsmasq.log mode = 0644 uid = 112 gid = 0
 compressing log with: /bin/gzip
@@ -104,9 +104,4 @@ removing old log /var/log/dnsmasq.log.8.gz
 error: error opening /var/log/dnsmasq.log.8.gz: No such file or directory
 switching euid to 0 and egid to 0
 
-└──╼ #  
-
-
-
-
-
+└──╼ #

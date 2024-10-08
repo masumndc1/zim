@@ -8,5 +8,3 @@
 
 - default_mem = 2048
 + default_mem = 1024
-
-

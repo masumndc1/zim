@@ -1,11 +1,11 @@
-    
+
 
 ... firewall configuration for docker swarm
 ...
 ... we need to open the following ports
 ... TCP port 2376 for secure Docker client communication. This port is required for Docker Machine to work.
 ... Docker Machine is used to orchestrate Docker hosts.
-... TCP port 2377. This port is used for communication between the nodes of a Docker Swarm or cluster. 
+... TCP port 2377. This port is used for communication between the nodes of a Docker Swarm or cluster.
 ... It only needs to be opened on manager nodes.
 ... TCP and UDP port 7946 for communication among nodes (container network discovery).
 ... UDP port 4789 for overlay network traffic (container ingress networking).
@@ -14,7 +14,7 @@
 ... we have to open the following ports on both the manager.
 ... and the node and restart related services.
 
-... first using ufw. 
+... first using ufw.
 
 #!/bin/bash
 # allowing the following ports
@@ -64,15 +64,8 @@ iptables -A INPUT -p udp --dport 7946 -j ACCEPT
 iptables -A INPUT -p udp --dport 4789 -j ACCEPT
 
 # saving iptable rules and restarting iptables
-service iptables save 
+service iptables save
 service iptables restart
 
 # restarting the docker service
 service docker restart
-
-
-
-
-
-
-

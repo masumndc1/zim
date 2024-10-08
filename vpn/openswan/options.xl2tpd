@@ -1,13 +1,13 @@
-require-mschap  
-require-mschap-v2  
-ms-dns 8.8.8.8  
-ms-dns 4.2.2.1  
-ms-dns 8.8.4.4  
-proxyarp  
-asyncmap 0  
-auth  
-crtscts  
-lock  
-hide-password  
-modem  
+require-mschap
+require-mschap-v2
+ms-dns 8.8.8.8
+ms-dns 4.2.2.1
+ms-dns 8.8.4.4
+proxyarp
+asyncmap 0
+auth
+crtscts
+lock
+hide-password
+modem
 debug

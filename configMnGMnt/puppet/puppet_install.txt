@@ -16,7 +16,7 @@ Description:	CentOS release 6.2 (Final)
 Release:	6.2
 Codename:	Final
 
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 
 
 [root@localhost ~]# yum install -y http://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
@@ -30,7 +30,7 @@ Loading mirror speeds from cached hostfile
  * rpmfusion-free-updates-source: kartolo.sby.datautama.net.id
  * updates: mirror.optus.net
 Setting up Install Process
-puppetlabs-release-pc1-el-7.noarch.rpm                                                                          |  14 kB     00:00     
+puppetlabs-release-pc1-el-7.noarch.rpm                                                                          |  14 kB     00:00
 Examining /var/tmp/yum-root-Ytlqrm/puppetlabs-release-pc1-el-7.noarch.rpm: puppetlabs-release-pc1-1.1.0-2.el7.noarch
 Marking /var/tmp/yum-root-Ytlqrm/puppetlabs-release-pc1-el-7.noarch.rpm to be installed
 Resolving Dependencies
@@ -57,13 +57,13 @@ Running rpm_check_debug
 Running Transaction Test
 Transaction Test Succeeded
 Running Transaction
-  Installing : puppetlabs-release-pc1-1.1.0-2.el7.noarch                                                                  1/1 
+  Installing : puppetlabs-release-pc1-1.1.0-2.el7.noarch                                                                  1/1
 
 Installed:
-  puppetlabs-release-pc1.noarch 0:1.1.0-2.el7                                                                                    
+  puppetlabs-release-pc1.noarch 0:1.1.0-2.el7
 
 Complete!
-[root@localhost ~]# 
+[root@localhost ~]#
 
 
 [root@localhost sysconfig]# yum repolist
@@ -84,7 +84,7 @@ rpmfusion-free-updates-debuginfo                           RPM Fusion for EL 6 -
 rpmfusion-free-updates-source                              RPM Fusion for EL 6 - Free - Updates Source     0
 updates                                                    CentOS-6 - Updates                              419
 repolist: 5,861
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 
 
 .. here we can see that puppetlab-pc1 repolist has been added here. it shows that it has included 60 packages.
@@ -95,8 +95,8 @@ repolist: 5,861
 Retrieving http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
 Preparing...                ########################################### [100%]
    1:puppetlabs-release     ########################################### [100%]
-[root@localhost sysconfig]# 
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
+[root@localhost sysconfig]#
 [root@localhost sysconfig]# yum search puppet
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Loading mirror speeds from cached hostfile
@@ -106,10 +106,10 @@ Loading mirror speeds from cached hostfile
  * rpmfusion-free-updates-debuginfo: kartolo.sby.datautama.net.id
  * rpmfusion-free-updates-source: kartolo.sby.datautama.net.id
  * updates: mirror.optus.net
-puppetlabs-deps                                                                                          | 2.5 kB     00:00     
-puppetlabs-deps/primary_db                                                                               |  28 kB     00:00     
-puppetlabs-products                                                                                      | 2.5 kB     00:00     
-puppetlabs-products/primary_db                                                                           | 170 kB     00:00     
+puppetlabs-deps                                                                                          | 2.5 kB     00:00
+puppetlabs-deps/primary_db                                                                               |  28 kB     00:00
+puppetlabs-products                                                                                      | 2.5 kB     00:00
+puppetlabs-products/primary_db                                                                           | 170 kB     00:00
 ==================================================== N/S Matched: puppet =========================================================
 hiera-puppet.noarch : A data backend for Hiera that can query the internal Puppet scope for data.
 mcollective-puppet-agent.noarch : Run Puppet agent, get its status, and enable/disable it
@@ -136,13 +136,13 @@ puppet-dashboard.noarch : Systems Management web application
 puppet is stopped
 [root@localhost sysconfig]# /etc/init.d/puppet start
 Starting puppet agent:                                     [  OK  ]
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 
 .. and add it to the system so that it can start at the level 2345
 
 [root@localhost sysconfig]# chkconfig --list puppet
 puppet         	0:off	1:off	2:off	3:off	4:off	5:off	6:off
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 [root@localhost sysconfig]# chkconfig --list 2345 puppet on
 chkconfig version 1.3.47 - Copyright (C) 1997-2000 Red Hat, Inc.
 This may be freely redistributed under the terms of the GNU Public License.
@@ -152,14 +152,11 @@ usage:   chkconfig [--list] [--type <type>] [name]
          chkconfig --del <name>
          chkconfig --override <name>
          chkconfig [--level <levels>] [--type <type>] <name> <on|off|reset|resetpriorities>
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 [root@localhost sysconfig]# chkconfig --level 2345  puppet on
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 [root@localhost sysconfig]# chkconfig --list puppet
 puppet         	0:off	1:off	2:on	3:on	4:on	5:on	6:off
-[root@localhost sysconfig]# 
+[root@localhost sysconfig]#
 
 .. now this should be on when the system boots for the run level 2345
-
-
-

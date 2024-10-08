@@ -11,10 +11,10 @@ ip nat inside source static 192.168.35.128 10.10.10.10
 
 verification
 
-masum#show ip nat statistics 
+masum#show ip nat statistics
 Total active translations: 1 (1 static, 0 dynamic; 0 extended)
 Outside interfaces:
-Inside interfaces: 
+Inside interfaces:
 Hits: 0  Misses: 0
 CEF Translated packets: 0, CEF Punted packets: 0
 Expired translations: 0
@@ -23,8 +23,8 @@ Appl doors: 0
 Normal doors: 0
 Queued Packets: 0
 masum#
-masum#show ip nat tr         
-masum#show ip nat translations 
+masum#show ip nat tr
+masum#show ip nat translations
 Pro Inside global         Inside local          Outside local         Outside global
 --- 10.10.10.10           192.168.35.128        ---                   ---
 masum#
@@ -39,7 +39,7 @@ Connected to Dynamips VM "R1" (ID 0, type c3725) - Console port
 Press ENTER to get the prompt.
 ############################################################################################################################################################################# [OK]
 
-Smart Init is disabled. IOMEM set to: 5  
+Smart Init is disabled. IOMEM set to: 5
 
                                          Using iomem percentage: 5
 
@@ -103,7 +103,7 @@ DRAM configuration is 64 bits wide with parity enabled.
 Would you like to enter the initial configuration dialog? [yes/no]: Installed image archive
 
 % Please answer 'yes' or 'no'.
-Would you like to enter the initial configuration dialog? [yes/no]: 
+Would you like to enter the initial configuration dialog? [yes/no]:
 % Please answer 'yes' or 'no'.
 Would you like to enter the initial configuration dialog? [yes/no]: no
 
@@ -152,7 +152,7 @@ Router(config)#
 Router(config)#
 Router(config)#in
 Router(config)#interface fa
-Router(config)#interface fastEthernet 
+Router(config)#interface fastEthernet
 *Mar  1 00:00:45.839: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
 *Mar  1 00:00:46.839: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up0/1
 Router(config-if)#
@@ -170,7 +170,7 @@ Router(config)#
 Router(config)#
 Router(config)#
 *Mar  1 00:01:11.663: %LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to up
-*Mar  1 00:01:12.663: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up 
+*Mar  1 00:01:12.663: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
 Router(config)#
 Router(config)#
 Router(config)#
@@ -181,7 +181,7 @@ Router(config)#ip nat pool ippool 10.10.10.10 10.10.10.20 pr
 Router(config)#ip nat pool ippool 10.10.10.10 10.10.10.20 prefix-length 24
 Router(config)#
 Router(config)#acc
-Router(config)#access-list 1 
+Router(config)#access-list 1
 *Mar  1 00:01:39.163: %LINEPROTO-5-UPDOWN: Line protocol on Interface NVI0, changed state to upper
 % Incomplete command.
 
@@ -193,14 +193,14 @@ Router(config)#ip nat inside sou
 Router(config)#ip nat inside source li
 Router(config)#ip nat inside source list 1 po
 Router(config)#ip nat inside source list 1 pool ippool
- 
+
 Router(config)#
 Router(config)#
 Router(config)#exit
 Router#
 Router#
-Router#sow 
-*Mar  1 00:02:30.547: %SYS-5-CONFIG_I: Configured from console by cons   
+Router#sow
+*Mar  1 00:02:30.547: %SYS-5-CONFIG_I: Configured from console by cons
 % Type "show ?" for a list of subcommands
 Router#
 Router#
@@ -230,7 +230,7 @@ ip cef
 !
 !
 multilink bundle-name authenticated
-!         
+!
 !
 !
 !
@@ -254,7 +254,7 @@ multilink bundle-name authenticated
 archive
  log config
   hidekeys
-! 
+!
 !
 !
 !
@@ -306,7 +306,7 @@ line vty 0 4
 end
 
 Router#show me
-Router#show ? 
+Router#show ?
   aaa                       Show AAA values
   aal2                      Show commands for AAL2
   access-expression         List access expression
@@ -352,7 +352,7 @@ Router#show ?
   cls                       DLC user information
   cns                       CNS agents
   compress                  Show compression statistics
-          
+
 Router#show bu
 Router#show buffers ?
   address          Buffer at a given address
@@ -361,7 +361,7 @@ Router#show buffers ?
   failures         Buffer allocation failures
   free             Buffers available for use
   input-interface  Buffers assigned to an input interface
-  leak             Buffers which are there in the system for 1 minute 
+  leak             Buffers which are there in the system for 1 minute
   old              Buffers older than one minute
   pool             Buffers in a specified pool
   tune             Tuning log
@@ -370,7 +370,7 @@ Router#show buffers ?
   <cr>
 
 Router#show buffers fr
-Router#show buffers free 
+Router#show buffers free
 
   Header DataArea  Pool Rcnt  Size Link  Enc    Flags          Input      Output
 
@@ -417,7 +417,7 @@ Router#show buffers free
 6625EB1C  7A05764   Big    0     0    0    0        0           None        None
 6625EED0  7A05E44   Big    0     0    0    0        0           None        None
 6625F284  7A06524   Big    0     0    0    0        0           None        None
-          
+
 
   Header DataArea  Pool           Rcnt  Size  Original   Flags   caller_pc
 
@@ -445,7 +445,7 @@ Public particle pools:
        0  7B54840 F/S                0     0        0        1 6002D1C8
        0  7B549A0 F/S                0     0        0        1 6002D1C8
        0  7B54B00 F/S                0     0        0        1 6002D1C8
-          
+
 Router#ping 4.2.2.1
 
 Type escape sequence to abort.
@@ -482,15 +482,15 @@ Router(config-if)#ip nat ?
   outside            Outside interface for address translation
 
 Router(config-if)#ip nat out
-Router(config-if)#ip nat outside 
+Router(config-if)#ip nat outside
 % NBAR ERROR: due to memory problem, parsing stopped
 % NBAR Error : Activation failed due to insufficient dynamic memory
-% NBAR Error: Stile could not add protocol node  
+% NBAR Error: Stile could not add protocol node
 %NAT: Error activating CNBAR on the interface FastEthernet0/0
 Router(config-if)#
-*Mar  1 00:08:09.319: %SYS-2-MALLOCFAIL: Memory allocation of 10260 bytes failed from 0x628F2DA8, alignment 0 
-Pool: Processor  Free: 27860  Cause: Memory fragmentation 
-Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+*Mar  1 00:08:09.319: %SYS-2-MALLOCFAIL: Memory allocation of 10260 bytes failed from 0x628F2DA8, alignment 0
+Pool: Processor  Free: 27860  Cause: Memory fragmentation
+Alternate Pool: None  Free: 0  Cause: No Alternate pool
  -Process= "Exec", ipl= 0, pid= 195,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB24 0x63645A68 0x628F2DB0 0x628D1774 0x628D2054 0x628D2024 0x628D2BEC 0x62905E30 0x62910894 0x628FDAF0 0x6291ACA0 0x6291B020 0x61C5CF7C
 *Mar  1 00:08:09.323: %NBAR-2-NOMEMORY: No memory available for StILE lmalloc,  -Traceback= 0x61477188 0x628F2DCC 0x628D1774 0x628D2054 0x628D2024 0x628D2BEC 0x62905E30 0x62910894 0x628FDAF0 0x6291ACA0 0x6291B020 0x61C5CF7C 0x61C5F8B4 0x614C3364 0x614E70BC 0x62AFA750
 Router(config-if)#exit
@@ -500,7 +500,7 @@ Router(config)#int
 Router(config)#interface fa
 Router(config)#interface fastEthernet 0/1
 Router(config-if)#ip nat insi
-Router(config-if)#ip nat inside 
+Router(config-if)#ip nat inside
 % NBAR ERROR: symbol addition
 % NBAR ERROR: symbol addition
 % NBAR ERROR: symbol addition
@@ -562,7 +562,7 @@ Router(config-if)#ip nat inside
 % NBAR ERROR: symbol addition
 % NBAR ERROR: symbol addition
 % NBAR Error : Activation failed due to insufficient dynamic memory
-% NBAR Error: Stile could not add protocol node  
+% NBAR Error: Stile could not add protocol node
 %NAT: Error activating CNBAR on the interface FastEthernet0/1
 Router(config-if)#
 *Mar  1 00:08:26.487: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
@@ -575,14 +575,14 @@ Router(config)#
 Router(config)#exit
 Router#
 Router#show in
-*Mar  1 00:08:36.679: %SYS-5-CONFIG_I: Configured from console by consol 
+*Mar  1 00:08:36.679: %SYS-5-CONFIG_I: Configured from console by consol
 % Ambiguous command:  "show i"
 Router#show ip nat st
-Router#show ip nat statistics 
+Router#show ip nat statistics
 Total active translations: 4 (0 static, 4 dynamic; 2 extended)
 Outside interfaces:
   FastEthernet0/0
-Inside interfaces: 
+Inside interfaces:
   FastEthernet0/1
 Hits: 71  Misses: 0
 CEF Translated packets: 71, CEF Punted packets: 0
@@ -598,7 +598,7 @@ Normal doors: 0
 Queued Packets: 0
 Router#
 Router#show ip nat tr
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
 --- 10.10.10.11        192.168.244.5      ---                ---
@@ -607,13 +607,13 @@ icmp 10.10.10.10:23047 192.168.244.6:23047 4.2.2.1:23047     4.2.2.1:23047
 Router#
 Router#
 Router#
-*Mar  1 00:09:08.559: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
-Pool: Processor  Free: 31788  Cause: Not enough free memory 
-Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+*Mar  1 00:09:08.559: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8
+Pool: Processor  Free: 31788  Cause: Not enough free memory
+Alternate Pool: None  Free: 0  Cause: No Alternate pool
  -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
 *Mar  1 00:09:08.587: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
 Router#
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
 --- 10.10.10.11        192.168.244.5      ---                ---
@@ -624,7 +624,7 @@ icmp 10.10.10.10:25607 192.168.244.6:25607 4.2.2.1:25607     4.2.2.1:25607
 Router#
 Router#
 Router#
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
 --- 10.10.10.11        192.168.244.5      ---                ---
@@ -639,18 +639,18 @@ Router#
 Router#show run | begin nat
 
 Router#
-*Mar  1 00:09:39.567: %SYS-2-MALLOCFAIL: Memory allocation of 28668 bytes failed from 0x61A31BE0, alignment 0 
-Pool: Processor  Free: 26932  Cause: Not enough free memory 
-Alternate Pool: None  Free: 0  Cause: No Alternate pool 
- -Process= "Exec", ipl= 0, pid= 195,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB24 0x63645A68 0x61A31BE8 0x61486B6C 0x614E2EF4 0x614C3364 0x614E70BC 0x62AFA750 0x62AFA734 
+*Mar  1 00:09:39.567: %SYS-2-MALLOCFAIL: Memory allocation of 28668 bytes failed from 0x61A31BE0, alignment 0
+Pool: Processor  Free: 26932  Cause: Not enough free memory
+Alternate Pool: None  Free: 0  Cause: No Alternate pool
+ -Process= "Exec", ipl= 0, pid= 195,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB24 0x63645A68 0x61A31BE8 0x61486B6C 0x614E2EF4 0x614C3364 0x614E70BC 0x62AFA750 0x62AFA734
 Router#
-*Mar  1 00:10:50.755: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
-Pool: Processor  Free: 31788  Cause: Not enough free memory 
-Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+*Mar  1 00:10:50.755: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8
+Pool: Processor  Free: 31788  Cause: Not enough free memory
+Alternate Pool: None  Free: 0  Cause: No Alternate pool
  -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
 *Mar  1 00:10:50.767: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
 Router#
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
 --- 10.10.10.11        192.168.244.5      ---                ---
@@ -662,15 +662,15 @@ Router#
 Router#
 Router#
 Router#
-*Mar  1 00:11:31.255: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8 
-Pool: Processor  Free: 31788  Cause: Not enough free memory 
-Alternate Pool: None  Free: 0  Cause: No Alternate pool 
+*Mar  1 00:11:31.255: %SYS-2-MALLOCFAIL: Memory allocation of 65536 bytes failed from 0x60028610, alignment 8
+Pool: Processor  Free: 31788  Cause: Not enough free memory
+Alternate Pool: None  Free: 0  Cause: No Alternate pool
  -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60016604 0x6001C4CC 0x6001CB78 0x60028618 0x60027D1C 0x60027EA8
 *Mar  1 00:11:31.259: %SYS-2-CHUNKEXPANDFAIL: Could not expand chunk pool for ipnat entry. No memory available -Process= "Chunk Manager", ipl= 3, pid= 1,  -Traceback= 0x61477188 0x60027EEC
 Router#
 Router#
 Router#
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.11:6151  192.168.244.5:6151 4.2.2.1:6151       4.2.2.1:6151
 icmp 10.10.10.11:12295 192.168.244.5:12295 179.60.192.3:12295 179.60.192.3:12295
@@ -683,11 +683,11 @@ Router#
 Router#
 Router#
 Router#
-Router#show ip nat statistics 
+Router#show ip nat statistics
 Total active translations: 8 (0 static, 8 dynamic; 5 extended)
 Outside interfaces:
   FastEthernet0/0
-Inside interfaces: 
+Inside interfaces:
   FastEthernet0/1
 Hits: 2305  Misses: 0
 CEF Translated packets: 2295, CEF Punted packets: 15
@@ -703,8 +703,8 @@ Normal doors: 0
 Queued Packets: 0
 Router#
 Router#
-Router#show ip nat tr         
-Router#show ip nat translations 
+Router#show ip nat tr
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.12:2     192.168.244.2:2    216.58.210.4:2     216.58.210.4:2
 icmp 10.10.10.12:3     192.168.244.2:3    216.58.210.4:3     216.58.210.4:3

@@ -44,9 +44,7 @@ root@controller:~/puppet/manifests# puppet filebucket -l diff 0eb429526e5e170cd9
 +cow! holy
 root@controller:~/puppet/manifests#
 
-... now restoring a file 
+... now restoring a file
 
 root@controller:~/puppet/manifests# puppet filebucket -l restore /tmp/testfile.txt 0eb429526e5e170cd9ed4f84c24e442b
 root@controller:~/puppet/manifests#
-
-

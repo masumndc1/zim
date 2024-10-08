@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# down load the kimchi 
+# down load the kimchi
 # from https://github.com/kimchi-project/kimchi/releases/tag/2.5.0
 apt-get install nginx
 wget -c https://github.com/kimchi-project/kimchi/releases/download/2.5.0/wok-2.5.0-0.noarch.deb

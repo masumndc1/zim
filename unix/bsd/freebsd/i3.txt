@@ -5,7 +5,7 @@
 ... https://www.daemon-security.com/blog/fbsd10desk-0327/
 
 ... if you are using hardware
-# pkg install xorg xorg-drivers xf86-video-amdgpu xf86-video-ati 
+# pkg install xorg xorg-drivers xf86-video-amdgpu xf86-video-ati
 # pkg install xf86-video-intel xf86-video-vesa
 
 ... if you are using vmware then
@@ -23,4 +23,4 @@
 
 ... if you dont have any display manager you can run
 
-startx &; lock -pn 
+startx &; lock -pn

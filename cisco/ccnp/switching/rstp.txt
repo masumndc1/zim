@@ -8,9 +8,9 @@
 .. of quick convergence. rstp can be used as a single instance or multiple instance.
 .. for multiple instance rstp works with cisco's per vlan spanning tree protocol(pvst)
 .. together with it becomes rpvst+. rstp can also work with ieee 802.1s multiple
-.. spanning tree(MST) operation but this requires more configuration. 
+.. spanning tree(MST) operation but this requires more configuration.
 
-.. as we know in stp each port is in a role and a state in a given time. they are 
+.. as we know in stp each port is in a role and a state in a given time. they are
 .. a. root port.
 .. b. designated port.
 .. c. blocking port (neither root port nor designated port)
@@ -18,10 +18,10 @@
 .. moreover cisco proprietery uplinkfast also possible though one of the redundant
 .. will be in a blocking state.
 
-.. rstp works not like stp. its operations are like gives a state to a port after 
+.. rstp works not like stp. its operations are like gives a state to a port after
 .. knowing its role. the state defines what it will do with the incoming packets.
 .. where as in stp relies on bpdu coming from root bridge but not heavily depends
-.. on bpdu. 
+.. on bpdu.
 
 .. in rstp, ports are given the following roles
 .. a. root port: which provide path to the root bridge.
@@ -33,19 +33,19 @@
 .. incoming packets.
 .. discarding: packet drops and no mac is learned.
 .. learning: incoming frames are dropped but mac address are learned.
-.. forwarding: incoming packets are forwarded accordingly the mac address are 
+.. forwarding: incoming packets are forwarded accordingly the mac address are
 .. learned.
 
 .. in rstp bpdu is still used but version is set to 2 so that it can distinguish
 .. rstp bpdu with 802.1d bpdu. more over some bits are used which were not used
 .. before.
 
-.. bpdu are sent regular hello interval out of the switch regardless of bpdu 
-.. received from the root.if the three consecutive bpdu miss from any switch then 
+.. bpdu are sent regular hello interval out of the switch regardless of bpdu
+.. received from the root.if the three consecutive bpdu miss from any switch then
 .. the switch is considered as down (3*hello time 2=6).
 
 .. as rstp can differentiate bpdu version 0 to version 2, the ports can operate
-.. accordingly to the incoming bpdu.also it can hold for particular time when 
+.. accordingly to the incoming bpdu.also it can hold for particular time when
 .. both version 0 or version 2 comes within short period of time then switch can
 .. decide the operation.
 
@@ -55,9 +55,9 @@
 .. point-to-point port: which is connected to the other switch port. a handshake
 .. occurs between them instead of time expiration. rstp convergence occurs fast
 .. over point-to-point link with rstp handshake messages. a synchronization process
-.. ensures the loop free network during point-to-point network convergence. 
+.. ensures the loop free network during point-to-point network convergence.
 
-... configuring the rstp 
+... configuring the rstp
 
 .. configuring at the edge port.
 
@@ -72,7 +72,7 @@ R3(config-if)#spanning-tree ?
 R3(config-if)#spanning-tree portfast ?
   <cr>
 
-R3(config-if)#spanning-tree portfast 
+R3(config-if)#spanning-tree portfast
 %Warning: portfast should only be enabled on ports connected to a single host.
  Connecting hubs, concentrators, switches,  bridges, etc.to this interface
  when portfast is enabled, can cause temporary spanning tree loops.
@@ -88,11 +88,11 @@ R3(config-if)#
 
 R3(config-if)# spanning-tree link-type point-to-point
 
-.. in catalyst switch pvst+ is defult mode of stp operation. we can 
+.. in catalyst switch pvst+ is defult mode of stp operation. we can
 .. enable rpvst+ to allow multiple instace of stp for each vlan operation.
 
 .. to enable it do following.
- 
+
 R3(config)# spanning-tree mode rapid-pvst
 
 .. we can revert back to traditional pvst
@@ -110,16 +110,7 @@ Gi9/6 Altn BLK 4 128.518 P2p Peer(STP)
 Po1 Root FWD 3 128.833 P2p
 Po2 Desg FWD 3 128.834 P2p
 
-.. clearly showing that rstp is running. also P2p indicating that 
+.. clearly showing that rstp is running. also P2p indicating that
 .. point-to-point switch running rstp. also P2p Peer(STP) indicates
 .. point-to-point links but other switch is running traditional
 .. 802.1d stp.
-
-
-
-
-
-
-
-
-

@@ -1,10 +1,10 @@
 
 
 ... cgi configuration in apache
-... 
+...
 ... cgi configuration for bash/perl/python with apache.
 ...
-... first of all we have to load appropiate modules 
+... first of all we have to load appropiate modules
 ... say for python and perl we have to load python module
 
 root@deb-7:/etc/apache2/mods-enabled# ls
@@ -135,14 +135,12 @@ print ("</pre></body></html>")
 
 root@deb-7:/var/www/cgi-bin#
 
-... testing 
+... testing
 
 ... now run http://localhost/cgi-bin/command.sh and
 ...  	    http://localhost/cgi-bin/index.py
 ... this will be surprising for you.
-... any error can be consulted at 
+... any error can be consulted at
 ... tail -f /var/log/apache/error.log
 ... testing on other script like .pl hopefully
 ... will be same.
-
-

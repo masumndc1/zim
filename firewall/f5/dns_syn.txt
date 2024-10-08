@@ -1,5 +1,5 @@
 
-// we got the several steps to sync two big-ip dns server 
+// we got the several steps to sync two big-ip dns server
 // together like below.
 
 1. add dns server on both data center.

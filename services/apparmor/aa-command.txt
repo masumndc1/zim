@@ -1,6 +1,6 @@
 
 
-... there are bunch of aa related command available 
+... there are bunch of aa related command available
 ... some of them are shown here. others are self-explanatory
 ... and some need some reading
 
@@ -118,8 +118,3 @@ root@slave:/etc/apparmor.d# systemctl restart apache2
 
 ... and finally run aa-logprof and accept accordingly and save
 ... them to make enforce mode for apache2 permanently.
-
-
-
-
-

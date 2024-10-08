@@ -14,7 +14,7 @@ to enable quota. following should be done.
 5. Check quotas.
 
 1. edit the [[/etc/fstab]] file
- 
+
 [[/dev/sda2]] [[/home]] ext3 defaults,usrquota,grpquota 1 2
 
 and reboot the system if creating for / partition or umount or mount command to affect the usrquota on other partition.
@@ -36,6 +36,4 @@ UUID=d7f08be2-1e16-444a-97da-e1f0f733b401 /               ext3    errors=remount
 # swap was on /dev/sda6 during installation
 UUID=3951cf89-f10b-4c0f-916b-fe8faaf27f30 none            swap    sw              0       0
 /dev/scd0       /media/floppy0  auto    rw,user,noauto,exec,utf8 0       0
-root@mail:~# 
-
-
+root@mail:~#

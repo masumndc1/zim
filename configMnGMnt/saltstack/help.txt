@@ -3,7 +3,7 @@
 ... help menu in salt can call various way in saltstack.
 ... some of the examples are given below.
 
-... for example, finding more about sys 
+... for example, finding more about sys
 
 [root@saltstack masum]# salt localhost sys
 
@@ -28,7 +28,7 @@ ot@saltstack masum]# salt localhost sys.list_functions | grep pkg | grep pkg.lis
 [root@saltstack masum]# salt --help | grep out
 [root@saltstack masum]# salt --out=yaml localhost pkg.list_pkgs
 
-... finding grains of minions 
+... finding grains of minions
 
 [root@saltstack masum]# salt localhost sys.doc grains
 [root@saltstack masum]# salt localhost grains.ls
@@ -46,17 +46,17 @@ localhost:
   oscodename: Arch Linux
   osfullname: Arch Linux
   osrelease: ''
-[root@saltstack masum]# 
-[root@saltstack masum]# 
-[root@saltstack masum]# salt --grain 'os:Arch' test.ping                    
+[root@saltstack masum]#
+[root@saltstack masum]#
+[root@saltstack masum]# salt --grain 'os:Arch' test.ping
 localhost:
     True
-[root@saltstack masum]# 
+[root@saltstack masum]#
 
 ... list_function is the most usefull options we should use.
 
 root@saltstack masum]# salt localhost sys.list_functions
- 
+
 for example, to search for status options for the system we can do by following
 
 root@saltstack masum]# salt localhost sys.list_functions status
@@ -78,7 +78,7 @@ sys.state_doc:
 
 ... now search for a state module and functions in state document and their usages.
 
-root@saltstack masum]# salt localhost sys.state_doc pkg service  
+root@saltstack masum]# salt localhost sys.state_doc pkg service
 
 ... the usages of watch and require.
 
@@ -115,10 +115,10 @@ ot@saltstack salt]# cat -n pkg.sls
     23     - pkg: mypkgs
 
 ... note here how we build up the watch section here
-... in file we have provided the id of the file name not the 
+... in file we have provided the id of the file name not the
 ... file name it self or full path of the filename.
-... when salt finds any changes in the content of the file 
-... /home/masum/masum.conf file it automatically restart 
+... when salt finds any changes in the content of the file
+... /home/masum/masum.conf file it automatically restart
 ... the service salt-minion.
 
     24   - watch:
@@ -141,7 +141,7 @@ ot@saltstack salt]# cat -n pkg.sls
 
 [root@saltstack salt]# salt minion sys.list_state_modules
 [root@saltstack salt]# salt minion sys.list_state_functions <module_name>
-[root@saltstack salt]# salt minion sys.state_doc user.present 
+[root@saltstack salt]# salt minion sys.state_doc user.present
 
 
 ot@saltstack salt]# salt \* state.show_top
@@ -165,7 +165,7 @@ splunk:
         - epel
 [root@saltstack salt]#
 
-... normally salt run command as root user but if we need to run as other user 
+... normally salt run command as root user but if we need to run as other user
 ... we can do like below.
 
 [masum@master ~]$ sudo salt master\* cmd.run whoami runas=masum

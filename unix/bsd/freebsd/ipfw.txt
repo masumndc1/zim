@@ -1,7 +1,7 @@
 
 
 
-................. ipfw syntax 
+................. ipfw syntax
 
 ... at first we are enabling the ipfw in freebsd. to do so we are
 ... putting entry on /etc/rc.conf. the default behaviour of ipfw is
@@ -30,7 +30,7 @@ root@masum:~ # cat -n /etc/rc.conf
     20	#pflog_enable="YES"              # start pflogd(8)
     21	#pflog_logfile="/var/log/pflog"  # where pflogd should store the logfile
     22	#pflog_flags=""                  # additional flags for pflogd startup
-root@masum:~ # 
+root@masum:~ #
 
 root@masum:~ # ipfw add 100 permit ip from 192.168.35.0/24 to any
 root@masum:~ # ipfw add permit icmp from any to 192.168.35.155/24
@@ -50,7 +50,7 @@ root@masum:~ # ipfw show
 01100   0      0 allow ip from 192.168.35.155 to any
 01200   0      0 allow icmp from any to 192.168.35.0/24
 65535  67   4854 deny ip from any to any
-root@masum:~ # 
+root@masum:~ #
 root@masum:~ # ping 4.2.2.1
 PING 4.2.2.1 (4.2.2.1): 56 data bytes
 64 bytes from 4.2.2.1: icmp_seq=1 ttl=48 time=1297.769 ms
@@ -61,5 +61,4 @@ PING 4.2.2.1 (4.2.2.1): 56 data bytes
 --- 4.2.2.1 ping statistics ---
 4 packets transmitted, 4 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 309.892/1074.836/2298.766/805.893 ms
-root@masum:~ # 
-
+root@masum:~ #

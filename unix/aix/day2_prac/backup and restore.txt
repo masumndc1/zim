@@ -31,7 +31,7 @@ To delete the vg
 To view the vg
 #lsvg
 
-To restore the vg 
+To restore the vg
 # restvg -q -f /tmp/anjan/bkup hdisk2
 
 To check the proper restore
@@ -133,17 +133,9 @@ To take a selective restore
 #restore -xvf anj /m1/f2
 ****here only file anjan will be restored,i.e selective restore
 
-for incremental backup use 
+for incremental backup use
 
 smit backfilesys
 
 
-#backup -f /anjan/bkp -0 
-
-
-
-
-
-
-
-
+#backup -f /anjan/bkp -0

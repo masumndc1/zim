@@ -8,16 +8,16 @@ Enter configuration commands, one per line.  End with CNTL/Z.
 Router(config)#ip domain?
 domain  domain-list  domain-lookup  domain-name
 
-Router(config)#ip domain-name masum.com 
+Router(config)#ip domain-name masum.com
 Router(config)#
 Router(config)#
 
-outer(config)#crypto key generate rsa modulus 1024 
+outer(config)#crypto key generate rsa modulus 1024
 % Please define a hostname other than Router.
 
 Router(config)#hostname masum
 
-masum(config)#crypto key generate rsa modulus 1024 
+masum(config)#crypto key generate rsa modulus 1024
 The name for the keys will be: masum.masum.com
 
 % The key modulus size is 1024 bits
@@ -31,7 +31,7 @@ masum(config)#line console 0
 masum(config-line)#password cisco
 masum(config-line)#login
 masum(config-line)#exit
-masum(config)#line vty 0 15 
+masum(config)#line vty 0 15
 masum(config-line)#password cisco
 masum(config-line)#
 masum(config-line)#
@@ -66,12 +66,12 @@ masum(config)#username masum password ?
 
 masum(config)#username masum password masum03
 masum(config)#
-masum(config)#line 
+masum(config)#line
 masum(config)#line vt
 masum(config)#line vty 0 15 ?
   <cr>
 
-masum(config)#line vty 0 15 
+masum(config)#line vty 0 15
 masum(config-line)#?
 asum(config-line)#ip tcp ?
   input-coalesce-threshold  Set the threshold that triggers packet coalescing
@@ -80,7 +80,7 @@ asum(config-line)#ip tcp ?
 asum(config-line)#login local ?
   <cr>
 
-masum(config-line)#            
+masum(config-line)#
 masum(config-line)#
 masum(config-line)#exit
 masum(config)#
@@ -106,7 +106,7 @@ masum(config)#ip ssh au
 masum(config)#ip ssh authentication-retries 3 ?
   <cr>
 
-masum(config)#ip ssh authentication-retries 3 
+masum(config)#ip ssh authentication-retries 3
 masum(config)#ip ssh logg
 masum(config)#ip ssh logging ?
   events  Log SSH events
@@ -115,7 +115,7 @@ masum(config)#ip ssh logging ev
 masum(config)#ip ssh logging events ?
   <cr>
 
-masum(config)#ip ssh logging events 
+masum(config)#ip ssh logging events
 
 masum(config-line)#tr
 masum(config-line)#transport ?
@@ -159,8 +159,8 @@ masum(config-line)#transport input ssh telnet ?
   v120     Async over ISDN
   <cr>
 
-masum(config-line)#transport input ssh telnet 
-masum(config-line)#do show 
+masum(config-line)#transport input ssh telnet
+masum(config-line)#do show
 % Type "show ?" for a list of subcommands
 masum(config-line)#do show run | begin line
 line con 0
@@ -195,13 +195,13 @@ masum#show ip ssh ?
   |  Output modifiers
   <cr>
 
-masum#show ip ssh 
+masum#show ip ssh
 SSH Enabled - version 2.0
 Authentication timeout: 120 secs; Authentication retries: 3
 masum#
 
 
-verification 
+verification
 
 
 masum(config-line)#

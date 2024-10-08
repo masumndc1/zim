@@ -1,7 +1,7 @@
 
 
 ...
-... class method works on directly on the class. 
+... class method works on directly on the class.
 ... note below, how its being called. it is being called
 ... from the class not but the instance.
 ...

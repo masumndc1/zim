@@ -12,7 +12,7 @@ kld_list="/boot/modules/radeonkms.ko"
 
 Ensure that your UID is a member of the "video" group.
 
-3. Restart your system; you should see the radeonkms.ko get loaded 
+3. Restart your system; you should see the radeonkms.ko get loaded
 and a flash on your console as we switch over to the new display driver.
 
 4. Start Xorg via your usual method (i.e. startx, GDM, etc.)
@@ -24,4 +24,3 @@ i915kms_load="YES"
 $ sudo pkg install xrandr arandr
 
 I have found this had worked.
-

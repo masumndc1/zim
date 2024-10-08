@@ -101,7 +101,7 @@ server 75.55.2.100 {
 #    };
 #};
 ################################
- 
+
 First block is nothing but keys. TSIG keys are configured using the keys substatements. The keys substatements inform a name server to sign queries and zone transfer requests sent to a particular remote name server. In our case the above substatement informs the master server, to sign all requests to the host slave server 75.55.2.100 with the key called TRANSFER. The server statement's keys clause to tell the slave name server to sign all zone transfer requests and queries sent to its master server and vice verse. Save and close the file. Open named.conf file, enter:
 # vi /etc/bind/named.conf
 
@@ -177,4 +177,3 @@ Jan 26 19:18:33 txvip1 named[17899]: zone theos.in/IN: Transfer started.
 Jan 26 19:18:33 txvip1 named[17899]: transfer of 'theos.in/IN' from 208.43.138.52#53: connected using 75.126.168.152#45942
 Jan 26 19:18:34 txvip1 named[17899]: zone theos.in/IN: transferred serial 2008071011: TSIG 'transfer'
 Jan 26 19:18:34 txvip1 named[17899]: transfer of 'theos.in/IN' from 208.43.138.52#53: e
-

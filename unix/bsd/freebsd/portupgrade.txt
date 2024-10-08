@@ -1,8 +1,8 @@
 
 
-... portupgrade which is the utility to install port 
+... portupgrade which is the utility to install port
 
-root@masum:/usr/ports # 
+root@masum:/usr/ports #
 root@masum:/usr/ports # make search name=portupgrade
 Port:	portupgrade-2.4.14,2
 Path:	/usr/ports/ports-mgmt/portupgrade
@@ -23,8 +23,8 @@ WWW:	http://pkgtools.github.com/
 root@masum:/usr/ports # cd /usr/ports/ports-mgmt/portupgrade
 root@masum:/usr/ports/ports-mgmt/portupgrade # ls
 Makefile	distinfo	pkg-descr	pkg-plist
-root@masum:/usr/ports/ports-mgmt/portupgrade # 
-root@masum:/usr/ports/ports-mgmt/portupgrade # 
+root@masum:/usr/ports/ports-mgmt/portupgrade #
+root@masum:/usr/ports/ports-mgmt/portupgrade #
 root@masum:/usr/ports/ports-mgmt/portupgrade # make install
 ===> Building/installing dialog4ports as it is required for the config dialog
 ===>  Cleaning for dialog4ports-0.1.6
@@ -65,16 +65,16 @@ checking build system type... i386-portbld-freebsd11.0
 
 root@masum:~ # portversion -voL =
 [Reading data from pkg(8) ... - 722 packages found - done]
-graphics/ImageMagick        <  needs updating (port has 6.9.6.4,1) 
-graphics/OpenEXR            <  needs updating (port has 2.2.0_6) 
-databases/akonadi           <  needs updating (port has 1.13.0_2) 
-audio/alsa-plugins          <  needs updating (port has 1.1.1_1) 
-devel/apr1                  <  needs updating (port has 1.5.2.1.5.4_2) 
-graphics/argyllcms          <  needs updating (port has 1.9.2) 
-science/avogadro            <  needs updating (port has 1.1.1_5) 
-shells/bash                 <  needs updating (port has 4.4.12_1) 
-devel/binutils              <  needs updating (port has 2.27_5,1) 
-devel/boost-libs            <  needs updating (port has 1.63.0_1) 
+graphics/ImageMagick        <  needs updating (port has 6.9.6.4,1)
+graphics/OpenEXR            <  needs updating (port has 2.2.0_6)
+databases/akonadi           <  needs updating (port has 1.13.0_2)
+audio/alsa-plugins          <  needs updating (port has 1.1.1_1)
+devel/apr1                  <  needs updating (port has 1.5.2.1.5.4_2)
+graphics/argyllcms          <  needs updating (port has 1.9.2)
+science/avogadro            <  needs updating (port has 1.1.1_5)
+shells/bash                 <  needs updating (port has 4.4.12_1)
+devel/binutils              <  needs updating (port has 2.27_5,1)
+devel/boost-libs            <  needs updating (port has 1.63.0_1)
 
 ... portclean utility to clean the garbage files after the installation
 ... of packages
@@ -94,4 +94,3 @@ Delete /usr/ports/ports-mgmt/portupgrade/work
 Delete /usr/ports/databases/ruby-bdb/work
 
 ...
-

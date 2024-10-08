@@ -10,8 +10,8 @@ $ mkdir -p $WORKON_HOME
 $ source /usr/local/bin/virtualenvwrapper.sh
 $ mkvirtualenv env1
 Installing env1 ...
-  
-  Now we can make a script which we can run everytime we make a new virtual env or 
+
+  Now we can make a script which we can run everytime we make a new virtual env or
 we open a new terminal. we can also add them in .zshrc file as well.
 
 #!/bin/bash
@@ -20,7 +20,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 
   To make a virtualenv run
 $ mkvirtualenv test1
-  
+
   To delete an existing virtualenv run
 $ rmvirtualenv test1
 

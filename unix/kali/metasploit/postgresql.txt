@@ -1,7 +1,7 @@
 
 
 ... how to configure postgresql in kali for metasploit
-... this section is collected from 
+... this section is collected from
 ... https://www.offensive-security.com/metasploit-unleashed/using-databases/
 
 ... In Kali, you will need to start up the postgresql server before using the database.
@@ -10,18 +10,18 @@ root@kali:~# systemctl start postgresql
 ... After starting postgresql you need to create and initialize the msf database with msfdb init
 root@kali:~# msfdb init
 Creating database user 'msf'
-Enter password for new role: 
-Enter it again: 
+Enter password for new role:
+Enter it again:
 Creating databases 'msf' and 'msf_test'
 Creating configuration file in /usr/share/metasploit-framework/config/database.yml
 Creating initial database schema
 
 ... Using Workspaces in Metasploit
-... When we load up msfconsole, and run ‘db_status‘, we can confirm that 
+... When we load up msfconsole, and run ‘db_status‘, we can confirm that
 ... Metasploit is successfully connected to the database.
 ... and then my configuration is as follows.
 
-msf > db_status 
+msf > db_status
 [*] postgresql connected to msf
 
 msf > db_import owasp.xml
@@ -55,6 +55,3 @@ host            port  proto  name         state  info
 192.168.25.140  8080  tcp    http         open   Apache Tomcat/Coyote JSP engine 1.1
 
 msf >
-
-
-

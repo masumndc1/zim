@@ -16,7 +16,7 @@ base:
   - htop
 [root@salt salt]#
 
-... The complete set of state files included in the top 
+... The complete set of state files included in the top
 ... file is referred to as the highstate. now running following
 
 [root@salt salt]# salt '*' state.highstate
@@ -90,4 +90,3 @@ include:
 
 ... to select minions in a particular environment, say production
 salt \* state.highstate saltenv=production test=ture
-

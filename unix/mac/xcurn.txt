@@ -12,5 +12,3 @@ xcode-select: note: install requested for command line developer tools
  khabir@macs-MacBook-Pro-2  ~/Documents 
 
 ... just now accept the installation.
-
-

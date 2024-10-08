@@ -7,7 +7,7 @@ To assign the ip address
 #smit mktcpip
 
 --The ip adapter in aix is en0
-To view the ipaddress 
+To view the ipaddress
 
 #ifconfig -a
 #ifconfig en0
@@ -15,7 +15,7 @@ To view the ipaddress
 To view the host file
 #cat /etc/hosts
 
-To view the mac address 
+To view the mac address
 #netstat -i
 
 To stop or start the ftp or telnet service
@@ -23,52 +23,51 @@ To stop or start the ftp or telnet service
 You can disable any service in /etc/inetd.conf file
 
 vi /etc/inetd.conf
-For example 
-modify the 'ftp service ' line from: 
+For example
+modify the 'ftp service ' line from:
 
-ftp stream tcp6 nowait root /usr/sbin/ftpd ftpd 
+ftp stream tcp6 nowait root /usr/sbin/ftpd ftpd
 
-to 
+to
 
-#ftp stream tcp6 nowait root /usr/sbin/ftpd ftpd 
+#ftp stream tcp6 nowait root /usr/sbin/ftpd ftpd
 
-and don't forget about restart the inetd 
+and don't forget about restart the inetd
 
-#refresh -s inetd 
+#refresh -s inetd
 
 or
 #startsrc -t ftp
 #stopsrc -t ftp
 
 --The ip adapter in aix is en0
-To view the ipaddress 
+To view the ipaddress
 
 #ifconfig -a
 #ifconfig en0
 
 To configure the rexecd service in aix 5.3
 
-1. check in the /etc/hosts file, make sure the PC's IP address and name is 
-in the host file. 
-2. Edit the /etc/inetd.conf file, change the line which says: 
-exec stream tcp nowait root /etc/rexecd rexecd 
-to: 
-exec stream tcp nowait root /etc/rexecd rexecd -c 
+1. check in the /etc/hosts file, make sure the PC's IP address and name is
+in the host file.
+2. Edit the /etc/inetd.conf file, change the line which says:
+exec stream tcp nowait root /etc/rexecd rexecd
+to:
+exec stream tcp nowait root /etc/rexecd rexecd -c
 
-This switch disables the reverse name lookup. 
+This switch disables the reverse name lookup.
 
 3. #refresh -s inetd
 
-4. Create the file: etc/netsvc.conf 
-This file should just contain one line which is: 
+4. Create the file: etc/netsvc.conf
+This file should just contain one line which is:
 
-hosts=local,bind 
+hosts=local,bind
 
-This file allows the host to read the machine location information from the 
-etc/host file. 
+This file allows the host to read the machine location information from the
+etc/host file.
 
 Now from windows
 c:\>rexec 192.168.0.250 uname
 type username and password
 the command will execute
-

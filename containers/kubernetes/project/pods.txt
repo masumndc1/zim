@@ -2,7 +2,7 @@
 
 ... creating a pod using a yaml file.
 
-[root@kube-master kube]# cat nodejs-pod.yaml 
+[root@kube-master kube]# cat nodejs-pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -13,13 +13,13 @@ spec:
       image: bitnami/apache:latest
       ports:
       - containerPort: 80
-[root@kube-master kube]# 
+[root@kube-master kube]#
 [root@kube-master kube]# kubectl create -f nodejs-pod.yaml
 
 [root@kube-master kube]# kubectl get pods node-js-pod -o wide
 NAME          READY     STATUS    RESTARTS   AGE       IP            NODE
 node-js-pod   1/1       Running   0          11m       172.17.14.3   192.168.10.137
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 ... as we cant access the private ip from browser but we have the way to see.
 
@@ -28,32 +28,29 @@ node-js-pod   1/1       Running   0          11m       172.17.14.3   192.168.10.
                                  Dload  Upload   Total   Spent    Left  Speed
 100    45  100    45    0     0     42      0  0:00:01  0:00:01 --:--:--    42
 <html><body><h1>It works!</h1></body></html>
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 ... we can enter to a pod following
 
 [root@kube-master kube]# kubectl exec -it nginx-hb03b /bin/bash
-root@nginx-hb03b:/# 
-root@nginx-hb03b:/# 
+root@nginx-hb03b:/#
+root@nginx-hb03b:/#
 root@nginx-hb03b:/# uname -a
 Linux nginx-hb03b 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 GNU/Linux
-root@nginx-hb03b:/#    
+root@nginx-hb03b:/#
 root@nginx-hb03b:/# apt-get update
-Get:1 http://nginx.org/packages/mainline/debian stretch InRelease [2863 B]     
-Get:3 http://security.debian.org stretch/updates InRelease [63.0 kB]           
-Ign:2 http://cdn-fastly.deb.debian.org/debian stretch InRelease                
+Get:1 http://nginx.org/packages/mainline/debian stretch InRelease [2863 B]
+Get:3 http://security.debian.org stretch/updates InRelease [63.0 kB]
+Ign:2 http://cdn-fastly.deb.debian.org/debian stretch InRelease
 Get:4 http://cdn-fastly.deb.debian.org/debian stretch-updates InRelease [91.0 kB]
-Get:5 http://cdn-fastly.deb.debian.org/debian stretch Release [118 kB]         
+Get:5 http://cdn-fastly.deb.debian.org/debian stretch Release [118 kB]
 Get:6 http://cdn-fastly.deb.debian.org/debian stretch Release.gpg [2434 B]
 Get:7 http://nginx.org/packages/mainline/debian stretch/nginx amd64 Packages [21.7 kB]
 Get:8 http://security.debian.org stretch/updates/main amd64 Packages [318 kB]
 Get:9 http://cdn-fastly.deb.debian.org/debian stretch-updates/main amd64 Packages [6499 B]
 Get:10 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 Packages [9531 kB]
-Fetched 10.2 MB in 12s (844 kB/s)                                              
+Fetched 10.2 MB in 12s (844 kB/s)
 Reading package lists... Done
 root@nginx-hb03b:/# exit
 exit
-[root@kube-master kube]# 
-
-
-
+[root@kube-master kube]#

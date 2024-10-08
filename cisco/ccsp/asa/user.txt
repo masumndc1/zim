@@ -2,7 +2,7 @@
 username masum password qv0ddXXa95bgn38c encrypted privilege 15
 
 ciscoasa(config)#aaa local authentication attempts max-fail 3
-ciscoasa(config)# 
+ciscoasa(config)#
 
 !
 aaa-server radius_server protocol radius
@@ -20,14 +20,14 @@ aaa local authentication attempts max-fail 3
 ### to see the user logged in asa
 
 
-ciscoasa(config)# show aaa local user 
+ciscoasa(config)# show aaa local user
 Lock-time  Failed-attempts	Locked	User
     -   		0	N	masum
-ciscoasa(config)# 
+ciscoasa(config)#
 
-### if any user lock down method to un-lock them 
+### if any user lock down method to un-lock them
 
-ciscoasa(config)# clear aaa local user ?             
+ciscoasa(config)# clear aaa local user ?
 
 exec mode commands/options:
   fail-attempts  Clear local AAA users fail attempts
@@ -44,6 +44,4 @@ ciscoasa(config)# clear aaa local user lockout username ?
 exec mode commands/options:
   WORD  Specify the username of the locked user
 
-ciscoasa(config)# clear aaa local user lockout username 
-
-
+ciscoasa(config)# clear aaa local user lockout username

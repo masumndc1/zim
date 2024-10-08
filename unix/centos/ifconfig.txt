@@ -13,4 +13,3 @@ Loading mirror speeds from cached hostfile
 net-tools.x86_64 : Basic networking tools
 [root@localhost ~]#
 [root@localhost ~]# yum install net-tools
-

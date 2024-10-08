@@ -10,11 +10,11 @@ Port:	iftop-1.0.p4
 Path:	/usr/ports/net-mgmt/iftop
 Info:	Display bandwidth usage on an interface by host
 Maint:	vd@FreeBSD.org
-B-deps:	
-R-deps:	
+B-deps:
+R-deps:
 WWW:	http://www.ex-parrot.com/~pdw/iftop/
 
-root@masum:/usr/ports # 
+root@masum:/usr/ports #
 
 ... this search is done by the utilities of index file.
 ... we can download and update the indexing by follwoing.
@@ -22,7 +22,7 @@ root@masum:/usr/ports #
 
 root@masum:/usr/ports # make fetchindex
 /usr/ports/INDEX-11.bz2                       100% of 2026 kB   37 kBps 00m54s
-root@masum:/usr/ports # 
+root@masum:/usr/ports #
 
 ... and making index again
 
@@ -34,8 +34,8 @@ Generating INDEX-11 - please wait..
 root@masum:/usr/ports/net-mgmt # cd iftop/
 root@masum:/usr/ports/net-mgmt/iftop # ls
 Makefile	distinfo	pkg-descr
-root@masum:/usr/ports/net-mgmt/iftop # 
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
+root@masum:/usr/ports/net-mgmt/iftop #
 root@masum:/usr/ports/net-mgmt/iftop # make install
 ===>  License GPLv2 accepted by the user
 ===>   iftop-1.0.p4 depends on file: /usr/local/sbin/pkg - found
@@ -60,7 +60,7 @@ checking whether make supports nested variables... yes
 checking for gcc... cc
 checking whether the C compiler works... yes
 checking for C compiler default output file name... a.out
-checking for suffix of executables... 
+checking for suffix of executables...
 checking whether we are cross compiling... no
 checking for suffix of object files... o
 checking whether we are using the GNU C compiler... yes
@@ -166,7 +166,7 @@ install  -m 444 /usr/ports/net-mgmt/iftop/work/iftop-1.0pre4/iftop.8 /usr/ports/
 ===>  Checking if iftop already installed
 ===>   Registering installation for iftop-1.0.p4
 Installing iftop-1.0.p4...
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
 
 root@masum:/usr/ports/net-mgmt/iftop # pkg info iftop
 iftop-1.0.p4
@@ -195,21 +195,21 @@ be run as root.
 
 WWW: http://www.ex-parrot.com/~pdw/iftop/
 
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
 
 ... after the installation as we do not need the work directory
-... any more we can clean up the directory. 
+... any more we can clean up the directory.
 
 root@masum:/usr/ports/net-mgmt/iftop # ls
 Makefile	distinfo	pkg-descr	work
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
 
 root@masum:/usr/ports/net-mgmt/iftop # make clean
 ===>  Cleaning for iftop-1.0.p4
 root@masum:/usr/ports/net-mgmt/iftop # ls
 Makefile	distinfo	pkg-descr
 
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
 
 ... uninstalling the packages
 
@@ -227,10 +227,9 @@ Number of packages to be removed: 1
 [1/1] Deinstalling iftop-1.0.p4...
 [1/1] Deleting files for iftop-1.0.p4: 100%
 
-root@masum:/usr/ports/net-mgmt/iftop # 
+root@masum:/usr/ports/net-mgmt/iftop #
 
 ... source and ports can be updated by using following
 
 root@masum:/usr/ports/net-mgmt/iftop # freebsd-update fetch
 root@masum:/usr/ports/net-mgmt/iftop # freebsd-update install
-

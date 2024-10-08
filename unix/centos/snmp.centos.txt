@@ -53,14 +53,14 @@ Complete!
 
 Now it is installed
 
- 
 
- 
+
+
 2. Configure
 
 I’m careful so I do a backup of the snmpd config file.
 
-[root@dull ~]# mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.org 
+[root@dull ~]# mv /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.org
 
 Create a new config file.
 

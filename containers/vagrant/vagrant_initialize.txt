@@ -6,7 +6,7 @@
 
 ... https://www.vagrantup.com
 
-... after installing vagrant in our debian machine we can check which 
+... after installing vagrant in our debian machine we can check which
 ... version is installed here by following command. we are using virtual box
 ... for running box in it.
 
@@ -18,7 +18,7 @@ Vagrant 1.6.5
  (C) 2005-2016 Oracle Corporation
  All rights reserved.
 
-... now going to add our first box in vagrant 
+... now going to add our first box in vagrant
 
 root@deb-7:~/vagrant# vagrant box add hashicorp/trusty32
 The box 'hashicorp/trusty32' could not be found or
@@ -29,7 +29,7 @@ URL and error message are shown below:
 URL: ["https://atlas.hashicorp.com/hashicorp/trusty32"]
 Error: The requested URL returned error: 404 Not Found
 
-... the error is for as we dont have any login account at 
+... the error is for as we dont have any login account at
 ... hashicorp site for our vagrant box. therefore we are
 ... trying to download and install box.
 
@@ -39,7 +39,7 @@ root@deb-7:~/vagrant# vagrant box add ubuntu/trusty32
 ==> box: Adding box 'ubuntu/trusty32' (v20170307.0.1) for provider: virtualbox
     box: Downloading: https://atlas.hashicorp.com/ubuntu/boxes/trusty32/versions/20170307.0.1/providers/virtualbox.box
 ==> box: Successfully added box 'ubuntu/trusty32' (v20170307.0.1) for 'virtualbox'!
-root@deb-7:~/vagrant# 
+root@deb-7:~/vagrant#
 
 ... another way of installing favourite boxes in varius precompiled
 ... boxes and download and install them.
@@ -48,7 +48,7 @@ root@deb-7:~/vagrant#
 
 https://atlas.hashicorp.com/boxes/search
 
-# vagrant init https://atlas.hashicorp.com/hashicorp/boxes/precise32 or 
+# vagrant init https://atlas.hashicorp.com/hashicorp/boxes/precise32 or
 # vagrant init http://vagrant.srijn.net/archlinux-x64-2014-01-07.box
 
 A `Vagrantfile` has been placed in this directory. You are now
@@ -87,7 +87,7 @@ New release '16.04.2 LTS' available.
 Run 'do-release-upgrade' to upgrade to it.
 Last login: Wed Jun  7 01:09:50 2017 from 10.0.2.2
 
-vagrant@vagrant-ubuntu-trusty-32:~$ 
+vagrant@vagrant-ubuntu-trusty-32:~$
 
 ... following are some command comes with the vagrant command
 
@@ -135,12 +135,12 @@ or not commonly used. To see all subcommands, run the command
 ... therefore when we need to know further options available with a options
 ... of vagrant we can do like below.
 
- 507 [02:43 PM]  ~   master ●   ls Vagrantfile 
+ 507 [02:43 PM]  ~   master ●   ls Vagrantfile
 Vagrantfile
  508 [02:43 PM]  ~   master ●   vagrant status -h
 Usage: vagrant status [name|id]
     -h, --help                       Print this help
- 509 [02:43 PM]  ~   master ●   
+ 509 [02:43 PM]  ~   master ●  
 
 ... now we will do some syntax practise with vagrant
 
@@ -154,7 +154,7 @@ The VM is in an aborted state. This means that it was abruptly
 stopped without properly closing the session. Run `vagrant up`
 to resume this virtual machine. If any problems persist, you may
 have to destroy and restart the virtual machine.
- 510 [02:44 PM]  ~   master ●   
+ 510 [02:44 PM]  ~   master ●  
  510 [02:45 PM]  ~   master ●   vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Checking if box 'ubuntu/trusty32' is up to date...
@@ -182,8 +182,8 @@ Bringing machine 'default' up with 'virtualbox' provider...
     default: /vagrant => /home/masum
 ==> default: Machine already provisioned. Run `vagrant provision` or use the `--provision`
 ==> default: flag to force provisioning. Provisioners marked to run always will still run.
- 511 [02:47 PM]  ~   master ●   
- 511 [02:47 PM]  ~   master ●   
+ 511 [02:47 PM]  ~   master ●  
+ 511 [02:47 PM]  ~   master ●  
  511 [02:47 PM]  ~   master ●   vagrant status
 Current machine states:
 
@@ -210,8 +210,5 @@ Run 'do-release-upgrade' to upgrade to it.
 
 
 Last login: Wed Jun  7 21:52:36 2017 from 10.0.2.2
-vagrant@vagrant-ubuntu-trusty-32:~$ 
-vagrant@vagrant-ubuntu-trusty-32:~$ 
-
-
-
+vagrant@vagrant-ubuntu-trusty-32:~$
+vagrant@vagrant-ubuntu-trusty-32:~$

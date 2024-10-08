@@ -168,7 +168,7 @@ float: left;
 width: 90%;
 padding:10px;
 min-height:100ex;
-height:auto 
+height:auto
 /*!important;height:100ex; */
 }
 
@@ -228,10 +228,10 @@ height:auto
 }
 
 div#colored-bar-ad {
-   height:30px; 
+   height:30px;
 }
 
-#related {width:202px; float: left;/*right;*/ padding: 10px 10px 10px 0;} 
+#related {width:202px; float: left;/*right;*/ padding: 10px 10px 10px 0;}
 
 
 /*#sponsors {width:160px;position:absolute;top:10px;right:10px;}
@@ -242,7 +242,7 @@ div#colored-bar-ad {
 /* article actions */
 /* listen2 is for the ORN articles */
 .listen, .listen2, .print, .discuss, .subscribe, .intellitxt, .newsletter {
-   width: 160px; 
+   width: 160px;
    text-align:right;
    padding-right:22px;
    display: block;

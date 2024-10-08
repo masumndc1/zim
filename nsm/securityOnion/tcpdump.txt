@@ -21,8 +21,8 @@ root@onion:~#
 -c      how many packets to capture.
 -w	store captured packets to a file.
 -r	reading packets from file.
--tttt 	time stamps 
--e 	enable layer 2 data 
+-tttt 	time stamps
+-e 	enable layer 2 data
 -XX 	hex and ascii data
 
 root@onion:~# tcpdump -n -i eth1 -c 5
@@ -38,7 +38,7 @@ listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
 0 packets dropped by kernel
 root@onion:~#
 
-... storing to a file 
+... storing to a file
 
 root@onion:~/tcpdump# tcpdump -n -i eth1 -c 5 -w wcap.pcap
 tcpdump: listening on eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
@@ -100,7 +100,7 @@ root@onion:~/tcpdump#
 
 root@onion:~/tcpdump# tcpdump -n -i eth1 -c 5 port 22 and tcp
 
-... the full filter can be associated with tcpdum found from 
+... the full filter can be associated with tcpdum found from
 ... and options with tcpdump can be found from. man tcpdump.
 
 root@onion:~/tcpdump# man pcap-filter
@@ -140,8 +140,3 @@ reading from file /nsm/sensor_data/onion-eth0/dailylogs/2017-08-12/snort.log.150
 13:24:06.437305 IP 192.168.35.1 > 192.168.35.128: ICMP echo request, id 5457, seq 2, length 64
 reading from file /nsm/sensor_data/onion-eth0/dailylogs/2017-08-13/snort.log.1502582431, link-type EN10MB (Ethernet)
 root@onion:~/tcpdump#
-
-
-
-
-

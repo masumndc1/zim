@@ -15,8 +15,8 @@ s.close()
 ... function. above its first created a socket object
 ... then connect with web server. send some data and
 ... then it received 200 bytes of responce from server.
-... 
-... one example of socket is 
+...
+... one example of socket is
 
 #!/usr/bin/env python
 
@@ -42,4 +42,3 @@ if __name__ == '__main__':
   print 'options: %s, args: %s' % (options, args)
   check_conn(options.address,options.port)
 root@ubuntu18-python1:~# python soc_python -a www.debian.org -p 80
-

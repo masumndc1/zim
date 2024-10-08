@@ -2,36 +2,33 @@
 
 ... filter examples are
 
-[admin@masum] ip socks> /ip firewall filter                                                   
-[admin@masum] ip firewall filter>                                                             
-[admin@masum] ip firewall filter> add action=drop dst-port=135 chain=forward protocol=tcp                                                                  
-[admin@masum] ip firewall filter> add action=drop chain=input dst-port=23 protocol=tcp        
+[admin@masum] ip socks> /ip firewall filter
+[admin@masum] ip firewall filter>
+[admin@masum] ip firewall filter> add action=drop dst-port=135 chain=forward protocol=tcp
+[admin@masum] ip firewall filter> add action=drop chain=input dst-port=23 protocol=tcp
 
-[admin@masum] ip firewall filter> print                                                       
-Flags: X - disabled, I - invalid, D - dynamic 
- 0   chain=forward src-address=192.168.179.128 protocol=tcp dst-port=21 action=drop 
- 1   chain=forward protocol=tcp dst-port=135 action=drop 
- 2   chain=input protocol=tcp dst-port=23 action=drop 
-[admin@masum] ip firewall filter>                                                             
-[admin@masum] ip firewall filter> 
+[admin@masum] ip firewall filter> print
+Flags: X - disabled, I - invalid, D - dynamic
+ 0   chain=forward src-address=192.168.179.128 protocol=tcp dst-port=21 action=drop
+ 1   chain=forward protocol=tcp dst-port=135 action=drop
+ 2   chain=input protocol=tcp dst-port=23 action=drop
+[admin@masum] ip firewall filter>
+[admin@masum] ip firewall filter>
 
-[admin@masum] ip firewall>                                                                    
-[admin@masum] ip firewall> connection print                                                   
-Flags: S - seen reply, A - assured                                                            
- #    PR.. SRC-ADDRESS           DST-ADDRESS           TCP-STATE   TIMEOUT                    
- 0 SA tcp  192.168.206.1:49192   192.168.206.10:22     established 4d19h45m40s                
- 1 SA tcp  192.168.206.1:49225   192.168.206.10:8291   established 4d20h19m46s                
- 2 SA tcp  192.168.206.1:49257   192.168.206.10:22     established 4d21h52m45s                
- 3 SA tcp  192.168.206.1:49202   192.168.206.10:22     established 4d23h59m59s                
- 4 SA tcp  192.168.206.1:49205   192.168.206.10:8291   established 4d23h59m59s                
- 5 S  icmp 192.168.179.128       206.190.36.45                     28s                        
- 6 S  udp  192.168.179.128:58281 4.2.2.1:53                        1s                         
- 7 S  udp  192.168.179.128:50395 4.2.2.1:53                        1s                         
- 8 S  udp  192.168.179.128:53234 4.2.2.1:53                        2s                         
- 9 S  udp  192.168.179.128:48009 4.2.2.1:53                        3s                         
-10 S  udp  192.168.179.128:59725 4.2.2.1:53                        5s                         
-11 S  udp  192.168.179.128:33691 4.2.2.1:53                        6s                         
-12 S  udp  192.168.179.128:50345 4.2.2.1:53                        6s    
-
-
-
+[admin@masum] ip firewall>
+[admin@masum] ip firewall> connection print
+Flags: S - seen reply, A - assured
+ #    PR.. SRC-ADDRESS           DST-ADDRESS           TCP-STATE   TIMEOUT
+ 0 SA tcp  192.168.206.1:49192   192.168.206.10:22     established 4d19h45m40s
+ 1 SA tcp  192.168.206.1:49225   192.168.206.10:8291   established 4d20h19m46s
+ 2 SA tcp  192.168.206.1:49257   192.168.206.10:22     established 4d21h52m45s
+ 3 SA tcp  192.168.206.1:49202   192.168.206.10:22     established 4d23h59m59s
+ 4 SA tcp  192.168.206.1:49205   192.168.206.10:8291   established 4d23h59m59s
+ 5 S  icmp 192.168.179.128       206.190.36.45                     28s
+ 6 S  udp  192.168.179.128:58281 4.2.2.1:53                        1s
+ 7 S  udp  192.168.179.128:50395 4.2.2.1:53                        1s
+ 8 S  udp  192.168.179.128:53234 4.2.2.1:53                        2s
+ 9 S  udp  192.168.179.128:48009 4.2.2.1:53                        3s
+10 S  udp  192.168.179.128:59725 4.2.2.1:53                        5s
+11 S  udp  192.168.179.128:33691 4.2.2.1:53                        6s
+12 S  udp  192.168.179.128:50345 4.2.2.1:53                        6s

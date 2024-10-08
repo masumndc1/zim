@@ -23,7 +23,7 @@ root@ubuntu:/home/masum# history
 
    33  service apache2 reload
    39  history
-root@ubuntu:/home/masum# 
+root@ubuntu:/home/masum#
 
 ... now place following in /var/www/html/index.php
 
@@ -40,5 +40,3 @@ echo 'hello world!';
 </html>
 
 ... run this in the browser like bellow.
-
-

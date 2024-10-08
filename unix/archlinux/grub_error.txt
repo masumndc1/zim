@@ -8,23 +8,23 @@ root@archiso ~ # pwd
 /root
 root@archiso ~ # ls
 install.txt
-root@archiso ~ # 
+root@archiso ~ #
 root@archiso ~ # grub-install /dev/sda
 Installing for i386-pc platform.
 grub-install: error: failed to get canonical path of `airootfs'.
 1 root@archiso ~ #                                                                                                                                    :(
 1 root@archiso ~ # arch-chroot /mnt                                                                                                                   :(
-[root@archiso /]# 
+[root@archiso /]#
 [root@archiso /]# grub-install /dev/sda
 Installing for i386-pc platform.
 Installation finished. No error reported.
-[root@archiso /]# 
+[root@archiso /]#
 [root@archiso /]# pwd
 /
 [root@archiso /]# ls
 bin  boot  dev	etc  home  lib	lib64  lost+found  mnt	opt  proc  root  run  sbin  srv  sys  tmp  usr	var
-[root@archiso /]# 
-[root@archiso /]# 
+[root@archiso /]#
+[root@archiso /]#
 
 [root@archiso /]# genfstab -U /mnt >> /mnt/etc/fstab
 bash: /mnt/etc/fstab: No such file or directory
@@ -32,5 +32,4 @@ bash: /mnt/etc/fstab: No such file or directory
 exit
 1 root@archiso ~ #                                                                                                                                    :(
 1 root@archiso ~ # genfstab -U /mnt >> /mnt/etc/fstab                                                                                                 :(
-root@archiso ~ # 
-
+root@archiso ~ #

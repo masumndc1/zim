@@ -11,5 +11,3 @@
 # unload
 # load /boot/kernel.old/kernel
 # boot
-
-

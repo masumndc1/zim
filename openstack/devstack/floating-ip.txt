@@ -10,7 +10,7 @@ public
 
 ... here the public is the external network.
 
-... we have found network working after creating 
+... we have found network working after creating
 ... this floating ip address. also can do ssh
 ... from host machines to the vm inside by floating
 ... ip address.
@@ -25,8 +25,6 @@ masum@devstack:/opt/stack/devstack$ openstack port set --name debianport \
 
 masum@devstack:/opt/stack/devstack$ openstack floating ip create \
 --port debianport --floating-ip-address \
-172.24.4.20 public 
+172.24.4.20 public
 
 masum@devstack:/opt/stack/devstack$ openstack floating ip list
-
-

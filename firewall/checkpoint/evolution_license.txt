@@ -1,9 +1,9 @@
 Users can add evaluation products into their User Center account easily and quickly using the following steps:
 
     Login to the User Center.
-    Click "Assets / Info". 
+    Click "Assets / Info".
     Select "Product Center" under "Accounts & Products".
-    Select the "Evaluations" tab and then "Quick Evaluation" 
+    Select the "Evaluations" tab and then "Quick Evaluation"
     Select the required evaluation license.
     Select the account, to which the evaluation license will be added.
     Enter email address.

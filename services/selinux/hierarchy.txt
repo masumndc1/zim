@@ -66,14 +66,10 @@ file_contexts.homedirs  file_contexts.local.bin     media
 [root@kube-node1 files]#
 
 [root@kube-node1 files]# restorecon -v /var/web
-restorecon reset /var/web context 
+restorecon reset /var/web context
 unconfined_u:object_r:var_t:s0->unconfined_u:object_r:httpd_sys_content_t:s0
-[root@kube-node1 files]# 
+[root@kube-node1 files]#
 
 [root@kube-node1 files]# matchpathcon -V /var/web
 /var/web verified.
 [root@kube-node1 files]#
-
-
-
-

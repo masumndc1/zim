@@ -1,9 +1,9 @@
 
 
-... policy is the core of selinux. 
+... policy is the core of selinux.
 ... it sets the rules to apply by selinux.
 ... the active policies are loaded at boot time
-... and it creates a binary policy file 
+... and it creates a binary policy file
 ... the policy module file is as binary that cant be read.
 
 [root@kube-node1 policy]# pwd
@@ -12,7 +12,7 @@
 policy.30
 [root@kube-node1 policy]#
 
-... we cant read the content of the policy file but 
+... we cant read the content of the policy file but
 ... we can change the settings by following
 
 [root@kube-node1 policy]# semanage boolean -l | less
@@ -43,7 +43,7 @@ httpd_run_ipa --> on
 -rw-r--r--. root root unconfined_u:object_r:semanage_store_t:s0 policy.30
 [root@kube-node1 policy]# pwd
 /etc/selinux/targeted/policy
-[root@kube-node1 policy]# 
+[root@kube-node1 policy]#
 
 ... clearly here the policy file is under semanage_store_t type.
 ... this is one of the most important part of the selinux term.
@@ -61,19 +61,19 @@ drwx------. moe   moe   unconfined_u:object_r:user_home_dir_t:s0 moe
 ... type or in that domain.
 
 [root@kube-node1 policy]# ps -efZ | grep httpd
-system_u:system_r:httpd_t:s0    root      1134     1  0 Jun11 ?        
-system_u:system_r:httpd_t:s0    apache    2608  1134  0 Jun11 ?       
-system_u:system_r:httpd_t:s0    apache    2609  1134  0 Jun11 ?      
-system_u:system_r:httpd_t:s0    apache    2610  1134  0 Jun11 ?     
-system_u:system_r:httpd_t:s0    apache    2611  1134  0 Jun11 ?    
-system_u:system_r:httpd_t:s0    apache    2612  1134  0 Jun11 ?   
+system_u:system_r:httpd_t:s0    root      1134     1  0 Jun11 ?
+system_u:system_r:httpd_t:s0    apache    2608  1134  0 Jun11 ?
+system_u:system_r:httpd_t:s0    apache    2609  1134  0 Jun11 ?
+system_u:system_r:httpd_t:s0    apache    2610  1134  0 Jun11 ?
+system_u:system_r:httpd_t:s0    apache    2611  1134  0 Jun11 ?
+system_u:system_r:httpd_t:s0    apache    2612  1134  0 Jun11 ?
 unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 root 4572 1457  0 01:08 pts/0 00:00:00 grep --color=auto httpd
 [root@kube-node1 policy]#
 
 ... the output shows us the process running in the selinux context.
 ... the above output is showing they are running under httpd_t domain.
 
-... we can use the sesearch command to check what type of access 
+... we can use the sesearch command to check what type of access
 ... httpd_t has on files
 
 [root@kube-node1 html]# sesearch --allow --source httpd_t --target httpd_sys_content_t --class file
@@ -97,28 +97,16 @@ Found 5 semantic av rules:
 [root@kube-node1 khabir]#
 
 ... now when we try to access the file again it says forbidden error.
-... as we have changed the type of file httpd_t can access, we are 
+... as we have changed the type of file httpd_t can access, we are
 ... getting this error.
 
 ... we can revert the context of index.html file from var_t to http_t
 ... by using the restorecon command.
 
 [root@kube-node1 khabir]# restorecon -v index.html
-restorecon reset /var/www/html/khabir/index.html context 
+restorecon reset /var/www/html/khabir/index.html context
 unconfined_u:object_r:var_t:s0->unconfined_u:object_r:httpd_sys_content_t:s0
 [root@kube-node1 khabir]#
 
 ... now again httpd_t can access the index.html file and we can
 ... see the page again
-
-
-
-
-
-
-
-
-
-
-
-

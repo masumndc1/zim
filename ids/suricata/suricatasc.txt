@@ -36,10 +36,7 @@ Success:
         "eth0"
     ]
 }
->>> help 
+>>> help
 >>> quit
 
 ... help to see the available command.
-
-
-

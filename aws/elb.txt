@@ -9,6 +9,3 @@
 ... that much surge of traffic.
 
 ... amazon elb also supports auto scaling and ssl termination.
-
-
-

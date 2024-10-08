@@ -21,7 +21,7 @@ Applying patches... done.
 
 root@masum:~ # freebsd-update install
 ...
-... if anything un expected happens we can also roll back 
+... if anything un expected happens we can also roll back
 ... bye freebsd-update rollback command.
 
 root@masum:~ # freebsd-update rollback

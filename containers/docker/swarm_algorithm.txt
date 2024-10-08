@@ -1,6 +1,6 @@
 
 
-... docker swarm algorithm 
+... docker swarm algorithm
 
 ... spread
 ... spread algorithm create service based on least work-load and spread the work load equally.
@@ -10,5 +10,3 @@
 
 ... random
 ... as its name says randomly node will be selected.
-
-

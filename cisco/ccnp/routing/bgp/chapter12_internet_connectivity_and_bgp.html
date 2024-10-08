@@ -24,7 +24,7 @@
 <h2>BGP basics</h2>
 though the protocols used by BGP are much more different from those used by IGP but they have some similarities like below.
 <ul>
-	<li>bgp advertise ip4 prefix with it routing update and also establishes the peer with other router before 
+	<li>bgp advertise ip4 prefix with it routing update and also establishes the peer with other router before
 	so that best path selection can be made
 	within numerous possible route.</li>
 	<li>bgp does not need its neighbour should be placed in the same subnet which can be place in another subnet. bgp routers use tcp (port 179)
@@ -39,7 +39,7 @@ though the protocols used by BGP are much more different from those used by IGP 
 <h2>BGP ASN and the AS_SEQ path attribute</h2>
 there are plenty of Path attributes(PA) used by BGP for various purpose. if there is no pa is used explicitely then bgp uses AS_PATH (autonomous
 system path) to choose the best path. one of sub components of as_path is AS_Seq(AS sequence). a route with shortest as_path is choosen.
-another things to keep in mind is when a router receive a packet which inclued a ASN of its own the router then ignore that packet to avoid 
+another things to keep in mind is when a router receive a packet which inclued a ASN of its own the router then ignore that packet to avoid
 looping occured.
 
 <h2>internal and external BGP</h2>
@@ -90,7 +90,7 @@ redistribute static metric 10000 100000 255 1 1500
 we must set lower value in delay in our prefered router than the other router.
 
 <h2>choosing one path over other using BGP</h2>
-this big beuty of using BGP is to choose link for a perticular destination. the engineers of enterprise must discuss with isp to choose carefully 
+this big beuty of using BGP is to choose link for a perticular destination. the engineers of enterprise must discuss with isp to choose carefully
 PA as well as additional attributes to choose the destination additional with running ibgp on several router inside enterprise network.
 
 <h2>partiall and full update BGP</h2>
@@ -102,7 +102,7 @@ to deal with this high memory problems we can choose one of following three tack
 	<li>full update: isp sends me the entire bgp tables</li>
 	<li>partial updates: isp send us the partial bgp tables which may be required to pass through their traffic along with a defaul route.</li>
 </ul>
-among the three some commented partial along with default is better than single default route. in that situation BGP will use that partial table for 
+among the three some commented partial along with default is better than single default route. in that situation BGP will use that partial table for
 known route and use default route for unknown destination.
 
 
@@ -114,7 +114,7 @@ from a single route or multiple router from enterprise.
 this is like single multihomed where two or more isp has connection with enterprise but this time each router has multiple link towards isp.
 
 
-	
+
 
 
 

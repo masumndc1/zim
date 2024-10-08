@@ -13,7 +13,7 @@ Linux salt 4.9.39-29.el7.x86_64 #1 SMP Fri Jul 21 15:09:00 UTC 2017 x86_64 x86_6
 
 ... install the latest release from the following site and follow the description there.
 
-[root@salt ~]# yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm 
+[root@salt ~]# yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
 [root@salt ~]# yum update
 [root@salt ~]# yum install -y salt-master salt-minion
 
@@ -55,7 +55,7 @@ master  minion
 master: localhost
 
 ... when a minion first time starts it tries to connect with master. master
-... is specified with a name mensioned in /etc/hosts or DNS entry. in this 
+... is specified with a name mensioned in /etc/hosts or DNS entry. in this
 ... example as we dont have any host specified with the name salt, we are
 ... taking localhost as our master.
 
@@ -124,7 +124,7 @@ Sep 15 19:29:38 salt systemd[1]: Started The Salt Master Server.
 
 Sep 15 19:35:23 salt systemd[1]: Started The Salt Minion.
 Sep 15 19:35:23 salt systemd[1]: Starting The Salt Minion...
-Sep 15 19:35:28 salt salt-minion[6190]: [ERROR   ] The Salt Master has cached the public key for this node, 
+Sep 15 19:35:28 salt salt-minion[6190]: [ERROR   ] The Salt Master has cached the public key for this node,
 this salt ...ticate
 
 ... saying just authentication related problem which we can ignore them.
@@ -176,8 +176,8 @@ Get:5 http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic InRelease [
 Get:6 http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic/main amd64 Packages [3345 B]
 Fetched 5471 B in 2s (2887 B/s)
 Reading package lists... Done
-root@ubuntu:/etc/apt/trusted.gpg.d# 
-root@ubuntu:/etc/apt/trusted.gpg.d# 
+root@ubuntu:/etc/apt/trusted.gpg.d#
+root@ubuntu:/etc/apt/trusted.gpg.d#
 root@ubuntu:/etc/apt/trusted.gpg.d# apt-cache policy salt-minion
 salt-minion:
   Installed: (none)
@@ -187,7 +187,7 @@ salt-minion:
         500 http://repo.saltstack.com/apt/ubuntu/18.04/amd64/latest bionic/main amd64 Packages
      2017.7.4+dfsg1-1 500
         500 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages
-root@ubuntu:/etc/apt/trusted.gpg.d# 
+root@ubuntu:/etc/apt/trusted.gpg.d#
 
 ...
 ... installing in debian
@@ -217,7 +217,7 @@ https://medium.com/@timlwhite/the-simplest-way-to-learn-saltstack-cd9f5edbc967
   ignore_errors: yes
 
   tasks:
-    - name: Install wget 
+    - name: Install wget
       apt:
         name: [ 'wget','apt']
         state: latest

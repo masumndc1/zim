@@ -7,7 +7,7 @@
 
 root@kibana:/etc/nginx/conf.d# pwd
 /etc/nginx/conf.d
-root@kibana:/etc/nginx/conf.d# cat kibana.conf 
+root@kibana:/etc/nginx/conf.d# cat kibana.conf
 server {
 	listen     192.168.10.136:8080;
 
@@ -16,7 +16,4 @@ server {
 		proxy_redirect	default;
 	}
 }
-root@kibana:/etc/nginx/conf.d# 
-
-
-
+root@kibana:/etc/nginx/conf.d#

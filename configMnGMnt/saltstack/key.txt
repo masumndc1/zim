@@ -1,16 +1,16 @@
 
 
 ... after installing salt-master and salt-minion we have to establish
-... a trusted relationship between master and minions. we will do that 
+... a trusted relationship between master and minions. we will do that
 ... using keys. salt comes with this capabilities. and we will demostrated
-... it by following. we should tell master that it can trust minion. 
+... it by following. we should tell master that it can trust minion.
 
 ... we cant run any command without trust relationship.
 
 [root@salt salt]# salt '*' test.ping
 No minions matched the target. No command was sent, no jid was assigned.
 ERROR: No return received
-[root@salt salt]# 
+[root@salt salt]#
 
 [root@puppet salt]# salt
 salt         salt-call    salt-cp      salt-key     salt-master  salt-minion  salt-run     salt-unity
@@ -22,8 +22,8 @@ myminion
 Rejected Keys:
 [root@puppet salt]#
 
-... on this output above we can see that myminion has contacted with master with 
-... its key but still waiting key to be accepted. 
+... on this output above we can see that myminion has contacted with master with
+... its key but still waiting key to be accepted.
 
 [root@puppet salt]# salt-key -f myminion
 Unaccepted Keys:
@@ -38,7 +38,7 @@ local:
 [root@puppet salt]#
 
 ... we can also run command to all minions to check what are their key fingerprint
-... to check are they really they are? in this example we have found the key 
+... to check are they really they are? in this example we have found the key
 ... presented by myminion and key myminion has is same. therefore we are going to
 ... accept the key.
 
@@ -65,5 +65,3 @@ Rejected Keys:
 myminion:
     True
 [root@puppet salt]#
-
-

@@ -11,7 +11,7 @@
 ... most of the credit goes to them.
 
 ... as the location of the luaxlib.h, lualib.h and lua.h are inside
-... /usr/include/lua5.4 in debian, therefore header includes 
+... /usr/include/lua5.4 in debian, therefore header includes
 ... <lua5.4/luaxlib.h>. Otherwise C will not find the headers file.
 
 #include <lua5.4/lauxlib.h>
@@ -45,7 +45,7 @@ int main (void) {
 }
 
 ... as I have installed lua from apt-get in a debian/ubuntu machine
-... and the version of lua is 5.4, i have used -llua5.4 with my 
+... and the version of lua is 5.4, i have used -llua5.4 with my
 ... gcc build. content of the Makefile. and build with make command
 
 build:
@@ -55,7 +55,7 @@ clean:
 	rm -fr *.so
 
 ...
-... after the compilation with gcc, we will have lodepng.so library file 
+... after the compilation with gcc, we will have lodepng.so library file
 ... which we can use as module in my lua program file.
 ...
 
@@ -73,4 +73,4 @@ operations.decode_file()
 call decode_file from C
 #
 
-... 
+...

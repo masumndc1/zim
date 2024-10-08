@@ -9,7 +9,7 @@
 OWASP_Broken_Web_Apps_VM_1.2.ovf
 OWASP_Broken_Web_Apps_VM_1.2.mf
 OWASP_Broken_Web_Apps_VM_1.2-disk1.vmdk
-root@elxa6lj5k72:/# 
+root@elxa6lj5k72:/#
 root@elxa6lj5k72:/# ls
 OWASP_Broken_Web_Apps_VM_1.2-disk1.vmdk
 OWASP_Broken_Web_Apps_VM_1.2.mf
@@ -20,20 +20,20 @@ OWASP_Broken_Web_Apps_VM_1.2-disk1.vmdk
 OWASP_Broken_Web_Apps_VM_1.2.mf
 OWASP_Broken_Web_Apps_VM_1.2.ova
 OWASP_Broken_Web_Apps_VM_1.2.ovf
-root@elxa6lj5k72:/# 
+root@elxa6lj5k72:/#
 
 ... now convert vmdk file to qcow2.
 
 root@elxa6lj5k72:/# qemu-img convert -O qcow2 OWASP_Broken_Web_Apps_VM_1.2-disk1.vmdk bwa.qcow2
 root@elxa6lj5k72:/# ls
-bwa.qcow2    
+bwa.qcow2
 OWASP_Broken_Web_Apps_VM_1.2-disk1.vmdk
 OWASP_Broken_Web_Apps_VM_1.2.mf
 OWASP_Broken_Web_Apps_VM_1.2.ova
 OWASP_Broken_Web_Apps_VM_1.2.ovf
-root@elxa6lj5k72:/# 
+root@elxa6lj5k72:/#
 
-... now we can use this bwa.qcow2 into the kvm. 
+... now we can use this bwa.qcow2 into the kvm.
 ... I have found it working.
 
 root@elxa6lj5k72:~# virsh list --all
@@ -50,18 +50,12 @@ root@elxa6lj5k72:~# virsh list --all
  -     ubuntu16.04                    shut off
  -     ubuntu16.04.4                  shut off
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... converting from img file to qcow2
 
 ➜  qcow2 qemu-img convert -O qcow2 dfly-x86_64-5.4.0_REL.img dfly-x86_64-5.4.0_REL.qcow2
-➜  qcow2 
+➜  qcow2
 ➜  qcow2 ls
 CentOS-7-x86_64-GenericCloud.qcow2 dfly-x86_64-5.4.0_REL.img  dfly-x86_64-5.4.0_REL.img.bz2  dfly-x86_64-5.4.0_REL.qcow2
-➜  qcow2 
-
-
-
-
-
-
+➜  qcow2

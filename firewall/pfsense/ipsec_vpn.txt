@@ -4,19 +4,19 @@
 ........................... ip sec vpn ....................................
 
 .. we are going to configure the ipsec vpn in pfsense utp with a cisco router
-.. our configuration is like pfsense ----- cisco. 
+.. our configuration is like pfsense ----- cisco.
 
 .. first we are going to configure ipsec and isakmp vpn in cisco then configure
-.. in pfsense and finally test them. 
+.. in pfsense and finally test them.
 
 ... cisco part (for full configuration in cisco pls go to zim/cisco/ccsp/secure_plane)
 .. we are not going fully deep here with the cisco configuration but we be dive
 .. into pfsense part.
 
-.. so the cisco part is like 
+.. so the cisco part is like
 
-Router#show run 
-! 
+Router#show run
+!
 !
 crypto isakmp policy 10
  encr aes
@@ -26,10 +26,10 @@ crypto isakmp policy 10
 crypto isakmp key masum03 address 192.168.10.152
 !
 !
-crypto ipsec transform-set masum-set esp-aes esp-sha-hmac 
+crypto ipsec transform-set masum-set esp-aes esp-sha-hmac
 !
 crypto ipsec profile masum-profile
- set transform-set masum-set 
+ set transform-set masum-set
 !
 !
 interface FastEthernet0/0
@@ -49,7 +49,7 @@ interface Tunnel0
 Router#
 
 .. now we are configuring the pfsense ipsec part
-.. for that we will go like vpn/ipsec/tunnels/ then 
+.. for that we will go like vpn/ipsec/tunnels/ then
 .. set parameters like below
 
 .. key exchange version: v1,
@@ -65,9 +65,9 @@ Router#
 .. dead peer detection: enable dpd
 .. and finally save all of them.
 
-.. now come to the phase 2. 
+.. now come to the phase 2.
 .. mode: tunnel ipv4
-.. local network: lan1 
+.. local network: lan1
 .. remote network: 192.168.10.10
 .. protocol: esp
 .. encryption algorithm: aes 128 bits
@@ -77,14 +77,14 @@ Router#
 .. status/ipsec.
 
 .. now testing ipsec vpn in cisco router.
-.. 
+..
 
-Router#show crypto ipsec profile 
+Router#show crypto ipsec profile
 IPSEC profile masum-profile
 	Security association lifetime: 4608000 kilobytes/3600 seconds
 	PFS (Y/N): N
-	Transform sets={ 
-		masum-set, 
+	Transform sets={
+		masum-set,
 	}
 
 Router#
@@ -115,7 +115,7 @@ interface: Tunnel0
      inbound esp sas:
 
      inbound ah sas:
-          
+
      inbound pcp sas:
 
      outbound esp sas:
@@ -161,7 +161,7 @@ interface: Tunnel0
      inbound ah sas:
 
      inbound pcp sas:
-          
+
      outbound esp sas:
       spi: 0xC4AF256D(3299812717)
         transform: esp-aes esp-sha-hmac ,
@@ -185,37 +185,37 @@ interface: Tunnel0
      outbound pcp sas:
 Router#
 
-Router#show crypto isakmp peers 
+Router#show crypto isakmp peers
 Peer: 192.168.10.152 Port: 500 Local: 192.168.10.10
  Phase1 id: 192.168.10.152
 Router#
 Router#
 
 .. now debuging in cisco router ..
-.. debug crypto isakmp 
+.. debug crypto isakmp
 
-Router#debug crypto isakmp 
+Router#debug crypto isakmp
 Crypto ISAKMP debugging is on
 Router#
 *Mar  1 01:05:52.335: ISAKMP:(0:1:SW:1):purging node -824839414
-*Mar  1 01:05:52.559: ISAKMP (0:134217729): received packet from 192.168.10.152 dport 500 sport 500 Global (I) QM_IDLE      
-*Mar  1 01:05:52.563: ISAKMP: set new node -1836832722 to QM_IDLE      
+*Mar  1 01:05:52.559: ISAKMP (0:134217729): received packet from 192.168.10.152 dport 500 sport 500 Global (I) QM_IDLE
+*Mar  1 01:05:52.563: ISAKMP: set new node -1836832722 to QM_IDLE
 *Mar  1 01:05:52.567: ISAKMP:(0:1:SW:1): processing HASH payload. message ID = -1836832722
 *Mar  1 01:05:52.567: ISAKMP:(0:1:SW:1): processing NOTIFY DPD/R_U_THERE protocol 1
 	spi 0, message ID = -1836832722, sa = 64B1BA70
 *Mar  1 01:05:52.567: ISAKMP:(0:1:SW:1):deleting node -1836832722 error FALSE reason "Informational (in) state 1"
 *Mar  1 01:05:52.571: ISAKMP:(0:1:SW:1):Input = IKE_MESG_FROM_PEER, IKE_INFO_NOTIFY
-*Mar  1 01:05:52.571: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE 
+*Mar  1 01:05:52.571: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE
 
 *Mar  1 01:05:52.575: ISAKMP:(0:1:SW:1):DPD/R_U_THERE received from peer 192.168.10.152, sequence 0x2EB4F005
-*Mar  1 01:05:52.575: ISAKMP: set new node 587363271 to QM_IDLE      
+*Mar  1 01:05:52.575: ISAKMP: set new node 587363271 to QM_IDLE
 *Mar  1 01:05:52.579: ISAKMP:(0:1:SW:1):Sending NOTIFY DPD/R_U_THERE_ACK protocol 1
 	spi 1702705800, message ID = 587363271
 *Mar  1 01:05:52.579: ISAKMP:(0:1:SW:1): seq. no 0x2EB4F005
-*Mar  1 01:05:52.583: ISAKMP:(0:1:SW:1): sending packet to 192.168.10.152 my_port 500 peer_port 500 (I) QM_IDLE      
+*Mar  1 01:05:52.583: ISAKMP:(0:1:SW:1): sending packet to 192.168.10.152 my_port 500 peer_port 500 (I) QM_IDLE
 *Mar  1 01:05:52.583: ISAKMP:(0:1:SW:1):purging node 587363271
 *Mar  1 01:05:52.587: ISAKMP:(0:1:SW:1):Input = IKE_MESG_FROM_PEER, IKE_MESG_KEEP_ALIVE
-*Mar  1 01:05:52.587: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE 
+*Mar  1 01:05:52.587: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE
 
 Router#
 Router#
@@ -224,17 +224,17 @@ Router#
 *Mar  1 01:06:01.683: ISAKMP:(0:1:SW:1):peer does not do paranoid keepalives.
 
 *Mar  1 01:06:01.683: ISAKMP:(0:1:SW:1):deleting SA reason "P1 delete notify (in)" state (I) QM_IDLE       (peer 192.168.10.152)
-*Mar  1 01:06:01.687: ISAKMP: set new node 1058781264 to QM_IDLE      
-*Mar  1 01:06:01.691: ISAKMP:(0:1:SW:1): sending packet to 192.168.10.152 my_port 500 peer_port 500 (I) QM_IDLE      
+*Mar  1 01:06:01.687: ISAKMP: set new node 1058781264 to QM_IDLE
+*Mar  1 01:06:01.691: ISAKMP:(0:1:SW:1): sending packet to 192.168.10.152 my_port 500 peer_port 500 (I) QM_IDLE
 *Mar  1 01:06:01.695: ISAKMP:(0:1:SW:1):purging node 1058781264
 *Mar  1 01:06:01.695: ISAKMP:(0:1:SW:1):Input = IKE_MESG_INTERNAL, IKE_PHASE1_DEL
-*Mar  1 01:06:01.699: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_DEST_SA 
+*Mar  1 01:06:01.699: ISAKMP:(0:1:SW:1):Old State = IKE_P1_COMPLETE  New State = IKE_DEST_SA
 
-*Mar  1 01:06:01.703: ISAKMP:(0:1:SW:1):deleting SA reason "No reason" state (I) QM_IDLE       (peer 192.168.10.152) 
+*Mar  1 01:06:01.703: ISAKMP:(0:1:SW:1):deleting SA reason "No reason" state (I) QM_IDLE       (peer 192.168.10.152)
 *Mar  1 01:06:01.703: ISAKMP:(0:0:N/A:0):Can't decrement IKE Call Admisstion Control stat outgoing_active since it's already 0.
 *Mar  1 01:06:01.703: ISAKMP: Unlocking IKE struct 0x650A275C for isadb_mark_sa_deleted(), count 0
 *Mar  1 01:06:01.707: ISAKMP:(0:1:SW:1):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 01:06:01.707: ISAKMP:(0:1:SW:1):Old State = IKE_DEST_SA  New State = IKE_DEST_SA 
+*Mar  1 01:06:01.707: ISAKMP:(0:1:SW:1):Old State = IKE_DEST_SA  New State = IKE_DEST_SA
 
 *Mar  1 01:06:01.767: ISAKMP: received ke message (3/1)
 *Mar  1 01:06:01.767: ISAKMP: ignoring request to send delete notify (no ISAKMP sa) src 192.168.10.10 dst 192.168.10.152 for SPI 0xA5018CDD
@@ -250,31 +250,31 @@ Router#
 *Mar  1 01:06:32.535: ISAKMP:(0:1:SW:1):purging node -317876840
 Router#
 Router#
-Router#no debug crypto isakmp 
+Router#no debug crypto isakmp
 Crypto ISAKMP debugging is off
 Router#
 Router#
 
 .. debug ipsec on
-.. 
-Router#debug crypto ipsec 
+..
+Router#debug crypto ipsec
 Crypto IPSEC debugging is on
 Router#
 Router#
 Router#
 *Mar  1 01:07:01.679: IPSEC(sa_request): ,
-  (key eng. msg.) OUTBOUND local= 192.168.10.10, remote= 192.168.10.152, 
-    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4), 
+  (key eng. msg.) OUTBOUND local= 192.168.10.10, remote= 192.168.10.152,
+    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
     remote_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
-    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel), 
-    lifedur= 3600s and 4608000kb, 
+    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel),
+    lifedur= 3600s and 4608000kb,
     spi= 0x6A8490FF(1787072767), conn_id= 0, keysize= 128, flags= 0x400A
 *Mar  1 01:07:02.095: IPSEC(validate_proposal_request): proposal part #1,
-  (key eng. msg.) INBOUND local= 192.168.10.10, remote= 192.168.10.152, 
-    local_proxy= 192.168.10.10/255.255.255.255/0/0 (type=1), 
+  (key eng. msg.) INBOUND local= 192.168.10.10, remote= 192.168.10.152,
+    local_proxy= 192.168.10.10/255.255.255.255/0/0 (type=1),
     remote_proxy= 192.168.244.0/255.255.255.0/0/0 (type=4),
-    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel), 
-    lifedur= 0s and 0kb, 
+    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel),
+    lifedur= 0s and 0kb,
     spi= 0x0(0), conn_id= 0, keysize= 128, flags= 0x2
 *Mar  1 01:07:02.095: Crypto mapdb : proxy_match
 	src addr     : 192.168.10.10
@@ -284,18 +284,18 @@ Router#
 	dst port     : 0
 *Mar  1 01:07:02.103: IPSEC(key_engine): got a queue event with 2 kei messages
 *Mar  1 01:07:02.103: IPSEC(initialize_sas): ,
-  (key eng. msg.) INBOUND local= 192.168.10.10, remote= 192.168.10.152, 
-    local_proxy= 192.168.10.10/0.0.0.0/0/0 (type=1), 
+  (key eng. msg.) INBOUND local= 192.168.10.10, remote= 192.168.10.152,
+    local_proxy= 192.168.10.10/0.0.0.0/0/0 (type=1),
     remote_proxy= 192.168.244.0/255.255.255.0/0/0 (type=4),
-    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel), 
-    lifedur= 3600s and 4608000kb, 
+    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel),
+    lifedur= 3600s and 4608000kb,
     spi= 0x6A8490FF(1787072767), conn_id= 0, keysize= 128, flags= 0x2
 *Mar  1 01:07:02.103: IPSEC(initialize_sas): ,
-  (key eng. msg.) OUTBOUND local= 192.168.10.10, remote= 192.168.10.152, 
-    local_proxy= 192.168.10.10/0.0.0.0/0/0 (type=1), 
+  (key eng. msg.) OUTBOUND local= 192.168.10.10, remote= 192.168.10.152,
+    local_proxy= 192.168.10.10/0.0.0.0/0/0 (type=1),
     remote_proxy= 192.168.244.0/255.255.255.0/0/0 (type=4),
-    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel), 
-    lifedur= 3600s and 4608000kb, 
+    protocol= ESP, transform= esp-aes esp-sha-hmac  (Tunnel),
+    lifedur= 3600s and 4608000kb,
     spi= 0xC5A3DD3A(3315850554), conn_id= 0, keysize= 128, flags= 0xA
 *Mar  1 01:07:02.103: Crypto mapdb : proxy_match
 	src addr     : 192.168.10.10
@@ -304,30 +304,30 @@ Router#
 	src port     : 0
 	dst port     : 0
 *Mar  1 01:07:02.103: IPSEC(crypto_ipsec_sa_find_ident_head): reconnecting with the same proxies and 192.168.10.152
-*Mar  1 01:07:02.103: IPSec: Flow_switching Allocated flow for sibling 8000003D 
+*Mar  1 01:07:02.103: IPSec: Flow_switching Allocated flow for sibling 8000003D
 *Mar  1 01:07:02.103: IPSEC(create_sa): sa created,
-  (sa) sa_dest= 192.168.10.10, sa_proto= 50, 
-    sa_spi= 0x6A8490FF(1787072767), 
+  (sa) sa_dest= 192.168.10.10, sa_proto= 50,
+    sa_spi= 0x6A8490FF(1787072767),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 2005
     sa_lifetime(k/sec)= (4467805/3600)
 *Mar  1 01:07:02.103: IPSEC(create_sa): sa created,
-  (sa) sa_dest= 192.168.10.152, sa_proto= 50, 
-    sa_spi= 0xC5A3DD3A(3315850554), 
+  (sa) sa_dest= 192.168.10.152, sa_proto= 50,
+    sa_spi= 0xC5A3DD3A(3315850554),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 2002
     sa_lifetime(k/sec)= (4467805/3600)
 *Mar  1 01:07:02.103: IPSEC(add_sa): have new SAs -- expire existing in 30 sec.,
-  (sa) sa_dest= 192.168.10.10, sa_proto= 50, 
-    sa_spi= 0x70351D04(1882529028), 
+  (sa) sa_dest= 192.168.10.10, sa_proto= 50,
+    sa_spi= 0x70351D04(1882529028),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 2003
     sa_lifetime(k/sec)= (4486800/3600),
-  (identity) local= 192.168.10.10, remote= 192.168.10.152, 
-    local_proxy= 192.168.10.10/255.255.255.255/0/0 (type=1), 
+  (identity) local= 192.168.10.10, remote= 192.168.10.152,
+    local_proxy= 192.168.10.10/255.255.255.255/0/0 (type=1),
     remote_proxy= 192.168.244.0/255.255.255.0/0/0 (type=4)
 *Mar  1 01:07:03.107: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to up
 Router#
 Router#
 
-.. finally we have to allow ipsec traffic to enter our lan subnet. 
+.. finally we have to allow ipsec traffic to enter our lan subnet.
 .. we have to do so when remote users needs to log in our vpn server
 .. and access database server located in the dmz1 or internal database
 .. server.
@@ -337,21 +337,6 @@ Router#
 .. action: pass
 .. interface: ipsec
 .. source: any port: any
-.. destination: to desired lan 
+.. destination: to desired lan
 .. tick on logging
 .. and finally save and apply.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -9,26 +9,26 @@
 ... Install nodejs >= 14.14:
 ... curl -sL install-node.vercel.app/lts | bash
 ... For vim-plug users:
-... Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+... Plug 'neoclide/coc.nvim', {'branch': 'release'}
 ...
-... after that we can run following command 
+... after that we can run following command
 ... :CoCList          // list available options
 ... :CoCInstall       // Install coc options
 ...
-... coc marketplace is a nice and convenient place to find and instatll 
+... coc marketplace is a nice and convenient place to find and instatll
 ... :CocInstall coc-marketplace
-... 
+...
 ... after that you can install many coc. for example
 ... ":CocList marketplace list" all available extensions
 ... :CocList marketplace python  // python coc
 
-... there is another place you can search and install 
+... there is another place you can search and install
 ... coc from there. https://npms.io/search?q=coc
-... 
+...
 
 ... if you have install vanila coc then you will find settings in
 ... ~/.vim/coc-settings.json where you will add language settings from
-... 
+...
 
 ... if you install coc by using above method your coc-settings.json
 ... should be empty. :cocinstall will handle most of things for you.
@@ -36,6 +36,6 @@
 ... you should install lsp by coc not plug.
 ...
 ... how to remove an extentions installed by coc?
-... :CocList extentions 
+... :CocList extentions
 ... then just select and unselect the extensions you want to remove.
-... 
+...

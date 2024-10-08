@@ -15,7 +15,7 @@ The contents of the file is similar to whatever type of interface is getting bri
     The TYPE directive is given an argument Bridge. This directive determines the device type and the argument is case sensitive.
     The bridge interface configuration file now has the IP address and the physical interface has only a MAC address.
     An extra directive, DELAY=0, is added to prevent the bridge from waiting while it monitors traffic, learns where hosts are located, and builds a table of MAC addresses on which to base its filtering decisions. The default delay of 15 seconds is not needed if no routing loops are possible.
-    The NM_CONTROLLED=no should be added to the Ethernet interface to prevent NetworkManager from altering the file. It can also be added to the bridge configuration file in case future versions of NetworkManager support bridge configuration. 
+    The NM_CONTROLLED=no should be added to the Ethernet interface to prevent NetworkManager from altering the file. It can also be added to the bridge configuration file in case future versions of NetworkManager support bridge configuration.
 
 The following is a sample bridge interface configuration file using a static IP address:
 ⁠
@@ -52,7 +52,7 @@ Warning
 If you are configuring bridging on a remote host, and you are connected to that host over the physical NIC you are configuring, please consider the implications of losing connectivity before proceeding. You will lose connectivity when restarting the service and may not be able to regain connectivity if any errors have been made. Console, or out-of-band access is advised.
 Restart the networking service, in order for the changes to take effect, as follows:
 
- service network restart 
+ service network restart
 
 ⁠11.2.6.1. Network Bridge with Bond
 An example of a network bridge formed from two or more bonded Ethernet interfaces will now be given as this is another common application in a virtualization environment. If you are not very familiar with the configuration files for bonded interfaces then please see Section 11.2.4, “Channel Bonding Interfaces”
@@ -140,7 +140,7 @@ Virtualization servers that intend to have distinct subnets for its guests while
 .. another way to do in centos
 
 Setup bridge device on CentOS
-16 Replies	
+16 Replies
 
 Howto setup a bridge device on CentOS or Fedora.
 
@@ -217,18 +217,16 @@ iface br0 inet static
 	address 192.168.20.2
 	netmask 255.255.255.0
 
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 
 root@masum:/var/lib/lxc/masum# ifconfig vmnet3
-vmnet3    Link encap:Ethernet  HWaddr 00:50:56:c0:00:03  
+vmnet3    Link encap:Ethernet  HWaddr 00:50:56:c0:00:03
           inet addr:192.168.20.1  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::250:56ff:fec0:3/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1 errors:0 dropped:0 overruns:0 frame:0
           TX packets:13 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-root@masum:/var/lib/lxc/masum# 
-
-
+root@masum:/var/lib/lxc/masum#

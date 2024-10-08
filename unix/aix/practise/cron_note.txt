@@ -14,8 +14,8 @@ day of the week (0-6, where 0=Sunday, 1=Monday, and so forth)
 
 0,30,45 * * * *
 
-Each field is separated by a space. To indicate a field is always true use an asterisk (*). 
-To indicate multiple values in a field, use a comma (,). 
+Each field is separated by a space. To indicate a field is always true use an asterisk (*).
+To indicate multiple values in a field, use a comma (,).
 A range can also be specified by using a dash (-). Here are some examples:
 
 

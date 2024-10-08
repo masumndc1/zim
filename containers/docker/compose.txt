@@ -31,7 +31,7 @@ Reading package lists... Done
 
 root@slave:~# pip install docker-compose
 
-... running containers using docker-compose 
+... running containers using docker-compose
 
 [root@docker hello-world]# pwd
 /root/hello-world
@@ -80,14 +80,14 @@ helloworld_my-test_1 exited with code 0
 helloworld_my-test_1   /hello    Exit 0
 [root@docker hello-world]#
 
-... the following commands executed from the folder where the docker-compose.yml 
+... the following commands executed from the folder where the docker-compose.yml
 ... will do the following
 
 docker-compose stop will stop all the containers
 docker-compose kill to shut things down more forcefully.
 docker-compose rm will remove all the containers.
 
-... stopping docker-compose and removing the docker machines created by 
+... stopping docker-compose and removing the docker machines created by
 ... docker-compose.
 
 [root@localhost nginx-compose]# docker-compose stop
@@ -137,7 +137,3 @@ Stopping and removing nginxcompose_my-nginx_3 ... done
 nginxcompose_my-nginx_1   nginx -g daemon off;   Up      80/tcp, 8080/tcp
 nginxcompose_my-nginx_2   nginx -g daemon off;   Up      80/tcp, 8080/tcp
 [root@localhost nginx-compose]#
-
-
-
-

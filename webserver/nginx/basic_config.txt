@@ -48,7 +48,7 @@ server {
         location /app2/ {
                 root /etc/nginx/html;
 		index home.html;
-    	} 
+    	}
 
 	location ~ \.(png|jpg|jpeg)$ {
                 expires max;
@@ -85,14 +85,3 @@ location ~ \.php$ {
 location ~ \.py$ {
         fastcgi_pass   127.0.0.1:9000;
 	}
-
-
-
-
-
-
-
-
-
-
-

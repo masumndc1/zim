@@ -13,19 +13,17 @@ nodegroups:
 
 ... now adding this in top file
 
-[root@saltmaster-kvm salt]# cat top.sls                                                 
-base:                                                                                  
-                                                                                      
- 'G@os:debian':                                                                      
-   - debian.top                                                                     
-                                                                                   
- 'centos':                                                                        
-   - match: nodegroup                                                            
-   - centos.top                                                                 
-                                                                               
- 'docker-master':                                                             
-   - docker-master.top 
+[root@saltmaster-kvm salt]# cat top.sls
+base:
 
-[root@saltmaster-kvm salt]# cat top.sls                                                 
+ 'G@os:debian':
+   - debian.top
 
+ 'centos':
+   - match: nodegroup
+   - centos.top
 
+ 'docker-master':
+   - docker-master.top
+
+[root@saltmaster-kvm salt]# cat top.sls

@@ -6,9 +6,3 @@
 .. purpose. and the syntax are like below.
 
 ciscoasa# packet-tracer input src_interface protocol src_addr src_port dest_addr dest_port [detailed] [xml]
-
-
-
-
-
-

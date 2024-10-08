@@ -1,15 +1,15 @@
 
 
-... 
+...
 ... installing neovim.
-... 
+...
 
 yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum install -y neovim python3-neovim
 
 ... if you dont like neovim or you want vim only you can just insall spacevim
 ... now install spacevim
-... 
+...
 
 yum install -y git
 curl -sLf https://spacevim.org/install.sh | bash
@@ -23,9 +23,9 @@ pip install --upgrade pip
 
 pip install neovim
 
-... if you get following error do following, 
+... if you get following error do following,
 ... "Required vim compiled with +python"
-... run "apt-get install vim-gnome-py2" 
+... run "apt-get install vim-gnome-py2"
 
 
 ... vim-python-jedi - autocompletion tool for Python - VIM addon files

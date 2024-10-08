@@ -16,7 +16,7 @@
 ... another requirement is we have one internal server 192.0.2.2 which we are
 ... running it for various service and we want it should be natted to different
 ... ip address rather than our general purpose ip address(mainnat="203.0.113.5")
-... to specific or static ip address (servernat="203.0.113.6"). It will work like 
+... to specific or static ip address (servernat="203.0.113.6"). It will work like
 ... when specific request comes to servernat ip will be static or one-to-one natted
 ... to internat ip address 192.0.2.2. even also request from 192.0.2.2 will be
 ... natted to outgoing 203.0.113.5 and vice versa.
@@ -24,11 +24,9 @@
 ... to accomplise our requirement we have done like below.
 
 ... no.1 we declare our general purpose nat ip address mainnat.
-... no.2 we declare our specific purpose nat ip address servernat 
+... no.2 we declare our specific purpose nat ip address servernat
 ... no.3 we declare our nat rule for the general purpose which is any packates
 ... coming from lan will be natted to mainnat interface for outgoing.
 ... no.4 we declare our specific purpose nat rule which is any request from and
 ... to 192.0.2.2 will be natted to servernat and vice versa.
 ...
-
-

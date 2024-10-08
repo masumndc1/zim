@@ -15,7 +15,7 @@ span.stars span.empty {
 }
 div.easy-t-cycle-prev{
 	cursor: pointer;
-	float: left;	
+	float: left;
 }
 div.easy-t-cycle-next{
 	cursor: pointer;
@@ -43,15 +43,15 @@ div.easy-t-cycle-next{
 	display: inline-block;
 	margin-bottom: 20px;
 }
- 
-.easy_testimonials_grid .easy_testimonials_grid_row .easy_testimonials_grid_cell 
+
+.easy_testimonials_grid .easy_testimonials_grid_row .easy_testimonials_grid_cell
 {
 	float: left;
 }
 
 @media only screen and (max-width: 500px)
 {
-	.easy_testimonials_grid_responsive .easy_testimonials_grid_row .easy_testimonials_grid_cell 
+	.easy_testimonials_grid_responsive .easy_testimonials_grid_row .easy_testimonials_grid_cell
 	{
 		min-width: 320px;
 	}
@@ -129,4 +129,3 @@ div.easy-t-cycle-next{
 .easy_testimonials_grid .easy_testimonials_grid_row .easy_testimonials_grid_cell:last-child {
 	margin-right: 0 !important;
 }
-

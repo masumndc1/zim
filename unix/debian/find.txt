@@ -1,7 +1,7 @@
 
 
 ... some example of find
-... 
+...
 
 # daily - keep for 14 days
 find $storage/backup.daily/ -maxdepth 1 -mtime +14 -type d -exec rm -rv {} \;
@@ -22,7 +22,7 @@ find $storage/backup.monthly/ -maxdepth 1 -mtime +300 -type d -exec rm -rv {} \;
 # find ./foo -mtime -1
 # find ./foo -mtime +1
 # find ./foo -perm 777
-# find ./foo -size -1024M     -- less than 1024M 
+# find ./foo -size -1024M     -- less than 1024M
 # find ./foo -size +1024M     -- greater than 1024M
 # find ./foo -user masum
 # find ./foo -regex ".*\.txt"

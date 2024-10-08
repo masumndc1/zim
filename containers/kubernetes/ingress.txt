@@ -3,7 +3,7 @@
 ... for ingress we have used nginx-ingress controller
 ...
 ... install by helm or kubectl apply -f file.yml
-... 
+...
 
 # Source: ingress-nginx/templates/controller-configmap.yaml
 apiVersion: v1
@@ -32,9 +32,9 @@ masum@controller:~$ k get svc -o wide
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP      PORT(S)          AGE     SELECTOR
 pu-dv1       NodePort    10.99.11.229     <none>           8080:30331/TCP   62m     app=pu-dv1
 web          NodePort    10.107.0.170     <none>           8080:32370/TCP   52m     app=web
-masum@controller:~$ 
+masum@controller:~$
 
-masum@controller:~$ cat files/test-ingress.yaml 
+masum@controller:~$ cat files/test-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -54,12 +54,12 @@ spec:
                 name: web
                 port:
                   number: 8080
-masum@controller:~$ 
+masum@controller:~$
 
-masum@controller:~$ k get ing 
+masum@controller:~$ k get ing
 NAME              CLASS   HOSTS              ADDRESS          PORTS   AGE
 example-ingress   nginx   hello-world.info   192.168.20.167   80      33m
-masum@controller:~$ 
+masum@controller:~$
 
 masum@controller:~$ k describe ingress example-ingress
 Name:             example-ingress
@@ -70,7 +70,7 @@ Default backend:  default-http-backend:80 (<error: endpoints "default-http-backe
 Rules:
   Host              Path  Backends
   ----              ----  --------
-  hello-world.info  
+  hello-world.info
                     /   web:8080 (10.244.1.224:8080)
 Annotations:        nginx.ingress.kubernetes.io/rewrite-target: /$1
 Events:
@@ -78,5 +78,3 @@ Events:
   ----    ------  ----               ----                      -------
   Normal  Sync    34m (x2 over 34m)  nginx-ingress-controller  Scheduled for sync
 masum@controller:~$
-
-

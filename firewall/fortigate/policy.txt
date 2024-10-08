@@ -5,9 +5,9 @@
 // quit easy and self explanatory. after doing and
 // saving in gui we got the policy in cli like below.
 
-FortiGate # show firewall policy 
+FortiGate # show firewall policy
 policyid    Policy ID.
-1  
+1
 
 FortiGate # show firewall policy 1
 config firewall policy
@@ -25,7 +25,7 @@ config firewall policy
     next
 end
 
-FortiGate # 
+FortiGate #
 
 // where we can easily see and got the point
 // what is going on there.
@@ -33,6 +33,3 @@ FortiGate #
 // now if everything is going fine. then we can see
 // packets and bytes are showing in the monitor tab
 // under the policy tab
-
-
-

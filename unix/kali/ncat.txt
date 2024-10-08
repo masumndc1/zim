@@ -1,7 +1,7 @@
 
 
 ... ncat is the better version of netcat which supports ssl too
-... creating a server 
+... creating a server
 
 root@kali:/# ncat --ssl --allow 192.168.25.1 -vnl -p 4444 -e /bin/bash
 Ncat: Version 7.40 ( https://nmap.org/ncat )
@@ -23,6 +23,3 @@ Ncat: Certificate verification failed (self signed certificate).
 Ncat: SSL connection to 192.168.25.176:4444.
 Ncat: SHA-1 fingerprint: 68A6 B025 DEC6 F72F 2A5A F269 E791 A764 DA4A 79F3
 ifconfig
-
-
-

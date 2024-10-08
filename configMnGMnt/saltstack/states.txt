@@ -1,6 +1,6 @@
 
 
-... state files are saltstack's file in which instructions are 
+... state files are saltstack's file in which instructions are
 ... written inside in yaml syntax.
 ... by default states files are located at the /srv/salt folder
 
@@ -82,21 +82,21 @@ Succeeded: 1 (changed=1)
 Failed:    0
 ------------
 Total states run:     1
-[root@salt salt]# 
+[root@salt salt]#
 [root@salt salt]# ls
 htop.sls  httpd.sls
 [root@salt salt]#
 
-... we have two state files htop.sls and httpd.sls. when we run it we just pass 
-... file name without .sls syntax to the command like 
+... we have two state files htop.sls and httpd.sls. when we run it we just pass
+... file name without .sls syntax to the command like
 ... "salt '*' state.sls <filename_witout_extension>
 
 ... the difference between state module and execution module.
-... execution modules execute some task on systems. it just repeats again and 
+... execution modules execute some task on systems. it just repeats again and
 ... again. while state modules are declarative which means it declare the last
-... state of a task. 
+... state of a task.
 
-... we can see the available functions for a state module. one example is as 
+... we can see the available functions for a state module. one example is as
 ... follows.
 
 [root@salt salt]# salt '*' sys.list_state_modules
@@ -172,7 +172,7 @@ Total states run:     2
 [root@salt salt]#
 
 
-... now we have added another minion 
+... now we have added another minion
 
 [root@salt salt]# salt-key
 Accepted Keys:
@@ -248,7 +248,7 @@ Failed:    0
 Total states run:     2
 
 ... the module file and its function managed.
-... usages are given below. following is collected from one 
+... usages are given below. following is collected from one
 ... well known book.
 
 sync mod_status.conf:
@@ -317,7 +317,7 @@ Failed:    0
 
 ... one example of file.append state module
 
-[root@saltmaster debian]# cat sources.sls 
+[root@saltmaster debian]# cat sources.sls
 {% set src='/etc/apt/sources.list' %}
 {% set dst='/etc/apt/sources.list.bk' %}
 {% if not salt['file.file_exists'](dst) %}
@@ -330,10 +330,7 @@ backup:
 update_sourcelist:
  file.append:
   - name: {{ src }}
-  - text: | 
+  - text: |
      # saltstack repo
      deb http://repo.saltstack.com/apt/debian/9/amd64/latest stretch main
-[root@saltmaster debian]# 
-
-
-
+[root@saltmaster debian]#

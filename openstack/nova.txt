@@ -3,9 +3,9 @@
 ... nova
 ...
 ... Nova, the openstack compute system, manages and hosts the cloud computing system.
-... it uses openstack identity for the authentication, image service for disk and 
+... it uses openstack identity for the authentication, image service for disk and
 ... image, dashboard, the web based user interface, for administration.
-... Image access is limited by projects, and by users; quotas are limited per 
+... Image access is limited by projects, and by users; quotas are limited per
 ... project (the number of instances, for example).
 
 ... nova-api service: Accepts and responds to end user compute API calls. The service supports the OpenStack
@@ -16,7 +16,7 @@
 ... nova-api-metadata service: Accepts metadata requests from instances. The nova-api-metadata service
 ... is generally used when you run in multi-host mode with nova-network installations. For details, see
 ... Metadata service in the OpenStack Administrator Guide.
-... 
+...
 ... nova-compute service: A worker daemon that creates and terminates virtual machine instances through hy-
 ... pervisor APIs. For example:
 
@@ -29,25 +29,25 @@
 ...
 ... nova-placement-api service: Tracks the inventory and usage of each provider. For details, see Placement
 ... API.
-... 
+...
 ... nova-scheduler service: Takes a virtual machine instance request from the queue and determines on which
 ... compute server host it runs.
-... 
+...
 ... nova-conductor module: Mediates interactions between the nova-compute service and the database. It
 ... eliminates direct accesses to the cloud database made by the nova-compute service. The nova-
 ... conductor module scales horizontally. However, do not deploy it on nodes where the nova-compute
 ... service runs.
-... 
+...
 ... nova-cert module: A server daemon that serves the Nova Cert service for X509 certificates. Used to generate
 ... certificates for euca-bundle-image . Only needed for the EC2 API.
 ...
 ... nova-consoleauth daemon: Authorizes tokens for users that console proxies provide.
 ... See nova-novncproxy and nova-xvpvncproxy . This service must be running for console proxies to work. You
 ... can run proxies of either type against a single nova-consoleauth service in a cluster configuration.
-... 
+...
 ... nova-novncproxy daemon Provides a proxy for accessing running instances through a VNC connection.
 ... Supports browser-based novnc clients.
-... 
+...
 ... nova-spicehtml5proxy daemon: Provides a proxy for accessing running instances through a SPICE connec-
 ... tion. Supports browser-based HTML5 client.
 ...
@@ -92,28 +92,28 @@ Query OK, 1 row affected (0.01 sec)
 MariaDB [(none)]>  CREATE DATABASE nova_cell0;
 Query OK, 1 row affected (0.03 sec)
 
-MariaDB [(none)]> 
+MariaDB [(none)]>
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.00 sec)
 
 MariaDB [(none)]>  GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.00 sec)
 
-MariaDB [(none)]> 
+MariaDB [(none)]>
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.01 sec)
 
 MariaDB [(none)]>  GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.00 sec)
 
-MariaDB [(none)]> 
+MariaDB [(none)]>
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.00 sec)
 
 MariaDB [(none)]>  GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%'  IDENTIFIED BY '***';
 Query OK, 0 rows affected (0.01 sec)
 
-MariaDB [(none)]> 
+MariaDB [(none)]>
 
 ... Create the nova user:
 
@@ -128,7 +128,7 @@ Repeat User Password: ***
 | id        | c468d7ee00ac4a498b9738f3614d59dd |
 | name      | nova                             |
 +-----------+----------------------------------+
-root@controller:~# 
+root@controller:~#
 
 ... Add the admin role to the nova user:
 
@@ -146,10 +146,10 @@ root@controller:~# openstack service create --name nova --description "OpenStack
 | name        | nova                             |
 | type        | compute                          |
 +-------------+----------------------------------+
-root@controller:~# 
+root@controller:~#
 
 ... Create the Compute API service endpoints:
- 
+
 root@controller:~# openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1
 
 +--------------+----------------------------------+
@@ -198,7 +198,7 @@ root@controller:~# openstack endpoint create --region RegionOne compute admin ht
 | url          | http://controller:8774/v2.1      |
 +--------------+----------------------------------+
 
-root@controller:~# 
+root@controller:~#
 
 ... Create a Placement service user.
 
@@ -213,7 +213,7 @@ Repeat User Password:
 | id        | b08456208a814b0581d3eab448779eb6 |
 | name      | placement                        |
 +-----------+----------------------------------+
-root@controller:~# 
+root@controller:~#
 
 ... Add the Placement user to the service project with the admin role:
 openstack role add --project service --user placement admin
@@ -231,10 +231,10 @@ root@controller:~#  openstack service create --name placement --description "Pla
 | type        | placement                        |
 +-------------+----------------------------------+
 
-root@controller:~# 
+root@controller:~#
 
 ... Create the Placement API service endpoints:
- 
+
 root@controller:~# openstack endpoint create --region RegionOne placement public http://controller:8778
 
 +--------------+----------------------------------+
@@ -283,7 +283,7 @@ root@controller:~# openstack endpoint create --region RegionOne placement admin 
 | url          | http://controller:8778           |
 +--------------+----------------------------------+
 
-root@controller:~# 
+root@controller:~#
 
 ... Install the packages:
 
@@ -302,7 +302,7 @@ root@controller:~# openstack user list
 | b08456208a814b0581d3eab448779eb6 | placement |
 | c468d7ee00ac4a498b9738f3614d59dd | nova      |
 +----------------------------------+-----------+
-root@controller:~# 
+root@controller:~#
 root@controller:~# openstack service list
 +----------------------------------+-----------+-----------+
 | ID                               | Name      | Type      |
@@ -312,7 +312,7 @@ root@controller:~# openstack service list
 | 9c8a9b44a9294600a3f1aefe4b546c48 | glance    | image     |
 | ef0a900ba0a044a48b43a6cb7a141d56 | placement | placement |
 +----------------------------------+-----------+-----------+
-root@controller:~# 
+root@controller:~#
 
 .... edit the /etc/nova/nova.conf like below
 
@@ -334,11 +334,11 @@ root@controller:/etc/nova# cat -n /etc/nova/nova.conf
     14	my_ip = 10.10.10.12
     15	use_neutron = True
     16	firewall_driver = nova.virt.firewall.NoopFirewallDriver
-    17	
+    17
     18	[api]
     19	# ...
     20	auth_strategy = keystone
-    21	
+    21
     22	[keystone_authtoken]
     23	# ...
     24	auth_uri = http://controller:5000
@@ -349,29 +349,29 @@ root@controller:/etc/nova# cat -n /etc/nova/nova.conf
     29	user_domain_name = default
     30	project_name = service
     31	username = nova
-    32	password = *** 
-    33	
+    32	password = ***
+    33
     34	[api_database]
     35	# ...
     36	connection = mysql+pymysql://nova:***@controller/nova_api
     37	[database]
     38	# ...
     39	connection = mysql+pymysql://nova:***@controller/nova
-    40	
+    40
     41	[vnc]
     42	enabled = true
     43	# ...
     44	vncserver_listen = $my_ip
     45	vncserver_proxyclient_address = $my_ip
-    46	
+    46
     47	[glance]
     48	# ...
     49	api_servers = http://controller:9292
-    50	
+    50
     51	[oslo_concurrency]
     52	# ...
     53	lock_path = /var/lib/nova/tmp
-    54	
+    54
     55	[placement]
     56	# ...
     57	os_region_name = RegionOne
@@ -383,7 +383,7 @@ root@controller:/etc/nova# cat -n /etc/nova/nova.conf
     63	username = placement
     64	password = ***
 
-root@controller:/etc/nova# 
+root@controller:/etc/nova#
 
 ... Populate the nova-api database:
 # su -s /bin/sh -c "nova-manage api_db sync" nova
@@ -392,7 +392,7 @@ root@controller:/etc/nova#
 
 root@controller:~# nova-manage cell list
 
-Option "verbose" from group "DEFAULT" is deprecated for removal.  
+Option "verbose" from group "DEFAULT" is deprecated for removal.
 Its value may be silently ignored in the future.
  Id  Name        Type    Username    Hostname         Port   VHost
 ---  ----------  ------  ----------  ---------------  -----  ----------
@@ -411,7 +411,7 @@ nova-manage cell create --name cell1 --cell_type child \
 
 root@controller:~# nova-manage cell list
 
-Option "verbose" from group "DEFAULT" is deprecated for removal.  
+Option "verbose" from group "DEFAULT" is deprecated for removal.
 Its value may be silently ignored in the future.
 
  Id  Name        Type    Username    Hostname         Port   VHost
@@ -428,10 +428,7 @@ root@controller:~# su -s /bin/sh -c "nova-manage db sync" nova
 ... now restarting all services
 
  service nova-api restart
- service nova-consoleauth restart 
- service nova-scheduler restart 
- service nova-conductor restart 
+ service nova-consoleauth restart
+ service nova-scheduler restart
+ service nova-conductor restart
  service nova-novncproxy restart
-
-
-

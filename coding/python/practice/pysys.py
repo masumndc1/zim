@@ -12,5 +12,3 @@ diskspace = "df"
 diskspace_arg = "-h"
 print("\ngathering system information with {} command:\n".format(diskspace))
 subprocess.call([diskspace, diskspace_arg])
-
-

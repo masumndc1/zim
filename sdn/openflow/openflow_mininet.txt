@@ -13,23 +13,23 @@ root@mininet-vm:~# mn --topo single,3 --mac --switch ovsk --controller remote
 *** Adding controller
 Unable to contact the remote controller at 127.0.0.1:6633
 *** Adding hosts:
-h1 h2 h3 
+h1 h2 h3
 *** Adding switches:
-s1 
+s1
 *** Adding links:
-(h1, s1) (h2, s1) (h3, s1) 
+(h1, s1) (h2, s1) (h3, s1)
 *** Configuring hosts
-h1 h2 h3 
+h1 h2 h3
 *** Starting controller
-c0 
+c0
 *** Starting 1 switches
-s1 
+s1
 *** Starting CLI:
-mininet> 
+mininet>
 mininet> nodes
-available nodes are: 
+available nodes are:
 c0 h1 h2 h3 s1
-mininet> 
+mininet>
 
 .. certainly the our topology has controller c0, three hosts h1,h2,h3
 .. and one switch s1.
@@ -51,38 +51,38 @@ root@mininet-vm:~# ovs-vsctl show
         Port "s1-eth3"
             Interface "s1-eth3"
     ovs_version: "2.0.2"
-root@mininet-vm:~# 
-root@mininet-vm:~# ifconfig 
+root@mininet-vm:~#
+root@mininet-vm:~# ifconfig
 
-s1        Link encap:Ethernet  HWaddr ce:18:be:32:fb:4f  
+s1        Link encap:Ethernet  HWaddr ce:18:be:32:fb:4f
           UP BROADCAST RUNNING  MTU:1500  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-s1-eth1   Link encap:Ethernet  HWaddr 82:c1:86:10:d6:73  
+s1-eth1   Link encap:Ethernet  HWaddr 82:c1:86:10:d6:73
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:10 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:828 (828.0 B)  TX bytes:0 (0.0 B)
 
-s1-eth2   Link encap:Ethernet  HWaddr 9a:bd:7f:34:fc:56  
+s1-eth2   Link encap:Ethernet  HWaddr 9a:bd:7f:34:fc:56
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:10 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:816 (816.0 B)  TX bytes:0 (0.0 B)
 
-s1-eth3   Link encap:Ethernet  HWaddr 42:7c:91:b7:a2:c2  
+s1-eth3   Link encap:Ethernet  HWaddr 42:7c:91:b7:a2:c2
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:10 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:828 (828.0 B)  TX bytes:0 (0.0 B)
 
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 .. mininet help menu is like below.
 
@@ -91,9 +91,9 @@ mininet> help
 Documented commands (type help <topic>):
 ========================================
 EOF    gterm  iperfudp  nodes        pingpair      py      switch
-dpctl  help   link      noecho       pingpairfull  quit    time  
-dump   intfs  links     pingall      ports         sh      x     
-exit   iperf  net       pingallfull  px            source  xterm 
+dpctl  help   link      noecho       pingpairfull  quit    time
+dump   intfs  links     pingall      ports         sh      x
+exit   iperf  net       pingallfull  px            source  xterm
 
 You may also send a command to a node using:
   <node> command {args}
@@ -112,13 +112,13 @@ noecho:
 However, starting up an xterm/gterm is generally better:
   mininet> xterm h2
 
-mininet> 
+mininet>
 
 .. the utility dpctl is used to control the flow table of switch.
 .. this also can be used for debugging such as to see the flow table
-.. and the flow counter. as most switch listen on the port 6634 we 
+.. and the flow counter. as most switch listen on the port 6634 we
 .. can use this port to see the flow status and the flow counter.
-.. here the show command connect to the switch on this port as our 
+.. here the show command connect to the switch on this port as our
 .. switch is listening to localhost:6634 we could easily see its
 .. flow and flow counter.
 
@@ -127,23 +127,23 @@ features_reply (xid=0x9c7ef540): ver:0x1, dpid:1
 n_tables:254, n_buffers:256
 features: capabilities:0xc7, actions:0xfff
  1(s1-eth1): addr:82:c1:86:10:d6:73, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  2(s1-eth2): addr:9a:bd:7f:34:fc:56, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  3(s1-eth3): addr:42:7c:91:b7:a2:c2, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  LOCAL(s1): addr:46:77:91:15:6f:01, config: 0x1, state:0x1
 get_config_reply (xid=0x2aea1b3): miss_send_len=0
 root@mininet-vm:~#
- 
+
 .. another useful command is follows. upto this is empty as we did not
 .. started any controller.
 
 root@mininet-vm:~# dpctl dump-flows tcp:127.0.0.1:6634
 stats_reply (xid=0x77eeae02): flags=none type=1(flow)
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
-.. now ping test 
+.. now ping test
 
 mininet> h1 ping h2
 PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
@@ -154,7 +154,7 @@ From 10.0.0.1 icmp_seq=3 Destination Host Unreachable
 --- 10.0.0.2 ping statistics ---
 5 packets transmitted, 0 received, +3 errors, 100% packet loss, time 4006ms
 pipe 3
-mininet> 
+mininet>
 
 .. ping test failed because it does not know where to pass the packets
 .. and we dont have any controller running. lets try this.
@@ -166,9 +166,9 @@ root@mininet-vm:~# dpctl add-flow tcp:127.0.0.1:6634 in_port=2,actions=output:1
 .. interface 2 and vice versa. localhost:6634 is instructing the switch s1.
 .. now see the difference.
 ..
-.. note: we have to careful regarding these above two commands. as timeout is 60 
+.. note: we have to careful regarding these above two commands. as timeout is 60
 .. second for the above command with now packet flowing. within this 60 seconds
-.. we have to test the ping. other wise we can increase our timeout value like 
+.. we have to test the ping. other wise we can increase our timeout value like
 .. below. ie 120 seconds.
 
 root@mininet-vm# dpctl add-flow tcp:127.0.0.1:6634 in_port=1,idle_timeout=120,actions=output:2
@@ -178,7 +178,7 @@ root@mininet-vm:~# dpctl dump-flows tcp:127.0.0.1:6634
 stats_reply (xid=0x666bfbf): flags=none type=1(flow)
   cookie=0, duration_sec=15s, duration_nsec=503000000s, table_id=0, priority=32768, n_packets=14, n_bytes=1260, idle_timeout=60,hard_timeout=0,in_port=1,actions=output:2
   cookie=0, duration_sec=14s, duration_nsec=536000000s, table_id=0, priority=32768, n_packets=14, n_bytes=1260, idle_timeout=60,hard_timeout=0,in_port=2,actions=output:1
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 mininet> h1 ping h2
 PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
@@ -198,7 +198,7 @@ root@mininet-vm:~# controller ptcp:
 .. now if we run tcpdump on interface localhost lo as it switch is listening
 .. to localhost we found the following.
 
-root@mininet-vm:~# tcpdump -i lo -p 
+root@mininet-vm:~# tcpdump -i lo -p
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on lo, link-type EN10MB (Ethernet), capture size 65535 bytes
 16:15:52.301273 IP localhost.48533 > localhost.6633: Flags [P.], seq 1812916748:1812916756, ack 4044551752, win 86, options [nop,nop,TS val 1037250 ecr 1036000], length 8: OpenFlow
@@ -228,16 +228,16 @@ listening on lo, link-type EN10MB (Ethernet), capture size 65535 bytes
 mininet> iperf
 *** Iperf: testing TCP bandwidth between h1 and h2
 Waiting for iperf to start up...*** Results: ['5.31 Gbits/sec', '5.31 Gbits/sec']
-mininet> 
+mininet>
 
 ..ping all test
 
 mininet> pingall
 *** Ping: testing ping reachability
-h1 -> h2 
-h2 -> h1 
+h1 -> h2
+h2 -> h1
 *** Results: 0% dropped (2/2 received)
-mininet> 
+mininet>
 
 .. running controller different than the localhost. this ip is the one of the interface
 .. of my mininet vmware.
@@ -247,25 +247,25 @@ root@mininet-vm:~# mn --topo single,3 --mac --switch ovsk --controller remote,ip
 *** Adding controller
 Unable to contact the remote controller at 192.168.10.129:6633
 *** Adding hosts:
-h1 h2 h3 
+h1 h2 h3
 *** Adding switches:
-s1 
+s1
 *** Adding links:
-(h1, s1) (h2, s1) (h3, s1) 
+(h1, s1) (h2, s1) (h3, s1)
 *** Configuring hosts
-h1 h2 h3 
+h1 h2 h3
 *** Starting controller
-c0 
+c0
 *** Starting 1 switches
-s1 
+s1
 *** Starting CLI:
-mininet> 
+mininet>
 mininet> nodes
-available nodes are: 
+available nodes are:
 c0 h1 h2 h3 s1
 mininet>
 
-root@mininet-vm:/# 
+root@mininet-vm:/#
 root@mininet-vm:/# ovs-vsctl show
 8945dad2-35b4-4549-9122-23d5558992e7
     Bridge "s1"
@@ -282,7 +282,7 @@ root@mininet-vm:/# ovs-vsctl show
         Port "s1-eth1"
             Interface "s1-eth1"
     ovs_version: "2.0.2"
-root@mininet-vm:/# 
+root@mininet-vm:/#
 
 
 root@mininet-vm:/# dpctl show tcp:192.168.10.129:6634
@@ -290,17 +290,17 @@ features_reply (xid=0x71f5c679): ver:0x1, dpid:1
 n_tables:254, n_buffers:256
 features: capabilities:0xc7, actions:0xfff
  1(s1-eth1): addr:62:d8:6f:37:f5:9d, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  2(s1-eth2): addr:ba:66:31:b8:01:97, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  3(s1-eth3): addr:06:cc:03:0d:62:e4, config: 0, state:0
-     current:    10GB-FD COPPER 
+     current:    10GB-FD COPPER
  LOCAL(s1): addr:4a:91:55:d0:62:4e, config: 0, state:0
 get_config_reply (xid=0x2c5d42d9): miss_send_len=0
-root@mininet-vm:/# 
-root@mininet-vm:/# 
+root@mininet-vm:/#
+root@mininet-vm:/#
 
-.. tcpdump output 
+.. tcpdump output
 
 root@mininet-vm:/# tcpdump -XX -n -i s1-eth1
 tcpdump: WARNING: s1-eth1: no IPv4 address assigned
@@ -362,6 +362,3 @@ listening on s1-eth1, link-type EN10MB (Ethernet), capture size 65535 bytes
 	0x0040:  1617 1819 1a1b 1c1d 1e1f 2021 2223 2425  ...........!"#$%
 	0x0050:  2627 2829 2a2b 2c2d 2e2f 3031 3233 3435  &'()*+,-./012345
 	0x0060:  3637                                     67
-
-
-

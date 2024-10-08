@@ -10,6 +10,5 @@ if you dont want to boot machine do following.
 # accton /var/account/acct
 
 accton with a file will acctivate accounting.
-we can disable it just using accton without 
+we can disable it just using accton without
 any parameter.
-

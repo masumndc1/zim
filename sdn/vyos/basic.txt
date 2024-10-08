@@ -13,7 +13,7 @@ vyos@vyos# edit interfaces ethernet eth0
 
 vyos@vyos# set address 192.168.35.10/24
 
-vyos@vyos# show interfaces 
+vyos@vyos# show interfaces
  ethernet eth0 {
      address 192.168.35.10/24
      hw-id 00:0c:29:42:22:4f
@@ -33,26 +33,26 @@ vyos@vyos# show interfaces
 
 vyos@vyos# commit
 
-vyos@vyos:~$ show interfaces ethernet eth0 brief 
+vyos@vyos:~$ show interfaces ethernet eth0 brief
 Codes: S - State, L - Link, u - Up, D - Down, A - Admin Down
 Interface        IP Address                        S/L  Description
 ---------        ----------                        ---  -----------
-eth0             192.168.35.10/24                  u/u  
-vyos@vyos:~$ 
-vyos@vyos:~$ 
-vyos@vyos:~$ show interfaces ethernet eth0       
+eth0             192.168.35.10/24                  u/u
+vyos@vyos:~$
+vyos@vyos:~$
+vyos@vyos:~$ show interfaces ethernet eth0
 eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
     link/ether 00:0c:29:42:22:4f brd ff:ff:ff:ff:ff:ff
     inet 192.168.35.10/24 brd 192.168.35.255 scope global eth0
        valid_lft forever preferred_lft forever
-    inet6 fe80::20c:29ff:fe42:224f/64 scope link 
+    inet6 fe80::20c:29ff:fe42:224f/64 scope link
        valid_lft forever preferred_lft forever
 
     RX:  bytes    packets     errors    dropped    overrun      mcast
          81657        967          0          0          0          0
     TX:  bytes    packets     errors    dropped    carrier collisions
          90777        655          0          0          0          0
-vyos@vyos:~$ 
+vyos@vyos:~$
 
 
 
@@ -84,16 +84,16 @@ vyos@vyos# show
 
 vyos@vyos# show
 
-.. now i can ssh to vyos from another host ... 
+.. now i can ssh to vyos from another host ...
 .. now we will install the image.
 
-vyos@vyos:~$ install 
+vyos@vyos:~$ install
 Possible completions:
   image         Install new system image to hard drive
   system        Install system to hard drive
 
-      
-vyos@vyos:~$ install image 
+
+vyos@vyos:~$ install image
 Welcome to the VyOS install program.  This script
 will walk you through the process of installing the
 VyOS image to a local hard drive.
@@ -105,7 +105,7 @@ Would you like me to try to partition a drive automatically
 or would you rather partition it manually with parted?  If
 you have already setup your partitions, you may skip this step
 
-Partition (Auto/Parted/Skip) [Auto]:   
+Partition (Auto/Parted/Skip) [Auto]:
 
 I found the following drives on your system:
  sda	21474MB
@@ -114,13 +114,13 @@ I found the following drives on your system:
 Install the image on? [sda]:
 
 This will destroy all data on /dev/sda.
-Continue? (Yes/No) [No]: 
+Continue? (Yes/No) [No]:
 Ok then.  Exiting...
-vyos@vyos:~$ install image 
+vyos@vyos:~$ install image
 Welcome to the VyOS install program.  This script
 will walk you through the process of installing the
 VyOS image to a local hard drive.
-Would you like to continue? (Yes/No) [Yes]: 
+Would you like to continue? (Yes/No) [Yes]:
 Probing drives: OK
 Looking for pre-existing RAID groups...none found.
 The VyOS image will require a minimum 1000MB root.
@@ -128,7 +128,7 @@ Would you like me to try to partition a drive automatically
 or would you rather partition it manually with parted?  If
 you have already setup your partitions, you may skip this step
 
-Partition (Auto/Parted/Skip) [Auto]: 
+Partition (Auto/Parted/Skip) [Auto]:
 
 I found the following drives on your system:
  sda	21474MB
@@ -144,7 +144,7 @@ How big of a root partition should I create? (1000MB - 21474MB) [21474]MB: 18000
 Creating filesystem on /dev/sda1: OK
 Done!
 Mounting /dev/sda1...
-What would you like to name this image? [1.1.7]: 
+What would you like to name this image? [1.1.7]:
 OK.  This image will be named: 1.1.7
 Copying squashfs image...
 Copying kernel and initrd images...
@@ -152,7 +152,7 @@ Done!
 I found the following configuration files:
     /config/config.boot
     /opt/vyatta/etc/config.boot.default
-Which one should I copy to sda? [/config/config.boot]: 
+Which one should I copy to sda? [/config/config.boot]:
 
 Copying /config/config.boot to sda.
 Enter password for administrator account
@@ -167,7 +167,7 @@ Which drive should GRUB modify the boot partition on? [sda]:
 
 Setting up grub: OK
 Done!
-vyos@vyos:~$ 
+vyos@vyos:~$
 
 .. installation is complete
 
@@ -175,9 +175,9 @@ vyos@vyos:~$
 .. we have to commit first then save it. other wise it will not retain the
 .. configuratin. like below
 
-.. now default gateway configuration. 
+.. now default gateway configuration.
 
-vyos@vyos# edit system 
+vyos@vyos# edit system
 [edit system]
 
 vyos@vyos# set gateway-address 192.168.35.1
@@ -192,30 +192,30 @@ Both 'system gateway-address' and 'protocols static route 0.0.0.0/0'
 are configured. This configuration is not recommended.
 
 [edit system]
-vyos@vyos# 
+vyos@vyos#
 
 .. so we are deleting the gateway-address as this is not compatible
 .. with the static command.
 
-vyos@vyos# delete gateway-address 192.168.35.1 
+vyos@vyos# delete gateway-address 192.168.35.1
 
-vyos@vyos# run show system connections 
+vyos@vyos# run show system connections
 Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
 tcp        0      0 192.168.35.10:22        192.168.35.1:33678      ESTABLISHED
-tcp6       0      0 :::22                   :::*                    LISTEN     
-udp        0      0 192.168.35.10:123       0.0.0.0:*                          
-udp        0      0 127.0.0.1:123           0.0.0.0:*                          
-udp        0      0 0.0.0.0:123             0.0.0.0:*                          
-udp6       0      0 fe80::20c:29ff:fe42:123 :::*                               
-udp6       0      0 fe80::20c:29ff:fe42:123 :::*                               
-udp6       0      0 fe80::20c:29ff:fe42:123 :::*                               
-udp6       0      0 fe80::20c:29ff:fe42:123 :::*                               
-udp6       0      0 ::1:123                 :::*                               
-udp6       0      0 :::123                  :::*                               
-raw6       0      0 :::58                   :::*                    7          
-raw6       0      0 :::89                   :::*                    7          
+tcp6       0      0 :::22                   :::*                    LISTEN
+udp        0      0 192.168.35.10:123       0.0.0.0:*
+udp        0      0 127.0.0.1:123           0.0.0.0:*
+udp        0      0 0.0.0.0:123             0.0.0.0:*
+udp6       0      0 fe80::20c:29ff:fe42:123 :::*
+udp6       0      0 fe80::20c:29ff:fe42:123 :::*
+udp6       0      0 fe80::20c:29ff:fe42:123 :::*
+udp6       0      0 fe80::20c:29ff:fe42:123 :::*
+udp6       0      0 ::1:123                 :::*
+udp6       0      0 :::123                  :::*
+raw6       0      0 :::58                   :::*                    7
+raw6       0      0 :::89                   :::*                    7
 Active UNIX domain sockets (servers and established)
 Proto RefCnt Flags       Type       State         I-Node   Path
 unix  2      [ ]         DGRAM                    4878     @/org/kernel/udev/udevd
@@ -228,34 +228,34 @@ unix  2      [ ACC ]     STREAM     LISTENING     7891     /var/run/quagga/ospfd
 unix  9      [ ]         DGRAM                    8928     /dev/log
 unix  2      [ ACC ]     STREAM     LISTENING     7910     /var/run/quagga/ospf6d.vty
 unix  2      [ ACC ]     STREAM     LISTENING     7921     /var/run/quagga/bgpd.vty
-unix  2      [ ]         DGRAM                    7844     
-unix  3      [ ]         DGRAM                    4884     
-unix  2      [ ]         DGRAM                    9569     
-unix  2      [ ]         DGRAM                    7914     
-unix  2      [ ]         DGRAM                    10610    
-unix  2      [ ]         DGRAM                    7901     
-unix  2      [ ]         DGRAM                    7882     
+unix  2      [ ]         DGRAM                    7844
+unix  3      [ ]         DGRAM                    4884
+unix  2      [ ]         DGRAM                    9569
+unix  2      [ ]         DGRAM                    7914
+unix  2      [ ]         DGRAM                    10610
+unix  2      [ ]         DGRAM                    7901
+unix  2      [ ]         DGRAM                    7882
 unix  3      [ ]         STREAM     CONNECTED     7926     /var/run/quagga/zserv.api
-unix  2      [ ]         DGRAM                    9641     
-unix  3      [ ]         STREAM     CONNECTED     10613    
-unix  3      [ ]         STREAM     CONNECTED     7923     
-unix  3      [ ]         STREAM     CONNECTED     7853     
-unix  3      [ ]         STREAM     CONNECTED     7912     
+unix  2      [ ]         DGRAM                    9641
+unix  3      [ ]         STREAM     CONNECTED     10613
+unix  3      [ ]         STREAM     CONNECTED     7923
+unix  3      [ ]         STREAM     CONNECTED     7853
+unix  3      [ ]         STREAM     CONNECTED     7912
 unix  3      [ ]         STREAM     CONNECTED     7924     /var/run/quagga/zserv.api
-unix  3      [ ]         STREAM     CONNECTED     7893     
-unix  2      [ ]         DGRAM                    12049    
-unix  2      [ ]         DGRAM                    9004     
-unix  3      [ ]         STREAM     CONNECTED     7878     
+unix  3      [ ]         STREAM     CONNECTED     7893
+unix  2      [ ]         DGRAM                    12049
+unix  2      [ ]         DGRAM                    9004
+unix  3      [ ]         STREAM     CONNECTED     7878
 unix  3      [ ]         STREAM     CONNECTED     7854     /var/run/quagga/zserv.api
-unix  2      [ ]         DGRAM                    7837     
-unix  2      [ ]         DGRAM                    7554     
-unix  3      [ ]         DGRAM                    4885     
+unix  2      [ ]         DGRAM                    7837
+unix  2      [ ]         DGRAM                    7554
+unix  3      [ ]         DGRAM                    4885
 unix  3      [ ]         STREAM     CONNECTED     7913     /var/run/quagga/zserv.api
-unix  2      [ ]         DGRAM                    10330    
-unix  3      [ ]         STREAM     CONNECTED     7925     
+unix  2      [ ]         DGRAM                    10330
+unix  3      [ ]         STREAM     CONNECTED     7925
 unix  3      [ ]         STREAM     CONNECTED     7894     /var/run/quagga/zserv.api
-unix  3      [ ]         STREAM     CONNECTED     10614    
-unix  2      [ ]         DGRAM                    9005     
+unix  3      [ ]         STREAM     CONNECTED     10614
+unix  2      [ ]         DGRAM                    9005
 unix  3      [ ]         STREAM     CONNECTED     7879     /var/run/quagga/zserv.api
 [edit]
 
@@ -268,14 +268,14 @@ PING 192.168.35.1 (192.168.35.1) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
 rtt min/avg/max/mdev = 0.323/0.721/1.120/0.399 ms
 [edit]
-vyos@vyos# 
+vyos@vyos#
 [edit]
-vyos@vyos# 
+vyos@vyos#
 [edit]
 
 .. configuring the static route for the outside world.
 
-vyos@vyos# edit protocols 
+vyos@vyos# edit protocols
 Possible completions:
 +> bgp          Border Gateway Protocol (BGP) parameters
  > igmp-proxy   Internet Group Management Protocol (IGMP) proxy parameters
@@ -286,9 +286,9 @@ Possible completions:
  > ripng        Routing Information Protocol (RIPng) parameters
  > static       static route parameters
 
-      
+
 [edit]
-vyos@vyos# edit protocols static 
+vyos@vyos# edit protocols static
 Possible completions:
 +> arp          Static ARP translation
 +> interface-route
@@ -299,35 +299,35 @@ Possible completions:
 +> route6       Static IPv6 route
 +> table        Policy route table number
 
-      
+
 [edit]
-vyos@vyos# edit protocols static 
+vyos@vyos# edit protocols static
 [edit protocols static]
 vyos@vyos# set route
-route   route6  
+route   route6
 [edit protocols static]
-vyos@vyos# set route 
+vyos@vyos# set route
 Possible completions:
  > <x.x.x.x/x>  Static route
 
 [edit protocols static]
-vyos@vyos# set route 0.0.0.0/0 
+vyos@vyos# set route 0.0.0.0/0
 Possible completions:
  > blackhole    Silently discard pkts when matched
 +> next-hop     Next-hop router [REQUIRED]
 
-      
+
 [edit protocols static]
-vyos@vyos# set route 0.0.0.0/0 next-hop 192.168.35.1 
+vyos@vyos# set route 0.0.0.0/0 next-hop 192.168.35.1
 Possible completions:
    disable      Disable IPv4 next-hop static route
    distance     Distance value for this route
 
-      
+
 [edit protocols static]
-vyos@vyos# set route 0.0.0.0/0 next-hop 192.168.35.1 
+vyos@vyos# set route 0.0.0.0/0 next-hop 192.168.35.1
 [edit protocols static]
-vyos@vyos# 
+vyos@vyos#
 [edit protocols static]
 
 vyos@vyos# commit
@@ -336,7 +336,7 @@ vyos@vyos# save
 Saving configuration to '/config/config.boot'...
 Done
 [edit]
-vyos@vyos# 
+vyos@vyos#
 [edit]
 vyos@vyos# show ip route
 
@@ -352,9 +352,9 @@ S>* 0.0.0.0/0 [1/0] via 192.168.35.1, eth0
 C>* 127.0.0.0/8 is directly connected, lo
 C>* 192.168.35.0/24 is directly connected, eth0
 [edit]
-vyos@vyos# 
+vyos@vyos#
 [edit]
-vyos@vyos# 
+vyos@vyos#
 [edit]
 vyos@vyos# run ping 4.2.2.1
 PING 4.2.2.1 (4.2.2.1) 56(84) bytes of data.
@@ -377,7 +377,7 @@ vyos@vyos# edit system
 Possible completions:
    <x.x.x.x>    Default gateway
 
-      
+
 [edit system]
 vyos@vyos# set name-server 8.8.8.8
 [edit system]
@@ -432,7 +432,7 @@ vyos@vyos# show
  time-zone UTC
 [edit system]
 vyos@vyos# commi
-commit          commit-confirm  
+commit          commit-confirm
 [edit system]
 vyos@vyos# commit
 [edit system]
@@ -449,11 +449,11 @@ PING yahoo.com (206.190.36.45) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 999ms
 rtt min/avg/max/mdev = 270.203/323.963/377.723/53.760 ms
 [edit]
-vyos@vyos# 
+vyos@vyos#
 
-.. the full configuration using set command 
+.. the full configuration using set command
 
-vyos@vyos# run show configuration | commands 
+vyos@vyos# run show configuration | commands
 set interfaces ethernet eth0 address '192.168.35.10/24'
 set interfaces ethernet eth0 duplex 'auto'
 set interfaces ethernet eth0 hw-id '00:0c:29:42:22:4f'
@@ -496,7 +496,4 @@ set system syslog global facility all level 'notice'
 set system syslog global facility protocols level 'debug'
 set system time-zone 'UTC'
 [edit]
-vyos@vyos# 
-
-
-
+vyos@vyos#

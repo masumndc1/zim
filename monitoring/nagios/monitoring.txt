@@ -24,15 +24,15 @@ root@mail:/etc/nagios3/conf.d# pwd
 root@mail:/etc/nagios3/conf.d# ls
 192.168.203.41.cfg    extinfo_nagios2.cfg       generic-service_nagios2.cfg  localhost.cfg          services_nagios2.cfg
 contacts_nagios2.cfg  generic-host_nagios2.cfg  hostgroups_nagios2.cfg       localhost_nagios2.bak  timeperiods_nagios2.cfg
-root@mail:/etc/nagios3/conf.d# 
+root@mail:/etc/nagios3/conf.d#
 
-root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg 
+root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
      1	# A simple configuration file for monitoring the local host
      2	# This can serve as an example for configuring other servers;
      3	# Custom services specific to this host are added here, but services
      4	# defined in nagios2-common_services.cfg may also apply.
-     5	# 
-     6	
+     5	#
+     6
      7	define host{
      8	        host_name               machine
      9	        alias                   windows
@@ -47,65 +47,65 @@ root@mail:/etc/nagios3/conf.d# cat -n 192.168.203.41.cfg
     18		notification_period	24x7
     19		notification_options	d,u,r
     20	        }
-    21	
+    21
     22	# Define a service to check the disk space of the root partition
     23	# on the local machine.  Warning if < 20% free, critical if
     24	# < 10% free space on partition.
-    25	
+    25
     26	define service{
     27	        host_name                       machine
     28	        service_description             Disk Space
     29	        check_command                   check_all_disks!20%!10%
-    30	
-    31	
-    32	
+    30
+    31
+    32
     33	# Define a service to check the number of currently logged in
     34	# users on the local machine.  Warning if > 20 users, critical
     35	# if > 50 users.
-    36	
-    37	
+    36
+    37
     38	        service_description             Current Users
     39	        check_command                   check_users!20!50
-    40	
-    41	
+    40
+    41
     42	# Define a service to check the number of currently running procs
     43	# on the local machine.  Warning if > 250 processes, critical if
     44	# > 400 processes.
-    45	
+    45
     46	        service_description             Total Processes
     47		check_command                   check_procs!250!400
-    48	
-    50	
-    51	# Define a service to check the load on the local machine. 
-    52	
+    48
+    50
+    51	# Define a service to check the load on the local machine.
+    52
     53	        service_description             Current Load
     54		check_command                   check_load!5.0!4.0!3.0!10.0!6.0!4.0
-    55	
+    55
     56	#################### added by me to check the ssh service ##############################
-    57	
+    57
     58	        service_description             ssh
     59	        check_command                   check_ssh
     60		check_interval			5
-    61		retry_interval			1	
-    62		max_check_attempts		3	
+    61		retry_interval			1
+    62		max_check_attempts		3
     63		check_period			24x7
-    64		contact_groups			admins	
-    65		notification_interval		60	
+    64		contact_groups			admins
+    65		notification_interval		60
     66		notification_period		24x7
     67		notification_options		w,c,u,r
     68	        }
-    69	
-root@mail:/etc/nagios3/conf.d# 
+    69
+root@mail:/etc/nagios3/conf.d#
 
 ... there is anothe conf file to monitor the local system
 
-root@mail:/etc/nagios3/conf.d# cat -n localhost.cfg 
+root@mail:/etc/nagios3/conf.d# cat -n localhost.cfg
      1	# A simple configuration file for monitoring the local host
      2	# This can serve as an example for configuring other servers;
      3	# Custom services specific to this host are added here, but services
      4	# defined in nagios2-common_services.cfg may also apply.
-     5	# 
-     6	
+     5	#
+     6
      7	define host{
      8	        host_name               localhost
      9	        alias                   localhost
@@ -120,56 +120,56 @@ root@mail:/etc/nagios3/conf.d# cat -n localhost.cfg
     18		notification_period	24x7
     19		notification_options	d,u,r
     20	        }
-    21	
+    21
     22	# Define a service to check the disk space of the root partition
     23	# on the local machine.  Warning if < 20% free, critical if
     24	# < 10% free space on partition.
-    25	
+    25
     26	define service{
     27	        host_name                       localhost
     28	        service_description             Disk Space
     29	        check_command                   check_all_disks!20%!10%
-    30	
-    31	
-    32	
+    30
+    31
+    32
     33	# Define a service to check the number of currently logged in
     34	# users on the local machine.  Warning if > 20 users, critical
     35	# if > 50 users.
-    36	
-    37	
+    36
+    37
     38	        service_description             Current Users
     39	        check_command                   check_users!20!50
-    40	
-    41	
+    40
+    41
     42	# Define a service to check the number of currently running procs
     43	# on the local machine.  Warning if > 250 processes, critical if
     44	# > 400 processes.
-    45	
+    45
     46	        service_description             Total Processes
     47			check_command                   check_procs!250!400
-    48	
-    49	
-    50	
-    51	# Define a service to check the load on the local machine. 
-    52	
+    48
+    49
+    50
+    51	# Define a service to check the load on the local machine.
+    52
     53	        service_description             Current Load
     54			check_command                   check_load!5.0!4.0!3.0!10.0!6.0!4.0
-    55	
+    55
     56	#################### added by me to check the ssh service ##############################
-    57	
+    57
     58	        service_description             ssh
     59	        check_command                   check_ssh
     60		check_interval			5
-    61		retry_interval			1	
-    62		max_check_attempts		3	
+    61		retry_interval			1
+    62		max_check_attempts		3
     63		check_period			24x7
-    64		contact_groups			admins	
-    65		notification_interval		60	
+    64		contact_groups			admins
+    65		notification_interval		60
     66		notification_period		24x7
     67		notification_options		w,c,u,r
     68	        }
-    69	
-root@mail:/etc/nagios3/conf.d# 
+    69
+root@mail:/etc/nagios3/conf.d#
 
 pbl@mail:/etc/apache2/conf.d$ ls -la
 total 28
@@ -183,9 +183,6 @@ lrwxrwxrwx 1 root root   45 2011-11-25 01:27 javascript-common.conf -> /etc/java
 **lrwxrwxrwx 1 root root   25 2012-05-15 18:13 nagios3.conf -> /etc/nagios3/apache2.conf**
 -rw-r--r-- 1 root root  143 2010-11-19 03:16 other-vhosts-access-log
 -rw-r--r-- 1 root root 1481 2010-11-19 03:16 security
-pbl@mail:/etc/apache2/conf.d$ 
+pbl@mail:/etc/apache2/conf.d$
 
 ... and finally need to restart the nagios service.
-
-
-

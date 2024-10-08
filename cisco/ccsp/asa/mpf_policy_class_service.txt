@@ -13,13 +13,13 @@ ciscoasa(config-cmap)#
 
 # the access-list is bellow
 
-ciscoasa(config)# show run access-list 
-access-list www-allow extended permit tcp any host 10.10.10.10 eq www 
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh 
-access-list www-allow extended permit icmp any any object-group icmp-traffic 
-access-list www-allow extended permit udp any any eq domain 
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ftp 
-ciscoasa(config)# 
+ciscoasa(config)# show run access-list
+access-list www-allow extended permit tcp any host 10.10.10.10 eq www
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh
+access-list www-allow extended permit icmp any any object-group icmp-traffic
+access-list www-allow extended permit udp any any eq domain
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ftp
+ciscoasa(config)#
 
 2. create a policy-map like below and reference the previously created class-map with it.
 
@@ -28,9 +28,9 @@ ciscoasa(config)# show run policy-map
 policy-map policy-map-masum
  description testing policy map
  class class-map-masum
-  set connection timeout tcp 0:05:00 reset 
+  set connection timeout tcp 0:05:00 reset
 !
-ciscoasa(config)# 
+ciscoasa(config)#
 
 3. and finally activate the policy-map with service-policy either globally or at an interface.
 
@@ -39,7 +39,3 @@ ciscoasa(config)# service-policy layer_3/4_policy_map_name {global | interface l
 4. verify with the following command
 
 ciscoasa(config)# show run service-policy
-
-
-
-

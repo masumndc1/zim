@@ -3,8 +3,8 @@
 # at some point to mount point
 
 """
-USB drive is not inserted: 
-Please insert USB. 
+USB drive is not inserted:
+Please insert USB.
 Then run following.
 
 sudo python ./mount.py

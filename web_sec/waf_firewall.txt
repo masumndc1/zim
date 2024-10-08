@@ -51,11 +51,4 @@ Checking http://bwa
 Generic Detection results:
 No WAF detected by the generic detection
 Number of requests: 13
-root@kali:/usr/share/nmap/scripts# 
-
-
-
-
-
-
-
+root@kali:/usr/share/nmap/scripts#

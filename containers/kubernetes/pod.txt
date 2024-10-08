@@ -132,7 +132,7 @@ kube-master:
 root:~/ $
 
 
-... to see the logs out of a containers from 
+... to see the logs out of a containers from
 
 root:~/ $ salt kube-master cmd.run "kubectl get pods -o wide"
 
@@ -143,7 +143,7 @@ kube-master:
     masum-web-66hnw   1/1       Running   1          7h        172.17.0.2   kude-host2-centos
     masum-web-z3q79   1/1       Running   0          6h        172.17.0.2   kube-host7-centos
 
-[root@kube-master kube]# 
+[root@kube-master kube]#
 
 root:~/ $ salt kube-master cmd.run "kubectl logs mahrus"
 kube-master:
@@ -201,5 +201,3 @@ masum-web-p9lzf   1/1       Running       0          4m        172.17.0.5   kube
 masum-web-sqcq0   1/1       Running       0          4m        172.17.0.4   kube-master         run=masum-web
 masum-web-z3q79   1/1       Terminating   0          1d        172.17.0.2   kube-host7-centos   run=masum-web
 [root@kube-master ~]#
-
-

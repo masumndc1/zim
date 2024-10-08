@@ -1,6 +1,6 @@
 
 
-... service 
+... service
 
 # /roles/localhost/tasks/main.yml
 # tasks file for localhost
@@ -14,4 +14,3 @@
     name: openvswitch-switch
     enabled: yes
     state: started
-

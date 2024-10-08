@@ -85,5 +85,4 @@ Updating local rules files... done.
     -> snort-2.9.0-open.txt
     -> unicode.map
 
-root@debian:/etc/snort# 
-
+root@debian:/etc/snort#

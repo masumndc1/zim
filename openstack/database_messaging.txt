@@ -6,13 +6,13 @@
 ... database and the messaging is the services used by most of the components
 ... of openstack.
 
-... mariadb or mysql we will use for our installation. other database like 
+... mariadb or mysql we will use for our installation. other database like
 ... postgresql can also be used.
 
 ⚡ 2006 [08:27 AM]  ~  cd /etc/mysql/
 ⚡ 2007 [08:27 AM]  /etc/mysql  lss
 conf.d  debian.cnf  debian-start  my.cnf
-⚡ 2008 [08:27 AM]  /etc/mysql  
+⚡ 2008 [08:27 AM]  /etc/mysql 
 
 ... we will set the following under the [mysqld] section.
 
@@ -27,9 +27,9 @@ bind-address            = 10.10.10.1
 [ ok ] Starting MySQL database server: mysqld ..
 
 ... as we expected our mysql server is listening to our specified address
- 
+
  # netstat -antp | grep 3306
- tcp        0      0 10.10.10.1:3306         0.0.0.0:*               LISTEN      12459/mysqld   
+ tcp        0      0 10.10.10.1:3306         0.0.0.0:*               LISTEN      12459/mysqld
 
 
 
@@ -43,8 +43,8 @@ root@openstack:/etc/mysql# cat -n my.cnf | grep bind
     48	bind-address		= 10.10.10.11
 root@openstack:/etc/mysql#
 
-... Create and edit the /etc/mysql/mariadb.conf.d/99-openstack.cnf 
-... file and complete the follow-ing actions: 
+... Create and edit the /etc/mysql/mariadb.conf.d/99-openstack.cnf
+... file and complete the follow-ing actions:
 
 [mysqld]
 bind-address = 10.0.0.11
@@ -55,8 +55,8 @@ collation-server = utf8_general_ci
 character-set-server = utf8
 
 root@openstack:/etc/mysql# netstat -antp | grep 3306
-tcp        0      0 10.10.10.11:3306        0.0.0.0:*               LISTEN      4972/mysqld     
-root@openstack:/etc/mysql# 
+tcp        0      0 10.10.10.11:3306        0.0.0.0:*               LISTEN      4972/mysqld
+root@openstack:/etc/mysql#
 
 root@openstack:/etc/mysql# /etc/init.d/mysql status
 [info] /usr/bin/mysqladmin  Ver 9.1 Distrib 10.0.30-MariaDB, for debian-linux-gnu on i686
@@ -69,13 +69,13 @@ UNIX socket		/var/run/mysqld/mysqld.sock
 Uptime:			1 min 51 sec
 
 Threads: 1  Questions: 707  Slow queries: 0  Opens: 187  Flush tables: 2  Open tables: 26  Queries per second avg: 6.369.
-root@openstack:/etc/mysql# 
+root@openstack:/etc/mysql#
 
 ... therefore mariadb is configured and up and running and waiting for the
 ... connection on our configured connection and port.
 
 root@openstack:/etc/mysql# mysql -u root -p
-Enter password: 
+Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 34
 Server version: 10.0.30-MariaDB-0+deb8u2 (Debian)
@@ -84,7 +84,7 @@ Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-MariaDB [(none)]> 
+MariaDB [(none)]>
 
 
 ..... messaging service installation.
@@ -98,12 +98,12 @@ MariaDB [(none)]>
 
 ... this will install rabbitmq messaging queue and the required packages.
 
-..... config rabbitmq server 
+..... config rabbitmq server
 
 ... 1. by default only user from localhost can communicate with rabbitmq. we have to
 ... change it so that user from other host also can communicate with it.
 
-... 2. we will set one password for the guest user as quest user can also 
+... 2. we will set one password for the guest user as quest user can also
 ... connect from other than localhost.
 
  ⚡ 2018 [09:11 AM]  ~  cd /etc/rabbitmq/
@@ -116,9 +116,9 @@ MariaDB [(none)]>
 
  ⚡ 2022 [09:25 AM]  /etc/rabbitmq   ls
 rabbitmq.config
- ⚡ 2023 [09:25 AM]  /etc/rabbitmq   cat rabbitmq.config 
+ ⚡ 2023 [09:25 AM]  /etc/rabbitmq   cat rabbitmq.config
 [{rabbit, [{loopback_users, []}]}].
- ⚡ 2024 [09:25 AM]  /etc/rabbitmq  
+ ⚡ 2024 [09:25 AM]  /etc/rabbitmq 
 
 ... then we will create the password for the user guest
 
@@ -137,7 +137,7 @@ The following plugins have been enabled:
 Plugin configuration has changed. Restart RabbitMQ for changes to take effect.
 
 ... now while starting the rabbitmq-server we have encounter the following problems
-... which is clearly hostname conflict issue. i have change localhost as hostname 
+... which is clearly hostname conflict issue. i have change localhost as hostname
 ... in both /etc/hosts and /etc/hostname file.
 
 /etc/init.d/rabbitmq-server status
@@ -160,7 +160,7 @@ current node details:
 - home dir: /var/lib/rabbitmq
 - cookie hash: JS9nriGz8mKmvVebj2MpTg==
 
- ⚡ 2101 [10:11 AM]  /etc/rabbitmq  hostnamectl 
+ ⚡ 2101 [10:11 AM]  /etc/rabbitmq  hostnamectl
    Static hostname: localhost
 Transient hostname: masum
          Icon name: computer-laptop
@@ -169,14 +169,14 @@ Transient hostname: masum
            Boot ID: 0d818a02272340048f0562f5c4765573
   Operating System: Kali GNU/Linux 2.0 (sana)
             Kernel: Linux 3.2.0-4-686-pae
- ⚡ 2102 [10:11 AM]  /etc/rabbitmq  
+ ⚡ 2102 [10:11 AM]  /etc/rabbitmq 
  ⚡ 2105 [10:12 AM]  /etc/rabbitmq  hostnamectl set-hostname localhost
 
 ... now this should start.
 
  /etc/init.d/rabbitmq-server start
 [ ok ] Starting message broker: rabbitmq-server.
- ⚡ 2116 [10:14 AM]  /etc/rabbitmq  
+ ⚡ 2116 [10:14 AM]  /etc/rabbitmq 
  ⚡ 2116 [10:14 AM]  /etc/rabbitmq  /etc/init.d/rabbitmq-server statuus
 Status of node rabbit@localhost ...
 [{pid,28965},
@@ -188,7 +188,7 @@ Status of node rabbit@localhost ...
  {uptime,13}]
 ...done.
 
- ⚡ 2117 [10:14 AM]  /etc/rabbitmq  cat /var/log/rabbitmq/startup_log 
+ ⚡ 2117 [10:14 AM]  /etc/rabbitmq  cat /var/log/rabbitmq/startup_log
 
               RabbitMQ 3.3.5. Copyright (C) 2007-2014 GoPivotal, Inc.
   ##  ##      Licensed under the MPL.  See http://www.rabbitmq.com/
@@ -197,13 +197,13 @@ Status of node rabbit@localhost ...
   ######  ##        /var/log/rabbitmq/rabbit@localhost-sasl.log
   ##########
               Starting broker... completed with 6 plugins.
- ⚡ 2122 [10:17 AM]  /etc/rabbitmq  
+ ⚡ 2122 [10:17 AM]  /etc/rabbitmq 
  ⚡ 2122 [10:17 AM]  /etc/rabbitmq  netstat  -antp | grep beam
-tcp        0      0 0.0.0.0:25672           0.0.0.0:*               LISTEN      28965/beam.smp  
-tcp        0      0 0.0.0.0:15672           0.0.0.0:*               LISTEN      28965/beam.smp  
-tcp        0      0 127.0.0.1:51070         127.0.0.1:4369          ESTABLISHED 28965/beam.smp  
-tcp6       0      0 :::5672                 :::*                    LISTEN      28965/beam.smp  
- ⚡ 2123 [10:18 AM]  /etc/rabbitmq  
+tcp        0      0 0.0.0.0:25672           0.0.0.0:*               LISTEN      28965/beam.smp
+tcp        0      0 0.0.0.0:15672           0.0.0.0:*               LISTEN      28965/beam.smp
+tcp        0      0 127.0.0.1:51070         127.0.0.1:4369          ESTABLISHED 28965/beam.smp
+tcp6       0      0 :::5672                 :::*                    LISTEN      28965/beam.smp
+ ⚡ 2123 [10:18 AM]  /etc/rabbitmq 
 
  ... now if we browse http://localhost:15672 then we can access the messaging queue
 
@@ -212,6 +212,3 @@ tcp6       0      0 :::5672                 :::*                    LISTEN      
 rabbitmqctl delete_user guest
 rabbitmqctl add_user openstack rabb1tmqpass
 rabbitmqctl set_user_tags openstack administrator
-
-
-

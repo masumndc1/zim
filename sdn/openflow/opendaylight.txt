@@ -22,7 +22,7 @@ root@masum /# source ~/.bashrc
 
 .. Install OpenDaylight
 
-.. Download the OpenDaylight software from the OpenDaylight web site. On a Linux or Mac OS host, we can use the wget 
+.. Download the OpenDaylight software from the OpenDaylight web site. On a Linux or Mac OS host, we can use the wget
 command to download the tar file.
 
 root@masum /# wget https://nexus.opendaylight.org/content/groups/public/org/opendaylight/integration/distribution-karaf/0.4.0-Beryllium/distribution-karaf-0.4.0-Beryllium.tar.gz
@@ -34,8 +34,8 @@ root@masum /# tar -xvf distribution-karaf-0.4.0-Beryllium.tar.gz
 
 .. This creates a folder named distribution-karaf-0.4.0-Beryllium which contains the OpenDaylight software and plugins.
 
-.. OpenDaylight is packaged in a karaf container. Karaf is a container technology that allows the developers to put all 
-.. required software in a single distribution folder. This makes it easy to install or re-install OpenDaylight when needed 
+.. OpenDaylight is packaged in a karaf container. Karaf is a container technology that allows the developers to put all
+.. required software in a single distribution folder. This makes it easy to install or re-install OpenDaylight when needed
 .. because everything is in one folder. As we will see later, karaf also allows programs to be bundled with optional modules
 .. that can be installed when needed.
 
@@ -49,7 +49,7 @@ root@masum /# ./bin/karaf
 
 opendaylight-user@root> feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-all
 
-.. The above is an example of installing optional modules in a karaf container. You only need to install an optional feature 
+.. The above is an example of installing optional modules in a karaf container. You only need to install an optional feature
 .. once. Once installed, these features are permanently added to the controller and will run every time it starts.
 .. We installed the following features. Click on each feature to learn more about it:
 
@@ -64,15 +64,12 @@ opendaylight-user@root> feature:install odl-restconf odl-l2switch-switch odl-mds
 
 .. To list all installed features, run the command:
 
-.. opendaylight-user@root> feature:list --installed    
+.. opendaylight-user@root> feature:list --installed
 
 .. Information about OpenDaylight optional features is available on the OpenDaylight wiki.
 
 .. Stop OpenDaylight
-.. When you want to stop the controller, enter the <ctrl-d> key combination or type system:shutdown or logout at the 
+.. When you want to stop the controller, enter the <ctrl-d> key combination or type system:shutdown or logout at the
 .. opendaylight-user prompt.
 
 ... finally if it is all good then broswe http://controller-ip:8181/index.html
-
-
-

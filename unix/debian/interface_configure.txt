@@ -1,7 +1,7 @@
 
 file : /etc/network/interfaces
 
-formate 
+formate
 
 auto eth0
 iface eth0 inet dhcp
@@ -10,15 +10,15 @@ iface eth0 inet dhcp
 
 auto eth0
 iface eth0 inet static
-	address 
+	address
 	netmask
 	gateway
-	broadcast 
+	broadcast
 	dns-nameservers 4.2.2.1 4.2.2.2
 	network
-	
-	
-.. also when the interface getting ip netmask default gateway from 
+
+
+.. also when the interface getting ip netmask default gateway from
 .. dhcp server we can control what it will get by following.
 
 root@deb-7:/etc/dhcp# cat -n dhclient.conf
@@ -34,9 +34,9 @@ root@deb-7:/etc/dhcp# cat -n dhclient.conf
     10	#	not leave anything out (like the domain name, for example), then
     11	#	few changes must be made to this file, if any.
     12	#
-    13	
+    13
     14	option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
-    15	
+    15
     16	#send host-name "andare.fugue.com";
     17	send host-name = gethostname();
     18	#send dhcp-client-identifier 1:0:a0:24:ab:fb:9c;
@@ -53,15 +53,13 @@ root@deb-7:/etc/dhcp# cat -n dhclient.conf
     26		netbios-name-servers, netbios-scope, interface-mtu,
     27		rfc3442-classless-static-routes, ntp-servers;
 
-.. here i have commented out the domain-name-server portion from the request 
+.. here i have commented out the domain-name-server portion from the request
 
-root@deb-7:/etc/dhcp# 
+root@deb-7:/etc/dhcp#
 
-root@deb-7:/etc/dhcp# cat /etc/resolv.conf 
+root@deb-7:/etc/dhcp# cat /etc/resolv.conf
 domain localdomain
 search localdomain
 nameserver 4.2.2.1
 nameserver 4.2.2.2
 root@deb-7:/etc/dhcp#
-
-

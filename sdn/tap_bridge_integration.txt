@@ -1,8 +1,8 @@
 
 
 ... after creating a bridge we will add that bridge to
-... one of the physical interace of the system. 
-... in our instance we are adding this to one of our 
+... one of the physical interace of the system.
+... in our instance we are adding this to one of our
 ... tap interface. we will do the bridging
 
 ... by scripting
@@ -20,17 +20,17 @@ iface tap0 inet manual
 
 auto vswitch01
 iface vswitch01 inet manual
-   bridge-ports tap0 
+   bridge-ports tap0
    bridge_stp off
 #  bridge_fd 9
 #  bridge_hello 2
 #  bridge_maxage 12
 
-... note below out virtual switchis vswitch01 and how we 
+... note below out virtual switchis vswitch01 and how we
 ... bridging together.
 
 ... manually
-... another way to add interfacw with the bridge is following 
+... another way to add interfacw with the bridge is following
 ... adding interface tap1 in vswitch01 manually by following
 
 └──╼ # ovs-vsctl add-port vswitch01 tap0
@@ -47,7 +47,6 @@ iface vswitch01 inet manual
                 type: internal
     ovs_version: "2.5.4"
 ┌─[root@elxabl1vvp2]─[/etc/network]
-└──╼ 
+└──╼
 
 ... finally restart networking..
-

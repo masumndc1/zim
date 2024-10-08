@@ -10,14 +10,14 @@ Exception: Failed to load plugin from file prescript_000.py
 ERROR : Failed to load plugin from file prescript_000.py
 """
 
-Just paste following in terminal 
+Just paste following in terminal
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 Everything will be fine in this case.
 
-2. 
+2.
 Pre installing Puppet and discovering hosts' details[ ERROR ]
 
 ERROR : Failed to run remote script, stdout:
@@ -29,7 +29,3 @@ facter: error while loading shared libraries: leatherman_curl.so.1.3.0: cannot o
 ++ exit 127
 
 yum downgrade leatherman
-
-
-
-

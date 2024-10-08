@@ -18,13 +18,13 @@
 
 .mm-info-box {
 	border-radius: 4px;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
     padding: 5px 5px 5px 15px;
 }
 
 .mm-info-box.blue {
-	background-color: #d9edf7; 
-	border-color: #bce8f1; 
+	background-color: #d9edf7;
+	border-color: #bce8f1;
 	color: #31708f;
 }
 
@@ -629,7 +629,7 @@ color: #333;
 	.mm-quick-nav li a {
 		display: block;
 	}
-	
+
 	.mm-navbar ul li {
 		display: block;
 		border-right: none;
@@ -649,19 +649,19 @@ color: #333;
 		right: auto;
 		left: -2px;
 	}
-	
+
 	/* stack ALL metric-containers in mobile view */
 	.mm-metric-container {
 		width: 100% !important;
 	}
-	
+
 	.mm-content-container,
 	.mm-content-container.w50 {
 		display: block;
 		width: 100%;
 		padding: 0;
 	}
-	
+
 	#wpbody select {
 		height: auto;
 		font-size: 1em;
@@ -670,7 +670,7 @@ color: #333;
 }
 
 a img {
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 .mm-beta {
@@ -706,21 +706,21 @@ a img {
 	top: 40%;
 	left: 35%;
 	text-align: center;
-	border: 2px solid #FFFFFF; 
-	font-size: 22px; 
-	padding: 10px; 
-	background: none repeat scroll 0 0 #E9EAEE; 
-	color: #333; 
-	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5); 
-	-webkit-border-radius: 5px; 
-	-moz-border-radius: 5px; 
+	border: 2px solid #FFFFFF;
+	font-size: 22px;
+	padding: 10px;
+	background: none repeat scroll 0 0 #E9EAEE;
+	color: #333;
+	box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
 
 .mm-header-icon {
-	float: left; 
-	margin:3px 8px 0 0; 
-	vertical-align:middle;	
+	float: left;
+	margin:3px 8px 0 0;
+	vertical-align:middle;
 }
 .mm-code {
 	font-family: Courier New, monospace;
@@ -776,7 +776,7 @@ img .badge {
 	max-width:				100px;
 	max-height:				100px;
 	min-width:				5px;
-	min-height:				5px;	
+	min-height:				5px;
 }
 
 .message-container {
@@ -785,7 +785,7 @@ img .badge {
 	padding:				5px 20px;
 	margin-bottom:			20px;
 	border-radius:			5px;
-	-moz-border-radius: 	5px;	
+	-moz-border-radius: 	5px;
 	-webkit-border-radius: 	5px;
 }
 
@@ -801,12 +801,12 @@ img .badge {
 /** FORM CONTAINER **/
 #mm-form-container table {
 	width: 100%;
-	cellspacing: 10;	
+	cellspacing: 10;
 }
 
 #mm-form-container td {
 	vertical-align: top;
-	font-size: 12px;	
+	font-size: 12px;
 }
 
 #mm-form-container .short-text {
@@ -823,18 +823,18 @@ img .badge {
 
 /** DATA GRID **/
 #mm-data-grid th img {
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 #mm-data-grid td {
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 #mm-data-grid .center {
-	text-align: center;	
+	text-align: center;
 }
 
-#mm-data-grid .name a {	
+#mm-data-grid .name a {
 	text-decoration:		underline;
 }
 
@@ -856,13 +856,13 @@ img .badge {
 
 .mm-dialog-footer-container {
 	margin-top:10px;
-	width:100%; 
-	border-top: 1px dotted #ccc; 
+	width:100%;
+	border-top: 1px dotted #ccc;
 	padding-top:10px;
 }
 
 .mm-dialog-button-container {
-	float:right;	
+	float:right;
 	margin-bottom: 10px;
 }
 
@@ -884,17 +884,17 @@ img .badge {
 }
 
 #mm-preview-access-tags {
-	margin-top: 4px; 
-	padding: 5px; 
-	display:none; 
-	background-color: #464646; 
-	z-index: 999999; 
-	height: 120px; 
-	width: 200px; 
+	margin-top: 4px;
+	padding: 5px;
+	display:none;
+	background-color: #464646;
+	z-index: 999999;
+	height: 120px;
+	width: 200px;
 }
 
 /* Social Login Classes */
-.mm-socialLoginFacebookLogin,.mm-socialLoginFacebookSignup 
+.mm-socialLoginFacebookLogin,.mm-socialLoginFacebookSignup
 {
 	display:block;
 	left: 0px;
@@ -904,17 +904,17 @@ img .badge {
     background: url('../../images/social-login-btns.png') 0 0;
     background-repeat: no-repeat;
 }
-.mm-socialLoginFacebookLogin:hover,.mm-socialLoginFacebookSignup:hover 
+.mm-socialLoginFacebookLogin:hover,.mm-socialLoginFacebookSignup:hover
 {
 	background: url('../../images/social-login-btns.png') 0 -43px;
 	background-repeat: no-repeat;
 }
-.mm-socialLoginFacebookLogin:active,.mm-socialLoginFacebookSignup:active 
+.mm-socialLoginFacebookLogin:active,.mm-socialLoginFacebookSignup:active
 {
 	background: url('../../images/social-login-btns.png') 0 -86px;
 	background-repeat: no-repeat;
 }
-.mm-socialLoginTwitterLogin,.mm-socialLoginTwitterSignup 
+.mm-socialLoginTwitterLogin,.mm-socialLoginTwitterSignup
 {
 	display:block;
 	left: 0px;
@@ -924,17 +924,17 @@ img .badge {
     background: url('../../images/social-login-btns.png') 0 -129px;
     background-repeat: no-repeat;
 }
-.mm-socialLoginTwitterLogin:hover,.mm-socialLoginTwitterSignup:hover 
+.mm-socialLoginTwitterLogin:hover,.mm-socialLoginTwitterSignup:hover
 {
 	 background: url('../../images/social-login-btns.png') 0 -172px;
 	 background-repeat: no-repeat;
 }
-.mm-socialLoginTwitterLogin:active,.mm-socialLoginTwitterSignup:active 
+.mm-socialLoginTwitterLogin:active,.mm-socialLoginTwitterSignup:active
 {
 	 background: url('../../images/social-login-btns.png') 0 -215px;
 	 background-repeat: no-repeat;
 }
-.mm-socialLoginGoogleLogin,.mm-socialLoginGoogleSignup 
+.mm-socialLoginGoogleLogin,.mm-socialLoginGoogleSignup
 {
 	display:block;
 	left: 0px;
@@ -944,27 +944,27 @@ img .badge {
     background: url('../../images/social-login-btns.png') 0 -258px;
     background-repeat: no-repeat;
 }
-.mm-socialLoginGoogleLogin:hover,.mm-socialLoginGoogleSignup:hover 
+.mm-socialLoginGoogleLogin:hover,.mm-socialLoginGoogleSignup:hover
 {
 	background: url('../../images/social-login-btns.png') 0 -301px;
 	background-repeat: no-repeat;
 }
-.mm-socialLoginGoogleLogin:active,.mm-socialLoginGoogleSignup:active 
+.mm-socialLoginGoogleLogin:active,.mm-socialLoginGoogleSignup:active
 {
 	background: url('../../images/social-login-btns.png') 0 -344px;
 	background-repeat: no-repeat;
 }
 
-.mm-tax-configuration-editor-dialog 
+.mm-tax-configuration-editor-dialog
 {
 	display:table;
 	-moz-box-shadow: 3px 3px 5px #535353;
-  	-webkit-box-shadow: 3px 3px 5px #535353;       
+  	-webkit-box-shadow: 3px 3px 5px #535353;
   	box-shadow: 3px 3px 5px #535353;
   	-moz-border-radius: 6px 6px 6px 6px;
-  	-webkit-border-radius: 6px;  
+  	-webkit-border-radius: 6px;
   	border-radius: 6px 6px 6px 6px;
 }
 
 /* move jquery-ui dialogs to the top of the stack */
-.ui-dialog { z-index: 9999 !important ;} 
+.ui-dialog { z-index: 9999 !important ;}

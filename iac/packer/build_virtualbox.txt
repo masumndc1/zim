@@ -19,7 +19,7 @@ CentOS7-disk1.vmdk  centos7.json  CentOS7.mf  CentOS7.ovf  packer_cache
  ]
 }
 
-└──╼ $ packer build centos7.json                                             
+└──╼ $ packer build centos7.json
 virtualbox-ovf output will be in this color.
 
 ==> virtualbox-ovf: Retrieving Guest additions
@@ -34,4 +34,3 @@ virtualbox-ovf output will be in this color.
 ==> virtualbox-ovf: Using ssh communicator to connect: 127.0.0.1
 ==> virtualbox-ovf: Waiting for SSH to become available...
 ==> virtualbox-ovf: Connected to SSH!
-

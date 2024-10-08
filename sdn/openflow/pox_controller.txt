@@ -17,13 +17,13 @@ remote: Total 10938 (delta 0), reused 0 (delta 0), pack-reused 10936
 Receiving objects: 100% (10938/10938), 4.49 MiB | 536.00 KiB/s, done.
 Resolving deltas: 100% (6821/6821), done.
 Checking connectivity... done.
-root@masum:~# 
-root@masum:~# 
+root@masum:~#
+root@masum:~#
 root@masum:~# cd pox
 root@masum:~/pox# ls
 debug-pox.py  ext  LICENSE  NOTICE  pox  pox.py  README  setup.cfg  tests  tools
-root@masum:~/pox# 
-root@masum:~/pox# 
+root@masum:~/pox#
+root@masum:~/pox#
 root@masum:~/pox# ./pox.py log.level --DEBUG misc.of_tutorial
 POX 0.2.0 (carp) / Copyright 2011-2013 James McCauley, et al.
 DEBUG:core:POX 0.2.0 (carp) going up...
@@ -45,8 +45,8 @@ INFO:openflow.of_01:[00-00-00-00-00-01 2] closed
 INFO:core:Down.
 
 .. our pox controller running on our vm machine 192.168.10.129
-.. therefore we will create our topology instrucing that controller 
-.. is this ip like below. the pox will also be running so that 
+.. therefore we will create our topology instrucing that controller
+.. is this ip like below. the pox will also be running so that
 .. both can connect.
 
 root@mininet-vm:~# mn -v info --topo single,3 --mac --switch ovsk --controller remote,ip=192.168.10.129
@@ -56,26 +56,26 @@ root@mininet-vm:~# mn -v info --topo single,3 --mac --switch ovsk --controller r
 .. connected with the controller.
 
 *** Adding hosts:
-h1 h2 h3 
+h1 h2 h3
 *** Adding switches:
-s1 
+s1
 *** Adding links:
-(h1, s1) (h2, s1) (h3, s1) 
+(h1, s1) (h2, s1) (h3, s1)
 *** Configuring hosts
-h1 h2 h3 
+h1 h2 h3
 *** Starting controller
-c0 
+c0
 *** Starting 1 switches
-s1 
+s1
 *** Starting CLI:
 mininet> nodes
-available nodes are: 
+available nodes are:
 c0 h1 h2 h3 s1
-mininet> 
+mininet>
 
-.. now i will show you controller is running on different machine. this can be 
-.. host maching on which vmware guest is running or another maching running on 
-.. network or on a different network machine. make sure the pox controller is 
+.. now i will show you controller is running on different machine. this can be
+.. host maching on which vmware guest is running or another maching running on
+.. network or on a different network machine. make sure the pox controller is
 .. running there...
 .. first we will stop our pox and try to create the network by mininet and
 .. see what happens.
@@ -102,7 +102,7 @@ DEBUG:misc.of_tutorial:Controlling [00-00-00-00-00-01 5]
 INFO:openflow.of_01:[00-00-00-00-00-01 5] closed
 ^CINFO:core:Going down...
 INFO:core:Down.
-root@masum:~/pox# 
+root@masum:~/pox#
 
 .. as the controller is stopped it is unable to connect.
 
@@ -114,19 +114,19 @@ Unable to contact the remote controller at 192.168.10.1:6633
 .. it is unable to connect.
 
 *** Adding hosts:
-h1 h2 h3 
+h1 h2 h3
 *** Adding switches:
-s1 
+s1
 *** Adding links:
-(h1, s1) (h2, s1) (h3, s1) 
+(h1, s1) (h2, s1) (h3, s1)
 *** Configuring hosts
-h1 h2 h3 
+h1 h2 h3
 *** Starting controller
-c0 
+c0
 *** Starting 1 switches
-s1 
+s1
 *** Starting CLI:
-mininet> 
+mininet>
 
 .. now start the pox again and try to connect.
 
@@ -151,23 +151,23 @@ root@mininet-vm:~# mn -v info --topo single,3 --mac --switch ovsk --controller r
 *** Creating network
 *** Adding controller
 *** Adding hosts:
-h1 h2 h3 
+h1 h2 h3
 *** Adding switches:
-s1 
+s1
 *** Adding links:
-(h1, s1) (h2, s1) (h3, s1) 
+(h1, s1) (h2, s1) (h3, s1)
 *** Configuring hosts
-h1 h2 h3 
+h1 h2 h3
 *** Starting controller
-c0 
+c0
 *** Starting 1 switches
-s1 
+s1
 *** Starting CLI:
-mininet> 
+mininet>
 
 .. end of the file.
 
-.. various options of pox.py controller 
+.. various options of pox.py controller
 
 root@masum:~/pox# ./pox.py log.level --DEBUG forwarding.l2_learning
 POX 0.2.0 (carp) / Copyright 2011-2013 James McCauley, et al.
@@ -191,6 +191,4 @@ DEBUG:forwarding.l2_learning:installing flow for 00:00:00:00:00:01.1 -> 00:00:00
 ^CINFO:core:Going down...
 INFO:openflow.of_01:[00-00-00-00-00-01 2] disconnected
 INFO:core:Down.
-root@masum:~/pox# 
-
-
+root@masum:~/pox#

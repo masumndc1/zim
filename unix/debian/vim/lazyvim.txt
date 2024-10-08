@@ -21,7 +21,7 @@ rm -rf ~/.config/nvim/.git
 ... start Neovim!
 nvim
 
-... on mac install fd by 
+... on mac install fd by
 brew install fd
 
 ... its good to run :checkhealth after the installation
@@ -34,5 +34,4 @@ rm ~/.config/nvim
 rm ~/.local/share/nvim
 rm ~/.local/state/nvim
 rm ~/.cache/nvim
-... 
-
+...

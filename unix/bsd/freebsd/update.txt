@@ -5,6 +5,6 @@
 freebsd-update fetch
 freebsd-update install
 
- If we are not happy with update, then we can rollback with 
+ If we are not happy with update, then we can rollback with
 
 freebsd-update rollback

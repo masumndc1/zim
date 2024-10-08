@@ -3,7 +3,7 @@
 ... error log can be found on /var/log/mysql/error_log
 
 ... backing up database
-... basic syntax. if table name not given then following command will 
+... basic syntax. if table name not given then following command will
 ... backup all of the tables in that database.
 
 mysqldump [-u username] [-p] database_name [table_name] > /backup.sql
@@ -120,7 +120,7 @@ MariaDB [(none)]> show databases;
 +--------------------+
 1 row in set (0.00 sec)
 
-... now try to restore it 
+... now try to restore it
 
 root@controller:/tmp# mysql -u masum -p masum < /tmp/masum.sql
 Enter password:
@@ -190,24 +190,22 @@ glance.image_properties                            OK
 ... backing up two databases khabir and masum by using mysqldump command
 
 root@master:~# mysqldump -u root -p --opt --databases masum khabir > db.sql
-Enter password: 
-root@master:~# 
+Enter password:
+root@master:~#
 root@master:~# ls
 db.sql  docker  docker-engine_1.10.0-0~trusty_amd64.deb
-root@master:~# 
+root@master:~#
 
 ... now restoring them again in mysql
 
 ... restore the database khabir and masum from the backup.
 
 root@slave:~# mysql -u root -p < db.sql
-Enter password: 
-root@slave:~# 
+Enter password:
+root@slave:~#
 
 ... if the dump file is of the formate masum.sql.gz then we can use
 ... gzip utility using -d option.
 
 ... and also cat db.sql less to see the database name and create that
 ... database first in mysql before restoring the database.
-
-

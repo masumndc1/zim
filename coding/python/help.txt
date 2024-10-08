@@ -5,51 +5,51 @@
 
 >>> s
 'khabir'
->>> 
+>>>
 >>> a
 1
->>> 
+>>>
 
 ... we have two data type s as string and a as numbers. so to find out
 ... which methods we got with string data type we use dir like below
 
 >>> dir(s)
 ['__add__', '__class__', '__contains__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getnewargs__', '__getslice__', '__gt__', '__hash__', '__init__', '__le__', '__len__', '__lt__', '__mod__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__rmod__', '__rmul__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_formatter_field_name_split', '_formatter_parser', 'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'index', 'isalnum', 'isalpha', 'isdigit', 'islower', 'isspace', 'istitle', 'isupper', 'join', 'ljust', 'lower', 'lstrip', 'partition', 'replace', 'rfind', 'rindex', 'rjust', 'rpartition', 'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title', 'translate', 'upper', 'zfill']
->>> 
->>> 
+>>>
+>>>
 
-... now like to know how to use __add__ methods with our string object 
+... now like to know how to use __add__ methods with our string object
 .. we use the help functions like below.
 
 >>> help(s.__add__)
 
->>> 
+>>>
 
 Help on method-wrapper object:
 
 __add__ = class method-wrapper(object)
  |  Methods defined here:
- |  
+ |
  |  __call__(...)
  |      x.__call__(...) <==> x(...)
- |  
+ |
  |  __cmp__(...)
  |      x.__cmp__(y) <==> cmp(x,y)
- |  
+ |
  |  __getattribute__(...)
  |      x.__getattribute__('name') <==> x.name
- |  
+ |
  |  __hash__(...)
  |      x.__hash__() <==> hash(x)
- |  
+ |
  |  __repr__(...)
  |      x.__repr__() <==> repr(x)
- |  
+ |
  |  ----------------------------------------------------------------------
  |  Data descriptors defined here:
- |  
+ |
  |  __objclass__
- |  
+ |
  |  __self__
 
 ... we can also ask for help for our string s like below.
@@ -58,31 +58,31 @@ Help on class str in module __builtin__:
 
 class str(basestring)
  |  str(object='') -> string
- |  
+ |
  |  Return a nice string representation of the object.
  |  If the argument is a string, the return value is the same object.
- |  
+ |
  |  Method resolution order:
  |      str
  |      basestring
  |      object
- |  
+ |
  |  Methods defined here:
- |  
+ |
  |  __add__(...)
  |      x.__add__(y) <==> x+y
- |  
+ |
  |  __contains__(...)
  |      x.__contains__(y) <==> y in x
- |  
+ |
  |  __eq__(...)
  |      x.__eq__(y) <==> x==y
- |  
+ |
  |  __format__(...)
  |      S.__format__(format_spec) -> string
- |      
+ |
  |      Return a formatted version of S as described by format_spec.
- |  
+ |
  |  __ge__(...)
  |      x.
 
@@ -91,24 +91,24 @@ class str(basestring)
 
 >>> type(f)
 <type 'file'>
->>> 
->>> 
+>>>
+>>>
 >>> type(s)
 <type 'str'>
->>> 
+>>>
 >>> type(a)
 <type 'int'>
->>> 
+>>>
 
 ... now we can see the help and dir of int.
 ...
 ... another good source of documentation is pydoc.
-... 
+...
 ... pydoc sys
-... 
+...
 ... if I need to browse python help i should do following
 ... pydoc -p 0
-... 
+...
 ... you can try with
 ... python3 -m pydoc os
 ... python3 -m pydoc os.path
@@ -332,5 +332,3 @@ In [35]: print(another)
 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 In [36]:
-
-

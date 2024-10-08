@@ -6,7 +6,7 @@
 Usage: salt [options] '<target>' <function> [arguments]
 
 Options:
-  --version             show program's version number and exit 
+  --version             show program's version number and exit
 
 ... so running a command with salt with format shown above
 
@@ -17,7 +17,7 @@ myminion:
     True
 [root@salt ~]#
 
-... various format of output 
+... various format of output
 
 [root@salt ~]#  salt --out=raw '*' cmd.run_all 'echo HELLO'
 {'myminion': {'pid': 4726, 'retcode': 0, 'stderr': '', 'stdout': 'HELLO'}}
@@ -95,7 +95,7 @@ myminion:
   workphone: ''
 [root@salt salt]#
 
-... installing a package 
+... installing a package
 
 [root@salt salt]# salt '*' sys.doc | grep pkg
 
@@ -196,8 +196,3 @@ myminion:
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 [root@salt salt]#
-
-
-
-
-

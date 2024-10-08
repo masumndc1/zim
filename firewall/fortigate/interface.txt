@@ -1,38 +1,38 @@
 
 
 
-FortiGate-VM # config system interface 
+FortiGate-VM # config system interface
 
 FortiGate-VM (interface) # show system interface <tab>
 name    name
-mesh.root   static   0.0.0.0 0.0.0.0  up   disable   vap-switch  disable   disable   disable   
-port1   static   192.168.35.139 255.255.255.0  up   disable   physical  disable   disable   disable   
-port2   static   192.168.244.150 255.255.255.0  up   disable   physical  disable   disable   disable   
-port3   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port4   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port5   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port6   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port7   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port8   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port9   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-port10   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable   
-ssl.root   static   0.0.0.0 0.0.0.0  up   disable   tunnel  disable   disable   disable   
+mesh.root   static   0.0.0.0 0.0.0.0  up   disable   vap-switch  disable   disable   disable
+port1   static   192.168.35.139 255.255.255.0  up   disable   physical  disable   disable   disable
+port2   static   192.168.244.150 255.255.255.0  up   disable   physical  disable   disable   disable
+port3   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port4   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port5   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port6   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port7   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port8   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port9   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+port10   static   0.0.0.0 0.0.0.0  up   disable   physical  disable   disable   disable
+ssl.root   static   0.0.0.0 0.0.0.0  up   disable   tunnel  disable   disable   disable
 
-FortiGate-VM (interface) # show system interface 
+FortiGate-VM (interface) # show system interface
 
 
-FortiGate-VM (interface) # edit port3 
+FortiGate-VM (interface) # edit port3
 
-FortiGate-VM (port3) # set ip 
+FortiGate-VM (port3) # set ip
 <class_ip&net_netmask>    Class ip and Net mask
 
-FortiGate-VM (port3) # set ip 10.10.10.10 255.255.255.0 
+FortiGate-VM (port3) # set ip 10.10.10.10 255.255.255.0
  <Enter>
 
-FortiGate-VM (port3) # set ip 10.10.10.10 255.255.255.0 
+FortiGate-VM (port3) # set ip 10.10.10.10 255.255.255.0
 
 
-FortiGate-VM (port3) # set allowaccess 
+FortiGate-VM (port3) # set allowaccess
 auto-ipsec        IPsec auto-configuration.
 capwap            CAPWAP access.
 fgfm              FortiManager access.
@@ -44,8 +44,8 @@ radius-acct       RADIUS Accounting access.
 snmp              SNMP access.
 ssh               SSH access.
 telnet            TELNET access.
- 
-FortiGate-VM (port3) # set allowaccess 
+
+FortiGate-VM (port3) # set allowaccess
 
 
 ### and finally we have the following.
@@ -63,6 +63,4 @@ config system interface
     next
 end
 
-FortiGate-VM (port3) # 
-
-
+FortiGate-VM (port3) #

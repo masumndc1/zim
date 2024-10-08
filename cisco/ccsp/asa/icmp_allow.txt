@@ -8,17 +8,17 @@ object-group icmp-type icmp-traffic
  icmp-object time-exceeded
  icmp-object traceroute
  icmp-object unreachable
-ciscoasa(config)# 
+ciscoasa(config)#
 
 2. create access-list and refence the created object-group in it.
 
-ciscoasa(config)# show run access-list 
-access-list www-allow extended permit tcp any host 10.10.10.10 eq www 
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq 2222 
-access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh 
-access-list www-allow extended permit icmp any any object-group icmp-traffic 
-access-list www-allow extended permit udp any any eq domain 
-ciscoasa(config)# 
+ciscoasa(config)# show run access-list
+access-list www-allow extended permit tcp any host 10.10.10.10 eq www
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq 2222
+access-list www-allow extended permit tcp host 10.10.10.1 host 10.10.10.10 eq ssh
+access-list www-allow extended permit icmp any any object-group icmp-traffic
+access-list www-allow extended permit udp any any eq domain
+ciscoasa(config)#
 
 # the last line which indicates the domain is for dns resulation.
 # other wise dmz1 was able to ping 4.2.2.1 but not www.facebook.com
@@ -29,12 +29,12 @@ ciscoasa(config)#
 
 access-group icmp-allow in interface outside
 
-# this is the tricky part here. as we know that asa will prevent traffic going 
-# from lower security-level toward higher security level. 
+# this is the tricky part here. as we know that asa will prevent traffic going
+# from lower security-level toward higher security level.
 # as outside is security-level 0. so when icmp request is going from dmz1(sec-lev 50)
 # or inside(sec 100) it will allow to go outside (sec 0) but must prevent getting in.
 # therefore we cant see ping success. but actualy it happens if you see by wireshark.
-# 
+#
 
 # so as ping is back from lower sec-level ie outside interface we need to put
 # the access-group inbound at outside interface.
@@ -42,7 +42,7 @@ access-group icmp-allow in interface outside
 # the same rule is applicable for ping coming out of dmz1 toward inside(100).
 # so we need to apply the following access-group
 
-ciscoasa(config)# show run access-group 
+ciscoasa(config)# show run access-group
 access-group www-allow in interface dmz1
 ciscoasa(config)#
 
@@ -79,7 +79,7 @@ PING fd-fp3.wg1.b.yahoo.com (46.228.47.114) 56(84) bytes of data.
 --- fd-fp3.wg1.b.yahoo.com ping statistics ---
 20 packets transmitted, 4 received, 80% packet loss, time 18999ms
 rtt min/avg/max/mdev = 311.138/319.961/338.515/10.849 ms
-root@debian7:~# 
+root@debian7:~#
 
 #this was previously locked down
 
@@ -90,7 +90,7 @@ ICMP outside 46.228.47.115:0 dmz1 192.168.1.2:2884, idle 0:00:00, bytes 728
 
 
 4c. ping from inside to dmz1 and dmz1 to inside
-root@box:~# 
+root@box:~#
 root@box:~# ping 192.168.1.2
 PING 192.168.1.2 (192.168.1.2): 56 data bytes
 64 bytes from 192.168.1.2: seq=0 ttl=64 time=73.854 ms
@@ -104,17 +104,17 @@ round-trip min/avg/max = 43.901/52.341/73.854 ms
 root@box:~# traceroute 192.168.1.2
 traceroute to 192.168.1.2 (192.168.1.2), 30 hops max, 38 byte packets
  1  192.168.1.2 (192.168.1.2)  47.903 ms  11.319 ms  79.426 ms
-root@box:~# 
+root@box:~#
 
 
 #### deny and permit the icmp toward asa
 
 # we can do this by two possible options
-# 1. by acl which controls the icmp going through itself 
+# 1. by acl which controls the icmp going through itself
 #
 # 2. by acl which works in control-plane referred to as control-plane
-# filtering which actually used to control any types of traffic directed 
-# toward itself. we have to apply an acl and apply that acl with 
+# filtering which actually used to control any types of traffic directed
+# toward itself. we have to apply an acl and apply that acl with
 # access-group. now instead of using this acl to any particular interace
 # we use it with control-plane
 
@@ -139,21 +139,21 @@ ciscoasa(config)# icmp deny any ?
 
 configure mode commands/options:
   <0-255>        Enter ICMP type number (0 - 255)
-  echo           
-  echo-reply     
-  time-exceeded  
-  unreachable    
+  echo
+  echo-reply
+  time-exceeded
+  unreachable
 Current available interface(s):
   dmz1           Name of interface Ethernet2
   inside         Name of interface Ethernet1
   outside        Name of interface Ethernet0
 
-ciscoasa(config)# icmp deny any outside 
+ciscoasa(config)# icmp deny any outside
 
 ciscoasa(config)# show run icmp
 icmp unreachable rate-limit 1 burst-size 1
 icmp deny any outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
 #now only permitting from host 192.168.202.36
 
@@ -161,11 +161,11 @@ ciscoasa(config)# show run icmp
 icmp unreachable rate-limit 1 burst-size 1
 icmp permit host 192.168.202.36 outside
 icmp deny any outside
-ciscoasa(config)# 
+ciscoasa(config)#
 
 ! caution
 
 # the command order is important here.
 # if we had set "icmp deny any outside" before
-# "icmp permit host 192.168.202.36 outside" 
+# "icmp permit host 192.168.202.36 outside"
 # no icmp would be allowed.

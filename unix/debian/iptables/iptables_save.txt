@@ -18,4 +18,4 @@
 # cat /etc/iptables/rules.v4
 
 
-  Its always better to learn and run firewalld as this is new in linux. 
+  Its always better to learn and run firewalld as this is new in linux.

@@ -54,7 +54,7 @@ function s_doPlugins(s) {
 
 /* Default to Title if Page Name not defined */
 
-if (!s.pageName) s.pageName=document.title 
+if (!s.pageName) s.pageName=document.title
 
 
 
@@ -62,7 +62,7 @@ if (!s.pageName) s.pageName=document.title
 
 var pid = s.getQueryParam('pid');
 
-var cmp =s.getQueryParam('cmp');	
+var cmp =s.getQueryParam('cmp');
 
 if(!s.campaign){
 
@@ -76,7 +76,7 @@ if(!s.campaign){
 
 			s.campaign = cmp;
 
-	}	
+	}
 
 }
 
@@ -102,7 +102,7 @@ if(s.getQueryParam('intcmp') != ""){
 
          s.eVar25=s.getValOnce(s.eVar25,'s_ev25');
 
-         s.events=s.apl(s.events,"event7",",",2); 
+         s.events=s.apl(s.events,"event7",",",2);
 
    }
 
@@ -142,9 +142,9 @@ s.events=s.apl(s.events,'event2',',',2)
 
 /* Set Time Parting Variables - SAMPLE EST */
 
-//if(!s.prop8&&!s.eVar20) s.prop8=s.eVar20=s.getTimeParting('h','-5'); // Set hour 
+//if(!s.prop8&&!s.eVar20) s.prop8=s.eVar20=s.getTimeParting('h','-5'); // Set hour
 
-//if(!s.prop9&&!s.eVar21) s.prop9=s.eVar21=s.getTimeParting('d','-5'); // Set day 
+//if(!s.prop9&&!s.eVar21) s.prop9=s.eVar21=s.getTimeParting('d','-5'); // Set day
 
 
 
@@ -196,7 +196,7 @@ if(s.prop12&&!s.eVar61) s.eVar61=s.prop12;
 
 
 
-/* Campaign Stacking 
+/* Campaign Stacking
    Configuration: 90 days expiration, 5 values, '>' separates values, cleared on purchase event.
    delete the original cookie and start over */
 s.expDate = new Date();

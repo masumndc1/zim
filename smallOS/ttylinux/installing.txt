@@ -13,9 +13,9 @@ Disk /dev/sda: 8589 MB, 8589934592 bytes
 Units = cylinders of 16065 * 512 = 8225280 bytes
 
 Disk /dev/sda doesn't contain a valid partition table
-bash-4.2# 
-bash-4.2# 
-bash-4.2# fdisk  
+bash-4.2#
+bash-4.2#
+bash-4.2# fdisk
 BusyBox v1.21.0 (2013-05-27 12:32:57 MST) multi-call binary.
 
 Usage: fdisk [-ul] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SSZ] DISK
@@ -111,9 +111,9 @@ Command action
    p   primary partition (1-4)
 p
 Partition number (1-4): 2
-First cylinder (124-1044, default 124): 
+First cylinder (124-1044, default 124):
 Using default value 124
-Last cylinder or +size or +sizeM or +sizeK (124-1044, default 1044): 
+Last cylinder or +size or +sizeM or +sizeK (124-1044, default 1044):
 Using default value 1044
 
 Command (m for help): p
@@ -129,7 +129,7 @@ Units = cylinders of 16065 * 512 = 8225280 bytes
 Command (m for help): w
 The partition table has been altered.
 Calling ioctl() to re-read partition table
-bash-4.2# 
+bash-4.2#
 
 ... making swap and ext2 partition
 
@@ -140,8 +140,8 @@ bash-4.2#
 sh-4.2# mkfs.swap /dev/sda1
 Setting up swapspace version 1, size = 1011673088 bytes
 UUID=c18ce177-c175-4961-80f9-fe3d3ced8c42
-bash-4.2# 
-bash-4.2# mkfs.ext2 /dev/sda2 
+bash-4.2#
+bash-4.2# mkfs.ext2 /dev/sda2
 mke2fs 1.42.7 (21-Jan-2013)
 Filesystem label=
 OS type: Linux
@@ -155,12 +155,12 @@ Maximum filesystem blocks=1895825408
 57 block groups
 32768 blocks per group, 32768 fragments per group
 8112 inodes per group
-Superblock backups stored on blocks: 
+Superblock backups stored on blocks:
 	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
 
-Allocating group tables: done                            
-Writing inode tables: done                            
-Writing superblocks and filesystem accounting information: done 
+Allocating group tables: done
+Writing inode tables: done
+Writing superblocks and filesystem accounting information: done
 
 bash-4.2# fdisk -l
 
@@ -171,10 +171,10 @@ Units = cylinders of 16065 * 512 = 8225280 bytes
    Device Boot      Start         End      Blocks  Id System
 /dev/sda1               1         123      987966  83 Linux
 /dev/sda2             124        1044     7397932+ 83 Linux
-bash-4.2# 
-bash-4.2# 
+bash-4.2#
+bash-4.2#
 
-... install the ttylinx 
+... install the ttylinx
 
 
 bash-4.2# ttylinux-installer -m /dev/hdc /dev/sda2
@@ -253,9 +253,4 @@ i> Unmounting new ttylinux file system on /dev/sda2 ... OK
 
 i> Installation complete.
 
-bash-4.2# 
-
-
-
-
-
+bash-4.2#

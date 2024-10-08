@@ -19,5 +19,3 @@ ip addr
 
 --hostname to specify a hostname
 --add-host to add more entries to /etc/hosts
-
-

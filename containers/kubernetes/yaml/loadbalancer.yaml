@@ -11,11 +11,10 @@ spec:
     metadata:
       name: apache2
       labels:
-        app: apache2 
+        app: apache2
     spec:
       containers:
       - name: apache2
         image: teamrock/apache2
         ports:
         - containerPort: 80
-

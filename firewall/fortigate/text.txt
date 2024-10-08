@@ -1,6 +1,6 @@
 
- 
-FortiGate-VM # get system startup-error-log 
+
+FortiGate-VM # get system startup-error-log
 
 startup-error-log             Display startup config error on console.
 status                        System status.
@@ -11,7 +11,7 @@ vdom-link                     Configure VDOM links.
 wccp                          Configure WCCP.
 zone                          Configure zone.
 
-FortiGate-VM # get system performance firewall statistics 
+FortiGate-VM # get system performance firewall statistics
 
 getting traffic statistics...
 Browsing: 127111 packets, 22376422 bytes
@@ -30,9 +30,9 @@ Generic UDP: 8009 packets, 1147869 bytes
 Generic ICMP: 38780 packets, 3258928 bytes
 Generic IP: 19611 packets, 2174526 bytes
 
-FortiGate-VM # 
+FortiGate-VM #
 
-FortiGate-VM # get system performance firewall packet-distribution 
+FortiGate-VM # get system performance firewall packet-distribution
 getting packet distribution statistics...
 0 bytes - 63 bytes: 64342 packets
 64 bytes - 127 bytes: 42212 packets
@@ -70,9 +70,9 @@ Run Time:  0 days, 12 hours and 22 minutes
          reportd       72      S       0.0     1.1
        scanunitd       71      S <     0.0     0.9
 
-FortiGate-VM # 
-FortiGate-VM # 
-FortiGate-VM # 
+FortiGate-VM #
+FortiGate-VM #
+FortiGate-VM #
 FortiGate-VM # get system performance status
 CPU states: 0% user 5% system 0% nice 95% idle
 CPU0 states: 0% user 5% system 0% nice 95% idle
@@ -84,14 +84,14 @@ Virus caught: 0 total in 1 minute
 IPS attacks blocked: 0 total in 1 minute
 Uptime: 0 days,  12 hours,  22 minutes
 
-FortiGate-VM # 
-FortiGate-VM # 
-FortiGate-VM # diagnose hardware deviceinfo disk 
+FortiGate-VM #
+FortiGate-VM #
+FortiGate-VM # diagnose hardware deviceinfo disk
 
-Device S*	    2.0 GB	ref: n/a	VMware, VMware Virtual S (ASM-SAS) 
-  partition 1	  128.0 MB	ref: n/a	label:                 
+Device S*	    2.0 GB	ref: n/a	VMware, VMware Virtual S (ASM-SAS)
+  partition 1	  128.0 MB	ref: n/a	label:
   [ dev: /dev/sda1  major: 8  minor: 1  free: 93MB  mounted: Y ]
-  partition 2	    1.9 GB	ref: n/a	label:                 
+  partition 2	    1.9 GB	ref: n/a	label:
   [ dev: /dev/sda2  major: 8  minor: 2  free: 1886MB  mounted: Y ]
 
 Device S0	   30.0 GB	ref: 0  	VMware, VMware Virtual S (ASM-SAS) [HDD1]
@@ -113,9 +113,9 @@ The following NICs are available:
   port9
   port10
 
-FortiGate-VM # 
-FortiGate-VM # 
-FortiGate-VM # 
+FortiGate-VM #
+FortiGate-VM #
+FortiGate-VM #
 FortiGate-VM # diagnose hardware deviceinfo nic port1
 Name:		 port1
 Driver:		 e1000
@@ -158,16 +158,16 @@ Tx errors:		 0
 Multicasts:		 0
 Collisions:		 0
 
-FortiGate-VM # 
+FortiGate-VM #
 
 
 FortiGate-VM # diagnose ip arp  list
 index=2 ifname=port1 192.168.35.1 00:50:56:c0:00:08 state=00000002 use=23 confirm=23 update=1120 ref=21
 index=3 ifname=port2 192.168.244.10 c2:00:1b:3b:00:01 state=00000002 use=25 confirm=299 update=299 ref=2
 
-FortiGate-VM # 
+FortiGate-VM #
 
-FortiGate-VM # execute ping-options repeat-count 10 
+FortiGate-VM # execute ping-options repeat-count 10
 
 FortiGate-VM # execute ping yahoo.com
 PING yahoo.com (98.139.183.24): 56 data bytes
@@ -186,7 +186,7 @@ PING yahoo.com (98.139.183.24): 56 data bytes
 10 packets transmitted, 10 packets received, 0% packet loss
 round-trip min/avg/max = 218.1/222.7/235.7 ms
 
-FortiGate-VM # 
+FortiGate-VM #
 
 FortiGate-VM # execute traceroute  yahoo.com
 traceroute to yahoo.com (206.190.36.45), 32 hops max, 72 byte packets
@@ -212,7 +212,7 @@ traceroute to yahoo.com (206.190.36.45), 32 hops max, 72 byte packets
 20  206.190.32.17 <po-11.bas1-7-prd.gq1.yahoo.com>  195.285 ms  187.643 ms  199.603 ms
 21  206.190.36.45 <ir1.fp.vip.gq1.yahoo.com>  193.677 ms  191.190 ms  182.843 ms
 
-FortiGate-VM # 
+FortiGate-VM #
 
 FortiGate-VM # get route info routing-table all
 Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
@@ -228,12 +228,11 @@ C       192.168.35.0/24 is directly connected, port1
 C       192.168.244.0/24 is directly connected, port2
 
 
-FortiGate-VM # 
-FortiGate-VM # 
+FortiGate-VM #
+FortiGate-VM #
 
 
 
 To debug an IPSEC site-to-site VPN
 connection, a good list of steps is the one posted by Yuri Slobodyanyuk in
 his blog: http://bit.ly/hzREm1 .
-

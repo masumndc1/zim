@@ -7,4 +7,3 @@
 ... for quick checking
 
  sudo dmidecode | grep Product
-

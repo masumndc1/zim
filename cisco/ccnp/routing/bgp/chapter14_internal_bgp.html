@@ -29,7 +29,7 @@ now we have topology and requirement that from our design is follows:
 	<li>also enterprise1 will learn all about the topology whereas enterprise2 will only get the update toward 192.135.250.0/28 not about
 	the 181.0.0.0/8</li>
 </ol>
-therefore from the requirement of number 3, we need iBGP peers between enterprise1 and enterprise2 if packet comes to enterprise2 for 
+therefore from the requirement of number 3, we need iBGP peers between enterprise1 and enterprise2 if packet comes to enterprise2 for
 destination 181.0.0.0/8 will pass to IPS3 as it learns default route from isp3 which is wrong.Moreover enterprise2 will never know that a way
 through enterprise1 is possible toward 181.0.0.0/8.
 
@@ -39,40 +39,40 @@ through enterprise1 is possible toward 181.0.0.0/8.
 <pre>
 enterprise1(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-Ethernet0/0                unassigned      YES unset  administratively down down    
-GigabitEthernet0/0         10.1.1.9        YES manual up                    up      
-Serial1/0                  10.1.1.1        YES NVRAM  up                    up      
-Serial1/1                  10.1.1.5        YES NVRAM  up                    up      
-Serial1/2                  192.168.1.1     YES NVRAM  up                    down    
-Serial1/3                  unassigned      YES NVRAM  administratively down down    
-Loopback1                  10.100.1.1      YES manual up                    up      
+Ethernet0/0                unassigned      YES unset  administratively down down
+GigabitEthernet0/0         10.1.1.9        YES manual up                    up
+Serial1/0                  10.1.1.1        YES NVRAM  up                    up
+Serial1/1                  10.1.1.5        YES NVRAM  up                    up
+Serial1/2                  192.168.1.1     YES NVRAM  up                    down
+Serial1/3                  unassigned      YES NVRAM  administratively down down
+Loopback1                  10.100.1.1      YES manual up                    up
 enterprise1(config-if)#
 
 enterprise2(config-if)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-Ethernet0/0                unassigned      YES unset  administratively down down    
-GigabitEthernet0/0         10.1.1.10       YES manual up                    up      
-Serial1/0                  192.168.1.1     YES manual up                    up      
-Serial1/1                  unassigned      YES unset  administratively down down    
-Serial1/2                  unassigned      YES unset  administratively down down    
-Serial1/3                  unassigned      YES unset  administratively down down    
-Loopback1                  10.100.1.2      YES manual up                    up      
+Ethernet0/0                unassigned      YES unset  administratively down down
+GigabitEthernet0/0         10.1.1.10       YES manual up                    up
+Serial1/0                  192.168.1.1     YES manual up                    up
+Serial1/1                  unassigned      YES unset  administratively down down
+Serial1/2                  unassigned      YES unset  administratively down down
+Serial1/3                  unassigned      YES unset  administratively down down
+Loopback1                  10.100.1.2      YES manual up                    up
 enterprise2(config-if)#
 
 isp3(config)#do show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            unassigned      YES NVRAM  administratively down down    
-Serial1/0                  192.168.1.2     YES NVRAM  up                    up      
-Serial1/1                  10.10.10.1      YES NVRAM  up                    up      
-Serial1/2                  10.10.10.5      YES NVRAM  up                    up      
-Serial1/3                  unassigned      YES NVRAM  administratively down down    
-Loopback3                  3.3.3.3         YES NVRAM  up                    up      
+FastEthernet0/0            unassigned      YES NVRAM  administratively down down
+Serial1/0                  192.168.1.2     YES NVRAM  up                    up
+Serial1/1                  10.10.10.1      YES NVRAM  up                    up
+Serial1/2                  10.10.10.5      YES NVRAM  up                    up
+Serial1/3                  unassigned      YES NVRAM  administratively down down
+Loopback3                  3.3.3.3         YES NVRAM  up                    up
 isp3(config)#
 </pre>
 
-one thing to keep in mind is that IOS does not set ttl=1 for ibgp peers therefore it does not need to configure <strong>ebgp-multihop 
+one thing to keep in mind is that IOS does not set ttl=1 for ibgp peers therefore it does not need to configure <strong>ebgp-multihop
 </strong>command. also we need to configure <strong>loopback interface</strong> even for ibgp though this is not must. two enterprise
-ebgp peer may be resides in two diffrent subnets. eventually connectivity interruption can fail ebgp peer therefore for safety its good to 
+ebgp peer may be resides in two diffrent subnets. eventually connectivity interruption can fail ebgp peer therefore for safety its good to
 configure loopback interface.
 
 <h2>configuring bgp among enterprise1 and enterprise2</h2>
@@ -85,7 +85,7 @@ enterprise1(config-router)#neighbor 10.100.1.2 update-source loopback 1
 enterprise1(config-router)#
 
 enterprise2(config)#router bgp 11
-enterprise2(config-router)#neighbor 10.100.1.1 remote-as 11 
+enterprise2(config-router)#neighbor 10.100.1.1 remote-as 11
 enterprise2(config-router)#neighbor 10.100.1.1 update-source loopback 1
 
 </pre>
@@ -94,10 +94,10 @@ enterprise2(config-router)#neighbor 10.100.1.1 update-source loopback 1
 
 <pre>
 enterprise1(config)#router ospf 1
-enterprise1(config-router)#network 10.1.1.8 0.0.0.3 area 0   # done for interface 
+enterprise1(config-router)#network 10.1.1.8 0.0.0.3 area 0   # done for interface
 enterprise1(config-router)#network 10.100.1.0 0.0.0.3 area 0 # done for loopback
 enterprise1(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 
@@ -113,7 +113,7 @@ enterprise2(config-router)#network 10.1.1.8 0.0.0.3 area 0
 enterprise2(config-router)#network 10.100.1.0 0.0.0.3 area 0
 enterprise2(config-router)#
 enterprise2(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 
@@ -204,7 +204,7 @@ BGP neighbor is 10.100.1.2,  remote AS 11, <strong>internal link</strong>
 
   Connections established 3; dropped 2
   Last reset 00:38:52, due to User reset
-Connection state is ESTAB, I/O status: 1, unread input bytes: 0            
+Connection state is ESTAB, I/O status: 1, unread input bytes: 0
 Connection is ECN Disabled, Mininum incoming TTL 0, Outgoing TTL 255
 Local host: 10.100.1.1, Local port: 11729
 Foreign host: 10.100.1.2, Foreign port: 179
@@ -257,11 +257,11 @@ best route is indicated by next line through 3.3.3.3 eBGP router and these path 
 
 <pre>
 enterprise2(config-router)#
-enterprise2(config-router)#do show ip bgp 181.0.0.0/8                
+enterprise2(config-router)#do show ip bgp 181.0.0.0/8
 BGP routing table entry for 181.0.0.0/8, version 8
 Paths: (2 available, best #2, table Default-IP-Routing-Table)
   Advertised to update-groups:
-     2         
+     2
   1 2
     1.1.1.1 (metric 2) from 10.100.1.1 (11.11.11.11)
       Origin incomplete, metric 0, localpref 100, <strong>valid, internal</strong>
@@ -270,12 +270,12 @@ Paths: (2 available, best #2, table Default-IP-Routing-Table)
       Origin incomplete, localpref 100, valid, <strong>external, best</strong>
 enterprise2(config-router)#
 </pre>
-this output suggesting us that first one is internal while next one is best and by external. <strong>also we have to keep in mind that eBGP 
+this output suggesting us that first one is internal while next one is best and by external. <strong>also we have to keep in mind that eBGP
 	does not tag AS number when they exchange route information to their own eBGP routers.</strong>
 <br />
-another example is 
+another example is
 <pre>
-enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes 
+enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes
 BGP table version is 35, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -305,11 +305,11 @@ here the lower half of the output related to enterprise2 route showing only one 
 
 <h2>Understanding Next-Hop Reachability Issues with iBGP</h2>
 BGP advertise next-hop-address as the gateway to go through a network when it advertise a route. and next-hop address can be an interface ip
-address or loopback address. when a route is learnt by eBGP router then next hop is added but next hop address is not changed when route 
+address or loopback address. when a route is learnt by eBGP router then next hop is added but next hop address is not changed when route
 is learnt from an iBGP router.
 
 <pre>
-enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes 
+enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes
 BGP table version is 35, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -320,26 +320,26 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 *                   1.1.1.1                                0 1 2 3 4 ?
 enterprise1(config)#
 </pre>
-next-hop is neither an ip address nor even loopback of iBGP router though this is learnt from it. but we can alter this behaviour by 
-using <br /><strong>neighbor ### iBGP ip address ### next-hop-self</strong> command to include its update-source ip as next-hop address. 
+next-hop is neither an ip address nor even loopback of iBGP router though this is learnt from it. but we can alter this behaviour by
+using <br /><strong>neighbor ### iBGP ip address ### next-hop-self</strong> command to include its update-source ip as next-hop address.
 let do it and see the different.
 
 <pre>
 enterprise1(config)#router bgp 11
-enterprise1(config-router)#neighbor 10.100.1.2 next-hop-self 
+enterprise1(config-router)#neighbor 10.100.1.2 next-hop-self
 
 enterprise1(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 enterprise1(config-router)#
 
 enterprise2(config)#router bgp 11
-enterprise2(config-router)#neighbor 10.100.1.1 next-hop-self 
+enterprise2(config-router)#neighbor 10.100.1.1 next-hop-self
 enterprise2(config-router)#
 enterprise2(config-router)#
 enterprise2(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 enterprise2(config-router)#
@@ -347,7 +347,7 @@ enterprise2(config-router)#
 now verify this with the previously learnt route of 192.168.250.0/28. first before then after
 
 <pre>
-enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes 
+enterprise1(config)#do show ip bgp 192.135.250.0/28 longer-prefixes
 BGP table version is 35, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -379,7 +379,7 @@ and the output is showing exactly the expected.
 <img src="./iBGP_mesh.png" alt="looping" />
 
 </p>
-to avoid loop occured inside an enterprise like the topology shown above we should 
+to avoid loop occured inside an enterprise like the topology shown above we should
 <ul>
 	<li>configure iBGP any of core1 or core2.</li>
 	<li>redistribute BGP routes into IGP but this is not good</li>
@@ -389,29 +389,29 @@ to avoid loop occured inside an enterprise like the topology shown above we shou
 <h2>using iBGP mesh</h2>
 when we configure iBGP to all of these routers we have to keep this in our mind that unlike IGP, AS if we configure IGP on these router
 then all the router would learn all route from each other. but this is not the characteristics of iBGP peers that
-When a router learns routes from an iBGP peer, 
+When a router learns routes from an iBGP peer,
 that router does not advertise the same routes to another iBGP peer and this is for avoiding loop.
 <br /><br />therfore to know all the BGP routes among each router in an AS we can configure a full iBGP mesh. By creating iBGP peers among
 all routers in an ASN, we can overcome the restriction said above and allow all routers to learn all routes. we will configure an iBGP peering
-like one router between one pair like 
+like one router between one pair like
 <ul>
-	<li><strong>enterprise1-core1</strong></li> 
+	<li><strong>enterprise1-core1</strong></li>
 	<li><strong>enterprise1-core2</strong></li>
 	<li><strong>enterprise1-enterprise2.</strong></li>
-	<li><strong>core1-enterprise1</strong></li> 
+	<li><strong>core1-enterprise1</strong></li>
 	<li><strong>core1-core2</strong></li>
 	<li><strong>core1-enterprise2.</strong></li>
-	<li><strong>core2-enterprise2</strong></li> 
+	<li><strong>core2-enterprise2</strong></li>
 	<li><strong>core2-core1</strong></li>
 	<li><strong>core2-enterprise1</strong></li>
-	<li><strong>enterprise2-core1</strong></li> 
+	<li><strong>enterprise2-core1</strong></li>
 	<li><strong>enterprise2-core2</strong></li>
 	<li><strong>enterprise2-enterprise1.</strong></li>
 </ul>
 configuration is similar just showing here enterprise1 and core1 configuration and bgp tables.
 <pre>
 ### enterprise1 running config
-!         
+!
 router bgp 11
  bgp router-id 11.11.11.11
  bgp log-neighbor-changes
@@ -429,7 +429,7 @@ router bgp 11
  neighbor 10.100.1.4 update-source Loopback1
  !
 
-enterprise1# 
+enterprise1#
 enterprise1#show ip bgp summary
 BGP router identifier 11.11.11.11, local AS number 11
 BGP table version is 24, main routing table version 24
@@ -488,7 +488,7 @@ Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
 core1(config-router)#
 core1(config-router)#
 
-### core1 bgp table 
+### core1 bgp table
 
 core1(config-router)#do show ip bgp
 BGP table version is 18, local router ID is 10.100.1.3
@@ -578,7 +578,7 @@ disabled in IOS. by the way BGP redistribution into IGP is still required for MP
 
 <pre>
 
-enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes
 BGP table version is 20, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -598,7 +598,7 @@ r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
 *> 185.0.0.0/8      3.3.3.3                                0 3 2 ?
 *> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
 
-Total number of prefixes 12 
+Total number of prefixes 12
 enterprise#
 
 </pre>
@@ -640,7 +640,7 @@ enterprise(config-router)#neighbor 1.1.1.1 prefix-list only-public ?
 enterprise(config-router)#neighbor 1.1.1.1 prefix-list only-public out
 enterprise(config-router)#
 enterprise(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 enterprise(config-router)#
@@ -650,7 +650,7 @@ enterprise(config)#exit
 
 <li> lets see the effect and clear bgp table</li>
 <pre>
-enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes
 BGP table version is 20, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -670,7 +670,7 @@ r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
 *> 185.0.0.0/8      3.3.3.3                                0 3 2 ?
 *> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
 
-Total number of prefixes 12 
+Total number of prefixes 12
 enterprise#
 enterprise#
 enterprise#clear ip bgp 1.1.1.1
@@ -698,11 +698,11 @@ enterprise#Y code: 128, length 0
 *Nov 22 19:37:36.923: BGP: 1.1.1.1 OPEN has ROUTE-REFRESH capability(old) for all address-families
 *Nov 22 19:37:36.923: BGP: 1.1.1.1 rcvd OPEN w/ optional parameter type 2 (Capability) len 2
 *Nov 22 19:37:36.923: BGP: 1.1.1.1 OPEN has CAPABILITY code: 2, length 0
-*Nov 22 19:37:36.923: BGP: 1.1.1.1 OPEN has ROUTE-REFRESH capability(new) for all address-families 
+*Nov 22 19:37:36.923: BGP: 1.1.1.1 OPEN has ROUTE-REFRESH capability(new) for all address-families
 BGP: 1.1.1.1 rcvd OPEN w/ remote AS 1
 *Nov 22 19:37:36.923: BGP: 1.1.1.1 went from OpenSent to OpenConfirm
 *Nov 22 19:37:36.923: BGP: 1.1.1.1 went from OpenConfirm to Established
-*Nov 22 19:37:36.923: %BGP-5-ADJCHANGE: neighbor 1.1.1.1 Up 
+*Nov 22 19:37:36.923: %BGP-5-ADJCHANGE: neighbor 1.1.1.1 Up
 enterprise#
 enterprise#
 </pre>
@@ -710,7 +710,7 @@ enterprise#
 
 <pre>
 enterprise#
-enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes
 BGP table version is 20, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -719,7 +719,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
    Network          Next Hop            Metric LocPrf Weight Path
 *> 128.107.0.0/19   0.0.0.0                            32768 i
 
-Total number of prefixes 1 
+Total number of prefixes 1
 enterprise#
 </pre>
 
@@ -737,7 +737,7 @@ enterprise#
 	<li>lets find out which you wanna filter</li>
 
 <pre>
-enterprise(config-router)#do show ip bgp neighbor 1.1.1.1 advertised-routes 
+enterprise(config-router)#do show ip bgp neighbor 1.1.1.1 advertised-routes
 BGP table version is 20, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -757,7 +757,7 @@ r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
 *> 185.0.0.0/8      3.3.3.3                                0 3 2 ?
 *> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
 
-Total number of prefixes 12 
+Total number of prefixes 12
 </pre>
 
 <li>let configure the prefix list first</li>
@@ -779,7 +779,7 @@ enterprise(config)#ip prefix-list only-public permit 128.107.0.0/19 ?
   le  Maximum prefix length to be matched
   <cr>
 
-enterprise(config)#ip prefix-list only-public permit 128.107.0.0/19 
+enterprise(config)#ip prefix-list only-public permit 128.107.0.0/19
 
 
 </pre>
@@ -798,7 +798,7 @@ enterprise(config)#route-map match-128 ?
   permit     Route map permits set operations
   <cr>
 
-enterprise(config)#route-map match-128 10   
+enterprise(config)#route-map match-128 10
 enterprise(config-route-map)#
 enterprise(config-route-map)#
 enterprise(config-route-map)#match ip ?
@@ -817,7 +817,7 @@ enterprise(config-route-map)#match ip address prefix-list only-public ?
   WORD  IP prefix-list name
   <cr>
 
-enterprise(config-route-map)#match ip address prefix-list only-public 
+enterprise(config-route-map)#match ip address prefix-list only-public
 enterprise(config-route-map)#
 enterprise(config-route-map)#
 enterprise(config-route-map)#exit
@@ -840,7 +840,7 @@ enterprise(config-router)#neighbor 1.1.1.1 route-map match-128 out
 enterprise(config-router)#
 enterprise(config-router)#
 enterprise(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 enterprise(config-router)#
@@ -860,7 +860,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
    Network          Next Hop            Metric LocPrf Weight Path
 *> 128.107.0.0/19   0.0.0.0                            32768 i
 
-Total number of prefixes 1 
+Total number of prefixes 1
 enterprise(config-router)#
 </pre>
 
@@ -873,7 +873,7 @@ enterprise(config-router)#
 
 	<pre>
 
-enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes 
+enterprise#show ip bgp neighbors 1.1.1.1 advertised-routes
 BGP table version is 20, local router ID is 11.11.11.11
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -893,7 +893,7 @@ r> 11.11.11.11/32   3.3.3.3                  0             0 3 ?
 *> 185.0.0.0/8      3.3.3.3                                0 3 2 ?
 *> 192.135.250.0/28 3.3.3.3                                0 3 4 ?
 
-Total number of prefixes 12 
+Total number of prefixes 12
 enterprise#
 
 	</pre>
@@ -942,7 +942,7 @@ enterprise(config)#access-list 101 permit ip ?
   any      Any source host
   host     A single source host
 
-enterprise(config)#access-list 101 permit ip host 128.107.0.0 ?      
+enterprise(config)#access-list 101 permit ip host 128.107.0.0 ?
   A.B.C.D  Destination address
   any      Any destination host
   host     A single destination host
@@ -950,7 +950,7 @@ enterprise(config)#access-list 101 permit ip host 128.107.0.0 ?
 enterprise(config)#access-list 101 permit ip host 128.107.0.0 host ?
   Hostname or A.B.C.D  Destination address
 
-enterprise(config)#$ 101 permit ip host 128.107.0.0 host 255.255.224.0 ?     
+enterprise(config)#$ 101 permit ip host 128.107.0.0 host 255.255.224.0 ?
 
   dscp        Match packets with given dscp value
   fragments   Check non-initial fragments
@@ -961,7 +961,7 @@ enterprise(config)#$ 101 permit ip host 128.107.0.0 host 255.255.224.0 ?
   tos         Match packets with given TOS value
   <cr>
 
-enterprise(config)#$ 101 permit ip host 128.107.0.0 host 255.255.224.0 
+enterprise(config)#$ 101 permit ip host 128.107.0.0 host 255.255.224.0
 
 </pre>
 
@@ -974,7 +974,7 @@ enterprise(config-router)#
 enterprise(config-router)#neighbor 1.1.1.1 ?
 
   distribute-list          Filter updates to/from this neighbor
-          
+
 enterprise(config-router)#neighbor 1.1.1.1 distribute-list ?
   <1-199>      IP access list number
   <1300-2699>  IP access list number (expanded range)
@@ -987,7 +987,7 @@ enterprise(config-router)#neighbor 1.1.1.1 distribute-list 101 ?
 enterprise(config-router)#neighbor 1.1.1.1 distribute-list 101 out ?
   <cr>
 
-enterprise(config-router)#neighbor 1.1.1.1 distribute-list 101 out 
+enterprise(config-router)#neighbor 1.1.1.1 distribute-list 101 out
 
 </pre>
 
@@ -1004,10 +1004,10 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
    Network          Next Hop            Metric LocPrf Weight Path
 *> 128.107.0.0/19   0.0.0.0                            32768 i
 
-Total number of prefixes 1 
+Total number of prefixes 1
 enterprise(config-router)#
 
-isp1#show ip bgp neighbors 11.11.11.11 received-routes 
+isp1#show ip bgp neighbors 11.11.11.11 received-routes
 BGP table version is 27, local router ID is 1.1.1.1
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -1016,7 +1016,7 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
    Network          Next Hop            Metric LocPrf Weight Path
 *> 128.107.0.0/19   11.11.11.11              0             0 11 i
 
-Total number of prefixes 1 
+Total number of prefixes 1
 isp1#
 
 </pre>
@@ -1030,18 +1030,18 @@ any changes in BGP will not activated until BGP neighborship cleared. there are 
 
 <ol>
 	<li>realoading the router </li>
-	<li>administratively shutting down and re-enabling neighbor with the command <strong>neighbor shutdown </strong> and then 
+	<li>administratively shutting down and re-enabling neighbor with the command <strong>neighbor shutdown </strong> and then
 	<strong>no neighbor shutdown
 	</strong></li>
 	<li>with the <strong>clear ip bgp </strong> command</li>
 </ol>
-<strong>clear ip bgp </strong>  command can do either hard reset or soft reset. 
+<strong>clear ip bgp </strong>  command can do either hard reset or soft reset.
 
 <ol>
-	<li><strong>hard reset:</strong> which shutdown router bgp neighborship, tcp connections, clear all BGP tables. both the local and remote 
+	<li><strong>hard reset:</strong> which shutdown router bgp neighborship, tcp connections, clear all BGP tables. both the local and remote
 	router acts same as it reacts when neighborship failed.</li>
-	<li><strong>soft reset:</strong> which neither shutdown router bgp neighborship nor tcp connections. just resend the BGP update, adjust the 
-	BGP tables with the then-current configuration. this is done by the help of outbound and inbound filter and reprocess the incoming update.	
+	<li><strong>soft reset:</strong> which neither shutdown router bgp neighborship nor tcp connections. just resend the BGP update, adjust the
+	BGP tables with the then-current configuration. this is done by the help of outbound and inbound filter and reprocess the incoming update.
 	</li>
 </ol>
 
@@ -1096,13 +1096,13 @@ BGP neighbor is 1.1.1.1,  remote AS 1, external link
  For address family: IPv4 Unicast
   BGP table version 20, neighbor version 20/0
   Output queue size: 0
- --More-- 
+ --More--
 
 enterprise#debug ip bgp
 BGP debugging is on for address family: IPv4 Unicast
 
 enterprise#
-enterprise#clear ip bgp 1.1.1.1 soft in 
+enterprise#clear ip bgp 1.1.1.1 soft in
 enterprise#
 *Nov 22 18:48:02.975: BGP: 1.1.1.1 sending REFRESH_REQ(5) for afi/safi: 1/1
 *Nov 22 18:48:02.979: BGP: 1.1.1.1 send message type 5, length (incl. header) 23
@@ -1112,7 +1112,7 @@ enterprise#
 <h2>desplaying the route from neighbor</h2>
 
 <pre>
-isp1#show ip bgp neighbors 2.2.2.2 ?     
+isp1#show ip bgp neighbors 2.2.2.2 ?
 
   advertised-routes  Display the routes advertised to a BGP neighbor
   dampened-routes    Display the dampened routes received from neighbor (eBGP
@@ -1129,7 +1129,7 @@ isp1#show ip bgp neighbors 2.2.2.2 ?
 
 isp1#
 
-isp1#show ip bgp neighbors 2.2.2.2 routes 
+isp1#show ip bgp neighbors 2.2.2.2 routes
 BGP table version is 14, local router ID is 1.1.1.1
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -1148,12 +1148,12 @@ r> 1.1.1.1/32       2.2.2.2                  0             0 2 ?
 *> 185.0.0.0/8      2.2.2.2                  0             0 2 ?
 *  192.135.250.0/28 2.2.2.2                                0 2 3 4 ?
 
-Total number of prefixes 11 
+Total number of prefixes 11
 
 </pre>
 
 <pre>
-isp1#show ip bgp neighbors 2.2.2.2 received-routes 
+isp1#show ip bgp neighbors 2.2.2.2 received-routes
 % Inbound soft reconfiguration not enabled on 2.2.2.2
 isp1#
 </pre>
@@ -1176,7 +1176,7 @@ isp1(config-router)#neighbor 2.2.2.2 soft-reconfiguration ?
 isp1(config-router)#neighbor 2.2.2.2 soft-reconfiguration inbound
 isp1(config-router)#
 isp1(config-router)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 isp1(config-router)#
@@ -1187,7 +1187,7 @@ isp1#
 
 ### and verify that.:w
 
-isp1#show ip bgp neighbors 2.2.2.2 received-routes 
+isp1#show ip bgp neighbors 2.2.2.2 received-routes
 BGP table version is 14, local router ID is 1.1.1.1
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
               r RIB-failure, S Stale
@@ -1206,7 +1206,7 @@ r> 1.1.1.1/32       2.2.2.2                  0             0 2 ?
 *> 185.0.0.0/8      2.2.2.2                  0             0 2 ?
 *  192.135.250.0/28 2.2.2.2                                0 2 3 4 ?
 
-Total number of prefixes 11 
+Total number of prefixes 11
 isp1#
 </pre>
 so this is ok now.

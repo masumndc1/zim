@@ -5,7 +5,7 @@
   ignore_errors: yes
 
   tasks:
-    - name: Install wget 
+    - name: Install wget
       apt:
         name: [ 'wget','apt']
         state: latest

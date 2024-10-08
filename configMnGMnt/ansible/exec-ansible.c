@@ -10,7 +10,7 @@ int main(void)
 	           "yum install -y ansible";
 
    /* install ansible using execl and error check it */
-   if ( execl("/bin/sh","sh","-c", command, 
+   if ( execl("/bin/sh","sh","-c", command,
       (char*)NULL) == -1 )
    {
       perror("Can't execute program");

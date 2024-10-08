@@ -1,14 +1,14 @@
 
 ############################# cam table #################################
 
-1. by default a mac address in a switch is stored 300 seconds. after that 
-if no frame is seen in a port then the mac address is deleted. we can 
+1. by default a mac address in a switch is stored 300 seconds. after that
+if no frame is seen in a port then the mac address is deleted. we can
 change this defult timeout value by this.
 
 R1-SW(config)#mac aging-time ?
   <10-1000000>  Maximum age in seconds
 
-R1-SW(config)#mac aging-time 
+R1-SW(config)#mac aging-time
 
 2. also switches are by default learn the mac address dynamically.
 but we can set a mac address manually by following.
@@ -17,7 +17,7 @@ R1-SW(config)#mac static 1111.2222.3333 interface fastEthernet 1/0 ?
   vlan  vlan name
   <cr>
 
-R1-SW(config)#mac static 1111.2222.3333 interface fastEthernet 1/0 
+R1-SW(config)#mac static 1111.2222.3333 interface fastEthernet 1/0
 
 
 3. to view the mac address table
@@ -50,14 +50,14 @@ R1-SW#show mac-address-table ?
   |           Output modifiers
   <cr>
 
-R1-SW#show mac-address-table 
+R1-SW#show mac-address-table
 
 # note here both the "show mac" and "show mac-address-table" is applicable.
 
 .. when we need to know the size of the cam table we run the following command
 
 
-Router#show mac-address-table count 
+Router#show mac-address-table count
 
 NM Slot: 1
 --------------
@@ -73,7 +73,7 @@ Router#
 .. from here we can see that max mumber of mac address can be stored is 8192
 .. for this cam table
 
-.. define macro as follows. 
+.. define macro as follows.
 
 Router(config)#define interface-range masum-macro FastEthernet0/1 , FastEthernet1/2 - 3
 
@@ -85,13 +85,13 @@ Router(config-if-range)# show run
 define interface-range masum-macro FastEthernet0/1 , FastEthernet1/2 - 3
 !
 
-4. error detection 
+4. error detection
 by default a switch is enable to detect the error so that port can disable itself
 for the any configured cause happen. this can be configured for the following causes.
 also this default can be disabled by palcing a no at the front.
 
 
-R1-SW(config)#errdisable detect cause ?   
+R1-SW(config)#errdisable detect cause ?
 
   all        Enable error detection on all cases
   bpduguard  Enable error detection on bpdu-guard
@@ -102,7 +102,7 @@ R1-SW(config)#errdisable detect cause ?
   udld       Enable error detection on udld
 
 
-R1-SW(config)#errdisable detect cause 
+R1-SW(config)#errdisable detect cause
 
 4a. also we can configure the automatic recovery from a disable port to active.
 which had to recover by manually. which will be applied to the every ports.
@@ -119,8 +119,4 @@ R1-SW(config)#errdisable recovery cause ?
 R1-SW(config)#errdisable recovery interval ?
   <30-86400>  timer-interval(sec)
 
-R1-SW(config)#errdisable recovery interval 
-
-
-
-
+R1-SW(config)#errdisable recovery interval

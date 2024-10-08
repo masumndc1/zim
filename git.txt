@@ -1023,3 +1023,7 @@ repos:
 
 ... now run 'pre-commit install'
 ... from now on pre-commit will be run automatically when 'git commit' are run.
+...
+... (optional) run following to apply rule to all files:
+
+$ pre-commit run --all-files

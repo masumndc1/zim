@@ -19,16 +19,16 @@ Unattended-Upgrade::Automatic-Reboot "true";
 ... rebooting on 2.00 at night
 Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 
-root@ipaclient:/etc/apt/apt.conf.d# 
+root@ipaclient:/etc/apt/apt.conf.d#
 
 ... also make following changes in the following files
 ... /etc/apt/apt.conf.d/20auto-upgrades
 
-# cat 20auto-upgrades 
+# cat 20auto-upgrades
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
-# 
+#
 
 ... now modify the file /etc/apt/apt.conf.d/10periodic similar to:
 
@@ -39,5 +39,3 @@ APT::Periodic::Unattended-Upgrade "1";
 
 ... This will run automatic unattended security upgrades, once per day.
 ... Now, if needed to run manually: sudo unattended-upgrade.
-
-

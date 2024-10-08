@@ -134,5 +134,3 @@ docker-master:
     WARNING: bridge-nf-call-ip6tables is disabled
 
 ... clearly show this node is a master.
-
-

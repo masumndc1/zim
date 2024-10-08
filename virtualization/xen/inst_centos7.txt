@@ -1,32 +1,32 @@
 
 
-... The software released for this stack is hosted in its own self contained 
-... repository on the CentOS mirror network. In order to enable this repository, 
+... The software released for this stack is hosted in its own self contained
+... repository on the CentOS mirror network. In order to enable this repository,
 ... ensure that the CentOS-Extras repo is enabled and type:
 
 yum install centos-release-xen
 
-... Xen needs a kernel built with "domain 0" support to operate. Xen4 provides 
+... Xen needs a kernel built with "domain 0" support to operate. Xen4 provides
 ... an updated kernel; so the first thing to do is to run an update to pull the new kernel in:
 
 yum update
 yum install xen
 
-... During Xen and the kernel installation, a script called grub-bootxen.sh should 
+... During Xen and the kernel installation, a script called grub-bootxen.sh should
 ... have been run which makes sure grub is updated (/boot/grub/grub.conf for CentOS 6
-... /boot/grub2/grub.cfg for CentOS 7). For CentOS 6, if you look at your /boot/grub/grub.conf 
+... /boot/grub2/grub.cfg for CentOS 7). For CentOS 6, if you look at your /boot/grub/grub.conf
 ... it should have something like this:
 
 
 title CentOS (3.4.46-8.el6.centos.alt.x86_64)
         root (hd0,0)
         kernel /xen.gz dom0_mem=1024M,max:1024M loglvl=all guest_loglvl=all
-        module /vmlinuz-3.4.46-8.el6.centos.alt.x86_64 ro root=/dev/mapper/vg_xen01-lv_root 
-	rd_LVM_LV=vg_xen01/lv_swap rd_NO_LUKS  KEYBOARDTYPE=pc KEYTABLE=uk rd_NO_MD LANG=en_GB 
+        module /vmlinuz-3.4.46-8.el6.centos.alt.x86_64 ro root=/dev/mapper/vg_xen01-lv_root
+	rd_LVM_LV=vg_xen01/lv_swap rd_NO_LUKS  KEYBOARDTYPE=pc KEYTABLE=uk rd_NO_MD LANG=en_GB
 	rd_LVM_LV=vg_xen01/lv_root SYSFONT=latarcyrheb-sun16 crashkernel=auto rd_NO_DM rhgb quiet
         module /initramfs-3.4.46-8.el6.centos.alt.x86_64.img
 
-... If this is not set to the default kernel, edit the file and set it now. Once you reboot, 
+... If this is not set to the default kernel, edit the file and set it now. Once you reboot,
 ... verify that the new kernel is running with:
 
 uname -r

@@ -14,7 +14,7 @@ root               578   0.0  0.1 409658544  24224   ??  S<s  11:33AM   0:10.48 
 ... now kill it with the kill -9 pid command.
 ...
 ... (optional)
-... you may also delete all the plist file from 
+... you may also delete all the plist file from
 ... /Library/Preferences/SystemConfiguration
 ...
 

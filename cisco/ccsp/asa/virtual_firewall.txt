@@ -5,17 +5,17 @@
 
 .. virtual firewall will allow us to configure multiple virtual firewalls in a single physical asa.
 .. which has another name, the security context. this can be configured once when asa is placed in
-.. multiple mode.  
+.. multiple mode.
 
 
 ciscoasa# show mo?
 
-  mode    monitor-interface  
+  mode    monitor-interface
 
-ciscoasa# show mode 
-Security context mode: single 
-ciscoasa# 
-ciscoasa# 
+ciscoasa# show mode
+Security context mode: single
+ciscoasa#
+ciscoasa#
 ciscoasa# config t
 
 ciscoasa(config)# mode  ?
@@ -25,7 +25,7 @@ configure mode commands/options:
   noconfirm  Do not prompt for confirmation
   single     Single mode; mode without security contexts
 
-ciscoasa(config)# mode  
+ciscoasa(config)# mode
 
 .. therefore we got three modes there namely multiple noconfirm and single. as shown above
 .. our router now running on single mode. there are some limitations also when the firewall
@@ -33,7 +33,7 @@ ciscoasa(config)# mode
 .. multiple mode.
 
 .. ipsec
-.. ssl vpn 
+.. ssl vpn
 .. dynamic routing protocols
 .. threat detection
 .. multicast ip routing
@@ -43,7 +43,7 @@ ciscoasa(config)# mode
 .. startup configuration in the flash memory.
 
 .. when a security context need to access any resource of asa, system admin assigns that
-.. resource to another context, the special one, the admin context instead of assigns 
+.. resource to another context, the special one, the admin context instead of assigns
 .. directly. when a user log in a security context, he holds the full administrative power
 .. over that security context. creating a security context will not automatically assigns any
 .. interface to it. but only admin context can holds all the interface configured even
@@ -57,10 +57,10 @@ ciscoasa(config)# mode
 .. unique mac address: an unique mac address is used and can be determined by asa automatically
 .. nat: when the others are not used then used nat normally its mapped to global address.
 
-.. when the firewall is in trasparent mode we cant use the shared interface mode. 
+.. when the firewall is in trasparent mode we cant use the shared interface mode.
 .. if it is in routed mode then can use the shared interface mode only when they are connect
 .. to the same network. if they need to connect different network we cant use the shared
-.. interface feature. 
+.. interface feature.
 
 .. moreover we have to use transparent mode for all other security context if we need to use
 .. transparent mode. we cant use per security context like few in transparent and few security
@@ -71,15 +71,15 @@ ciscoasa(config)# mode
 .. running in transparent mode.
 
 .. when using the shared interface try to assign the uniqe mac address to the each context.
-.. we have to use the content resource management to ensure that security contexts are not 
-.. consuming all the resources. 
+.. we have to use the content resource management to ensure that security contexts are not
+.. consuming all the resources.
 
 .. and the number of security context we can configure is depends on license we have purchase.
 .. like below.
 
 ciscoasa(config)# show version | grep Context
-Security Contexts           : 2         
-ciscoasa(config)# 
+Security Contexts           : 2
+ciscoasa(config)#
 
 .. as we can see we can only configure two security contexts.
 
@@ -100,18 +100,18 @@ ciscoasa(config)# mode noconfirm ?
 configure mode commands/options:
   multiple  Multiple mode; mode with security contexts
   single    Single mode; mode without security contexts
-ciscoasa(config)# mode noconfirm multiple 
+ciscoasa(config)# mode noconfirm multiple
 
 .. one admin context created. the running system config converted to system
 .. configuration and it stored in flash as admin.cfg
 
-ciscoasa(config)# show context 
+ciscoasa(config)# show context
 Context Name      Interfaces           		URL
 *admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
 Total active Security Contexts: 1
 
-ciscoasa(config)# 
-ciscoasa(config)# show flash: 
+ciscoasa(config)#
+ciscoasa(config)# show flash:
 Directory of flash:/
 
 9      -rw-  13          21:11:41 Sep 10 2015  masum.cfg
@@ -121,28 +121,28 @@ Directory of flash:/
 13     -rw-  3537        03:41:14 Aug 30 2016  admin.cfg
 
 16128000 bytes total (16107520 bytes free)
-ciscoasa(config)# 
+ciscoasa(config)#
 
-.. previous running config stored as old_running.cfg 
+.. previous running config stored as old_running.cfg
 .. all the enabled interfaces are added to the admin context and no of the
 .. interface are not currently added to any security context
 
-ciscoasa(config)# show context 
+ciscoasa(config)# show context
 Context Name      Interfaces           		URL
 *admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
 Total active Security Contexts: 1
 
-.. see here only three interfaces are added though there are 5 interfaces in the asa because of 
+.. see here only three interfaces are added though there are 5 interfaces in the asa because of
 .. these there were activated in single mode.
 
 .. moreover no context will be operational as long as
-.. we dont give it any location for context startup configuration. and the 
-.. admin context must be in internal flash (disk0:/flash:) and 
+.. we dont give it any location for context startup configuration. and the
+.. admin context must be in internal flash (disk0:/flash:) and
 .. with the URL syntax to indicate location.
 
-.. now creating one context name masumcontext as testing 
+.. now creating one context name masumcontext as testing
 
-ciscoasa(config)# context masumcontext  
+ciscoasa(config)# context masumcontext
 Creating context 'masumcontext'... Done. (2)
 ciscoasa(config-ctx)# ?
 
@@ -174,14 +174,14 @@ context mode commands/options:
           not exist)
 ciscoasa(config-ctx)# allocate-interface Ethernet0
 ciscoasa(config-ctx)# allocate-interface Ethernet1
-ciscoasa(config-ctx)# 
-ciscoasa(config-ctx)# show context 
+ciscoasa(config-ctx)#
+ciscoasa(config-ctx)# show context
 Context Name      Interfaces           		URL
 *admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
  masumcontext     Ethernet0,Ethernet1           flash:/admin.cfg
 
 Total active Security Contexts: 2
-ciscoasa(config-ctx)# 
+ciscoasa(config-ctx)#
 
 .. we use changeto to roam context to context in priviledge mode
 
@@ -189,78 +189,78 @@ Type help or '?' for a list of available commands.
 
 ciscoasa> ena
 Password: *****
-ciscoasa# 
-ciscoasa# show context 
+ciscoasa#
+ciscoasa# show context
 Context Name      Interfaces           		URL
 *admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
  masumcontext     Ethernet0,Ethernet1           flash:/admin.cfg
 
 Total active Security Contexts: 2
-ciscoasa# 
+ciscoasa#
 ciscoasa# changeto context admin
 
 ciscoasa/admin# changeto context masumcontext
-ciscoasa/masumcontext# 
+ciscoasa/masumcontext#
 
 ciscoasa# show mode
-Security context mode: multiple 
-ciscoasa# 
+Security context mode: multiple
+ciscoasa#
 ciscoasa# show run
 
 admin-context admin
-context admin 
-  allocate-interface Ethernet0 
-  allocate-interface Ethernet1 
-  allocate-interface Ethernet2 
+context admin
+  allocate-interface Ethernet0
+  allocate-interface Ethernet1
+  allocate-interface Ethernet2
   config-url flash:/admin.cfg
 !
 
 context masumcontext
   description test masum context
-  allocate-interface Ethernet0 
-  allocate-interface Ethernet1 
+  allocate-interface Ethernet0
+  allocate-interface Ethernet1
   config-url flash:/admin.cfg
 !
 
 Cryptochecksum:43fffda0faeb95420fe8c7e99db7a120
 : end
-ciscoasa# 
+ciscoasa#
 
-.. configuring an unique mac address is good for different security context. 
+.. configuring an unique mac address is good for different security context.
 .. we can configure unique mac address by ourself or let asa to do so automatically.
 
 .. if we need ever to change admin-context from admin to other we do that following
 
-ciscoasa(config)# show context  
+ciscoasa(config)# show context
 Context Name      Interfaces           		URL
 *admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
  masumcontext     Ethernet0,Ethernet1           flash:/admin.cfg
 
 Total active Security Contexts: 2
-ciscoasa(config)# 
+ciscoasa(config)#
 ciscoasa(config)# admin-context masumcontext
-ciscoasa(config)# 
+ciscoasa(config)#
 ciscoasa(config)# show context
 Context Name      Interfaces           		URL
  admin            Ethernet0,Ethernet1,Ethernet2 flash:/admin.cfg
 *masumcontext     Ethernet0,Ethernet1           flash:/admin.cfg
 
 Total active Security Contexts: 2
-ciscoasa(config)# 
+ciscoasa(config)#
 
 .. note here now masumcontext is the admin context with a asteric at the
 .. front.
 
-.. note: deleting a context will not remove all the configuration.we have to 
-.. delete it manually. 
+.. note: deleting a context will not remove all the configuration.we have to
+.. delete it manually.
 
 .. the following way we configure the resource class and make security context
 .. to this member. resource class is made with the intension of limiting
 .. a security context to consume all the resource of the system.
 
-.. finally. we will have to configure each context manually like we did 
-.. as single mode asa. nat,ssh and other service we have to configure them 
-.. manually. 
+.. finally. we will have to configure each context manually like we did
+.. as single mode asa. nat,ssh and other service we have to configure them
+.. manually.
 
 .. if ever we dont need to operate our asa in multiple mode we can revert back
 .. to single mode by following.
@@ -278,12 +278,12 @@ configure mode commands/options:
   multiple  Multiple mode; mode with security contexts
   single    Single mode; mode without security contexts
 
-ciscoasa(config)# mode noconfirm single 
+ciscoasa(config)# mode noconfirm single
 
-.. we need to load our previous saved configuration to running-config 
+.. we need to load our previous saved configuration to running-config
 .. like following.
 
-ciscoasa# show flash: 
+ciscoasa# show flash:
 
 Directory of flash:/
 
@@ -294,12 +294,12 @@ Directory of flash:/
 13     -rw-  3537        03:41:14 Aug 30 2016  admin.cfg
 
 16128000 bytes total (16103936 bytes free)
-ciscoasa# 
-ciscoasa# copy flash:/starttt running-config 
+ciscoasa#
+ciscoasa# copy flash:/starttt running-config
 
-Source filename [starttt]? 
+Source filename [starttt]?
 
-Destination filename [running-config]? 
+Destination filename [running-config]?
 
 ERROR: DNS Duplicate server address 4.2.2.1
 ERROR: DNS Duplicate server address 4.2.2.2
@@ -337,13 +337,10 @@ ERROR: entry for address/mask = 0.0.0.0/0.0.0.0 exists
 WARNING: Policy map policy-dmz1 is already configured as a service policy
 WARNING: Policy map policy-dmz1 is already configured as a service policy
 
-Cryptochecksum (unchanged): 768fa2bf aa184ebd 964fce26 3acad430 
+Cryptochecksum (unchanged): 768fa2bf aa184ebd 964fce26 3acad430
 
 3995 bytes copied in 4.140 secs (998 bytes/sec)
 
-ciscoasa# 
+ciscoasa#
 
 ............................... EOF ..............................................
-
-
-

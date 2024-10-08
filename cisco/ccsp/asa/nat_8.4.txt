@@ -106,4 +106,3 @@ DC-Core-FW1(config-network-object)#
 // and the using of the object concept here.
 
 >>>>>>> 84bda23a196c14d16e7795afd91ee3ddcdb325b9
-

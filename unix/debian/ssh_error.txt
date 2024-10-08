@@ -22,6 +22,3 @@ Host key verification failed.
 └──╼ $  ssh-keygen -f "/home/xxxxx/.ssh/known_hosts" -R 172.16.17.186
 
 ... and try again to ssh and everything will be fine.
-
-
-

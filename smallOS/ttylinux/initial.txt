@@ -2,5 +2,3 @@
 
 ... after booting the initial username password is
 ... root:password
-
-

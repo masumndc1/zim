@@ -6,7 +6,7 @@ int main() {
   int c;
 
   printf("%d multiplication table\n", a);
-  
+
   while(b <= 10) {
    c = a*b;
    printf("%d x %d = %d\n",a, b, c);

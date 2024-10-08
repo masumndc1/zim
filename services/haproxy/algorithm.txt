@@ -25,5 +25,3 @@ backend servers
      server wb1 192.168.10.10:80 maxconn 30
      server wb2 192.168.10.11:80 maxconn 30
      server wb3 192.168.10.12:80 maxconn 30
-
-

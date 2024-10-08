@@ -25,5 +25,5 @@ SERVICE_PASSWORD=$ADMIN_PASSWORD
 
 HOST_IP=<your_host_ip>
 
-... after the installation the horizon interface can be accessed by 
+... after the installation the horizon interface can be accessed by
 ... http://HOST_IP/dashboard

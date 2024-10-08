@@ -58,7 +58,7 @@ set security zones security-zone vpn-zone interfaces st0.0
 ike and ipsec verification
 
 
-root> show security ike security-associations detail ? 
+root> show security ike security-associations detail ?
 Possible completions:
   <[Enter]>            Execute this command
   <peer-address>       IP address of the peer
@@ -66,7 +66,7 @@ Possible completions:
   index                Index of security association
   |                    Pipe through a command
 
-root> show security ike security-associations detail    
+root> show security ike security-associations detail
 IKE peer 10.10.10.9, Index 7799571, Gateway Name: srx2-gateway
   Role: Responder, State: UP
   Initiator cookie: 655a71a5a60bc556, Responder cookie: 2db1d034a4fc449c
@@ -76,7 +76,7 @@ IKE peer 10.10.10.9, Index 7799571, Gateway Name: srx2-gateway
   Peer ike-id: 10.10.10.9
   Xauth assigned IP: 0.0.0.0
   Algorithms:
-   Authentication        : hmac-sha1-96 
+   Authentication        : hmac-sha1-96
    Encryption            : 3des-cbc
    Pseudo random function: hmac-sha1
    Diffie-Hellman group  : DH-group-2
@@ -85,24 +85,24 @@ IKE peer 10.10.10.9, Index 7799571, Gateway Name: srx2-gateway
    Output bytes  :                 1520
    Input  packets:                   11
    Output packets:                    6
-  Flags: IKE SA is created 
+  Flags: IKE SA is created
   IPSec security associations: 3 created, 2 deleted
   Phase 2 negotiations in progress: 0
 
     Negotiation type: Quick mode, Role: Responder, Message ID: 0
     Local: 10.10.10.10:500, Remote: 10.10.10.9:500
-    Local identity: 10.10.10.10         
+    Local identity: 10.10.10.10
     Remote identity: 10.10.10.9
     Flags: IKE SA is created
 
 
-root> 
+root>
 
-root> 
+root>
 
-root> 
+root>
 
-root> show security ipsec security-associations detail  
+root> show security ipsec security-associations detail
   ID: 131073 Virtual-system: root, VPN Name: srx2-ipsec-vpn
   Local Gateway: 10.10.10.10, Remote Gateway: 10.10.10.9
   Local Identity: ipv4_subnet(any:0,[0..7]=0.0.0.0/0)
@@ -111,7 +111,7 @@ root> show security ipsec security-associations detail
     DF-bit: clear
     Bind-interface: st0.0
 
-  Port: 500, Nego#: 3, Fail#: 0, Def-Del#: 0 Flag: 0x600a29 
+  Port: 500, Nego#: 3, Fail#: 0, Def-Del#: 0 Flag: 0x600a29
   Last Tunnel Down Reason: Delete payload received
     Direction: inbound, SPI: 2ed006d, AUX-SPI: 0
                               , VPN Monitoring: UP
@@ -132,9 +132,9 @@ root> show security ipsec security-associations detail
     Anti-replay service: counter-based enabled, Replay window size: 64
 
 
-root> 
+root>
 
-root> show security ipsec statistics                                       
+root> show security ipsec statistics
 ESP Statistics:
   Encrypted bytes:          2981968
   Decrypted bytes:          1958120

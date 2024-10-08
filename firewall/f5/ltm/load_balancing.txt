@@ -1,9 +1,8 @@
 
 ************************** ratio load balancing *************************
 
-// various load balancing are possible with the f5. beside both static and 
+// various load balancing are possible with the f5. beside both static and
 // dynamic load balancing we also have ration load balancing depending on
 // the member and the node.
 
 // another way of load balancing is the priority based member activation.
-

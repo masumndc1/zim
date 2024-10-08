@@ -8,16 +8,16 @@ Created Tuesday 01 May 2012
 root@mail:~# apt-cache search l7-filter
 l7-filter-userspace - Userspace layer 7 packet classifier
 l7-protocols - protocol definitions for the Linux layer 7 packet classifier
-root@mail:~# 
+root@mail:~#
 root@mail:~# uname -a
 Linux mail 2.6.35-24-generic #42-Ubuntu SMP Thu Dec 2 01:41:57 UTC 2010 i686 GNU/Linux
-root@mail:~# 
-root@mail:~# 
+root@mail:~#
+root@mail:~#
 root@mail:~# apt-get install l7-filter-userspace
 
 Testing
 
-Let assume that you have a Ubuntu server with two network devices with WAN device eth0 and LAN device eth1. With iptables we redirect forwarded packages to the userspace. 
+Let assume that you have a Ubuntu server with two network devices with WAN device eth0 and LAN device eth1. With iptables we redirect forwarded packages to the userspace.
 
 **[// As for the testing purpose we will do ssh to our own maching so we are using OUTPUT chain. but we can use all the INPUT FORWARD chain too...]**
 

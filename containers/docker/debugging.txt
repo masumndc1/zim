@@ -56,7 +56,7 @@ bash: docker: command not found
 root@9540a8440abd:/#
 root@controller:~#
 
-... with time stamps 
+... with time stamps
 
 root@controller:~# docker logs -t 9540a8440abd
 root@9540a8440abd:/#
@@ -72,5 +72,3 @@ root@9540a8440abd:/#
 2017-07-20T02:25:39.562693792Z root@9540a8440abd:/#
 2017-07-20T02:25:39.721652090Z root@9540a8440abd:/#
 root@controller:~#
-
-

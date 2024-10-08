@@ -19,15 +19,10 @@
                 type: internal
     ovs_version: "2.5.4"
 ┌─[root@elxabl1vvp2]─[~]
-└──╼ # 
+└──╼ #
 
 ... this is an internal means this is a simulated network device
 ... which can receive and send the traffic.
 ... this is also local interface too. we can also set ip address
 ... optionally on this which will help the host system to communicate
 ... with the virtual machines.
-
-
-
-
-

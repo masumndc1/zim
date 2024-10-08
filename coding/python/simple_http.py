@@ -27,10 +27,9 @@ try:
 
 #except urllib.error.HTTPError as e:
 except urllib.error.URLError as e:
-	
+
 	print (e.errno)
 	print (e.args)
 	print (e.filename)
 	print (e.characters_written)
 	print (e.characters_written)
-

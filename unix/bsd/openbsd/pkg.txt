@@ -6,16 +6,16 @@
 ... there are many way to configure from where openbsd will search for
 ... package. one way is
 
-penbsd# cat /etc/installurl                                                                                                                            
+penbsd# cat /etc/installurl
 https://ftp.openbsd.org/pub/OpenBSD
-openbsd# 
+openbsd#
 
 bash-4.3# pkg_info -Q bash
 Error from http://ftp.openbsd.org/pub/OpenBSD/6.0/packages/i386/ /
 Requesting http://ftp.openbsd.org/pub/OpenBSD/6.0/packages/i386/
 bash-4.3.46 (installed)
 checkbashisms-2.0.0.2
-bash-4.3# 
+bash-4.3#
 
 .. another way is the following.
 .. we have to set the repository from where openbsd will install the
@@ -28,7 +28,7 @@ export PKG_PATH=http://ftp.openbsd.org/pub/OpenBSD/`uname -r`/packages/`uname -m
 .. surely we can configure another source from where openbsd will search
 .. for the package.
 
-bash-4.3# 
+bash-4.3#
 
 .. now we can install our pkg. like below
 
@@ -46,9 +46,3 @@ vim-7.4.1467p1-gtk2
 .. more on package management
 
 https://www.openbsd.org/faq/faq15.html#PkgInstall
-
-
-
-
-
-

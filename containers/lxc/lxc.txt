@@ -20,18 +20,18 @@ lxc-console                 lxc-stop                    lxc-test-get_item       
 lxc-create                  lxc-test-apparmor           lxc-test-getkeys            lxc-unshare
 lxc-destroy                 lxc-test-attach             lxc-test-list               lxc-usernsexec
 lxc-device                  lxc-test-autostart          lxc-test-locktests          lxc-wait
-lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath            
-lxc-freeze                  lxc-test-clonetest          lxc-test-may-control        
-root@masum:/home/masum/Downloads# 
+lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath
+lxc-freeze                  lxc-test-clonetest          lxc-test-may-control
+root@masum:/home/masum/Downloads#
 
 .. we may also need to install debootstrap perl libvirt
-.. and start libvirtd 
+.. and start libvirtd
 
 root@masum:/home/masum/Downloads# systemctl start libvirtd
 
-.. Check kernel configuration : 
+.. Check kernel configuration :
 
-root@mininet-vm:~# lxc-checkconfig 
+root@mininet-vm:~# lxc-checkconfig
 Kernel configuration not found at /proc/config.gz; searching...
 Kernel configuration found at /boot/config-3.13.0-24-generic
 --- Namespaces ---
@@ -78,9 +78,9 @@ File capabilities: enabled
 Note : Before booting a new kernel, you can check its configuration
 usage : CONFIG=/path/to/config /usr/bin/lxc-checkconfig
 
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
-... container specific configuration can be found in 
+... container specific configuration can be found in
 ... /var/lib/lxc/{container-name}/config location.
 ... if we need to change some parameters of any of the
 ... container, we will do that in here.
@@ -128,17 +128,17 @@ for any corresponding short options.
 
 See the lxc-create man page for further information.
 
-root@masum:/home/masum/Downloads# 
+root@masum:/home/masum/Downloads#
 
 .. now creating an instance like below.
 
 root@masum:/home/masum/Downloads# lxc-create -n masum -t debian
 
 debootstrap is /usr/sbin/debootstrap
-Checking cache download in /var/cache/lxc/debian/rootfs-jessie-i386 ... 
+Checking cache download in /var/cache/lxc/debian/rootfs-jessie-i386 ...
 Downloading debian minimal ...
-I: Retrieving Release 
-I: Retrieving Release.gpg 
+I: Retrieving Release
+I: Retrieving Release.gpg
 I: Checking Release signature
 I: Valid Release signature (key id 75DDC3C4A499F1A18CB5F3C8CBF8D6FD518E17E1)
 
@@ -172,7 +172,7 @@ Local time is now:      Wed Oct 19 21:44:09 NZDT 2016.
 Universal Time is now:  Wed Oct 19 08:44:09 UTC 2016.
 
 Root password is '/SEzJtYW', please change !
-root@masum:/home/masum/Downloads# 
+root@masum:/home/masum/Downloads#
 
 root@masum:/home/masum/Downloads# lxc-console --name masum
 masum is not running
@@ -184,15 +184,15 @@ lxc-start: failed to spawn 'masum'
 lxc-start: The container failed to start.
 lxc-start: Additional information can be obtained by setting the --logfile and --logpriority options.
 root@masum:/home/masum/Downloads# lxc-ls
-masum  
-root@masum:/home/masum/Downloads# 
+masum
+root@masum:/home/masum/Downloads#
 
-.. remedy of this problem is given follow. the package cgroupfs-mount is required for the 
+.. remedy of this problem is given follow. the package cgroupfs-mount is required for the
 .. auto mount of the cgroup.
 
 root@masum:/home/masum/Downloads# apt-get install cgroupfs-mount
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following packages were automatically installed and are no longer required:
   axel bkhive comerr-dev florence geoclue geoclue-hostip geoclue-localnet
@@ -229,7 +229,7 @@ Get:1 http://ftp.ca.debian.org/debian/ jessie/main makedev all 2.3.1-93 [42.6 kB
 Get:2 http://ftp.ca.debian.org/debian/ jessie/main plymouth i386 0.9.0-9 [204 kB]
 Get:3 http://ftp.ca.debian.org/debian/ jessie/main mountall i386 2.54 [66.8 kB]
 Get:4 http://ftp.ca.debian.org/debian/ jessie/main cgroupfs-mount all 1.1 [4,572 B]
-Fetched 318 kB in 6s (49.6 kB/s)                                               
+Fetched 318 kB in 6s (49.6 kB/s)
 Selecting previously unselected package makedev.
 (Reading database ... 388894 files and directories currently installed.)
 Preparing to unpack .../makedev_2.3.1-93_all.deb ...
@@ -274,9 +274,9 @@ update-initramfs: Generating /boot/initrd.img-3.2.0-4-686-pae
 E: intel-microcode: unsupported kernel version!
 Processing triggers for libc-bin (2.19-18+deb8u6) ...
 Processing triggers for dbus (1.8.20-0+deb8u1) ...
-root@masum:/home/masum/Downloads# 
+root@masum:/home/masum/Downloads#
 
-.. now start it again the container 
+.. now start it again the container
 
 root@masum:/home/masum/Downloads# lxc-start -n masum -l DEBUG
 systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP -APPARMOR)
@@ -366,11 +366,11 @@ Unit proc-sys-fs-binfmt_misc.automount entered failed state.
 Debian GNU/Linux 8 masum console
 
 masum login: root
-Password: 
+Password:
 
 Login incorrect
 masum login: root
-Password: 
+Password:
 Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686
 
 The programs included with the Debian GNU/Linux system are free software;
@@ -379,16 +379,16 @@ individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
-root@masum:~# 
-root@masum:~# 
-root@masum:~# 
+root@masum:~#
+root@masum:~#
+root@masum:~#
 
 root@masum:~# cat /etc/issue
 Debian GNU/Linux 8 \n \l
 
 root@masum:~# uname -a
 Linux masum 3.2.0-4-686-pae #1 SMP Debian 3.2.78-1 i686 GNU/Linux
-root@masum:~# 
+root@masum:~#
 
 ... we can reset root password of debian by following
 
@@ -407,18 +407,18 @@ lxc-console                 lxc-stop                    lxc-test-get_item       
 lxc-create                  lxc-test-apparmor           lxc-test-getkeys            lxc-unshare
 lxc-destroy                 lxc-test-attach             lxc-test-list               lxc-usernsexec
 lxc-device                  lxc-test-autostart          lxc-test-locktests          lxc-wait
-lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath            
-lxc-freeze                  lxc-test-clonetest          lxc-test-may-control        
-root@masum:~# 
+lxc-execute                 lxc-test-cgpath             lxc-test-lxcpath
+lxc-freeze                  lxc-test-clonetest          lxc-test-may-control
+root@masum:~#
 
 .. these are some commands above which comes with the lxc packages.
 .. lets try some of them
 
 root@masum:~# lxc-ls -1 --running -f
-NAME   STATE    IPV4  IPV6  AUTOSTART  
+NAME   STATE    IPV4  IPV6  AUTOSTART
 -------------------------------------
-masum  RUNNING  -     -     NO         
-root@masum:~# 
+masum  RUNNING  -     -     NO
+root@masum:~#
 
   --version             show program's version number and exit
 
@@ -427,7 +427,7 @@ Name:           masum
 State:          RUNNING
 PID:            5341
 CPU use:        0.51 seconds
-root@masum:~# 
+root@masum:~#
 
 .. which type of lxc we can configure in our system we can find from below.
 
@@ -437,7 +437,7 @@ root@masum:/usr/share/lxc# cd templates/
 root@masum:/usr/share/lxc/templates# ls
 lxc-alpine    lxc-archlinux  lxc-centos  lxc-debian    lxc-fedora  lxc-openmandriva  lxc-oracle  lxc-sshd    lxc-ubuntu-cloud
 lxc-altlinux  lxc-busybox    lxc-cirros  lxc-download  lxc-gentoo  lxc-opensuse      lxc-plamo   lxc-ubuntu
-root@masum:/usr/share/lxc/templates# 
+root@masum:/usr/share/lxc/templates#
 
 .. that means we can install centos type of lxc by the following command
 
@@ -446,16 +446,16 @@ root@masum:/usr/share/lxc/templates# lxc-create -n mycentos -t centos
 .. few on configuration file of lxc
 .. for all system related configuration.
 
-root@masum:/usr/share/lxc# 
+root@masum:/usr/share/lxc#
 root@masum:/usr/share/lxc# cd config/
 root@masum:/usr/share/lxc/config# ls
 centos.common.conf  debian.userns.conf  gentoo.moresecure.conf  plamo.common.conf         ubuntu-cloud.userns.conf
 centos.userns.conf  fedora.common.conf  gentoo.userns.conf      plamo.userns.conf         ubuntu.common.conf
 common.seccomp      fedora.userns.conf  oracle.common.conf      ubuntu-cloud.common.conf  ubuntu.lucid.conf
 debian.common.conf  gentoo.common.conf  oracle.userns.conf      ubuntu-cloud.lucid.conf   ubuntu.userns.conf
-root@masum:/usr/share/lxc/config# 
-root@masum:/usr/share/lxc/config# 
-root@masum:/usr/share/lxc/config# cat debian.userns.conf 
+root@masum:/usr/share/lxc/config#
+root@masum:/usr/share/lxc/config#
+root@masum:/usr/share/lxc/config# cat debian.userns.conf
 # CAP_SYS_ADMIN in init-user-ns is required for cgroup.devices
 lxc.cgroup.devices.deny =
 lxc.cgroup.devices.allow =
@@ -472,18 +472,18 @@ lxc.mount.entry = /dev/zero dev/zero none bind,create=file 0 0
 # Default seccomp policy is not needed for unprivileged containers, and
 # non-root users cannot use seccmp without NNP anyway.
 lxc.seccomp =
-root@masum:/usr/share/lxc/config# 
+root@masum:/usr/share/lxc/config#
 
-.. individual system related configuration 
+.. individual system related configuration
 
 root@masum:/usr/share/lxc/config# cd /var/lib/lxc/
 root@masum:/var/lib/lxc# ls
 --logfile  lxc-monitord.log  masum
-root@masum:/var/lib/lxc# 
+root@masum:/var/lib/lxc#
 root@masum:/var/lib/lxc# cd masum/
 root@masum:/var/lib/lxc/masum# ls
 config  config.bak  fstab  masum.log  rootfs  rootfs.dev
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 root@masum:/var/lib/lxc/masum# cat config
 # Template used to create this container: /usr/share/lxc/templates/lxc-debian
 # Parameters passed to the template:
@@ -505,7 +505,7 @@ lxc.network.ipv4.gateway = 192.168.20.2
 #lxc.network.hwaddr = 00:1E:62:CH:NG:ME
 
 .. this line is important to commit off if we need our container
-.. should start at boot time. the delay line will wait for 9 
+.. should start at boot time. the delay line will wait for 9
 .. before other linux container boots up. cool feature.
 
 #lxc.start.auto = 1
@@ -521,30 +521,30 @@ lxc.utsname = masum
 lxc.arch = i386
 lxc.autodev = 1
 lxc.kmsg = 0
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 
-.. as soon as started our lxc debian jessie we issued the following command 
+.. as soon as started our lxc debian jessie we issued the following command
 .. it.
 
 root@masum:~# ifconfig
-eth0      Link encap:Ethernet  HWaddr ba:19:aa:5a:da:a7  
+eth0      Link encap:Ethernet  HWaddr ba:19:aa:5a:da:a7
           inet addr:192.168.20.10  Bcast:192.168.20.255  Mask:255.255.255.0
           inet6 addr: fe80::b819:aaff:fe5a:daa7/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:35016 errors:0 dropped:0 overruns:0 frame:0
           TX packets:20381 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:42036316 (40.0 MiB)  TX bytes:1998708 (1.9 MiB)
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:16436  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
+          collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-root@masum:~# 
+root@masum:~#
 
 root@masum:~# apt-get install iputils-ping
 root@masum:~# apt-get install inetutils-ping
@@ -562,27 +562,22 @@ Link:           vethX3900V
  TX bytes:      1.96 MiB
  RX bytes:      40.13 MiB
  Total bytes:   42.09 MiB
-root@masum:/var/lib/lxc/masum# 
+root@masum:/var/lib/lxc/masum#
 
-.. we can do work on our container without running sometimes just like 
+.. we can do work on our container without running sometimes just like
 .. below.
- 
+
 root@masum:/var/lib/lxc/masum/rootfs# chroot .
 root@masum:/# ifconfig
 Warning: cannot open /proc/net/dev (No such file or directory). Limited output.
-root@masum:/# 
+root@masum:/#
 root@masum:/# pwd
 /
 root@masum:/# ls
 bin   dev  home  media	opt   root  sbin     srv  tmp  var
 boot  etc  lib	 mnt	proc  run   selinux  sys  usr
-root@masum:/# 
-root@masum:/# passwd 
+root@masum:/#
+root@masum:/# passwd
 
-.. like this way we can also change the password for any user like root 
+.. like this way we can also change the password for any user like root
 .. also.
-
-
-
-
-

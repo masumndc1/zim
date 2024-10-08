@@ -2,7 +2,7 @@
 
 ... usages of service command.
 
-└──╼ # service --status-all 
+└──╼ # service --status-all
  [ + ]  acpid
  [ - ]  alsa-utils
  [ - ]  anacron
@@ -21,4 +21,3 @@
  [ + ]  samba
  [ + ]  samba-ad-dc
  [ ? ]  vmware-USBArbitrator
-

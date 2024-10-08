@@ -7,8 +7,8 @@
 root@mininet-vm:~# ovs-appctl version
 ovs-vswitchd (Open vSwitch) 2.0.2
 Compiled Dec  9 2015 14:08:17
-root@mininet-vm:~# 
-root@mininet-vm:~# 
+root@mininet-vm:~#
+root@mininet-vm:~#
 
 
  The OVS as several components:
@@ -16,16 +16,16 @@ root@mininet-vm:~#
  ovsdb-server: A lightweight database server that provides switch level information (for example, information about switch ports).
  ovs-vswitchd: It is the core system component, which stores OpenFlow rules and performs flow based switching along with a compani
  on Linux kernel module.
- openvswitch_mod.ko: It is a Linux kernel module doing most of the flow-based switching in PicOS OVS mode. This module is not 
+ openvswitch_mod.ko: It is a Linux kernel module doing most of the flow-based switching in PicOS OVS mode. This module is not
  loaded in the PicOS accelerated OVS, and is replaced by the ASIC (application-specific integrated circuit) for packet forwarding.
  CLI: The CLI (command-line interface) is used to control and manipulate other OVS components.
  The following three commands are used to control and monitor OVS:
- ovs-vsctl Commands: ovs-vsctl commands are used to control the ovsdb-server to create bridges, add interfaces, and configure 
+ ovs-vsctl Commands: ovs-vsctl commands are used to control the ovsdb-server to create bridges, add interfaces, and configure
  interfaces.
  ovs-appctl Commands: ovs-appctl commands are used to control the ovs-vswitchd.
  ovs-ofctl Commands: ovs-ofctl commands are used to send OpenFlow queries. This can be used to manipulate the flows in ovs-
  vswitchd.
- Each of those commands have a man page that can be viewed from the Linux shell on your PicOS switch. 
+ Each of those commands have a man page that can be viewed from the Linux shell on your PicOS switch.
 
 .. some of ovs related command below.
 
@@ -33,7 +33,7 @@ root@mininet-vm:~# ovs-ofctl show s1
 OFPT_FEATURES_REPLY (xid=0x2): dpid:0000000c2925551d
 n_tables:254, n_buffers:256
 capabilities: FLOW_STATS TABLE_STATS PORT_STATS QUEUE_STATS ARP_MATCH_IP
-actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST 
+actions: OUTPUT SET_VLAN_VID SET_VLAN_PCP STRIP_VLAN SET_DL_SRC SET_DL_DST SET_NW_SRC SET_NW_DST SET_NW_TOS SET_TP_SRC SET_TP_DST
 ENQUEUE
  1(eth2): addr:00:0c:29:25:55:1d
      config:     0
@@ -44,7 +44,7 @@ ENQUEUE
      state:      0
      speed: 0 Mbps now, 0 Mbps max
 OFPT_GET_CONFIG_REPLY (xid=0x4): frags=normal miss_send_len=0
-root@mininet-vm:~# 
+root@mininet-vm:~#
 
 root@mininet-vm:~# ovs-ofctl dump-tables s1
 OFPST_TABLE reply (xid=0x2): 254 tables
@@ -59,13 +59,10 @@ OFPST_TABLE reply (xid=0x2): 254 tables
 
 .. when we need to confiruge vswitch remotely we do like below.
 
-root@dev-42:~# ovs-vsctl --db=tcp:<remote ip host>:6640 add-br br0 
-root@dev-42:~# ovs-vsctl --db=tcp:<remote ip host>:6640 add-port br0 eth2 vlan_mode=trunk tag=1 
+root@dev-42:~# ovs-vsctl --db=tcp:<remote ip host>:6640 add-br br0
+root@dev-42:~# ovs-vsctl --db=tcp:<remote ip host>:6640 add-port br0 eth2 vlan_mode=trunk tag=1
 
-.. the above line instruct that eth2 port will be our trunk port. another options 
+.. the above line instruct that eth2 port will be our trunk port. another options
 .. is the access mode like below.
 
-root@dev-42:~# ovs-vsctl add-port br0 eth2 vlan_mode=access tag=1 
-
-
-
+root@dev-42:~# ovs-vsctl add-port br0 eth2 vlan_mode=access tag=1

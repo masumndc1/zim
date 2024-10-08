@@ -7,7 +7,7 @@ Created Saturday 28 April 2012
 
 9.2.3.1. Parameters & usage
 The SFQ is pretty much self tuning:
-perturb 
+perturb
 Reconfigure hashing once this many seconds. If unset, hash will never be reconfigured. Not
 recommended. 10 seconds is probably a good value.
 quantum
@@ -30,4 +30,3 @@ more packets fit in the queue!) Once every 10 seconds, the hashes are reconfigur
 
 
 tc class add dev eth0 parent 1:0 classid 1:1 cbq bandwidth 100Mbit rate 6Mbit weight 0.6Mbit prio 8 allot 1514 cell 8 maxburst 20 avpkt 1000 bounded
-

@@ -6,4 +6,3 @@
 ... bbqsql
 ... sqlsus
 ... sqlninja
-

@@ -20,23 +20,23 @@ manager like lightdm which will then prompt you
 to choose which x-window manager to use gdm3 or
 lightdm. choose lightdm instead as gdm3 is not working.
 
-# apt-get install lightdm 
+# apt-get install lightdm
 
 4. now we can use another x-window manage like xfce4 or
 lxde like below.
 
 # apt-get install xfce4
 
-or 
+or
 
 # apt-get install lxde
 
 and then try to load x-window manager. if it is ok then
 try to isntall full environment like
 
-# apt-get install task-lxde-desktop 
+# apt-get install task-lxde-desktop
 
-or 
+or
 
 # apt-get install task-xfce-desktop
 

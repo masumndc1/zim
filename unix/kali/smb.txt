@@ -2,7 +2,7 @@
 
 ... finding smb
 
-root@kali:/# 
+root@kali:/#
 root@kali:/# nmap -v -p 139,445 meta
 
 Starting Nmap 7.40 ( https://nmap.org ) at 2018-08-15 15:05 EDT
@@ -47,31 +47,31 @@ MAC Address: 52:54:00:FD:6E:25 (QEMU virtual NIC)
 Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 1.19 seconds
            Raw packets sent: 3 (116B) | Rcvd: 3 (116B)
-root@kali:/# 
+root@kali:/#
 
 
 root@kali:/# nbtscan 192.168.122.0/24
 Doing NBT name scan for addresses from 192.168.122.0/24
 
-IP address       NetBIOS Name     Server    User             MAC address      
+IP address       NetBIOS Name     Server    User             MAC address
 ------------------------------------------------------------------------------
 192.168.122.0	Sendto failed: Permission denied
 192.168.122.49   OWASPBWA         <server>  OWASPBWA         00:00:00:00:00:00
 192.168.122.193  METASPLOITABLE   <server>  METASPLOITABLE   00:00:00:00:00:00
 192.168.122.255	Sendto failed: Permission denied
-root@kali:/# 
+root@kali:/#
 root@kali:/# nbtscan -r 192.168.122.0/24
 Doing NBT name scan for addresses from 192.168.122.0/24
 
-IP address       NetBIOS Name     Server    User             MAC address      
+IP address       NetBIOS Name     Server    User             MAC address
 ------------------------------------------------------------------------------
 192.168.122.0	Sendto failed: Permission denied
 192.168.122.49   OWASPBWA         <server>  OWASPBWA         00:00:00:00:00:00
 192.168.122.193  METASPLOITABLE   <server>  METASPLOITABLE   00:00:00:00:00:00
-192.168.122.246  <unknown>                  <unknown>        
+192.168.122.246  <unknown>                  <unknown>
 192.168.122.255	Sendto failed: Permission denied
-root@kali:/# 
-root@kali:/# 
+root@kali:/#
+root@kali:/#
 root@kali:/# nbtscan -v 192.168.122.0/24
 Doing NBT name scan for addresses from 192.168.122.0/24
 
@@ -80,7 +80,7 @@ Doing NBT name scan for addresses from 192.168.122.0/24
 NetBIOS Name Table for Host 192.168.122.49:
 
 Incomplete packet, 281 bytes long.
-Name             Service          Type             
+Name             Service          Type
 ----------------------------------------
 OWASPBWA         <00>             UNIQUE
 OWASPBWA         <03>             UNIQUE
@@ -99,7 +99,7 @@ Adapter address: 00:00:00:00:00:00
 NetBIOS Name Table for Host 192.168.122.193:
 
 Incomplete packet, 335 bytes long.
-Name             Service          Type             
+Name             Service          Type
 ----------------------------------------
 METASPLOITABLE   <00>             UNIQUE
 METASPLOITABLE   <03>             UNIQUE
@@ -119,20 +119,20 @@ WORKGROUP        <1e>              GROUP
 Adapter address: 00:00:00:00:00:00
 ----------------------------------------
 192.168.122.255	Sendto failed: Permission denied
-root@kali:/# 
+root@kali:/#
 
 ... null session finders enum4linux
 
 ... A! null! session! refers! to! an! unauthenticated! NetBIOS! session! between! two! computers.!
 
 
-root@kali:/# 
+root@kali:/#
 root@kali:/# enum4linux -a 192.168.122.193
 Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Wed Aug 15 15:13:53 2018
 
- ========================== 
+ ==========================
 |    Target Information    |
- ========================== 
+ ==========================
 Target ........... 192.168.122.193
 RID Range ........ 500-550,1000-1050
 Username ......... ''
@@ -140,14 +140,14 @@ Password ......... ''
 Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
 
 
- ======================================================= 
+ =======================================================
 |    Enumerating Workgroup/Domain on 192.168.122.193    |
- ======================================================= 
+ =======================================================
 [+] Got domain/workgroup name: WORKGROUP
 
- =============================================== 
+ ===============================================
 |    Nbtstat Information for 192.168.122.193    |
- =============================================== 
+ ===============================================
 Looking up status of 192.168.122.193
 	METASPLOITABLE  <00> -         B <ACTIVE>  Workstation Service
 	METASPLOITABLE  <03> -         B <ACTIVE>  Messenger Service
@@ -159,21 +159,21 @@ Looking up status of 192.168.122.193
 
 	MAC Address = 00-00-00-00-00-00
 
- ======================================== 
+ ========================================
 |    Session Check on 192.168.122.193    |
- ======================================== 
+ ========================================
 [+] Server 192.168.122.193 allows sessions using username '', password ''
 
- ============================================== 
+ ==============================================
 |    Getting domain SID for 192.168.122.193    |
- ============================================== 
+ ==============================================
 Domain Name: WORKGROUP
 Domain Sid: (NULL SID)
 [+] Can't determine if host is part of domain or part of a workgroup
 
- ========================================= 
+ =========================================
 |    OS information on 192.168.122.193    |
- ========================================= 
+ =========================================
 [+] Got OS info for 192.168.122.193 from smbclient: Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.20-Debian]
 [+] Got OS info for 192.168.122.193 from srvinfo:
 	METASPLOITABLE Wk Sv PrQ Unx NT SNT metasploitable server (Samba 3.0.20-Debian)
@@ -181,9 +181,9 @@ Domain Sid: (NULL SID)
 	os version      :	4.9
 	server type     :	0x9a03
 
- ================================ 
+ ================================
 |    Users on 192.168.122.193    |
- ================================ 
+ ================================
 index: 0x1 RID: 0x3f2 acb: 0x00000011 Account: games	Name: games	Desc: (null)
 index: 0x2 RID: 0x1f5 acb: 0x00000011 Account: nobody	Name: nobody	Desc: (null)
 index: 0x3 RID: 0x4ba acb: 0x00000011 Account: bind	Name: (null)	Desc: (null)
@@ -256,9 +256,9 @@ user:[tomcat55] rid:[0x4c4]
 user:[sync] rid:[0x3f0]
 user:[uucp] rid:[0x3fc]
 
- ============================================ 
+ ============================================
 |    Share Enumeration on 192.168.122.193    |
- ============================================ 
+ ============================================
 WARNING: The "syslog" option is deprecated
 Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.20-Debian]
 Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.20-Debian]
@@ -267,7 +267,7 @@ Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.20-Debian]
 	---------       ----      -------
 	print$          Disk      Printer Drivers
 	tmp             Disk      oh noes!
-	opt             Disk      
+	opt             Disk
 	IPC$            IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))
 	ADMIN$          IPC       IPC Service (metasploitable server (Samba 3.0.20-Debian))
 
@@ -290,9 +290,9 @@ Domain=[WORKGROUP] OS=[Unix] Server=[Samba 3.0.20-Debian]
 NT_STATUS_NETWORK_ACCESS_DENIED listing \*
 //192.168.122.193/ADMIN$	Mapping: DENIED, Listing: N/A
 
- ======================================================= 
+ =======================================================
 |    Password Policy Information for 192.168.122.193    |
- ======================================================= 
+ =======================================================
 [E] Unexpected error from polenum:
 Traceback (most recent call last):
   File "/usr/bin/polenum", line 33, in <module>
@@ -304,9 +304,9 @@ Password Complexity: Disabled
 Minimum Password Length: 0
 
 
- ================================= 
+ =================================
 |    Groups on 192.168.122.193    |
- ================================= 
+ =================================
 
 [+] Getting builtin groups:
 
@@ -320,9 +320,9 @@ Minimum Password Length: 0
 
 [+] Getting domain group memberships:
 
- ========================================================================== 
+ ==========================================================================
 |    Users on 192.168.122.193 via RID cycling (RIDS: 500-550,1000-1050)    |
- ========================================================================== 
+ ==========================================================================
 [I] Found new SID: S-1-5-21-1042354039-2475377354-766472396
 [+] Enumerating users using SID S-1-5-21-1042354039-2475377354-766472396 and logon username '', password ''
 S-1-5-21-1042354039-2475377354-766472396-500 METASPLOITABLE\Administrator (Local User)
@@ -428,17 +428,12 @@ S-1-5-21-1042354039-2475377354-766472396-1048 *unknown*\*unknown* (8)
 S-1-5-21-1042354039-2475377354-766472396-1049 METASPLOITABLE\cdrom (Domain Group)
 S-1-5-21-1042354039-2475377354-766472396-1050 *unknown*\*unknown* (8)
 
- ================================================ 
+ ================================================
 |    Getting printer info for 192.168.122.193    |
- ================================================ 
+ ================================================
 No printers returned.
 
 
 enum4linux complete on Wed Aug 15 15:13:58 2018
 
-root@kali:/# 
-
-
-
-
-
+root@kali:/#

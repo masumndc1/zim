@@ -4,9 +4,9 @@
 
 ............................. interface configuring ........................
 
-.. we got following interface 
+.. we got following interface
 
--bash-4.3# ifconfig 
+-bash-4.3# ifconfig
 lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 32768
         index 6 priority 0 llprio 3
         groups: lo
@@ -44,22 +44,22 @@ enc0: flags=0<>
 pflog0: flags=141<UP,RUNNING,PROMISC> mtu 33188
         index 7 priority 0 llprio 3
         groups: pflog
--bash-4.3# 
+-bash-4.3#
 
 .. among them i want to configure the vic0 interface for my local network.
 .. to do so we need to configure the hostname.vic0 file. every interface
-.. need a file in /etc directory like hostname.em0 hostname.vic1. this is 
+.. need a file in /etc directory like hostname.em0 hostname.vic1. this is
 .. needed because at boot time /etc/netstart file will configure the interface
-.. taking ip addresses from these file. 
+.. taking ip addresses from these file.
 
 .. we got them like following
 
--bash-4.3# cat hostname.em0 
+-bash-4.3# cat hostname.em0
 inet 192.168.35.20 255.255.255.0
--bash-4.3#   
--bash-4.3# cat hostname.vic0 
+-bash-4.3#
+-bash-4.3# cat hostname.vic0
 inet 192.168.244.10 255.255.255.0 NONE description "local net"
--bash-4.3# 
+-bash-4.3#
 
 -bash-4.3# /bin/sh /etc/netstart em0
 
@@ -71,20 +71,17 @@ vic0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> mtu 1500
         media: Ethernet autoselect
         status: active
         inet 192.168.244.10 netmask 0xffffff00 broadcast 192.168.244.255
--bash-4.3# 
+-bash-4.3#
 
 .. now if we need to have dhcp then just place the dhcp in /etc/hostname.vic0 file.
 .. second line also add the default route in the interfac em0
 
--bash-4.3# cat hostname.em0 
+-bash-4.3# cat hostname.em0
 dhcp
 !route add 0.0.0.0/0 192.168.35.1
 
--bash-4.3# 
+-bash-4.3#
 
 ... and finally restart that interface by using following
 
 -bash-4.3# /bin/sh /etc/netstart em0
-
-
-

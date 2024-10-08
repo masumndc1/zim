@@ -1,4 +1,4 @@
-		system startup and shutdown 
+		system startup and shutdown
 To view the architecture type
 # bootinfo -p
 
@@ -60,25 +60,3 @@ To shut down the system to single-user mode
 To change the system enviourment and settings
 
 #smit system
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

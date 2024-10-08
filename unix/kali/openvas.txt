@@ -19,7 +19,7 @@ OpenVAS community feed server - http://www.openvas.org/
    Loaded: loaded (/lib/systemd/system/openvas-manager.service; disabled; vendor preset: enabled)
    Active: active (running) since Sun 2018-08-12 19:29:37 EDT; 2min 7s ago
 
-└──╼ # openvas-check-setup 
+└──╼ # openvas-check-setup
 openvas-check-setup 2.3.7
   Test completeness and readiness of OpenVAS-9
 
@@ -48,7 +48,3 @@ root@kali:~# ./openvas-automate.sh meta
 https://code610.blogspot.ca/2016/12/automated-scans-with-openvas-and-kali.html
 
 root@kali:~# ./code16.py meta
-
-
-
-

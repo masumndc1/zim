@@ -38,5 +38,3 @@
 
 ----To delete or remove a inactive paging space
 #rmps paging00
-
-

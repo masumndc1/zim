@@ -4,7 +4,6 @@
 
 # yum -y install epel-release
 # yum -y groupinstall X11
-# yum --enablerepo=epel -y groups install "Xfce" 
-# echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc 
+# yum --enablerepo=epel -y groups install "Xfce"
+# echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 # startx
-

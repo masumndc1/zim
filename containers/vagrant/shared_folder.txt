@@ -3,7 +3,7 @@
 ... shared folder between vagrant and host machine
 
 ... following is the mapping of shared folder
-... /vagrant directory in vagrant box is mapped to 
+... /vagrant directory in vagrant box is mapped to
 ... host machine's $HOME.
 
 vagrant@vagrant-ubuntu-trusty-32:/$ ls
@@ -11,11 +11,11 @@ bin   dev  home        lib         media  opt   root  sbin  sys  usr      var
 boot  etc  initrd.img  lost+found  mnt    proc  run   srv   tmp  vagrant  vmlinuz
 vagrant@vagrant-ubuntu-trusty-32:/$ cd vagrant/
 vagrant@vagrant-ubuntu-trusty-32:/vagrant$ ls
-vagrant@vagrant-ubuntu-trusty-32:/vagrant$ ls Vagrantfile 
+vagrant@vagrant-ubuntu-trusty-32:/vagrant$ ls Vagrantfile
 Vagrantfile
-vagrant@vagrant-ubuntu-trusty-32:/vagrant$ 
+vagrant@vagrant-ubuntu-trusty-32:/vagrant$
 
-... therefore i can edit any file in any machine which 
+... therefore i can edit any file in any machine which
 ... will effect on both in shared folder.
 
 ... i have the following setting in my Vagrantfile. it is saying
@@ -33,7 +33,7 @@ Vagrantfile
 vagrant@vagrant-ubuntu-trusty-32:/vagrant$ touch masum.txt
 vagrant@vagrant-ubuntu-trusty-32:/vagrant$ ls
 masum.txt  Vagrantfile
-vagrant@vagrant-ubuntu-trusty-32:/vagrant$ 
+vagrant@vagrant-ubuntu-trusty-32:/vagrant$
 
 ... this is inside the host machine.
 
@@ -41,7 +41,4 @@ vagrant@vagrant-ubuntu-trusty-32:/vagrant$
 /home/masum/vagrantfile
  ⚙ 523 [03:38 PM]  ~/vagrantfile   master ●   ls
 masum.txt  Vagrantfile
- ⚙ 524 [03:38 PM]  ~/vagrantfile   master ●   
-
-
-
+ ⚙ 524 [03:38 PM]  ~/vagrantfile   master ●  

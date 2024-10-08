@@ -1,12 +1,12 @@
 
 
 ...
-... the most import file for jenkins is jenkinsfile. 
+... the most import file for jenkins is jenkinsfile.
 ... in this file we define workflows and pipeline.
 ... more on syntax on jenkinsfile can be found in
 ... https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
 ...
-... also a good vdo on on this 
+... also a good vdo on on this
 ... https://www.youtube.com/watch?v=7KCS70sCoK0&t=173s
 ...
 ... there are also some nice webpages to look for a good
@@ -14,7 +14,7 @@
 ... https://gist.github.com/merikan/228cdb1893fca91f0663bab7b095757c
 ...
 ... installation:
-... after installing jenkins in a server log in 
+... after installing jenkins in a server log in
 ... http://<jenkins_ip_address>:8080
 ...
 ... initial password:
@@ -26,7 +26,7 @@
 ... adding node:
 ... click on dashboard, and then manage jenkins button.
 ... and then click on "manage nodes and clouds" and put
-... all the information to add a node. 
+... all the information to add a node.
 ... in this node, openjdk-8-jdk or openjdk-11-jdk must be
 ... installed.
 ...
@@ -37,11 +37,11 @@
 ... github repo must have a Jenkinsfile.
 ...
 ... Jenkinsfile:
-... an example of jenkins file is bellow can be found 
+... an example of jenkins file is bellow can be found
 ... https://github.com/masumndc1/salt-states
 ... and in its various branches.
 
-➜  salt-states git:(devel) cat Jenkinsfile 
+➜  salt-states git:(devel) cat Jenkinsfile
 pipeline {
   agent none
     stages {
@@ -65,6 +65,6 @@ pipeline {
         }
     }
 }
-➜  salt-states git:(devel) 
+➜  salt-states git:(devel)
 
 ...

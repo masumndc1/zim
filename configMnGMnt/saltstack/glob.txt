@@ -10,17 +10,16 @@
 default_include: master.d/*.conf
 [root@ansible master.d]#
 
-... defining nodegroup 
+... defining nodegroup
 
 [root@ansible master.d]# cat nodegroup.conf
 nodegroups:
   webdev: 'G@id:myminion'
 [root@ansible master.d]#
 
-... now running using -N 
+... now running using -N
 
 [root@ansible master.d]# salt -N webdev test.ping
 myminion:
     True
 [root@ansible master.d]#
-

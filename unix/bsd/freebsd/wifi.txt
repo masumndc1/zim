@@ -1,8 +1,8 @@
 
 
   How to configure wifi networking in freebsd.
- 
-1. first check your wifi network interface by 
+
+1. first check your wifi network interface by
 sysctl net.wlan.devices: ath0
 
 2. then add following lines in /etc/rc.conf
@@ -27,5 +27,3 @@ wlans_ath0="wlan0"
 create_args_wlan0="country FI"
 wpa_supplicant_enable="YES"
 ifconfig_wlan0="WPA SYNCDHCP"
-
-

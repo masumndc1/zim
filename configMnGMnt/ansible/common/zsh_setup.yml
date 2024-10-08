@@ -17,4 +17,3 @@
     user:
       name: "{{ user }}"
       shell: /usr/bin/zsh
-

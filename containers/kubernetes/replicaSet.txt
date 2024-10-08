@@ -18,15 +18,15 @@ Controlled By:  Deployment/coredns
 Replicas:       2 current / 2 desired
 Pods Status:    2 Running / 0 Waiting / 0 Succeeded / 0 Failed
 Pod Template:
-Labels:         k8s-app=kube-dns    
+Labels:         k8s-app=kube-dns
 Containers:
-  coredns:                                                           
-    Image:       k8s.gcr.io/coredns/coredns:v1.8.6  
-    Ports:       53/UDP, 53/TCP, 9153/TCP    
+  coredns:
+    Image:       k8s.gcr.io/coredns/coredns:v1.8.6
+    Ports:       53/UDP, 53/TCP, 9153/TCP
 
 -- output cut --
 
-... scale a replicaset 
+... scale a replicaset
 
 masum@controller:~$ kubectl scale replicasets pu-dv1 --replicas=4
 masum@controller:~$ k get pods | grep pu-dv
@@ -34,21 +34,19 @@ pu-dv1         1/1     Running   0             11m
 pu-dv1-gpl7t   1/1     Running   0             5m28s
 pu-dv1-t25wz   1/1     Running   0             11m
 pu-dv1-vmrwz   1/1     Running   0             11m
-masum@controller:~$ 
+masum@controller:~$
 
 ... autoscale a replicaset
 
-masum@controller:~$  kubectl autoscale rs pu-dv1 --min=2 --max=5 --cpu-percent=80 
-horizontalpodautoscaler.autoscaling/pu-dv1 autoscaled                              
+masum@controller:~$  kubectl autoscale rs pu-dv1 --min=2 --max=5 --cpu-percent=80
+horizontalpodautoscaler.autoscaling/pu-dv1 autoscaled
 
 masum@controller:~$ k get hpa
 NAME     REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
 pu-dv1   ReplicaSet/pu-dv1   <unknown>/80%   2         5         4          4m2s
-masum@controller:~$ 
+masum@controller:~$
 masum@controller:~$ k describe hpa pu-dv1
 
-... following will only delete the replicaset but not pods 
+... following will only delete the replicaset but not pods
 
 masum@controller:~$ kubectl delete rs pu-dv1 --cascade=false
-
-

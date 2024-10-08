@@ -1,7 +1,7 @@
 
 
 ... Add Monitoring targets to Nagios server
-... Now let us add some clients to monitor by Nagios server. To do that we have to install nrpe and 
+... Now let us add some clients to monitor by Nagios server. To do that we have to install nrpe and
 ... nagios-plugins in our monitoring targets.
 
 ... Install “nrpe” and “nagios-plugins” packages in client systems to be monitored.
@@ -54,7 +54,7 @@
 
 # service nagios restart
 
-... Now open the nagios admin console in the browser and navigate to “Hosts” section in the left pane. 
+... Now open the nagios admin console in the browser and navigate to “Hosts” section in the left pane.
 ... You will see the newly added client will be visible there. Click on the host to see if there is anything wrong or alerts.
 ... Click on the monitoring target, you’ll get the detailed output:
 ... Like this way, you can define more clients by creating a separate config files “/etc/nagios/servers directory for each client.
@@ -89,8 +89,5 @@
 
 # service nagios restart
 
-... Now log in to Nagios web console and check for the added services. 
+... Now log in to Nagios web console and check for the added services.
 ... Navigate to Services section, you’ll see the ssh service there.
-
-
-

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-import os 
+import os
 import sys
 import subprocess
 
@@ -14,4 +14,3 @@ import subprocess
 
 if __name__ == "__main__":
     subprocess.call(["ls","-la"])
-

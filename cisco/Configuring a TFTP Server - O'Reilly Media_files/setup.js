@@ -58,7 +58,7 @@ mybuys.setStyle('.mbpricelink_content1:link','font-family', 'verdana, arial, hel
 mybuys.setStyle('.mbpricelink_content1:visited','font-family', 'verdana, arial, helvetica, sans-serif','color','#000000','font-size','11px','font-weight','normal','text-decoration','none');
 mybuys.setStyle('.mbpricelink_content1:hover','font-family', 'verdana, arial, helvetica, sans-serif','color','#000000','font-size','11px','font-weight','normal','text-decoration','none');
 
-// new zones 
+// new zones
 mybuys.setStyle('.mbzone2 .mbzonetitle', 'color','#333333','font-size','13px','font-weight','bold','font-family', 'arial, helvetica, verdana');
 mybuys.setStyle('.mbzone2 .mblegend', 'border-bottom','1px solid #D9D9D9', 'background-color', '#d7d7d7')
 mybuys.setStyle('.mbzone2 .mbitem','margin', '5px 0px 10px 0px');
@@ -111,4 +111,3 @@ mybuys.setStyleByPageType('PRODUCT_DETAILS', '.mbzone2 .mbrating', 'text-align',
 mybuys.useOneclkForExistingSignup(false);
 mybuys.applyStyles();
 mybuys.setFailOverMsecs(8000);
-

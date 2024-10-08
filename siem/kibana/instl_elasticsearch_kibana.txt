@@ -4,7 +4,7 @@
 
 ... installing java
 
-root@kibana:~# 
+root@kibana:~#
 root@kibana:~# add-apt-repository -y ppa:webupd8team/java
 gpg: keybox '/tmp/tmpg_q15qo1/pubring.gpg' created
 gpg: /tmp/tmpg_q15qo1/trustdb.gpg: trustdb created
@@ -13,7 +13,7 @@ gpg: no ultimately trusted keys found
 gpg: Total number processed: 1
 gpg:               imported: 1
 OK
-root@kibana:~# 
+root@kibana:~#
 
 root@kibana:~# apt-get install -y oracle-java8-installer
 
@@ -22,16 +22,16 @@ root@kibana:~# apt-get install -y oracle-java8-installer
 
 root@kibana:~# apt install oracle-java8-set-default
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 oracle-java8-set-default is already the newest version (8u151-1~webupd8~0).
 oracle-java8-set-default set to manually installed.
 0 upgraded, 0 newly installed, 0 to remove and 154 not upgraded.
-root@kibana:~# 
-root@kibana:~# 
+root@kibana:~#
+root@kibana:~#
 
 ... installation of elasticsearch
-root@kibana:~# 
+root@kibana:~#
 root@kibana:~# dpkg -i https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb
 dpkg: error: cannot access archive 'https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb': No such file or directory
 root@kibana:~# wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.1.1.deb
@@ -42,15 +42,15 @@ HTTP request sent, awaiting response... 200 OK
 Length: 28387222 (27M) [application/octet-stream]
 Saving to: ‘elasticsearch-6.1.1.deb’
 
-elasticsearch-6.1.1.deb      100%[===========================================>]  27.07M  3.47MB/s    in 8.1s    
+elasticsearch-6.1.1.deb      100%[===========================================>]  27.07M  3.47MB/s    in 8.1s
 
 2017-12-29 20:16:50 (3.35 MB/s) - ‘elasticsearch-6.1.1.deb’ saved [28387222/28387222]
 
 root@kibana:~# ls
 db.sql  docker  docker-engine_1.10.0-0~trusty_amd64.deb  elasticsearch-6.1.1.deb
-root@kibana:~# 
+root@kibana:~#
 
-root@kibana:~# dpkg -i elasticsearch-6.1.1.deb 
+root@kibana:~# dpkg -i elasticsearch-6.1.1.deb
 Selecting previously unselected package elasticsearch.
 (Reading database ... 68767 files and directories currently installed.)
 Preparing to unpack elasticsearch-6.1.1.deb ...
@@ -60,7 +60,7 @@ Unpacking elasticsearch (6.1.1) ...
 Setting up elasticsearch (6.1.1) ...
 Processing triggers for ureadahead (0.100.0-19) ...
 Processing triggers for systemd (232-21ubuntu2) ...
-root@kibana:~# 
+root@kibana:~#
 
 root@kibana:~# systemctl enable elasticsearch.service
 root@kibana:~# systemctl start elasticsearch.service
@@ -91,7 +91,7 @@ root@kibana:~# curl http://localhost:9200/
   },
   "tagline" : "You Know, for Search"
 }
-root@kibana:~# 
+root@kibana:~#
 
 ... we can change some of the parameters of elastic by modifying the following file.
 ... the following settings will change the bind address to 192.168.10.138:8080
@@ -104,7 +104,7 @@ network.host: 192.168.10.138
 root@kibana:/etc/elasticsearch# cat elasticsearch.yml | grep -i http.port
 #http.port: 9200
 http.port: 8080
-root@kibana:/etc/elasticsearch# 
+root@kibana:/etc/elasticsearch#
 
 ... installing kibana
 
@@ -114,9 +114,9 @@ Connecting to artifacts.elastic.co (artifacts.elastic.co)|54.243.108.41|:443... 
 HTTP request sent, awaiting response... 200 OK
 Length: 65820452 (63M) [application/octet-stream]
 
-kibana-deb       100%[===========================================>]  62.77M  2.86MB/s    in 18s     
+kibana-deb       100%[===========================================>]  62.77M  2.86MB/s    in 18s
 
-root@kibana:~# ls 
+root@kibana:~# ls
 elasticsearch-5.5.0.deb                  kibana-5.5.0-i386.deb
 
 root@kibana:~# dpkg -i kibana-5.5.0-i386.deb
@@ -127,7 +127,7 @@ root@kibana:/etc/kibana# pwd
 /etc/kibana
 root@kibana:/etc/kibana# cat kibana.yml | grep -i elasticsearch.url
 elasticsearch.url: "http://localhost:9200"
-root@kibana:/etc/kibana# 
+root@kibana:/etc/kibana#
 
 ... now run kibana service
 
@@ -135,7 +135,7 @@ root@kibana:/etc/kibana# systemctl status kibana.service
 ● kibana.service - Kibana
    Loaded: loaded (/etc/systemd/system/kibana.service; disabled; vendor preset: enabled)
    Active: inactive (dead)
-root@kibana:/etc/kibana# 
+root@kibana:/etc/kibana#
 root@kibana:/etc/kibana# systemctl enable kibana.service
 Synchronizing state of kibana.service with SysV service script with /lib/systemd/systemd-sysv-install.
 Executing: /lib/systemd/systemd-sysv-install enable kibana
@@ -158,6 +158,4 @@ if (hash.length) {
   window.location = defaultRoute;
 }
 </script>
-root@kibana:/etc/kibana# 
-
-
+root@kibana:/etc/kibana#

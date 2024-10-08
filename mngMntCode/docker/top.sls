@@ -1,5 +1,5 @@
 base:
- 
+
  'G@os:debian':
    - debian.top
 
@@ -9,11 +9,11 @@ base:
 
  'docker-master':
    - docker-master.top
- 
+
  'docker-host':
    - match: nodegroup
    - docker-host.top
-  
+
  'debian':
    - match: nodegroup
-   - debian.top 
+   - debian.top

@@ -4,5 +4,3 @@ google_ad_client = "ca-pub-6676241418785266";
     google_ad_height = 600;
 
 document.write("<scr"+"ipt type=\"text/javascript\" src=\"//pagead2.googlesyndication.com/pagead/show_ads.js\"></scr"+"ipt>\n");
-
-

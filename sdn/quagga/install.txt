@@ -4,7 +4,7 @@
 
 apt-get install quagga
 
-... example configuration file can be found in 
+... example configuration file can be found in
 ... /usr/share/doc/quagga-core/example folder
 
 root@debian95:/usr/share/doc/quagga-core# cd examples/
@@ -12,14 +12,14 @@ root@debian95:/usr/share/doc/quagga-core/examples# ls
 bgpd.conf.sample   ospf6d.conf.sample  ripd.conf.sample    zebra.conf.sample
 bgpd.conf.sample2  ospfd.conf.sample   ripngd.conf.sample
 isisd.conf.sample  pimd.conf.sample    vtysh.conf.sample
-root@debian95:/usr/share/doc/quagga-core/examples# 
+root@debian95:/usr/share/doc/quagga-core/examples#
 
 ... now need to copy some of them to /etc/quagga folder like below.
 
 ... now we have to make some changes in config file accordingly
 ... the initiall zebra config file can be look like following.
 
-root@debian95:/etc/quagga# cat -n zebra.conf 
+root@debian95:/etc/quagga# cat -n zebra.conf
      1	! -*- zebra -*-
      2	!
      3	! zebra sample configuration file
@@ -30,7 +30,7 @@ root@debian95:/etc/quagga# cat -n zebra.conf
      8	password <your pass here>
      9	enable password <your pass here>
     10	!
-    11	! Interface's description. 
+    11	! Interface's description.
     12	!
     13	interface ens33
     14	  description primary interface.
@@ -40,18 +40,18 @@ root@debian95:/etc/quagga# cat -n zebra.conf
     18	!
     19	!interface lo
     20	! description test of desc.
-    21	
+    21
     22	!interface sit0
     23	! multicast
-    24	
+    24
     25	!
     26	! Static default route sample.
     27	!
     28	!ip route 0.0.0.0/0 203.181.89.241
     29	!
-    30	
+    30
     31	log file zebra.log
-root@debian95:/etc/quagga# 
+root@debian95:/etc/quagga#
 
 ... now run zebra command.
 
@@ -66,7 +66,7 @@ ospfd		2604/tcp			# ospfd vty (zebra)
 bgpd		2605/tcp			# bgpd vty (zebra)
 ospf6d		2606/tcp			# ospf6d vty (zebra)
 isisd		2608/tcp			# ISISd vty (zebra)
-root@debian95:/etc/quagga# 
+root@debian95:/etc/quagga#
 
 ... now start the zebra service like below.
 
@@ -87,14 +87,14 @@ Copyright 1996-2005 Kunihiro Ishiguro, et al.
 
 User Access Verification
 
-Password: 
-Password: 
-Password: 
+Password:
+Password:
+Password:
 masum-router> ena
-Password: 
-masum-router# 
-masum-router# 
-masum-router#     
+Password:
+masum-router#
+masum-router#
+masum-router#
   clear      Clear stored data
   configure  Configuration from vty interface
   copy       Copy configuration
@@ -113,7 +113,4 @@ masum-router#
   terminal   Set terminal line parameters
   who        Display who is on vty
   write      Write running configuration to memory, network, or terminal
-masum-router# 
-
-
-
+masum-router#

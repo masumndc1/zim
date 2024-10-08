@@ -57,8 +57,3 @@ MariaDB [(none)]> SET PASSWORD FOR 'masum'@'%' = PASSWORD('new_password');
 ... droping user
 
 MariaDB [(none)]> DROP USER 'masum'@'%';
-
-
-
-
-

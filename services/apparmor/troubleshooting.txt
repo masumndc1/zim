@@ -11,6 +11,3 @@ if we have forgotten to include abstractions/apache2-common in the profile,
 will see an error like:
 
 [emerg] 3611#0: socket() 0.0.0.0:8080 failed (13: Permission denied)
-
-
-

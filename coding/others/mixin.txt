@@ -2,7 +2,7 @@
 
 ... mixin in ruby
 ... source: https://shorturl.at/bdLXZ
-... 
+...
 
 module Mod
  def self.hello
@@ -14,7 +14,7 @@ class A
  include Mod
 
  def self.bonjour
-  Mod::hello 
+  Mod::hello
  end
 
  def self.done

@@ -10,4 +10,3 @@
 
 # pkg install -y \
       py37-ansible py37-ipython
-

@@ -124,7 +124,7 @@ Nmap done: 1 IP address (1 host up) scanned in 15.73 seconds
 ┌─[root@parrot]─[~]
 └──╼ #
 
-... clearly version identification is better than the banner 
+... clearly version identification is better than the banner
 ... grabbing. banner can be set something else than actual.
 
 ... operating system identification using xprobe and nmap
@@ -226,7 +226,7 @@ Nmap done: 1 IP address (1 host up) scanned in 4.90 seconds
 
 ... clearly nmap detected better than xprobe2
 
-... snmp scanning 
+... snmp scanning
 
 ┌─[root@parrot]─[~]
 └──╼ # onesixtyone 192.168.25.141 public
@@ -251,8 +251,3 @@ Timeout: No Response from 192.168.25.141
 Timeout: No Response from 192.168.25.179
 ┌─[✗]─[root@parrot]─[~]
 └──╼ #
-
-
-
-
-

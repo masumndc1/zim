@@ -76,7 +76,6 @@ Now restart Apache2:
 
 [root@localhost etc]#/etc/init.d/httpd restart
 
-Now reload http://192.168.0.100/info.php in your browser and scroll down to the modules section again. You should now find lots of new modules there, including the MySQL module: 
+Now reload http://192.168.0.100/info.php in your browser and scroll down to the modules section again. You should now find lots of new modules there, including the MySQL module:
 
 http://www.howtoforge.com/installing-apache2-with-php5-and-mysql-support-on-centos-6.1-lamp
-

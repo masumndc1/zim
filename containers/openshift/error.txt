@@ -19,11 +19,10 @@ error: did not detect an --insecure-registry argument on the Docker daemon
 key.json
 [root@openshift docker]# vi /etc/docker/daemon.json
 { "insecure-registries": ["172.30.0.0/16"] }
-[root@openshift docker]# 
-[root@openshift docker]# 
+[root@openshift docker]#
+[root@openshift docker]#
 [root@openshift docker]# systemctl restart docker
-[root@openshift docker]# 
-[root@openshift docker]# 
+[root@openshift docker]#
+[root@openshift docker]#
 [root@openshift docker]# oc cluster up
 Getting a Docker client ...
-

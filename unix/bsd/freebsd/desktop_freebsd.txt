@@ -10,12 +10,12 @@ gdm_enable="YES"
 slim_enable="YES"
 
 3. I have used bspwm as tiling window manager. Install bspwm and configure it.
-$ pkg install bspwm. 
+$ pkg install bspwm.
 
 for configuraiton of bspwm, see bspwm.txt.
 
 4. Add following in ~/.xinitrc
-sxhkd & 
+sxhkd &
 exec bspwm
 
 5. Reboot system
@@ -40,5 +40,3 @@ gnome_enable="YES"
 install lxde-meta and echo 'exec startlxde' > ~/.xinitrc
 
 ... in my asus laptop i could not run gnome
-
-

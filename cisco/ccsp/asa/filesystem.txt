@@ -1,7 +1,7 @@
 
 #### filesystem ###
 
-asa comes with default storage like flash: and disk0: which is actually same 
+asa comes with default storage like flash: and disk0: which is actually same
 thing in terms of filesystem.
 
 when a user connect to asa its session start with disk0:/root
@@ -11,7 +11,7 @@ asa also support disk1: which is removable flash memory.
 
 # working with filesystem.
 
-to create a directory in a filesystem, mkdir is used with /noconfirm 
+to create a directory in a filesystem, mkdir is used with /noconfirm
 to instruct asa not to give notification as by default it notices user
 every time before creating or deleting any file and directory.
 
@@ -19,13 +19,13 @@ every time before creating or deleting any file and directory.
 asa(config)# mkdir /noconfirm flash:/masum
 Created dir flash:/masum
 
-asa(config)# dir /recursive 
+asa(config)# dir /recursive
 Directory of flash:/*
 Directory of flash:/masum
 No files in directory
 16128000 bytes total (16122368 bytes free)
 
-asa(config)# dir flash: 
+asa(config)# dir flash:
 Directory of flash:/
 9      drw-  0           01:15:50 Nov 06 2015  masum
 16128000 bytes total (16122368 bytes free)
@@ -34,7 +34,7 @@ asa(config)# dir system:
 Directory of system:/
 1      ----  0           00:00:00 Jan 01 1970  running-config
 No space information available
-asa(config)# 
+asa(config)#
 
 
 ##### viewing the content of the file with "more" command ####
@@ -42,11 +42,11 @@ asa(config)#
 we use "more" command to view the content of a file like below.
 
 asa(config)# more system:/running-config
-Cryptochecksum: e857ac42 1753eb84 2389d97f c58cf8f2 
+Cryptochecksum: e857ac42 1753eb84 2389d97f c58cf8f2
 : Saved
 : Written by enable_15 at 01:19:09.418 UTC Fri Nov 6 2015
 !
-PIX Version 8.0(4)28 
+PIX Version 8.0(4)28
 !
 hostname asa
 enable password 8Ry2YjIyt7RRXU24 encrypted
@@ -71,7 +71,7 @@ we can instruct asa to load another image in next boot by
 "boot system <url>" command. and we have to save the instruction
 to the startup-config file by "copy running-config startup-config"
 and reload the asa with the command "reload". we can see the change
-with "show bootvar" command. 
+with "show bootvar" command.
 
 
 asa(config)# reload ?
@@ -90,17 +90,17 @@ asa(config)# reload at ?
 
 exec mode commands/options:
   hh:mm  Time to reload (hh:mm)
-asa(config)# reload at 
+asa(config)# reload at
 
 #### fsck command
 
-fsck command to check filesystem error. by default at every boot 
+fsck command to check filesystem error. by default at every boot
 asa performs the filesystem check therefore no need to check manually
 often. if any error found then asa will create fsckxxxx.ren file where
 xxxx starts with 0000. an example can be below.
 
 
-ciscoasa(config)# fsck flash: 
+ciscoasa(config)# fsck flash:
 
 Fsck operation may take a while. Continue? [confirm]
 
@@ -112,7 +112,7 @@ flashfs[7]: Bytes available: 16116224
 flashfs[7]: flashfs fsck took 1 seconds.
 Fsck of flash:: complete
 
-ciscoasa(config)# dir 
+ciscoasa(config)# dir
 
 Directory of flash:/
 
@@ -120,6 +120,4 @@ Directory of flash:/
 10     -rw-  177         22:01:36 Sep 10 2015  index.html
 
 16128000 bytes total (16116224 bytes free)
-ciscoasa(config)# 
-
-
+ciscoasa(config)#

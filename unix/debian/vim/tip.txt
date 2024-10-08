@@ -51,4 +51,3 @@
 ...
 ... remove all the whitespace from the end of the line of whole file.
 ... :%s/\s\+$//
-

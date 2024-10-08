@@ -44,7 +44,7 @@ SSL-Session:
     Protocol  : TLSv1
     Cipher    : DHE-RSA-AES256-SHA
     Session-ID: CC3E063FC88C0281757A0DC3B03A79F5F2F26ECC470828FE12F0245B04A3EEF4
-    Session-ID-ctx: 
+    Session-ID-ctx:
     Master-Key: FE3F9D4942E9AF46C232E7405AD1C29C8460E04098E1991E09F403EB93A6D132EBBF3615E56E80427B7E4EB565E99E21
     Key-Arg   : None
     PSK identity: None
@@ -69,7 +69,7 @@ SSL-Session:
     Verify return code: 18 (self signed certificate)
 ---
 closed
-└──╼ # 
+└──╼ #
 
 ... testing wether it is accepting weak cipher
 
@@ -91,9 +91,9 @@ No ALPN negotiated
 SSL-Session:
     Protocol  : TLSv1.2
     Cipher    : 0000
-    Session-ID: 
-    Session-ID-ctx: 
-    Master-Key: 
+    Session-ID:
+    Session-ID-ctx:
+    Master-Key:
     Key-Arg   : None
     PSK identity: None
     PSK identity hint: None
@@ -122,22 +122,18 @@ DHE-PSK-NULL-SHA256     TLSv1 Kx=DHEPSK   Au=PSK  Enc=None      Mac=SHA256
 RSA-PSK-NULL-SHA        SSLv3 Kx=RSAPSK   Au=RSA  Enc=None      Mac=SHA1
 DHE-PSK-NULL-SHA        SSLv3 Kx=DHEPSK   Au=PSK  Enc=None      Mac=SHA1
 NULL-SHA                SSLv3 Kx=RSA      Au=RSA  Enc=None      Mac=SHA1
-NULL-MD5                SSLv3 Kx=RSA      Au=RSA  Enc=None      Mac=MD5 
+NULL-MD5                SSLv3 Kx=RSA      Au=RSA  Enc=None      Mac=MD5
 PSK-NULL-SHA384         TLSv1 Kx=PSK      Au=PSK  Enc=None      Mac=SHA384
 PSK-NULL-SHA256         TLSv1 Kx=PSK      Au=PSK  Enc=None      Mac=SHA256
 PSK-NULL-SHA            SSLv3 Kx=PSK      Au=PSK  Enc=None      Mac=SHA1
-root@kali:~# 
+root@kali:~#
 
-... anatomy of cipher 
+... anatomy of cipher
 
 ... ECDHE-RSA-RC4-MD5
-... 
+...
 ... ECDHE: key exchange algorithm
 ... RSA: authentication algorithm
 ... RC4: block cipher for data encryption.
 ... MD5: hashing algorithm for data integrity.
-... 
-
-
-
-
+...

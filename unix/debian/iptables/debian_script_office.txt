@@ -3,7 +3,7 @@
 echo "[+] Enabling IP forwarding..."
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
-IPTABLES=/sbin/iptables 
+IPTABLES=/sbin/iptables
 
 ### flush existing rules and set chain policy setting to DROP
 echo "[+] Flushing existing iptables rules..."
@@ -57,4 +57,3 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 
 exit
 ### EOF ###
-

@@ -33,7 +33,7 @@ Created a new subnet:
 | tenant_id         | df91df579d8a481f81fe2cbd1dae18f9               |
 | updated_at        | 2019-02-10T18:38:16Z                           |
 +-------------------+------------------------------------------------+
-masum@devstack:/opt/stack/devstack$ 
+masum@devstack:/opt/stack/devstack$
 
 ... creating a router in a tenant/project
 
@@ -66,7 +66,7 @@ Created a new router:
 | tenant_id               | df91df579d8a481f81fe2cbd1dae18f9     |
 | updated_at              | 2019-02-10T19:35:05Z                 |
 +-------------------------+--------------------------------------+
-masum@devstack:/opt/stack/devstack$ 
+masum@devstack:/opt/stack/devstack$
 
 ... adding a subnet to a router. the general syntax is
 ... neutron router-interface-add <router_id> <subnet_id>
@@ -81,7 +81,7 @@ neutron CLI is deprecated and will be removed in the future. Use openstack CLI i
 
 Added interface 651df139-684e-40ff-aa76-45c18da59e28 to router 2ca7e65c-ccc0-43d2-8aa9-6811276d471d.
 
-masum@devstack:/opt/stack/devstack$ 
+masum@devstack:/opt/stack/devstack$
 
 ... router id and subnet id can be found from the openstack router list
 ... openstack subnet list command.
@@ -96,7 +96,7 @@ masum@devstack:/opt/stack/devstack$ neutron router-gateway-set \
 neutron CLI is deprecated and will be removed in the future. Use openstack CLI instead.
 
 Set gateway for router 2ca7e65c-ccc0-43d2-8aa9-6811276d471d
-masum@devstack:/opt/stack/devstack$ 
+masum@devstack:/opt/stack/devstack$
 
 ... this obviously can be done with openstack command by following.
 ... in the following we are setting parameters for the router generalrouter.
@@ -121,6 +121,3 @@ masum@devstack:/opt/stack/devstack$ openstack router set --external-gateway publ
 
 masum@devstack:/opt/stack/devstack$ openstack router list
 masum@devstack:/opt/stack/devstack$ openstack router show <router_id>
-
-
-

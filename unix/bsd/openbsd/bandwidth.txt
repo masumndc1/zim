@@ -6,14 +6,14 @@
 .. the traffic shaping system used in openbsd is ALTQ or alternate traffic queue.
 
 .. queue concept.
-.. queue is the buffer for the network packets. in other way holding place for the 
-.. network packets. this queue holds packet untill either they dropped or send to 
+.. queue is the buffer for the network packets. in other way holding place for the
+.. network packets. this queue holds packet untill either they dropped or send to
 .. specific destination. queue is attached to interface and the bandwidth to inter
-.. face then subdivided. 
+.. face then subdivided.
 
 .. these queue can be allocated with bandwidth. some queue are served with priority
 .. that means these queues will be processed with shorter delay before other. these
-.. queues can be sub child of the other queues. some queues are combination of 
+.. queues can be sub child of the other queues. some queues are combination of
 .. bandwidth and the priority.
 
 .. with no altq place, tcp/ip stack processes the packet as they appears like fifo
@@ -24,82 +24,82 @@
 .. the priority based queue gives the preference over other queue based on number
 .. starting from 0 to 15. the higher is better.
 
-.. cbq 
+.. cbq
 .. cbq is the fixed based queue management where measurement is done on available
-.. bandwidth in kilobit,megabit,gigabit wise. the queues in cbq can be also 
+.. bandwidth in kilobit,megabit,gigabit wise. the queues in cbq can be also
 .. subqueues with priority from 0 to 7. same as priq, cbq of higher priority will
 .. served first than queue with lower priority.
 
-.. hfsc 
+.. hfsc
 .. hierarchical fair service curve, ensures the fair allocation of bandwith among
-.. the queues. as it has tunable parameters but most altq practioners like to 
+.. the queues. as it has tunable parameters but most altq practioners like to
 .. keep them simple. it has also priority number 0 to 7.
 
 .. setting up the queue.
-.. 
-.. note here: on openbsd6 they simplified the queue and bandwidth syntax drastically 
+..
+.. note here: on openbsd6 they simplified the queue and bandwidth syntax drastically
 .. more information can be found by the following.
 
 -bash-4.3# man 5 pf.conf
 
 .. my pf.conf file has the following configuration.
 
--bash-4.3# cat -n pf.conf 
+-bash-4.3# cat -n pf.conf
      1  #       $OpenBSD: pf.conf,v 1.54 2014/08/23 05:49:42 deraadt Exp $
      2  #
      3  # See pf.conf(5) and /etc/examples/pf.conf
-     4  
-     5  
+     4
+     5
      6  set skip on lo
-     7  
+     7
     11  ext_if = em0
     12  int_if = vic0
-    13  
-    14  
+    13
+    14
     15  localnet = $int_if:network
-    16  
+    16
     25  # my queue defination is as flows
 
 .. at the first we set up an parent queue rootq with the bandwith 100M
 
-    26  queue rootq on $ext_if bandwidth 100M max 100M 
+    26  queue rootq on $ext_if bandwidth 100M max 100M
 
-.. then std is under rootq as rootq is the parent of std queue and 
+.. then std is under rootq as rootq is the parent of std queue and
 .. allocated the bandwidth. same as httpq, dnsq and icmpq all are assigned
 .. bandwidth as well as parent queue.
 
     27  queue std parent rootq bandwidth 20M max 20M default
-    28  queue httpq parent rootq bandwidth 500K max 1M 
-    29  queue dnsq parent rootq bandwidth 500K max 1M 
+    28  queue httpq parent rootq bandwidth 500K max 1M
+    29  queue dnsq parent rootq bandwidth 500K max 1M
     30  queue icmpq parent rootq bandwidth 100K max 100K
-    32  
+    32
     34  udp_services = "{ domain, ntp }"
     36  client_services = "{ ftp, ssh, smtp, domain, www, pop3, auth, https, pop3s }"
-    37  
+    37
     38  block all
     40  pass on $ext_if proto tcp to port { www, https }
-    41  
+    41
 
 .. following we set queue httpq on  pass rule
 
     43  pass on $ext_if proto tcp to port { www, https } set queue httpq
-    47  pass log (all) proto tcp to port $client_services 
+    47  pass log (all) proto tcp to port $client_services
     48  pass log (all) quick inet proto { tcp, udp } to port $udp_services label "dns" set queue dnsq
-.. 
+..
 .. icmp traffic set the icmp queue
 
     52  pass log (all) proto icmp set queue icmpq
-    53  
-    54  
+    53
+    54
     64  #table <masum> persist file "/etc/hosts"
     65  # By default, do not permit remote connections to X11
     66  block return in on ! lo0 proto tcp to port 6000:6010
 
--bash-4.3# 
+-bash-4.3#
 
 -bash-4.3# pfctl -d
 pf disabled
--bash-4.3# pfctl -evf /etc/pf.conf 
+-bash-4.3# pfctl -evf /etc/pf.conf
 set skip on { lo }
 ext_if = "em0"
 int_if = "vic0"
@@ -134,7 +134,7 @@ pass log (all) quick inet proto udp from any to any port = 123 set ( queue dnsq 
 pass log (all) proto icmp all set ( queue icmpq )
 block return in on ! lo0 proto tcp from any to any port 6000:6010
 pf enabled
--bash-4.3# 
+-bash-4.3#
 
 .. seems like all good.
 
@@ -165,7 +165,7 @@ pass log (all) proto tcp to port $client_services set (queue std, prio (1,7))
 
              For example:
 
-                   pass in proto tcp to port 25 set prio 2   
+                   pass in proto tcp to port 25 set prio 2
 
 .. setting mail traffic priority 2 while below ssh traffic given two priority of
 .. 2 as well as 5 from 0 to 7.
@@ -173,6 +173,3 @@ pass log (all) proto tcp to port $client_services set (queue std, prio (1,7))
                    pass in proto tcp to port 22 set prio (2, 5)
 
 -bash-4.3# systat queue
-
-
-

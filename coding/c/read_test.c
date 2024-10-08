@@ -3,15 +3,15 @@
  *
  *       Filename:  write_test.c
  *
- *    Description:  
+ *    Description:
  *
  *        Version:  1.0
  *        Created:  08/31/2021 14:18:36
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
- *   Organization:  
+ *         Author:  YOUR NAME (),
+ *   Organization:
  *
  * =====================================================================================
  */
@@ -24,7 +24,7 @@ int main()
     char buffer[128];
     int a = read(0, buffer, 128);
 
-    if (a == -1) 
+    if (a == -1)
         write(2, "error occured\n", 30);
 
     printf("%d", a);

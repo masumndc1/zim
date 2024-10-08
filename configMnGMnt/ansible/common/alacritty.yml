@@ -12,8 +12,6 @@
     apt:
       name: alacritty
       update_cache: yes
-  
+
   - name: what next we can do in here?
     apt:
-    
-

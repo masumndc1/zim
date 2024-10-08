@@ -94,7 +94,7 @@ div.medium .rateit-range
 {
     /*White*/
     background: url('../img/stars24.png') left 0px;
-    width: 24px; 
+    width: 24px;
     height: 24px;
 }
 
@@ -102,7 +102,7 @@ div.medium .rateit-hover
 {
     /*Red*/
     background: url('../img/stars24.png') left -29px;
-    width: 24px; 
+    width: 24px;
     height: 24px;
     display: none
 
@@ -112,7 +112,7 @@ div.medium .rateit-selected
 {
     /*Yellow*/
     background: url('../img/stars24.png') left -58px ;
-    width: 24px; 
+    width: 24px;
     height: 24px;
 }
 
@@ -121,16 +121,16 @@ div.medium .rateit-selected
 div.bigstars .rateit-range
 {
     /*White*/
-    background: url('../img/stars32.png') left 0px ; 
-    width: 32px; 
+    background: url('../img/stars32.png') left 0px ;
+    width: 32px;
     height: 32px;
 }
 
 div.bigstars .rateit-hover
 {
     /*red*/
-    background: url('../img/stars32.png') left -74px ; 
-    width: 32px; 
+    background: url('../img/stars32.png') left -74px ;
+    width: 32px;
     height: 32px;
     display: none
 }
@@ -138,8 +138,8 @@ div.bigstars .rateit-hover
 div.bigstars .rateit-selected
 {
     /*Gold*/
-    background: url('../img/stars32.png') left -37px ; 
-    width: 32px; 
+    background: url('../img/stars32.png') left -37px ;
+    width: 32px;
     height: 32px;
 }
 
@@ -188,7 +188,7 @@ div.bigstars .rateit-selected
 .yasr-dashicons-visitor-stats {
     vertical-align: bottom;
     text-decoration: none;
-    cursor: pointer; 
+    cursor: pointer;
     cursor: hand;
 }
 
@@ -210,7 +210,7 @@ div.bigstars .rateit-selected
     display: none;
 }
 
-/***  Progress bar, this class are used in 
+/***  Progress bar, this class are used in
 yasr_pro_comment_reviews_stats shortcode too***/
 
 .yasr-progress-bars-container {

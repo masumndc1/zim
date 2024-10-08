@@ -20,7 +20,7 @@
 
 root@elxa6lj5k72:~# cat /sys/module/kvm_intel/parameters/nested
 Y
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... For AMD, the file to check is /sys/module/kvm_intel/parameters/nested :
 
@@ -29,13 +29,6 @@ root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# egrep '(vmx|svm)' /proc/cpuinfo
 root@elxa6lj5k72:~# egrep -c '(vmx|svm)' /proc/cpuinfo
 2
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... i have found they are working right..
-
-
-
-
-
-
-

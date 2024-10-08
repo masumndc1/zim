@@ -32,7 +32,7 @@ snap list
 snap services
 
 # Step 5 – Configuring user for lxd group
-usermod -a -G lxd masum 
+usermod -a -G lxd masum
 
 # Use the id command to verify it:
 newgrp lxd
@@ -43,4 +43,3 @@ lxc list
 
 # To configure LXD on CentOS
 lxd init
-

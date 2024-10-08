@@ -10,74 +10,74 @@ root@elxa6lj5k72:/# brctl show
 bridge name     bridge id               STP enabled     interfaces
 tester          8000.000000000000       no
 virbr0          8000.000000000000       yes
-root@elxa6lj5k72:/# 
+root@elxa6lj5k72:/#
 
-root@elxa6lj5k72:/# ip a 
+root@elxa6lj5k72:/# ip a
 root@elxa6lj5k72:~# ip link show tester
 6: tester: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
     link/ether ae:91:8c:ee:69:1a brd ff:ff:ff:ff:ff:ff
-root@elxa6lj5k72:~# 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
+root@elxa6lj5k72:~#
 
 ... now creating one tap device like below.
 
 root@elxa6lj5k72:~# ip tuntap add dev vm-vnic mode tap
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# ip link show vm-vnic
 7: vm-vnic: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
     link/ether d2:5e:01:a9:cd:cd brd ff:ff:ff:ff:ff:ff
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... now add this tap device vm-vnic to bridge tester
 ... and we will find from the below that it is added.
 
-root@elxa6lj5k72:~# 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# brctl addif tester vm-vnic
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# brctl show
 bridge name     bridge id               STP enabled     interfaces
 tester          8000.d25e01a9cdcd       no              vm-vnic
 virbr0          8000.000000000000       yes
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... this will add vm-vnic interface to the bridge.
 ... this can work like interface between bridge and the vm.
 ... eventually vm can talk with each other.
 
 ... libvirt will do the above procedure for us when enabling networking
-... between vm. therefore we dont need them to do manually. however 
+... between vm. therefore we dont need them to do manually. however
 ... we have done this because of understanding.
 
-... now let remove all of the things 
+... now let remove all of the things
 
 root@elxa6lj5k72:~# brctl delif tester vm-vnic
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 bridge name     bridge id               STP enabled     interfaces
 tester          8000.000000000000       no
 virbr0          8000.000000000000       yes
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# ip tuntap del dev vm-vnic mode tap
 root@elxa6lj5k72:~# brctl delbr tester
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... now the only remaining this is below.
 
 root@elxa6lj5k72:~# brctl show
 bridge name     bridge id               STP enabled     interfaces
 virbr0          8000.000000000000       yes
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... defining one isolated network using virsh command.
 ... to do so we need to create one xml file like below.
 
-root@elxa6lj5k72:~/kvm# cat isolated1.xml 
+root@elxa6lj5k72:~/kvm# cat isolated1.xml
 <network>
  <name>isolated1</name>
 </network>
-root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm#
 
-root@elxa6lj5k72:~/kvm# virsh net-define isolated1.xml 
+root@elxa6lj5k72:~/kvm# virsh net-define isolated1.xml
 Network isolated1 defined from isolated1.xml
 
 root@elxa6lj5k72:~/kvm# virsh net-list --all
@@ -88,7 +88,7 @@ root@elxa6lj5k72:~/kvm# virsh net-list --all
  isolated1            inactive   no            yes
  net1                 active     yes           yes
 
-root@elxa6lj5k72:~/kvm# 
+root@elxa6lj5k72:~/kvm#
 
 root@elxa6lj5k72:~# virsh net-list --all
  Name                 State      Autostart     Persistent
@@ -98,7 +98,7 @@ root@elxa6lj5k72:~# virsh net-list --all
  isolated1            inactive   no            yes
  net1                 active     yes           yes
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# virsh net-dumpxml isolated
 <network>
   <name>isolated</name>
@@ -113,7 +113,7 @@ root@elxa6lj5k72:~# virsh net-dumpxml isolated
   </ip>
 </network>
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... we can auto start any net when libvirt starts using virsh by following.
 ... we can also start any net using virsh by following.
@@ -132,7 +132,7 @@ root@elxa6lj5k72:~# virsh net-list --all
  isolated1            active     yes           yes
  net1                 active     yes           yes
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... now we can add our virtual machine to this created network.
 ... we should always select virtio as device model. other options like
@@ -158,7 +158,7 @@ Interface attached successfully
 ... If you just wanted to attach a virtual network interface temporarily to
 ... a virtual machine, just use --live and ignore --config.
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 root@elxa6lj5k72:~# virsh domiflist cirros
 Interface  Type       Source     Model       MAC
 -------------------------------------------------------
@@ -176,13 +176,13 @@ virbr2          8000.000000000000       yes
 virbr3          8000.5254001104c0       yes             virbr3-nic
                                                         vnet3
 ... vnet3 is attached with the bridge virbr3. let dig down with the
-... virtual bridge 1. 
+... virtual bridge 1.
 
 root@elxa6lj5k72:~# brctl show virbr3
 bridge name     bridge id               STP enabled     interfaces
 virbr3          8000.5254001104c0       yes             virbr3-nic
                                                         vnet3
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... this virbr3-nic was created by libvirt when it starts virbr3.
 ... the purpose of this interface is to provide consistent and reliable
@@ -195,16 +195,16 @@ root@elxa6lj5k72:~# virsh detach-interface --domain cirros --type network --mac 
 > 52:54:00:8b:59:98 --config --live
 Interface detached successfully
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... we have to very careful when we delete an interface from one running vm
 ... because this can disturb the connectivity.
 
 
-... we can edit one network by the option net-edit with the command virsh. 
+... we can edit one network by the option net-edit with the command virsh.
 ... and then we can edit according to our requirement.
 
-root@elxa6lj5k72:~# virsh net-edit net1                                                                                                               
+root@elxa6lj5k72:~# virsh net-edit net1
 
 Select an editor.  To change later, run 'select-editor'.
   1. /bin/ed
@@ -215,7 +215,7 @@ Select an editor.  To change later, run 'select-editor'.
 Choose 1-4 [2]: 3
 Network net1 XML configuration not changed.
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... we can also check the syntax using the net-dumpxml options with the virsh command
 
@@ -238,23 +238,23 @@ root@elxa6lj5k72:~# virsh net-dumpxml net1
   </ip>
 </network>
 
-root@elxa6lj5k72:~# 
+root@elxa6lj5k72:~#
 
 ... after doing all the editing we can start our network by following
 
 root@elxa6lj5k72:~# virsh net-start net1
 
 ... bridge type network.
-... this type of networking is used when we need our virtual machine should be part of 
-... particular network. it is usefull when we have service in our virtual machines and 
-... other machines from the same network should have access them. 
+... this type of networking is used when we need our virtual machine should be part of
+... particular network. it is usefull when we have service in our virtual machines and
+... other machines from the same network should have access them.
 
 ... installing the packeges for the bridging
 
 root@elxa6lj5k72:~# apt-get install bridge-utils
 
 ... we are going to create one bridge with our virbr3 interface so that vms in kvm can
-... talk with our vms in virtualbox. our system is ubuntu 16.04. 
+... talk with our vms in virtualbox. our system is ubuntu 16.04.
 ... first going to configure the interface file like below.
 
 root@elxa6lj5k72:/etc/network# cat interfaces
@@ -269,13 +269,13 @@ auto br0
 iface br0 inet dhcp
   bridge_ports virbr3 vboxnet1
 
-root@elxa6lj5k72:/etc/network# 
+root@elxa6lj5k72:/etc/network#
 
 
 
 ... MacVTap type of connections
 ... this is used when we need our local network user need to access our virtual machines.
-... this is not common use type of network, can be used when we do not need to use bridge 
+... this is not common use type of network, can be used when we do not need to use bridge
 ... network.
 
 ... pci pass through.
@@ -291,7 +291,3 @@ append intel_iommu=on or amd_iommu=on  in the GRUB_CMDLINE_LINUX= line
 
 Rebuild the grub2 configuration file as follows and then reboot the hypervisor:
 # grub2-mkconfig -o /boot/grub2/grub.cfg
-
-
-
-

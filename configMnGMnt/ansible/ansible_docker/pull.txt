@@ -2,7 +2,7 @@
 
 ... we can use ansible to pull docker images by following
 
-└❯ cat pull.yaml 
+└❯ cat pull.yaml
 ---
 - hosts: localhost
   tasks:
@@ -13,8 +13,8 @@
 
 ... building container from Dockerfile.
 
-└❯ cat build.yaml 
---- 
+└❯ cat build.yaml
+---
 - hosts: localhost
   tasks:
      - name: building from dockerfile
@@ -23,15 +23,7 @@
         dockerfile: /root/ansible/Dockerfile
         state: present
 
-... after successful running this playbook we will get a container 
+... after successful running this playbook we will get a container
 ... named debian.
 
 ... reference is https://docs.ansible.com/ansible/latest/modules/docker_image_module.html?highlight=docker
-
-
-
-
-
-
-
-

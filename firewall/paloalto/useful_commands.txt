@@ -1,5 +1,5 @@
 //
-// to see the full configuration just write 
+// to see the full configuration just write
 // show command like below.
 
 
@@ -33,7 +33,7 @@ deviceconfig {
       }
     }
     domain masum.com;
-    login-banner "do not enter here if you are not authorized. 
+    login-banner "do not enter here if you are not authorized.
 every move is being watched.";
   }
   setting {
@@ -49,7 +49,7 @@ every move is being watched.";
 // run command to execute operational commands from
 // configuration mode.
 
-admin@testpa# run 
+admin@testpa# run
   clear        Clear runtime parameters
   debug        Debug and diagnose
   delete       Remove files from hard disk
@@ -74,12 +74,12 @@ admin@testpa# run
   traceroute   Print the route packets take to network host
   view-pcap    Examine packet capture file content
 
-admin@testpa# run request 
+admin@testpa# run request
 > acknowledge                Acknowledge alarm logs
 > anti-virus                 Perform anti-virus upgrade operations
 > certificate                Manage certificates
-> commit-lock                commit-lock 
-> config-lock                config-lock 
+> commit-lock                commit-lock
+> config-lock                config-lock
 > content                    Perform content upgrade operations
 > data-filtering             Perform data filtering related operations
 > device-registration        Device registration process
@@ -106,5 +106,4 @@ admin@testpa# run request
 > wf-private                 Perform WF-Private cloud upgrade operations
 > wildfire                   Perform wildfire upgrade operations
 
-admin@testpa# run request 
-
+admin@testpa# run request

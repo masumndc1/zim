@@ -7,8 +7,8 @@ logging trap informational
 logging history informational
 logging facility 22
 logging host dmz1 192.168.1.2
-logging class sys trap debugging 
-ciscoasa(config)# 
+logging class sys trap debugging
+ciscoasa(config)#
 
 
 2.then in syslog server set the following
@@ -16,10 +16,10 @@ On the Linux box, in /etc/rsyslog.conf
   $ModLoad imudp
   $UDPServerRun 514
   local6.*                                           /var/spool/rsyslogd/asa.log
-  
+
 The point of specifying the facility (22 aka local6) is to allow the firewall logs to be easily segregated from other logs.
 
-3. then see the log passing and storing it 
+3. then see the log passing and storing it
 
 root@debian7:~# cd /var/spool/rsyslog/
 root@debian7:/var/spool/rsyslog# ls
@@ -29,10 +29,10 @@ total 24
 drwxr-xr-x 2 root root  4096 Sep 10 21:13 .
 drwxr-xr-x 5 root root  4096 Sep 10 09:22 ..
 -rw-r----- 1 root adm  15734 Sep 10 21:35 asa.log
-root@debian7:/var/spool/rsyslog# 
+root@debian7:/var/spool/rsyslog#
 
 
-root@debian7:/var/spool/rsyslog# cat asa.log 
+root@debian7:/var/spool/rsyslog# cat asa.log
 Sep 10 22:34:16 192.168.1.1 %PIX-5-111008: User 'enable_15' executed the 'logging trap informational' command.
 Sep 10 22:34:16 192.168.1.1 %PIX-6-302015: Built outbound UDP connection 95 for dmz1:192.168.1.2/514 (192.168.1.2/514) to identity:192.168.1.1/514 (192.168.1.1/514)
 Sep 10 22:34:16 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/37830 to outside:10.10.10.10/17004
@@ -146,5 +146,5 @@ Sep 10 22:35:32 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 17
 Sep 10 22:35:32 192.168.1.1 %PIX-6-302020: Built inbound ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
 Sep 10 22:35:32 192.168.1.1 %PIX-6-302021: Teardown ICMP connection for faddr 172.16.1.2/5132 gaddr 172.16.1.1/0 laddr 172.16.1.1/0
 Sep 10 22:35:32 192.168.1.1 %PIX-6-305011: Built dynamic UDP translation from dmz1:192.168.1.2/54900 to outside:10.10.10.10/50977
-root@debian7:/var/spool/rsyslog# 
-root@debian7:/var/spool/rsyslog# 
+root@debian7:/var/spool/rsyslog#
+root@debian7:/var/spool/rsyslog#

@@ -5,9 +5,9 @@
 
 ... the initial username:password = admin: <no password>
 
-... listing the interface 
-   
-[admin@MikroTik] >                                                                            
+... listing the interface
+
+[admin@MikroTik] >
 root level
 
 radius/ -- Radius client settings
@@ -23,7 +23,7 @@ setup -- Do basic setup of system
 password -- Change password
 undo -- Undo previous action
 port/ -- Serial ports
-import -- 
+import --
 snmp/ -- SNMP settings
 user/ -- User management
 file/ -- Local router file storage.
@@ -32,22 +32,22 @@ system/ -- System information and utilities
 ip/ -- IP options
 tool/ -- Diagnostics tools
 routing/ -- Various routing protocol settings
-export -- 
+export --
 
-[admin@MikroTik] >    
+[admin@MikroTik] >
 
 
 
-[admin@MikroTik] > interface print                                                            
-Flags: X - disabled, D - dynamic, R - running 
- #    NAME                                        TYPE             RX-RATE    TX-RATE    MTU  
- 0  R ether1                                      ether            0          0          1500 
-[admin@MikroTik] >  
+[admin@MikroTik] > interface print
+Flags: X - disabled, D - dynamic, R - running
+ #    NAME                                        TYPE             RX-RATE    TX-RATE    MTU
+ 0  R ether1                                      ether            0          0          1500
+[admin@MikroTik] >
 
-... configure the interface 
-    
-[admin@MikroTik] > ip address                                                                 
-[admin@MikroTik] ip address>                                                                  
+... configure the interface
+
+[admin@MikroTik] > ip address
+[admin@MikroTik] ip address>
 IP addresses are given to router to access it remotely and to specify it as a gateway for other hosts/routers.
 
 .. -- go up to ip
@@ -61,9 +61,9 @@ remove -- remove item
 enable -- enables items
 disable -- disables items
 comment -- adds comment to item
-export -- 
+export --
 
-[admin@MikroTik] ip address> add                                                              
+[admin@MikroTik] ip address> add
 creates new item with specified property values.
 
 address -- Local IP address
@@ -73,9 +73,9 @@ broadcast -- Broadcast address
 interface -- Interface name
 copy-from -- item number
 comment -- short description of the item
-disabled -- 
+disabled --
 
-[admin@MikroTik] ip address> add address=192.168.206.10/24                                     
+[admin@MikroTik] ip address> add address=192.168.206.10/24
 creates new item with specified property values.
 
 address -- Local IP address
@@ -85,41 +85,41 @@ broadcast -- Broadcast address
 interface -- Interface name
 copy-from -- item number
 comment -- short description of the item
-disabled -- 
+disabled --
 
-[admin@MikroTik] ip address> add address=192.168.206.10/24 interface=ether1                    
-[admin@MikroTik] ip address>   
+[admin@MikroTik] ip address> add address=192.168.206.10/24 interface=ether1
+[admin@MikroTik] ip address>
 
 ... list the ip settings
 
 
-[admin@MikroTik] ip address> print interface=ether1                                           
-Flags: X - disabled, I - invalid, D - dynamic 
+[admin@MikroTik] ip address> print interface=ether1
+Flags: X - disabled, I - invalid, D - dynamic
  #   ADDRESS            NETWORK         BROADCAST       INTERFACE
- 0   192.168.206.10/24  192.168.206.0   192.168.206.255 ether1   
-[admin@MikroTik] ip address>   
+ 0   192.168.206.10/24  192.168.206.0   192.168.206.255 ether1
+[admin@MikroTik] ip address>
 
 ... configuring the gateway
 [admin@MikroTik] ip route> add gateway=192.168.206.2
 
 
-[admin@MikroTik] ip route> print                                                              
-Flags: X - disabled, A - active, D - dynamic, 
-C - connect, S - static, r - rip, b - bgp, o - ospf 
+[admin@MikroTik] ip route> print
+Flags: X - disabled, A - active, D - dynamic,
+C - connect, S - static, r - rip, b - bgp, o - ospf
  #     DST-ADDRESS        PREFSRC         G GATEWAY         DISTANCE INTERFACE
- 0 ADC 192.168.206.0/24   192.168.206.10                             ether1   
- 1 A S 0.0.0.0/0                          r 192.168.206.2            ether1   
-[admin@MikroTik] ip route>  
+ 0 ADC 192.168.206.0/24   192.168.206.10                             ether1
+ 1 A S 0.0.0.0/0                          r 192.168.206.2            ether1
+[admin@MikroTik] ip route>
 
 ... setting dns
 
-[admin@MikroTik] ip dns> set primary-dns=4.2.2.1                                              
-[admin@MikroTik] ip dns> set secondary-dns=4.2.2.2                                            
-[admin@MikroTik] ip dns>                                                                      
-[admin@MikroTik] ip dns>   
+[admin@MikroTik] ip dns> set primary-dns=4.2.2.1
+[admin@MikroTik] ip dns> set secondary-dns=4.2.2.2
+[admin@MikroTik] ip dns>
+[admin@MikroTik] ip dns>
 
-  
-[admin@MikroTik] > ping 4.2.2.1                                                               
+
+[admin@MikroTik] > ping 4.2.2.1
 4.2.2.1 ping timeout
 4.2.2.1 64 byte ping: ttl=128 time=363 ms
 4.2.2.1 64 byte ping: ttl=128 time=301 ms
@@ -129,24 +129,24 @@ C - connect, S - static, r - rip, b - bgp, o - ospf
 4.2.2.1 64 byte ping: ttl=128 time=274 ms
 8 packets transmitted, 5 packets received, 37% packet loss
 round-trip min/avg/max = 274/328.6/384 ms
-[admin@MikroTik] > ping yahoo.com                                                             
+[admin@MikroTik] > ping yahoo.com
 98.138.253.109 64 byte ping: ttl=128 time=778 ms
 98.138.253.109 64 byte ping: ttl=128 time=826 ms
 3 packets transmitted, 2 packets received, 33% packet loss
 round-trip min/avg/max = 778/802.0/826 ms
-[admin@MikroTik] >               
+[admin@MikroTik] >
 
 ... monitor the interface
 
 
-[admin@MikroTik] interface ethernet> print                                                    
-Flags: X - disabled, R - running 
- #    NAME                                                  MTU   MAC-ADDRESS       ARP       
- 0  R ether1                                                1500  00:0C:29:C0:22:F9 enabled   
- 1  R ether2                                                1500  00:0C:29:C0:22:03 enabled   
- 2  R ether3                                                1500  00:0C:29:C0:22:0D enabled   
-[admin@MikroTik] interface ethernet> monitor 0                                                
-                 status: link-ok                                                              
+[admin@MikroTik] interface ethernet> print
+Flags: X - disabled, R - running
+ #    NAME                                                  MTU   MAC-ADDRESS       ARP
+ 0  R ether1                                                1500  00:0C:29:C0:22:F9 enabled
+ 1  R ether2                                                1500  00:0C:29:C0:22:03 enabled
+ 2  R ether3                                                1500  00:0C:29:C0:22:0D enabled
+[admin@MikroTik] interface ethernet> monitor 0
+                 status: link-ok
 
 ... now when all the networking done then we can web login using
 ... http://192.168.206.10 ... and from this 192.168.206.10 we can download

@@ -13,8 +13,8 @@ ip route add 10.40.0.0/16 via 10.72.75.254
 ... if we add some route it normally added to the main table of the linux.
 ... but we can specify any new route to be added to specific table.
 ... if we add routing table in following files
- 
-root@deb-7:~# cat /etc/iproute2/rt_tables 
+
+root@deb-7:~# cat /etc/iproute2/rt_tables
 #
 # reserved values
 #
@@ -31,10 +31,10 @@ root@deb-7:~# cat /etc/iproute2/rt_tables
 #1      inr.ruhep
 root@deb-7:~#
 
-... here we are adding two new table additional to three default local, main, 
-... and local table. as we already specified that kernel after 2.4 can add 255 
+... here we are adding two new table additional to three default local, main,
+... and local table. as we already specified that kernel after 2.4 can add 255
 ... different routing table. there fore we have added our two rules in 200 and
-... 201 position. 
+... 201 position.
 
 root@deb-7:~# ip route flush cache
 root@deb-7:~# ip route flush
@@ -50,69 +50,69 @@ ACTION := [ table TABLE_ID ]
           [ realms [SRCREALM/]DSTREALM ]
           [ goto NUMBER ]
 TABLE_ID := [ local | main | default | NUMBER ]
-root@deb-7:~# 
+root@deb-7:~#
 
 root@deb-7:~# ip rule add table local
 root@deb-7:~# ip rule add table main
 root@deb-7:~# ip rule add table default
 root@deb-7:~# ip rule add table 200
 root@deb-7:~# ip rule add table 201
-root@deb-7:~# 
+root@deb-7:~#
 
 ... any new rule added will be under main table. but we can add route
 ... to different table too.
 
 root@deb-7:~# ip route list table main
-default via 192.168.206.2 dev eth0 
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
-root@deb-7:~# 
+default via 192.168.206.2 dev eth0
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
+root@deb-7:~#
 root@deb-7:~# ip route del default
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# ip route list table main
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 
-... now we will add default gateway to table 179-provider table which was 
+... now we will add default gateway to table 179-provider table which was
 ... previously empty.
 
 root@deb-7:~# ip route add default via 192.168.179.1 dev eth1 table 179-provider
-root@deb-7:~# 
+root@deb-7:~#
 
 ... as we have added our default gateway to 179-provider routing table therefore
 ... default gateway will no be found in main table.
 
 root@deb-7:~# ip route list table main
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 root@deb-7:~# ip route list table 179-provider
-default via 192.168.179.1 dev eth1 
-root@deb-7:~# 
+default via 192.168.179.1 dev eth1
+root@deb-7:~#
 
 ... as we have learned how to add and maintain custom routing table. we will implement
 ... this in a practical scenario. say we have two uplink provider via eth0 and eth1.
 ... and we want to use both of them and load balance them to access internet.
 
-... for that we have to main two different routing tables and default gateways in 
+... for that we have to main two different routing tables and default gateways in
 ... each routing table.
 
 root@deb-7:~# ip address show dev eth1
 3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 1000
     link/ether 00:0c:29:92:49:45 brd ff:ff:ff:ff:ff:ff
     inet 192.168.179.128/24 brd 192.168.179.255 scope global eth1
-    inet6 fe80::20c:29ff:fe92:4945/64 scope link 
+    inet6 fe80::20c:29ff:fe92:4945/64 scope link
        valid_lft forever preferred_lft forever
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# ip address show dev eth0
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN qlen 1000
     link/ether 00:0c:29:92:49:3b brd ff:ff:ff:ff:ff:ff
     inet 192.168.206.128/24 brd 192.168.206.255 scope global eth0
-    inet6 fe80::20c:29ff:fe92:493b/64 scope link 
+    inet6 fe80::20c:29ff:fe92:493b/64 scope link
        valid_lft forever preferred_lft forever
-root@deb-7:~# 
+root@deb-7:~#
 
 ... we have our eth0 link 192.168.206.128/24. for this we will create 206-provider routing table
 ... we have our eth0 link 192.168.179.128/24. for this we will create 179-provider routing table
@@ -120,29 +120,29 @@ root@deb-7:~#
 ... our main routing table is
 
 root@deb-7:~# ip route list table main
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 
 ... similarly we create our route and defult route for 192.168.179.0/24 in 179-provider table.
 
 root@deb-7:~# ip route add 192.168.179.0/24 dev eth1 src 192.168.179.128 table 179-provider
 root@deb-7:~# ip route add default via 192.168.179.128 dev eth1 table 179-provider
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# ip route list table 179-provider
-default via 192.168.179.128 dev eth1 
-192.168.179.0/24 dev eth1  scope link  src 192.168.179.128 
-root@deb-7:~# 
+default via 192.168.179.128 dev eth1
+192.168.179.0/24 dev eth1  scope link  src 192.168.179.128
+root@deb-7:~#
 
 ... same we will do for the 206 network
 
 root@deb-7:~# ip route add 192.168.206.0/24 dev eth0 src 192.168.206.128 table 206-provider
 root@deb-7:~# ip route add default via 192.168.206.128 dev eth0 table 206-provider
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# ip route list table 206-provider
-default via 192.168.206.128 dev eth1 
-192.168.206.0/24 dev eth1 scope link src 192.168.206.128 
-root@deb-7:~# 
+default via 192.168.206.128 dev eth1
+192.168.206.0/24 dev eth1 scope link src 192.168.206.128
+root@deb-7:~#
 
 ... then we have to add rules are like below
 
@@ -152,12 +152,12 @@ root@deb-7:~# ip rule add from 192.168.206.128 table 206-provider
 ... after this the rules will look like similar
 
 root@deb-7:~# ip rule list
-0:      from all lookup local 
-32761:  from 192.168.206.128 lookup 206-provider 
-32762:  from 192.168.179.128 lookup 179-provider 
-32766:  from all lookup main 
-32767:  from all lookup default 
-root@deb-7:~# 
+0:      from all lookup local
+32761:  from 192.168.206.128 lookup 206-provider
+32762:  from 192.168.179.128 lookup 179-provider
+32766:  from all lookup main
+32767:  from all lookup default
+root@deb-7:~#
 
 ... then we will set our default gateways and set them weight to load balance.
 ... and rule is
@@ -168,40 +168,40 @@ dev $IF1 weight 1 nexthop via (provider2 uplink interface) dev $IF2 weight 1"""
 root@deb-7:~# ip route add default scope global nexthop via 192.168.206.2 dev eth0 weight 1 nexthop via 192.168.179.2 dev eth1 weight 2
 
 root@deb-7:~# ip route list
-default 
+default
         nexthop via 192.168.179.2  dev eth1 weight 2
         nexthop via 192.168.206.2  dev eth0 weight 1
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
+root@deb-7:~#
 
 ... the above is an approach of using two uplink interface creating routing table
-... for different provider. but we can also just use multiple gateway like below 
-... without creating any routing table. we here just only use main table which 
+... for different provider. but we can also just use multiple gateway like below
+... without creating any routing table. we here just only use main table which
 ... is the default table. following one has been tested and found working.
-... ping 4.2.2.1 was successful and balancing was done by disabling the other 
+... ping 4.2.2.1 was successful and balancing was done by disabling the other
 ... interface.
 
 root@deb-7:~# ip route add default scope global nexthop via 192.168.206.2 dev eth0 weight 1 \
 nexthop via 192.168.179.2 dev eth1 weight 2
 
 root@deb-7:~# ip route list
-default 
+default
         nexthop via 192.168.179.2  dev eth1 weight 2
         nexthop via 192.168.206.2  dev eth0 weight 1
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 
 
 root@deb-7:~# ip route list
-default 
+default
         nexthop via 192.168.206.2  dev eth0 weight 1
         nexthop via 192.168.179.2  dev eth1 weight 1
-192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128 
-192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128 
-root@deb-7:~# 
+192.168.179.0/24 dev eth1  proto kernel  scope link  src 192.168.179.128
+192.168.206.0/24 dev eth0  proto kernel  scope link  src 192.168.206.128
+root@deb-7:~#
 root@deb-7:~# ping 4.2.2.1
 PING 4.2.2.1 (4.2.2.1) 56(84) bytes of data.
 64 bytes from 4.2.2.1: icmp_req=1 ttl=128 time=1367 ms
@@ -218,7 +218,3 @@ From 192.168.179.128 icmp_seq=24 Destination Host Unreachable
 ... if we have local net block which want to use internet through our wan
 ... interface by this way. what have to do is first turn on packet forwarding
 ... and then ip masquerading.
-
-
-
-

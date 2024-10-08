@@ -1,7 +1,7 @@
 
 
-... Nagios is an open source software that can be used for network and infrastructure monitoring. 
-... Nagios will monitor servers, switches, applications and services. It alerts the System Administrator 
+... Nagios is an open source software that can be used for network and infrastructure monitoring.
+... Nagios will monitor servers, switches, applications and services. It alerts the System Administrator
 ... when something went wrong and also alerts back when the issues has been rectified. With Nagios you can:
 
 – Monitor your entire IT infrastructure.
@@ -26,17 +26,17 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 ... Operating System : Ubuntu 13.04
 ... IP Address       : 192.168.1.100/24
 
-... Prerequisites 
+... Prerequisites
 
-... Before installing Nagios, make sure that you’ve a properly installed and configured 
+... Before installing Nagios, make sure that you’ve a properly installed and configured
 ... LAMP stack in your server. To install and configure LAMP server, refer any one of the following links.
 
 ... Also install the following prerequisites too. All commands should be run as root user.
 
 # yum install gd gd-devel gcc glibc glibc-common
 
-... now going to install nagios 
-... Nagios will not be found in CentOS official repositories, so let us add the EPEL 
+... now going to install nagios
+... Nagios will not be found in CentOS official repositories, so let us add the EPEL
 ... repository to install nagios. To add and enable EPEL repository, refer the following link.
 
 # yum install epel-release
@@ -45,7 +45,7 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 
 # yum install nagios*
 
-... note: It worked for me either if i keep SELINUX and iptables enable or disable. 
+... note: It worked for me either if i keep SELINUX and iptables enable or disable.
 ... All you need to do is allow the apache port through iptables as shown below.
 ... but its better to keep selinux disable or permissive.
 
@@ -66,7 +66,7 @@ https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-so
 # service iptables restart
 
 ... Configure Nagios
-... Add the admin mail address in the nagios contact file to receive alerts from nagios server. 
+... Add the admin mail address in the nagios contact file to receive alerts from nagios server.
 ... To do that edit file /etc/nagios/objects/contacts.cfg,
 ... this part is optional but good to have.
 
@@ -114,22 +114,20 @@ cgi.cfg  conf.d  nagios.cfg  objects  passwd  private
 ... Start nagios and httpd services and let them to start automatically on every boot.
 
 # systemctl enable nagios
-# systemctl enable httpd 
+# systemctl enable httpd
 # service nagios start
 # service httpd start
 
 ... Access Nagios admin console
-... Open nagios administrator console with URL http://nagios-server-ip/nagios and enter 
+... Open nagios administrator console with URL http://nagios-server-ip/nagios and enter
 ... the username as nagiosadmin and its password which we created in the earlier steps.
 
 ... This is how Nagios administrative console looks:
 
 ... Click on the “Hosts” section in the left pane of the console. You will see the no of
-... hosts to be monitored by Nagios server. Initially, the nagios server (localhost) itself 
+... hosts to be monitored by Nagios server. Initially, the nagios server (localhost) itself
 ... will only be monitored.
 
 
 ... now we will need an monitoring agent in system to monitor and send
 ... status to nagios server. we will do that in agent.txt file.
-
-

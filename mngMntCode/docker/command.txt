@@ -8,5 +8,3 @@
 ... and for debian/ubuntu based system.
 
 # salt -G os:debian cmd.run "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
-
-

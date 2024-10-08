@@ -14,7 +14,7 @@ root@deb-7:/etc/ipsec.d/certs# pwd
 /etc/ipsec.d/certs
 root@deb-7:/etc/ipsec.d/certs# ls
 deb-7Cert.pem
-root@deb-7:/etc/ipsec.d/certs# cat deb-7Cert.pem 
+root@deb-7:/etc/ipsec.d/certs# cat deb-7Cert.pem
 -----BEGIN CERTIFICATE-----
 MIIC7TCCAdWgAwIBAgIJAPY09kM8qVRIMA0GCSqGSIb3DQEBCwUAMA0xCzAJBgNV
 BAYTAkFUMB4XDTE3MDMyNjAwMzQxM1oXDTIxMDUwNDAwMzQxM1owDTELMAkGA1UE
@@ -42,8 +42,8 @@ root@deb-7:/etc/ipsec.d/private# pwd
 /etc/ipsec.d/private
 root@deb-7:/etc/ipsec.d/private# ls
 deb-7Key.pem
-root@deb-7:/etc/ipsec.d/private# 
-root@deb-7:/etc/ipsec.d/private# cat deb-7Key.pem 
+root@deb-7:/etc/ipsec.d/private#
+root@deb-7:/etc/ipsec.d/private# cat deb-7Key.pem
 -----BEGIN PRIVATE KEY-----
 MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCnSHDKOzbpmofA
 GZZmESn2MnvOmd+MhRiXz1OiXfQlhA1JRLhMRh9ezK/uona1Ll2MzJPX76q0WE9U
@@ -72,7 +72,7 @@ Ljy6vVa6jJ4sU2kK6BuqJlcICMxEZUEUH/qFvoB1zB2afjphIhz/lHZlu0yhSpkn
 7yiGFZvwkyI2f4arH9+WDoFlUtgcEZ26KmyTAL1yAXkPWfyHM/Bs3P8lAEQapuhu
 daWviGK0TTH303aQ1GYTqquY
 -----END PRIVATE KEY-----
-root@deb-7:/etc/ipsec.d/private# 
+root@deb-7:/etc/ipsec.d/private#
 
 ... if we want to load private key which is passphrase protected
 ... we have to provide the passphrase in /etc/ipsec.secrets file
@@ -87,7 +87,7 @@ Private keys  					/etc/ipsec.d/private
 Certificate Revocation Lists  	/etc/ipsec.d/crls
 OCSP  							/etc/ipsec.d/ocspcerts
 
-.... generating certificate using openssl 
+.... generating certificate using openssl
 
 
 ... first create the certificates to be used.
@@ -95,17 +95,17 @@ OCSP  							/etc/ipsec.d/ocspcerts
 
 ... A part configuration
 **********************************************************************
-  
+
 root@deb-7:~/openswan_conf# openssl genrsa -out deb7.9.key 1024
 Generating RSA private key, 1024 bit long modulus
 ...................................++++++
 ..................++++++
 e is 65537 (0x10001)
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# ls
 command.sh  deb7.9.key
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf#  openssl req -new -key deb7.9.key -x509 -out deb7.9.cert
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -121,42 +121,42 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:deb7.9
 Email Address []:deb7.9@gmail.com
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# ls
 command.sh  deb7.9.cert  deb7.9.key
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 root@deb-7:~/openswan_conf# cp deb7.9.cert /etc/ipsec.d/certs/
 root@deb-7:~/openswan_conf# cp deb7.9.key /etc/ipsec.d/private/
-root@deb-7:~/openswan_conf# 
-root@deb-7:~/openswan_conf# 
+root@deb-7:~/openswan_conf#
+root@deb-7:~/openswan_conf#
 
 
 root@deb-7:~# cat /etc/ipsec.conf
 version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=rsasig 
+        authby=rsasig
         auto=start
-        type=tunnel 
+        type=tunnel
         left=192.168.179.128
         leftcert=deb7.9cert
         right=192.168.179.129
         rightcert=deb7.cert
 
-root@deb-7:~# 
+root@deb-7:~#
 root@deb-7:~# cat /etc/ipsec.secrets
 
 # this file is managed with debconf and will contain the automatically created RSA keys
 #include /var/lib/openswan/ipsec.secrets.inc
 
 192.168.179.128 192.168.179.129: RSA /etc/ipsec.d/private/deb7.9.key
-root@deb-7:~# 
+root@deb-7:~#
 
 
 ... B part configuration
@@ -166,7 +166,7 @@ Generating RSA private key, 1024 bit long modulus
 ..............++++++
 ...........++++++
 e is 65537 (0x10001)
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 root@debian7:~/openswan_doc# openssl req -new -key deb7.key -x509 -out deb7.cert
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -182,11 +182,11 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:deb7
 Email Address []:deb7@gmail.com
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
 root@debian7:~/openswan_doc# ls
 command.sh  deb7.cert  deb7.key
-root@debian7:~/openswan_doc# 
-root@debian7:~/openswan_doc# 
+root@debian7:~/openswan_doc#
+root@debian7:~/openswan_doc#
 
 ... placing them
 
@@ -197,43 +197,37 @@ root@debian7:/etc/ipsec.d/certs# cp /root/openswan_doc/deb7.key ../private/
 root@debian7:/etc/ipsec.d/certs# cd ../private/
 root@debian7:/etc/ipsec.d/private# ls
 deb7.key
-root@debian7:/etc/ipsec.d/private# 
- 
- 
+root@debian7:/etc/ipsec.d/private#
+
+
 root@debian7:~# cat /etc/ipsec.conf
-version 2.0  
+version 2.0
 config setup
-        nat_traversal=yes  
-        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12  
-        oe=off  
-        protostack=netkey  
+        nat_traversal=yes
+        virtual_private=%v4:10.0.0.0/8,%v4:192.168.0.0/16,%v4:172.16.0.0/12
+        oe=off
+        protostack=netkey
 
 conn linux-linux
-        authby=rsasig 
-        auto=start 
-        type=tunnel  
+        authby=rsasig
+        auto=start
+        type=tunnel
         left=192.168.179.129
-        leftcert=deb7.cert 
+        leftcert=deb7.cert
         right=192.168.179.128
         rightcert=deb7.9cert
-root@debian7:~# 
+root@debian7:~#
 root@debian7:~# cat /etc/ipsec.secrets
 
 # this file is managed with debconf and will contain the automatically created RSA keys
 #include /var/lib/openswan/ipsec.secrets.inc
 #192.168.179.129 %any: PSK "123456"
 192.168.179.129 192.168.179.128: RSA /etc/ipsec.d/private/deb7.key
-root@debian7:~# 
+root@debian7:~#
 
 .... if we have any error like then we have to remove the passphrass from private key file.
 
-... 003 "/etc/ipsec.secrets" line 25: error loading RSA private key file 
+... 003 "/etc/ipsec.secrets" line 25: error loading RSA private key file
 
 
 root@deb-7:~/masum_cert# openssl rsa -passin pass:**** -in deb7.key -out deb7.key
-
-
-
-
-
-

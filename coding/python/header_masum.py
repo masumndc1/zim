@@ -6,8 +6,8 @@ from urllib.request import Request
 
 #res=Request('http://www.debian.org')
 
-""" 
-... here we will pass the url with formate of like 
+"""
+... here we will pass the url with formate of like
  # ./header_masum.py debian.org
 
 """
@@ -29,7 +29,7 @@ print()
 
 response=urlopen(res)
 
-# printing first fewlines and the page will be desplayed in swedish 
+# printing first fewlines and the page will be desplayed in swedish
 # language.
 #print(response.getheaders('Content-Type'))
 print(response.getheaders()[:10])
@@ -40,13 +40,13 @@ print(response.readlines()[:5])
 #print(response.header_items())
 #print(s)
 
-""" 
+"""
 there is another form of Request we can use. from the help of Request we got
 class Request(builtins.object)
   Methods defined here:
    __init__(self, url, data=None, headers={}, origin_req_host=None, unverifiable=False, method=None)
 
-... here we can add the header into the Request like value pair formate separeted 
+... here we can add the header into the Request like value pair formate separeted
 ... with the :  like below.
 
 >>> res=Request('http://www.debian.org', headers={'Accept-language': 'sv'} )
@@ -57,13 +57,13 @@ class Request(builtins.object)
 
 >>> res.headers.items()
 dict_items([('Accept-language', 'sv')])
->>> 
+>>>
 >>> res.full_url
 'http://www.debian.org'
->>> 
+>>>
 """
 
-""" output 
+""" output
 
 [('Accept-language', 'sv')]
 host name =  www.debian.org

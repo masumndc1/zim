@@ -1,9 +1,9 @@
 // at first add the source list
-deb http://ppa.launchpad.net/gns3/ppa/ubuntu precise main 
-deb-src http://ppa.launchpad.net/gns3/ppa/ubuntu precise main 
+deb http://ppa.launchpad.net/gns3/ppa/ubuntu precise main
+deb-src http://ppa.launchpad.net/gns3/ppa/ubuntu precise main
 
 // now receive and add the key
-root@masum:/etc/apt# gpg --recv-keys keys 9A2FD067A2E3EF7B 
+root@masum:/etc/apt# gpg --recv-keys keys 9A2FD067A2E3EF7B
 gpg: "keys" not a key ID: skipping
 gpg: requesting key A2E3EF7B from hkp server keys.gnupg.net
 gpg: /root/.gnupg/trustdb.gpg: trustdb created
@@ -15,15 +15,15 @@ gpg: requesting key A2E3EF7B from hkp server keys.gnupg.net
 gpg: key A2E3EF7B: "Launchpad PPA for GNS3" not changed
 gpg: Total number processed: 1
 gpg:              unchanged: 1
-root@masum:/etc/apt# 
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
+root@masum:/etc/apt#
 root@masum:/etc/apt# apt-key add /root/.gnupg/pubring.gpg
 OK
-root@masum:/etc/apt# 
+root@masum:/etc/apt#
 
 // update and install
 root@masum:/etc/apt# apt-get update
-root@masum:/etc/apt# apt-get install gns3 dynamips 
+root@masum:/etc/apt# apt-get install gns3 dynamips
 
 // gns3-gui gns3-server these two are nice things to test.
 

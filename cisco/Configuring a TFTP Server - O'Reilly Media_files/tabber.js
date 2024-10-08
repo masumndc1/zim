@@ -176,13 +176,13 @@ tabberObj.prototype.init = function(e)
     /* Find the nodes where class="tabbertab" */
     if(childNodes[i].className &&
        childNodes[i].className.match(this.REclassTab)) {
-      
+
       /* Create a new object to save info about this tab */
       t = new Object();
-      
+
       /* Save a pointer to the div for this tab */
       t.div = childNodes[i];
-      
+
       /* Add the new object to the array of tabs */
       this.tabs[this.tabs.length] = t;
 
@@ -194,7 +194,7 @@ tabberObj.prototype.init = function(e)
       }
     }
   }
- 
+
   /* Create a new containing DIV to hold the tab headings */
   DOM_div = document.createElement("div");
   DOM_div.className = "tabcontainer";
@@ -216,7 +216,7 @@ tabberObj.prototype.init = function(e)
     t.headingText = t.div.title;
 
     /* Remove the title attribute to prevent a tooltip from appearing */
-    if (this.removeTitle) { t.div.title = ''; } 
+    if (this.removeTitle) { t.div.title = ''; }
 
     if (!t.headingText) {
 
@@ -284,7 +284,7 @@ tabberObj.prototype.init = function(e)
 
     /* Add the list element to the list */
     DOM_ul.appendChild(DOM_li);
-   
+
     /* Add the containing div element to the list */
     DOM_div.appendChild(DOM_ul);
   }
@@ -471,17 +471,17 @@ function tabberAutomatic(tabberArgs)
   /* First get an array of all DIV elements and loop through them */
   divs = document.getElementsByTagName("div");
   for (i=0; i < divs.length; i++) {
-    
+
     /* Is this DIV the correct class? */
     if (divs[i].className &&
     divs[i].className.match(tempObj.REclassMain)) {
-      
+
       /* Now tabify the DIV */
       tabberArgs.div = divs[i];
       divs[i].tabber = new tabberObj(tabberArgs);
     }
   }
-  
+
   return this;
 }
 

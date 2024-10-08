@@ -4,7 +4,7 @@
 
 ... enable repo
 
-○ → cat /etc/yum.repos.d/kubernetes.repo 
+○ → cat /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
@@ -40,13 +40,9 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 192.168.122.93 k8node1.masum.local
 
  docker-master in /etc/yum.repos.d
-○ → 
+○ →
 
-... now run following in k8master to start kubernetes service at the firsttime it will 
+... now run following in k8master to start kubernetes service at the firsttime it will
 ... take some time.
 
 ○ → kubeadm init
-
-
-
-

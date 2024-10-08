@@ -5,12 +5,12 @@
 
 [root@localhost ~]# puppet resource user mahrus ensure=remove --noop
 
-Error: Could not run: Parameter ensure failed on User[mahrus]: Invalid value 
-"remove". Valid values are present, absent, role. 
+Error: Could not run: Parameter ensure failed on User[mahrus]: Invalid value
+"remove". Valid values are present, absent, role.
 
-[root@localhost ~]# 
- 
-... and see the error reports like invalid value of types of ensure. 
+[root@localhost ~]#
+
+... and see the error reports like invalid value of types of ensure.
 ... and also suggesting us the permitted values.
 
 
@@ -22,27 +22,27 @@ Notice: Compiled catalog for localhost.localdomain in environment production in 
 Notice: /Stage[main]/Main/User[mahrus]/ensure: removed
 Notice: Finished catalog run in 0.57 seconds
 
-[root@localhost ~]# 
- 
+[root@localhost ~]#
 
-... searching the modules 
+
+... searching the modules
 
 [root@localhost tests]# puppet module search puppetlabs-apache
 
 Notice: Searching https://forgeapi.puppetlabs.com ...
-NAME               DESCRIPTION                                              AUTHOR        KEYWORDS 
-puppetlabs-apache  Installs, configures, and manages Apache virtual hosts,  @puppetlabs   web httpd rhel ssl wsgi  
+NAME               DESCRIPTION                                              AUTHOR        KEYWORDS
+puppetlabs-apache  Installs, configures, and manages Apache virtual hosts,  @puppetlabs   web httpd rhel ssl wsgi
 
 
 ... check all signed puppet agent
 
 sudo /opt/puppetlabs/bin/puppetserver ca list --all
 
-... sign all pending agent 
+... sign all pending agent
 
 sudo /opt/puppetlabs/bin/puppetserver ca sign --all
 
-... autosign by autosign.conf. place autosign.conf following in 
+... autosign by autosign.conf. place autosign.conf following in
 ... /etc/puppet/puppetlabs/config.d/autosign.conf
 
 echo '*' >> /etc/puppet/puppetserver/config.d/autosign.conf

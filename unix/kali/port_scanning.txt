@@ -202,6 +202,3 @@ Connection to 192.168.25.141 21 port [tcp/*] succeeded!
 └──╼ # nc -nvz 192.168.25.141 23
 Connection to 192.168.25.141 23 port [tcp/*] succeeded!
 └──╼ #
-
-
-

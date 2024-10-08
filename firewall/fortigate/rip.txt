@@ -6,7 +6,7 @@
 
 
 
-FortiGate # show router rip 
+FortiGate # show router rip
 config router rip
     set default-information-originate enable
     set default-metric 16
@@ -48,16 +48,16 @@ config router rip
         end
 end
 
-FortiGate # 
+FortiGate #
 
 // mainly the settings
 
-FortiGate # get router info rip 
+FortiGate # get router info rip
 
 database     show rip database
 interface    show rip interface information
- 
-FortiGate # get router info rip interface 
+
+FortiGate # get router info rip interface
 
 port1 is up, line protocol is up
   Routing Protocol: RIP
@@ -95,24 +95,18 @@ mesh.root is up, line protocol is up
 
 // rip options
 
-FortiGate # get router info rip database 
+FortiGate # get router info rip database
 
 Codes: R - RIP, Rc - RIP connected, Rs - RIP static, K - Kernel,
        C - Connected, S - Static, O - OSPF, I - IS-IS, B - BGP
 
    Network            Next Hop         Metric From            If     Time
-Rs 0.0.0.0/0                                1                  --   
-Rc 192.168.10.0/24                          1                 port3 
-Rc 192.168.35.0/24                          1                 port1 
-Rc 192.168.244.0/24                         1                 port2 
+Rs 0.0.0.0/0                                1                  --
+Rc 192.168.10.0/24                          1                 port3
+Rc 192.168.35.0/24                          1                 port1
+Rc 192.168.244.0/24                         1                 port2
 
-FortiGate # 
+FortiGate #
 
 // and the finally the database showing the connected and others networks
 // associated with it.
-
-
-
-
-
-

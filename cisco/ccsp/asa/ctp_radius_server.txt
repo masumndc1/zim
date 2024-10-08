@@ -1,5 +1,5 @@
 
-####################### ctp configuruation 
+####################### ctp configuruation
 ####################### radius configuration
 
 
@@ -12,7 +12,7 @@ acct_users		attrs.accounting_response  clients.conf.bak   hints	    policy.conf 
 attrs			attrs.pre-proxy		   dictionary	      huntgroups    policy.txt	    sites-available  templates.conf
 attrs.access_challenge	certs			   eap.conf	      ldap.attrmap  preproxy_users  sites-enabled    users
 attrs.access_reject	clients.conf		   experimental.conf  modules	    proxy.conf	    sql.conf	     users.bak
-root@debian7:/etc/freeradius# vi client.conf 
+root@debian7:/etc/freeradius# vi client.conf
 
 client asa {
         ipaddr  = 192.168.1.1
@@ -35,32 +35,32 @@ aaa-server radius_server protocol radius
 aaa-server radius_server (dmz1) host 192.168.1.3
  key testing123
  authentication-port 1812
-ciscoasa(config)# 
+ciscoasa(config)#
 
 4. now configure user in asa and instruct asa what to do when authenticating
 user
 
 ciscoasa(config)#  show run username
 username masum password qv0ddXXa95bgn38c encrypted privilege 15
-ciscoasa(config)# 
+ciscoasa(config)#
 
 ciscoasa(config)# show run aaa
-aaa authentication ssh console LOCAL 
-aaa authentication telnet console radius_server 
+aaa authentication ssh console LOCAL
+aaa authentication telnet console radius_server
 aaa authentication enable console radius_server LOCAL
-ciscoasa(config)# 
+ciscoasa(config)#
 
 
-ciscoasa(config)# show run telnet 
+ciscoasa(config)# show run telnet
 telnet 0.0.0.0 0.0.0.0 outside
 telnet 0.0.0.0 0.0.0.0 dmz1
 telnet timeout 20
-ciscoasa(config)# 
+ciscoasa(config)#
 
 5. now verify both at asa and radius server
 
 
-ciscoasa(config)# show aaa-server 
+ciscoasa(config)# show aaa-server
 Server Group:	 LOCAL
 Server Protocol: Local database
 Server Address:	 None
@@ -99,7 +99,7 @@ Number of bad authenticators		0
 Number of timeouts			33
 Number of unrecognized responses	0
 
-ciscoasa(config)#  
+ciscoasa(config)#
 
 5a. now verify that at server the server is responsing in the udp port 1812
 for authentication
@@ -116,7 +116,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 ############################## ctp configuration: allowing connection through the asa
 
 
-1. configure the proxy-limit first. this is optional as the default value is 16. 
+1. configure the proxy-limit first. this is optional as the default value is 16.
 
 
 ciscoasa(config)# aaa proxy-limit ?
@@ -138,15 +138,15 @@ aaa authentication ssh console radius_server LOCAL
 aaa authentication telnet console radius_server LOCAL
 
 aaa proxy-limit 14
-ciscoasa(config)# 
+ciscoasa(config)#
 
 
 2. configure auth-promt which is also optional
 
-ciscoasa(config)# show run auth-prompt 
-auth-prompt prompt full searching will be 
-auth-prompt accept greetings! 
-auth-prompt reject you were close 
+ciscoasa(config)# show run auth-prompt
+auth-prompt prompt full searching will be
+auth-prompt accept greetings!
+auth-prompt reject you were close
 ciscoasa(config)#
 
 3. configure the timeout value for both inactivity and absolute
@@ -159,7 +159,7 @@ configure mode commands/options:
                         their connection, default is 0:05:00. The default uauth
                         timer is absolute.
 
-ciscoasa(config)# timeout uauth 0:2:0 inactivity 
+ciscoasa(config)# timeout uauth 0:2:0 inactivity
 
 ciscoasa(config)# show run timeout
 timeout xlate 3:00:00
@@ -168,7 +168,7 @@ timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
 timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
 timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute uauth 0:02:00 inactivity
 timeout tcp-proxy-reassembly 0:01:00
-ciscoasa(config)# 
+ciscoasa(config)#
 
 # this output is showing the timeout value for different connection.
 # note here the timeout value for the absolute and inactivity.
@@ -178,31 +178,31 @@ ciscoasa(config)#
 ciscoasa(config)# show run aaa
 aaa authentication match www-allow outside radius_server
 aaa proxy-limit 14
-ciscoasa(config)# 
-ciscoasa(config)# 
+ciscoasa(config)#
+ciscoasa(config)#
 
-# here we wanted to use a previously cofigured access-list to define the services 
+# here we wanted to use a previously cofigured access-list to define the services
 # and the host to be authenticated. and the access-lists are like below.
 
-ciscoasa(config)# 
-ciscoasa(config)# show run access-list 
-access-list www-allow extended permit icmp any any object-group icmp-traffic 
-access-list www-allow extended permit udp any any eq domain 
-access-list www-allow extended permit tcp any any eq www 
-access-list www-allow extended permit tcp any any eq ssh 
-access-list www-allow extended permit tcp any any eq ftp 
-ciscoasa(config)# 
-ciscoasa(config)# 
+ciscoasa(config)#
+ciscoasa(config)# show run access-list
+access-list www-allow extended permit icmp any any object-group icmp-traffic
+access-list www-allow extended permit udp any any eq domain
+access-list www-allow extended permit tcp any any eq www
+access-list www-allow extended permit tcp any any eq ssh
+access-list www-allow extended permit tcp any any eq ftp
+ciscoasa(config)#
+ciscoasa(config)#
 
 # alternatively we could configure like below our cut-throug proxy.
 
-aaa authentication include ftp outside 192.168.1.3 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
-aaa authentication include ssh outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
-aaa authentication include http outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server 
-aaa authentication include ssh inside 192.168.1.0 255.255.255.248 172.168.1.2 255.255.255.255 radius_server 
-aaa authentication include ftp inside 192.168.1.3 255.255.255.255 172.16.1.2 255.255.255.255 radius_server  
+aaa authentication include ftp outside 192.168.1.3 255.255.255.255 0.0.0.0 0.0.0.0 radius_server
+aaa authentication include ssh outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server
+aaa authentication include http outside 192.168.1.2 255.255.255.255 0.0.0.0 0.0.0.0 radius_server
+aaa authentication include ssh inside 192.168.1.0 255.255.255.248 172.168.1.2 255.255.255.255 radius_server
+aaa authentication include ftp inside 192.168.1.3 255.255.255.255 172.16.1.2 255.255.255.255 radius_server
 
-# the third line means for any http request at outside interface destinated to 192.168.1.3 will be 
+# the third line means for any http request at outside interface destinated to 192.168.1.3 will be
 # authenticated at radius_server and prompted for the username and password.
 
 
@@ -217,7 +217,7 @@ Authen In Progress 	  0	     3
 user 'masum' at 10.10.10.1, authenticated
    absolute   timeout: 0:05:00
    inactivity timeout: 0:02:00
-ciscoasa(config)# 
+ciscoasa(config)#
 
 5b. at radius server . when we tried to access a http page located at 192.168.1.3 we got prompt to enter
 the password and username. and got the bellow output for the radius server authentication.
@@ -228,5 +228,3 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
 
 16:23:56.689206 IP 192.168.1.1.1025 > 192.168.1.3.1812: RADIUS, Access Request (1), id: 0x20 length: 119
 16:23:56.690104 IP 192.168.1.3.1812 > 192.168.1.1.1025: RADIUS, Access Accept (2), id: 0x20 length: 34
-
-

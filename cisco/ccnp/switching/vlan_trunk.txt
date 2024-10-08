@@ -1,9 +1,9 @@
 ####################### vlan trunk
 
 
-since trunk passes frames for the multiple vlan therefore frames needed to 
+since trunk passes frames for the multiple vlan therefore frames needed to
 distinguse among them for which vlan the frames belongs to. to do so there
-are protocols. 
+are protocols.
 
 1. inter-switch-link(ISL) protocol which is the cisco proprietary.
 2. ieee 802.1q protocol
@@ -14,7 +14,7 @@ are protocols.
 
 R1-SW(config)#interface fastEthernet 1/0
 
-R1-SW(config-if)#switchport 
+R1-SW(config-if)#switchport
 
 R1-SW(config-if)#switchport mode ?
   access  Set trunking mode to ACCESS unconditionally
@@ -47,7 +47,7 @@ R1-SW(config-if)#switchport trunk encapsulation ?
 R1-SW(config-if)#switchport trunk encapsulation dot1q ?
   <cr>
 
-R1-SW(config-if)#switchport trunk encapsulation dot1q 
+R1-SW(config-if)#switchport trunk encapsulation dot1q
 
 R1-SW(config-if)#switchport trunk ?
   allowed        Set allowed VLAN characteristics when interface is in trunking
@@ -64,7 +64,7 @@ R1-SW(config-if)#switchport trunk native vlan ?
 
 R1-SW(config-if)#switchport trunk native vlan 1
 
-R1-SW(config-if)#switchport trunk ?      
+R1-SW(config-if)#switchport trunk ?
   allowed        Set allowed VLAN characteristics when interface is in trunking
                  mode
   encapsulation  Set trunking encapsulation when interface is in trunking mode
@@ -78,12 +78,12 @@ R1-SW(config-if)#switchport trunk allowed vlan ?
   except  all VLANs except the following
   remove  remove VLANs from the current list
 
-R1-SW(config-if)#                              
+R1-SW(config-if)#
 
 4. verify
 
 
-R1-SW#show interfaces fastEthernet 1/0 trunk 
+R1-SW#show interfaces fastEthernet 1/0 trunk
 
 Port      Mode         Encapsulation  Status        Native vlan
 Fa1/0     on           802.1q         trunking      1
@@ -99,7 +99,7 @@ Fa1/0     1-4
 R1-SW#
 
 
-R1-SW#show interfaces status 
+R1-SW#show interfaces status
 
 Port    Name               Status       Vlan       Duplex Speed Type
 Fa1/0                      connected    trunk        full     100 10/100BaseTX
@@ -119,9 +119,9 @@ Fa1/13                     notconnect   1            auto    auto 10/100BaseTX
 Fa1/14                     notconnect   2            auto    auto 10/100BaseTX
 Fa1/15                     notconnect   2            auto    auto 10/100BaseTX
 
-R1-SW# 
+R1-SW#
 
-R1-SW#show interfaces fastEthernet 1/0 switchport 
+R1-SW#show interfaces fastEthernet 1/0 switchport
 
 Name: Fa1/0
 Switchport: Enabled
@@ -136,8 +136,7 @@ Trunking VLANs Enabled: ALL
 Trunking VLANs Active: 1-4
 Priority for untagged frames: 0
 Override vlan tag priority: FALSE
-Voice VLAN: none 
+Voice VLAN: none
 Appliance trust: none
 
 R1-SW#
-

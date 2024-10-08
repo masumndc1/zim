@@ -181,14 +181,14 @@
 
 .essbfc-col-xs-7-extend, .essbfc-col-xs-8-extend, .essbfc-col-xs-9-extend, .essbfc-col-xs-10-extend {
 	  width: 33.33333333333333%;
-	
+
 }
 /*.essbfc-col-xs-7-extend {
     width: 14.28571428571429%;
   }
  .essbfc-col-xs-8-extend {
     width: 12.5%;
-  }  
+  }
  .essbfc-col-xs-9-extend {
     width: 11.1111111111111%;
   }
@@ -393,7 +393,7 @@
   .essbfc-col-sm-12.essbfc-nospace-width {
   width: 99.9%;
 }
-  
+
   .essbfc-col-sm-11 {
     width: 91.66666666666666%;
   }
@@ -430,13 +430,13 @@
   .essbfc-col-sm-1 {
     width: 8.333333333333332%;
   }
-  
+
 .essbfc-col-sm-7-extend {
     width: 14.28571428571429%;
   }
  .essbfc-col-sm-8-extend {
     width: 12.5%;
-  }  
+  }
  .essbfc-col-sm-9-extend {
     width: 11.1111111111111%;
   }
@@ -598,7 +598,7 @@
   .essbfc-col-md-12.essbfc-nospace-width {
   width: 99.9%;
 }
-  
+
   .essbfc-col-md-11 {
     width: 91.66666666666666%;
   }
@@ -635,13 +635,13 @@
   .essbfc-col-md-1 {
     width: 8.333333333333332%;
   }
-  
+
 .essbfc-col-md-7-extend {
     width: 14.28571428571429%;
   }
  .essbfc-col-md-8-extend {
     width: 12.5%;
-  }  
+  }
  .essbfc-col-md-9-extend {
     width: 11.1111111111111%;
   }
@@ -803,7 +803,7 @@
   .essbfc-col-lg-12.essbfc-nospace-width {
   width: 99.9%;
 }
-  
+
   .essbfc-col-lg-11 {
     width: 91.66666666666666%;
   }
@@ -818,7 +818,7 @@
   }
   .essbfc-col-lg-7 {
     width: 58.333333333333336%;
-  }  
+  }
   .essbfc-col-lg-6 {
     width: 50%;
   }
@@ -840,13 +840,13 @@
   .essbfc-col-lg-1 {
     width: 8.333333333333332%;
   }
-  
+
  .essbfc-col-lg-7-extend {
     width: 14.28571428571429%;
   }
  .essbfc-col-lg-8-extend {
     width: 12.5%;
-  }  
+  }
  .essbfc-col-lg-9-extend {
     width: 11.1111111111111%;
   }
@@ -1029,21 +1029,21 @@
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
   -webkit-font-smoothing: antialiased;
@@ -1067,29 +1067,29 @@
   margin-right: .2em;
   text-align: center;
   /* opacity: .8; */
- 
+
   /* For safety - reset parent styles, that can break glyph codes*/
   font-variant: normal;
   text-transform: none;
-     
+
   /* fix buttons height, for twitter bootstrap */
   line-height: 1em;
- 
+
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
   margin-left: .2em;
- 
+
   /* you can be more comfortable with increased icons size */
   /* font-size: 120%; */
- 
+
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
- 
 
- 
+
+
 .-essbfc-icon-google:before { content: '\e800'; } /* '' */
 .-essbfc-icon-facebook:before { content: '\e801'; } /* '' */
 .-essbfc-icon-twitter:before { content: '\e802'; } /* '' */
@@ -1299,7 +1299,7 @@
 .essbfc-transparent {background: transparent !important;}
 
 .essbfc-transparent-round {background: transparent !important;}
-.essbfc-transparent-round i { 
+.essbfc-transparent-round i {
 	color: #fff !important; width: 54px !important; height: 54px !important; -webkit-border-radius: 54px;
 -moz-border-radius: 54px;
 border-radius: 54px; font-size: 28px !important;
@@ -1399,7 +1399,7 @@ line-height:60px;
 .essbfc-front.essbfc-tiny a, .essbfc-front.essbfc-tiny .essbfc-love {
   font-size: 12px;
   padding: 6px 6px;
-  text-align: left;	
+  text-align: left;
 }
 
 
@@ -1565,11 +1565,11 @@ padding-left: 2px;
 }
 
 .essbfc-col-one .essbfc-front {
-  padding-top: 6px;  
+  padding-top: 6px;
 }
 
 .essbfc-col-one .essbfc-front i {
-  
+
 }
 
 .essbfc-col-one .essbfc-front span {
@@ -1580,11 +1580,11 @@ padding-left: 2px;
 }
 
 .essbfc-col-one .essbfc-front small {
-  
+
 }
 
 .essbfc-col-one .essbfc-mask {
-   height: 57px;    
+   height: 57px;
 }
 
 .essbfc-col-one {
@@ -1602,7 +1602,7 @@ padding-left: 2px;
 }
 
 .essbfc-col-one-icon {
-    
+
 }
 
 .essbfc-col-one-icon i {
@@ -1717,7 +1717,7 @@ padding-left: 2px;
 
 /*Effect two*/
 
-.essbfc-view-two .essbfc-front { 
+.essbfc-view-two .essbfc-front {
   -webkit-transition: all 0.4s ease-in-out 0.2s;
   -moz-transition: all 0.4s ease-in-out 0.2s;
   -o-transition: all 0.4s ease-in-out 0.2s;
@@ -1746,7 +1746,7 @@ padding-left: 2px;
   border-radius: 0px;
 }
 
-.essbfc-view-two a.essbfc-join { 
+.essbfc-view-two a.essbfc-join {
   opacity: 0;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
@@ -1754,8 +1754,8 @@ padding-left: 2px;
   -ms-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
-.essbfc-view-two:hover .essbfc-mask { 
-  opacity: 1; 
+.essbfc-view-two:hover .essbfc-mask {
+  opacity: 1;
   -webkit-transform: scale(1) rotate(0deg);
   -moz-transform: scale(1) rotate(0deg);
   -o-transform: scale(1) rotate(0deg);
@@ -1766,20 +1766,20 @@ padding-left: 2px;
   -o-transition-delay: 0.2s;
   -ms-transition-delay: 0.2s;
   transition-delay: 0.2s;
-}                                 
-.essbfc-view-two:hover .essbfc-front    { 
+}
+.essbfc-view-two:hover .essbfc-front    {
   -webkit-transform: scale(0);
-  -moz-transform: scale(0); 
-  -o-transform: scale(0); 
-  -ms-transform: scale(0); 
-  transform: scale(0); 
+  -moz-transform: scale(0);
+  -o-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
   opacity: 0;
   -webkit-transition-delay: 0s;
   -moz-transition-delay: 0s;
   -o-transition-delay: 0s;
   -ms-transition-delay: 0s;
   transition-delay: 0s;
-}                       
+}
 .essbfc-view-two:hover a.essbfc-join{
   opacity: 1;
   -webkit-transition-delay: 0.5s;
@@ -1807,16 +1807,16 @@ padding-left: 2px;
   -ms-transition: all 0.7s ease-in-out;
   transition: all 0.7s ease-in-out;
 }
-.essbfc-view-three .essbfc-mask { 
-  background-color: none; 
+.essbfc-view-three .essbfc-mask {
+  background-color: none;
   -webkit-transition: all 0.5s linear;
   -moz-transition: all 0.5s linear;
   -o-transition: all 0.5s linear;
   -ms-transition: all 0.5s linear;
   transition: all 0.5s linear;
   opacity: 0;
-}   
-.essbfc-view-three a.essbfc-join { 
+}
+.essbfc-view-three a.essbfc-join {
   opacity: 0;
   -webkit-transform: scale(0);
   -moz-transform: scale(0);
@@ -1829,7 +1829,7 @@ padding-left: 2px;
   -ms-transition: all 0.5s linear;
   transition: all 0.5s linear;
 }
-.essbfc-view-three:hover .essbfc-front { 
+.essbfc-view-three:hover .essbfc-front {
   -webkit-transform: scale(10);
   -moz-transform: scale(10);
   -o-transform: scale(10);
@@ -1837,10 +1837,10 @@ padding-left: 2px;
   transform: scale(10);
   opacity: 0;
 }
-.essbfc-view-three:hover .essbfc-mask { 
+.essbfc-view-three:hover .essbfc-mask {
   opacity: 1;
-}                                                                            
-.essbfc-view-three:hover a.essbfc-join{ 
+}
+.essbfc-view-three:hover a.essbfc-join{
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   -o-transform: scale(1);
@@ -1980,14 +1980,14 @@ padding-left: 2px;
 /*End loader*/
 
 @media (max-width: 320px) {
-    
+
     .essbfc-front span {
         font-size: 1.5em;
     }
-    
+
     /* Effect one */
     .essbfc-view-first .essbfc-front {
-      
+
     }
     .essbfc-view-first .essbfc-mask {
       display: none !important;
@@ -2016,24 +2016,24 @@ padding-left: 2px;
       display: none !important;
     }
     /* End effect one */
-    
-    
+
+
     /*Effect two*/
 
-    .essbfc-view-two .essbfc-front { 
+    .essbfc-view-two .essbfc-front {
 
     }
     .essbfc-view-two .essbfc-mask {
       display: none !important;
     }
 
-    .essbfc-view-two a.essbfc-join { 
+    .essbfc-view-two a.essbfc-join {
       display: none !important;
     }
-    .essbfc-view-two:hover .essbfc-mask { 
+    .essbfc-view-two:hover .essbfc-mask {
       display: none !important;
-    }                                 
-    .essbfc-view-two:hover .essbfc-front    { 
+    }
+    .essbfc-view-two:hover .essbfc-front    {
       -webkit-transform: none;
       -moz-transform: none;
       -o-transform: none;
@@ -2045,25 +2045,25 @@ padding-left: 2px;
       -o-transition-delay: none;
       -ms-transition-delay: none;
       transition-delay: none;
-    }                       
+    }
     .essbfc-view-two:hover a.essbfc-join{
       display: none !important;
     }
 
     /*End effect two*/
-    
+
     /*Effect three*/
 
     .essbfc-view-three .essbfc-front {
 
     }
-    .essbfc-view-three .essbfc-mask { 
-      display: none !important;
-    }   
-    .essbfc-view-three a.essbfc-join { 
+    .essbfc-view-three .essbfc-mask {
       display: none !important;
     }
-    .essbfc-view-three:hover .essbfc-front { 
+    .essbfc-view-three a.essbfc-join {
+      display: none !important;
+    }
+    .essbfc-view-three:hover .essbfc-front {
       -webkit-transform: none;
       -moz-transform: none;
       -o-transform: none;
@@ -2071,10 +2071,10 @@ padding-left: 2px;
       transform: none;
       opacity: 100;
     }
-    .essbfc-view-three:hover .essbfc-mask { 
+    .essbfc-view-three:hover .essbfc-mask {
       display: none !important;
-    }                                                                            
-    .essbfc-view-three:hover a.essbfc-join{ 
+    }
+    .essbfc-view-three:hover a.essbfc-join{
       display: none !important;
     }
 
@@ -2083,23 +2083,23 @@ padding-left: 2px;
 
 
 @media (max-width: 768px) {
-    
+
     .essbfc-front span {
         font-size: 1.5em;
     }
-    
+
 }
 
 @media (max-width: 1200px) {
-    
+
     .essbfc-front span {
         font-size: 1.6em;
     }
-    
+
     .essbfc-front i {
         font-size: 3em;
     }
-    
+
 }
 
 /** cover box **/
@@ -2157,13 +2157,13 @@ border-radius: 50%;
 .essbfc-cover .essbfc-cover-image.essbfc-cover-image-square img {
 -webkit-border-radius: 0px;
 -moz-border-radius: 0px;
-border-radius: 0px;	
+border-radius: 0px;
 }
 
 .essbfc-cover .essbfc-cover-image.essbfc-cover-image-round-edge img {
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
-border-radius: 5px;	
+border-radius: 5px;
 }
 
 .essbfc-cover.essbfc-cover-style-light-left .essbfc-cover-image, .essbfc-cover.essbfc-cover-style-dark-left .essbfc-cover-image {

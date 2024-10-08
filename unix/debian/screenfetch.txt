@@ -16,7 +16,5 @@ if [ -f /usr/bin/screenfetch ]; then screenfetch; fi
 
 ... to see other OS screenfetch
 
-$ screenfetch -S fedora 
+$ screenfetch -S fedora
 $ screenfetch -S CenOS
-
-

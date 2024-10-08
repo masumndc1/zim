@@ -3,5 +3,3 @@
 ... installing xen on ubuntu
 
 root@controller:/# apt-get install  xen-hypervisor-4.7-amd64
-
-

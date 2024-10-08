@@ -1,10 +1,8 @@
 
 
-... download and install puppet packages from 
+... download and install puppet packages from
 ... https://yum.puppet.com/puppet/sles/15/x86_64/
-... 
+...
 ... install puppet-agent and puppet-release
-# zypper install https://yum.puppet.com/puppet/sles/15/x86_64/puppet-release-1.0.0-15.sles15.noarch.rpm 
+# zypper install https://yum.puppet.com/puppet/sles/15/x86_64/puppet-release-1.0.0-15.sles15.noarch.rpm
 # zypper install puppet-agent puppet-release
-
-

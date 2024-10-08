@@ -6,7 +6,7 @@
 
 root@ubuntu:/home/masum# uname -a
 Linux ubuntu 4.4.0-31-generic #50~14.04.1-Ubuntu SMP Wed Jul 13 01:06:37 UTC 2016 i686 i686 i686 GNU/Linux
-root@ubuntu:/home/masum# 
+root@ubuntu:/home/masum#
 
 ... OS information
 
@@ -16,7 +16,7 @@ Distributor ID: Ubuntu
 Description:    Ubuntu 14.04.5 LTS
 Release:        14.04
 Codename:       trusty
-root@ubuntu:~# 
+root@ubuntu:~#
 
 ... package information
 
@@ -28,10 +28,10 @@ Desired=Unknown/Install/Remove/Purge/Hold
 +++-=================-=============-=============-========================================
 ii  strongswan        5.1.2-0ubuntu all           IPsec VPN solution metapackage
 ii  xl2tpd            1.3.6+dfsg-1  i386          layer 2 tunneling protocol implementatio
-root@ubuntu:~# 
- 
+root@ubuntu:~#
+
 ... ipsec.conf file
- 
+
 root@ubuntu:~# cd /etc/
 root@ubuntu:/etc# cat ipsec.conf
 
@@ -58,7 +58,7 @@ conn L2TP
     auto=add
     keyexchange=ike
     type=tunnel
-root@ubuntu:/etc# 
+root@ubuntu:/etc#
 
 root@ubuntu:/etc# cat ipsec.secrets
 # This file holds shared secrets or RSA private keys for authentication.
@@ -69,22 +69,22 @@ root@ubuntu:/etc# cat ipsec.secrets
 # with "ipsec showhostkey".
 
 192.168.206.131 %any : PSK "123456"
-root@ubuntu:/etc# 
+root@ubuntu:/etc#
 
 ... xl2tpd related configuration
 
- 
-root@ubuntu:/etc# 
+
+root@ubuntu:/etc#
 root@ubuntu:/etc# cd xl2tpd/
 root@ubuntu:/etc/xl2tpd# ls
 l2tp-secrets  xl2tpd.conf  xl2tpd.conf.bk
-root@ubuntu:/etc/xl2tpd# 
-root@ubuntu:/etc/xl2tpd# cat l2tp-secrets 
+root@ubuntu:/etc/xl2tpd#
+root@ubuntu:/etc/xl2tpd# cat l2tp-secrets
 # Secrets for authenticating l2tp tunnels
 # us    them    secret
 # *     *       interop
  *      *       123456
-root@ubuntu:/etc/xl2tpd# 
+root@ubuntu:/etc/xl2tpd#
 root@ubuntu:/etc/xl2tpd# cat xl2tpd.conf
 [global]
 ipsec saref = no
@@ -103,7 +103,7 @@ ppp debug = no
 pppoptfile = /etc/ppp/options.xl2tpd
 length bit = yes
 unix authentication = yes
-root@ubuntu:/etc/xl2tpd# 
+root@ubuntu:/etc/xl2tpd#
 
 ... ppp related configuration
 
@@ -112,14 +112,14 @@ root@ubuntu:/etc/ppp# ls
 chap-secrets  ip-up      ipv6-down.d  options         peers
 ip-down       ip-up.d    ipv6-up      options.xl2tpd  pppoe_on_boot
 ip-down.d     ipv6-down  ipv6-up.d    pap-secrets     resolv
-root@ubuntu:/etc/ppp# 
-root@ubuntu:/etc/ppp# cat chap-secrets 
+root@ubuntu:/etc/ppp#
+root@ubuntu:/etc/ppp# cat chap-secrets
 # Secrets for authentication using CHAP
 # client        server  secret                  IP addresses
 #masum    *   "masum04"  *
 masum    l2tp   "masum04"  *
 
-root@ubuntu:/etc/ppp# cat options.xl2tpd 
+root@ubuntu:/etc/ppp# cat options.xl2tpd
 ipcp-accept-local
 ipcp-accept-remote
 ms-dns 4.2.2.1
@@ -138,27 +138,27 @@ refuse-pap
 refuse-chap
 refuse-mschap
 require-mschap-v2
-root@ubuntu:/etc/ppp# 
+root@ubuntu:/etc/ppp#
 
 ... verify and troubleshooting.
 
 root@ubuntu:/etc/ppp# service strongswan status
 strongswan start/running
-root@ubuntu:/etc/ppp# 
+root@ubuntu:/etc/ppp#
 
 ... after connecting the dialer
 
 
-root@ubuntu:/etc/ppp# tail -f /var/log/auth.log 
+root@ubuntu:/etc/ppp# tail -f /var/log/auth.log
 
 Oct 31 01:01:40 ubuntu charon: 08[IKE] 192.168.206.1 is initiating a Main Mode IKE_SA
 Oct 31 01:01:41 ubuntu charon: 10[IKE] IKE_SA L2TP[1] established between 192.168.206.131[192.168.206.131]...192.168.206.1[192.168.206.1]
 Oct 31 01:02:00 ubuntu pppd[1354]: pam_unix(ppp:session): session opened for user masum by (uid=0)
 Oct 31 01:02:00 ubuntu systemd-logind[526]: New session c1 of user masum.
-Oct 31 01:01:41 ubuntu charon: 01[IKE] CHILD_SA L2TP{1} established with SPIs c8b56209_i f7101647_o and TS 192.168.206.131/32[udp/l2f] === 192.168.206.1/32[udp/l2f] 
+Oct 31 01:01:41 ubuntu charon: 01[IKE] CHILD_SA L2TP{1} established with SPIs c8b56209_i f7101647_o and TS 192.168.206.131/32[udp/l2f] === 192.168.206.1/32[udp/l2f]
 
- 
-root@ubuntu:/home/masum# tail -f /var/log/syslog 
+
+root@ubuntu:/home/masum# tail -f /var/log/syslog
 
 
 Oct 31 01:01:40 ubuntu charon: 08[NET] received packet: from 192.168.206.1[500] to 192.168.206.131[500] (384 bytes)
@@ -194,25 +194,25 @@ Oct 31 01:01:41 ubuntu charon: 12[ENC] generating QUICK_MODE response 1 [ HASH S
 Oct 31 01:01:41 ubuntu charon: 12[NET] sending packet: from 192.168.206.131[500] to 192.168.206.1[500] (180 bytes)
 Oct 31 01:01:41 ubuntu charon: 01[NET] received packet: from 192.168.206.1[500] to 192.168.206.131[500] (60 bytes)
 Oct 31 01:01:41 ubuntu charon: 01[ENC] parsed QUICK_MODE request 1 [ HASH ]
-Oct 31 01:01:41 ubuntu charon: 01[IKE] CHILD_SA L2TP{1} established with SPIs c8b56209_i f7101647_o and TS 192.168.206.131/32[udp/l2f] === 192.168.206.1/32[udp/l2f] 
+Oct 31 01:01:41 ubuntu charon: 01[IKE] CHILD_SA L2TP{1} established with SPIs c8b56209_i f7101647_o and TS 192.168.206.131/32[udp/l2f] === 192.168.206.1/32[udp/l2f]
 Oct 31 01:01:42 ubuntu xl2tpd[938]: Connection established to 192.168.206.1, 1701.  Local: 61085, Remote: 1 (ref=0/0).  LNS session is 'default'
 Oct 31 01:01:42 ubuntu xl2tpd[938]: check_control: Received out of order control packet on tunnel 1 (got 3, expected 2)
 Oct 31 01:01:42 ubuntu xl2tpd[938]: handle_packet: bad control packet!
 Oct 31 01:01:42 ubuntu xl2tpd[938]: result_code_avp: result code not appropriate for Incoming-Call-Request.  Ignoring.
-Oct 31 01:01:42 ubuntu xl2tpd[938]: start_pppd: I'm running: 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "/usr/sbin/pppd" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "passive" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "nodetach" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "10.0.0.1:10.0.0.20" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "auth" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "login" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "name" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "l2tp" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "file" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "/etc/ppp/options.xl2tpd" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "ipparam" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "192.168.206.1" 
-Oct 31 01:01:42 ubuntu xl2tpd[938]: "/dev/pts/3" 
+Oct 31 01:01:42 ubuntu xl2tpd[938]: start_pppd: I'm running:
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "/usr/sbin/pppd"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "passive"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "nodetach"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "10.0.0.1:10.0.0.20"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "auth"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "login"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "name"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "l2tp"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "file"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "/etc/ppp/options.xl2tpd"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "ipparam"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "192.168.206.1"
+Oct 31 01:01:42 ubuntu xl2tpd[938]: "/dev/pts/3"
 Oct 31 01:01:42 ubuntu xl2tpd[938]: Call established with 192.168.206.1, Local: 17385, Remote: 1, Serial: 0
 Oct 31 01:01:42 ubuntu pppd[1354]: pppd 2.4.5 started by root, uid 0
 Oct 31 01:01:42 ubuntu pppd[1354]: Using interface ppp0
@@ -231,31 +231,31 @@ Oct 31 01:02:11 ubuntu pppd[1354]: remote IP address 10.0.0.20
 ... our new ppp0 interface and related route is now up.
 
 root@ubuntu:~# ifconfig
-eth0      Link encap:Ethernet  HWaddr 00:0c:29:76:c4:69  
+eth0      Link encap:Ethernet  HWaddr 00:0c:29:76:c4:69
           inet addr:192.168.206.131  Bcast:192.168.206.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fe76:c469/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:1364 errors:0 dropped:0 overruns:0 frame:0
           TX packets:778 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
+          collisions:0 txqueuelen:1000
           RX bytes:158616 (158.6 KB)  TX bytes:94239 (94.2 KB)
-          Interrupt:19 Base address:0x2000 
+          Interrupt:19 Base address:0x2000
 
-lo        Link encap:Local Loopback  
+lo        Link encap:Local Loopback
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
           UP LOOPBACK RUNNING  MTU:65536  Metric:1
           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1 
+          collisions:0 txqueuelen:1
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-ppp0      Link encap:Point-to-Point Protocol  
+ppp0      Link encap:Point-to-Point Protocol
           inet addr:10.0.0.1  P-t-P:10.0.0.20  Mask:255.255.255.255
           UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1200  Metric:1
           RX packets:237 errors:0 dropped:0 overruns:0 frame:0
           TX packets:27 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:3 
+          collisions:0 txqueuelen:3
           RX bytes:15541 (15.5 KB)  TX bytes:288 (288.0 B)
 
 root@ubuntu:~# route -n
@@ -264,7 +264,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 0.0.0.0         192.168.206.2   0.0.0.0         UG    0      0        0 eth0
 10.0.0.20       0.0.0.0         255.255.255.255 UH    0      0        0 ppp0
 192.168.206.0   0.0.0.0         255.255.255.0   U     0      0        0 eth0
-root@ubuntu:~# 
+root@ubuntu:~#
 
 ... pinging is also ok from this host to other machine
 
@@ -289,12 +289,4 @@ PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
 --- 10.0.0.1 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3007ms
 rtt min/avg/max/mdev = 0.062/0.248/0.800/0.318 ms
-root@ubuntu:~# 
-
-
-
-
-
-
-
-
+root@ubuntu:~#

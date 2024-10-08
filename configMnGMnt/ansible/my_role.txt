@@ -2,15 +2,15 @@
 
 ... my custom roles is below.
 
-... the main nginx.yml playbook is 
+... the main nginx.yml playbook is
 
-[masum@nginx playbook]$ cat nginx.yml 
+[masum@nginx playbook]$ cat nginx.yml
 ---
 - hosts: ansible
   become: yes
   roles:
    - masum.prac
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 [masum@nginx roles]$ cd masum.prac/
 [masum@nginx masum.prac]$ tree .
@@ -36,7 +36,7 @@
     └── main.yml
 
 8 directories, 11 files
-[masum@nginx masum.prac]$ 
+[masum@nginx masum.prac]$
 
 ... my main files and directories are tasks, handlers and templates
 
@@ -45,16 +45,16 @@
 main.yml  nginx.yml
 [masum@nginx tasks]$ pwd
 /home/masum/playbook/roles/masum.prac/tasks
-[masum@nginx tasks]$ 
+[masum@nginx tasks]$
 [masum@nginx tasks]$ ls
 main.yml  nginx.yml
-[masum@nginx tasks]$ cat main.yml 
+[masum@nginx tasks]$ cat main.yml
 ---
 # tasks file for roles/masum.prac
 - import_tasks: 'nginx.yml'
 
-[masum@nginx tasks]$ 
-[masum@nginx tasks]$ cat nginx.yml 
+[masum@nginx tasks]$
+[masum@nginx tasks]$ cat nginx.yml
 ---
 - name: nginx installation
   yum: name=nginx state=installed
@@ -63,28 +63,28 @@ main.yml  nginx.yml
   template: src=index.html dest=/usr/share/nginx/html/index.html
   notify: service nginx
 
-[masum@nginx tasks]$ 
+[masum@nginx tasks]$
 
 [masum@nginx masum.prac]$ cd handlers/
-[masum@nginx handlers]$ ls 
+[masum@nginx handlers]$ ls
 main.yml  nginx.yml
 [masum@nginx handlers]$ pwd
 /home/masum/playbook/roles/masum.prac/handlers
-[masum@nginx handlers]$ cat main.yml 
+[masum@nginx handlers]$ cat main.yml
 ---
 # handlers file for roles/masum.prac
 - import_tasks: 'nginx.yml'
-[masum@nginx handlers]$ 
-[masum@nginx handlers]$ cat nginx.yml 
+[masum@nginx handlers]$
+[masum@nginx handlers]$ cat nginx.yml
 ---
 - name: service nginx
   service: name=nginx state=restarted
-[masum@nginx handlers]$ 
+[masum@nginx handlers]$
 
 [masum@nginx handlers]$ cd ../templates/
 [masum@nginx templates]$ ls
 index.html
-[masum@nginx templates]$ cat index.html 
+[masum@nginx templates]$ cat index.html
 <html>
 <head>
 </head>
@@ -94,12 +94,12 @@ index.html
 {{ ansible_os_family }}
 </body>
 </html>
-[masum@nginx templates]$ 
+[masum@nginx templates]$
 
 
-[masum@nginx playbook]$ ansible-playbook --ask-become-pass nginx.yml 
-SSH password: 
-SUDO password[defaults to SSH password]: 
+[masum@nginx playbook]$ ansible-playbook --ask-become-pass nginx.yml
+SSH password:
+SUDO password[defaults to SSH password]:
 
 PLAY [ansible] **********************************************************
 
@@ -116,13 +116,10 @@ RUNNING HANDLER [masum.prac : service nginx] *************************
 changed: [ansible]
 
 PLAY RECAP **********************************************************
-ansible                    : ok=4    changed=3    unreachable=0    failed=0   
+ansible                    : ok=4    changed=3    unreachable=0    failed=0
 
-[masum@nginx playbook]$ 
- 
+[masum@nginx playbook]$
+
 ... when we browse http://ip/ it shows
 
 .... this is a nginx text page .... RedHat
-
-
-

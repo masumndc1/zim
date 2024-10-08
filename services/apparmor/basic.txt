@@ -11,8 +11,8 @@ Release:	17.04
 Codename:	zesty
 root@slave:~#
 
-... app armor comes with ubuntu operating system 
-... if the system is missing the app armor application 
+... app armor comes with ubuntu operating system
+... if the system is missing the app armor application
 ... we can install it and associated component by following
 
 root@slave:~# apt-cache search apparmor
@@ -68,7 +68,7 @@ root@slave:~#
 ... app armor only restrict the activity of an application
 ... when the application is in enforce mode.
 
-... as from above we can see that there is no profile for the 
+... as from above we can see that there is no profile for the
 ... apache2 therefore we need to create on profile for it.
 ... we will first install the following component.
 ... this utils will help to manage the apparmor efficiently
@@ -270,9 +270,6 @@ root@slave:/etc/apparmor.d#
 
 ... and we get the following error log in the /var/log/apache2/error.log
 
-[Sun Jun 17 14:33:13.294337 2018] [core:error] [pid 9720:tid 3046103872] 
-(13)Permission denied: [client 192.168.10.1:55472] AH00132: file permissions 
+[Sun Jun 17 14:33:13.294337 2018] [core:error] [pid 9720:tid 3046103872]
+(13)Permission denied: [client 192.168.10.1:55472] AH00132: file permissions
 deny server access: /var/www/html/deny/index.html
-
-
-

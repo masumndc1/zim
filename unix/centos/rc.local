@@ -1,8 +1,8 @@
 
 
 ... if we need to run any thing in boot time then
-... place them in /etc/rc.d/rc.local file and 
-... make it executable by chmod +x command like 
+... place them in /etc/rc.d/rc.local file and
+... make it executable by chmod +x command like
 ... this has been tested in centos linux
 
 # cat /etc/rc.d/rc.local
@@ -10,4 +10,3 @@
 yum -y install vim net-tools ansible
 
 # chmod +x /etc/rc.d/rc.local
-

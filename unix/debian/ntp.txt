@@ -2,7 +2,7 @@
 
 ... installing ntp in debian/ubuntu server
 
-└──╼ # timedatectl 
+└──╼ # timedatectl
       Local time:  2018-09-04 16:38:55 EEST
   Universal time: ti 2018-09-04 13:38:55 UTC
         RTC time: ti 2018-09-04 13:38:55
@@ -10,7 +10,7 @@
  Network time on: yes
 NTP synchronized: no
  RTC in local TZ: no
-┌─[root@]─[/home/] 
+┌─[root@]─[/home/]
 
 └──╼ # apt-get install ntp
 
@@ -20,6 +20,4 @@ NTP synchronized: no
 
 ... and again run the following to check that NTP synchronization is going on
 
-└──╼ # timedatectl 
-
-
+└──╼ # timedatectl

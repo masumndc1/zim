@@ -15,8 +15,8 @@ root@kali:~# vim /etc/privoxy/config
     1292        forward-socks5   /    127.0.0.1:9050 .
     1293 #
 
-root@kali:~# service tor restart 
-root@kali:~# service privoxy restart 
+root@kali:~# service tor restart
+root@kali:~# service privoxy restart
 root@kali:~# update-rc.d tor enable
 root@kali:~# update-rc.d privoxy enable
 [Comment] Modify the settings of Iceweasel
@@ -51,7 +51,7 @@ Viola, dns requests are now routed through tor.
 
 # apt-get install tor
 
- 
+
 
 Then , we are going to install Proxychains in order to run applications through Tor.
 
@@ -64,6 +64,3 @@ Then, we need to configure our Proxychains.  We need to know the port that Tor i
 Finally edit /etc/proxychains.conf and add the next line
 
 socks4 127.0.0.1 9050
-
-
-

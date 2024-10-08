@@ -8,8 +8,7 @@ RSA key fingerprint is 4a:32:ab:8c:1d:21:05:48:79:e5:a3:02:7f:d4:70:d9.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added '192.168.202.36' (RSA) to the list of known hosts.
 
-pbl@192.168.202.36's password: 
-masum.xml                                                                                                                   100% 8554     8.4KB/s   00:00    
+pbl@192.168.202.36's password:
+masum.xml                                                                                                                   100% 8554     8.4KB/s   00:00
 
-admin@testpa> 
-
+admin@testpa>

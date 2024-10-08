@@ -2,7 +2,7 @@
 
 ... freeipa provides the authentication and centralize user management
 ... for linux same like microsoft active directory.
-... 
+...
 
 ... to install freeipa server we need some prerequisite things like below
 ... one fully qualified domain name which we can have free from freenom
@@ -34,7 +34,7 @@ success
 
 [root@kube-node1 ~]# yum install bind-utils
 
-... install random number generator for FreeIPA to preform the cryptographic 
+... install random number generator for FreeIPA to preform the cryptographic
 ... functions it needs for authentication.
 
 [root@kube-node1 ~]# yum install -y rng-tools
@@ -68,7 +68,7 @@ SELINUX=permissive
 [root@kube-node1 ~]# systemctl restart selinux
 [root@kube-node1 ~]# sestatus
 
-... this permissive settings in selinux can also be done by the command 
+... this permissive settings in selinux can also be done by the command
 
 [root@kube-node1 ~]# setenforce 0
 
@@ -84,7 +84,7 @@ ipa
 ... as this is a test setup then we need to make
 ... some change in host machines /etc/hosts file
 ... host machine means from where we need to access this site.
-... my /etc/hosts file entry for freeipa server 
+... my /etc/hosts file entry for freeipa server
 ... like below
 
 $ cat /etc/hosts
@@ -93,5 +93,3 @@ $ cat /etc/hosts
 
 ... now access the freeipa server by browsing
 ... https://ipa.masum.local/ipa/ui. username:pass will be admin:<pass give in -a option>
-
-

@@ -127,5 +127,3 @@ root:~/ $ salt kube-master cmd.run "kubectl create -f mahrus.yaml"
 kube-master:
     pod "mahrus" created
 root:~/ $
-
-

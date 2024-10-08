@@ -37,8 +37,3 @@ server {
 }
 
 ... now when try to lynx www.app1.com then it will promt for username and passwd
-
-
-
-
-

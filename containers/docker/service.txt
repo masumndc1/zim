@@ -28,7 +28,7 @@ root@controller:~#
 
 root@controller:~/docker# docker run -it --rm -p 80:80 masumapache:10.2 /bin/bash
 
-... similarly docker host 8080 to container 80. 
+... similarly docker host 8080 to container 80.
 
 root@controller:~/docker# docker run -it --rm -p 8080:80 masumapache:10.2 /bin/bash
 
@@ -37,14 +37,14 @@ root@controller:~/docker# docker run -it --rm -p 8080:80 masumapache:10.2 /bin/b
 
 root@controller:~/docker# docker run -it --rm -p 80 masumapache:10.2 /bin/bash
 
-... the options -p has following syntax 
+... the options -p has following syntax
 
 • <hostPort>:<containerPort>
 • <containerPort>
-• <ip>:<hostPort>:<containerPort> 
+• <ip>:<hostPort>:<containerPort>
 • <ip>::<containerPort>
 
-root@f8c7acf183cb:/home# 
+root@f8c7acf183cb:/home#
 
 ... and we have found the following iptables rules in the docker host
 
@@ -91,8 +91,8 @@ root@controller:~/docker#
 
 controller:~/docker# docker run -it --rm -p 10.10.10.12::80 masumapache:10.2 /bin/bash
 
-... and lastly the EXPOSE instruction by itself cannot create port binding on the Docker host. 
-... therefore we have to use -P options with docker run subcommnd. 
+... and lastly the EXPOSE instruction by itself cannot create port binding on the Docker host.
+... therefore we have to use -P options with docker run subcommnd.
 
 ... we can restart the docker by following. also we can stop and start the container same way.
 
@@ -105,8 +105,3 @@ controller:~/docker# docker restart <container_id/container_name>
 ... another good options is the --read-only which options cant allow docker to change the files
 
 controller:~/docker# docker run --it --rm --read-only --name webserver nginx:latest
-
-
-
-
-

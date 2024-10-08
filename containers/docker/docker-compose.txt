@@ -1,10 +1,10 @@
 
 
 ... docker-compose file
-[root@docker hello]# cat docker-compose.yml 
+[root@docker hello]# cat docker-compose.yml
 wordpress:
   image: wordpress
-  links: 
+  links:
     - db:mysql
   ports:
     - 8080:80
@@ -21,8 +21,8 @@ db:
   image: mariadb
   environment:
     MYSQL_ROOT_PASSWORD: examplepass
-	
-[root@docker hello]# 
+
+[root@docker hello]#
 
 ... and when we run it below.
 
@@ -30,20 +30,20 @@ db:
 Starting hello_web_1  ... done
 Recreating hello_db_1 ... done
 Recreating hello_wordpress_1 ... done
-[root@docker hello]# 
-[root@docker hello]# 
-[root@docker hello]# 
+[root@docker hello]#
+[root@docker hello]#
+[root@docker hello]#
 [root@docker hello]# docker-compose ps
-      Name                Command          State          Ports       
+      Name                Command          State          Ports
 ----------------------------------------------------------------------
-hello_db_1          docker-entrypoint.sh   Up      3306/tcp           
-                    mysqld                                            
-hello_web_1         nginx -g daemon off;   Up      80/tcp             
+hello_db_1          docker-entrypoint.sh   Up      3306/tcp
+                    mysqld
+hello_web_1         nginx -g daemon off;   Up      80/tcp
 hello_wordpress_1   docker-entrypoint.sh   Up      0.0.0.0:8080->80/tc
-                    apach ...                      p                  
-[root@docker hello]# 
+                    apach ...                      p
+[root@docker hello]#
 
-... 
+...
 
 ... building images by using docker-compose command.
 
@@ -53,18 +53,18 @@ hello_wordpress_1   docker-entrypoint.sh   Up      0.0.0.0:8080->80/tc
 /root/hello
 [root@docker hello]# ls
 docker-compose.yml  masum
-[root@docker hello]# cat masum 
+[root@docker hello]# cat masum
 FROM nginx
-RUN apt-get update 
+RUN apt-get update
 EXPOSE 8081 8081
-[root@docker hello]# 
+[root@docker hello]#
 
 ... then we will put this docker file reference to the docker-compose file
 
-[root@docker hello]# cat docker-compose.yml 
+[root@docker hello]# cat docker-compose.yml
 wordpress:
   image: wordpress
-  links: 
+  links:
     - db:mysql
   ports:
     - 8080:80
@@ -79,7 +79,7 @@ db:
 masum:
   build: .
   dockerfile: masum
-[root@docker hello]# 
+[root@docker hello]#
 
 ... note the last portion of the file for how to add docker file masum
 ... into docker file. then run the following command to build the image.
@@ -98,8 +98,8 @@ Step 3/3 : EXPOSE 8081 8081
  ---> 690f9e8b0455
 Removing intermediate container d15e632b6d5a
 Successfully built 690f9e8b0455
-[root@docker hello]# 
-[root@docker hello]# 
+[root@docker hello]#
+[root@docker hello]#
 [root@docker hello]# docker images
 REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
 hello_masum           latest              690f9e8b0455        7 minutes ago       125 MB
@@ -107,11 +107,11 @@ hello_masum           latest              690f9e8b0455        7 minutes ago     
 docker.io/nginx       latest              7f70b30f2cc6        13 hours ago        109 MB
 docker.io/wordpress   latest              346b1443b020        6 days ago          407 MB
 docker.io/mariadb     latest              ea5e726062ce        8 days ago          396 MB
-[root@docker hello]# 
+[root@docker hello]#
 
 ... note here the image id 690f9e8b0455 is present.
 
-... and lastly we can run the following command to build our environment 
+... and lastly we can run the following command to build our environment
 
 [root@docker hello]# docker-compose -f /root/hello/docker-compose.yml up -d
 
@@ -136,9 +136,9 @@ phpmyadmin:
   environment:
     MYSQL_USERNAME: root
     MYSQL_ROOT_PASSWORD: examplepass
-	
+
 ...
-... this is also posible to store the document root for the web on host machine 
+... this is also posible to store the document root for the web on host machine
 ... by using the docker data volume. one example can be as below.
 
 wordpress:
@@ -147,6 +147,3 @@ wordpress:
     - /home/username/html:/var/www/html
 ...
 ... changes made in the file on host, have effect on container real time.
-
-
-

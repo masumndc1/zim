@@ -10,9 +10,9 @@ docker:
   *** 1.4-5 0
    500 http://ftp.ca.debian.org/debian/ wheezy/main i386 Packages
    100 /var/lib/dpkg/status
-root@debian7:~# 
+root@debian7:~#
 
-... to install packages over https 
+... to install packages over https
 ... install the apt-transport-https and ca- certificates packages.
 
 root@debian7:~# apt install apt-transport-https ca-certificates
@@ -20,6 +20,3 @@ root@debian7:~# apt install apt-transport-https ca-certificates
 ... install pkg silently by apt
 
 root@debian7:~# apt install apt-transport-https ca-certificates -y -qq > /dev/null
-
-
-

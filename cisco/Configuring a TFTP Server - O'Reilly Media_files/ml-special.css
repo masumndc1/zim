@@ -1075,9 +1075,9 @@ display: none;
 visibility: hidden;
 }
 sf-menu ul li {
-float: left; 
-width: 100%; 
-white-space: normal; 
+float: left;
+width: 100%;
+white-space: normal;
 }
 
 /* Fixes a display error in IE9 */
@@ -1137,7 +1137,7 @@ width: 600px;
 }
 
 #toc-content a.chapter-label, #toc-content a.chapter-label:hover {
-text-decoration: none;	
+text-decoration: none;
 }
 
 #toc-content .video-examples {

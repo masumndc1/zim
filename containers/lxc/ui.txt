@@ -14,7 +14,7 @@ yarn && yarn build
 [Service]
 Environment=LXD_UI=/var/lib/lxd/ui
 
-... reload lxd 
+... reload lxd
 systemctl daemon-reload && systemctl restart lxd
 
 ... Set core.https_address of LXD to make it listen for remote connections

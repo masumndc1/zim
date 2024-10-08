@@ -4,7 +4,7 @@
 .................... gateway ...........................
 ..
 .. enabling the packet forwarding in freebsd like below.
-.. 
+..
 root@masum:/etc # cat -n rc.conf
      1	hostname="masum"
      2	ifconfig_em0="DHCP"
@@ -22,7 +22,4 @@ root@masum:/etc # cat -n rc.conf
 
     12	gateway_enable="YES"  		# for ipv4 packet forwarding
     13	ipv6_gateway_enable="YES"	# for ipv6 packet forwarding
-root@masum:/etc # 
-
-
-
+root@masum:/etc #

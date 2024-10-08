@@ -7,9 +7,9 @@ Created Tuesday 05 November 2013
 
 two flash player for linux is **gnash** and **Lightspark**. these twos are alternative for the adobe flash player.
 
-**root@masum:/tmp# apt-get -y install --force-yes gnash** 
+**root@masum:/tmp# apt-get -y install --force-yes gnash**
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following packages were automatically installed and are no longer required:
   baobab caribou caribou-antler dnsmasq-base empathy empathy-common fonts-cantarell gcalctool gdm3 gnome-backgrounds gnome-dictionary gnome-disk-utility
@@ -26,7 +26,7 @@ The following NEW packages will be installed:
 
 **root@masum:/tmp# apt-get install lightspark**
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
 The following packages were automatically installed and are no longer required:
   baobab caribou caribou-antler dnsmasq-base empathy empathy-common fonts-cantarell gcalctool gdm3 gnome-backgrounds gnome-dictionary gnome-disk-utility
@@ -42,7 +42,7 @@ The following NEW packages will be installed:
 0 upgraded, 3 newly installed, 0 to remove and 360 not upgraded.
 Need to get 5,012 kB of archives.
 After this operation, 13.1 MB of additional disk space will be used.
-Do you want to continue [Y/n]? 
+Do you want to continue [Y/n]?
 
 **flash player from debian source site.**
 
@@ -74,4 +74,4 @@ mint-flashplugin-10.2 - Adobe Flash plugin 10.2
 mint-flashplugin-10.3 - Adobe Flash plugin 10.3 Beta 2
 mint-flashplugin-11 - Adobe Flash plugin 11
 adobe-flashplugin - Adobe Flash Player plugin version 11
-**root@masum:/etc/apt#** 
+**root@masum:/etc/apt#**

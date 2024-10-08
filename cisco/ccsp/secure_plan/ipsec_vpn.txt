@@ -1,8 +1,8 @@
-################ ipse vpn #### 
+################ ipse vpn ####
 
 #/* note here that to configure a succesfull vpn among
 cisco routers the following is must. we cant ignor or escape
-any of them. otherwise vpn will not be established. 
+any of them. otherwise vpn will not be established.
 
 the sequence is
 
@@ -64,7 +64,7 @@ R1(config)#crypto ipsec transform-set masum-set esp-aes 128 ?
   esp-sha-hmac  ESP transform using HMAC-SHA auth
   <cr>
 
-R1(config)#crypto ipsec transform-set masum-set esp-aes 128 esp-sha-hmac 
+R1(config)#crypto ipsec transform-set masum-set esp-aes 128 esp-sha-hmac
 R1(cfg-crypto-trans)#
 R1(cfg-crypto-trans)#?
 Crypto transform configuration commands:
@@ -81,7 +81,7 @@ R1(config)#
 R1(config)#crypto ipsec profile ?
   WORD  Profile name
 
-R1(config)#crypto ipsec profile masum-profile 
+R1(config)#crypto ipsec profile masum-profile
 R1(ipsec-profile)#?
 Crypto Map configuration commands:
   default      Set a command to its defaults
@@ -117,10 +117,10 @@ R1(config)#
 
 
 !
-crypto ipsec transform-set masum-set esp-aes esp-sha-hmac 
+crypto ipsec transform-set masum-set esp-aes esp-sha-hmac
 !
 crypto ipsec profile masum-profile
- set transform-set masum-set 
+ set transform-set masum-set
 !
 !
 
@@ -130,7 +130,7 @@ isakmp related configuration */
 2. configure isakmp
 
 R1(config)#crypto isakmp ?
-  aggressive-mode       Disable ISAKMP aggressive mode 
+  aggressive-mode       Disable ISAKMP aggressive mode
   client                Set client configuration policy
   enable                Enable ISAKMP
   fragmentation         IKE Fragmentation enabled if required
@@ -164,7 +164,7 @@ R1(config-isakmp)#authentication ?
 R1(config-isakmp)#authentication pre-share ?
   <cr>
 
-R1(config-isakmp)#authentication pre-share 
+R1(config-isakmp)#authentication pre-share
 
 R1(config-isakmp)#encryption ?
   3des  Three key triple DES
@@ -184,7 +184,7 @@ R1(config-isakmp)#hash ?
   md5  Message Digest 5
   sha  Secure Hash Standard
 
-R1(config-isakmp)#hash sha 
+R1(config-isakmp)#hash sha
 
 ISAKMP commands:
   authentication  Set authentication method for protection suite
@@ -204,7 +204,7 @@ R1(config-isakmp)#
 R1(config-isakmp)#exit
 R1(config)#
 R1(config)#crypto isakmp ?
-  aggressive-mode       Disable ISAKMP aggressive mode 
+  aggressive-mode       Disable ISAKMP aggressive mode
   client                Set client configuration policy
   enable                Enable ISAKMP
   fragmentation         IKE Fragmentation enabled if required
@@ -231,10 +231,10 @@ R1(config)#crypto isakmp key 0 masum address 10.10.10.6 ?
   no-xauth  Bypasses XAuth for this peer
   <cr>
 
-R1(config)#crypto isakmp key 0 masum address 10.10.10.6 
+R1(config)#crypto isakmp key 0 masum address 10.10.10.6
 R1(config)#
 R1(config)#do copy run start
-Destination filename [startup-config]? 
+Destination filename [startup-config]?
 Building configuration...
 [OK]
 R1(config)#do show crypto isakmp policy
@@ -253,18 +253,18 @@ tunnel interface */
 
 3.configuring tunnel interface
 
-R1#show ip interface brief 
+R1#show ip interface brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            10.10.10.1      YES NVRAM  up                    up      
-FastEthernet0/1            unassigned      YES NVRAM  administratively down down    
-Tunnel0                    unassigned      YES TFTP   up                    up      
+FastEthernet0/0            10.10.10.1      YES NVRAM  up                    up
+FastEthernet0/1            unassigned      YES NVRAM  administratively down down
+Tunnel0                    unassigned      YES TFTP   up                    up
 R1#
 R1#
 
 R1#show interfaces tunnel 0
-Tunnel0 is up, line protocol is up 
+Tunnel0 is up, line protocol is up
   Hardware is Tunnel
-  MTU 1514 bytes, BW 9 Kbit/sec, DLY 500000 usec, 
+  MTU 1514 bytes, BW 9 Kbit/sec, DLY 500000 usec,
      reliability 255/255, txload 1/255, rxload 1/255
   Encapsulation TUNNEL, loopback not set
   Keepalive not set
@@ -302,7 +302,7 @@ interface Tunnel0
  tunnel protection ipsec profile masum-profile
 !
 
-/* configure the connectivity among the 3 routers and 
+/* configure the connectivity among the 3 routers and
 enable connectivity among them.im using eigrp as we have
 all cisco routers. */
 
@@ -337,12 +337,12 @@ R1#show crypto ipsec ?
   spi-lookup            IPSEC SPI table
   transform-set         Crypto transform sets
 
-R1#show crypto ipsec profile 
+R1#show crypto ipsec profile
 IPSEC profile masum-profile
 	Security association lifetime: 4608000 kilobytes/3600 seconds
 	PFS (Y/N): N
-	Transform sets={ 
-		masum-set, 
+	Transform sets={
+		masum-set,
 	}
 
 R1#show crypto ipsec sa
@@ -394,19 +394,19 @@ interface: Tunnel0
 
      outbound pcp sas:
 
-R1#show crypto ipsec security-association 
+R1#show crypto ipsec security-association
 Security association lifetime: 4608000 kilobytes/3600 seconds
 
-R1#show crypto ipsec spi-lookup 
+R1#show crypto ipsec spi-lookup
 Active SPI table
      SPI Prot Local Address            M Type
 6D0B0534 ESP  10.10.10.1               * IKE-based IPSec SA
 
 
-R1#show crypto ipsec transform-set 
-Transform set masum-set: { esp-aes esp-sha-hmac  } 
-   will negotiate = { Tunnel,  }, 
-   
+R1#show crypto ipsec transform-set
+Transform set masum-set: { esp-aes esp-sha-hmac  }
+   will negotiate = { Tunnel,  },
+
 
 R1#
 
@@ -432,11 +432,11 @@ R1#show crypto isakmp peers ?
   |           Output modifiers
   <cr>
 
-R1#show crypto isakmp peers 
+R1#show crypto isakmp peers
 Peer: 10.10.10.6 Port: 500 Local: 10.10.10.1
  Phase1 id: 10.10.10.6
 
-R1#show crypto isakmp policy 
+R1#show crypto isakmp policy
 
 Global IKE policy
 Protection suite of priority 10
@@ -452,7 +452,7 @@ Default protection suite
 	Diffie-Hellman group:	#1 (768 bit)
 	lifetime:		86400 seconds, no volume limit
 
-R1#show crypto isakmp sa      
+R1#show crypto isakmp sa
 IPv4 Crypto ISAKMP SA
 dst             src             state          conn-id slot status
 10.10.10.1      10.10.10.6      QM_IDLE           1001    0 ACTIVE
@@ -470,7 +470,7 @@ R1(config-if)#
 *Mar  1 01:06:49.355: ISAKMP: New peer created peer = 0x6620CD9C peer_handle = 0x80000002
 *Mar  1 01:06:49.355: ISAKMP: Locking peer struct 0x6620CD9C, refcount 1 for isakmp_initiator
 *Mar  1 01:06:49.355: ISAKMP: local port 500, remote port 500
-*Mar  1 01:06:49.355: ISAKMP: set new node 0 to QM_IDLE      
+*Mar  1 01:06:49.355: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:06:49.359: insert sa successfully sa = 66163310
 *Mar  1 01:06:49.359: ISAKMP:(0):Can not start Aggressive mode, trying Main mode.
 *Mar  1 01:06:49.359: ISAKMP:(0):found peer pre-shared key matching 10.10.10.6
@@ -480,7 +480,7 @@ R1(config-if)#
 *Mar  1 01:06:49.359: ISAKMP:(0): constructed NAT-T vendor-03 ID
 *Mar  1 01:06:49.359: ISAKMP:(0): constructed NAT-T vendor-02 ID
 *Mar  1 01:06:49.359: ISAKMP:(0):Input = IKE_MESG_FROM_IPSEC, IKE_SA_REQ_MM
-*Mar  1 01:06:49.359: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1 
+*Mar  1 01:06:49.359: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1
 
 *Mar  1 01:06:49.359: ISAKMP:(0): beginning Main Mode exchange
 *Mar  1 01:06:49.359: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
@@ -497,18 +497,18 @@ R1(config-if)#
 *Mar  1 01:07:09.383: ISAKMP:(0): retransmitting phase 1 MM_NO_STATE
 *Mar  1 01:07:09.387: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
 *Mar  1 01:07:09.391: ISAKMP:(0):Sending an IKE IPv4 Packet.
-R1(config-if)#do show 
-*Mar  1 01:07:19.351: ISAKMP: set new node 0 to QM_IDLE      
+R1(config-if)#do show
+*Mar  1 01:07:19.351: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:07:19.355: ISAKMP:(0):SA is still budding. Attached new ipsec request to it. (local 10.10.10.1, remote 10.10.10.6)
 *Mar  1 01:07:19.359: ISAKMP: Error while processing SA request: Failed to initialize SA
 *Mar  1 01:07:19.359: ISAKMP: Error while processing KMI message 0, error 2.
 *Mar  1 01:07:19.395: ISAKMP:(0): retransmitting phase 1 MM_NO_STATE...
 *Mar  1 01:07:19.395: ISAKMP (0:0): incrementing error counter on sa, attempt 3 of 5: retransmit phase 1
 *Mar  1 01:07:19.399: ISAKMP:(0): retransmitting phase 1 MM_NO_STATE
-R1(config-if)#do show 
+R1(config-if)#do show
 *Mar  1 01:07:19.403: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
 *Mar  1 01:07:19.407: ISAKMP:(0):Sending an IKE IPv4 Packet.
-R1(config-if)#do show crypto isakmp 
+R1(config-if)#do show crypto isakmp
 *Mar  1 01:07:29.407: ISAKMP:(0): retransmitting phase 1 MM_NO_STATE...
 *Mar  1 01:07:29.411: ISAKMP (0:0): incrementing error counter on sa, attempt 4 of 5: retransmit phase 1
 *Mar  1 01:07:29.411: ISAKMP:(0): retransmitting phase 1 MM_NO_STATE
@@ -534,14 +534,14 @@ R1(config-if)#
 *Mar  1 01:07:49.431: ISAKMP:(0):peer does not do paranoid keepalives.
 
 *Mar  1 01:07:49.435: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
-*Mar  1 01:07:49.455: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6) 
+*Mar  1 01:07:49.455: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
 *Mar  1 01:07:49.459: ISAKMP: Unlocking peer struct 0x6620CD9C for isadb_mark_sa_deleted(), count 0
 *Mar  1 01:07:49.459: ISAKMP: Deleting peer node by peer_reap for 10.10.10.6: 6620CD9C
 *Mar  1 01:07:49.459: ISAKMP:(0):deleting node -1895573320 error FALSE reason "IKE deleted"
 R1(config-if)#
 *Mar  1 01:07:49.459: ISAKMP:(0):deleting node -1887693992 error FALSE reason "IKE deleted"
 *Mar  1 01:07:49.459: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PHASE1_DEL
-*Mar  1 01:07:49.459: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA 
+*Mar  1 01:07:49.459: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA
 
 R1(config-if)#
 *Mar  1 01:08:02.347: ISAKMP:(0): SA request profile is (NULL)
@@ -549,7 +549,7 @@ R1(config-if)#
 *Mar  1 01:08:02.351: ISAKMP: New peer created peer = 0x6620CD9C peer_handle = 0x80000003
 *Mar  1 01:08:02.355: ISAKMP: Locking peer struct 0x6620CD9C, refcount 1 for isakmp_initiator
 *Mar  1 01:08:02.359: ISAKMP: local port 500, remote port 500
-*Mar  1 01:08:02.359: ISAKMP: set new node 0 to QM_IDLE      
+*Mar  1 01:08:02.359: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:08:02.359: ISAKMP: Find a dup sa in the avl tree during calling isadb_insert sa = 66166264
 *Mar  1 01:08:02.359: ISAKMP:(0):Can not start Aggressive mode, trying Main mode.
 *Mar  1 01:08:02.359: ISAKMP:(0):found peer pre-shared key matching 10.10.10.6
@@ -558,7 +558,7 @@ R1(config-if)#
 *Mar  1 01:08:02.359: ISAKMP:(0): constructed NAT-T vendor-03 ID
 *Mar  1 01:08:02.359: ISAKMP:(0): constructed NAT-T vendor-02 ID
 *Mar  1 01:08:02.359: ISAKMP:(0):Input = IKE_MESG_FROM_IPSEC, IKE_SA_REQ_MM
-*Mar  1 01:08:02.359: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1 
+*Mar  1 01:08:02.359: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1
 
 *Mar  1 01:08:02.359: ISAKMP:(0): beginning Main Mode exchange
 *Mar  1 01:08:02.359: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
@@ -577,7 +577,7 @@ R1(config-if)#
 *Mar  1 01:08:22.371: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
 *Mar  1 01:08:22.371: ISAKMP:(0):Sending an IKE IPv4 Packet.
 R1(config-if)#
-*Mar  1 01:08:32.347: ISAKMP: set new node 0 to QM_IDLE      
+*Mar  1 01:08:32.347: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:08:32.351: ISAKMP:(0):SA is still budding. Attached new ipsec request to it. (local 10.10.10.1, remote 10.10.10.6)
 *Mar  1 01:08:32.355: ISAKMP: Error while processing SA request: Failed to initialize SA
 *Mar  1 01:08:32.359: ISAKMP: Error while processing KMI message 0, error 2.
@@ -609,14 +609,14 @@ R1(config-if)#
 *Mar  1 01:09:02.387: ISAKMP:(0):peer does not do paranoid keepalives.
 
 *Mar  1 01:09:02.391: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
-*Mar  1 01:09:02.395: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6) 
+*Mar  1 01:09:02.395: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
 *Mar  1 01:09:02.399: ISAKMP: Unlocking peer struct 0x6620CD9C for isadb_mark_sa_deleted(), count 0
 *Mar  1 01:09:02.399: ISAKMP: Deleting peer node by peer_reap for 10.10.10.6: 6620CD9C
 *Mar  1 01:09:02.399: ISAKMP:(0):deleting node 599272093 error FALSE reason "IKE deleted"
 R1(config-if)#
 *Mar  1 01:09:02.399: ISAKMP:(0):deleting node -1043444349 error FALSE reason "IKE deleted"
 *Mar  1 01:09:02.399: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PHASE1_DEL
-*Mar  1 01:09:02.399: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA 
+*Mar  1 01:09:02.399: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA
 
 R1(config-if)#
 *Mar  1 01:09:52.399: ISAKMP:(0):purging node 599272093
@@ -627,7 +627,7 @@ R1(config-if)#
 *Mar  1 01:10:02.347: ISAKMP: New peer created peer = 0x6620CD9C peer_handle = 0x80000004
 *Mar  1 01:10:02.347: ISAKMP: Locking peer struct 0x6620CD9C, refcount 1 for isakmp_initiator
 *Mar  1 01:10:02.347: ISAKMP: local port 500, remote port 500
-*Mar  1 01:10:02.347: ISAKMP: set new node 0 to QM_IDLE      
+*Mar  1 01:10:02.347: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:10:02.351: ISAKMP: Find a dup sa in the avl tree during calling isadb_insert sa = 66163310
 *Mar  1 01:10:02.351: ISAKMP:(0):Can not start Aggressive mode, trying Main mode.
 *Mar  1 01:10:02.351: ISAKMP:(0):found peer pre-shared key matching 10.10.10.6
@@ -636,7 +636,7 @@ R1(config-if)#
 *Mar  1 01:10:02.351: ISAKMP:(0): constructed NAT-T vendor-03 ID
 *Mar  1 01:10:02.351: ISAKMP:(0): constructed NAT-T vendor-02 ID
 *Mar  1 01:10:02.351: ISAKMP:(0):Input = IKE_MESG_FROM_IPSEC, IKE_SA_REQ_MM
-*Mar  1 01:10:02.351: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1 
+*Mar  1 01:10:02.351: ISAKMP:(0):Old State = IKE_READY  New State = IKE_I_MM1
 
 *Mar  1 01:10:02.351: ISAKMP:(0): beginning Main Mode exchange
 *Mar  1 01:10:02.351: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
@@ -656,7 +656,7 @@ R1(config-if)#
 *Mar  1 01:10:22.375: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (I) MM_NO_STATE
 *Mar  1 01:10:22.375: ISAKMP:(0):Sending an IKE IPv4 Packet.
 R1(config-if)#
-*Mar  1 01:10:32.347: ISAKMP: set new node 0 to QM_IDLE      
+*Mar  1 01:10:32.347: ISAKMP: set new node 0 to QM_IDLE
 *Mar  1 01:10:32.351: ISAKMP:(0):SA is still budding. Attached new ipsec request to it. (local 10.10.10.1, remote 10.10.10.6)
 *Mar  1 01:10:32.351: ISAKMP: Error while processing SA request: Failed to initialize SA
 *Mar  1 01:10:32.351: ISAKMP: Error while processing KMI message 0, error 2.
@@ -683,14 +683,14 @@ R1(config-if)#
 *Mar  1 01:11:02.419: ISAKMP:(0):peer does not do paranoid keepalives.
 
 *Mar  1 01:11:02.423: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
-*Mar  1 01:11:02.431: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6) 
+*Mar  1 01:11:02.431: ISAKMP:(0):deleting SA reason "Death by retransmission P1" state (I) MM_NO_STATE (peer 10.10.10.6)
 *Mar  1 01:11:02.431: ISAKMP: Unlocking peer struct 0x6620CD9C for isadb_mark_sa_deleted(), count 0
 *Mar  1 01:11:02.431: ISAKMP: Deleting peer node by peer_reap for 10.10.10.6: 6620CD9C
 *Mar  1 01:11:02.435: ISAKMP:(0):deleting node -1428193294 error FALSE reason "IKE deleted"
 R1(config-if)#
 *Mar  1 01:11:02.435: ISAKMP:(0):deleting node 1905895885 error FALSE reason "IKE deleted"
 *Mar  1 01:11:02.435: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PHASE1_DEL
-*Mar  1 01:11:02.435: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA 
+*Mar  1 01:11:02.435: ISAKMP:(0):Old State = IKE_I_MM1  New State = IKE_DEST_SA
 
 R1(config-if)#
 *Mar  1 01:11:26.231: ISAKMP (0:0): received packet from 10.10.10.6 dport 500 sport 500 Global (N) NEW SA
@@ -700,7 +700,7 @@ R1(config-if)#
 *Mar  1 01:11:26.239: ISAKMP: local port 500, remote port 500
 *Mar  1 01:11:26.239: insert sa successfully sa = 66166264
 *Mar  1 01:11:26.243: ISAKMP:(0):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 01:11:26.243: ISAKMP:(0):Old State = IKE_READY  New State = IKE_R_MM1 
+*Mar  1 01:11:26.243: ISAKMP:(0):Old State = IKE_READY  New State = IKE_R_MM1
 
 *Mar  1 01:11:26.243: ISAKMP:(0): processing SA payload. message ID = 0
 *Mar  1 01:11:26.243: ISAKMP:(0): processing vendor id payload
@@ -746,17 +746,17 @@ R1(config-if)#
 *Mar  1 01:11:26.251: ISAKMP:(0): vendor ID seems Unity/DPD but major 123 mismatch
 *Mar  1 01:11:26.251: ISAKMP:(0): vendor ID is NAT-T v2
 *Mar  1 01:11:26.251: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 01:11:26.251: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM1 
+*Mar  1 01:11:26.251: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM1
 
 *Mar  1 01:11:26.251: ISAKMP:(0): constructed NAT-T vendor-rfc3947 ID
 *Mar  1 01:11:26.251: ISAKMP:(0): sending packet to 10.10.10.6 my_port 500 peer_port 500 (R) MM_SA_SETUP
 *Mar  1 01:11:26.251: ISAKMP:(0):Sending an IKE IPv4 Packet.
 *Mar  1 01:11:26.251: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 01:11:26.251: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM2 
+*Mar  1 01:11:26.251: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM2
 
 *Mar  1 01:11:26.303: ISAKMP (0:0): received packet from 10.10.10.6 dport 500 sport 500 Global (R) MM_SA_SETUP
 *Mar  1 01:11:26.307: ISAKMP:(0):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 01:11:26.307: ISAKMP:(0):Old State = IKE_R_MM2  New State = IKE_R_MM3 
+*Mar  1 01:11:26.307: ISAKMP:(0):Old State = IKE_R_MM2  New State = IKE_R_MM3
 
 *Mar  1 01:11:26.307: ISAKMP:(0): processing KE payload. message ID = 0
 *Mar  1 01:11:26.419: ISAKMP:(0): processing NONCE payload. message ID = 0
@@ -770,24 +770,24 @@ R1(config-if)#
 *Mar  1 01:11:26.423: ISAKMP:received payload type 20
 *Mar  1 01:11:26.423: ISAKMP:received payload type 20
 *Mar  1 01:11:26.423: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 01:11:26.423: ISAKMP:(1001):Old State = IKE_R_MM3  New State = IKE_R_MM3 
+*Mar  1 01:11:26.423: ISAKMP:(1001):Old State = IKE_R_MM3  New State = IKE_R_MM3
 
 *Mar  1 01:11:26.427: ISAKMP:(1001): sending packet to 10.10.10.6 my_port 500 peer_port 500 (R) MM_KEY_EXCH
 *Mar  1 01:11:26.427: ISAKMP:(1001):Sending an IKE IPv4 Packet.
 *Mar  1 01:11:26.427: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 01:11:26.427: ISAKMP:(1001):Old State = IKE_R_MM3  New State = IKE_R_MM4 
+*Mar  1 01:11:26.427: ISAKMP:(1001):Old State = IKE_R_MM3  New State = IKE_R_MM4
 
 *Mar  1 01:11:26.587: ISAKMP (0:1001): received packet from 10.10.10.6 dport 500 sport 500 Global (R) MM_KEY_EXCH
 *Mar  1 01:11:26.587: ISAKMP:(1001):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 01:11:26.591: ISAKMP:(1001):Old State = IKE_R_MM4  New State = IKE_R_MM5 
+*Mar  1 01:11:26.591: ISAKMP:(1001):Old State = IKE_R_MM4  New State = IKE_R_MM5
 
 *Mar  1 01:11:26.591: ISAKMP:(1001): processing ID payload. message ID = 0
-*Mar  1 01:11:26.591: ISAKMP (0:1001): ID payload 
+*Mar  1 01:11:26.591: ISAKMP (0:1001): ID payload
 	next-payload : 8
-	type         : 1 
-	address      : 10.10.10.6 
-	protocol     : 17 
-	port         : 500 
+	type         : 1
+	address      : 10.10.10.6
+	protocol     : 17
+	port         : 500
 	length       : 12
 *Mar  1 01:11:26.591: ISAKMP:(0):: peer matches *none* of the profiles
 *Mar  1 01:11:26.591: ISAKMP:(1001): processing HASH payload. message ID = 0
@@ -802,37 +802,37 @@ R1(config-if)#
 bring down existing phase 1 and 2 SA's with local 10.10.10.1 remote 10.10.10.6 remote port 500
 *Mar  1 01:11:26.595: ISAKMP: Trying to insert a peer 10.10.10.1/10.10.10.6/500/,  and inserted successfully 6620CD9C.
 *Mar  1 01:11:26.595: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 01:11:26.595: ISAKMP:(1001):Old State = IKE_R_MM5  New State = IKE_R_MM5 
+*Mar  1 01:11:26.595: ISAKMP:(1001):Old State = IKE_R_MM5  New State = IKE_R_MM5
 
 *Mar  1 01:11:26.595: ISAKMP:(1001):SA is doing pre-shared key authentication using id type ID_IPV4_ADDR
-*Mar  1 01:11:26.595: ISAKMP (0:1001): ID payload 
+*Mar  1 01:11:26.595: ISAKMP (0:1001): ID payload
 	next-payload : 8
-	type         : 1 
-	address      : 10.10.10.1 
-	protocol     : 17 
-	port         : 500 
+	type         : 1
+	address      : 10.10.10.1
+	protocol     : 17
+	port         : 500
 	length       : 12
 *Mar  1 01:11:26.595: ISAKMP:(1001):Total payload length: 12
 *Mar  1 01:11:26.595: ISAKMP:(1001): sending packet to 10.10.10.6 my_port 500 peer_port 500 (R) MM_KEY_EXCH
 *Mar  1 01:11:26.595: ISAKMP:(1001):Sending an IKE IPv4 Packet.
 *Mar  1 01:11:26.599: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 01:11:26.599: ISAKMP:(1001):Old State = IKE_R_MM5  New State = IKE_P1_COMPLETE 
+*Mar  1 01:11:26.599: ISAKMP:(1001):Old State = IKE_R_MM5  New State = IKE_P1_COMPLETE
 
 *Mar  1 01:11:26.599: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PHASE1_COMPLETE
-*Mar  1 01:11:26.599: ISAKMP:(1001):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE 
+*Mar  1 01:11:26.599: ISAKMP:(1001):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE
 
-*Mar  1 01:11:26.643: ISAKMP (0:1001): received packet from 10.10.10.6 dport 500 sport 500 Global (R) QM_IDLE      
-*Mar  1 01:11:26.643: ISAKMP: set new node 461180432 to QM_IDLE      
+*Mar  1 01:11:26.643: ISAKMP (0:1001): received packet from 10.10.10.6 dport 500 sport 500 Global (R) QM_IDLE
+*Mar  1 01:11:26.643: ISAKMP: set new node 461180432 to QM_IDLE
 *Mar  1 01:11:26.643: ISAKMP:(1001): processing HASH payload. message ID = 461180432
 *Mar  1 01:11:26.643: ISAKMP:(1001): processing SA payload. message ID = 461180432
 *Mar  1 01:11:26.647: ISAKMP:(1001):Checking IPSec proposal 1
-*Mar  1 01:11:26.647: ISAKMP: transform 1, ESP_AES 
+*Mar  1 01:11:26.647: ISAKMP: transform 1, ESP_AES
 *Mar  1 01:11:26.647: ISAKMP:   attributes in transform:
 *Mar  1 01:11:26.647: ISAKMP:      encaps is 1 (Tunnel)
 *Mar  1 01:11:26.647: ISAKMP:      SA life type in seconds
 *Mar  1 01:11:26.647: ISAKMP:      SA life duration (basic) of 3600
 *Mar  1 01:11:26.647: ISAKMP:      SA life type in kilobytes
-*Mar  1 01:11:26.647: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0 
+*Mar  1 01:11:26.647: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0
 *Mar  1 01:11:26.647: ISAKMP:      authenticator is HMAC-SHA
 *Mar  1 01:11:26.647: ISAKMP:      key length is 128
 *Mar  1 01:11:26.647: ISAKMP:(1001):atts are acceptable.
@@ -853,12 +853,12 @@ bring down existing phase 1 and 2 SA's with local 10.10.10.1 remote 10.10.10.6 r
 *Mar  1 01:11:26.659:         has spi  0xB9B7B90E and conn_id 0
 *Mar  1 01:11:26.659:         lifetime of 3600 seconds
 *Mar  1 01:11:26.659:         lifetime of 4608000 kilobytes
-*Mar  1 01:11:26.659: ISAKMP:(1001): sending packet to 10.10.10.6 my_port 500 peer_port 500 (R) QM_IDLE      
+*Mar  1 01:11:26.659: ISAKMP:(1001): sending packet to 10.10.10.6 my_port 500 peer_port 500 (R) QM_IDLE
 *Mar  1 01:11:26.659: ISAKMP:(1001):Sending an IKE IPv4 Packet.
 *Mar  1 01:11:26.659: ISAKMP:(1001):Node 461180432, Input = IKE_MESG_INTERNAL, IKE_GOT_SPI
 *Mar  1 01:11:26.659: ISAKMP:(1001):Old State = IKE_QM_SPI_STARVE  New State = IKE_QM_R_QM2
 *Mar  1 01:11:26.667: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to up
-*Mar  1 01:11:26.703: ISAKMP (0:1001): received packet from 10.10.10.6 dport 500 sport 500 Global (R) QM_IDLE      
+*Mar  1 01:11:26.703: ISAKMP (0:1001): received packet from 10.10.10.6 dport 500 sport 500 Global (R) QM_IDLE
 *Mar  1 01:11:26.707: ISAKMP:(1001):deleting node 461180432 error FALSE reason "QM done (await)"
 *Mar  1 01:11:26.707: ISAKMP:(1001):Node 461180432, Input = IKE_MESG_FROM_PEER, IKE_QM_EXCH
 *Mar  1 01:11:26.707: ISAKMP:(1001):Old State = IKE_QM_R_QM2  New State = IKE_QM_PHASE2_COMPLETE
@@ -874,18 +874,18 @@ R1(config-if)#do wr
 R3(config-if)#
 *Mar  1 01:12:24.735: ISAKMP:(1001):purging node 461180432
 R3(config-if)#
-*Mar  1 02:08:30.815: ISAKMP (0:1001): received packet from 10.10.10.1 dport 500 sport 500 Global (I) QM_IDLE      
-*Mar  1 02:08:30.819: ISAKMP: set new node 1325011913 to QM_IDLE      
+*Mar  1 02:08:30.815: ISAKMP (0:1001): received packet from 10.10.10.1 dport 500 sport 500 Global (I) QM_IDLE
+*Mar  1 02:08:30.819: ISAKMP: set new node 1325011913 to QM_IDLE
 *Mar  1 02:08:30.827: ISAKMP:(1001): processing HASH payload. message ID = 1325011913
 *Mar  1 02:08:30.831: ISAKMP:(1001): processing SA payload. message ID = 1325011913
 *Mar  1 02:08:30.835: ISAKMP:(1001):Checking IPSec proposal 1
-*Mar  1 02:08:30.835: ISAKMP: transform 1, ESP_AES 
+*Mar  1 02:08:30.835: ISAKMP: transform 1, ESP_AES
 *Mar  1 02:08:30.839: ISAKMP:   attributes in transform:
 *Mar  1 02:08:30.839: ISAKMP:      encaps is 1 (Tunnel)
 *Mar  1 02:08:30.839: ISAKMP:      SA life type in seconds
 *Mar  1 02:08:30.843: ISAKMP:      SA life duration (basic) of 3600
 *Mar  1 02:08:30.847: ISAKMP:      SA life type in kilobytes
-*Mar  1 02:08:30.847: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0 
+*Mar  1 02:08:30.847: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0
 *Mar  1 02:08:30.851: ISAKMP:      authenticator is HMAC-SHA
 *Mar  1 02:08:30.851: ISAKMP:      key length is 128
 *Mar  1 02:08:30.855: ISAKMP:(1001):atts are acceptable.
@@ -906,11 +906,11 @@ R3(config-if)#
 *Mar  1 02:08:30.863:         has spi  0xF72B24F2 and conn_id 0
 *Mar  1 02:08:30.863:         lifetime of 3600 seconds
 *Mar  1 02:08:30.863:         lifetime of 4608000 kilobytes
-*Mar  1 02:08:30.863: ISAKMP:(1001): sending packet to 10.10.10.1 my_port 500 peer_port 500 (I) QM_IDLE      
+*Mar  1 02:08:30.863: ISAKMP:(1001): sending packet to 10.10.10.1 my_port 500 peer_port 500 (I) QM_IDLE
 *Mar  1 02:08:30.863: ISAKMP:(1001):Sending an IKE IPv4 Packet.
 *Mar  1 02:08:30.863: ISAKMP:(1001):Node 1325011913, Input = IKE_MESG_INTERNAL, IKE_GOT_SPI
 *Mar  1 02:08:30.863: ISAKMP:(1001):Old State = IKE_QM_SPI_STARVE  New State = IKE_QM_R_QM2
-*Mar  1 02:08:30.915: ISAKMP (0:1001): received packet from 10.10.10.1 dport 500 sport 500 Global (I) QM_IDLE      
+*Mar  1 02:08:30.915: ISAKMP (0:1001): received packet from 10.10.10.1 dport 500 sport 500 Global (I) QM_IDLE
 *Mar  1 02:08:30.915: ISAKMP:(1001):deleting node 1325011913 error FALSE reason "QM done (await)"
 *Mar  1 02:08:30.915: ISAKMP:(1001):Node 1325011913, Input = IKE_MESG_FROM_PEER, IKE_QM_EXCH
 *Mar  1 02:08:30.915: ISAKMP:(1001):Old State = IKE_QM_R_QM2  New State = IKE_QM_PHASE2_COMPLETE
@@ -924,25 +924,25 @@ R3(config-if)#
 *Mar  1 02:11:34.335: ISAKMP:(1001):peer does not do paranoid keepalives.
 
 *Mar  1 02:11:34.339: ISAKMP:(1001):deleting SA reason "IKE SA Lifetime Exceeded" state (I) QM_IDLE       (peer 10.10.10.1)
-*Mar  1 02:11:34.351: ISAKMP: set new node -1084285662 to QM_IDLE      
+*Mar  1 02:11:34.351: ISAKMP: set new node -1084285662 to QM_IDLE
 *Mar  1 02:11:34.351: ISAKMP:(1001):Input = IKE_MESG_INTERNAL, IKE_PHASE1_DEL
-*Mar  1 02:11:34.351: ISAKMP:(1001):Old State = IKE_P1_COMPLETE  New State = IKE_DEST_SA 
+*Mar  1 02:11:34.351: ISAKMP:(1001):Old State = IKE_P1_COMPLETE  New State = IKE_DEST_SA
 
-*Mar  1 02:11:34.351: ISAKMP:(1001):deleting SA reason "IKE SA Lifetime Exceeded" state (I) QM_IDLE       (peer 10.10.10.1) 
+*Mar  1 02:11:34.351: ISAKMP:(1001):deleting SA reason "IKE SA Lifetime Exceeded" state (I) QM_IDLE       (peer 10.10.10.1)
 R3(config-if)#
 *Mar  1 02:11:34.351: ISAKMP:(0):Can't decrement IKE Call Admission Control stat outgoing_active since it's already 0.
 *Mar  1 02:11:34.351: ISAKMP: Unlocking peer struct 0x6614ABFC for isadb_mark_sa_deleted(), count 0
 *Mar  1 02:11:34.355: ISAKMP:(1001):deleting node -1084285662 error FALSE reason "IKE deleted"
 *Mar  1 02:11:34.355: ISAKMP:(1001):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 02:11:34.355: ISAKMP:(1001):Old State = IKE_DEST_SA  New State = IKE_DEST_SA 
+*Mar  1 02:11:34.355: ISAKMP:(1001):Old State = IKE_DEST_SA  New State = IKE_DEST_SA
 
 *Mar  1 02:11:34.735: ISAKMP: ignoring request to send delete notify (no ISAKMP sa) src 10.10.10.6 dst 10.10.10.1 for SPI 0xB9B7B90E
-R3(config-if)#    
+R3(config-if)#
 
 /* and finally ipsec related debug at peer router */
 
 
-R3#debug crypto ipsec 
+R3#debug crypto ipsec
 Crypto IPSEC debugging is on
 R3#
 R3#
@@ -952,7 +952,7 @@ R3#
 *Mar  1 02:17:36.891: ISAKMP: local port 500, remote port 500
 *Mar  1 02:17:36.895: insert sa successfully sa = 6616A688
 *Mar  1 02:17:36.899: ISAKMP:(0):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 02:17:36.903: ISAKMP:(0):Old State = IKE_READY  New State = IKE_R_MM1 
+*Mar  1 02:17:36.903: ISAKMP:(0):Old State = IKE_READY  New State = IKE_R_MM1
 
 *Mar  1 02:17:36.907: ISAKMP:(0): processing SA payload. message ID = 0
 *Mar  1 02:17:36.907: ISAKMP:(0): processing vendor id payload
@@ -998,17 +998,17 @@ R3#
 *Mar  1 02:17:36.911: ISAKMP:(0): vendor ID seems Unity/DPD but major 123 mismatch
 *Mar  1 02:17:36.911: ISAKMP:(0): vendor ID is NAT-T v2
 *Mar  1 02:17:36.911: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 02:17:36.911: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM1 
+*Mar  1 02:17:36.911: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM1
 
 *Mar  1 02:17:36.911: ISAKMP:(0): constructed NAT-T vendor-rfc3947 ID
 *Mar  1 02:17:36.915: ISAKMP:(0): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) MM_SA_SETUP
 *Mar  1 02:17:36.915: ISAKMP:(0):Sending an IKE IPv4 Packet.
 *Mar  1 02:17:36.915: ISAKMP:(0):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 02:17:36.915: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM2 
+*Mar  1 02:17:36.915: ISAKMP:(0):Old State = IKE_R_MM1  New State = IKE_R_MM2
 
 *Mar  1 02:17:36.971: ISAKMP (0:0): received packet from 10.10.10.1 dport 500 sport 500 Global (R) MM_SA_SETUP
 *Mar  1 02:17:36.975: ISAKMP:(0):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 02:17:36.975: ISAKMP:(0):Old State = IKE_R_MM2  New State = IKE_R_MM3 
+*Mar  1 02:17:36.975: ISAKMP:(0):Old State = IKE_R_MM2  New State = IKE_R_MM3
 
 *Mar  1 02:17:36.979: ISAKMP:(0): processing KE payload. message ID = 0
 *Mar  1 02:17:37.079: ISAKMP:(0): processing NONCE payload. message ID = 0
@@ -1022,24 +1022,24 @@ R3#
 *Mar  1 02:17:37.079: ISAKMP:received payload type 20
 *Mar  1 02:17:37.079: ISAKMP:received payload type 20
 *Mar  1 02:17:37.083: ISAKMP:(1002):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 02:17:37.083: ISAKMP:(1002):Old State = IKE_R_MM3  New State = IKE_R_MM3 
+*Mar  1 02:17:37.083: ISAKMP:(1002):Old State = IKE_R_MM3  New State = IKE_R_MM3
 
 *Mar  1 02:17:37.083: ISAKMP:(1002): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) MM_KEY_EXCH
 *Mar  1 02:17:37.083: ISAKMP:(1002):Sending an IKE IPv4 Packet.
 *Mar  1 02:17:37.083: ISAKMP:(1002):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 02:17:37.083: ISAKMP:(1002):Old State = IKE_R_MM3  New State = IKE_R_MM4 
+*Mar  1 02:17:37.083: ISAKMP:(1002):Old State = IKE_R_MM3  New State = IKE_R_MM4
 
 *Mar  1 02:17:37.227: ISAKMP (0:1002): received packet from 10.10.10.1 dport 500 sport 500 Global (R) MM_KEY_EXCH
 *Mar  1 02:17:37.227: ISAKMP:(1002):Input = IKE_MESG_FROM_PEER, IKE_MM_EXCH
-*Mar  1 02:17:37.227: ISAKMP:(1002):Old State = IKE_R_MM4  New State = IKE_R_MM5 
+*Mar  1 02:17:37.227: ISAKMP:(1002):Old State = IKE_R_MM4  New State = IKE_R_MM5
 
 *Mar  1 02:17:37.227: ISAKMP:(1002): processing ID payload. message ID = 0
-*Mar  1 02:17:37.227: ISAKMP (0:1002): ID payload 
+*Mar  1 02:17:37.227: ISAKMP (0:1002): ID payload
 	next-payload : 8
-	type         : 1 
-	address      : 10.10.10.1 
-	protocol     : 17 
-	port         : 500 
+	type         : 1
+	address      : 10.10.10.1
+	protocol     : 17
+	port         : 500
 	length       : 12
 *Mar  1 02:17:37.231: ISAKMP:(0):: peer matches *none* of the profiles
 *Mar  1 02:17:37.231: ISAKMP:(1002): processing HASH payload. message ID = 0
@@ -1053,72 +1053,72 @@ R3#
 *Mar  1 02:17:37.231: ISAKMP:(1002): Process initial contact,
 bring down existing phase 1 and 2 SA's with local 10.10.10.6 remote 10.10.10.1 remote port 500
 *Mar  1 02:17:37.231: ISAKMP:(1002):Input = IKE_MESG_INTERNAL, IKE_PROCESS_MAIN_MODE
-*Mar  1 02:17:37.231: ISAKMP:(1002):Old State = IKE_R_MM5  New State = IKE_R_MM5 
+*Mar  1 02:17:37.231: ISAKMP:(1002):Old State = IKE_R_MM5  New State = IKE_R_MM5
 
 *Mar  1 02:17:37.235: IPSEC(key_engine): got a queue event with 1 KMI message(s)
 *Mar  1 02:17:37.235: Delete IPsec SA by IC, local 10.10.10.6 remote 10.10.10.1 peer port 500
 *Mar  1 02:17:37.235: IPSEC(delete_sa): deleting SA,
-  (sa) sa_dest= 10.10.10.6, sa_proto= 50, 
-    sa_spi= 0x38DDF3D7(954069975), 
+  (sa) sa_dest= 10.10.10.6, sa_proto= 50,
+    sa_spi= 0x38DDF3D7(954069975),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 3,
-  (identity) local= 10.10.10.6, remote= 10.10.10.1, 
-    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4), 
+  (identity) local= 10.10.10.6, remote= 10.10.10.1,
+    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
     remote_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4)
 *Mar  1 02:17:37.235: IPSEC(update_current_outbound_sa): updated peer 10.10.10.1 current outbound sa to SPI 0
 *Mar  1 02:17:37.235: IPSEC(delete_sa): deleting SA,
-  (sa) sa_dest= 10.10.10.1, sa_proto= 50, 
-    sa_spi= 0xF72B24F2(4146799858), 
+  (sa) sa_dest= 10.10.10.1, sa_proto= 50,
+    sa_spi= 0xF72B24F2(4146799858),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 4,
-  (identity) local= 10.10.10.6, remote= 10.10.10.1, 
-    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4), 
+  (identity) local= 10.10.10.6, remote= 10.10.10.1,
+    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
     remote_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4)
 *Mar  1 02:17:37.235: ISAKMP:(1002):SA is doing pre-shared key authentication using id type ID_IPV4_ADDR
-*Mar  1 02:17:37.235: ISAKMP (0:1002): ID payload 
+*Mar  1 02:17:37.235: ISAKMP (0:1002): ID payload
 	next-payload : 8
-	type         : 1 
-	address      : 10.10.10.6 
-	protocol     : 17 
-	port         : 500 
+	type         : 1
+	address      : 10.10.10.6
+	protocol     : 17
+	port         : 500
 	length       : 12
 *Mar  1 02:17:37.239: ISAKMP:(1002):Total payload length: 12
 *Mar  1 02:17:37.239: ISAKMP:(1002): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) MM_KEY_EXCH
 *Mar  1 02:17:37.239: ISAKMP:(1002):Sending an IKE IPv4 Packet.
 *Mar  1 02:17:37.239: ISAKMP:(1002):Input = IKE_MESG_INTERNAL, IKE_PROCESS_COMPLETE
-*Mar  1 02:17:37.239: ISAKMP:(1002):Old State = IKE_R_MM5  New State = IKE_P1_COMPLETE 
+*Mar  1 02:17:37.239: ISAKMP:(1002):Old State = IKE_R_MM5  New State = IKE_P1_COMPLETE
 
-*Mar  1 02:17:37.239: ISAKMP: set new node 1905569209 to QM_IDLE      
+*Mar  1 02:17:37.239: ISAKMP: set new node 1905569209 to QM_IDLE
 *Mar  1 02:17:37.239: ISAKMP:(1002): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) MM_KEY_EXCH
 *Mar  1 02:17:37.239: ISAKMP:(1002):Sending an IKE IPv4 Packet.
 *Mar  1 02:17:37.239: ISAKMP:(1002):purging node 1905569209
 *Mar  1 02:17:37.239: ISAKMP:(1002):Input = IKE_MESG_FROM_IPSEC, IKE_PHASE2_DEL
-*Mar  1 02:17:37.239: ISAKMP:(1002):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE 
+*Mar  1 02:17:37.239: ISAKMP:(1002):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE
 
 *Mar  1 02:17:37.239: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to down
 *Mar  1 02:17:37.259: ISAKMP:(1002):Input = IKE_MESG_INTERNAL, IKE_PHASE1_COMPLETE
-*Mar  1 02:17:37.263: ISAKMP:(1002):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE 
+*Mar  1 02:17:37.263: ISAKMP:(1002):Old State = IKE_P1_COMPLETE  New State = IKE_P1_COMPLETE
 
-*Mar  1 02:17:37.271: ISAKMP (0:1002): received packet from 10.10.10.1 dport 500 sport 500 Global (R) QM_IDLE      
-*Mar  1 02:17:37.275: ISAKMP: set new node -1245967239 to QM_IDLE      
+*Mar  1 02:17:37.271: ISAKMP (0:1002): received packet from 10.10.10.1 dport 500 sport 500 Global (R) QM_IDLE
+*Mar  1 02:17:37.275: ISAKMP: set new node -1245967239 to QM_IDLE
 *Mar  1 02:17:37.283: ISAKMP:(1002): processing HASH payload. message ID = -1245967239
 *Mar  1 02:17:37.287: ISAKMP:(1002): processing SA payload. message ID = -1245967239
 *Mar  1 02:17:37.291: ISAKMP:(1002):Checking IPSec proposal 1
-*Mar  1 02:17:37.291: ISAKMP: transform 1, ESP_AES 
+*Mar  1 02:17:37.291: ISAKMP: transform 1, ESP_AES
 *Mar  1 02:17:37.291: ISAKMP:   attributes in transform:
 *Mar  1 02:17:37.291: ISAKMP:      encaps is 1 (Tunnel)
 *Mar  1 02:17:37.291: ISAKMP:      SA life type in seconds
 *Mar  1 02:17:37.291: ISAKMP:      SA life duration (basic) of 3600
 *Mar  1 02:17:37.291: ISAKMP:      SA life type in kilobytes
-*Mar  1 02:17:37.291: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0 
+*Mar  1 02:17:37.291: ISAKMP:      SA life duration (VPI) of  0x0 0x46 0x50 0x0
 *Mar  1 02:17:37.291: ISAKMP:      authenticator is HMAC-SHA
 *Mar  1 02:17:37.291: ISAKMP:      key length is 128
 *Mar  1 02:17:37.291: ISAKMP:(1002):atts are acceptable.
 *Mar  1 02:17:37.291: IPSEC(validate_proposal_request): proposal part #1
 *Mar  1 02:17:37.291: IPSEC(validate_proposal_request): proposal part #1,
-  (key eng. msg.) INBOUND local= 10.10.10.6, remote= 10.10.10.1, 
-    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4), 
+  (key eng. msg.) INBOUND local= 10.10.10.6, remote= 10.10.10.1,
+    local_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
     remote_proxy= 0.0.0.0/0.0.0.0/0/0 (type=4),
-    protocol= ESP, transform= NONE  (Tunnel), 
-    lifedur= 0s and 0kb, 
+    protocol= ESP, transform= NONE  (Tunnel),
+    lifedur= 0s and 0kb,
     spi= 0x0(0), conn_id= 0, keysize= 128, flags= 0x0
 *Mar  1 02:17:37.295: Crypto mapdb : proxy_match
 	src addr     : 0.0.0.0
@@ -1143,7 +1143,7 @@ bring down existing phase 1 and 2 SA's with local 10.10.10.6 remote 10.10.10.1 r
 *Mar  1 02:17:37.299:         has spi  0x21708019 and conn_id 0
 *Mar  1 02:17:37.299:         lifetime of 3600 seconds
 *Mar  1 02:17:37.303:         lifetime of 4608000 kilobytes
-*Mar  1 02:17:37.303: ISAKMP:(1002): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) QM_IDLE      
+*Mar  1 02:17:37.303: ISAKMP:(1002): sending packet to 10.10.10.1 my_port 500 peer_port 500 (R) QM_IDLE
 *Mar  1 02:17:37.303: ISAKMP:(1002):Sending an IKE IPv4 Packet.
 *Mar  1 02:17:37.303: ISAKMP:(1002):Node -1245967239, Input = IKE_MESG_INTERNAL, IKE_GOT_SPI
 *Mar  1 02:17:37.303: ISAKMP:(1002):Old State = IKE_QM_SPI_STARVE  New State = IKE_QM_R_QM2
@@ -1158,21 +1158,21 @@ bring down existing phase 1 and 2 SA's with local 10.10.10.6 remote 10.10.10.1 r
 *Mar  1 02:17:37.303: IPSEC(policy_db_add_ident): src 0.0.0.0, dest 0.0.0.0, dest_port 0
 
 *Mar  1 02:17:37.303: IPSEC(create_sa): sa created,
-  (sa) sa_dest= 10.10.10.6, sa_proto= 50, 
-    sa_spi= 0xB60BFCFA(3054238970), 
+  (sa) sa_dest= 10.10.10.6, sa_proto= 50,
+    sa_spi= 0xB60BFCFA(3054238970),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 5
 *Mar  1 02:17:37.307: IPSEC(create_sa): sa created,
-  (sa) sa_dest= 10.10.10.1, sa_proto= 50, 
-    sa_spi= 0x21708019(561020953), 
+  (sa) sa_dest= 10.10.10.1, sa_proto= 50,
+    sa_spi= 0x21708019(561020953),
     sa_trans= esp-aes esp-sha-hmac , sa_conn_id= 6
 *Mar  1 02:17:37.311: %LINEPROTO-5-UPDOWN: Line protocol on Interface Tunnel0, changed state to up
-*Mar  1 02:17:37.351: ISAKMP (0:1002): received packet from 10.10.10.1 dport 500 sport 500 Global (R) QM_IDLE      
+*Mar  1 02:17:37.351: ISAKMP (0:1002): received packet from 10.10.10.1 dport 500 sport 500 Global (R) QM_IDLE
 *Mar  1 02:17:37.355: ISAKMP:(1002):deleting node -1245967239 error FALSE reason "QM done (await)"
 *Mar  1 02:17:37.355: ISAKMP:(1002):Node -1245967239, Input = IKE_MESG_FROM_PEER, IKE_QM_EXCH
 *Mar  1 02:17:37.355: ISAKMP:(1002):Old State = IKE_QM_R_QM2  New State = IKE_QM_PHASE2_COMPLETE
 *Mar  1 02:17:37.355: IPSEC(key_engine): got a queue event with 1 KMI message(s)
 *Mar  1 02:17:37.355: IPSEC(key_engine_enable_outbound): rec'd enable notify from ISAKMP
-*Mar  1 02:17:37.355: IPSEC(key_engine_enable_outbound): enable SA with spi 561020953/50 
+*Mar  1 02:17:37.355: IPSEC(key_engine_enable_outbound): enable SA with spi 561020953/50
 *Mar  1 02:17:37.355: IPSEC(update_current_outbound_sa): updated peer 10.10.10.1 current outbound sa to SPI 21708019
 R3#
 R3#
@@ -1214,13 +1214,13 @@ ip cef
 !
 !
 no ip domain lookup
-!         
+!
 multilink bundle-name authenticated
 !
-archive   
+archive
  log config
   hidekeys
-! 
+!
 !
 crypto isakmp policy 10
  encr aes
@@ -1230,10 +1230,10 @@ crypto isakmp policy 10
 crypto isakmp key masum address 10.10.10.6
 !
 !
-crypto ipsec transform-set masum-set esp-aes esp-sha-hmac 
+crypto ipsec transform-set masum-set esp-aes esp-sha-hmac
 !
 crypto ipsec profile masum-profile
- set transform-set masum-set 
+ set transform-set masum-set
 !
 !
 ip tcp synwait-time 5
@@ -1283,4 +1283,4 @@ line vty 0 4
 !
 end
 
-R1# 
+R1#

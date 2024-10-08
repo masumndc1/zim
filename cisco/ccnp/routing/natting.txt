@@ -4,9 +4,9 @@
 
 Router(config)#do show ip inter brief
 Interface                  IP-Address      OK? Method Status                Protocol
-FastEthernet0/0            10.10.10.2      YES manual up                    up      
-FastEthernet0/1            192.168.244.10  YES manual up                    up      
-NVI0                       unassigned      NO  unset  up                    up      
+FastEthernet0/0            10.10.10.2      YES manual up                    up
+FastEthernet0/1            192.168.244.10  YES manual up                    up
+NVI0                       unassigned      NO  unset  up                    up
 Router(config)#
 
 ... FastEthernet0/0 is my outgoing interface going to out world.
@@ -51,16 +51,16 @@ interface FastEthernet0/1
 
 ... when i do ping
 
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.2:3351   192.168.244.147:3351 4.2.2.1:3351     4.2.2.1:3351
 Router#
 Router#show ip nat st
-Router#show ip nat statistics 
+Router#show ip nat statistics
 Total active translations: 1 (0 static, 1 dynamic; 1 extended)
 Outside interfaces:
   FastEthernet0/0
-Inside interfaces: 
+Inside interfaces:
   FastEthernet0/1
 Hits: 881  Misses: 163
 CEF Translated packets: 829, CEF Punted packets: 423
@@ -71,17 +71,17 @@ Dynamic mappings:
 Appl doors: 0
 Normal doors: 0
 Queued Packets: 0
-Router# 
+Router#
 Router#
 
-... when i do the traceroute from any host from my lan pc i do 
+... when i do the traceroute from any host from my lan pc i do
 ... the following.
 
-Router#show ip nat statistics 
+Router#show ip nat statistics
 Total active translations: 57 (0 static, 57 dynamic; 57 extended)
 Outside interfaces:
   FastEthernet0/0
-Inside interfaces: 
+Inside interfaces:
   FastEthernet0/1
 Hits: 960  Misses: 216
 CEF Translated packets: 915, CEF Punted packets: 514
@@ -94,7 +94,7 @@ Normal doors: 0
 Queued Packets: 0
 Router#
 Router#
-Router#show ip nat translations 
+Router#show ip nat translations
 Pro Inside global      Inside local       Outside local      Outside global
 icmp 10.10.10.2:3351   192.168.244.147:3351 4.2.2.1:3351     4.2.2.1:3351
 udp 10.10.10.2:33000   192.168.244.147:33000 4.2.2.1:33466   4.2.2.1:33466
@@ -118,10 +118,5 @@ udp 10.10.10.2:39769   192.168.244.147:39769 4.2.2.1:33463   4.2.2.1:33463
 udp 10.10.10.2:41043   192.168.244.147:41043 4.2.2.1:33490   4.2.2.1:33490
 udp 10.10.10.2:41625   192.168.244.147:41625 4.2.2.1:33464   4.2.2.1:33464
 udp 10.10.10.2:41718   192.168.244.147:41718 4.2.2.1:53      4.2.2.1:53
-          
+
 Router#
-
-
-
-
-

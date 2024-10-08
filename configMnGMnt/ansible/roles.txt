@@ -34,7 +34,7 @@ jenkins.retry  jenkins.yml  remove.yml  repo.yml  role
             └── main.yml
 
 10 directories, 12 files
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 ... downloading role from https://galaxy.ansible.com/
 
@@ -47,7 +47,7 @@ jenkins.retry  jenkins.yml  remove.yml  repo.yml  role
 
 [masum@nginx role]$ ls
 jenkins  sebastianlach.htop
-[masum@nginx role]$ 
+[masum@nginx role]$
 
 [masum@nginx role]$ cd sebastianlach.htop/
 [masum@nginx sebastianlach.htop]$ ls
@@ -62,17 +62,17 @@ LICENSE  meta  README.md  tasks
     └── main.yml
 
 2 directories, 4 files
-[masum@nginx sebastianlach.htop]$ 
+[masum@nginx sebastianlach.htop]$
 
 ... and the yml file associated with this role
 
-[masum@nginx playbook]$ cat htop.yml 
+[masum@nginx playbook]$ cat htop.yml
 ---
 - hosts: ansible
   become: yes
   roles:
    - sebastianlach.htop
-[masum@nginx playbook]$ 
+[masum@nginx playbook]$
 
 ... role for the various platforms
 ... in main.yml
@@ -85,4 +85,3 @@ In main.yml:
   when: ansible_os_family == 'Debian'
 - include: install-redhat.yml
   when: ansible_os_family == 'RedHat'
-

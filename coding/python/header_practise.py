@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-import argparse    
+import argparse
 from urllib.request import urlopen
 
 class ViewWebPage():

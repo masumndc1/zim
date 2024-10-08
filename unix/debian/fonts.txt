@@ -12,4 +12,3 @@ some time following needed
 
 apt-cache search Terminus
 apt-get install console-setup xfonts-terminus
-

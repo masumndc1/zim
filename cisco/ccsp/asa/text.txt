@@ -1,6 +1,6 @@
-ciscoasa(config-pmap-c)# show service-policy 
+ciscoasa(config-pmap-c)# show service-policy
 
-Global policy: 
+Global policy:
   Service-policy: global_policy
     Class-map: inspection_default
       Inspect: dns maximum-length 512, packet 110, drop 2, reset-drop 0
@@ -25,36 +25,35 @@ Interface outside:
     Class-map: class-map-masum
       Inspect: icmp, packet 123, drop 14, reset-drop 0
     Class-map: class-ssh-masum
-      Set connection policy:         
+      Set connection policy:
       Set connection advanced-options: tcp-map-masum
-        Retransmission drops: 0               TCP checksum drops : 0          
-        Exceeded MSS drops  : 0               SYN with data drops: 0          
-        Out-of-order packets: 0               No buffer drops    : 0          
-        Reserved bit cleared: 0               Reserved bit drops : 0          
-        IP TTL modified     : 0               Urgent flag cleared: 0          
-        Window varied resets: 0          
+        Retransmission drops: 0               TCP checksum drops : 0
+        Exceeded MSS drops  : 0               SYN with data drops: 0
+        Out-of-order packets: 0               No buffer drops    : 0
+        Reserved bit cleared: 0               Reserved bit drops : 0
+        IP TTL modified     : 0               Urgent flag cleared: 0
+        Window varied resets: 0
         TCP-options:
-          Selective ACK cleared: 0            Timestamp cleared  : 0          
-          Window scale cleared : 0          
-          Other options cleared: 0          
-          Other options drops: 0          
+          Selective ACK cleared: 0            Timestamp cleared  : 0
+          Window scale cleared : 0
+          Other options cleared: 0
+          Other options drops: 0
     Class-map: class-https-masum
-      Set connection policy: conn-max 2 
+      Set connection policy: conn-max 2
         current conns 0, drop 0
     Class-map: class-http-masum
-      Set connection policy: conn-max 2 
+      Set connection policy: conn-max 2
         current conns 1, drop 2
       Set connection advanced-options: tcp-map-masum
-        Retransmission drops: 0               TCP checksum drops : 0          
-        Exceeded MSS drops  : 0               SYN with data drops: 0          
-        Out-of-order packets: 68              No buffer drops    : 46         
-        Reserved bit cleared: 0               Reserved bit drops : 0          
-        IP TTL modified     : 0               Urgent flag cleared: 0          
-        Window varied resets: 0          
+        Retransmission drops: 0               TCP checksum drops : 0
+        Exceeded MSS drops  : 0               SYN with data drops: 0
+        Out-of-order packets: 68              No buffer drops    : 46
+        Reserved bit cleared: 0               Reserved bit drops : 0
+        IP TTL modified     : 0               Urgent flag cleared: 0
+        Window varied resets: 0
         TCP-options:
-          Selective ACK cleared: 0            Timestamp cleared  : 0          
-          Window scale cleared : 0          
-          Other options cleared: 0          
-          Other options drops: 0          
-ciscoasa(config-pmap-c)# 
-
+          Selective ACK cleared: 0            Timestamp cleared  : 0
+          Window scale cleared : 0
+          Other options cleared: 0
+          Other options drops: 0
+ciscoasa(config-pmap-c)#

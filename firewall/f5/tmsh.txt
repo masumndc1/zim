@@ -1,8 +1,8 @@
 
 
 // some tmsh commands line here.
-// first to show the number of the options 
-// you have you have to press the ? 
+// first to show the number of the options
+// you have you have to press the ?
 // after the tmsh commands like below.
 // and the all the options are comes out.
 
@@ -38,9 +38,9 @@ Commands:
   start        Start BIG-IP services
   stop         Stop BIG-IP services
   submit       Submit a batched transaction
-[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config #
 
-// when we gonna list the optinos related to 
+// when we gonna list the optinos related to
 // the system we use the key word list after the tmsh
 
 
@@ -58,32 +58,30 @@ Options:
   all-properties          Display all properties for the specified items
   current-module          Do not recurse into sub-modes
   non-default-properties  Display properties that have non-default values
-[root@localhost:NO LICENSE] config # 
-[root@localhost:NO LICENSE] config # 
-[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config #
+[root@localhost:NO LICENSE] config #
+[root@localhost:NO LICENSE] config #
 
-// an example can be when we try to see the what is the 
+// an example can be when we try to see the what is the
 // management ip then we type the following like below.
 
 [root@localhost:NO LICENSE] config # tmsh list sys management-ip
-sys management-ip 192.168.35.151/24 { 
+sys management-ip 192.168.35.151/24 {
 	}
-[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config #
 
 
 
 [root@localhost:NO LICENSE] config # tmsh list sys management-ip
 sys management-ip 192.168.35.151/24 { }
-[root@localhost:NO LICENSE] config # 
+[root@localhost:NO LICENSE] config #
 
-// if we want to enter the tmos 
+// if we want to enter the tmos
 // shell from linux config shell
 // we do that like below.
 
 [root@localhost:NO LICENSE] config # tmsh
-root@localhost(NO LICENSE)(tmos)# 
-root@localhost(NO LICENSE)(tmos)# 
+root@localhost(NO LICENSE)(tmos)#
+root@localhost(NO LICENSE)(tmos)#
 
 // the list of available syntax are like below
-
-

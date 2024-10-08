@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# "[SRX/IDP] How to perform offline policy templates update/install on SRX" - http://kb.juniper.net/InfoCenter/index?page=content&id=KB27087 
+# "[SRX/IDP] How to perform offline policy templates update/install on SRX" - http://kb.juniper.net/InfoCenter/index?page=content&id=KB27087
 # "How to perform offline IDP and Application signature database update in SRX" - http://kb.juniper.net/InfoCenter/index?page=content&id=TN83
 # "[SRX] Update IDP in the secondary node of a SRX Chassis Cluster (High Availability)" - http://kb.juniper.net/InfoCenter/index?page=content&id=KB21052
 

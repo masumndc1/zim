@@ -10,7 +10,7 @@ php-fpm.x86_64 : PHP FastCGI Process Manager
 [root@nginx ~]# yum install -y php-fpm php-opcache php-mysql
 
 ... adding following to appropiate location of /etc/nginx/nginx.conf or
-... /etc/nginx/conf.d/*.conf. on this localhost we are passing fastcgi 
+... /etc/nginx/conf.d/*.conf. on this localhost we are passing fastcgi
 ... request to 9000 port. we can also pass this request to another server
 ... with syntax fastcgi_pass	ip:port.
 
@@ -77,13 +77,3 @@ Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies
 [root@nginx nginx]#
 
 [root@nginx nginx]# service nginx restart
-
-
-
-
-
-
-
-
-
-
