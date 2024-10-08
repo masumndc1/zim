@@ -4,8 +4,8 @@
 ............................. git .......................................
 
 
-masum@masum:~$ 
-masum@masum:~$ git 
+masum@masum:~$
+masum@masum:~$ git
 usage: git [--version] [--help] [-C <path>] [-c name=value]
            [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
            [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
@@ -40,25 +40,25 @@ concept guides. See 'git help <command>' or 'git help <concept>'
 to read about a specific subcommand or concept.
 masum@masum:~$ pwd
 /home/masum
-masum@masum:~$ 
-masum@masum:~$ 
+masum@masum:~$
+masum@masum:~$
 masum@masum:~$ git init
 Initialized empty Git repository in /home/masum/.git/
 masum@masum:~$ git init /media/masum/MASUM_32GB/.git
 Initialized empty Git repository in /media/masum/MASUM_32GB/.git/.git/
 masum@masum:~$ git init /media/masum/MASUM_32GB/
 Initialized empty Git repository in /media/masum/MASUM_32GB/.git/
-masum@masum:~$ 
+masum@masum:~$
 masum@masum:~$ cd /media/masum/MASUM_32GB/.git/
 masum@masum:/media/masum/MASUM_32GB/.git$ ls
 branches  config  description  HEAD  hooks  info  objects  refs
-masum@masum:/media/masum/MASUM_32GB/.git$ 
+masum@masum:/media/masum/MASUM_32GB/.git$
 
-.. adding a folder or file in git 
+.. adding a folder or file in git
 
-masum@masum:/media/masum/MASUM_32GB/.git$ git add zim 
+masum@masum:/media/masum/MASUM_32GB/.git$ git add zim
 
-.. status of the git 
+.. status of the git
 
 masum@masum:/media/masum/MASUM_32GB$ git status
 On branch master
@@ -143,7 +143,7 @@ Other
 
 masum@masum:/media/masum/MASUM_32GB$ git config --global user.email "masumndc1@gmail.com"
 masum@masum:/media/masum/MASUM_32GB$ git config --global user.name "mohammad khabir uddin"
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. now running the command again
 
@@ -176,7 +176,7 @@ masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
  4 files changed, 175 insertions(+), 27 deletions(-)
  create mode 100644 zim/masum.txt
  rewrite zim/text.txt (99%)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. now once again deleting the file masum of zim folder we add the folder
 .. zim to our git repository and run the commit like below.
@@ -187,7 +187,7 @@ masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
  4 files changed, 20 insertions(+), 63 deletions(-)
  delete mode 100644 zim/masum.txt
  rewrite zim/text.txt (99%)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. it is showing that masum.txt has been deleted.
 
@@ -213,7 +213,7 @@ usage: git add [options] [--] <pathspec>...
     --ignore-missing      check if - even missing - files are ignored in dry run
 
 masum@masum:/media/masum/MASUM_32GB$ git add --refresh zim
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. when we need to unstagged a file we do that like below.
 
@@ -227,13 +227,13 @@ masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
  3 files changed, 6 insertions(+), 21 deletions(-)
  create mode 100644 zim/.git.txt.swp
  rewrite zim/text.txt (99%)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git add zim
 masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
 [master bd070d4] Thu Oct 20 20:23:56 NZDT 2016
  2 files changed, 6 insertions(+)
  delete mode 100644 zim/.git.txt.swp
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. if we need to remove a file or folder from index we use the command
 .. git rm --cached <file/folder>. this command will not remove the files
@@ -291,14 +291,14 @@ Author: mohammad khabir uddin <masumndc1@gmail.com>
 Date:   Thu Oct 20 19:36:41 2016 +1300
 
     20.10.2016
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. structure of the commit ..
-.. 
+..
 .. commit has a 40 characters of hash like above.
 
-.. when we need to add multiple files al together we use 
-.. below command. 
+.. when we need to add multiple files al together we use
+.. below command.
 
 masum@masum:/media/masum/MASUM_32GB$ git add -h
 usage: git add [options] [--] <pathspec>...
@@ -318,28 +318,28 @@ usage: git add [options] [--] <pathspec>...
     --ignore-errors       just skip files which cannot be added because of errors
     --ignore-missing      check if - even missing - files are ignored in dry run
 
-masum@masum:/media/masum/MASUM_32GB$ git add -A 
+masum@masum:/media/masum/MASUM_32GB$ git add -A
 
 .. if we need to add certain types of file we use the following. say all
-.. the text files. 
+.. the text files.
 
-masum@masum:/media/masum/MASUM_32GB$ git add *.txt 
+masum@masum:/media/masum/MASUM_32GB$ git add *.txt
 
 .. when we need to files or folder not to include with git we put the files and
 .. folder names in the .gitignore files like below in our working directory.
 .. when we need several txt file to be remove then we use like *.txt.
-.. the full structure of .gitignore can be found on 
+.. the full structure of .gitignore can be found on
 .. http://git-scm.com/docs/gitignore
 
 masum@masum:/media/masum/MASUM_32GB/zim$ ls -a
 bandwidth.monitor.txt      .gitignore                           nginx.0.7.67.txt           snmp.centos.txt
-masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore 
+masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore
      1	text.txt
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. lest try what happened now.
 
-masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore 
+masum@masum:/media/masum/MASUM_32GB/zim$ cat -n .gitignore
      1	text.txt
 masum@masum:/media/masum/MASUM_32GB$ git add zim
 masum@masum:/media/masum/MASUM_32GB$ git status
@@ -360,10 +360,10 @@ masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
 [master 182eeb0] Fri Oct 21 21:56:36 NZDT 2016
  3 files changed, 11 insertions(+), 28 deletions(-)
  rewrite zim/text.txt (100%)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. now as we had included our file zim/text.txt before creating .gitignore
-.. and as zim/text.txt was already include with git therefore we have to 
+.. and as zim/text.txt was already include with git therefore we have to
 .. remove it from git manually like below.
 
 masum@masum:/media/masum/MASUM_32GB$ git rm --cached zim/text.txt
@@ -397,13 +397,13 @@ masum@masum:/media/masum/MASUM_32GB$ git tag -a tag1 -m "important to test"
 
 masum@masum:/media/masum/MASUM_32GB$ git branch
 * master
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git branch masum
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git branch
 * master
   masum
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. * showing that out current branch is the master.
 
@@ -413,29 +413,29 @@ Switched to branch 'masum'
 masum@masum:/media/masum/MASUM_32GB$ git branch
   master
 * masum
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. now it is the in the masum branch, newly created branch.
 
 masum@masum:/media/masum/MASUM_32GB$ touch zim/NewBranch.txt
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ git add zim/NewBranch.txt 
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$ git add zim/NewBranch.txt
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git commit -m " for the new branch masum "
 [masum 637a03b]  for the new branch masum
  1 file changed, 0 insertions(+), 0 deletions(-)
  create mode 100644 zim/NewBranch.txt
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
-.. this commit is for the new branch masum. not for the previous 
-.. branch master. we can also merge two branch together with the 
+.. this commit is for the new branch masum. not for the previous
+.. branch master. we can also merge two branch together with the
 .. command merge and also see the diffrerence with the subcommand
 .. diff with git like below.
 
-masum@masum:/media/masum/MASUM_32GB$ git merge masum 
+masum@masum:/media/masum/MASUM_32GB$ git merge masum
 
 .. above command will merge masum branch with master branch
 
@@ -449,7 +449,7 @@ masum@masum:/media/masum/MASUM_32GB/zim$ git diff masum..master
 diff --git a/zim/NewBranch.txt b/zim/NewBranch.txt
 deleted file mode 100644
 index e69de29..0000000
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. for the git-gui run the command gitk from command line.
 .. another good command line options we have like below.
@@ -470,15 +470,15 @@ masum@masum:/media/masum/MASUM_32GB$ git log --graph --decorate --pretty=oneline
 * 7c91652 Thu Oct 20 19:50:53 NZDT 2016
 * 018a6ef Thu Oct 20 19:48:28 NZDT 2016
 * 72b3967 20.10.2016
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
-.. sometime typing a long line of command is boring as well as hard to remember so 
+.. sometime typing a long line of command is boring as well as hard to remember so
 .. we created an alias like below. we are creating an alias tree and that is done
 .. by alias.tree. and we recall it by the $ git tree command.
 
 masum@masum:/media/masum/MASUM_32GB$ git config --global alias.tree "log --graph --decorate --pretty=oneline --abbrev-commit"
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git tree
 * 162b08c (HEAD, tag: tag1, master) Fri Oct 21 22:14:12 NZDT 2016
 * aa58b25 Fri Oct 21 22:13:27 NZDT 2016
@@ -495,7 +495,7 @@ masum@masum:/media/masum/MASUM_32GB$ git tree
 * 7c91652 Thu Oct 20 19:50:53 NZDT 2016
 * 018a6ef Thu Oct 20 19:48:28 NZDT 2016
 * 72b3967 20.10.2016
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. if we need to upload our locally created git repository to github we do that
 .. following
@@ -503,7 +503,7 @@ masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git remote add origin https://github.com/masumndc1/zim.git
 masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
 Username for 'https://github.com': masumndc1
-Password for 'https://masumndc1@github.com': 
+Password for 'https://masumndc1@github.com':
 Counting objects: 835, done.
 Delta compression using up to 2 threads.
 Compressing objects: 100% (800/800), done.
@@ -513,7 +513,7 @@ remote: Resolving deltas: 100% (79/79), done.
 To https://github.com/masumndc1/zim.git
  * [new branch]      master -> master
 Branch master set up to track remote branch master from origin.
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. after we have any modification to our locale repository then we do our update
 .. to our github repo like below.
@@ -522,10 +522,10 @@ masum@masum:/media/masum/MASUM_32GB$ git add zim
 masum@masum:/media/masum/MASUM_32GB$ git commit -m "$(date)"
 [master b10f279] Sat Oct 22 18:23:20 NZDT 2016
  3 files changed, 128 insertions(+), 7 deletions(-)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
 Username for 'https://github.com': masumndc1
-Password for 'https://masumndc1@github.com': 
+Password for 'https://masumndc1@github.com':
 Counting objects: 8, done.
 Delta compression using up to 2 threads.
 Compressing objects: 100% (6/6), done.
@@ -535,7 +535,7 @@ remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
 To https://github.com/masumndc1/zim.git
    162b08c..b10f279  master -> master
 Branch master set up to track remote branch master from origin.
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. alternatively we do like below.
 
@@ -562,13 +562,13 @@ See 'git help config' and search for 'push.default' for further information.
 'current' instead of 'simple' if you sometimes use older versions of Git)
 
 Username for 'https://github.com': masumndc1
-Password for 'https://masumndc1@github.com': 
+Password for 'https://masumndc1@github.com':
 Everything up-to-date
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. the remote is configure to my git as by following. when we try to push or
 .. pull something to remote then origin means the default remote repository
-.. we are dealing with like below. we can edit,delete and add remote by the 
+.. we are dealing with like below. we can edit,delete and add remote by the
 .. command remote. when we use the push subcommand with git we will get sync
 .. corresponding remote branch.
 
@@ -577,18 +577,18 @@ masum@masum:/media/masum/MASUM_32GB$ git push -u origin master
 masum@masum:/media/masum/MASUM_32GB$ git remote --verbose
 origin	https://github.com/masumndc1/zim.git (fetch)
 origin	https://github.com/masumndc1/zim.git (push)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. the following command just sync with the local master with the remote
 
 masum@masum:/media/masum/MASUM_32GB$ git fetch --verbose
 From https://github.com/masumndc1/zim
  = [up to date]      master     -> origin/master
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. configuration related to remote origin
 
-masum@masum:/media/masum/MASUM_32GB$ git remote show origin 
+masum@masum:/media/masum/MASUM_32GB$ git remote show origin
 * remote origin
   Fetch URL: https://github.com/masumndc1/zim.git
   Push  URL: https://github.com/masumndc1/zim.git
@@ -599,8 +599,8 @@ masum@masum:/media/masum/MASUM_32GB$ git remote show origin
     master merges with remote master
   Local ref configured for 'git push':
     master pushes to master (up to date)
-masum@masum:/media/masum/MASUM_32GB$ 
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
+masum@masum:/media/masum/MASUM_32GB$
 masum@masum:/media/masum/MASUM_32GB$ git remote show -n origin
 * remote origin
   Fetch URL: https://github.com/masumndc1/zim.git
@@ -612,12 +612,12 @@ masum@masum:/media/masum/MASUM_32GB$ git remote show -n origin
     master merges with remote master
   Local ref configured for 'git push' (status not queried):
     (matching) pushes to (matching)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
-.. say we have created a file and have some work on that file on 
+.. say we have created a file and have some work on that file on
 .. out github repository zim. now we can pull from remote to locale
-.. by using the command git pull. from the following screenshot 
-.. we can already say that masum-testing and zim/khabir-testing 
+.. by using the command git pull. from the following screenshot
+.. we can already say that masum-testing and zim/khabir-testing
 .. has been created. it is more like sync action.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git pull
@@ -627,10 +627,10 @@ Merge made by the 'recursive' strategy.
  2 files changed, 2 insertions(+)
  create mode 100644 masum-testing
  create mode 100644 zim/khabir-testing
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. on the other hand fetch will sync but not commit it.
-.. therefore we have to commit it. on the other hand pull and 
+.. therefore we have to commit it. on the other hand pull and
 .. push will sync and will not wait for commit. git pull command
 .. is equal to git fetch and git merge together.
 
@@ -675,7 +675,7 @@ masum@masum:/media/masum/MASUM_32GB$ git remote show origin
     master merges with remote master
   Local ref configured for 'git push':
     master pushes to master (up to date)
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 ... configuration of git. if you are in the repository directory following
 .. command will show you important info regarding the git configuration.
@@ -694,8 +694,8 @@ remote.origin.url=https://github.com/masumndc1/zim.git
 remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
 branch.master.remote=origin
 branch.master.merge=refs/heads/master
-masum@masum:/media/masum/MASUM_32GB/zim$ 
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --local
 core.repositoryformatversion=0
 core.filemode=false
@@ -710,16 +710,16 @@ masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --global
 user.email=masumndc1@gmail.com
 user.name=mohammad khabir uddin
 alias.tree=log --graph --decorate --pretty=oneline --abbrev-commit
-masum@masum:/media/masum/MASUM_32GB/zim$ 
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --list --system
 fatal: unable to read config file '/etc/gitconfig': No such file or directory
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. configuration change in git is discourage.
 .. but we can change the configuraiton options like below
 .. configuration file is reside in our home directory like below.
-.. we have the auto correct option in git like below. we then do some change 
+.. we have the auto correct option in git like below. we then do some change
 .. in our configuration file.
 
 .. just notice here we had issued an alias command as well as used
@@ -735,30 +735,30 @@ masum@masum:~$ cat -n .gitconfig
      5		tree = log --graph --decorate --pretty=oneline --abbrev-commit
      6	[help]
      7		autocorrect = 10
-masum@masum:~$ 
-masum@masum:~$ 
+masum@masum:~$
+masum@masum:~$
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global help.autocorrect 10
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ git checout
 WARNING: You called a Git command named 'checout', which does not exist.
 Continuing under the assumption that you meant 'checkout'
 in 1.0 seconds automatically...
 M	zim/git.txt
 Your branch is up-to-date with 'origin/master'.
-masum@masum:/media/masum/MASUM_32GB/zim$ 
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ git branch
 * master
   masum
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. now it can detect the err and auto correct it.
 
 .. changing the editor.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global core.editor vim
-masum@masum:/media/masum/MASUM_32GB/zim$ cat /home/masum/.gitconfig 
+masum@masum:/media/masum/MASUM_32GB/zim$ cat /home/masum/.gitconfig
 [user]
 	email = masumndc1@gmail.com
 	name = mohammad khabir uddin
@@ -768,23 +768,23 @@ masum@masum:/media/masum/MASUM_32GB/zim$ cat /home/masum/.gitconfig
 	autocorrect = 10
 [core]
 	editor = vim
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. various option in git config file can be found from https://git-scm.com/docs/git-config
 
 .. making shortcut of my command. we do that by following.
-.. important to note here from the following. 
+.. important to note here from the following.
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.cm "<COMMAND HERE>"
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 masum@masum:/media/masum/MASUM_32GB/zim$ git cm
 [master 73a58df] Mon Oct 24 20:14:23 NZDT 2016
  1 file changed, 97 insertions(+)
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
-.. now see what we have inside the /home/masum/.gitconfig file. 
+.. now see what we have inside the /home/masum/.gitconfig file.
 
-masum@masum:~$ cat -n .gitconfig 
+masum@masum:~$ cat -n .gitconfig
      1	[user]
      2		email = masumndc1@gmail.com
      3		name = mohammad khabir uddin
@@ -795,10 +795,10 @@ masum@masum:~$ cat -n .gitconfig
      8		autocorrect = 10
      9	[core]
     10		editor = vim
-masum@masum:~$ 
+masum@masum:~$
 
 .. important thing inside the .gitconfig file of the line number 6. we place one bash command
-.. by placing command inside "". 
+.. by placing command inside "".
 
 .. removing alias. we have included some of the alias command which is not working correctly
 .. therefore we need to remove them like below.
@@ -806,7 +806,7 @@ masum@masum:~$
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.ps 'push -u origin master'
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global alias.echo !echo
 
-masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig 
+masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig
 [user]
 	email = masumndc1@gmail.com
 	name = mohammad khabir uddin
@@ -825,8 +825,8 @@ masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig
 
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global --unset alias.ps
 masum@masum:/media/masum/MASUM_32GB/zim$ git config --global --unset alias.echo
-masum@masum:/media/masum/MASUM_32GB/zim$ 
-masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig 
+masum@masum:/media/masum/MASUM_32GB/zim$
+masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig
 [user]
 	email = masumndc1@gmail.com
 	name = mohammad khabir uddin
@@ -837,7 +837,7 @@ masum@masum:/media/masum/MASUM_32GB/zim$ cat ~/.gitconfig
 	autocorrect = 10
 [core]
 	editor = vim
-masum@masum:/media/masum/MASUM_32GB/zim$ 
+masum@masum:/media/masum/MASUM_32GB/zim$
 
 .. archiving repository. archive our repository like below.
 
@@ -845,7 +845,7 @@ root@masum:/media/masum/MASUM_32GB# git archive master --format=zip --output=../
 root@masum:/media/masum/MASUM_32GB# cd ..
 
 root@masum:/media/masum# ls
-50B1-7338  5E09-35AF  B09C-19DE  MASUM_32GB  masum-testing  repbck.zip  
+50B1-7338  5E09-35AF  B09C-19DE  MASUM_32GB  masum-testing  repbck.zip
 root@masum:/media/masum/# unzip repbck.zip
 root@masum:/media/masum# cd zim
 root@masum:/media/masum/zim# ls
@@ -875,7 +875,7 @@ Desktop_1.ini              lamp_in_centos_6.txt                 playonlinux.txt 
 Desktop_2.ini              layer7-netfilter.txt                 postfix.html               virtualbox.office.txt
 dns                        link.txt                             postfix.txt                vmware.txt
 dns.txt                    load_balancing_using_dns.txt         printing_linux.txt         Xen.office.txt
-root@masum:/media/masum/zim# 
+root@masum:/media/masum/zim#
 
 .. we found our whole repository like below.
 
@@ -891,7 +891,7 @@ Total 890 (delta 104), reused 0 (delta 0)
 masum@masum:/media/masum/MASUM_32GB/zim$ cd ..
 masum@masum:/media/masum/MASUM_32GB$ sl
 bash: sl: command not found
-masum@masum:/media/masum/MASUM_32GB$ 
+masum@masum:/media/masum/MASUM_32GB$
 
 .. the file repo.bunlde has been created by the command.
 
@@ -903,10 +903,10 @@ repo.bundle
 
 masum@masum:/media/masum/MASUM_32GB$ mv repo.bundle /tmp
 masum@masum:/media/masum/MASUM_32GB$ cd /tmp
-masum@masum:/tmp$ 
+masum@masum:/tmp$
 masum@masum:/tmp$ ls
 libgksu-pfpd2k  pulse-2L9K88eMlGn7  pulse-PKdhtXMmr18n  repo.bundle  ssh-ATYFw5JKAnEv  tracker-masum  VMwareDnD  vmware-root
-masum@masum:/tmp$ 
+masum@masum:/tmp$
 
 .. now cloning our repository
 
@@ -950,9 +950,9 @@ Desktop_1.ini              lamp_in_centos_6.txt                 playonlinux.txt 
 Desktop_2.ini              layer7-netfilter.txt                 postfix.html               virtualbox.office.txt
 dns                        link.txt                             postfix.txt                vmware.txt
 dns.txt                    load_balancing_using_dns.txt         printing_linux.txt         Xen.office.txt
-masum@masum:/tmp/repo/zim$ 
+masum@masum:/tmp/repo/zim$
 
-.. we have found our repository exactly same. 
+.. we have found our repository exactly same.
 
 ... we can find help of any good command of git by following
 
@@ -972,9 +972,9 @@ $git commit --amend
 $git rebase --continue
 
 ... done
-... 
-... "git config --global pull.rebase true" is equivalent to git pull --rebase
 ...
+... "git config --global pull.rebase true" is equivalent to git pull --rebase
+....
 ... telling git to open file in your fav editor. for example nvim
 
 ❯ git config --global --list
@@ -1005,3 +1005,21 @@ git config --global pull.rebase true
 ...
 ... add following to add your editor
 git config --global core.editor "vim"
+
+... pre-commit:
+... install pre-commit by port in mac
+...
+... 'port install pre-commit'
+...
+... place following in git directory .pre-commit-config.yaml
+
+❯ cat .pre-commit-config.yaml
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+
+... now run 'pre-commit install'
+... from now on pre-commit will be run automatically when 'git commit' are run.
