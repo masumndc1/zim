@@ -1,6 +1,7 @@
 
 --
 -- help: https://github.com/astral-sh/uv
+-- doc: https://docs.astral.sh/
 --
 -- uv: package manager in python
 --
@@ -13,3 +14,118 @@
 -- list of dependency:
 -- uv pip freeze | uv pip compile - -o requirements.txt
 --
+...
+... initialize a project by uv:
+❯ uv init example
+❯ ls
+ hello.py   list   pyproject.toml   README.md   test.py   uv.lock
+~/example main*
+❯
+
+... run a script by uv
+
+❯ uv run hello.py
+Hello from example!
+❯
+
+... maintaining dependency by pyproject.toml
+
+❯ cat pyproject.toml
+[project]
+name = "example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "blessings>=1.7",
+    "ruff>=0.7.0",
+    "six>=0.1.1"
+]
+
+❯ uv sync
+
+❯ uv tree
+Resolved 4 packages in 1ms
+example v0.1.0
+├── blessings v1.7
+│   └── six v1.16.0
+├── ruff v0.7.0
+└── six v1.16.0
+~/example main*
+
+... manage packages by pip inside uv
+
+❯ uv pip install -r pyproject.toml
+Resolved 3 packages in 5ms
+Audited 3 packages in 0.02ms
+❯
+
+... manage python by uv
+...
+❯ uv python
+
+❯ cat pyproject.toml
+[project]
+name = "example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "blessings>=1.7",
+    "ruff>=0.7.0",
+    "six>=0.1.1"
+]
+
+❯ uv python pin python3.8
+Updated `.python-version` from `3.9` -> `3.8`
+
+...
+❯ uv run python3 --version
+Python 3.9.20
+
+... clear unused cache entries
+
+❯ uv cache prune
+Pruning cache at: /Users/khuddin/Library/Caches/uv
+Removed 41123 files (396.8MiB)
+
+... install a tool by uv
+
+❯ uv tool install ipython
+Resolved 20 packages in 698ms
+Prepared 18 packages in 815ms
+Installed 20 packages in 115ms
+ + appnope==0.1.4
+ + asttokens==2.4.1
+ + backcall==0.2.0
+ + decorator==5.1.1
+ + executing==2.1.0
+ + ipython==8.12.3
+ + jedi==0.19.1
+ + matplotlib-inline==0.1.7
+ + parso==0.8.4
+ + pexpect==4.9.0
+ + pickleshare==0.7.5
+ + prompt-toolkit==3.0.48
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.3
+ + pygments==2.18.0
+ + six==1.16.0
+ + stack-data==0.6.3
+ + traitlets==5.14.3
+ + typing-extensions==4.12.2
+ + wcwidth==0.2.13
+Installed 2 executables: ipython, ipython3
+warning: `/Users/khuddin/.local/bin` is not on your PATH. To use installed tools, run `export PATH="/Users/khuddin/.local/bin:$PATH"` or `uv tool update-shell`.
+❯ uv tool update-shell
+
+... run ipython
+
+❯ uv run ipython
+Python 3.9.20 (main, Sep  7 2024, 19:17:29)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 8.18.1 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]:
