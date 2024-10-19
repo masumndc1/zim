@@ -1,0 +1,4 @@
+
+
+... remove a port with it dependencies
+... sudo port uninstall --follow-dependents foot
