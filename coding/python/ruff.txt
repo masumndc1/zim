@@ -1,0 +1,26 @@
+
+
+...
+... ruff
+... python linter and formatter
+...
+... 1. ruff can be installed in lazyvim by Mason.
+... 2. pip install ruff
+... 3. curl -LsSf https://astral.sh/ruff/install.sh | sh
+...
+... usage:
+... ruff check test.py
+... ruff format test.py
+...
+
+Ruff can also be used as a pre-commit hook via ruff-pre-commit:
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.7.0
+  hooks:
+    # Run the linter.
+    - id: ruff
+      args: [ --fix ]
+    # Run the formatter.
+    - id: ruff-format
