@@ -1,0 +1,39 @@
+
+
+...
+... log everying by the logging module
+...
+
+... import logging and set logging basicConfig
+
+import logging
+logging.basicConfig(filename='example.log',level=logging.DEBUG)
+
+... another example of basicConfig where logging level is just INFO.
+... change INFO to DEBUG in following if you need DEBUG level.
+
+logging.basicConfig(filename='basic.log',level=logging.INFO, format='%(process)d-%(levelname)s-%(message)s')
+
+... a very simple example
+
+import logging
+
+logging.basicConfig(filename='logs.log', level=logging.DEBUG, format="%(asctime)s:%(levelname)s: %(message)s")
+
+def url_extract(url):
+    if isinstance(url, str) and url.count(".") == 2:
+        for a in url.split('.'):
+
+            logging.debug(a)
+
+            if match(a):
+                logging.info(a)
+                print(a)
+
+... output of above can be
+
+❯ cat logs.log
+2024-10-20 22:49:49,757:DEBUG: https://www
+2024-10-20 22:49:49,757:DEBUG: facebook
+2024-10-20 22:49:49,757:INFO: facebook
+❯
