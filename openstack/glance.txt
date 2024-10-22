@@ -365,3 +365,16 @@ root@controller:~# openstack image list
 | 85b1003e-1de6-42a1-9541-c6198e53d5db | cirros    | active |
 +--------------------------------------+-----------+--------+
 root@controller:~#
+
+... glance normally put all its python code in
+... /usr/lib/python3.6/site-packages/glance location
+...
+...
+[root@pouta-devel1 glance]# pwd
+/usr/lib/python3.6/site-packages/glance
+#cpouta-devel#
+[root@pouta-devel1 glance]# ls
+api  async_  cmd  common  context.py  db  domain  gateway.py  hacking  i18n.py  image_cache  __init__.py
+location.py  notifier.py  opts.py  __pycache__  quota  registry  schema.py  scrubber.py  version.py
+#cpouta-devel#
+[root@pouta-devel1 glance]#
