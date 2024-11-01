@@ -27,5 +27,7 @@ pip install neovim
 ... "Required vim compiled with +python"
 ... run "apt-get install vim-gnome-py2"
 
-
 ... vim-python-jedi - autocompletion tool for Python - VIM addon files
+
+... if you are using lazyvim, you can change the colorsceme by
+... :colorscheme <tab>
