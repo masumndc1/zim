@@ -69,3 +69,13 @@ masum@cmp1-prod:~$
 ... snap version
 
 ... more info on snap from `man snap`
+...
+... error: encounter in debian
+
+$ sudo snap install vim --classic
+[sudo] password for masum:
+error: system does not fully support snapd: cannot mount squashfs
+      image using "squashfs": mount:
+      /tmp/syscheck-mountpoint-377160732: mount failed: Operation not permitted.
+$
+$ sudo apt install libsquashfuse0 squashfuse fuse
