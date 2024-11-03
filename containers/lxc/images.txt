@@ -6,3 +6,9 @@
 ❯ lxc remote add images https://images.lxd.canonical.com --protocol=simplestreams
 /usr/local/etc
 ❯
+
+... download images from upstream
+
+@masum:/home/masum# incus image copy images:alpine/3.17/arm64 local:
+Image copied successfully!
+@masum:/home/masum#
