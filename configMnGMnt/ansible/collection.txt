@@ -1,0 +1,21 @@
+
+
+...
+... ansible collection
+...
+... manually:
+... ansible-galaxy collection install community.general
+...
+... from requirements.yml file
+...
+
+collections:
+
+  - name: community.general
+    version: "4.8.11"
+    source: https://galaxy.ansible.com
+    path: collections
+
+...
+... ansible-galaxy collection install -r -f requirements.yml
+...

@@ -1,0 +1,12 @@
+
+
+...
+... download code from luarocks.org
+... get helps from http://lua-users.org/wiki/
+... you may find a lot of codes in
+... http://lua-users.org/wiki/SampleCode
+... also look at
+... https://github.com/khabiruddin/lua-stdlib
+... https://github.com/khabiruddin/Penlight
+... also: https://github.com/lunarmodules
+...

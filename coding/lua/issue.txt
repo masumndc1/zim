@@ -1,5 +1,16 @@
 
 
+...
 ... i was having issue with lua-cjson, I have solved it by installing
 ... explicitly 2.1.0-1 by
 ... luarocks install lua-cjson 2.1.0-1
+...
+... Error: Failed finding Lua header files. You may need to install
+... them or configure LUA_INCDIR liinux
+...
+... in this case you need to install gcc
+... also in ubuntu/debian you may try to install liblua5.3-dev
+... you should use header file like /usr/bin/env lua-5.1, so
+... it uses lua5.1 while running code.
+
+sudo apt install liblua5.3-dev
