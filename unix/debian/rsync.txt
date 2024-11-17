@@ -1,0 +1,21 @@
+
+
+...
+... rsync is a nice tool to remotely incremental syncing of file
+... over internet. it can also work with ssh. one of the example
+... can be like following. Say in the infrastructure directory
+... you have ssh connection to the remote node through jumphost.
+... then you issue command like:
+
+~/github/infrastructure master
+❯ rsync -avz ~/example -e "ssh -F ssh.config" masum@sys-deb12-dev1:/home/masum/
+
+... another example to see the progress
+~/github/infrastructure master
+❯ rsync -avz -progress ~/example -e "ssh -F ssh.config" masum@sys-deb12-dev1:/home/masum/
+
+... if you delete a file locally and want to delete the same file remotely.
+~/github/infrastructure master
+❯ rsync -avz --delete ~/example -e "ssh -F ssh.config" masum@sys-deb12-dev1:/home/masum/
+
+...
