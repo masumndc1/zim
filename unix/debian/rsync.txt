@@ -19,3 +19,17 @@
 ❯ rsync -avz --delete ~/example -e "ssh -F ssh.config" masum@sys-deb12-dev1:/home/masum/
 
 ...
+... following way, I back up my usb drive.
+
+❯ rsync -avz -progress --delete ~/Documents/whats/* /Volumes/masum_32gb
+building file list ... done
+deleting backup/._.DS_Store
+deleting backup/notes/._.DS_Store
+deleting pdf/._.DS_Store
+deleting software/._.DS_Store
+
+sent 186981 bytes  received 44 bytes  124683.33 bytes/sec
+total size is 13385526428  speedup is 71570.79
+❯
+
+...
