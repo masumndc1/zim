@@ -1,0 +1,14 @@
+
+
+...
+... find the duplicates files in a tree
+...
+fdupes -r ~/Documents/whats
+
+... find and delete duplicates files and prompt
+...
+fdupes -r -d ~/Documents/whats
+
+... find and delete duplicates files and without asking
+
+fdupes -r -d -N ~/Documents/whats
