@@ -1,0 +1,28 @@
+
+
+...
+... execute command inside a nix file.
+...
+
+❯ echo 1 + 2 > file.nix
+❯ nix-instantiate --eval file.nix
+3
+
+... if we have default.nix then we can run following
+... without specifying any file name. for, example
+
+❯ cat default.nix
+builtins.fetchGit
+{
+  url = "https://github.com/NixOS/nix.git";
+  ref = "refs/heads/0.5-release";
+}
+
+❯ nix-instantiate --eval
+{ lastModified = 1082974734; lastModifiedDate = "20040426101854";
+  narHash = "sha256-L09Af0hOXW8b35Tntbxw9NsLFWRYOa+rD2/QLZVXO2I=";
+  outPath = "/nix/store/gh4l733f8q5wqjdr2l8kr0cjhfxk011y-source";
+  rev = "5f0e2357a499dedc999278d405e147e0ca53adc3";
+  revCount = 496; shortRev = "5f0e235";
+  submodules = false;
+}

@@ -1,0 +1,68 @@
+
+
+...
+... some single commands.
+...
+
+❯ nix-shell -p cowsay lolcat
+
+these 3 derivations will be built:
+  /nix/store/4n2lvfnbkqs7nsilxynqc6jc8fpyp0dg-builder.pl.drv
+  /nix/store/ri2y1rnlj69hypq9pnrd6p75blf9xjcl-lolcat-100.0.1.drv
+  /nix/store/90d3vpy3szhk7szclcfrk83hyns4jyj9-lolcat-100.0.1.drv
+
+[nix-shell:~]$ cowsay Hello, Nix! | lolcat
+
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+        LANGUAGE = (unset),
+        LC_ALL = (unset),
+        LC_CTYPE = (unset),
+        LC_NUMERIC = (unset),
+        LC_COLLATE = (unset),
+        LC_TIME = (unset),
+        LC_MESSAGES = (unset),
+        LC_MONETARY = (unset),
+        LC_ADDRESS = (unset),
+        LC_IDENTIFICATION = (unset),
+        LC_MEASUREMENT = (unset),
+        LC_PAPER = (unset),
+        LC_TELEPHONE = (unset),
+        LC_NAME = (unset),
+        LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+ _____________
+< Hello, Nix! >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+[nix-shell:~]$
+
+
+... free up some spaces
+
+❯ nix-collect-garbage
+
+deleting '/nix/store/qp3m5hm44g5542cp5bngm0xs8w33sbm0-version.patch'
+deleting '/nix/store/0v7w62jca8nw6w31zs4y2805jj670f6p-no-arch_only-8.2.patch'
+deleting '/nix/store/5sq339xgg1yq8risiy1b6kq4wlrf8va3-0004-enable-cross-compilation.patch'
+deleting unused links...
+note: currently hard linking saves -0.00 MiB
+627 store paths deleted, 7277.68 MiB freed
+
+
+... running nix-shell in scripts
+
+❯ type nix-shell
+nix-shell is /nix/var/nix/profiles/default/bin/nix-shell
+❯ cat something.sh
+#!/usr/bin/env nix-shell
+
+#! nix-shell -i bash --pure
+curl https://github.com/NixOS/nixpkgs/releases.atom | xml2json | jq .
+
+❯

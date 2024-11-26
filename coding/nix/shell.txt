@@ -1,0 +1,43 @@
+
+
+...
+... create shell.nix in your home directory
+...
+
+[nix-shell:~]$ cat shell.nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-24.05";
+  pkgs = import nixpkgs {
+    config = { };
+    overlays = [ ];
+  };
+in
+
+pkgs.mkShellNoCC {
+  packages = with pkgs; [
+    cowsay
+    lolcat
+  ];
+
+  GREETING = "Hello, Nix!";
+  shellHook = '' echo $GREETING | cowsay | lolcat '';
+}
+
+❯ nix-shell
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+        LANGUAGE = (unset),
+        LC_ALL = (unset),
+        LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+ _____________
+< Hello, Nix! >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+[nix-shell:~]$

@@ -1,0 +1,60 @@
+
+
+...
+... find all functions from nixpkgs
+... https://nixos.org/manual/nixpkgs/stable/#sec-functions-library
+...
+... and find the all builtin functions:
+... https://nix.dev/manual/nix/2.18/language/builtins.html
+...
+... find the packages from
+... https://search.nixos.org/packages
+... https://hydra.nixos.org/
+
+... functions from pkgs library
+... https://nixos.org/manual/nixpkgs/stable/#sec-functions-library
+...
+... trivial-builders
+... https://nixos.org/manual/nixpkgs/stable/#chap-trivial-builders
+...
+... to see the options from a module.
+
+❯ nix repl --extra-experimental-features flakes
+nix-repl> n = import <nixpkgs> {}
+
+nix-repl> n.ansible.<tab>
+n.ansible.LANG                         n.ansible.doCheck                      n.ansible.pname
+n.ansible.__ignoreNulls                n.ansible.doInstallCheck               n.ansible.postFixup
+n.ansible.__structuredAttrs            n.ansible.drvAttrs                     n.ansible.postInstall
+n.ansible.all                          n.ansible.drvPath                      n.ansible.postPatch
+n.ansible.args                         n.ansible.inputDerivation              n.ansible.propagatedBuildInputs
+n.ansible.buildInputs                  n.ansible.mesonFlags                   n.ansible.propagatedNativeBuildInputs
+n.ansible.builder                      n.ansible.meta                         n.ansible.pythonModule
+n.ansible.cmakeFlags                   n.ansible.name                         n.ansible.pythonPath
+n.ansible.configureFlags               n.ansible.nativeBuildInputs            n.ansible.pythonRelaxDeps
+n.ansible.depsBuildBuild               n.ansible.out                          n.ansible.requiredPythonModules
+n.ansible.depsBuildBuildPropagated     n.ansible.outPath                      n.ansible.src
+n.ansible.depsBuildTarget              n.ansible.outputName                   n.ansible.stdenv
+n.ansible.depsBuildTargetPropagated    n.ansible.outputs                      n.ansible.strictDeps
+n.ansible.depsHostHost                 n.ansible.override                     n.ansible.system
+n.ansible.depsHostHostPropagated       n.ansible.overrideAttrs                n.ansible.type
+n.ansible.depsTargetTarget             n.ansible.overrideDerivation           n.ansible.updateScript
+n.ansible.depsTargetTargetPropagated   n.ansible.overridePythonAttrs          n.ansible.userHook
+n.ansible.disallowedReferences         n.ansible.passthru                     n.ansible.version
+n.ansible.dist                         n.ansible.patches
+
+nix-repl> n.ansible.version
+"2.17.5"
+
+
+... another way of seeing functions of pkgs
+
+nix-repl> pkgs = import <nixpkgs> {}
+
+nix-repl> pkgs.lib.strings.toUpper "show everything in upper"
+"SHOW EVERYTHING IN UPPER"
+
+nix-repl> builtins.currentSystem
+"aarch64-linux"
+
+nix-repl> builtins.fetchurl "https://github.com/NixOS/nix/archive/7c3ab5751568a0bc63430b33a5169c5e4784a0ff.tar.gz"

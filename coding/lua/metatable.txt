@@ -1,0 +1,72 @@
+
+
+...
+... https://stackoverflow.com/questions/3430583/can-i-force-luas-table-indexing-to-start-from-zero
+
+
+function zeroIndexed(tbl)
+    local mt = {}
+    mt.data = tbl
+    mt.__index = function(t, k)
+        return mt.data[(type(k) == "number" and k + 1 or k)]
+    end
+    mt.__newindex = function(t, k, v)
+        mt.data[(type(k) == "number" and k + 1 or k)] = v
+    end
+    mt.__len = function()
+        return #mt.data
+    end
+    return setmetatable({}, mt)
+end
+
+t = zeroIndexed({5, 6, 7})
+
+print(t[0], t[1], t[2])
+-- 5       6       7
+t[0] = 4
+print(t[0], t[1], t[2])
+-- 4       6       7
+print(t[0], #t)
+-- 4       3
+t[#t] = 8
+-- adding 8 in index no 3
+print(t[0], t[1], t[2], t[3])
+-- 4       6       7    8
+print(t[0], #t)
+-- 4       4
+print(t[#t - 1], #t)
+-- 8       4
+
+... output:
+
+❯ lua test.lua
+5       6       7
+4       6       7
+4       3
+4       6       7       8
+4       4
+8       4
+~
+❯
+
+... metamethod __call
+
+local mt = {
+    __call = function(t, param)
+    	local sum = {}
+    	for i, value in ipairs(t) do
+        -- Add the argument (5) to the value,
+        -- then place it in the new table (t).
+    		sum[i] = value + param
+    	end
+      -- Return the individual table values
+    	return unpack(sum)
+    end
+}
+
+local t = setmetatable({10, 20, 30}, mt)
+print(t(5))
+-- 15 25 35
+
+... output:
+-- 15 25 35

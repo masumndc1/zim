@@ -1,0 +1,55 @@
+
+
+...
+... trace all files where ./. mean current working directory
+...
+
+❯ nix repl -f channel:nixos-24.05
+Nix 2.25.2
+Type :? for help.
+Loading installable ''...
+Added 21605 variables.
+nix-repl>
+
+nix-repl> fs = lib.fileset
+
+nix-repl> fs.trace ./. null
+trace: /home/masum (all files in directory)
+null
+
+nix-repl> fs.trace ./.
+trace: /home/masum (all files in directory)
+«lambda @ /nix/store/b6fgpwphcj36xvh8i6jfv7mfn1d72fhb-source/lib/fileset/default.nix:259:8»
+
+nix-repl>
+
+...
+... adding a new file to trace
+...
+...
+
+nix-repl> fs.trace ./somenewfile.txt
+trace: /home/masum
+trace: - somenewfile.txt (regular)
+«lambda @ /nix/store/b6fgpwphcj36xvh8i6jfv7mfn1d72fhb-source/lib/fileset/default.nix:259:8»
+
+nix-repl>
+
+
+... set up npins to pin the Nixpkgs dependency:
+
+$ mkdir fileset
+$ cd fileset
+$ nix-shell -p npins --run "npins init --bare; npins add github nixos nixpkgs --branch nixos-24.05"
+
+[INFO ] Welcome to npins!
+[INFO ] Creating `npins` directory
+[INFO ] Writing default.nix
+[INFO ] Writing initial sources.json (empty)
+[INFO ] Successfully written initial files to 'npins'.
+[INFO ] Adding 'nixpkgs' …
+    repository: https://github.com/nixos/nixpkgs.git
+    branch: nixos-24.05
+    revision: e8c38b73aeb218e27163376a2d617e61a2ad9b59
+    url: https://github.com/nixos/nixpkgs/archive/e8c38b73aeb218e27163376a2d617e61a2ad9b59.tar.gz
+    hash: 1n6gdjny8k5rwkxh6sp1iwg1y3ni1pm7lvh9sisifgjb18jdvzbm

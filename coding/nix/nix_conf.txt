@@ -1,0 +1,8 @@
+
+
+... contents of /etc/nix/nix.conf
+
+❯ cat /etc/nix/nix.conf
+extra-experimental-features = flakes
+build-users-group = nixbld
+❯
