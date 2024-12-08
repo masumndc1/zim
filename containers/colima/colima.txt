@@ -1,0 +1,22 @@
+
+
+... install colima
+... sudo port install colima
+
+... install incus on mac
+... brew install incus
+
+... start colima with incus
+... colima start --runtime incus
+
+❯ colima start --runtime incus
+INFO[0001] starting colima
+INFO[0001] runtime: incus
+INFO[0002] creating and starting ...                     context=vm
+INFO[0002] downloading disk image ...                    context=vm
+> SSH Local Port: 56461
+> [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
+> [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
+> [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
+> [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
+> [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
