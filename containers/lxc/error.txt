@@ -36,3 +36,7 @@ fs.inotify.max_user_watches=1048576
 ... comment out cgroup requirement v1 line
 ... start the container. inside the container you may need to run dhclient
 ...
+... masum@suse:~> sudo incus storage delete default
+... Error: The storage pool is currently in use
+
+... printf 'config: {}\ndevices: {}' | sudo incus profile edit default
