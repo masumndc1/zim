@@ -1,0 +1,16 @@
+
+
+...
+... there are many options. among them couple of them are follow
+...
+... 1.textutil:
+... convert any html page to txt
+...
+... ❯ textutil -convert txt why-debian.html
+... ❯ ls
+ why-debian.html   why-debian.txt
+
+❯ nvim why-debian.txt
+
+... in linux you have html2text
+...
