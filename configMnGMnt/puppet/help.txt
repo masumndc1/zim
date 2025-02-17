@@ -25,6 +25,9 @@
   puppet doc --list
   puppet doc -r configuration
 
+... for example, seeing doc on create_resources functions
+puppet doc -r function | grep -i create_resource -A 10
+
 ... puppet style guide. this is good to check always.
 https://www.puppet.com/docs/puppet/8/style_guide#style_guide
 
