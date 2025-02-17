@@ -52,3 +52,24 @@
 ... to improve migration option. This service is in some ways like Trove, it uses
 ... an image with Docker installed on it and orchestrates Magnum with Heat. It is
 ... effectively Container as a Service (CaaS) of OpenStack.
+
+... python code location:
+... as we know openstack is fully written in python. therefore, python needs to take
+... configuration settings out of component.conf (ie from /etc/keystone/keystone.conf)
+... and then add that parameters to relevant python files.
+
+... the location of python files resides in linux, for example.
+... /usr/lib/python3.6/site-packages directory
+
+[root@devel1 keystone]# pwd
+/usr/lib/python3.6/site-packages/keystone
+
+[root@devel1 keystone]# ls
+api                     catalog  credential       i18n.py      models            __pycache__  server
+application_credential  cmd      endpoint_policy  identity     notifications.py  receipt      token
+assignment              common   exception.py     __init__.py  oauth1            resource     trust
+auth                    conf     federation       limit        policy            revoke       version.py
+
+[root@devel1 keystone]#
+
+... in ubuntu or debian, this location is /usr/lib/python3/dist-packages/keystone/
