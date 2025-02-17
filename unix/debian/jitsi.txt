@@ -1,0 +1,7 @@
+
+
+...
+... download jitsi
+... an opensourced vdo conferrence tool
+... https://desktop.jitsi.org/Main/Download.html
+...

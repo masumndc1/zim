@@ -1,0 +1,53 @@
+
+
+
+...
+... install quartz
+... requirement is to install node.js
+
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# Download and install Node.js:
+nvm install 22
+
+# Verify the Node.js version:
+# Should print "v22.13.0".
+node -v
+nvm current
+
+# Verify npm version:
+# Should print "10.9.2".
+npm -v
+
+
+... now install quartz
+
+1. git clone https://github.com/jackyzha0/quartz.git
+2. cd quartz
+3. npm i
+4. npx quartz create
+
+once you have initialize your quartz. build it locally by,
+
+5. npx quartz build --serve
+
+┌   Quartz v4.4.0
+│
+◇  Choose how to initialize the content in `~/Documents/github/quartz/content`
+│  Empty Quartz
+│
+◇  Choose how Quartz should resolve links in your content.
+This should match Obsidian's link format. You can change this later in
+`quartz.config.ts`.
+│  Treat links as shortest path
+│
+└  You're all set! Not sure what to do next? Try:
+  • Customizing Quartz a bit more by editing `quartz.config.ts`
+  • Running `npx quartz build --serve` to preview your Quartz locally
+  • Hosting your Quartz online (see: https://quartz.jzhao.xyz/hosting)
+
+~/Documents/github/quartz v4* 56s
+❯
+
+6. finally browse http://localhost:8080
