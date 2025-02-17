@@ -315,3 +315,8 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 ... after all the testing if we need to destroy the infrastructure and clean up,
 ... run "terraform cleanup"
+
+... when you have new version of the provider in place, dont forget
+... to upgrade the version by following
+
+> terraform init -upgrade
