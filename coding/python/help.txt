@@ -332,3 +332,13 @@ In [35]: print(another)
 {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
 In [36]:
+
+... python debugger:
+... to debug you can use pdb or ipdb or latest breakpoint()
+...
+... more on this:
+... https://stackoverflow.com/questions/4929251/how-to-step-through-python-code-to-help-debug-issues
+...
+... how to run python profile/cprofile to speed up the performance
+... python profile: https://stackoverflow.com/questions/582336/how-do-i-profile-a-python-script
+...
