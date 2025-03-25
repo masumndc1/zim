@@ -5,5 +5,8 @@ how to make display various look from cli
 xgamma -rgamma 0.500 -ggamma 2.000 -bgamma 1.000
 xgamma -rgamma 0.500 -ggamma 2.000 -bgamma 2.000
 
+personally I do like
+xgamma -gamma 0.7
+
 Use this command to reset:
 xgamma -gamma 1.0
