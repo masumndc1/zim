@@ -1,0 +1,9 @@
+
+
+... disable kde wallet
+
+System Settings >
+  Account Details >
+    KDE Wallet >
+      Wallet preferences >
+        uncheck ‘Enable the KDE wallet subsystem’
