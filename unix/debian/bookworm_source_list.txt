@@ -1,0 +1,8 @@
+deb [arch=arm64] http://ftp.fi.debian.org/debian/ stable main contrib non-free non-free-firmware
+deb-src [arch=arm64] http://ftp.fi.debian.org/debian/ stable main contrib non-free
+
+deb [arch=arm64] http://ftp.fi.debian.org/debian/ stable-updates main contrib non-free
+deb-src [arch=arm64] http://ftp.fi.debian.org/debian/ stable-updates main contrib non-free
+
+deb [arch=arm64] http://security.debian.org/ stable/updates main contrib non-free
+deb-src [arch=arm64] http://security.debian.org/ stable/updates main contrib non-free
