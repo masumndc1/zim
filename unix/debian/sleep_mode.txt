@@ -1,0 +1,24 @@
+
+
+... disable sleep mode:
+...
+... 1. To disable entering the sleep mode you had to edit the
+
+... /etc/systemd/logind.conf file and modify the line:
+
+HandleLidSwitch=ignore
+HandleLidSwitchDocked=ignore
+HandleLidSwitchExternalPower=ignore
+
+
+Then restart the OS via:
+systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+sudo service systemd-logind restart
+
+
+... 2. cat /etc/systemd/sleep.conf
+
+AllowSuspend=no
+AllowHibernation=no
+AllowSuspendThenHibernate=no
+AllowHybridSleep=no
