@@ -40,3 +40,6 @@ fs.inotify.max_user_watches=1048576
 ... Error: The storage pool is currently in use
 
 ... printf 'config: {}\ndevices: {}' | sudo incus profile edit default
+
+... Required tool "btrfs" is missing
+... apt install btrfs-progs
