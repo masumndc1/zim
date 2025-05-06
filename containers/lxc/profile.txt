@@ -1,0 +1,20 @@
+
+
+... edit default profile for network
+
+ -→ incus profile show default
+
+config: {}
+description: Default Incus profile
+devices:
+  eth0:
+    name: eth0
+    network: incusbr0
+    type: nic
+  root:
+    path: /
+    pool: store00
+    type: disk
+name: default
+used_by:
+- /1.0/instances/nix00
