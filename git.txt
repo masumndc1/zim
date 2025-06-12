@@ -1028,3 +1028,11 @@ repos:
 ... (optional) run following to apply rule to all files:
 
 $ pre-commit run --all-files
+
+... how to fix the following problem:
+
+❯ git commit -m "week 24 thursady 12th june"
+/Versions/3.12/bin/python3.12: No module named pre_commit
+❯
+
+... now run 'pre-commit install'
