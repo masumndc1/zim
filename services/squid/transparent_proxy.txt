@@ -5,9 +5,8 @@ Wiki-Format: zim 0.4
 # dont be fool with the line start with #
 # this is the step by step transparent proxy configuration for
 # fedora and red hat enterprise linux 5.
-# change the setting accordingly to your own configuration. dont be confused to type as follows your configuration will be different.
-
-# dont be confuse with the following line
+# change the setting accordingly to your own configuration.
+# dont be confused to type as follows your configuration will be different.
 
 [root@localhost etc]#
 
@@ -27,9 +26,8 @@ Wiki-Format: zim 0.4
 
 [root@localhost etc]#vi /etc/hostname
 
-192.168.1.1	shourov.localdomain	sourov
+192.168.1.1 khabir.localdomain  khabir
 
-:x!
 
 [root@localhost etc]#vi /etc/squid/squid.conf
 
@@ -39,7 +37,7 @@ Wiki-Format: zim 0.4
 # have this change according to the appropiate portion of the file.
 
 
-visible_hostname sourov
+visible_hostname khabir
 http_port 3128 transparent
 acl localnet src 192.168.1.0/29
 http_access allow localnet
@@ -105,11 +103,14 @@ http_access deny badsite localnet busineeshour
 #change the line to appear as follows:
 net.ipv4.ip_forward = 1
 
-# if you are using modem then you have various ip each time you connect the modem then you need following MASQUERADE  rules.
+# if you are using modem then you have various ip each time you connect
+the modem then you need following MASQUERADE  rules.
 #Here is an example of a MASQUERADE rule:
 root@localhost# iptables –t nat –A POSTROUTING –o ppp0 –j MASQUERADE
 
-# if you are having fixed ip from ISP then you need following SNAT rules. Use either MASQUERADE or SNAT rules based on you configuration but not both.
+# if you are having fixed ip from ISP then you need following SNAT rules.
+# Use either MASQUERADE or SNAT rules based on you configuration but not both.
+
 #Here is an example of a SNAT rule:
 root@localhost# iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to-source 12.12.12.12
 
