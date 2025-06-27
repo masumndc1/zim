@@ -12,3 +12,45 @@
 @masum:/home/masum# incus image copy images:alpine/3.17/arm64 local:
 Image copied successfully!
 @masum:/home/masum#
+
+... export an image from local store
+
+masum@masum:~$ sudo incus image export local:opensuse-packer /home/masum
+Image exported successfully!
+masum@masum:~$ ls
+20a055080f6dded9290a595a066960ee98471e11960b5694569848347c80ef3c.tar.gz
+masum@masum:~$
+
+... import an local image to local store
+
+masum@suse:~> sudo incus image import /tmp/20a055080f6dded9290a595a066960ee98471e11960b5694569848347c80ef3c.tar.gz
+Image imported with fingerprint: 20a055080f6dded9290a595a066960ee98471e11960b5694569848347c80ef3c
+masum@suse:~> sudo incus image ls
+|       | 20a055080f6d | no     | incus opensuse repackage with Packer | aarch64      | CONTAINER | 104.58MiB | 2025/06/20 00:56 EEST |
+masum@suse:~>
+
+... create alias of that image
+
+masum@suse:~> sudo incus image alias create opensuse-packer 20a055080f6d
+masum@suse:~> sudo incus image ls opensuse-packer -f yaml
+- auto_update: false
+  properties:
+    description: incus opensuse repackage with Packer
+  public: false
+  expires_at: 2024-07-06T07:28:42+03:00
+  profiles:
+  - default
+  aliases:
+  - name: opensuse-packer
+    description: ""
+  architecture: aarch64
+  cached: false
+  filename: 20a055080f6dded9290a595a066960ee98471e11960b5694569848347c80ef3c.tar.gz
+  fingerprint: 20a055080f6dded9290a595a066960ee98471e11960b5694569848347c80ef3c
+  size: 109662423
+  type: container
+  created_at: 2024-06-06T07:28:42+03:00
+  last_used_at: 0001-01-01T00:00:00Z
+  uploaded_at: 2025-06-19T21:56:20.300058139Z
+  project: default
+masum@suse:~>
