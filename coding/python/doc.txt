@@ -26,3 +26,6 @@ Required-by: python-openstackclient
 (osclient) ➜  ~
 
 ...
+
+-- a good example of python codes
+https://github.com/zabbly/incus
