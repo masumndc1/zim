@@ -16,3 +16,7 @@ firewall-cmd --get-services
 firewall-cmd --permanent --list-all
 firewall-cmd --reload
 systemctl enable firewalld
+
+... a good source of various firewalld techniques are listed in
+... https://github.com/firewalld/firewalld/issues/1235
+...
