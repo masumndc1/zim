@@ -57,3 +57,55 @@ Determining fastest mirrors
 ... metadata_expire=90m in /etc/yum.conf
 
 [root@nginx yum.repos.d]# yum install -y -C vim
+
+-- info of an installed package
+
+[root@]# yum info libxslt
+Last metadata expiration check: 0:29:39 ago on Mon 30 Jun 2025 03:17:35 PM EEST.
+Installed Packages
+Name         : libxslt
+Version      : 1.1.32
+Release      : 6.1.el8_10
+Architecture : x86_64
+Size         : 734 k
+Source       : libxslt-1.1.32-6.1.el8_10.src.rpm
+Repository   : @System
+From repo    : baseos
+Summary      : Library providing the Gnome XSLT engine
+URL          : http://xmlsoft.org/XSLT
+License      : MIT
+Description  : This C library allows to transform XML files into other XML files
+             : (or HTML, text, ...) using the standard XSLT stylesheet transformation
+             : mechanism. To use it you need to have a version of libxml2 >= 2.6.27
+             : installed. The xsltproc command is a command line interface to the XSLT engine
+
+Available Packages
+Name         : libxslt
+Version      : 1.1.32
+Release      : 6.2.el8_10
+Architecture : x86_64
+Size         : 249 k
+Source       : libxslt-1.1.32-6.2.el8_10.src.rpm
+Repository   : baseos
+Summary      : Library providing the Gnome XSLT engine
+URL          : http://xmlsoft.org/XSLT
+License      : MIT
+Description  : This C library allows to transform XML files into other XML files
+             : (or HTML, text, ...) using the standard XSLT stylesheet transformation
+             : mechanism. To use it you need to have a version of libxml2 >= 2.6.27
+             : installed. The xsltproc command is a command line interface to the XSLT engine
+
+Name         : libxslt
+Version      : 1.1.32
+Release      : 6.2.el8_10
+Architecture : i686
+Size         : 262 k
+Source       : libxslt-1.1.32-6.2.el8_10.src.rpm
+Repository   : baseos
+Summary      : Library providing the Gnome XSLT engine
+URL          : http://xmlsoft.org/XSLT
+License      : MIT
+Description  : This C library allows to transform XML files into other XML files
+             : (or HTML, text, ...) using the standard XSLT stylesheet transformation
+             : mechanism. To use it you need to have a version of libxml2 >= 2.6.27
+             : installed. The xsltproc command is a command line interface to the XSLT engine
