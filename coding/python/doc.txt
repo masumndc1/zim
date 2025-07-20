@@ -29,3 +29,33 @@ Required-by: python-openstackclient
 
 -- a good example of python codes
 https://github.com/zabbly/incus
+
+... Location where ansible stores it python files
+...
+...
+/Users/khuddin/Documents/venv/pyenv/lib/python3.8/site-packages/ansible/modules
+❯ ls
+ __init__.py   cloud        commands   database   identity    messaging
+   net_tools   notification   remote_management   storage   utilities
+   windows  __pycache__   clustering   crypto     files      inventory
+   monitoring   network     packaging      source_control      system
+   web_infrastructure
+~/Documents/venv/pyenv/lib/python3.8/site-packages/ansible/modules
+❯
+
+... for example, all the openstack related modules
+...
+
+❯ ls
+ __init__.py                    _os_subnets_facts.py         os_image.py                  os_keystone_service.py      os_port.py                  os_server.py            os_user_group.py
+ __pycache__                    _os_user_facts.py            os_image_info.py             os_listener.py              os_port_info.py             os_server_action.py     os_user_info.py
+ _os_flavor_facts.py            os_auth.py                   os_ironic.py                 os_loadbalancer.py          os_project.py               os_server_group.py      os_user_role.py
+ _os_image_facts.py             os_client_config.py          os_ironic_inspect.py         os_member.py                os_project_access.py        os_server_info.py       os_volume.py
+ _os_keystone_domain_facts.py   os_coe_cluster.py            os_ironic_node.py            os_network.py               os_project_info.py          os_server_metadata.py   os_volume_snapshot.py
+ _os_networks_facts.py          os_coe_cluster_template.py   os_keypair.py                os_networks_info.py         os_quota.py                 os_server_volume.py     os_zone.py
+ _os_port_facts.py              os_flavor_info.py            os_keystone_domain.py        os_nova_flavor.py           os_recordset.py             os_stack.py
+ _os_project_facts.py           os_floating_ip.py            os_keystone_domain_info.py   os_nova_host_aggregate.py   os_router.py                os_subnet.py
+ _os_server_actions.py          os_group.py                  os_keystone_endpoint.py      os_object.py                os_security_group.py        os_subnets_info.py
+ _os_server_facts.py            os_group_info.py             os_keystone_role.py          os_pool.py                  os_security_group_rule.py   os_user.py
+~/Documents/venv/pyenv/lib/python3.8/site-packages/ansible/modules/cloud/openstack
+❯
