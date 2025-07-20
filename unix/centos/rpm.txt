@@ -1,0 +1,39 @@
+
+
+... list all the files included in a rpm.
+
+[root@]# rpm -ql libxslt
+/usr/bin/xsltproc
+/usr/lib/.build-id
+/usr/lib/.build-id/03
+/usr/lib/.build-id/03/e4a879d7c2c8e583eba7f55cc3806ed26e8379
+/usr/lib/.build-id/a8
+/usr/lib/.build-id/a8/cfd81f80fe1e3cab228705f78f2b0ee6b46515
+/usr/lib/.build-id/f0
+/usr/lib/.build-id/f0/bafe027478c79e967231d252bfe734b396389c
+/usr/lib64/libexslt.so.0
+/usr/lib64/libexslt.so.0.8.20
+/usr/lib64/libxslt-plugins
+/usr/lib64/libxslt.so.1
+/usr/lib64/libxslt.so.1.1.32
+/usr/share/doc/libxslt
+/usr/share/doc/libxslt/AUTHORS
+/usr/share/doc/libxslt/ChangeLog
+/usr/share/doc/libxslt/FEATURES
+/usr/share/doc/libxslt/NEWS
+/usr/share/doc/libxslt/README
+/usr/share/licenses/libxslt
+/usr/share/licenses/libxslt/Copyright
+/usr/share/man/man1/xsltproc.1.gz
+
+... when a rpm was installed
+
+[root]# rpm -aq --last libxslt
+libxslt-1.1.32-6.1.el8_10.x86_64              Thu 22 May 2025 02:54:02 PM EEST
+
+... what other packages are depend for an rpm?
+
+[root@]# rpm -q --whatrequires libxslt
+no package requires libxslt
+
+...
