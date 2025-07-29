@@ -101,7 +101,10 @@ local error = {
 local err = error:new(200, "done")
 print(err.msg, err.code)
 print(err:__tostring())
-
+-- output --
+-- done    200
+-- 200     done
+--
 -- exmaple 5
 --[[
 local http = require("socket.http")
