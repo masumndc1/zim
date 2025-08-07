@@ -1036,3 +1036,9 @@ $ pre-commit run --all-files
 ❯
 
 ... now run 'pre-commit install'
+...
+... when you configure you new laptop, you need to add your name over there
+... as global so that every repo you work on it get common settings.
+
+> git config --global user.name "masumndc1"
+❯ git config --global user.email "masumndc1@gmail.com"
