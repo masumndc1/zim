@@ -1,0 +1,21 @@
+
+
+...
+... how to install yubikey in mac os
+...
+... wget -c https://github.com/Yubico/yubico-piv-tool/archive/refs/tags/yubico-piv-tool-2.7.2.tar.gz
+
+$ tar zxvf yubico-piv-tool-2.7.2.tar.gz
+$ cd yubico-piv-tool-yubico-piv-tool-2.7.2
+$ mkdir build; cd build
+
+On macos, you might need to point out homebrew openssl version when running pkg-config.
+
+$ PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig" cmake ..
+$ make
+$ sudo make install
+
+... if you are missing any packages during installation, install that missing
+... packages by brew. In this case, I was facing check was not available.
+... Therefore, installed check `brew install check`
+...
