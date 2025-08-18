@@ -46,3 +46,34 @@ or
 
 
 # apt-get install task-kde-desktop
+
+... another issue:
+...
+... ~
+Aug 18 11:09:09 lap-macmini systemd[1]: Starting gdm.service - GNOME Display Manager...
+░░ Subject: A start job for unit gdm.service has begun execution
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ A start job for unit gdm.service has begun execution.
+░░
+░░ The job identifier is 223.
+Aug 18 11:09:09 lap-macmini systemd[1]: Started gdm.service - GNOME Display Manager.
+░░ Subject: A start job for unit gdm.service has finished successfully
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ A start job for unit gdm.service has finished successfully.
+░░
+░░ The job identifier is 223.
+Aug 18 11:09:09 lap-macmini gdm-launch-environment][1410]: pam_unix(gdm-launch-environment:session): session opened for user gdm(uid=120) by>
+Aug 18 11:10:15 lap-macmini gdm-password][2379]: gkr-pam: unable to locate daemon control file
+Aug 18 11:10:15 lap-macmini gdm-password][2379]: gkr-pam: stashed password to try later in open session
+Aug 18 11:10:15 lap-macmini gdm-password][2379]: pam_unix(gdm-password:session): session opened for user masum(uid=1000) by masum(uid=0)
+Aug 18 11:10:16 lap-macmini gdm-password][2379]: gkr-pam: unlocked login keyring
+Aug 18 11:10:16 lap-macmini gdm3[1378]: Gdm: on_display_added: assertion 'GDM_IS_REMOTE_DISPLAY (display)' failed
+Aug 18 11:10:27 lap-macmini gdm3[1378]: Gdm: Child process -1457 was already dead.
+Aug 18 11:10:27 lap-macmini gdm3[1378]: Gdm: on_display_removed: assertion 'GDM_IS_REMOTE_DISPLAY (display)' failed
+
+... then try to install gnome-session and gdm3
+... apt install --reinstall gnome-session gdm3
