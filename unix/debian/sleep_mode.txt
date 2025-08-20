@@ -22,3 +22,15 @@ AllowSuspend=no
 AllowHibernation=no
 AllowSuspendThenHibernate=no
 AllowHybridSleep=no
+
+
+... another way to stop gdm3 to prevent sleep mode.
+
+$ /etc/gdm3/greeter.dconf-defaults
+
+## Disable machine from suspending
+sleep-inactive-battery-type='nothing'
+sleep-inactive-ac-type='nothing'
+sleep-inactive-ac-timeout=0
+
+$ sudo systemctl reload gdm3
