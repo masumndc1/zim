@@ -1,0 +1,35 @@
+
+
+... use nmcli to check wifi status
+... set following
+
+root@lap-macmini:/home/masum# cat /etc/netplan/50-cloud-init.yaml
+network:
+  version: 2
+  ethernets:
+    enp1s0f0:
+      dhcp4: true
+  wifis:
+    wlp3s0:
+      dhcp4: true
+      access-points:
+        "WhoAreYou":
+           auth:
+             key-management: "psk"
+             password: "YourSecretHere"
+
+root@lap-macmini:/home/masum# systemctl status NetworkManager
+root@lap-macmini:/home/masum# systemctl restart NetworkManager
+
+root@lap-macmini:/home/masum# nmcli radio wifi off
+root@lap-macmini:/home/masum# nmcli radio wifi on
+
+root@lap-macmini:/home/masum# nmcli general status
+STATE      CONNECTIVITY  WIFI-HW  WIFI     WWAN-HW  WWAN
+connected  full          enabled  enabled  missing  enabled
+root@lap-macmini:/home/masum#
+
+... another way of up and down wifi is:
+
+root@lap-macmini:/home/masum# sudo ip link set wlan0 down
+root@lap-macmini:/home/masum# sudo ip link set wlan0 up
