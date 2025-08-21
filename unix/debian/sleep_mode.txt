@@ -12,7 +12,7 @@ HandleLidSwitchExternalPower=ignore
 
 
 Then restart the OS via:
-systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 sudo service systemd-logind restart
 
 
