@@ -5,3 +5,35 @@
 ...
 ... apt install hostapd
 ...
+... after installing debian13 in macmini, i was having issue with wireless.
+... mostly the broadcom driver was not found there.
+... before installation, you need to add contrib in source list.
+
+root@lap-macmini:/home/masum# cat /etc/apt/sources.list
+deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware
+deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware
+
+$ sudo apt install firmware-linux-nonfree
+$ sudo apt install firmware-b43-installer
+
+root@lap-macmini:/home# /etc/network/interfaces
+
+allow-hotplug wlp2s0b1
+iface wlp2s0b1 inet dhcp
+  wpa-ssid "whatwhatwhat"
+  wpa-psk "StrongPassHere"
+
+root@lap-macmini:/home/# iwconfig
+lo        no wireless extensions.
+
+enp1s0f0  no wireless extensions.
+
+wlp2s0b1  IEEE 802.11  ESSID:"whatwhatwhat"
+          Mode:Managed  Frequency:2.462 GHz  Access Point:
+          Bit Rate=48 Mb/s   Tx-Power=20 dBm
+          Retry short limit:7   RTS thr:off   Fragment thr:off
+          Encryption key:off
+          Power Management:off
+          Link Quality=68/70  Signal level=-42 dBm
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:232  Invalid misc:573   Missed beacon:0
