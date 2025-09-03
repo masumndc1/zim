@@ -1,0 +1,55 @@
+
+
+...
+... example of functools
+
+import functools
+
+# 1. reduce() → apply a function cumulatively
+
+numbers = [1, 2, 3, 4, 5]
+product = functools.reduce(lambda x, y: x * y, numbers)
+print("Product of list:", product)
+# Output: 120
+
+# 2. partial() → fix some function arguments
+def power(base, exponent):
+    return base ** exponent
+
+square = functools.partial(power, exponent=2)
+cube = functools.partial(power, exponent=3)
+
+print("Square of 5:", square(5))  # 25
+print("Cube of 3:", cube(3))      # 27
+
+# 3. lru_cache → memoization for performance
+@functools.lru_cache(maxsize=None)  # cache results (infinite size)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print("Fibonacci(10):", fibonacci(10))
+# Output: 55 (way faster than plain recursion)
+
+# 4. cmp_to_key → custom sorting
+students = [
+    {"name": "Alice", "score": 90},
+    {"name": "Bob", "score": 75},
+    {"name": "Charlie", "score": 85},
+]
+
+def compare(a, b):
+    return a["score"] - b["score"]
+
+sorted_students = sorted(students, key=functools.cmp_to_key(compare))
+print("Sorted students by score:", sorted_students)
+# Output: [{'name': 'Bob', 'score': 75}, {'name': 'Charlie', 'score': 85}, {'name': 'Alice', 'score': 90}]
+
+-- output
+# 1 Output: 120
+# 3 Output: 55 (way faster than plain recursion)
+# 4 Output: [{'name': 'Bob', 'score': 75},
+             {'name': 'Charlie', 'score': 85},
+             {'name': 'Alice', 'score': 90}
+             ]

@@ -1,0 +1,36 @@
+
+
+
+...
+... example of pickle in python
+... pickle in Python is used for serializing and deserializing Python objects
+... (saving them to a file and loading them back).
+...
+
+import pickle
+
+# Example data (can be any Python object)
+data = {
+    "name": "Alice",
+    "age": 30,
+    "skills": ["Python", "Machine Learning", "Data Analysis"]
+}
+
+# Save (serialize) object to a file
+with open("data.pkl", "wb") as f:
+    pickle.dump(data, f)
+
+print("Data has been pickled (saved).")
+
+# Load (deserialize) object back
+with open("data.pkl", "rb") as f:
+    loaded_data = pickle.load(f)
+
+print("Data loaded from pickle file:")
+print(loaded_data)
+
+--- output
+
+Data has been pickled (saved).
+Data loaded from pickle file:
+{'name': 'Alice', 'age': 30, 'skills': ['Python', 'Machine Learning', 'Data Analysis']}

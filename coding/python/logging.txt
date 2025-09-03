@@ -37,3 +37,46 @@ def url_extract(url):
 2024-10-20 22:49:49,757:DEBUG: facebook
 2024-10-20 22:49:49,757:INFO: facebook
 ❯
+
+... example of decorator of logging to be used with a functions
+
+import logging
+from functools import wraps
+
+# Configure logging
+logging.basicConfig(level=logging.INFO,
+           format="%(asctime)s - %(levelname)s - %(message)s")
+
+# Logging decorator
+def log_function_call(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        logging.info(f"Calling function: {func.__name__} with args={args}, kwargs={kwargs}")
+        result = func(*args, **kwargs)
+        logging.info(f"Function {func.__name__} returned {result}")
+        return result
+    return wrapper
+
+# Example usage
+@log_function_call
+def add(a, b):
+    return a + b
+
+@log_function_call
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+# Run some functions
+add(5, 3)
+greet("Alice")
+greet("Bob", greeting="Hi")
+
+
+... output
+
+2025-09-03 10:15:42,567 - INFO - Calling function: add with args=(5, 3), kwargs={}
+2025-09-03 10:15:42,567 - INFO - Function add returned 8
+2025-09-03 10:15:42,568 - INFO - Calling function: greet with args=('Alice',), kwargs={}
+2025-09-03 10:15:42,568 - INFO - Function greet returned Hello, Alice!
+2025-09-03 10:15:42,568 - INFO - Calling function: greet with args=('Bob',), kwargs={'greeting': 'Hi'}
+2025-09-03 10:15:42,568 - INFO - Function greet returned Hi, Bob!

@@ -1,0 +1,45 @@
+
+
+-- example of itertools
+
+import itertools
+
+# 1. count() - infinite counting (be careful!)
+for i in itertools.count(10, 2):  # start=10, step=2
+    print(i)
+    if i > 20:
+        break
+# Output: 10, 12, 14, 16, 18, 20
+
+# 2. cycle() - cycle through values forever
+colors = ["red", "green", "blue"]
+cycled = itertools.cycle(colors)
+for _ in range(6):
+    print(next(cycled))
+# Output: red, green, blue, red, green, blue
+
+# 3. repeat() - repeat a value
+for x in itertools.repeat("hello", 3):
+    print(x)
+# Output: hello, hello, hello
+
+# 4. permutations() - all orderings
+nums = [1, 2, 3]
+print(list(itertools.permutations(nums, 2)))
+# Output: [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]
+
+# 5. combinations() - unique combos
+print(list(itertools.combinations(nums, 2)))
+# Output: [(1, 2), (1, 3), (2, 3)]
+
+# 6. product() - Cartesian product (like nested loops)
+print(list(itertools.product([1, 2], ['a', 'b'])))
+# Output: [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]
+
+-- output
+# 1 Output: 10, 12, 14, 16, 18, 20
+# 2 Output: red, green, blue, red, green, blue
+# 3 Output: hello, hello, hello
+# 4 Output: [(1, 2), (1, 3), (2, 1), (2, 3), (3, 1), (3, 2)]
+# 5 Output: [(1, 2), (1, 3), (2, 3)]
+# 6 Output: [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b')]
