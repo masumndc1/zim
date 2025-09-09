@@ -1,0 +1,90 @@
+
+...
+... puppet bolt
+
+... install module by puppet bolt
+... you can create on file called bolt-project.yaml
+...
+
+❯ cat bolt-project.yaml
+---
+name: practise
+format: json
+apply-settings:
+  evaltrace: true
+  log_level: debug
+  show_diff: true
+  trace: true
+color: true
+modules:
+- puppetlabs-stdlib
+- mschuchard-extended_stdlib
+- name: puppetlabs-apt
+  version_requirement: 10.0.0
+
+... now run
+$ bolt module install
+Installing project modules
+
+Syncing modules from /Users/khuddin/Documents/github/puppet-bolt/Puppetfile to
+/Users/khuddin/Documents/github/puppet-bolt/.modules
+Generating type references
+
+{"success":true,
+"puppetfile":"/Users/khuddin/Documents/github/puppet-bolt/Puppetfile",
+"moduledir":"/Users/khuddin/Documents/github/puppet-bolt/.modules"
+}
+
+... this will also generate a Puppetfile with following content:
+... this file should not be edited manually.
+
+❯ cat Puppetfile
+# This Puppetfile is managed by Bolt. Do not edit.
+# For more information, see https://pup.pt/bolt-modules
+
+# The following directive installs modules to the managed moduledir.
+moduledir '.modules'
+
+mod 'pcfens/static_custom_facts', '0.3.2'
+mod 'puppetlabs/stdlib', '9.7.0'
+mod 'mschuchard/extended_stdlib', '1.2.1'
+
+...
+... you can also add module by following command:(any of them below)
+
+$ bolt module install --force
+$ bolt module add puppetlabs-apt
+
+... you can now add apt in site.pp file.
+
+❯ cat manifests/site.pp
+#include apt
+
+apt::keyring { 'puppetlabs-keyring.gpg':
+  source => 'https://apt.puppetlabs.com/keyring.gpg',
+}
+
+... now run this against the cloud-test node which should
+... generate a puppetlabs-keyring.gpg file in /etc/apt/keyrings folder
+
+$ bolt apply manifests/site.pp -t cloud-test
+
+... running a single command:
+... puppet bolt can take parameters from ~/.ssh/config file
+
+cat ~/.ssh/config
+#Include /Users/khuddin/.colima/ssh_config
+
+# Fig ssh integration. Keep at the bottom of this file.
+Match all
+  Include ~/.fig/ssh
+
+#Host sys-alma9-dev1
+Host sys-*-dev1
+  ProxyCommand ssh -F ~/Documents/github/puppet-bolt/ssh.config -q masum@lap-macmini nc %h 22
+  user masum
+  IdentityFile ~/.ssh/id_ed25519
+
+... then you can run bolt command against it
+
+$ bolt command run 'uptime' -t ssh://masum@sys-alma9-dev1
