@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  vars:
+    webapp:
+      version: &my_version 1.0
+      custom_name:
+        - "ToDo_App"
+        - *my_version
+
+  tasks:
+    - name: Handle the error
+      block:
+        - debug:
+            msg: 'I execute normally'
+        - name: i force a failure
+          command: /bin/false
+        - debug:
+            msg: 'I never execute, due to the above task failing, :-('
+      rescue:
+        - debug:
+            msg: 'I caught an error, can do stuff here to fix it, :-)'
+
+    - name: Using Anchor value
+      debug:
+        msg: My app is called "{{ webapp.custom_name | join('-') }}".
