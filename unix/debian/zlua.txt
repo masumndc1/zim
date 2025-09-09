@@ -1,0 +1,11 @@
+
+
+... how to add and activate z.lua
+
+if [[ ! -f ~/.z.lua/z.lua ]]; then
+   git clone https://github.com/skywind3000/z.lua.git ~/.z.lua
+else
+   eval "$(lua $HOME/.z.lua/z.lua --init enhanced fzf zsh)"
+fi
+
+alias cd='z'
