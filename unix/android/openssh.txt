@@ -1,0 +1,11 @@
+
+
+... From store install termux app. then from termux app run
+...
+... $ pkg update
+... $ pkg upgrade
+... $ pkg install openssh
+... $ passwd
+... $ run sshd
+... $ ip addr show wlan0
+... $ ssh username@ip_addr
