@@ -1,0 +1,15 @@
+---
+how to add git repo in your android
+
+$ pkg install openssh
+$ ssh-keygen -t ed_25519
+
+... put the key into your github
+...
+... install fx file manager
+... https://play.google.com/store/apps/details?id=nextapp.fx
+...
+$ termux-setup-storage
+$ mkdir ~/storage/documents/github
+$ git clone git@github.com:masumndc1/management.git ~/storage/documents/github/management
+$
