@@ -1,0 +1,58 @@
+
+
+... pdk: the new way of creating modules
+...
+...
+❯ pdk new module base
+pdk (INFO): Creating new module: base
+
+We need to create the metadata.json file for this module,
+so we're going to ask you 4 questions.
+If the question is not applicable to this module,
+accept the default option shown after each question.
+You can modify any answers at any time by manually updating the metadata.json file.
+
+[Q 1/4] If you have a Puppet Forge username, add it here.
+We can use this to upload your module to the Forge when it's complete.
+--> khuddin
+
+[Q 2/4] Who wrote this module?
+This is used to credit the module's author.
+--> khuddin
+
+[Q 3/4] What license does this module code fall under?
+This should be an identifier from https://spdx.org/licenses/.
+Common values are "Apache-2.0", "MIT", or "proprietary".
+--> Apache-2.0
+
+[Q 4/4] What operating systems does this module support?
+Use the up and down keys to move between the choices,
+space to select and enter to continue.
+--> RedHat based Linux, Debian based Linux, Fedora, OSX, SLES
+
+Metadata will be generated based on this information, continue? Yes
+pdk (INFO): Using the default template-url and template-ref.
+pdk (INFO): Module 'base' generated at path '/Users/khuddin/base'.
+pdk (INFO): In your module directory, add classes with the 'pdk new class' command.
+
+... this command will generate many files like following:
+
+❯ cd base
+❯ ls
+ CHANGELOG.md   examples   Gemfile        hiera.yaml   metadata.json   README.md   tasks
+ data           files      Gemfile.lock   manifests    Rakefile        spec        templates
+❯
+
+... now you can place your manifest files in manifest folder and templates in templates folder
+... if your template file, summary.erb file is in templates folder, reference them in like below
+...
+
+❯ lt modules/base/templates
+ templates
+└──  summary.erb
+
+file { "/tmp/summary.txt":
+  ensure => 'present',
+  mode => '0644',
+  content => template('base/summary.erb'),
+}
