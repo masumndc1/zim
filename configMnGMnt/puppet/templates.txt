@@ -82,3 +82,61 @@ file { '/etc/ntp.conf':
   content => template('ntp/ntp.conf.erb'),
   # Loads /etc/puppetlabs/code/environments/production/modules/ntp/templates/ntp.conf.erb
 }
+
+... <%= ... %> → outputs the result of the Ruby expression.
+... <% ... %> → runs Ruby code but does not output anything.
+...
+... want to display something conditionally,
+... you need <%= ... %> inside the branch where you want output.
+...
+... example manifests file
+❯ cat manifests/summary.pp
+
+$_family = $facts['os']['family']
+$_name = $facts['os']['name']
+$_release = $facts['os']['release']['full']
+$_distro = $facts['os']['distro']['codename']
+$_user = $facts['identity']['user']
+
+file { "/home/${_user}":
+  ensure => directory,
+}
+
+file { "/home/${_user}/summary.txt":
+  ensure => 'present',
+  content => template('bolt/summary.erb'),
+  require => File["/home/${_user}"],
+}
+
+... example erb template file
+
+❯ cat modules/bolt/templates/summary.erb
+<%= @facts['hostname'] %>:
+This machine is up for <%= @facts['system_uptime']['uptime'] %>
+OS name is <%= @_name %> of <%= @_family %> family
+Code name is <%= @_distro %>
+
+<% if @facts['os']['architecture'] == 'amd64' %>
+This OS architecture is <%= @facts['os']['architecture'] %>
+<% end %>
+
+... the above will generate following output at the target machine
+❯ bolt apply manifests/summary.pp -t cloud-test --verbose
+
+cloud-test ❯ cat /home/root/summary.txt
+debian12:
+This machine is up for 8 days
+OS name is Ubuntu of Debian family
+Code name is jammy
+
+This OS architecture is amd64
+
+... note here: how facts are used here in the if condition,
+
+<% if condition %>
+<% endif %>
+
+...
+... Use <% ... %> for the conditional, <%= ... %> to print values.
+... Add @ for instance variables (@_name, @_family, @_distro)
+... and @facts for the facts hash.
