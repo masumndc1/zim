@@ -1,0 +1,70 @@
+
+...
+...
+... chaining and ordering
+
+package { 'puppet':
+  ensure => present,
+  before => Service['puppet'],
+}
+
+service { 'puppet':
+  ensure => running,
+  enable => true,
+  require => Package['puppet'],
+}
+
+
+package { 'puppet-agent':
+  ensure => latest,
+  notify => Service['puppet'],
+}
+
+service { 'puppet':
+  ensure => running,
+  enable => true,
+  subscribe => Package['puppet-agent'],
+}
+
+... following will install puppet-agent before running serivce puppet
+... Package['puppet-agent'] -> Service['puppet']
+...
+... following will restart serivce puppet after upgrading puppet
+... Package['puppet'] ~> Service['puppet']
+...
+...
+... another way of doing:
+...
+... every user declared in a manifest
+... User <||>
+...
+... users in the wheel group
+... User <| groups == 'wheel' |>
+...
+... every package declared in a manifest
+... Package <||>
+...
+... packages tagged with 'yum' tag
+... Package <| tag == 'yum' |>
+...
+... every service declared in a manifest
+... Service <||>
+...
+... services set to start at boot time
+... Service <| enabled == true |>
+...
+... Services running OR set to start at boot time
+... Service <| ( ensure == running ) or ( enabled == true ) |>
+...
+... Services other than Puppet set to be running
+... Service <| ( ensure == running ) and ( title != 'puppet' ) |>
+...
+... when we have updated packages listed in the manifest, run exec
+... Package <||> ~> Exec['update-facts']
+...
+... ensure that the Puppet Labs Yum repository is installed before
+... any packages tagged with puppet or mcollective:
+...
+... Yumrepo['puppetlabs'] -> Package <| tag == 'puppet' |>
+... Yumrepo['puppetlabs'] -> Package <| tag == 'mcollective' |>
+...
