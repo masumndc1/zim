@@ -1,0 +1,299 @@
+
+...
+... Some less frequently used things:
+... more advanced topic:
+... https://docs.ansible.com/ansible/2.9/user_guide/playbooks_special_topics.html
+...
+...
+... async:
+... how to long to complete a task
+... wait upto 45 seconds
+...
+... async: 45
+...
+... poll:
+... how frequently to check the status, default is 10
+...
+#async and poll example playbook
+
+- hosts: centos
+  become: yes
+
+  tasks:
+  - name: wait for up to 45 sec, poll every 5 sec
+    command: /bin/sleep 15
+    async: 45             #How long to run?
+    poll: 5               #How frequently to check? (default 10 sec)
+
+... strategy:
+...  linear: a playbook will run on all node before next playbook run.
+...  strategy: free   # randomly order used.
+...  serial: 3        # if we want to run 3 server at a time
+
+... another example of serial where at first only 1 server, 2nd batch will
+... contain 5 servers, and 3 batch is 10 and rest is remaining.(if any)
+
+- name: test play
+  hosts: webservers
+  serial:
+    - 1
+    - 5
+    - 10
+
+...
+... fork: define ansible to talk 5server at a time. Modifying this will
+...   increase the cpu utilization.
+...
+
+$ grep fork /etc/ansible/ansible.cfg
+#forks = 5
+
+... ignore the error and move forward:
+
+- name: install apache2
+  apt:
+    name=apache2
+    state=latest
+  ignore_errors: yes
+  register: results
+
+... failed a playbook when there is an issue
+- name: install httpd
+  yum:
+    name=httpd
+    state=latest
+  failed_when: "'FAILED' in results"
+
+... and more example
+
+- name: Fail task when both files are identical
+  raw: diff foo/file1 bar/file2
+  register: diff_cmd
+  failed_when: diff_cmd.rc == 0 or diff_cmd.rc >= 2
+
+- name: this command prints FAILED when it fails
+  command: /usr/bin/example-command -x -y -z
+  register: command_result
+  ignore_errors: True
+
+- name: fail the play if the previous command did not succeed
+  fail:
+    msg: "the command failed"
+  when: "'FAILED' in command_result.stderr"
+
+- name: Check if a file exists in temp and fail task if it does
+  command: ls /tmp/this_should_not_be_here
+  register: result
+  failed_when:
+    - result.rc == 0
+    - '"No such" not in result.stdout'
+
+... or failed when any of them is present:
+failed_when: result.rc == 0 or "No such" not in result.stdout
+
+... a nice way to combine multiple condition:
+
+- name: example of many failed_when conditions with OR
+  shell: "./myBinary"
+  register: ret
+  failed_when: >
+    ("No such file or directory" in ret.stdout) or
+    (ret.stderr != '') or
+    (ret.rc == 10)
+
+... changed_when:
+...
+
+  - shell: /usr/bin/billybass --mode="take me to the river"
+    register: bass_result
+    changed_when: "bass_result.rc != 2"
+
+  # this will never report 'changed' status
+  - shell: wall 'beep'
+    changed_when: False
+
+- command: /bin/fake_command
+  register: result
+  ignore_errors: True
+  changed_when:
+    - '"ERROR" in result.stderr'
+    - result.rc == 2
+
+... filters:
+... ansible supports various filters in the jinja as well as in playbook
+... for example:
+...
+
+# string
+{{ name }} => name
+{{ name | upper }} => NAME
+{{ name | lower }} => name
+{{ name | title }} => Name
+{{ name | replace ("Name","Niemi") }} =>  Niemi
+
+# list
+{{ [1,2,3] | min }} => 1
+{{ [1,2,3] | max  }} => 3
+{{ [1,2,3,2] | unique }} => 1,2,3
+{{ [1,2,3,4] | union ([4,5]) }} => 1,2,3,5
+{{ [1,2,3,4] | intersec([4,5]) }} => 4
+{{ 100 | random  }} => randome number 0-100
+{{ ["The","name","is","Name"] | join (" ") }} => The name is Name
+
+# files
+{{ "/etc/hosts" | basename }} => hosts
+
+... lookup: content of the csv file
+
+... hostname, password
+... hostname1, PassW0rd1
+... hostname2, PassW0rd2
+...
+
+{{lookup('csvfile','target1',file=/tmp/test.csv, delimiter=',')}} => PassW0rd1
+
+...
+... it is always good to check on which node the playbook will run on:
+...
+❯ ansible-playbook -i inventories/hosts zsh.yml --list-hosts
+
+playbook: zsh.yml
+
+  play #1 (localhost:compute:incus:laptops): localhost:compute:incus:laptops    TAGS: []
+    pattern: ['localhost:compute:incus:laptops']
+    hosts (36):
+      lap-asus
+      monitoring
+      localhost
+      sys-ubu24-dev3
+      sys-deb13-dev5
+      sys-ubu24-dev2
+      lap-macmini
+      sys-deb12-dev3
+      sys-deb13-dev1
+      sys-deb12-dev4
+      sys-ubu22-dev5
+      sys-alma9-dev2
+      sys-alma9-dev3
+      ubu-incus
+-- output cut --
+❯
+
+... delegate_to:
+... when run something in a server and then run on other server.
+...
+
+  tasks:
+    - name: take out of load balancer pool
+      command: /usr/bin/take_out_of_pool {{ inventory_hostname }}
+      delegate_to: 127.0.0.1
+
+... another alternative is local_action:
+
+tasks:
+  - name: take out of load balancer pool
+    local_action: command /usr/bin/take_out_of_pool {{ inventory_hostname }}
+
+... To run a playbook only once for a batch of hosts:
+... run_once: True
+
+- command: /opt/application/upgrade_db.py
+  run_once: true
+
+... another approach is: running the command to the first node of a group
+
+- command: /opt/application/upgrade_db.py
+  when: inventory_hostname == webservers[0]
+
+... and also:
+
+- command: /opt/application/upgrade_db.py
+  run_once: true
+  delegate_to: web01.example.org
+
+... delegate_facts:
+
+---
+- hosts: app_servers
+
+  tasks:
+    - name: gather facts from db servers
+      setup:
+      delegate_to: "{{ item }}"
+      delegate_facts: True
+      loop: "{{ groups['dbservers'] }}"
+
+... above will gather facts from dbservers groups but not for app_servers.
+... among many options to run a playbook locally, one of them is
+
+❯ ansible-playbook playbook.yml --connection=local
+
+... setting proxy env vars:
+...
+
+    - name: Install cobbler
+      package:
+        name: cobbler
+        state: present
+      environment:
+        http_proxy: http://proxy.example.com:8080
+
+... and also:
+
+  vars:
+    proxy_env:
+      http_proxy: http://proxy.example.com:8080
+
+  tasks:
+
+    - name: Install cobbler
+      package:
+        name: cobbler
+        state: present
+      environment: "{{ proxy_env }}"
+
+... setting proxies among other in group_vars/boston
+
+---
+# file: group_vars/boston
+
+ntp_server: ntp.bos.example.com
+backup: bak.bos.example.com
+proxy_env:
+  http_proxy: http://proxy.bos.example.com:8080
+  https_proxy: http://proxy.bos.example.com:8080
+
+... example of block and debug to catch error and fix it.
+
+---
+- hosts: localhost
+
+  tasks:
+    - name: Handle the error
+      block:
+        - debug:
+            msg: 'I execute normally'
+        - name: i force a failure
+          command: /bin/false
+        - debug:
+            msg: 'I never execute, due to the above task failing, :-('
+      rescue:
+        - debug:
+            msg: 'I caught an error, can do stuff here to fix it, :-)'
+
+... variable interpolation:
+... note here how the vars are interpolated here.
+
+---
+- name: Using values nested inside dictionary
+  hosts: localhost
+  vars:
+    webapp:
+        version: &my_version 1.0
+        custom_name:
+            - "ToDo_App"
+            - *my_version
+  tasks:
+  - name: Using Anchor value
+    debug:
+        msg: My app is called "{{ webapp.custom_name | join('-') }}".
