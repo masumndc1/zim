@@ -1,0 +1,363 @@
+
+
+... ansible plugings
+... list of plugins available in ansible
+
+/opt/homebrew/lib/python3.8/site-packages/ansible/plugins stable
+ __init__.py   action  󰃨 cache      cliconf      doc_fragments   httpapi     loader.py   netconf   strategy   test
+ __pycache__   become   callback   connection   filter          inventory   lookup      shell     terminal   vars
+❯
+
+...
+$ ansible-doc --help
+$ ansible-doc -t become -l
+
+doas       Do As user
+dzdo       Centrify's Direct Authorize
+enable     Switch to elevated permissions on a network device
+ksu        Kerberos substitute user
+machinectl Systemd's machinectl privilege escalation
+pbrun      PowerBroker run
+pfexec     profile based execution
+pmrun      Privilege Manager run
+runas      Run As user
+sesu       CA Privileged Access Manager
+su         Substitute User
+sudo       Substitute User DO
+
+... details on sudo
+
+$ ansible-doc -t become sudo
+
+... cache plugins
+
+$ ansible-doc -t cache -l
+
+jsonfile  JSON formatted files
+memcached Use memcached DB for cache
+memory    RAM backed, non persistent
+mongodb   Use MongoDB for caching
+pickle    Pickle formatted files
+redis     Use Redis DB for cache
+yaml      YAML formatted files
+
+... caching inventory can be enabled in ansible.cfg
+
+[inventory]
+cache=True
+cache_plugin=yaml
+
+... actionable - show only items that need attention.
+...
+... logging of ansible executions:
+... in ansible.cfg, set following.
+
+[callback_log_plays]
+log_folder = /var/log/ansible/hosts
+
+... for example how to use ansible_libvirt_lxc_host
+...
+
+$ ansible-galaxy collection install community.libvirt
+
+... then, define in inventory or in yaml.
+
+$ cat inventory/hosts
+[containers]
+mycontainer ansible_connection=community.libvirt.libvirt_lxc
+
+... or in yaml
+
+all:
+  hosts:
+    mycontainer:
+      ansible_connection: community.libvirt.libvirt_lxc
+      ansible_libvirt_lxc_host: qemu:///system
+      ansible_host: mycontainer
+
+... then run a playbook
+
+- hosts: mycontainer
+  tasks:
+    - name: Run a command inside the LXC container
+      command: uname -a
+
+... another example of vmware_tools
+... https://docs.ansible.com/ansible/2.9/plugins/connection/vmware_tools.html
+...
+... # example vars.yml
+---
+ansible_connection: vmware_tools
+
+ansible_vmware_host: vcenter.example.com
+ansible_vmware_user: administrator@vsphere.local
+ansible_vmware_password: Secr3tP4ssw0rd!12
+ansible_vmware_validate_certs: no  # default is yes
+
+# vCenter Connection VM Path Example
+ansible_vmware_guest_path: DATACENTER/vm/FOLDER/{{ inventory_hostname }}
+# ESXi Connection VM Path Example
+ansible_vmware_guest_path: ha-datacenter/vm/{{ inventory_hostname }}
+
+ansible_vmware_tools_user: root
+ansible_vmware_tools_password: MyR00tPassw0rD
+
+# if the target VM guest is Windows set the 'ansible_shell_type' to 'powershell'
+ansible_shell_type: powershell
+
+
+# example playbook_linux.yml
+---
+- name: Test VMware Tools Connection Plugin for Linux
+  hosts: linux
+  tasks:
+    - command: whoami
+
+    - ping:
+
+    - copy:
+        src: foo
+        dest: /home/user/foo
+
+    - fetch:
+        src: /home/user/foo
+        dest: linux-foo
+        flat: yes
+
+    - file:
+        path: /home/user/foo
+        state: absent
+
+
+# example playbook_windows.yml
+---
+- name: Test VMware Tools Connection Plugin for Windows
+  hosts: windows
+  tasks:
+    - win_command: whoami
+
+    - win_ping:
+
+    - win_copy:
+        src: foo
+        dest: C:\Users\user\foo
+
+    - fetch:
+        src: C:\Users\user\foo
+        dest: windows-foo
+        flat: yes
+
+    - win_file:
+        path: C:\Users\user\foo
+        state: absent
+
+... inventory plugins
+...
+
+$ ansible-doc -t inventory -l
+
+advanced_host_list  Parses a 'host list' with ranges
+auto                Loads and executes an inventory plugin specified in a YAML config
+aws_ec2             EC2 inventory source
+aws_rds             rds instance source
+azure_rm            Azure Resource Manager inventory plugin
+cloudscale          cloudscale.ch inventory source
+constructed         Uses Jinja2 to construct vars and groups based on existing inventory
+docker_machine      Docker Machine inventory source
+docker_swarm        Ansible dynamic inventory plugin for Docker swarm nodes
+foreman             foreman inventory source
+gcp_compute         Google Cloud Compute Engine inventory source
+generator           Uses Jinja2 to construct hosts and groups from patterns
+gitlab_runners      Ansible dynamic inventory plugin for GitLab runners
+hcloud              Ansible dynamic inventory plugin for the Hetzner Cloud
+host_list           Parses a 'host list' string
+ini                 Uses an Ansible INI file as inventory source
+k8s                 Kubernetes (K8s) inventory source
+kubevirt            KubeVirt inventory source
+linode              Ansible dynamic inventory plugin for Linode
+netbox              NetBox inventory source
+nmap                Uses nmap to find hosts to target
+online              Online inventory source
+openshift           OpenShift inventory source
+openstack           OpenStack inventory source
+scaleway            Scaleway inventory source
+script              Executes an inventory script that returns JSON
+toml                Uses a specific TOML file as an inventory source
+tower               Ansible dynamic inventory plugin for Ansible Tower
+virtualbox          virtualbox inventory source
+vmware_vm_inventory VMware Guest inventory source
+vultr               Vultr inventory source
+yaml                Uses a specific YAML file as an inventory source
+
+
+...
+... lookup plugins:
+... lookup two ways: using lookup and query plugins. Query plugins is more latest,
+... advanced, and recommended way of doing so.
+...
+... NOTE: lookup and query only runs in the control node rather than the remote host.
+... if, you want to run something on remote host, use respective module.
+
+options 1:
+- name: Read multiple files
+  debug:
+    msg: "{{ lookup('file', item, wantlist=True) }}"
+  loop:
+    - /etc/hosts
+    - /etc/passwd
+
+options 2:
+- name: Read multiple files
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ query('file', '/etc/hosts', '/etc/passwd') }}"
+
+options 3:
+- name: display multiple file contents
+  debug: var=item
+  with_file:
+    - "/path/to/foo.txt"
+    - "bar.txt"
+    - "/path/to/biz.txt"
+
+...
+... grab items from csv files,
+... example can be following:
+
+- name:  Match 'Li' on the first column, return the second column (0 based index)
+  debug: msg="The atomic number of Lithium is {{ lookup('csvfile', 'Li file=elements.csv delimiter=,') }}"
+
+- name: msg="Match 'Li' on the first column, but return the 3rd column (columns start counting after the match)"
+  debug: msg="The atomic mass of Lithium is {{ lookup('csvfile', 'Li file=elements.csv delimiter=, col=2') }}"
+
+- name: Define Values From CSV File
+  set_fact:
+    loop_ip: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=1') }}"
+    int_ip: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=2') }}"
+    int_mask: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=3') }}"
+    int_name: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=4') }}"
+    local_as: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=5') }}"
+    neighbor_as: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=6') }}"
+    neigh_int_ip: "{{ lookup('csvfile', bgp_neighbor_ip +' file=bgp_neighbors.csv delimiter=, col=7') }}"
+  delegate_to: localhost
+
+... grab values from vars:
+... example of thus,
+
+vars:
+  users:
+    alice:
+      name: Alice Appleworth
+      telephone: 123-456-7890
+    bob:
+      name: Bob Bananarama
+      telephone: 987-654-3210
+tasks:
+  # with predefined vars
+  - name: Print phone records
+    debug:
+      msg: "User {{ item.key }} is {{ item.value.name }} ({{ item.value.telephone }})"
+    loop: "{{ lookup('dict', users) }}"
+  # with inline dictionary
+  - name: show dictionary
+    debug:
+      msg: "{{item.key}}: {{item.value}}"
+    with_dict: {a: 1, b: 2, c: 3}
+  # Items from loop can be used in when: statements
+  - name: set_fact when alice in key
+    set_fact:
+      alice_exists: true
+    loop: "{{ lookup('dict', users) }}"
+    when: "'alice' in item.key"
+
+... lookup for the inventory host files
+...
+
+- name: show all the hosts matching the pattern, i.e. all but the group www
+  debug:
+    msg: "{{ item }}"
+  with_inventory_hostnames:
+    - all:!www
+
+... example of items
+...
+
+- name: more complex items to add several users
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.uid }}"
+    groups: "{{ item.groups }}"
+    state: present
+  with_items:
+     - { name: testuser1, uid: 1002, groups: "wheel, staff" }
+     - { name: testuser2, uid: 1003, groups: staff }
+
+
+... example of using variables and its value
+
+- name: Show value of 'variablename'
+  debug: msg="{{ lookup('vars', 'variabl' + myvar)}}"
+  vars:
+    variablename: hello
+    myvar: ename
+
+... output lines from a command
+
+- name: We could read the file directly, but this shows output from command
+  debug: msg="{{ item }} is an output line from running cat on /etc/motd"
+  with_lines: cat /etc/motd
+
+... a good way of check the result of a jinja2 templating.
+
+- name: show templating results
+  debug:
+    msg: "{{ lookup('template', '../template/dns.j2') }}"
+
+- name: List variables that start with qz_
+  debug: msg="{{ lookup('varnames', '^qz_.+')}}"
+  vars:
+    qz_1: hello
+    qz_2: world
+    qa_1: "I won't show"
+    qz_: "I won't show either"
+
+... strategy plugins
+...
+export ANSIBLE_STRATEGY=free
+
+... or in the ansible.cfg file or in the play:
+
+[defaults]
+strategy=linear
+
+- hosts: all
+  strategy: debug
+
+  tasks:
+    - copy: src=myhosts dest=/etc/hosts
+      notify: restart_tomcat
+
+... prompts plugin:
+...
+
+---
+- hosts: all
+
+  vars_prompt:
+   - name: username
+     prompt: "What is your username?"
+     private: no
+
+   - name: password
+     prompt: "What is your password?"
+
+  - name: "my_password2"
+    prompt: "Enter password2"
+    private: yes
+    encrypt: "sha512_crypt"
+    confirm: yes
+    salt_size: 7
+
+  tasks:
+    - debug:
+        msg: 'Logging in as {{ username }}'
