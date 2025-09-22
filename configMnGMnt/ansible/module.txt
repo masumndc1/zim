@@ -169,8 +169,6 @@ aci_bd                                    Manage Bridge Domains (BD) on Cisco AC
 aci_epg_to_domain                         Bind EPGs to Domains on Cisco ACI fabrics (fv:RsDomAtt)
 aci_filter                                Manages top level filter objects on Cisco ACI fabrics (vz:...
 aci_filter_entry                          Manage filter entries on Cisco ACI fabrics (vz:Entry)
-[root@nginx ansible]# ansible-dock aci_aep
-bash: ansible-dock: command not found
 [root@nginx ansible]# ansible-doc aci_aep
 > ACI_AEP    (/usr/lib/python2.7/site-packages/ansible/modules/network/aci/aci_aep.py)
 
@@ -194,3 +192,14 @@ OPTIONS (= is mandatory):
         (Aliases: host)
 
 [root@nginx ansible]#
+
+... list of other modules installed by ansible can be found in the following:
+
+$ /opt/homebrew/lib/python3.8/site-packages/ansible/modules/cloud ls
+ __init__.py   azure           dimensiondata   huawei     memset       openstack   podman         smartos
+ vultr  __pycache__   centurylink     docker          kubevirt   misc         oracle      profitbricks
+ softlayer    webfaction  alicloud      cloudscale      google          linode     oneandone    ovh
+ pubnub         spotinst     xenserver  amazon        cloudstack      hcloud          lxc        online
+ ovirt      rackspace      univention  atomic        digital_ocean   heroku          lxd        opennebula
+ packet      scaleway       vmware
+❯
