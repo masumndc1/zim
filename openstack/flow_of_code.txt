@@ -1,0 +1,108 @@
+
+
+...
+... how settings in configuration files (keystone, nova, glance, neutron) used by python in openstack
+...
+... for example you have following settings in keystone.conf file in /etc/keystone/keystone.conf
+
+     [DEFAULT]
+     debug = true
+     log_dir = /var/log/keystone
+
+     [database]
+     connection = mysql+pymysql://keystone:password@localhost/keystone
+
+     [token]
+     provider = uuid
+     expiration = 3600
+
+     [ldap]
+     url = ldap://localhost
+     user = cn=admin,dc=example,dc=com
+     password = secret
+
+     [federation]
+     enabled = true
+
+... then python pick this settings through oslo_config.
+... for example to pick settings for the database by following way:
+...
+
+from oslo_config import cfg
+CONF = cfg.CONF
+CONF([], project='keystone')
+
+db_connection = CONF.database.connection
+
+from keystone import conf
+from keystone.common import sql
+
+sql.initialize(db_connection)
+
+... order how to read the settings:
+
+- Built-in defaults from Python code.
+- Config values from keystone.conf.
+- Environment variables (if defined).
+- CLI arguments (least common).
+
+... another example:
+...
+
+step1: settings in keyston.conf
+
+[database]
+connection = mysql+pymysql://keystone:secret@127.0.0.1/keystone
+max_pool_size = 10
+
+step2: oslo.config parse the file
+
+from oslo_config import cfg
+
+CONF = cfg.CONF
+CONF([], project='keystone')
+
+Now:
+CONF.database.connection = "mysql+pymysql://keystone:secret@127.0.0.1/keystone"
+CONF.database.max_pool_size = 10
+
+step3: oslo.db consumes the values
+... Keystone imports oslo.db to handle database connectivity:
+
+from oslo_db.sqlalchemy import enginefacade
+
+... configure the global enginefacade
+enginefacade.configure(CONF, sqlite_fk=True)
+
+
+Step 4. SQLAlchemy engine is created
+... Inside oslo.db, something like this happens:
+
+from sqlalchemy import create_engine
+
+engine = create_engine(
+    CONF.database.connection,
+    pool_size=CONF.database.max_pool_size,
+    pool_recycle=CONF.database.idle_timeout,
+    echo=CONF.database.debug
+)
+
+... So the raw SQLAlchemy engine is initialized with the options set in keystone.conf
+
+... Step 5. Keystone uses the engine
+... When Keystone wants to run queries (e.g. look up a user):
+
+from keystone.common import sql
+Session = sql.session_for_read()
+user = Session.query(UserModel).filter_by(name="admin").first()
+
+... That Session is bound to the SQLAlchemy engine,
+... which is configured from [database] section.
+
+... End-to-End Flow
+... Config file -> [database] connection string.
+... oslo.config -> parses into CONF.database.connection.
+... oslo.db -> passes values into SQLAlchemy create_engine().
+... SQLAlchemy -> establishes actual DB connections.
+... Keystone -> uses sessions to query the DB.
+...
