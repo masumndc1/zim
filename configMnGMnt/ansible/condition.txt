@@ -1,0 +1,10 @@
+
+
+...
+... condition in ansible
+...
+
+- hosts: webservers
+  roles:
+     - role: debian_stock_config
+       when: ansible_facts['os_family'] == 'Debian'
