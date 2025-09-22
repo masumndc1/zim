@@ -277,3 +277,20 @@ ansible                    : ok=3    changed=1    unreachable=0    failed=0
 - hosts: all
   tasks:
    - package: name=htop state=installed
+
+... adding role in playbook with conditional
+
+---
+- hosts: webservers
+  tasks:
+    - include_role:
+        name: some_role
+      vars:
+        dir: '/opt/a'
+        app_port: 5000
+      tags:
+        - bar
+        - baz
+      when: "ansible_facts['os_family'] == 'RedHat'"
+
+...
