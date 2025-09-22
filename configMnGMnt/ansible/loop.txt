@@ -1,0 +1,53 @@
+
+
+... looping over with_x
+
+- shell: echo "{{ item }}"
+  loop:
+    - one
+    - two
+  register: echo
+  changed_when: echo.stdout != "one"
+
+... usages of until
+
+- shell: /usr/bin/foo
+  register: result
+  until: result.stdout.find("all systems go") != -1
+  retries: 5
+  delay: 10
+
+... looping over query or lookup
+
+loop: "{{ query('inventory_hostnames', 'all') }}"
+loop: "{{ lookup('inventory_hostnames', 'all', wantlist=True) }}"
+
+... controlling loop:
+... wait for 3seconds
+
+# main.yml
+- name: create servers, pause 3s before creating next
+  digital_ocean:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - server1
+    - server2
+  loop_control:
+    pause: 3
+
+... with_list is directly replaced by loop.
+
+- name: with_list
+  debug:
+    msg: "{{ item }}"
+  with_list:
+    - one
+    - two
+
+- name: with_list -> loop
+  debug:
+    msg: "{{ item }}"
+  loop:
+    - one
+    - two
