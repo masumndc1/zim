@@ -53,3 +53,39 @@ Decryption successful
   roles:
    - masum.prac
 [masum@nginx playbook]$
+
+... from ansible 2.3, encrypted and unencrypted variable can stay at the same yml file.
+...
+
+$ ansible-vault encrypt_string 'mysupersecret' --name mysecret
+
+notsecret: myvalue
+mysecret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          66386439653236336462626566653063336164663966303231363934653561363964363833313662
+          6431626536303530376336343832656537303632313433360a626438346336353331386135323734
+          62656361653630373231613662633962316233633936396165386439616533353965373339616234
+          3430613539666330390a313736323265656432366236633330313963326365653937323833366536
+          34623731376664623134383463316265643436343438623266623965636363326136
+other_plain_text: othervalue
+
+... copy this string to any vault.yaml file.
+... Note:
+... encrypt_string → values are only decrypted when Ansible runs the playbook.
+... ansible-vault view/edit → only works on fully encrypted files.
+... you can only see variable used in playbook. ansible-vault view/edit will not work.
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - vault.yml   # contains your !vault variable
+
+  tasks:
+    - debug:
+        msg: "Password is {{ mysecret }}"
+
+$ ansible-playbook -i inventories/hosts test.yml --ask-vault-pass
+Vault password: ****************
+
+... To speed this up, install the cryptography package:
+... pip install cryptography
