@@ -19,3 +19,35 @@ collections:
 ...
 ... ansible-galaxy collection install -r -f requirements.yml
 ...
+... for a particular version:
+$ ansible-galaxy collection install community.general:1.0.0
+
+... also possible in between version:
+$ ansible-galaxy collection install community.general:>=1.0.0,<2.0.0
+
+
+... using collections: either as module or role
+...
+
+option1:
+- hosts: all
+
+  tasks:
+    - my_namespace.my_collection.mymodule:
+        option1: value
+
+    - import_role:
+      name: my_namespace.my_collection.role1
+
+option2: (better one)
+
+- hosts: all
+  collections:
+   - my_namespace.my_collection
+
+  tasks:
+    - import_role:
+        name: role1
+
+    - mymodule:
+        option1: value
