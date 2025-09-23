@@ -1,0 +1,13 @@
+
+
+... contain the modern replacement of anchor.
+
+class keystone::db::sync {
+  contain keystone::db::sync::somepart
+  contain keystone::db::sync::otherpart
+}
+
+... then oder like this:
+
+Class['keystone::db::sync::somepart']
+  -> Class['keystone::db::sync::otherpart']
