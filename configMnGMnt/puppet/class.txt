@@ -1,0 +1,94 @@
+
+
+...
+... class is omnibus in puppet
+... example: https://github.com/masumndc1/puppet-infra.git
+...
+
+~/Documents/github/puppet-infra
+❯ ls
+ gt.py   manifests   metadata.json   README.md   templates
+
+❯ lt manifests
+ manifests
+├──  hostname.pp
+├──  init.pp
+├──  messages.pp
+├──  neovim.pp
+├──  packages.pp
+├──  partition.pp
+├──  pkg_ver.pp
+├──  sudo.pp
+├──  summary.pp
+├──  update.pp
+├──  upgrade.pp
+└──  zsh.pp
+❯ cd manifests
+❯ ls
+ hostname.pp   messages.pp   packages.pp    pkg_ver.pp   summary.pp   upgrade.pp
+ init.pp       neovim.pp     partition.pp   sudo.pp      update.pp    zsh.pp
+
+$ cat init.pp
+class infra {
+  include infra::packages
+  include infra::partition
+  include infra::sudo
+  include infra::summary
+  include infra::zsh
+}
+
+... then content of packages.pp
+
+❯ cat packages.pp
+class infra::packages {
+  $_packages = lookup('packages')
+
+  if ($facts['osfamily'] == 'Debian'
+    or $facts['osfamily'] == 'Redhat') {
+    $_packages.each | $pkg | {
+      package { $pkg:
+        ensure => 'installed',
+        tag    => 'pkg',
+      }
+    }
+  }
+}
+
+... note here, how we have initialize a class
+
+❯ cat summary.pp
+class infra::summary (
+  $_hostname = $facts['hostname'],
+  $_arch = $facts['os']['architecture'],
+  $_uptime = $facts['system_uptime']['uptime'],
+  $_family = $facts['os']['family'],
+  $_name = $facts['os']['name'],
+  $_release = $facts['os']['release']['full'],
+  $_distro = $facts['os']['distro']['codename']
+) {
+  file { "/tmp/summary.txt":
+    content => template('infra/summary.erb')
+  }
+}
+
+... and finally a defined class
+
+❯ cat pkg_ver.pp
+define infra::pkg_ver (
+  $pkg,
+) {
+  exec { 'version':
+    command => "${pkg} --version",
+    path => '/usr/bin:/snap/bin',
+    provider => shell,
+    logoutput => 'true',
+  }
+}
+
+... calling, defined class require parameter to be passed.
+... and defined calss is reusable thoughout the manifest file
+... multiple times.
+
+class { 'infra::pkg_ver':
+  pkg => 'vim',
+}
