@@ -1,0 +1,46 @@
+
+
+... puppet conditional:
+...
+... if.. elsif.. else
+
+if $facts['os']['family'] == 'Debian' {
+  package { 'apache2': ensure => installed }
+} elsif $facts['os']['family'] == 'RedHat' {
+  package { 'httpd': ensure => installed }
+} else {
+  notify { 'Unsupported OS': }
+}
+
+... case:
+
+case $facts['os']['family'] {
+  'Debian': {
+    package { 'apache2': ensure => installed }
+  }
+  'RedHat': {
+    package { 'httpd': ensure => installed }
+  }
+  default: {
+    notify { 'Unsupported OS': }
+  }
+}
+
+... selector:
+
+$pkg = $facts['os']['family'] ? {
+  'Debian' => 'apache2',
+  'RedHat' => 'httpd',
+  default  => 'apache',
+}
+
+package { $pkg: ensure => installed }
+
+.. inline if
+
+$debug = $facts['is_virtual'] ? {
+  true  => 'on',
+  false => 'off',
+}
+
+notify { "Debug mode: ${debug}": }
