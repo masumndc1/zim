@@ -1,0 +1,46 @@
+
+
+
+... scaler:
+
+$string  = 'hello'
+$number  = 42
+$boolean = true
+
+... array:
+
+$packages = ['git', 'vim', 'curl']
+
+# Access element
+notify { "First package: ${packages[0]}": }
+
+... hash:
+
+$user_info = {
+  'alice' => { 'uid' => 1001, 'shell' => '/bin/bash' },
+  'bob'   => { 'uid' => 1002, 'shell' => '/bin/zsh' },
+}
+
+# Access nested value
+notify { "Alice's shell: ${user_info['alice']['shell']}": }
+
+... nested:
+
+$config = {
+  'databases' => ['keystone', 'nova', 'glance'],
+  'services'  => {
+    'keystone' => 'running',
+    'glance'   => 'stopped',
+  },
+}
+
+notify { "First DB: ${config['databases'][0]}": }
+notify { "Glance service state: ${config['services']['glance']}": }
+
+... typed parameter example
+
+# Typed parameter example
+class myclass (
+  Array[String] $users,
+  Hash[String, Integer] $ports,
+) { }
