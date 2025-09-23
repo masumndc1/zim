@@ -1,0 +1,43 @@
+
+
+
+... puppet loop
+...
+
+$packages = ['git', 'vim', 'curl']
+
+$packages.each |$pkg| {
+  package { $pkg:
+    ensure => installed,
+  }
+}
+
+$users = ['alice', 'bob', 'charlie']
+
+$users.each |$index, $user| {
+  notify { "User ${index}: ${user}": }
+}
+
+Notice: User 0: alice
+Notice: User 1: bob
+Notice: User 2: charlie
+
+... loop on hash:
+
+$services = {
+  'sshd'  => 'running',
+  'nginx' => 'stopped',
+}
+
+$services.each |$name, $state| {
+  service { $name:
+    ensure => $state,
+  }
+}
+
+... map:
+
+$files = ['foo', 'bar', 'baz']
+
+$new_files = $files.map |$f| { "/tmp/${f}.txt" }
+notify { "Files: ${new_files}": }
