@@ -1,0 +1,32 @@
+
+
+...
+... anchor:
+... though anchore is old school but still is used a lot.
+... modern alternative of anchore is contain.
+...
+... anchor is basically used for ordering where it defines
+... the starting and ending.
+...
+... example of anchore is:
+...
+
+class mymodule {
+  anchor { 'mymodule::begin': }
+  anchor { 'mymodule::end': }
+
+  class { 'mymodule::install': }
+  class { 'mymodule::config': }
+  class { 'mymodule::service': }
+
+  Anchor['mymodule::begin']
+    -> Class['mymodule::install']
+    -> Class['mymodule::config']
+    ~> Class['mymodule::service']
+    -> Anchor['mymodule::end']
+}
+
+... therefore, if we see following code, it makes sure that
+... mymodule will run expected order before move to the other module
+
+Class['mymodule'] -> Class['othermodule']
