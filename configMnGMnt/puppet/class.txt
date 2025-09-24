@@ -92,3 +92,38 @@ define infra::pkg_ver (
 class { 'infra::pkg_ver':
   pkg => 'vim',
 }
+
+... another example of a defined class and calling it.
+
+define mymodule::vhost($port, $docroot) {
+  file { "/etc/apache2/sites-available/${title}.conf":
+    ensure  => present,
+    content => "Listen ${port}\nDocumentRoot ${docroot}\n",
+  }
+}
+
+.. and calling that defined class
+
+mymodule::vhost { 'example.com':
+  port    => 80,
+  docroot => '/var/www/html',
+}
+
+... summary:
+... Class, declared with "include" or class { }
+... Defined classes are declared like a resource:
+...     mymodule::thing { 'title': params }
+...
+... we can call a class and a defined class in a same manifests file
+...
+
+class dummy {
+  # class definition
+  include mymodule::apache
+
+  # define class
+  mymodule::vhost { 'myapp.local':
+    port    => 8080,
+    docroot => '/srv/myapp',
+  }
+}
