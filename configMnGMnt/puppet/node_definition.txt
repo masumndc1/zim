@@ -1,0 +1,25 @@
+
+...
+... tag: node_definition, site.pp
+... node definition:
+...
+... by full name:
+
+node 'db1.example.com', 'db2.example.com' {
+  include mysql
+}
+
+node 'webserver.example.com' {
+  include apache
+  include php
+}
+
+... by regex:
+node /^web\d+\.example\.com$/ {
+  include apache
+}
+
+... finally default for all:
+node default {
+  notify { 'This is the default node definition.': }
+}
