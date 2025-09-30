@@ -1,0 +1,68 @@
+
+
+...
+... taken out of chatgpt output:
+... one of the example of operator is @@ symbol in manifest file:
+...
+... the `@@` operator is a part of **exported resources**, a feature Puppet uses when
+... a **Puppet master with multiple agents**.
+
+## Normal resources
+
+A plain resource looks like this:
+
+file { '/tmp/hello':
+  ensure  => present,
+  content => "Hello World\n",
+}
+
+... This just manages a file on the current node.
+
+
+## Exported resources (`@@`)
+
+If:
+
+@@file { '/tmp/hello':
+  ensure  => present,
+  content => "Hello World\n",
+}
+
+... That resource is not applied locally. Instead,
+... it is **exported** to PuppetDB (or the Puppet master’s storeconfigs database).
+
+## Collecting exported resources
+
+... On another node, you can then **collect** those resources using a collector expression:
+
+File <<| |>>
+
+... This means:
+... Gather all exported `file` resources (`@@file`) from PuppetDB
+... Apply them here
+
+## Example use case
+
+... Classic example: **SSH authorized keys** sharing between nodes.
+... On each node, export its SSH key:
+
+@@ssh_authorized_key { $::hostname:
+  ensure => present,
+  user   => 'root',
+  type   => 'ssh-rsa',
+  key    => $::ssh_rsa_key,
+}
+
+... On a central node (e.g. bastion host), collect all keys:
+
+Ssh_authorized_key <<| |>>
+
+... Result -> every node’s SSH key is gathered and installed on the bastion.
+
+
+## Summary
+
+... `resource` -> normal local resource
+... `@@resource` -> exported resource (sent to PuppetDB/storeconfigs, not applied locally)
+... `Resource <<| |>>` -> collector that pulls in exported resources
+... In short: `@@` means “export this resource so it can be collected elsewhere.”
