@@ -90,3 +90,34 @@ keystone::endpoint { 'RegionOne/identity':
 ... therefore, when puppet-keystone is installed it also install, apache, concat, inifile,
 ... stdlib, openstacklib, and oslo puppet modules.
 ...
+... another example of ensure_resource which is coming from puppet-stdlib moduels
+... (puppetlabs/stdlib/lib/puppet/parser/functions/ensure_resource.rb)
+...
+
+ensure_resource('keystone_service', 'keystone', {
+  ensure      => present,
+  description => 'OpenStack Identity Service',
+  type        => 'identity'
+})
+
+... it has following meaning of ensure_resource
+... 1. If there’s already a keystone_service { 'keystone': ... } declared, don’t duplicate.
+... 2. If not, create one with the given params.
+...
+... another example:
+...
+
+ensure_resource('package', 'vim',
+  { ensure => 'present' }
+)
+
+... it says:
+... 1. If "package { 'vim': }" already exists -> nothing happens.
+... 2. If not -> Puppet creates "package { 'vim': ensure => present }".
+...
+... summary of ensure_resource:
+... 1. It’s a stdlib Puppet function.
+... 2. In puppet-keystone, it’s used to safely declare resources
+...    (keystone_service, keystone_endpoint, etc.) without risking
+...    duplicate declaration errors.
+...
