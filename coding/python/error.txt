@@ -34,12 +34,15 @@ Weird python dlopen: symbol not found in flat namespace
 
 cryptography==38.0.4
 
-UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+UserWarning: pkg_resources is deprecated as an API.
+See https://setuptools.pypa.io/en/latest/pkg_resources.html.
+The pkg_resources package is slated for removal as early as 2025-11-30.
+Refrain from using this package or pin to Setuptools<81.
   import pkg_resources
 
-... you see this error update following two pip packages to following
-python-keystoneclient==4.5.0
-python-swiftclient==4.3.0
-
+... you may not see above error updating following two pip packages
 ... because in these packages they have used,
 ... importlib.metadata instead of pkg_resources.
+
+python-keystoneclient==4.5.0
+python-swiftclient==4.3.0
