@@ -1,0 +1,99 @@
+
+
+... example of pre_tasks,
+...
+... pre_tasks in Ansible are a powerful feature that allows you to define a list of tasks that
+... run before any roles or regular tasks in a play. They are executed at the very beginning of a play,
+... after facts have been gathered, but before the main tasks block and any roles defined for that play.
+...
+... Why use pre_tasks?
+... pre_tasks are ideal for:
+... Preparing the environment: Installing necessary packages (like Python on a fresh RHEL host for Ansible to
+... function correctly, if not using raw/bootstrapping), creating temporary directories, or ensuring basic dependencies are met.
+... Authentication/Authorization: Setting up SSH keys, adding users, or configuring sudo for subsequent tasks.
+... Pre-flight checks: Verifying certain conditions are met on the target host before proceeding with the main logic.
+... Applying global settings: Setting system-wide configurations that all subsequent tasks or roles depend on.
+... Disabling services/stopping applications: If you need to stop a service or application before updating
+... it in your main tasks/roles.
+...
+... How to use pre_tasks:
+... You define pre_tasks as a top-level key within your Ansible play, just like tasks or roles.
+
+- name: Configure web servers
+  hosts: webservers
+  become: true # Often, pre_tasks require elevated privileges
+
+  # --- PRE-TASKS START HERE ---
+  pre_tasks:
+    - name: Ensure Python 3 is installed for Ansible to use (example for RHEL/CentOS)
+      ansible.builtin.raw: |
+        #!/bin/bash
+        # This is a raw command, useful if python isn't guaranteed
+        if ! command -v python3 &> /dev/null; then
+          yum install -y python3
+        fi
+      changed_when: false # Prevent reporting a change unless explicitly needed
+      args:
+        # Ensures that a python interpreter on the remote host is used for `raw`
+        # if the default one is missing. (This is often a chicken-and-egg problem)
+        executable: /bin/bash
+
+    - name: Update apt cache (for Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Ensure common utilities are present
+      ansible.builtin.package:
+        name: ['curl', 'unzip']
+        state: present
+
+    - name: Create a temporary directory for deployments
+      ansible.builtin.file:
+        path: /opt/temp_deploy
+        state: directory
+        mode: '0755'
+
+    - name: Stop Apache before major updates (example)
+      ansible.builtin.service:
+        name: apache2
+        state: stopped
+      when: ansible_os_family == 'Debian' and ansible_service_mgr == 'systemd'
+
+  # --- ROLES GO HERE (optional) ---
+  roles:
+    - webserver_config
+    - app_deployment
+
+  # --- MAIN TASKS GO HERE (optional) ---
+  tasks:
+    - name: Deploy static content
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+  # --- POST-TASKS GO HERE (optional) ---
+  post_tasks:
+    - name: Restart Apache after all updates
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+      when: ansible_os_family == 'Debian' and ansible_service_mgr == 'systemd'
+
+...
+... Important Points about pre_tasks:
+... Execution Order: pre_tasks run before roles and tasks in a play.
+... Idempotence: Like all Ansible tasks, pre_tasks should be idempotent. Running them multiple times
+...   should produce the same result and ideally only report "changed" if an actual change occurred.
+... become: If your pre_tasks require elevated privileges (which they often do for system-level preparations),
+...   ensure become: true is set at the play level or on individual tasks.
+... Facts Gathering: pre_tasks execute after facts have been gathered (unless you explicitly set
+...   gather_facts: false at the play level and don't re-enable it). This means you can
+...   use facts (like ansible_os_family) within your pre_tasks for conditional logic.
+... Handlers: pre_tasks can notify handlers. These handlers will run after all
+...   pre_tasks have completed, but before roles or tasks begin.
+...
+... pre_tasks are incredibly useful for setting a consistent baseline or preparing a
+... node for the main automation logic, making your playbooks more robust and predictable.
+...
