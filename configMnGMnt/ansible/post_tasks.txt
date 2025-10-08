@@ -1,0 +1,100 @@
+
+
+...
+...
+... post_tasks in Ansible are the counterpart to pre_tasks.
+... They allow you to define a list of tasks that run after all roles and regular tasks in a play have completed.
+...
+... Why use post_tasks?
+... post_tasks are excellent for:
+... Cleanup: Removing temporary files or directories created during the main play.
+...  Verification/Reporting: Performing final checks, sending notifications, or generating reports about the deployment status.
+... Restarting Services/Applications: If you stopped services in pre_tasks to ensure a clean update,
+...  post_tasks are the perfect place to restart them.
+... Final Configuration: Applying any configurations that must happen after all
+...  other changes have been made (e.g., enabling a site, health checks).
+... Enabling/Disabling features: Flipping a feature flag or updating a load balancer after a successful deployment.
+... Logging: Marking the completion of a playbook run in an external logging system.
+...
+... How to use post_tasks
+... You define post_tasks as a top-level key within your Ansible play, just like pre_tasks, tasks, or roles.
+... Here's an example, building on the pre_tasks example:
+
+---
+- name: Configure web servers
+  hosts: webservers
+  become: true # Often, post_tasks require elevated privileges
+
+  # --- PRE-TASKS ---
+  pre_tasks:
+    - name: Ensure Python 3 is installed
+      ansible.builtin.package:
+        name: python3
+        state: present
+      when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian'
+
+    - name: Stop Apache before major updates
+      ansible.builtin.service:
+        name: apache2
+        state: stopped
+      when: ansible_os_family == 'Debian'
+      # This task could also notify a handler, which would then run after ALL pre_tasks
+
+  # --- ROLES ---
+  roles:
+    - webserver_config
+    - app_deployment
+
+  # --- MAIN TASKS ---
+  tasks:
+    - name: Deploy static content
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+  # --- POST-TASKS START HERE ---
+  post_tasks:
+    - name: Remove temporary deployment directory
+      ansible.builtin.file:
+        path: /opt/temp_deploy
+        state: absent
+
+    - name: Restart Apache after all updates
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+      when: ansible_os_family == 'Debian'
+      # This could notify a handler, which would run after ALL post_tasks
+
+    - name: Verify Apache is running and accessible (simple check)
+      ansible.builtin.uri:
+        url: "http://{{ ansible_default_ipv4.address }}"
+        status_code: 200
+      register: apache_check
+      failed_when: apache_check.status != 200 # Fail the playbook if check fails
+      delegate_to: localhost # Run this check from the control node if accessible
+      # Or run it on the remote host if checking localhost from there.
+
+    - name: Send success notification
+      ansible.builtin.debug:
+        msg: "Web server deployment on {{ inventory_hostname }} completed successfully!"
+
+...
+... Important Points about post_tasks:
+... Execution Order: post_tasks run after roles and tasks in a play.
+... The full order of execution within a play is:
+...
+... Idempotence: Like all Ansible tasks, post_tasks should be idempotent.
+...   Running them multiple times should produce the same result and ideally only
+...   report "changed" if an actual change occurred.
+... become: If your post_tasks require elevated privileges (e.g., restarting services,
+...   cleaning up root-owned directories), ensure become: true is set at the play level or on individual tasks.
+... Facts Gathering: post_tasks have access to all facts gathered at the beginning of
+...  the play, plus any facts discovered or set by roles or tasks.
+... Handlers: post_tasks can notify handlers. These handlers will run after all
+...  post_tasks have completed, marking the absolute end of the play's execution flow.
+... post_tasks are crucial for finalization and ensuring that your systems are in a
+... desired, tested, and clean state after your main automation logic has been applied.
+... They provide a reliable place for concluding actions.
+...
