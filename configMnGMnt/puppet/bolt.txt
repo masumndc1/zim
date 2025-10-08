@@ -88,3 +88,59 @@ Host sys-*-dev1
 ... then you can run bolt command against it
 
 $ bolt command run 'uptime' -t ssh://masum@sys-alma9-dev1
+
+... another way of configuring the settings:
+
+$ cat ~/.ssh/config
+Include /Users/khuddin/Documents/github/puppet-bolt/ssh_config
+
+# Fig ssh integration. Keep at the bottom of this file.
+Match all
+  Include ~/.fig/ssh
+
+Host *
+  StrictHostKeyChecking no
+
+... here in the include you define the ssh config file to use
+... and the content of the /Users/khuddin/Documents/github/puppet-bolt/ssh_config
+... can be following:
+
+❯ cat ssh_config
+# nice document on this
+# https://www.cyberciti.biz/faq/create-ssh-config-file-on-linux-unix/
+# add the content of this file at the end of your ~/.ssh/config file.
+
+Host *
+  StrictHostKeyChecking no
+
+Host lap-macmini
+  HostName <ip_address>
+  User masum
+  IdentityFile ~/.ssh/id_ed25519
+# this will prevent following error
+# Warning: Permanently added '' (ED25519) to the list of known hosts.
+  StrictHostKeyChecking accept-new
+  UserKnownHostsFile ~/.ssh/known_hosts
+
+Host cloud-ubu
+  HostName <ip_address>
+  User masum
+  IdentityFile ~/.ssh/id_ed25519
+# this will prevent following error
+# Warning: Permanently added '' (ED25519) to the list of known hosts.
+  StrictHostKeyChecking accept-new
+  UserKnownHostsFile ~/.ssh/known_hosts
+
+Host sys*dev1
+  HostName %h
+  User masum
+  IdentityFile ~/.ssh/id_ed25519
+  ProxyJump lap-macmini
+  StrictHostKeyChecking no
+
+Host sys*dev6
+  HostName %h
+  User masum
+  IdentityFile ~/.ssh/id_ed25519
+  ProxyJump cloud-ubu
+  StrictHostKeyChecking no
