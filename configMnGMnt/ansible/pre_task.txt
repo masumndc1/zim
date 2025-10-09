@@ -25,18 +25,15 @@
 
   # --- PRE-TASKS START HERE ---
   pre_tasks:
-    - name: Ensure Python 3 is installed for Ansible to use (example for RHEL/CentOS)
-      ansible.builtin.raw: |
-        #!/bin/bash
-        # This is a raw command, useful if python isn't guaranteed
-        if ! command -v python3 &> /dev/null; then
-          yum install -y python3
-        fi
-      changed_when: false # Prevent reporting a change unless explicitly needed
-      args:
-        # Ensures that a python interpreter on the remote host is used for `raw`
-        # if the default one is missing. (This is often a chicken-and-egg problem)
-        executable: /bin/bash
+  - name: Ensure Python 3 is installed for Ansible to use (example for debian)
+    ansible.builtin.raw:
+      if ! command -v python3 &> /dev/null; then
+        apt install -y python3
+      fi
+    changed_when: false
+    args:
+      executable: /bin/bash
+    when: ansible_distribution == "Debian"
 
     - name: Update apt cache (for Debian/Ubuntu)
       ansible.builtin.apt:
