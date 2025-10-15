@@ -10,6 +10,9 @@ bin        include    lib        pyvenv.cfg
 activate         activate.fish    easy_install-3.6 pip3             python
 activate.csh     easy_install     pip              pip3.6           python3
 
+... remove everything of a venv.
+pip uninstall -r requirements.txt -y
+
 ... now activate it by
 
 source bin/activate
@@ -17,4 +20,5 @@ source bin/activate
 ❯
 
 ... deactivate it by "deactivate"
+...
 ...
