@@ -127,3 +127,67 @@ class dummy {
     docroot => '/srv/myapp',
   }
 }
+
+... when we need to pass value to a class variable, we do that following
+... say for example hieradata. in common.yaml we define like following,
+... To provide data for a module’s input, the data must be named modulename::param
+... name. So start by defining the restrict and interface options in the YAML file:
+
+---
+# common.yaml file
+
+ntp::interfaces:
+- '127.0.0.1'
+# which nodes can connect
+ntp::restrict:
+- 'default kod nomodify notrap nopeer noquery'
+- '-6 default kod nomodify notrap nopeer noquery'
+- '127.0.0.1'
+- '-6 ::1'
+- '192.168.250.0/24'
+- '-6 fe80::'
+
+... subclass:
+... another way of chaining classes under class (it was used old age a lot,
+... this is not recommended way of doing, now a days but still used, rather
+... use include keyword) is subclass.
+...
+
+# manifests/init.pp
+class puppet (
+  # common variables for all Puppet classes
+  String $version = 'latest',
+  String $loglevel = 'warning',
+) {
+  # no resources in this class
+}
+
+# manifests/agent.pp
+class puppet::agent (
+  # input parameters specific to agent subclass
+  Enum['running','stopped'] $status = 'running',
+  Boolean $enabled, # required parameter
+) inherits puppet {
+  # here we are getting parameters from upper/parent class
+  # from where it inherits
+  # all of the resources previously defined
+}
+
+# manifests/server.pp
+class puppet::server() {
+  # this is a independent class
+  # this is under the parent class puppet
+  # but not inheriting anything
+}
+
+... ordering:
+...
+
+service { 'puppet':
+  ensure => $status,
+  enable => $enabled,
+  subscribe => Package['puppet-agent'],
+  after => Class['rsyslog'],
+}
+
+... this service puppet will be enabled after the class['rsyslog'] works.
