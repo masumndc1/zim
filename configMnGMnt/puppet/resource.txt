@@ -335,3 +335,29 @@ user { 'root':
 .. parameters. parameters as string, as array, as value, and notice here every
 .. value ends with a comma. resource type has resource title, attributes are all
 .. in the curly brackets.
+
+... custome defined resources:
+... puppet has come with built-in resources but many times we need to
+... create our own defined resources. first, define and then use in class.
+
+# modules/users/manifests/create.pp
+define users::create (
+  String $comment,
+  Integer $uid,
+  Optional[Integer] $gid = undef,
+) {
+user { $title:
+  uid => $uid,
+  gid => $gid || $uid,
+  comment => $comment,
+  }
+}
+# modules/users/manifests/init.pp
+class users( Array[Hash] $userlist = [] ) {
+userlist.each |$user| {
+users::create { $user['name']:
+uid => $user['uid'],
+comment => $user['comment'],
+}
+}
+}
