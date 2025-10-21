@@ -161,3 +161,41 @@ like this.
 Notice: Compiled catalog for controller in environment production in 0.18 seconds
 Notice: Applied catalog in 0.02 seconds
 root@controller:~/puppet/manifests#
+
+... variable validations:
+... In a class, we can define type of the variables like bellow,
+... if you are unsure of a variable's type or a variable is accepting
+... multi-types of variables, then you should leave it blank.
+
+class puppet (
+  # input parameters and default values for the class
+  String $version = 'latest',
+  Enum['running','stopped'] $status = 'running',
+  Boolean $enabled = true,
+)
+
+... hiera or lookup call
+... getting value for a varilable for hiera data by using hiera/lookup.
+...
+... general format of hiera call and a call.
+...
+
+$varabl = hiera(value, default_value)
+$status = hiera('specialapp::status', 'running')
+
+... on the other hand, more detailed example of lookup call.
+
+$status = lookup({
+  name => 'specialapp::id',
+  merge => 'unique',
+  default_value => [],
+  value_type => Array[Data],
+ })
+
+... also possible to add some logic and loop and checkings inside loopup call.
+
+# Create a default value on request
+$salt = lookup('security::salt') |$key| {
+  # ignore key; generate a random salt every time
+  rand(2**256).to_s(24)
+}
