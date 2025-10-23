@@ -128,7 +128,7 @@ Installed Packages
 perl-JSON-XS.x86_64     1:3.04-3.el8                   powertools
 perl-JSON-XS.x86_64     1:3.04-4.el8_10                powertools
 
-... which package uses a particular package
+... which package uses a particular package and list dependency.
 
 [root@ user]# repoquery --whatrequires perl-JSON-XS --alldeps --recursive
 inxi-0:3.3.30-1.el8.noarch
