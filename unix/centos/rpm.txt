@@ -36,4 +36,6 @@ libxslt-1.1.32-6.1.el8_10.x86_64              Thu 22 May 2025 02:54:02 PM EEST
 [root@]# rpm -q --whatrequires libxslt
 no package requires libxslt
 
-...
+... check which configuration files changed due to a package
+
+[root]# rpm -V gnutls

@@ -160,3 +160,7 @@ perl-Sentry-Raven-0:1.11-2.el8.noarch
 perl-Test-JSON-0:0.11-26.el8.noarch
 perl-Test-JSON-tests-0:0.11-26.el8.noarch
 [root@ user]#
+
+... Then inspect the details of the last update:
+
+[root]# dnf history info last

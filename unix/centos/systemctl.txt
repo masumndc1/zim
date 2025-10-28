@@ -211,3 +211,10 @@ To show all installed unit files use 'systemctl list-unit-files'.
 [masum@arch pacman.d]$ systemctl is-enabled sshd
 enabled
 [masum@arch pacman.d]$
+
+... check which service has been restarted due to a package update
+... by checking time stamps
+
+# yum update <package>
+# journalctl -xe | grep "Starting"
+systemd[1]: Starting OpenSSH server daemon...
