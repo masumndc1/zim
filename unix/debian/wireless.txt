@@ -5,6 +5,9 @@
 ...
 ... apt install hostapd
 ...
+... check wireless card
+root@lap-macpro:/home/masum# lspci | grep -E "Atheros|Broadcom"
+
 ... after installing debian13 in macmini, i was having issue with wireless.
 ... mostly the broadcom driver was not found there.
 ... before installation, you need to add contrib in source list.
@@ -13,8 +16,9 @@ root@lap-macmini:/home/masum# cat /etc/apt/sources.list
 deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware
 deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware
 
-$ sudo apt install firmware-linux-nonfree
 $ sudo apt install firmware-b43-installer
+$ sudo apt install firmware-linux-nonfree
+
 
 root@lap-macmini:/home# /etc/network/interfaces
 
@@ -37,3 +41,31 @@ wlp2s0b1  IEEE 802.11  ESSID:"whatwhatwhat"
           Link Quality=68/70  Signal level=-42 dBm
           Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
           Tx excessive retries:232  Invalid misc:573   Missed beacon:0
+
+... in addition to above, in macpro, I needed to do the following things
+...
+... added non-free in the source list
+
+root@lap-macmini:/home/masum# cat /etc/apt/sources.list
+deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
+deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware non-free
+
+
+... installed broadcom sta driver and kernel headers and broadcom b43 drivers
+... broadcom-sta-dkms is important for 5ghz network.
+
+$ sudo apt install firmware-realtek firmware-iwlwifi -- (optional) and for realtek
+
+$ sudo apt install firmware-linux-nonfree
+$ sudo apt install firmware-b43-installer
+# apt-get install linux-headers-$(uname -r)
+# apt-get install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms
+
+... install following tools. these will give iwconfig, dhclient and nmcli commands.
+
+# apt install wireless-tools isc-dhcp-client network-manager
+
+... (optional) try following if they are help.
+$ sudo wpa_passphrase "WhatWhatWhat" "Str0ngP@ssH3re" > /etc/wpa_supplicant.conf
+$ sudo dhclient wlp13s0
+$ sudo wpa_supplicant -B -i wlp13s0 -c /etc/wpa_supplicant.conf
