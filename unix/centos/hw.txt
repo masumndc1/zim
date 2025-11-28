@@ -1,0 +1,14 @@
+
+
+... cpu_maps: cpu maps are normally stored in
+... /usr/share/libvirt/cpu_map
+
+[root@ cpu_map]# pwd
+/usr/share/libvirt/cpu_map
+[root@ cpu_map]# ls
+x86_Broadwell-IBRS.xml
+
+... cpu flags:
+
+# lscpu | grep -i flags
+Flags: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush
