@@ -1,0 +1,261 @@
+
+
+- Execution of puppet
+-
+- Execution of a single puppet manifest file
+- If you need to execute a single manifest file then rename it to init.pp
+- and then run as following
+
+❯ pwd
+/Users/khuddin/Documents/github/puppet-bolt/manifests
+❯ ls
+ command.pp   firewall.pp   neovim.pp      pkg.pp    summary.pp
+ example.pp   init.pp       partition.pp   site.pp   uptime.pp
+
+❯ cat uptime.pp
+class uptime {
+  $uptime_msgs = $facts['system_uptime'].map |$type, $value| {
+    "${value} ${type}"
+  }
+
+  notify { 'uptime_summary':
+    message => "uptime : ${uptime_msgs}"
+  }
+}
+
+❯ puppet apply uptime.pp
+Notice: Compiled catalog for node1 in environment test in 0.02 seconds
+Notice: Applied catalog in 0.01 seconds
+~/Documents/github/puppet-bolt/manifests main* ⇡
+❯
+
+- A puppet bolt plan
+-
+- List all existing plans
+
+❯ bolt plan show
+Plans
+  aggregate::count                    Run a task, command, or script on targets and aggregate the results...
+  aggregate::targets                  Run a task, command, or script on targets and aggregate the results...
+  canary                              Run a task, command or script on canary targets before running it on...
+  extended_stdlib::csr_regenerate     This plan modifies the CSR attributes on servers, and then regenerates...
+  facts                               A plan that retrieves facts and stores in the inventory for...
+  facts::external                     A plan that generates external facts based on the provided modulepath...
+  facts::info                         A plan that prints basic OS information for the specified targets. It...
+  practise::install_apache            Install and start Apache
+  practise::install_nginx
+  practise::pkg
+  practise::run_cmd                   run a pp file
+  practise::test                      A plan created with bolt plan new
+  practise::testfacts
+  practise::uptime
+  puppet_agent::run                   Starts a Puppet agent run on the specified targets.
+  puppet_connect::test_input_data     Tests that the provided Puppet Connect input data is complete, meaning...
+  puppetdb_fact                       Collect facts for the specified targets from PuppetDB and store...
+  reboot                              Reboots targets and waits for them to be available again.
+  secure_env_vars                     Run a command or script with sensitive environment variables.
+  terraform::apply
+  terraform::destroy
+  terraform::refresh
+
+Modulepath
+  /Users/khuddin/Documents/github/puppet-bolt/modules:/Users/khuddin/Documents/github/puppet-bolt/.modules
+
+Additional information
+  Use 'bolt plan show <PLAN NAME>' to view details and parameters for a specific plan.
+
+- Create a new plan if needed
+
+❯ bolt plan new practise::test
+Created plan 'practise::test' at '/Users/khuddin/Documents/github/puppet-bolt/plans/test.yaml'
+
+Show this plan with:
+    bolt plan show practise::test
+Run this plan with:
+    bolt plan run practise::test
+
+❯ cat test.yaml
+# This is the structure of a simple plan. To learn more about writing
+# YAML plans, see the documentation: http://pup.pt/bolt-yaml-plans
+
+# The description sets the description of the plan that will appear
+# in 'bolt plan show' output.
+description: A plan created with bolt plan new
+
+# The parameters key defines the parameters that can be passed to
+# the plan.
+parameters:
+  targets:
+    type: TargetSpec
+    description: A list of targets to run actions on
+    default: localhost
+
+# The steps key defines the actions the plan will take in order.
+steps:
+  - message: Hello from practise::test
+  - name: command_step
+    command: whoami
+    targets: $targets
+
+# The return key sets the return value of the plan.
+return: $command_step
+
+❯ bolt plan run practise::test
+Starting: plan practise::test
+Hello from practise::test
+Starting: command 'whoami' on localhost
+Finished: command 'whoami' with 0 failures in 0.19 sec
+Finished: plan practise::test in 0.27 sec
+Finished on localhost:
+  user1
+Successful on 1 target: localhost
+Ran on 1 target
+~/Documents/github/puppet-bolt/plans main* ⇡ 5s
+❯
+
+- Say, if you have already some plans
+
+~/Documents/github/puppet-bolt/plans main* ⇡
+ install_apache.yaml   pkg.pp         testfacts.pp
+ install_nginx.pp      run_cmd.yaml
+❯
+
+... Content of the manifest file
+
+❯ cat plans/pkg.pp
+
+plan practise::pkg (
+  TargetSpec $nodes,
+) {
+
+  apply_prep($nodes)
+  $report = apply($nodes) {
+    if ($facts['os']['distro']['id'] =~ "Debian|Ubuntu") {
+      apt::keyring { 'puppetlabs-keyring.gpg':
+        source => 'https://apt.puppetlabs.com/keyring.gpg',
+      }
+
+      package { 'python3':
+        ensure => installed,
+      }
+    }
+
+    # RHEL-family 8/9/10
+    elsif $facts['os']['family'] =~ "RedHat" {
+      $os_major = $facts['os']['release']['major']
+      $source = "https://dl.fedoraproject.org/pub/epel/epel-release-latest-${os_major}.noarch.rpm"
+
+      yum::install { 'epel-release':
+        ensure => present,
+        source  => $source,
+      }
+    }
+  }
+  return $report
+}
+
+... bolt plan show for a particular to that manifest
+
+❯ bolt plan show practise::pkg -t sys-deb12-dev6
+practise::pkg
+  No description available.
+
+Usage
+  bolt plan run practise::pkg nodes=<value>
+
+Parameters
+  nodes  TargetSpec
+
+Module
+  /Users/khuddin/Documents/github/puppet-bolt
+
+-- How to execute that plan
+
+❯ bolt plan run practise::pkg  -t sys-deb12-dev6
+Starting: plan practise::pkg
+Starting: install puppet and gather facts on sys-deb12-dev6
+Finished: install puppet and gather facts with 0 failures in 10.75 sec
+Starting: apply catalog on sys-deb12-dev6
+Finished: apply catalog with 0 failures in 11.41 sec
+Finished: plan practise::pkg in 22.22 sec
+Finished on sys-deb12-dev6:
+  changed: 0, failed: 0, unchanged: 3 skipped: 0, noop: 0
+Successful on 1 target: sys-deb12-dev6
+Ran on 1 target
+
+-- Example of another plan
+
+❯ cat uptime.pp
+
+plan practise::uptime (
+  TargetSpec $nodes,
+) {
+  apply_prep($nodes)
+  $report = apply($nodes) {
+    $uptime_msgs = $facts['system_uptime'].map |$type, $value| {
+      "${value} ${type}"
+    }
+
+    notify { 'uptime_summary':
+      message => "uptime : ${uptime_msgs}"
+    }
+  }
+  return $report
+}
+❯ bolt plan run practise::uptime -t sys-deb12-dev6
+Starting: plan practise::uptime
+Starting: install puppet and gather facts on sys-deb12-dev6
+Finished: install puppet and gather facts with 0 failures in 9.68 sec
+Starting: apply catalog on sys-deb12-dev6
+Finished: apply catalog with 0 failures in 8.77 sec
+Finished: plan practise::uptime in 18.51 sec
+Finished on sys-deb12-dev6:
+  changed: 1, failed: 0, unchanged: 0 skipped: 0, noop: 0
+Successful on 1 target: sys-deb12-dev6
+Ran on 1 target
+
+- lets combine these two in a single plan file
+
+❯ pwd
+/Users/khuddin/Documents/github/puppet-bolt/plans
+❯ ls
+ install_apache.yaml   install_nginx.pp   pkg.pp   run_cmd.yaml   site.pp   test.yaml   uptime.pp
+
+❯ cat site.pp
+
+plan practise::site (
+  TargetSpec $nodes,
+) {
+  # Call pkg plan
+  $pkg = run_plan(
+    'practise::pkg',
+     nodes => $nodes
+  )
+
+  # Call uptime plan
+  $uptime = run_plan(
+    'practise::uptime',
+     nodes => $nodes
+  )
+  return {
+    pkg => $pkg,
+    uptime => $uptime
+  }
+}
+
+❯ bolt plan run practise::site -t sys-deb12-dev6
+Starting: plan practise::site
+Starting: plan practise::pkg
+Starting: install puppet and gather facts on sys-deb12-dev6
+Finished: install puppet and gather facts with 0 failures in 11.39 sec
+Starting: apply catalog on sys-deb12-dev6
+Finished: apply catalog with 0 failures in 12.42 sec
+Finished: plan practise::pkg in 23.83 sec
+Starting: plan practise::uptime
+Starting: install puppet and gather facts on sys-deb12-dev6
+Finished: install puppet and gather facts with 0 failures in 6.31 sec
+Starting: apply catalog on sys-deb12-dev6
+Finished: apply catalog with 0 failures in 10.54 sec
+Finished: plan practise::uptime in 16.86 sec
+Finished: plan practise::site in 40.73 sec
+Plan completed successfully with no result
