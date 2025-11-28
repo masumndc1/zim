@@ -164,3 +164,9 @@ perl-Test-JSON-tests-0:0.11-26.el8.noarch
 ... Then inspect the details of the last update:
 
 [root]# dnf history info last
+
+... check which packages are coming from a perticular repo
+
+# yum list available --disablerepo="*" --enablerepo=baseos
+
+... yum --disablerepo=<repo_id> install <package>
