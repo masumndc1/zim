@@ -1,0 +1,23 @@
+
+
+- example of set_fact:
+
+- set_fact:
+    puppet_deb_url: "{{ puppet_deb_map[ansible_distribution_release] | default('https://apt.puppetlabs.com/puppet-release-focal.deb') }}"
+
+- vars:
+    puppet_deb_map:
+      jammy: "https://apt.puppetlabs.com/puppet-release-jammy.deb"
+      bookworm: "https://apt.puppetlabs.com/puppet-release-bookworm.deb"
+
+- another way can be:
+
+set_fact:
+  puppet_deb_url: >-
+    {% if ansible_distribution_release == "jammy" %}
+      https://apt.puppetlabs.com/puppet-release-jammy.deb
+    {% elif ansible_distribution_release == "bookworm" %}
+      https://apt.puppetlabs.com/puppet-release-bookworm.deb
+    {% else %}
+      https://apt.puppetlabs.com/puppet-release-focal.deb
+    {% endif %}
