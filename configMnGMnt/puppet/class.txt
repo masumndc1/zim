@@ -89,6 +89,13 @@ define infra::pkg_ver (
 ... and defined calss is reusable thoughout the manifest file
 ... multiple times.
 
+... calling class: how to call a class:
+... please note here, in the above, when creating a class,
+... inside the class, we declare variables like $pkg. On the
+... other hand, when to call that class, we pass the variables
+... without $ sign infront of them. like below. variable pkg
+... does not have $ infront of it.
+
 class { 'infra::pkg_ver':
   pkg => 'vim',
 }
@@ -107,6 +114,27 @@ define mymodule::vhost($port, $docroot) {
 mymodule::vhost { 'example.com':
   port    => 80,
   docroot => '/var/www/html',
+}
+
+... another example of defined class:
+... note: in the defined class, title will be replace by
+... title, "example.com" when mymodule::vhost is called,
+... in this case, 'example.com'
+...
+... also, note here, passing variable to define class
+... does not have $ sign infront of port and docroot.
+... these are treated as string not variable reference.
+... this is completely different than in class.
+
+define mymodule::vhost($port, $docroot) {
+  file { "/etc/vhosts/${title}.conf":
+    content => "Listen ${port}\nDocRoot ${docroot}\n",
+  }
+}
+
+mymodule::vhost { 'example.com':
+  port    => 8080,
+  docroot => '/var/www/example',
 }
 
 ... summary:
