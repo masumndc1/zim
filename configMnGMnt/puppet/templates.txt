@@ -140,3 +140,39 @@ This OS architecture is amd64
 ... Use <% ... %> for the conditional, <%= ... %> to print values.
 ... Add @ for instance variables (@_name, @_family, @_distro)
 ... and @facts for the facts hash.
+...
+... example of epp templating:
+... the content of vrrp_track_file.epp
+...
+
+<%- | String $name,
+      String $file_name,
+      Optional[Integer] $weight,
+      Optional[String]  $init_file,
+      Optional[Boolean] $overwrite
+    | -%>
+track_file <%= $name %> {
+  file     "<%= $file_name %>"
+  <%- if $weight { -%>
+  weight      <%= $weight %>
+  <%- } -%>
+  <%- if $init_file { -%>
+  init_file <%= $init_file %><% if $overwrite { %> overwrite<% } %>
+  <%- } -%>
+}
+
+... and using that epp template in a class or in a define class
+
+  concat::fragment { "keepalived.conf_vrrp_track_file_${file_name}":
+    target  => "${keepalived::config_dir}/keepalived.conf",
+    content => epp('keepalived/vrrp_track_file.epp',
+      {
+        'name'      => $name,
+        'file_name' => $file_name,
+        'weight'    => $weight,
+        'init_file' => $init_file,
+        'overwrite' => $overwrite,
+      },
+    ),
+    order   => '015',
+  }
