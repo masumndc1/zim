@@ -199,3 +199,12 @@ $salt = lookup('security::salt') |$key| {
   # ignore key; generate a random salt every time
   rand(2**256).to_s(24)
 }
+
+... conditional value selections for a variable
+
+$nova_private_key_file = $nova_private_key['type'] ? {
+  'ssh-rsa'   => '/var/lib/nova/.ssh/id_rsa',
+  'ssh-dsa'   => '/var/lib/nova/.ssh/id_dsa',
+  'ssh-ecdsa' => '/var/lib/nova/.ssh/id_ecdsa',
+   default    => undef
+}
