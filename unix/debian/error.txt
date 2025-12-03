@@ -1,0 +1,8 @@
+
+
+... some error and solutions:
+
+cannot open directory '.': Permission denied (os error 13)
+
+... in old laptop, might be lsd will not work.
+... try to install exa instead.
