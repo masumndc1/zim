@@ -32,4 +32,8 @@ sent 186981 bytes  received 44 bytes  124683.33 bytes/sec
 total size is 13385526428  speedup is 71570.79
 ❯
 
+... another example when just use the ssh protocol
+
+rsync -azv -progress -e ssh ./local_directory user@remove:~/Documents/dir2
+
 ...
