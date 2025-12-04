@@ -21,3 +21,15 @@ brew services start libvirt
 
 ... start virt-manager
 virt-manager -c "qemu:///session" --no-fork
+
+... error: libvirtd authentication unavailable
+...
+... you may need to start polkit manually by either of the following
+... this might need in i3, hyperland based desktop manager.
+
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/usr/libexec/polkit-mate-authentication-agent-1 &
+
+... and your user should be added to libvirt group.
+
+sudo usermod -aG libvirt $USER
