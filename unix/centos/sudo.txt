@@ -13,6 +13,7 @@ sudoers
 [root@nginx etc]# cat sudoers | grep ALL
 root	ALL=(ALL) 	ALL
 masum	ALL=(ALL) 	ALL
+masum	ALL=(ALL)	NOPASSWD: ALL
 # %sys ALL = NETWORKING, SOFTWARE, SERVICES, STORAGE, DELEGATING, PROCESSES, LOCATE, DRIVERS
 %wheel	ALL=(ALL)	ALL
 # %wheel	ALL=(ALL)	NOPASSWD: ALL
