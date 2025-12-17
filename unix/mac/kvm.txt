@@ -33,3 +33,15 @@ virt-manager -c "qemu:///session" --no-fork
 ... and your user should be added to libvirt group.
 
 sudo usermod -aG libvirt $USER
+
+sudo virsh net-list --all
+
+sudo virsh net-start default
+sudo virsh net-autostart default
+
+sudo firewall-cmd --permanent --add-interface=virbr0
+sudo firewall-cmd --reload
+
+... when installing VM, try to put your iso in /tmp folder
+... otherwise then VM cant be installed in system space
+... which may problematic to select the interface for VM.
