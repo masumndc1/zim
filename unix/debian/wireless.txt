@@ -69,3 +69,33 @@ $ sudo apt install firmware-b43-installer
 $ sudo wpa_passphrase "WhatWhatWhat" "Str0ngP@ssH3re" > /etc/wpa_supplicant.conf
 $ sudo dhclient wlp13s0
 $ sudo wpa_supplicant -B -i wlp13s0 -c /etc/wpa_supplicant.conf
+
+... in macpro, after the debian update, I had lost wireless connections.
+... remedy was following:
+
+❯ lspci -nn | grep Network
+0d:00.0 Network controller [0280]: Broadcom Inc. and subsidiaries BCM4360 802.11ac
+Dual Band Wireless Network Adapter [14e4:43a0] (rev 03)
+masum@lap-macpro ~
+❯
+
+... For BCM4311–BCM4360 and similar PCIe chipsets:
+sudo apt install broadcom-sta-dkms linux-headers-$(uname -r)
+
+... For older BCM43xx chipsets
+sudo apt install firmware-b43-installer b43-fwcutter
+
+sudo apt install linux-headers-$(uname -r)
+sudo dpkg-reconfigure broadcom-sta-dkms
+
+... check if the correct module loaded
+❯ lsmod | grep wl
+wl                   6459392  0
+cfg80211             1392640  1 wl
+
+... if needed unload others modules.
+... sudo modprobe -r b43 bcma brcmsmac
+...
+... you may also need to disable NetworkManager
+systemctl stop NetworkManager
+systemctl disable NetworkManager
