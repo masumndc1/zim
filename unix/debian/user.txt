@@ -1,5 +1,10 @@
 
 
+... useradd
+...
+
+useradd -m -d /home/masum -G wheel masum
+
 ... usermod usage
 
 ... to change the user directory
