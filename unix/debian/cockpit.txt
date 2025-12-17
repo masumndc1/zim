@@ -3,5 +3,31 @@
 ...
 ... to administer kvm, you can install cockpit and cockpit-machines.
 ...
-... apt install cockpit cockpit-machines.
+... (optional) sudo usermod -aG libvirt $USER
+
+. /etc/os-release
+echo "deb http://deb.debian.org/debian ${VERSION_CODENAME}-backports main" | \
+    sudo tee /etc/apt/sources.list.d/backports.list
+sudo apt update
+apt install cockpit cockpit-machines.
+
+... open firewall if needed
+
+sudo firewall-cmd --permanent --zone=public --add-service=cockpit
+sudo firewall-cmd --reload
+
+... you need to place your iso files in following directory.
+... otherwise installation of VM will fail.
+
+❯ pwd
+/var/lib/libvirt/images
+❯ sudo ls
+almalinux9-2025-12-17.qcow2  AlmaLinux-9-latest-x86_64-minimal.iso
+masum@lap-macpro /var/lib/libvirt/images
+❯
+
+... Access through the web interface:
+
+https://IP_ADDRESS_OF_MACHINE:9090
+
 ...
