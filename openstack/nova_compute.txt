@@ -190,3 +190,14 @@ root@controller:~# openstack image list
 +--------------------------------------+--------+--------+
 root@controller:~#
 root@controller:~#
+
+... cleaning nova compute service and delete compute nodes
+
+❯ openstack compute service list | grep -i *53
+| 1444 | nova-compute   | *53.node.com  | nova     | enabled  | down  | 2035-11-16T12:39:50.000000 |
+❯  openstack compute service delete 1444
+
+❯ openstack network agent list | grep -i *53
+| 3e9a31fb-2172-4e1d-a7aa-87d89d71c486 | Linux bridge agent | *53.node.com       | None              | XXX   | UP    | neutron-linuxbridge-agent |
+❯ openstack network agent delete 3e9a31fb-2172-4e1d-a7aa-87d89d71c486
+❯ openstack network agent list | grep -i *53
