@@ -1,0 +1,18 @@
+
+
+...
+... the supported cpu models of a hypervisor are determined by the following ways.
+
+[root@host1]# virsh capabilities | grep model
+      <model>Haswell-noTSX-IBRS</model>
+    <secmodel>
+      <model>selinux</model>
+    </secmodel>
+    <secmodel>
+      <model>dac</model>
+    </secmodel>
+#
+
+... therefore, the Haswell-noTSX-IBRS will be supported cpu_model for the guest vms
+... running in this node.
+...
