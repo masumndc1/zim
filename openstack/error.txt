@@ -61,3 +61,12 @@ masum@devstack:~$ nova service-list
 
 ... setting consecutive_build_service_disable_threshold = 0 in /etc/nova/nova.conf file
 ... which telling not to disable nova service for failure.
+
+... "cpu arch does not support this model"
+... check what cpu_models are supported by that host by following command
+
+> openstack hypervisor show 4 -f json | jq .cpu_info
+
+... from the hosts:
+
+> virsh cpu-models x86_64
