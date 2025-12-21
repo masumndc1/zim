@@ -1,0 +1,33 @@
+
+
+- require is possible to make chain like following
+
+package { ['python3']:
+  ensure => installed,
+}
+
+package{ ['ansible']
+  ensure => installed,
+  require => Package['python3']
+}
+
+- another way, the same in plan
+
+package { ['python3']:
+  ensure => installed,
+}
+
+package{ ['ansible']
+  ensure => installed,
+  require => Package['python3']
+}
+
+Package['python3'] -> Package['ansible']
+
+- another way
+
+package { ['python3']:
+  ensure => installed,
+} ->  package{ ['ansible']
+  ensure => installed,
+}

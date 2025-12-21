@@ -144,3 +144,31 @@ Host sys*dev6
   IdentityFile ~/.ssh/id_ed25519
   ProxyJump cloud-ubu
   StrictHostKeyChecking no
+
+
+... if running bolt plan run exited with operation not permitted, then
+... bolt should be run with sudo.
+
+❯ sudo bolt plan run -v practise::pkg -t localhost
+Starting: plan practise::pkg
+Starting: install puppet and gather facts on localhost
+Finished: install puppet and gather facts with 0 failures in 27.2 sec
+Starting: apply catalog on localhost
+Started on localhost...
+Finished on localhost:
+  Notice: /Stage[main]/Main/Apt::Keyring[puppetlabs-keyring.gpg]/
+  File[/etc/apt/keyrings/puppetlabs-keyring.gpg]/ensure: defined content as '{mtime}2025-04-09 17:56:22 UTC'
+  changed: 1, failed: 0, unchanged: 3 skipped: 0, noop: 0
+Finished: apply catalog with 0 failures in 27.78 sec
+Finished: plan practise::pkg in 54.99 sec
+Finished on localhost:
+  Notice: /Stage[main]/Main/Apt::Keyring[puppetlabs-keyring.gpg]/
+  /File[/etc/apt/keyrings/puppetlabs-keyring.gpg]/ensure: defined content as '{mtime}2025-04-09 17:56:22 UTC'
+  changed: 1, failed: 0, unchanged: 3 skipped: 0, noop: 0
+Successful on 1 target: localhost
+Ran on 1 target
+
+- few things to remember:
+- inherits does not fit in bolt plan.
+- lookup/hiera is also possible in plan
+- normal dependency which was available in Class -> Class is also possible here.

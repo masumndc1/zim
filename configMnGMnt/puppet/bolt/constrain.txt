@@ -1,0 +1,4 @@
+
+
+- inherits does not fit in bolt plan.
+- lookup/hiera is also possible in plan
