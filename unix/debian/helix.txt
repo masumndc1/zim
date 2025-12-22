@@ -1,0 +1,24 @@
+
+...
+... how to setup language for helix
+...
+
+... you should install pyright by using pip
+
+myenv > pip3 install pyright
+
+❯ pwd
+~/.config/helix
+❯ ls
+ config.toml   languages.toml
+❯ cat languages.toml
+[[language]]
+name = "python"
+language-servers = ["pyright"]
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+
+~/.config/helix
+❯
