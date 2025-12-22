@@ -1,0 +1,5 @@
+
+
+... if in macos fonts are too thick, run following.
+
+defaults write com.mitchellh.ghostty AppleFontSmoothing -int 0
