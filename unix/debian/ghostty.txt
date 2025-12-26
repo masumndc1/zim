@@ -3,3 +3,15 @@
 ... if in macos fonts are too thick, run following.
 
 defaults write com.mitchellh.ghostty AppleFontSmoothing -int 0
+
+... fix cursor to become block when we log out from shell.
+
+block: printf '\e[2 q'
+underline: printf '\e[4 q'
+beam: printf '\e[6 q'
+blinking underline: printf '\e[3 q'
+
+... also, once log out from a shell set following in ~/.zlogout
+
+underline: printf '\e[4 q'
+blinking underline: printf '\e[3 q'
