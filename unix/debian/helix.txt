@@ -1,24 +1,46 @@
 
 ...
-... how to setup language for helix
+... how to setup language for python in helix
 ...
+... install ruff and ty by using pip
+... ruff is for: linter and formatter
+... ty is for: lsp
 
-... you should install pyright by using pip
-
-myenv > pip3 install pyright
+myenv > pip3 install ruff ty
 
 ❯ pwd
 ~/.config/helix
 ❯ ls
  config.toml   languages.toml
-❯ cat languages.toml
+
+❯ cat language.toml
 [[language]]
 name = "python"
-language-servers = ["pyright"]
+language-servers = ["ty","ruff"]
+auto-format = true
 
-[language-server.pyright]
-command = "pyright-langserver"
-args = ["--stdio"]
+[language-server.ty]
+command = "ty"
+args = ["server"]
 
-~/.config/helix
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language.formatter]
+command = "ruff"
+args = ["format", "-"]
 ❯
+
+myenv ❯
+❯ hx --health python
+Configured language servers:
+  ✓ ty: /Users/khuddin/Documents/venv/myenv/bin/ty
+  ✓ ruff: /Users/khuddin/Documents/venv/myenv/bin/ruff
+Configured debug adapter: None
+Configured formatter:
+  ✓ /Users/khuddin/Documents/venv/myenv/bin/ruff
+Tree-sitter parser: ✓
+Highlight queries: ✓
+Textobject queries: ✓
+Indent queries: ✓
