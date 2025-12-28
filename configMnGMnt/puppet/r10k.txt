@@ -1,0 +1,9 @@
+
+
+... install r10k:
+...
+... apt install r10k
+...
+... install modules by using puppetfile
+
+sudo r10k puppetfile install --verbose
