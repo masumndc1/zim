@@ -63,3 +63,14 @@ tasks:
     #loop: "{{ hosts.keys() }}"
     # Works with both Python 2 and Python 3
     loop: "{{ hosts.keys() | list }}"
+
+pup_pkg: >-
+  {{
+    ["puppet-bolt", "pdk", "facter", "puppet-agent"]
+      if ansible_facts.architecture == "x86_64"
+    else
+      ["pdk", "facter", "puppet-agent"]
+      if ansible_facts.distribution == "arm64"
+    else
+      [ "facter", "puppet-agent"]
+  }}
