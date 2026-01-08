@@ -1,0 +1,31 @@
+
+
+... in mac:
+... best way:
+
+bash -c "sh <(curl -fsSL https://opam.ocaml.org/install.sh)"
+opam init
+opam install ocaml-lsp-server odoc ocamlformat utop
+
+
+... another way by package manager
+
+sudo port install ocaml
+
+❯ ocaml --version
+The OCaml toplevel, version 4.14.1
+
+
+❯ sudo port search opam
+opam @2.5.0 (ocaml, sysutils)
+    OPAM is a package manager for OCaml
+
+❯ opam init
+No configuration file found, using built-in defaults.
+Checking for available remotes: rsync and local, git.
+  - you won't be able to use mercurial repositories unless you install the hg command on your system.
+  - you won't be able to use darcs repositories unless you install the darcs command on your system.
+
+
+<><> Fetching repository information ><><><><><><><><><><><><><><><><><><><>  🐫
+Processing  1/1: [default: http]

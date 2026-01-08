@@ -1,0 +1,131 @@
+
+
+... on macOS, where incus store its configuration files when installed with colima:
+
+~/.config/incus/config.yml
+
+... for example when we need to disable ipv6 address and natting for the incus containers.
+... we add following with config.yml file like below.
+
+networks:
+  - name: incusbr0
+    type: bridge
+    config:
+      ipv4.address: 10.0.3.1/24
+      ipv4.nat: "true"
+
+      ipv6.address: "none"
+      ipv6.nat: "false"
+
+❯ cat config.yml
+default-remote: colima
+remotes:
+  colima:
+    addr: unix:///Users/khuddin/.colima/default/incus.sock
+    auth_type: tls
+    project: default
+    protocol: incus
+    public: false
+  docker:
+    addr: https://docker.io
+    protocol: oci
+    public: true
+  images:
+    addr: https://images.linuxcontainers.org
+    protocol: simplestreams
+    public: true
+  local:
+    addr: unix://
+    protocol: incus
+    public: false
+aliases: {}
+defaults:
+  list_format: ""
+  console_type: ""
+  console_spice_command: ""
+networks:
+  - name: incusbr0
+    type: bridge
+    config:
+      ipv4.address: 192.100.0.1/24
+      ipv4.nat: "true"
+      ipv6.address: "none"
+      ipv6.nat: "false"
+
+after that we need to restart colima like below:
+
+❯ colima restart
+INFO[0001] stopping colima
+INFO[0001] stopping ...                                  context=incus
+INFO[0010] stopping ...                                  context=vm
+INFO[0014] done
+INFO[0017] starting colima
+INFO[0017] runtime: incus
+INFO[0019] starting ...                                  context=vm
+INFO[0031] provisioning ...                              context=incus
+INFO[0031] starting ...                                  context=incus
+INFO[0037] done
+~/.config/incus 38s
+❯
+
+... alternatively, we can set the command from cli, which will disable ipv6 totally.
+
+incus network set incusbr0 ipv6.address none
+incus network set incusbr0 ipv6.nat false
+
+❯ incus network ls
++----------+----------+---------+----------------+------+-------------+---------+---------+
+|   NAME   |   TYPE   | MANAGED |      IPV4      | IPV6 | DESCRIPTION | USED BY |  STATE  |
++----------+----------+---------+----------------+------+-------------+---------+---------+
+| eth0     | physical | NO      |                |      |             | 0       |         |
++----------+----------+---------+----------------+------+-------------+---------+---------+
+| incusbr0 | bridge   | YES     | 192.100.0.1/24 | none |             | 7       | CREATED |
++----------+----------+---------+----------------+------+-------------+---------+---------+
+| lo       | loopback | NO      |                |      |             | 0       |         |
++----------+----------+---------+----------------+------+-------------+---------+---------+
+❯
+
+❯ incus ls
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+|      NAME      |  STATE  |         IPV4         |                      IPV6                      |   TYPE    | SNAPSHOTS |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-alma9-dev9 | RUNNING | 192.100.0.94 (eth0)  | fd42:b110:a46d:e303:1266:6aff:fe38:731f (eth0) | CONTAINER | 0         |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-deb12-dev9 | RUNNING | 192.100.0.3 (eth0)   | fd42:b110:a46d:e303:1266:6aff:fe55:f5d4 (eth0) | CONTAINER | 0         |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-deb13-dev9 | RUNNING | 192.100.0.111 (eth0) | fd42:b110:a46d:e303:1266:6aff:feed:fe30 (eth0) | CONTAINER | 0         |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-suse-dev9  | RUNNING | 192.100.0.140 (eth0) | fd42:b110:a46d:e303:931f:a952:51cf:74df (eth0) | CONTAINER | 0         |
+|                |         |                      | fd42:b110:a46d:e303:1266:6aff:fe7a:f9f1 (eth0) |           |           |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-ubu22-dev9 | RUNNING | 192.100.0.196 (eth0) | fd42:b110:a46d:e303:1266:6aff:feb2:1a6f (eth0) | CONTAINER | 0         |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+| sys-ubu24-dev9 | RUNNING | 192.100.0.4 (eth0)   | fd42:b110:a46d:e303:1266:6aff:fea5:fa23 (eth0) | CONTAINER | 0         |
++----------------+---------+----------------------+------------------------------------------------+-----------+-----------+
+❯ colima restart
+INFO[0000] stopping colima
+INFO[0000] stopping ...                                  context=incus
+INFO[0007] stopping ...                                  context=vm
+INFO[0009] done
+INFO[0012] starting colima
+INFO[0012] runtime: incus
+INFO[0013] starting ...                                  context=vm
+INFO[0025] provisioning ...                              context=incus
+INFO[0025] starting ...                                  context=incus
+INFO[0030] done
+❯ incus ls
++----------------+---------+----------------------+------+-----------+-----------+
+|      NAME      |  STATE  |         IPV4         | IPV6 |   TYPE    | SNAPSHOTS |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-alma9-dev9 | RUNNING | 192.100.0.94 (eth0)  |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-deb12-dev9 | RUNNING | 192.100.0.3 (eth0)   |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-deb13-dev9 | RUNNING | 192.100.0.111 (eth0) |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-suse-dev9  | RUNNING | 192.100.0.140 (eth0) |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-ubu22-dev9 | RUNNING | 192.100.0.196 (eth0) |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+
+| sys-ubu24-dev9 | RUNNING | 192.100.0.4 (eth0)   |      | CONTAINER | 0         |
++----------------+---------+----------------------+------+-----------+-----------+

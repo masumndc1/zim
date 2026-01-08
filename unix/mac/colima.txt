@@ -1,0 +1,11 @@
+
+
+... install colima:
+brew install colima incus
+
+... initialize colima:
+colima start --runtime incus --cpu 4 --memory 8 --vm-type vz
+
+... clean colima:
+colima stop
+colima delete

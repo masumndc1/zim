@@ -1,0 +1,28 @@
+
+
+... arguments and positional parameters.
+
+def periodic_task(*args, **kwargs):
+    """
+    A placeholder function that can accept any arguments.
+    The *args captures positional arguments,
+    the **kwargs captures keyword arguments.
+    """
+    print("This is a periodic task!")
+    print("Positional args:", args)
+    print("Keyword args:", kwargs)
+
+... here
+
+positional args: *args
+keyword args: **kwargs
+
+... a call can be like below.
+
+periodic_task(1, 2, 3, interval=10, repeat=True)
+
+... output:
+
+This is a periodic task!
+Positional args: (1, 2, 3)
+Keyword args: {'interval': 10, 'repeat': True}

@@ -1,0 +1,50 @@
+
+
+
+... check where is VIP and EIP are running.
+
+[keepalived]$ ip a s
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp1s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:73:6d:de brd ff:ff:ff:ff:ff:ff
+    inet x.x.x.44/24 brd x.x.x.255 scope global noprefixroute enp1s0
+       valid_lft forever preferred_lft forever
+    inet x.x.x.15/24 scope global secondary enp1s0
+       valid_lft forever preferred_lft forever
+    inet6 ::x:x:x:6dde/64 scope link
+       valid_lft forever preferred_lft forever
+3: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:27:f0:d9 brd ff:ff:ff:ff:ff:ff
+    inet 10.100.0.2/16 brd 10.100.255.255 scope global noprefixroute enp2s0
+       valid_lft forever preferred_lft forever
+    inet 10.100.0.1/16 scope global secondary enp2s0
+       valid_lft forever preferred_lft forever
+    inet6 x::x:ff:x7:fx/64 scope link
+       valid_lft forever preferred_lft forever
+4: enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 52:54:00:39:8d:6d brd ff:ff:ff:ff:ff:ff
+    inet 10.101.0.2/16 brd 10.101.255.255 scope global noprefixroute enp3s0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::5054:ff:fe39:8d6d/64 scope link
+       valid_lft forever preferred_lft forever
+[keepalived]$
+
+... here you can see two ips are in enp1s0. therefore, in node1 the keepalived is running.
+...
+... if we need to shift the service ip to another node, say node2,
+... just lower the value in node1 or higher the value in node2,
+... which will automatically shift the service ip to the higher node.
+
+[keepalived]# pwd
+/etc/keepalived
+[keepalived]# ls
+keepalived.conf  keepalived-monitor-file
+##
+[keepalived]# cat keepalived-monitor-file
+50
+[keepalived]#
