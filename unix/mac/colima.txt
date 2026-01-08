@@ -4,7 +4,43 @@
 brew install colima incus
 
 ... initialize colima:
-colima start --runtime incus --cpu 4 --memory 8 --vm-type vz
+❯ colima start --runtime incus --cpu 4 --memory 8 --vm-type vz
+INFO[0000] starting colima
+INFO[0000] runtime: incus
+INFO[0001] creating and starting ...                     context=vm
+INFO[0001] downloading disk image ...                    context=vm
+INFO[0085] provisioning ...                              context=incus
+INFO[0086] starting ...                                  context=incus
+INFO[0088] done
+❯
+❯ colima status
+INFO[0000] colima is running using macOS Virtualization.Framework
+INFO[0000] arch: aarch64
+INFO[0000] runtime: incus
+INFO[0000] mountType: virtiofs
+INFO[0000] incus socket: unix:///Users/khuddin/.colima/default/incus.sock
+❯
+❯ incus version
+Client version: 6.20
+Server version: 6.16
+
+... update colima:
+colima update
+❯ colima update
+INFO[0000] refreshing package manager ...                context=incus
+INFO[0006] checking for updates ...                      context=incus
+INFO[0006] updating packages ...                         context=incus
+INFO[0028] done                                          context=incus
+
+Previous
+Client version: 6.20
+Server version: 6.16
+
+Current
+Client version: 6.20
+Server version: 6.20
+~ 29s
+❯
 
 ... clean colima:
 colima stop
