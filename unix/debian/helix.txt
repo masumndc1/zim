@@ -44,3 +44,20 @@ Tree-sitter parser: ✓
 Highlight queries: ✓
 Textobject queries: ✓
 Indent queries: ✓
+
+... puppet-lint
+...
+
+~/.config/helix/config.toml
+[editor]
+auto-format = true
+
+$ sudo gem install puppet-lint -v 3.4.0
+
+~/.config/helix/languages.toml
+[[language]]
+name = "puppet"
+scope = "source.puppet"
+file-types = ["pp"]
+formatter = { command = "/usr/local/bin/puppet-lint", args = ["--fix", "{file}"] }
+auto-format = true
