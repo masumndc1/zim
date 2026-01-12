@@ -1,0 +1,17 @@
+
+
+... in debian13:
+... install some packages
+
+sudo apt update
+sudo apt install firmware-linux firmware-linux-nonfree firmware-intel-sound
+sudo apt install pipewire pipewire-audio pipewire-pulse wireplumber
+
+
+... enable pipewire-pulse
+
+systemctl --user enable --now pipewire pipewire-pulse wireplumber
+
+... disable old pulse audio:
+
+systemctl --user disable --now pulseaudio pulseaudio.socket
