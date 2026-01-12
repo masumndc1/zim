@@ -462,3 +462,16 @@ $ sudo lxd init --dump
 ... this preseed file can be also used to set up another node
 
 $ sudo lxd init --preseed preseed_file
+
+... create a container with custom ram and disk:
+
+incus launch images:ubuntu/24.04 myvm \
+  -c limits.memory=4GiB \
+  -d root,size=40GiB
+
+... create a VM with custom ram and disk:
+
+incus launch images:ubuntu/24.04 myvm \
+  --vm \
+  -c limits.memory=4GiB \
+  -d root,size=40GiB
