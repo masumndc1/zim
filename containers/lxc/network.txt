@@ -1,0 +1,47 @@
+
+
+... networking in incus/lxc
+...
+... 2nd network for incus
+
+
+incus network create incusbr1 \
+  ipv4.address=10.20.0.1/24 \
+  ipv4.nat=true \
+  ipv6.address=none
+
+... attach it to a containers.
+
+incus network attach incusbr1 mycontainer eth1
+
+... same thing in profile.
+
+ incus profile show default
+config: {}
+description: Default Incus profile
+devices:
+  eth0:
+    name: eth0
+    network: incusbr0
+    type: nic
+  eth1:
+    name: eth1
+    network: incusbr1
+    type: nic
+  root:
+    path: /
+    pool: default
+    type: disk
+name: default
+used_by:
+- /1.0/instances/sys-deb12-dev9
+- /1.0/instances/sys-deb13-dev9
+- /1.0/instances/sys-alma9-dev9
+- /1.0/instances/sys-ubu22-dev9
+- /1.0/instances/sys-ubu24-dev9
+- /1.0/instances/sys-suse-dev9
+project: default
+
+... then run following command to edit that profile.
+
+incus profile edit default
