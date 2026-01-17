@@ -1,9 +1,18 @@
 
 
-... disable kde wallet
+-- disable kde wallet
 
 System Settings >
   Account Details >
     KDE Wallet >
       Wallet preferences >
         uncheck ‘Enable the KDE wallet subsystem’
+
+-- another way of doing so:
+
+Disable KDE Wallet via Configuration File
+Create or edit ~/.config/kwalletrc and add the following content:
+
+[Wallet]
+Enabled=false
+Prompt on Open=false
