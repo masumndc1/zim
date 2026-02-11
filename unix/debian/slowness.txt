@@ -1,0 +1,20 @@
+
+
+... in debian 13, i was facing slowness.
+... to conter measure it, i did following and feels little bit improve.
+...
+... in below, I have just disabled systemd from passwd line.
+
+$ cat /etc/nsswitch.conf
+
+#passwd:         files systemd
+passwd:         files
+group:          files systemd
+~
+❯
+
+... in addition to above, also disable bluetooth service from systemctl.
+...
+
+$ systemctl stop bluetooth
+$ systemctl disable bluetooth
