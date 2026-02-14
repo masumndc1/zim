@@ -18,3 +18,12 @@ group:          files systemd
 
 $ systemctl stop bluetooth
 $ systemctl disable bluetooth
+
+... try to install zram which enable compressed swap in ram.
+
+$ sudo apt install zram-tools
+$
+
+... try  to install preload tools which load app in ram.
+
+$ sudo apt install preload
