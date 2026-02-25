@@ -1,0 +1,33 @@
+
+
+...
+... if rabbit split brain happens, the following symptoms arise.
+...
+
+Nova scheduler delays
+Neutron agents not receiving updates
+RPC timeouts
+“No consumers available” errors
+Queues stuck with unacked messages
+
+... to prevent split-brain add following in rabbitmq.conf
+
+cat /etc/rabbitmq/rabbitmq.conf
+cluster_partition_handling = pause_minority
+
+... another options can be autoheal
+
+cluster_partition_handling = autoheal
+
+
+... how to handle even if it happens.
+
+sudo rabbitmqctl cluster_status
+
+... in faulty nodes, run following
+
+sudo systemctl stop rabbitmq-server
+sudo rabbitmqctl reset
+sudo rabbitmqctl join_cluster rabbit@controller1
+sudo rabbitmqctl start_app
+sudo rabbitmqctl cluster_status

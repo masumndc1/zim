@@ -1,0 +1,27 @@
+
+
+... even though rabbitmq is the core messaging component in openstack,
+... in openstack no service directly talk to the rabbitmq. Oslo_messaging
+... is the component, which talk directly to rabbitmq.
+
+... some options of oslo_messaging in /etc/nova/nova.conf
+
+[DEFAULT]
+transport_url = rabbit://openstack:password@controller1,controller2,controller3/
+
+[oslo_messaging_rabbit]
+rabbit_userid = openstack
+rabbit_password = password
+rabbit_hosts = controller1,controller2,controller3
+rabbit_ha_queues = true
+heartbeat_timeout_threshold = 60
+heartbeat_rate = 2
+
+[oslo_messaging_notifications]
+driver = messagingv2
+topics = notifications
+
+... another greate example of oslo-messaging is queue and message related to
+... neutron.
+
+rabbitmqctl list_queues name messages consumers | grep q-agent-notifier-port-update

@@ -1,0 +1,94 @@
+
+
+...
+... rabbmitmq the message broker for openstack.
+...
+... producer: who send the messages to the bus
+... consumer: to whom, the messages are sent and then consumer listen
+...   for message.
+...
+... rabbit service is only run on controller node.
+... to check the messages, run following from the controller node.
+
+$ sudo rabbitmqctl list_queues name messages consumers
+
+... If these queues grow large, it often indicates a
+... performance issue or stuck service.
+
+$ sudo rabbitmqctl list_queues name messages | grep cinder
+$ sudo rabbitmqctl list_unresponsive_queues name
+
+... to enable rabbitmq management:
+
+sudo rabbitmq-plugins enable rabbitmq_management
+sudo systemctl restart rabbitmq-server
+
+... then browse: https://controler_ip:15672 as guest:guest
+
+... rabbitmq installation in HA cluster. say you have 3 nodes
+... controller1, controller2, and controller3.
+...
+... install package:
+
+sudo zypper install rabbitmq-server
+sudo systemctl enable --now rabbitmq-server
+
+... copy cookies from controller1:
+... sudo cat /var/lib/rabbitmq/.erlang.cookie
+
+... paste it to controller2 and controller3.
+
+sudo bash -c 'echo "<paste-cookie-here>" > /var/lib/rabbitmq/.erlang.cookie'
+sudo chmod 400 /var/lib/rabbitmq/.erlang.cookie
+sudo chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+
+... restart rabbitmq on all nodes:
+
+sudo systemctl restart rabbitmq-server
+
+... on controller2 and controller3, run following so that they join controller1.
+
+sudo rabbitmqctl stop_app
+sudo rabbitmqctl join_cluster rabbit@controller1
+sudo rabbitmqctl start_app
+
+... check the status
+
+sudo rabbitmqctl cluster_status
+
+Cluster status of node rabbit@controller1
+[{nodes,[{disc,[rabbit@controller1,rabbit@controller2,rabbit@controller3]}]}]
+
+... enable HA queues (for openstack)
+... to enable quorum queues(modern and more stable but requires more ram)
+
+sudo rabbitmqctl set_policy quorum ".*" '{"queue-type":"quorum"}' --apply-to queues
+
+... create openstack rabbitmq user:
+
+sudo rabbitmqctl add_user openstack <password>
+sudo rabbitmqctl set_permissions -p / openstack ".*" ".*" ".*"
+
+... now as the rabbitmq service is ready and installed in the controller, other
+... services(nodes like nova, neutron, cinder) can use it.
+
+... say in nova in /etc/nova/nova.conf file:
+
+transport_url = rabbit://openstack:<password>@controller1,controller2,controller3:5672/
+
+... if one node is down, openstack still be working as other nodes are active.
+... you can purposefully run following in one of the node.
+
+sudo systemctl stop rabbitmq-server
+
+... running following some of command to check the further status.
+
+sudo rabbitmq-diagnostics -q check_running
+sudo rabbitmq-diagnostics -q check_cluster_nodes
+sudo rabbitmq-diagnostics -q check_local_alarms
+
+... if memory alarm -> under low memory
+... if disk alarm -> under space low
+... if node down -> cluster communication broken.
+
+sudo rabbitmqctl list_queues name members
