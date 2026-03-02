@@ -1,0 +1,17 @@
+
+
+... example of various database query from openstack database
+...
+
+case1:
+MariaDB [nova]> SELECT uuid,
+       display_name,
+       vm_state,
+       power_state,
+       host
+	FROM instances
+	WHERE host = 'compute01'
+  		AND vm_state = 'active'
+  		AND deleted = 0;
+
+... this will print all running instances in the host compute1.
