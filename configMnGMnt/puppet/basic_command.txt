@@ -48,3 +48,7 @@ sudo /opt/puppetlabs/bin/puppetserver ca sign --all
 echo '*' >> /etc/puppet/puppetserver/config.d/autosign.conf
 
 ...
+... an way of running puppet without any changes and with a particular git branch
+...
+
+# puppet agent -t --environment=<feature_branch> --noop
