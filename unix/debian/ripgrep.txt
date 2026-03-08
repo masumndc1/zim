@@ -1,0 +1,44 @@
+
+
+... ripgrep, another version of grep
+...
+... Key Features & Flags
+-i: Case-insensitive.
+-l: Only show filenames (--files).
+-t / -T: Include or exclude file types (e.g., -tpy for Python, -Tjs for no JavaScript).
+-F: Interpret pattern as a literal string.
+-C / -B / -A: Show context (lines Cround, Before, or After).
+--smart-case (-S): Case-insensitive unless the pattern contains
+
+... "foo" in the current directory, skipping ignored/hidden files.
+$ rg "foo"
+
+... Search for a Literal String:
+$ rg -F "string"
+
+... Search for a Pattern in a Specific File Type:
+... Find "foo" only in Python files.
+
+$ rg -tpy "foo"
+
+... Case-Insensitive Search:
+$ rg -i "foo"
+
+... Search Including Hidden Files:
+$ rg --hidden "foo"
+
+... Search Including Ignored Files:
+$ rg --no-ignore "foo"
+
+... Search for a Pattern Using Regex:
+$ rg 'fast\w+'
+
+... List files containing "foo" without printing the matches.
+$ rg -l "foo"
+
+... Search for a Pattern and Replace in Output:
+... Replace "foo" with "bar" in the output.
+$ rg --replace bar foo
+
+... Search Only in Specific Directory:
+$ rg "foo" /path/to/search
