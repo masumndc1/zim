@@ -1,0 +1,27 @@
+
+
+... fd alternative to find
+... fd is written in rust therefore fast and it has regex
+... support with -g for glob-based matching.
+...
+
+... Find any file or directory containing "netfl" in its name.
+$ fd netfl
+
+... Find all Python files.
+$ fd -e py
+
+... Look for "config" files inside the /etc folder.
+$ fd config /etc
+
+... Search only for directories named "target".
+$ fd -t d target
+
+... Find all .zip files and extract them.
+$ fd -e zip -x unzip
+
+... Find files modified within the last 5 days.
+$ fd --changed-within 5d
+
+... Search for a hidden file while ignoring specific directories.
+$ fd -H -E .git "config"
