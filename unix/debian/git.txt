@@ -1042,3 +1042,13 @@ $ pre-commit run --all-files
 
 > git config --global user.name "masumndc1"
 ❯ git config --global user.email "masumndc1@gmail.com"
+
+... how to restore a large batch of files in git
+... to all files at once.
+> git restore .
+
+... all files from a specific directory
+> git restore path/to/directory
+
+... restoring files from a specific commit
+git restore --source <commit-hash> .
