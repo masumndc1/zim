@@ -16,6 +16,12 @@ apt install cockpit cockpit-machines.
 sudo firewall-cmd --permanent --zone=public --add-service=cockpit
 sudo firewall-cmd --reload
 
+... if firewall is ufw
+sudo ufw allow 9090
+
+... enable cockpit
+sudo systemctl enable --now cockpit.socket
+
 ... you need to place your iso files in following directory.
 ... otherwise installation of VM will fail.
 
@@ -31,3 +37,8 @@ masum@lap-macpro /var/lib/libvirt/images
 https://IP_ADDRESS_OF_MACHINE:9090
 
 ...
+... various cockpit add-ons can be installed. cockpit has various add-ons
+... for storage, networking, logs, virtual-machines, system updates etc.
+... they can be installed via package manager.
+
+sudo apt install cockpit-storaged
