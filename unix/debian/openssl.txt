@@ -1,0 +1,11 @@
+
+
+... use openssl to create password of various lenngh
+...
+... this will create 16 char long password.
+
+openssl rand -base64 12
+
+... following will create 12 char long password
+
+openssl rand -base64 12 | cut -c1-12
