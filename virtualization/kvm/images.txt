@@ -1,0 +1,68 @@
+
+...
+... image location of the kvm stays in
+... /var/lib/libvirt/images
+...
+... you will see the file either in qcow2 or raw formate
+...
+... how to extend the disk space of VM in kvm.
+...
+... shutdown the VM.
+sudo virsh shutdown <vmname>
+sudo virsh list --all
+
+... find the vms disk
+sudo virsh domblklist <vm>
+
+... resize the disk
+... run following command any of them depending on the type
+
+sudo qemu-img resize /var/lib/libvirt/images/myvm.qcow2 +10G
+sudo qemu-img resize /var/lib/libvirt/images/myvm.img +10G
+
+... if the disk type is raw, might get the warning by following.
+
+sudo qemu-img resize /var/lib/libvirt/images/vm1.raw +40G
+WARNING: Image format was not specified for
+'/var/lib/libvirt/images/vm1.raw' and probing guessed raw.
+Automatically detecting the format is dangerous for raw images,
+write operations on block 0 will be restricted.
+Specify the 'raw' format explicitly to remove the restrictions.
+Image resized.
+
+... start the VM and extend the filesystem of the VM.
+
+... grow the partition
+sudo growpart /dev/vda 2
+CHANGED: partition=2 start=2099200 old: size=102758400 end=104857599 new: size=186644447 end=188743646
+
+... check the block device
+lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    253:0    0  90G  0 disk
+├─vda1 253:1    0   1G  0 part [SWAP]
+└─vda2 253:2    0  89G  0 part /
+
+... grow the filesystem
+sudo resize2fs /dev/vda2
+resize2fs 1.45.6 (20-Mar-2020)
+Filesystem at /dev/vda2 is mounted on /; on-line resizing required
+old_desc_blocks = 7, new_desc_blocks = 12
+The filesystem on /dev/vda2 is now 23330555 (4k) blocks long.
+
+... verify the new size
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+devtmpfs        7.7G     0  7.7G   0% /dev
+tmpfs           7.7G     0  7.7G   0% /dev/shm
+tmpfs           7.7G  8.6M  7.7G   1% /run
+tmpfs           7.7G     0  7.7G   0% /sys/fs/cgroup
+/dev/vda2        84G   42G   39G  52% /
+tmpfs           1.6G     0  1.6G   0% /run/user/1002
+tmpfs           1.6G     0  1.6G   0% /run/user/1005
+
+$ lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    253:0    0  90G  0 disk
+├─vda1 253:1    0   1G  0 part [SWAP]
+└─vda2 253:2    0  89G  0 part /
