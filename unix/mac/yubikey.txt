@@ -19,3 +19,8 @@ $ sudo make install
 ... packages by brew. In this case, I was facing check was not available.
 ... Therefore, installed check `brew install check`
 ...
+... fixing:
+
+pkill ssh-agent
+eval $(ssh-agent -s)
+ssh-add -s /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so
