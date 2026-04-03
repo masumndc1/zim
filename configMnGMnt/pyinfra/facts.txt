@@ -1,0 +1,171 @@
+
+
+... find facts by pyinfra
+... for example.
+
+
+❯ pyinfra @ssh/sys-alma9-dev1 fact server
+--> pyinfra error: Invalid fact: `server`, should be in the format `module.cls`
+❯ pyinfra @ssh/sys-alma9-dev1 fact server.Date
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [@ssh/sys-alma9-dev1] Connected
+
+--> Gathering facts...
+    [@ssh/sys-alma9-dev1] Loaded fact server.Date
+
+--> Fact data for: server.Date
+{
+    "@ssh/sys-alma9-dev1": "2026-04-02T21:46:46+00:00"
+}
+
+--> Disconnecting from hosts...
+
+> pyinfra sys-alma9-dev1 fact server.LinuxDistribution
+
+... a detail list of almost all facts by pyinfra
+❯ pyinfra @ssh/sys-alma9-dev1 fact \
+    server.LinuxName \
+    server.LinuxDistribution \
+    server.Hostname \
+    server.Users \
+    server.Date \
+    server.Kernel
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [@ssh/sys-alma9-dev1] Connected
+
+--> Gathering facts...
+    [@ssh/sys-alma9-dev1] Loaded fact server.LinuxDistribution
+    [@ssh/sys-alma9-dev1] Loaded fact server.LinuxDistribution
+    [@ssh/sys-alma9-dev1] Loaded fact server.Hostname
+    [@ssh/sys-alma9-dev1] Loaded fact server.Users
+    [@ssh/sys-alma9-dev1] Loaded fact server.Date
+    [@ssh/sys-alma9-dev1] Loaded fact server.Kernel
+
+
+... another way of finding options available for pyinfra modules.
+
+
+❯ python3
+Python 3.13.0 (main, Oct  7 2024, 05:02:14) [Clang 15.0.0 (clang-1500.1.0.2.5)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from pyinfra.operations import server
+>>> print(dir(server))
+['Directory', 'FindInFile', 'FunctionCommand', 'Groups', 'Home', 'Hostname', 'Kernel',
+'KernelModules', 'Link', 'Locales', 'Mounts', 'OperationError', 'Os', 'StringCommand',
+'StringIO', 'Sysctl', 'TYPE_CHECKING', 'Timezone', 'Users', 'Which', '__builtins__',
+'__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__',
+'annotations', 'apk', 'apt', 'brew', 'bsdinit', 'chmod', 'crontab', 'crontab_', 'dnf',
+'files', 'filterfalse', 'group', 'host', 'hostname', 'locale', 'logger', 'modprobe',
+'mount', 'openrc', 'operation', 'packages', 'pacman', 'path', 'pkg', 'reboot',
+'remove_any_sudo_askpass_file', 'runit', 'script', 'script_template', 'security_limit',
+'service', 'shell', 'sleep', 'state', 'sysctl', 'systemd', 'sysvinit', 'tee', 'timezone',
+'try_int', 'upstart', 'user', 'user_authorized_keys', 'wait', 'xbps', 'yum', 'zypper']
+>>> print(help(server.files))
+
+None
+>>>
+
+In [1]: import pyinfra
+
+In [3]: from pyinfra import operations
+
+In [4]: help(operations.server.apt)
+
+...
+
+❯ pyinfra inventory.py fact server.LinuxName
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu]      Connected
+    [sys-ubu24-dev1] Connected
+    [sys-deb12-dev1] Connected
+    [sys-deb13-dev1] Connected
+    [sys-alma9-dev1] Connected
+    [sys-suse-dev1]  Connected
+
+--> Gathering facts...
+    [sys-ubu24-dev1] Loaded fact server.LinuxDistribution
+    [sys-alma9-dev1] Loaded fact server.LinuxDistribution
+    [sys-deb12-dev1] Loaded fact server.LinuxDistribution
+    [sys-deb13-dev1] Loaded fact server.LinuxDistribution
+    [sys-suse-dev1]  Loaded fact server.LinuxDistribution
+    [cloud-ubu]      Loaded fact server.LinuxDistribution
+
+--> Fact data for: server.LinuxName
+{
+    "sys-ubu24-dev1": "Ubuntu",
+    "sys-alma9-dev1": "AlmaLinux",
+    "sys-deb12-dev1": "Debian",
+    "sys-deb13-dev1": "Debian",
+    "sys-suse-dev1": "openSUSE Tumbleweed",
+    "cloud-ubu": "Ubuntu"
+}
+
+--> Disconnecting from hosts...
+
+❯ pyinfra inventory.py fact server.LinuxDistribution
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu]      Connected
+    [sys-deb12-dev1] Connected
+    [sys-alma9-dev1] Connected
+    [sys-deb13-dev1] Connected
+    [sys-ubu24-dev1] Connected
+    [sys-suse-dev1]  Connected
+
+--> Gathering facts...
+    [sys-deb13-dev1] Loaded fact server.LinuxDistribution
+    [sys-ubu24-dev1] Loaded fact server.LinuxDistribution
+    [sys-suse-dev1]  Loaded fact server.LinuxDistribution
+    [sys-deb12-dev1] Loaded fact server.LinuxDistribution
+    [sys-alma9-dev1] Loaded fact server.LinuxDistribution
+    [cloud-ubu]      Loaded fact server.LinuxDistribution
+
+--> Fact data for: server.LinuxDistribution
+{
+    "sys-deb13-dev1": {
+        "name": "Debian",
+        "major": 13,
+        "minor": null,
+        "release_meta": {
+            "PRETTY_NAME": "Debian GNU/Linux 13 (trixie)",
+            "NAME": "Debian GNU/Linux",
+            "VERSION_ID": "13",
+            "VERSION": "13 (trixie)",
+            "VERSION_CODENAME": "trixie",
+            "DEBIAN_VERSION_FULL": "13.0",
+            "ID": "debian",
+            "HOME_URL": "https://www.debian.org/",
+            "SUPPORT_URL": "https://www.debian.org/support",
+            "BUG_REPORT_URL": "https://bugs.debian.org/",
+            "CODENAME": "trixie"
+        }
+    },
+
+> pyinfra inventory.py debug-inventory
+
+[sys-ubu24-dev1]
+--> Groups: incus_nodes, web_server, inventory
+--> Data:
+{
+    "os": "Module: os",
+    "common_pkgs": [
+        "htop",
+        "vim",
+        "curl",
+        "wget"
+    ],
+    "web_port": 8080,
+    "domain_name": "masum.com",
+    "env": "prod",
+    "max_client": 32,
+    "extra_pkgs": [
+        "snapd"
+    ]
+}

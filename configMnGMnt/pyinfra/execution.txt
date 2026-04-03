@@ -1,0 +1,142 @@
+
+
+... execution of pyinfra
+...
+... add-hoc command
+
+❯ pyinfra cloud-ubu exec -- echo "hello world"
+    Attempting to work in a virtualenv.
+    If you encounter problems, please install pyinfra inside the virtualenv.
+
+
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu] Connected
+
+--> Preparing operations...
+    [cloud-ubu] Ready: shell
+
+--> Beginning operation run...
+--> Starting operation: server.shell (echo hello world)
+[cloud-ubu] hello world
+    [cloud-ubu] Success
+
+--> Results:
+    Operation                         Hosts   Success   Error   No Change
+    server.shell (echo hello world)   1       1         -       -
+    Grand total                       1       1         -       -
+
+--> Disconnecting from hosts...
+~ 12s
+myenv ❯
+
+❯ pyinfra cloud-ubu apt.packages iftop _sudo=true
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu] Connected
+
+--> Preparing operation func...
+    [cloud-ubu] Ready: packages
+
+--> Detected changes:
+    Operation              Change          Conditional Change
+    apt.packages (iftop)   1 (cloud-ubu)   -
+
+    Detected changes may not include every change pyinfra will execute.
+    Hidden side effects of operations may alter behaviour of future operations,
+    this will be shown in the results. The remote state will always be updated
+    to reflect the state defined by the input operations.
+
+    Detected changes displayed above, skip this step with -y
+
+--> Beginning operation run...
+--> Starting operation: apt.packages (iftop)
+    [cloud-ubu] Success
+
+--> Results:
+    Operation              Hosts   Success   Error   No Change
+    apt.packages (iftop)   1       1         -       -
+    Grand total            1       1         -       -
+
+--> Disconnecting from hosts...
+~ 12s
+
+... from a operation file
+
+❯ cat pkg.py
+from pyinfra.operations import apt
+
+# Update package list and install packages
+apt.packages(
+    name="Install vim, neovim and htop",
+    packages=["htop", "vim", "neovim"],
+    update=True,
+    _sudo=True,
+)
+
+❯ pyinfra cloud-ubu pkg.py -y
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu] Connected
+
+--> Preparing operation files...
+    Loading: pkg.py
+    [cloud-ubu] Ready: pkg.py
+
+--> Skipping change detection
+--> Beginning operation run...
+--> Starting operation: Install vim, neovim and htop
+    [cloud-ubu] Success
+
+--> Results:
+    Operation                      Hosts   Success   Error   No Change
+    Install vim, neovim and htop   1       1         -       -
+    Grand total                    1       1         -       -
+
+--> Disconnecting from hosts...
+
+... how to enable timing in operation script
+
+❯ cat pkg.py
+import time
+from pyinfra import logger
+from pyinfra.operations import apt
+
+# start time
+start = time.time()
+
+# Update package list and install packages
+apt.packages(
+    name="Install vim, neovim and htop",
+    packages=["htop", "vim", "neovim"],
+    update=True,
+    _sudo=True,
+)
+duration = time.time() - start
+logger.info(f"Installation took {time.time() - start:.2f}s")
+
+❯ pyinfra cloud-ubu pkg.py -y
+--> Loading config...
+--> Loading inventory...
+--> Connecting to hosts...
+    [cloud-ubu] Connected
+
+--> Preparing operation files...
+    Loading: pkg.py
+*** Installation took 0.02s ***
+    [cloud-ubu] Ready: pkg.py
+
+--> Skipping change detection
+--> Beginning operation run...
+--> Starting operation: Install vim, neovim and htop
+    [cloud-ubu] Success
+
+--> Results:
+    Operation                      Hosts   Success   Error   No Change
+    Install vim, neovim and htop   1       1         -       -
+    Grand total                    1       1         -       -
+
+--> Disconnecting from hosts...

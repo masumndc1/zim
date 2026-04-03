@@ -1,0 +1,39 @@
+
+
+... variables in pyinfra are defined by following as like ansible hosts var
+... and group vars.
+
+❯ cat inventory.py
+
+incus_nodes = [
+    ("sys-alma9-dev1", {"extra_pkgs": ["snapd"], "web_user": "nginx"}),
+    ("sys-deb12-dev1", {"extra_pkgs": ["snapd"]}),
+    ("sys-deb13-dev1", {"extra_pkgs": ["snapd"]}),
+    ("sys-suse-dev1"),
+    ("sys-ubu24-dev1", {"extra_pkgs": ["snapd"]}),
+]
+
+❯ cat group_data/all.py
+
+# import os
+# Grab a value from your local machine's environment variables
+# api_key = os.getenv('MY_APP_API_KEY', 'default_key')
+
+common_pkgs = ["htop", "vim", "curl", "wget"]
+❯
+
+... we can combine common_pkgs and extra_pkgs variables from different
+... places by following.
+
+packages = host.data.get("extra_pkgs", []) + host.data.get("common_pkgs", [])
+
+... and then use them as following
+
+# Update package list and install packages
+if distro in ["Debian", "Ubuntu"]:
+    apt.packages(
+        name="Install packages",
+        packages=packages,
+        update=True,
+        _sudo=yes,
+    )

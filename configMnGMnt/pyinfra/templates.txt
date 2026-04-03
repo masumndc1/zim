@@ -1,0 +1,110 @@
+
+
+... example of how to use templating in pyinfra
+...
+... in the operation file, note here how we have used os_name in the file.
+
+from pyinfra import host
+from pyinfra.operations import apt, files, yum, server
+from pyinfra.facts.server import LinuxDistribution
+
+distro = host.get_fact(LinuxDistribution)
+os_name = distro["name"]
+major = distro["major"]
+
+if os_name in ["Debian", "Ubuntu"]:
+    install_nginx = apt.packages(
+        name="Install nginx",
+        packages=["nginx"],
+        update=True,
+        _sudo=True,
+    )
+
+elif os_name in ["CentOS", "RedHat", "AlmaLinux"]:
+    install_nginx = yum.packages(
+        name="Install nginx",
+        packages=["nginx"],
+        update=True,
+        _sudo=True,
+    )
+
+nginx_config = files.template(
+    name="upload nginx config",
+    src="templates/nginx.conf.j2",
+    dest="/etc/nginx/nginx.conf",
+    _sudo=True,
+    _if=install_nginx.did_change,
+    os_name=os_name,
+    major=major,
+)
+
+... in the line above, in the files.template module we have used
+... extra params os_name=os_name, major=major. The value of these
+... two variables were passed to template file.
+
+... also we collected host variables by host.data.get() that is defined
+... in inventory.py file. example of that also can be following. we can
+... also get value from group_data.
+
+# cat inventory.py
+
+web_server = (
+    ["sys-alma9-dev1", "sys-ubu24-dev1"],
+    {
+        "web_port": 8080,
+        "domain_name": "masum.com",
+        "env": "prod",
+        "max_client": 32,
+    },
+)
+
+... example of a template file can be.
+
+❯ cat templates/nginx.conf.j2
+# nginx.conf.j2 - Managed by pyinfra
+
+user {{ host.data.get('web_user', 'www-data') }};
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections {{ host.data.get('max_clients', 768) }};
+}
+
+http {
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # Logging - uses the hostname gathered by pyinfra
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    server {
+        listen 80;
+        server_name {{ host.data.get('domain_name', []) }};
+
+        root {{ host.data.get('doc_root', '/var/www/html') }};
+        index index.html index.htm;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+
+        # Example of dynamic comment using pyinfra facts
+        # Rendered for: {{ os_name | default('Unknown OS') }} {{ major | default('0') | int }}
+    }
+}
+
+... here following in the lines, os_name and major, value for these variables come from
+... operation file above. Also note that, interpolation of this variable does not need any
+... quotation.
+
+... # Example of dynamic comment using pyinfra facts
+... # Rendered for: {{ os_name | default('Unknown OS') }} {{ major | default('0') | int }}
+...

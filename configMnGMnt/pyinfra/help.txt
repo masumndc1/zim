@@ -1,0 +1,19 @@
+
+
+... help on pyinfra examples, tutorials and others.
+https://github.com/pyinfra-dev/pyinfra-examples
+
+.., learn about following:
+server
+• server.shell
+• server.packages
+• server.service
+files
+• files.put
+• files.template
+• files.line
+• files.directory
+systemd
+• systemd.service
+git
+• git.repo

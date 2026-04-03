@@ -1,0 +1,10 @@
+
+
+... how to use third party modules like ansible has
+
+... Install the extension from pypi site
+pip install pyinfra-docker)
+
+... Import it in your deploy.py
+from pyinfra_docker import deploy_docker
+deploy_docker()

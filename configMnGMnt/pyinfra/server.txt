@@ -1,0 +1,16 @@
+
+
+... using server for installing packages.
+
+from pyinfra import logger, host
+from pyinfra.operations import server
+
+packages = host.data.get("extra_pkgs", []) + host.data.get("common_pkgs", [])
+
+# Update package list and install packages
+server.packages(
+  name="Install packages",
+  packages=packages,
+  update=True,
+  _sudo=True,
+)
