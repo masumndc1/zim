@@ -1,0 +1,7 @@
+
+
+- install copilot cli
+
+brew install copilot-cli
+
+>
