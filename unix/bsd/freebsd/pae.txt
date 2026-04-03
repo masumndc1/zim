@@ -1,0 +1,63 @@
+
+
+... enable pae, physical address extention
+
+- check if cpu supports pae
+dmesg | grep -i pae
+grep -i pae /var/run/dmesg.boot
+
+- copy source tree
+sudo git clone https://git.freebsd.org/src.git /usr/src
+
+- create custom pae kernel config
+sudo cp /usr/src/sys/i386/conf/GENERIC /usr/src/sys/i386/conf/PAE
+
+- add following line
+sudo ee /usr/src/sys/i386/conf/PAE
+options PAE
+
+- remove following lines, otherwise build will fail.
+- FreeBSD firewalls do not work under PAE.
+
+device      pf
+device      pfsync
+device      ipfilter
+device      ipfw
+
+- build the pae kernel
+cd /usr/src
+sudo make buildkernel KERNCONF=PAE
+
+- install
+cd /usr/src
+sudo make installkernel KERNCONF=PAE
+
+- reboot
+
+- if you have following error then add nodevice rge in PAE file
+
+s value from 18446744073709551615 to 4294967295 [-Werror,-Wconstant-conversion]
+  299 |         error = bus_dma_tag_create(bus_get_dma_tag(dev),
+      |                 ~~~~~~~~~~~~~~~~~~
+  300 |             1, /* alignment */
+  301 |             0, /* boundary */
+  302 |             BUS_SPACE_MAXADDR, BUS_SPACE_MAXADDR,
+  303 |             NULL, NULL, /* filter (unused) */
+  304 |             BUS_SPACE_MAXADDR, /* maxsize */
+  305 |             BUS_SPACE_UNRESTRICTED, /* nsegments */
+  306 |             BUS_SPACE_MAXADDR, /* maxsegsize */
+      |             ^~~~~~~~~~~~~~~~~
+./x86/bus.h:121:27: note: expanded from macro 'BUS_SPACE_MAXADDR'
+  121 | #define BUS_SPACE_MAXADDR       0xFFFFFFFFFFFFFFFFULL
+      |                                 ^~~~~~~~~~~~~~~~~~~~~
+/usr/src/sys/dev/rge/if_rge.c:304:6: error: implicit conversion from 'unsigned long long' to 'bus_size_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Werror,-Wconstant-conversion]
+  299 |         error = bus_dma_tag_create(bus_get_dma_tag(dev),
+      |                 ~~~~~~~~~~~~~~~~~~
+  300 |             1, /* alignment */
+  301 |             0, /* boundary */
+  302 |             BUS_SPACE_MAXADDR, BUS_SPACE_MAXADDR,
+  303 |             NULL, NULL, /* filter (unused) */
+  304 |             BUS_SPACE_MAXADDR, /* maxsize */
+      |             ^~~~~~~~~~~~~~~~~
+./x86/bus.h:121:27: note: expanded from macro 'BUS_SPACE_MAXADDR'
+  121 | #define BUS_SPACE_MAXADDR       0xFFFFFFFFFFFFFFFFULL
