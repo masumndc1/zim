@@ -15,3 +15,105 @@ MariaDB [nova]> SELECT uuid,
   		AND deleted = 0;
 
 ... this will print all running instances in the host compute1.
+...
+... list active project without any vms.
+
+db > SELECT COUNT(*) AS active_projects_without_vms
+    -> FROM project p
+    -> WHERE p.enabled = 1
+    ->   AND p.id NOT IN (
+    ->         SELECT DISTINCT project_id
+    ->         FROM nova.instances
+    ->         WHERE deleted = 0
+    ->     );
++-----------------------------+
+| active_projects_without_vms |
++-----------------------------+
+|                          12 |
++-----------------------------+
+1 row in set (0.001 sec)
+
+... list active project which does not have any vms within last 3months.
+
+DB > SELECT COUNT(*) AS active_projects_no_recent_vms
+    -> FROM project p
+    -> WHERE p.enabled = 1
+    ->   AND p.id NOT IN (
+    ->         SELECT DISTINCT project_id
+    ->         FROM nova.instances
+    ->         WHERE deleted = 0
+    ->            OR updated_at >= NOW() - INTERVAL 3 MONTH
+    ->     );
++-------------------------------+
+| active_projects_no_recent_vms |
++-------------------------------+
+|                            10 |
++-------------------------------+
+1 row in set (0.001 sec)
+
+... list active project with no vms ever
+
+DB > SELECT COUNT(*) AS active_projects_with_no_vms_ever
+    -> FROM project p
+    -> WHERE p.enabled = 1
+    ->   AND p.id NOT IN (
+    ->         SELECT DISTINCT project_id
+    ->         FROM nova.instances
+    ->     );
++----------------------------------+
+| active_projects_with_no_vms_ever |
++----------------------------------+
+|                               10 |
++----------------------------------+
+1 row in set (0.000 sec)
+
+... Active project without VMs.
+
+DB [keystone]> SELECT COUNT(*) AS active_projects_without_vms
+    -> FROM project p
+    -> WHERE p.enabled = 1
+    ->   AND p.id NOT IN (
+    ->         SELECT DISTINCT project_id
+    ->         FROM nova.instances
+    ->         WHERE deleted = 0
+    ->     );
++-----------------------------+
+| active_projects_without_vms |
++-----------------------------+
+|                        3919 |
++-----------------------------+
+1 row in set (0.017 sec)
+
+... number of floating ips in closed projects
+
+DB [neutron]> SELECT COUNT(*) AS total_floating_ips_in_closed_projects
+    -> FROM floatingips
+    -> WHERE project_id IN (
+    ->     SELECT id
+    ->     FROM keystone.project
+    ->     WHERE enabled = 0
+    -> );
++---------------------------------------+
+| total_floating_ips_in_closed_projects |
++---------------------------------------+
+|                                   534 |
++---------------------------------------+
+1 row in set (0.005 sec)
+
+... number of routers within closed projects
+
+DB [neutron]>  SELECT COUNT(*) AS total_routers_in_closed_projects
+    -> FROM routers
+    -> WHERE project_id IN (
+    ->     SELECT id
+    ->     FROM keystone.project
+    ->     WHERE enabled = 0
+    -> );
++----------------------------------+
+| total_routers_in_closed_projects |
++----------------------------------+
+|                              619 |
++----------------------------------+
+1 row in set (0.012 sec)
+
+DB [neutron]>
