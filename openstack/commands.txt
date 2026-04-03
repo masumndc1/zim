@@ -1,0 +1,18 @@
+
+
+
+... in this page, there will be some commands related to openstack
+... administration. for example,
+
+... to list all VMs running in a host from all project.
+
+openstack server list --all-project --host compute1.domain.com
+
+... to list nova-compute service either active or not
+
+openstack compute service list --host compute1.domain.com
+
+... to disable nova-compute service of a compute node.
+
+openstack compute service set --disable --disable-reason "some faulty reason" \
+ compute1.domain.com nova-compute
