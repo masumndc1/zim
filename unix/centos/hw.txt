@@ -12,3 +12,12 @@ x86_Broadwell-IBRS.xml
 
 # lscpu | grep -i flags
 Flags: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush
+
+... get the model name of the cpu
+# lscpu | grep "Model Name:"
+
+... get the manufacturer and productname
+# dmidecode -t 1
+
+... get the installed bios version
+# dmidecode -s bios-version
