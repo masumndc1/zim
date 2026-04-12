@@ -1,0 +1,22 @@
+
+
+... install openbolt
+...
+... create repo file for openbolt
+...
+
+masum@sys-suse-dev1:/etc/zypp/repos.d> pwd
+/etc/zypp/repos.d
+masum@sys-suse-dev1:/etc/zypp/repos.d> ls
+openbolt.repo
+masum@sys-suse-dev1:/etc/zypp/repos.d> cat openbolt.repo
+
+[openvox8]
+name=OpenVox 8 el8 Repository
+baseurl=https://yum.voxpupuli.org/openvox8/el/8/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.voxpupuli.org/GPG-KEY-openvox.pub
+masum@sys-suse-dev1:/etc/zypp/repos.d>
+
+... run: sudo zypper install -y openbolt

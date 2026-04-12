@@ -1,0 +1,18 @@
+
+
+... install openbolt
+... create a repo file for centos/almalinux
+
+ /etc/yum.repos.d
+❯ ls openbolt.repo
+openbolt.repo
+❯ cat openbolt.repo
+
+[openvox8]
+name=OpenVox 8 el9 Repository
+baseurl=https://yum.voxpupuli.org/openvox8/el/9/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.voxpupuli.org/GPG-KEY-openvox.pub
+❯
+❯ sudo yum install -y openbolt

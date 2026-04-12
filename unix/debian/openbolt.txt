@@ -1,0 +1,28 @@
+
+
+... install openbolt
+...
+... place gpg keys for openbolt
+
+curl -fsSL https://apt.voxpupuli.org/openvox-keyring.gpg \
+  -o /usr/share/keyrings/openvox-keyring.gpg
+
+... alternative ways by dearmor,
+
+curl -fsSL https://example.com/repo.gpg | gpg --dearmor \
+  | tee /usr/share/keyrings/repo.gpg > /dev/null
+
+... place openbolt list in debian with 0644
+
+...
+❯ pwd
+/etc/apt/sources.list.d
+❯ ls
+ openbolt.list   puppet-release.list
+❯ cat openbolt.list
+# OpenVox 8 12 Repository
+deb [signed-by=/usr/share/keyrings/openvox-keyring.gpg] https://apt.voxpupuli.org debian12 openvox8
+
+masum@sys-deb12-dev1 /etc/apt/sources.list.d
+❯
+❯ sudo apt install -y openbolt
