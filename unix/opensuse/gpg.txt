@@ -1,0 +1,42 @@
+
+
+... list all gpg keys
+
+# rpm -qa gpg-pubkey
+
+gpg-pubkey-09d9ea69-68595a8c
+gpg-pubkey-d62ff3d9-678689d7
+gpg-pubkey-287a0027-682477e3
+gpg-pubkey-3fa1d6ce-67c856ee
+gpg-pubkey-39db7c82-66c5d91a
+gpg-pubkey-29b700a4-62b07e22
+
+... get details on installed gpg-pubkey
+
+# rpm -qi
+
+Name        : gpg-pubkey
+Version     : b86b3716
+Release     : 61e69f29
+Architecture: (none)
+Install Date: Sun 24 Aug 2025 11:10:34 PM UTC
+Group       : Public Keys
+Size        : 0
+License     : pubkey
+Signature   : (none)
+Source RPM  : (none)
+Build Date  : Tue 18 Jan 2022 11:06:17 AM UTC
+Build Host  : localhost
+Packager    : AlmaLinux OS 9 <packager@almalinux.org>
+Summary     : AlmaLinux OS 9 <packager@almalinux.org> public key
+Description :
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: rpm-4.16.1.3 (NSS-3)
+
+# rpm -q --qf '%{SUMMARY}\n' gpg-pubkey-*
+SUSE 16 Package Signing Key <build-suse16@suse.de> public key
+openSUSE Backports for SUSE Linux 16 <sle-backports-202500514@opensuse.org> public key
+openSUSE Project Signing Key <opensuse@opensuse.org> public key
+SuSE Package Signing Key <build@suse.de> public key
+SUSE Package Signing Key <build@suse.de> public key
+Vox Pupuli <openvox@voxpupuli.org> public key
