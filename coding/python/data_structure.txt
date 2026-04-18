@@ -1,0 +1,230 @@
+
+
+... example of data structure and its operation in python
+
+... 1. Lists (Ordered & Changeable)
+... Use lists for sequences of similar items, like a list of VM names or IP addresses.
+
+servers = ["web-01", "db-01", "api-01"]
+servers[0] # -> returns "web-01"
+servers.append("lb-01")
+servers.remove("db-01")
+
+servers = ["control-node", "compute-01", "compute-02", "storage-01"]
+first = servers[0]  # -> "control-node"
+# Grab the last item (Index -1)
+last = servers[-1]  # -> "storage-01"
+
+vms = ["web-01", "db-01"]
+vms.append("lb-01")     # -> ["web-01", "db-01", "lb-01"]
+vms.insert(0, "api-01") # -> ["api-01", "web-01", "db-01", "lb-01"]
+vms.remove("db-01")     # -> ["api-01", "web-01", "lb-01"]
+vms.pop()               # last_vm is "lb-01", list is now ["api-01", "web-01"]
+
+... Simply use the index to overwrite a value.
+
+vms[1] = "web-02" # -> ["api-01", "web-02"]
+vms.sort()        # -> ["api-01", "web-02"]
+vms.reverse()     # -> ["web-02", "api-01"]
+len(vms)          # -> 2
+is_active = "api-01" in vms # True
+
+... Extract a sub-section of a list using [start:stop].
+
+ports = [80, 443, 22, 3306, 5432]
+web_ports = ports[0:2] # -> Get index 0 and 1 -> [80, 443]
+
+... 2. Dictionaries (Key-Value Pairs)
+
+Syntax: vm_info = {"id": "123-abc", "status": "ACTIVE", "ram": 2048}
+Access: vm_info["status"] (returns "ACTIVE")
+Modify: vm_info["vcpus"] = 2
+
+server = {
+    "id": "550e8400-e29b-41d4",
+    "name": "web-server-01",
+    "status": "ACTIVE",
+    "flavor": "m1.small",
+    "networks": ["10.0.0.5", "192.168.1.10"]
+}
+
+... How to Grab (Extract) Data
+... There are two main ways to get data out:
+... Square Brackets []: Best when you are sure the key exists.
+
+print(server["name"]) # Output: web-server-01
+
+... The .get() Method: Best for safety. If the key is missing,
+... it returns None instead of crashing your script.
+
+image = server.get("image_id", "Not Found")
+print(image)    # -> Output: Not Found
+
+... 3. Adding or Updating Data
+... You can add a new key-pair or update an existing one using the same syntax.
+
+server = {"name": "web-01", "status": "ACTIVE"}
+server["ip_address"] = "10.0.0.5"
+
+... Updating an existing key
+
+server["status"] = "REBOOTING" # -> Result: {"name": "web-01", "status": "REBOOTING", "ip_address": "10.0.0.5"}
+
+... Accessing Data Safely (.get())
+... Using server["id"] will crash your script if "id" is missing.
+... Use .get() to provide a fallback instead.
+
+image_type = server.get("image", "Unknown")
+
+... Removing Data by del() and pop().
+... pop(): Removes a key and returns its value.
+
+# Removes the IP and saves it to a variable
+old_ip = server.pop("ip_address")
+
+# Deletes the status key entirely
+del server["status"]
+
+... Extracting Keys, Values, or Both
+... Useful when you need to loop through data or check if a specific property exists.
+
+keys = server.keys()     # dict_keys(['name'])
+values = server.values() # dict_values(['web-01'])
+items = server.items()   # Returns list of tuples: [('name', 'web-01')]
+
+... Merging Dictionaries (.update())
+... Combine two dictionaries (e.g., adding metadata to a server object).
+
+server = {"name": "db-01"}
+metadata = {"project": "finance", "env": "prod"}
+server.update(metadata) # -> Result: {"name": "db-01", "project": "finance", "env": "prod"}
+
+... Checking for a Key
+... Always check if a key exists before performing logic on it.
+
+if "project" in server:
+    print(f"This server belongs to {server['project']}")
+Use code with caution.
+
+... The Basic items() Loop
+... To get both the Key and the Value, you must call the .items() method.
+
+server = {
+    "id": "550e8400-e29b",
+    "name": "web-server-01",
+    "status": "ACTIVE",
+    "image": "ubuntu-22.04"
+}
+
+for k, v in server.items():
+    print(f"Property: {k} | Value: {v}")
+
+... Filtering Metadata (Common Use Case)
+... If you want to find specific settings within a large configuration dictionary:
+
+metadata = {"env": "prod", "team": "devops", "backup": "true", "version": "1.2"}
+
+# Find only the 'prod' related keys
+for k, v in metadata.items():
+    if v == "prod":
+        print(f"Found production setting: {k}")
+
+... Modifying Values via Loop
+... You can use k, v to transform data, like making all keys uppercase for a report:
+
+raw_data = {"name": "test-vm", "zone": "nova"}
+clean_data = {}
+
+for k, v in raw_data.items():
+    clean_data[k.upper()] = v
+# -> Result: {"NAME": "test-vm", "ZONE": "nova"}
+
+... Dictionary Comprehension (The Pro Way)
+... This is a one-line version of the k, v loop. It's very fast and "Pythonic."
+... Create a new dictionary but only include keys that aren't 'id'
+
+filtered_server = {k: v for k, v in server.items() if k != "id"}
+
+
+... Tuples (Ordered & Unchangeable)
+...
+... A list of image types used by 100 servers (lots of duplicates)
+
+image_list = ["ubuntu", "centos", "ubuntu", "debian", "centos"]
+# Convert to a set to get only the unique types
+unique_images = set(image_list)
+print(unique_images)
+# Output: {'ubuntu', 'centos', 'debian'}
+
+... Use tuples for data that should not change during the program,
+... like fixed coordinates or a set of status constants.
+... You cannot add or remove items from a tuple once it's created.
+
+Syntax: allowed_states = ("ACTIVE", "BUILD", "ERROR")
+
+... Sets (Unordered & Unique)
+... Sets automatically handle duplicates. They are great for finding unique items in a large list.
+
+Syntax: project_ids = {"proj-1", "proj-2", "proj-1"}
+Result: {"proj-1", "proj-2"} (The duplicate is removed)
+
+... Getting a unique list of image types used across 100 servers.
+... In real-world OpenStack development, you will deal with Lists of Dictionaries.
+
+# A typical API response structure
+instances = [
+    {"name": "web-server", "ip": "10.0.0.1", "status": "ACTIVE"},
+    {"name": "db-server", "ip": "10.0.0.2", "status": "BUILD"}
+]
+
+# Accessing nested data
+print(instances[0]["ip"])  # Output: 10.0.0.1
+
+... example of mixed or complex data structure
+... A List of Servers
+... Imagine you ask OpenStack for a list of your running instances.
+... The response looks like this:
+
+# A List containing Dictionaries (Servers)
+cloud_resources = [
+    {
+        "id": "vm-001",
+        "name": "web-server",
+        "status": "ACTIVE",
+        "metadata": {"env": "prod", "team": "web"}, # Nested Dictionary
+        "security_groups": ["default", "web-rules"] # Nested List
+    },
+    {
+        "id": "vm-002",
+        "name": "db-server",
+        "status": "ERROR",
+        "metadata": {"env": "prod", "team": "db"},
+        "security_groups": ["default", "db-rules"]
+    }
+]
+
+... How to Extract Data (The "Drill Down")
+... To get specific data, you combine indexing (for the list) and keys (for the dictionaries).
+...
+... Access the first server's name:
+
+print(cloud_resources[0]["name"])  # Result: "web-server"
+
+... Access a nested value (metadata):
+
+print(cloud_resources[0]["metadata"]["env"])  # Result: "prod"
+
+... Loop through to find "ERROR" servers:
+
+for server in cloud_resources:
+    if server["status"] == "ERROR":
+        print(f"Alert! {server['name']} is down.")
+
+... Extract all unique security groups (using a Set):
+
+all_groups = set()
+for server in cloud_resources:
+    for group in server["security_groups"]:
+        all_groups.add(group)
+
+# Result: {'default', 'web-rules', 'db-rules'}
