@@ -1,0 +1,12 @@
+
+
+
+... location of nrpe scripts in centos
+
+nrpe_local]# pwd
+/usr/local/nagios/libexec/nrpe_local
+nrpe_local]# ls
+check_cpu                     check_linux_memory
+check_load
+check_disk                    check_lsi_raid
+check_hwclock
