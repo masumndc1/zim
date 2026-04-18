@@ -1,0 +1,77 @@
+
+
+... various conditionals in python.
+
+... the Basic if Statement
+... 1. the simplest form checks one condition.
+
+status = "ACTIVE"
+if status == "ACTIVE":
+    print("Server is ready for use.")
+
+... 2. adding else. Provides a fallback if the condition is False.
+
+has_ip = False
+if has_ip:
+    print("Pinging instance...")
+else:
+    print("Instance has no IP address assigned.")
+
+... 3. multiple Conditions with if-elif-else
+
+python
+vm_state = "ERROR"
+
+if vm_state == "ACTIVE":
+    print("Running")
+elif vm_state == "BUILD":
+    print("Building...")
+elif vm_state == "ERROR":
+    print("Check logs for failure.")
+else:
+    print("Unknown state.")
+
+... 4. logic Operators (and, or, not)
+Use these to combine multiple checks into one line.
+python
+ram = 4096
+vcpus = 2
+
+... 5. check if the server meets requirements
+
+if ram >= 2048 and vcpus >= 1:
+    print("Flavor meets minimum requirements.")
+
+... 6. check for 'not' (useful for empty lists or missing keys)
+
+if not vm_state:
+    print("No status received.")
+
+... 7. ternary Operator (One-Liner)
+... a concise way to assign a value based on a condition.
+
+# syntax: [value_if_true] if [condition] else [value_if_false]
+
+message = "Allowed" if ram > 1024 else "Denied"
+
+... 8. the in Operator
+... incredibly useful for checking if a value exists within
+... a list, dictionary, or string.
+
+critical_services = ["nova", "neutron", "keystone"]
+current_service = "nova"
+
+if current_service in critical_services:
+    print(f"Monitoring {current_service}...")
+
+... 9. match-Case (Python 3.10+)
+... if you have many specific values to check,
+.... match is cleaner than multiple elif blocks.
+
+match status:
+    case "ACTIVE":
+        print("Green light")
+    case "DELETED" | "SHUTOFF":
+        print("Resource gone")
+    case _:
+        print("Status unknown")
