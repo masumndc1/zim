@@ -1,0 +1,55 @@
+
+
+
+... type hinting in python
+... 1. traditional way:
+
+from typing import Optional
+
+def include(filename: str, data: Optional[dict] = None):
+    if data:
+        print(f"Including {filename} with custom data: {data}")
+    else:
+        print(f"Including {filename} with default settings.")
+
+... Call 1: Only the filename
+include("base_setup.sh")
+
+... Call 2: Filename and data (OpenStack style)
+include("instance_init.yaml",
+    {"hostname": "web-srv-01",
+     "flavor": "m1.small"}
+    )
+
+... 2. Pro Tip for Python 3.10+
+... You no longer need to import Optional.
+... You can use the Pipe (|) operator for a cleaner look:
+... any of the bellow is valid.
+
+def include(filename: str, data: dict | None = None):
+def include(filename: str, data: dict | None = None) -> str:
+
+... Updated Example with Return Hint
+... Here is how you would write it if the function returns
+... the "rendered" configuration as a string:
+
+from typing import Optional
+
+def include(filename: str, data: Optional[dict] = None) -> str:
+    if data:
+        return f"File {filename} processed with {len(data)} items."
+
+    return f"File {filename} processed with defaults."
+
+... now a way to call
+
+result = include("config.yaml", {"debug": True})
+# string methods like .upper() will be suggested
+print(result.upper())
+
+... Common Return Types for OpenStack Scripts:
+... None: If the function just performs an action
+    (like printing or writing to a file) and doesn't return anything.
+... bool: If the function is a check (e.g., is_server_ready).
+... list[str]: If it returns a list of IDs or names.
+... dict | None: If it looks for a resource and might not find it.
