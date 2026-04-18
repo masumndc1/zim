@@ -1,0 +1,37 @@
+
+
+... how to make ansible faster little bit
+...
+... 1. use python 3.13+, if system has jit and free-threading which make
+... reduce two bottle necks jinja2 templating and task dispatching.
+...
+
+export PYTHON_JIT=1
+ansible-playbook site.yml
+
+...
+... 2. if you can use free threaded binary 3.13t. If ansible core 2.19 is used
+... using python 3.13t can manage connections and variable merges across multiple
+... cpu cores without GIL contention.
+...
+
+python3.13t $(which ansible-playbook) site.yml
+
+... 3. settings in ansible.cfg. use free strategy so that does not wait for server
+... to finish it tasks then move to next one.
+
+strategy=free
+
+... 4. enable fact_caching so that it can store the facts for 24h.
+
+[default]
+gathering = smart
+fact_caching = jsonfile
+fact_caching_connection = /tmp/ansible_cache
+
+... 5. selective gathering. If needs to know network, then dont gather others.
+
+- hosts: all
+  gather_subset:
+    - '!all'
+    - 'network'
