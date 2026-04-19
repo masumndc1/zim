@@ -22,7 +22,7 @@
 ... Storage Nodes: The "Memory." Whether using Ceph or Cinder LVM backends,
 ... admins must manage disk health and data replication.
 
-... 2. Advanced Troubleshooting (The "Log-Fu"). consider the following:
+... 2. Advanced troubleshooting (The "Log-Fu"). consider the following:
 
 """
     When a user says, *"I can't launch a VM,"* a developer checks the code
@@ -31,7 +31,8 @@
  2. **Nova-API:** Check /var/log/nova/nova-api.log (Did the request reach the brain?).
  3. **Scheduler:** Check /var/log/nova/nova-scheduler.log (Could OpenStack find a host with enough RAM?).
  4. **Compute:** Check /var/log/nova/nova-compute.log on the destination host
-      (Did the hypervisor fail to start the process?).
+      (Did the hypervisor fail to start the process?). Checks the "Error" status.
+      Tail-follows /var/log/nova-compute.log to find the Python stack trace.
 """
 
 ... Admin Tip:** Always use grep with the **Request ID** (e.g., req-abcdef...).

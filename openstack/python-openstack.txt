@@ -29,11 +29,24 @@
 
 ... Abstraction Layers:
 ...   Understand ABCs, Abstract Base Classes. OpenStack is designed to
-...   be "pluggable"—for example, Nova can use different hypervisors (KVM, VMware). You need to learn how to write interfaces that multiple "drivers" can implement.
+...   be "pluggable"—for example, Nova can use different hypervisors (KVM, VMware).
+...   You need to learn how to write interfaces that multiple "drivers" can implement.
 
 ... The SDKs:
 ...   Stop using raw requests. Start using the OpenStack SDK or osc-lib.
 ...   this is how professionals interact with the cloud programmatically.
+
+... ci/cd:
+...   Zuul: This is the project's brain. It runs thousands of tests (unit, functional,
+...   and integration) across multiple hardware backends for every single line of code you submit.
+...   Zuul: The CI/CD engine that tests your code across thousands of hardware
+...   configurations before it can be merged.
+...   OpenStack has one of the strictest CI/CD pipelines in the world.
+...   You aren't a developer until you've survived a "Gate" failure.
+
+... Tox: Locally, you must use Tox to manage virtual environments. A developer
+...   always runs tox -e py313 (or the current Python version)
+...   to ensure their code passes linting and unit tests before pushing....
 
 ... The Core Tech Stack:
 ... An OpenStack developer’s toolkit involves more than just the Python Standard Library.
@@ -49,6 +62,16 @@
 ... Concurrency
 ...   oslo.messaging: This is the custom library OpenStack uses for RPC (Remote Procedure Call)
 ...   communication between services.
+...
+... Master the "Oslo" Standard.
+... OpenStack developers don't write custom database connections or messaging logic from
+... scratch; they use Oslo. These are the shared Python libraries that define the "OpenStack way."
+... oslo.messaging: Learn how RPC (Remote Procedure Call) works over RabbitMQ. Developers
+... use this to send a command from the API (Nova-API) to the worker (Nova-Compute).
+... oslo.db: Master the SQLAlchemy patterns used here. You need to understand how to write.
+... database migrations that don't lock tables in a production cloud.
+... oslo.config: This is how OpenStack handles complex configuration files (.conf).
+... You should be able to define new configuration options that integrate into the global schema.
 
 ... Testing
 ...   Pytest Tox: OpenStack has a "test-first" culture. If there’s no test, the code doesn't exist.
@@ -71,6 +94,13 @@
 ... Every OpenStack project (Nova, Neutron, Swift) is an independent service.
 ... Your Python code needs to be resilient to network failures and timeouts.
 
+... Understanding "The Big Three" Services...
+... To reach developer status, you should pick one core project and learn its internal "drivers":...
+
+... Nova | Hypervisor Drivers | How Python talks to libvirt to start a VM.
+... Neutron | Pluggable Backends | How Python uses OVN (Open Virtual Network) to create virtual switches.
+... Keystone | Middleware | How to write a "filter" that intercepts an API request to check permissions.
+
 ... The "Path to Pro" Action Plan
 ...
 ... Phase 1: The Deep Dive
@@ -78,7 +108,7 @@
 ... The Oslo project is a set of shared Python libraries used by all OpenStack services.
 ... It represents the "gold standard" of OpenStack Python code.
 
-... Phase 2: Deploy DevStack
+... Phase 2: Deploy DevStack or ansible-kolla
 ... Install DevStack on a Linux machine. It installs the entire OpenStack cloud onto one node.
 ... Once it’s running, try to find a bug or a missing feature in a small project like
 ... Zun(containers) or Glance (images).
@@ -96,6 +126,18 @@
 ... Functional Testing vs. Unit Testing: Know the difference in a cloud context.
 ... Idempotency:** A critical concept—your Python scripts must be able to run twice
 ... without breaking the cloud state.
+
+... final phase (good to have):
+... Asynchronous Everything: many older "Green thread" patterns have been modernized.
+... You need to be comfortable with
+...
+... a. asyncio and non-blocking I/O.
+... b. Functional Testing: It’s not enough to test a single function.
+...    You must learn to write Gabbi or Tempest tests that simulate a user
+...    creating a real resource in the cloud....
+... c. Idempotency: Cloud code fails often (network blips, full disks).
+...    Your code must be written so that if it runs halfway and fails,
+...    running it again won't create duplicate resources or corrupt the database.
 
 ... using virtualenv:
 ... after installing the virtualenv and installing python-openstackclient by using pip
