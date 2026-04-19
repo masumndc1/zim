@@ -1,0 +1,78 @@
+
+
+... learning openstack from system admins perspective
+... tags: openstack, system admin
+
+... To master OpenStack from a System Administrator’s perspective,
+... you shift your focus from "how the code is written" to
+... "how the services are kept alive, healthy, and scalable."
+... An OpenStack admin isn't just managing VMs; they are managing
+... a high-availability (HA) cluster of distributed services,
+... complex software-defined networking, and multi-petabyte storage.
+
+... 1. The Physical & Logical Layout
+... While a developer looks at the Python classes, a SysAdmin looks at
+... the Nodes. You understand where each service lives to troubleshoot effectively.
+
+... Controller Nodes: The "Brain." They run the APIs, the Database (Galera/MariaDB),
+... and the Message Queue (RabbitMQ). Usually deployed in clusters of 3 for High Availability.
+... Compute Nodes: The "Muscle." These run the hypervisors (KVM/QEMU) and the instances.
+... You need to manage their resource overcommitment (CPU/RAM).
+
+... Storage Nodes: The "Memory." Whether using Ceph or Cinder LVM backends,
+... admins must manage disk health and data replication.
+
+... 2. Advanced Troubleshooting (The "Log-Fu"). consider the following:
+
+"""
+    When a user says, *"I can't launch a VM,"* a developer checks the code
+    logic; an admin traces the request through the logs. You must master the **"Request Flow"**:
+ 1. **Keystone:** Check /var/log/keystone/keystone.log (Did the user authenticate?).
+ 2. **Nova-API:** Check /var/log/nova/nova-api.log (Did the request reach the brain?).
+ 3. **Scheduler:** Check /var/log/nova/nova-scheduler.log (Could OpenStack find a host with enough RAM?).
+ 4. **Compute:** Check /var/log/nova/nova-compute.log on the destination host
+      (Did the hypervisor fail to start the process?).
+"""
+
+... Admin Tip:** Always use grep with the **Request ID** (e.g., req-abcdef...).
+... This ID follows a single action across every service's log file,
+... allowing you to see exactly where it died.
+
+... 3. High Availability (HA) & Database Management
+...
+
+An OpenStack admin's nightmare is a "Split Brain" in the database or a "Network Partition."
+ ** Galera Cluster: You must know how to recover a MariaDB Galera cluster
+    when it loses quorum (the grastate.dat file trick).
+ ** RabbitMQ: If the message queue gets clogged, the whole cloud freezes.
+    You need to know how to monitor queue lengths and reset hung connections.
+ ** Memcached: Used for token caching. If this goes down,
+    Keystone will hammer the database and crash the API.
+
+... 4. Networking: The Modern "OVN" Standard
+...
+... OVN (Open Virtual Network)** is the primary backend for Neutron.
+... Admin Skill: You need to move past standard Linux bridges.
+... You must understand **Open vSwitch (OVS)** flows.
+... The Data Plane:** Use ovs-vsctl and ovn-nbctl to verify that virtual routers
+... and switches are actually created in the hardware/software layers.
+
+... 5. Day 2 Operations (The "Admin Toolkit")
+...
+... The real work starts *after* the cloud is installed.
+... Backups** | **Freezer** | OpenStack's native backup service for DBs and volumes.
+... Monitoring** | **Prometheus + Grafana** | Tracking the health of APIs and physical hardware.
+... Logging** | **ELK Stack (Elasticsearch/Logstash/Kibana)**
+... Searching through millions of lines of logs across 50 nodes.
+... Orchestration** | **Ansible / Kolla** | You never configure a node manually.
+... Everything is "Infrastructure as Code."
+
+... 6. The "COA" Standard
+... If you want to prove your skills, aim for the **Certified OpenStack Administrator (COA)** level.
+... Quota Management:** Learn how to prevent one user from hogging all the cloud's RAM.
+... Live Migration:** Learn how to move a running VM from one physical server to
+... another without downtime (crucial for hardware maintenance).
+...
+... Cloud-Init:** Master how to inject SSH keys and scripts into VMs automatically upon boot.
+... The Golden Rule for Admins:** > "Automate your installs, monitor your queues, and never
+... trust the 'ERROR' status in the dashboard—always check the logs on the Controller node."
