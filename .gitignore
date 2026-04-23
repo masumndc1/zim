@@ -5,3 +5,4 @@
 .gitconfig
 coding/python/vatde/.tox/
 coding/python/vatde/*.egg-info/
+*.swp
