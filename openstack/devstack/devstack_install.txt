@@ -3,6 +3,7 @@
 ... installation of devstack
 
 ... best to use ubuntu. I have found working on ubuntu 16.04.
+... this is also good to install iptables.
 ...
 ... add user
 
@@ -27,3 +28,33 @@ HOST_IP=<your_host_ip>
 
 ... after the installation the horizon interface can be accessed by
 ... http://HOST_IP/dashboard
+
+... trouble-shooting;
+...
+... if you are running inside a container/lxc and you hit
+... The error tee: /sys/kernel/mm/ksm/run: Permission denied happens
+... because DevStack is trying to enable Kernel Same-page Merging (KSM),
+... but it's being blocked—even though it's using sudo.
+... then add following
+
+... in devstack/lib/host file
+
+function configure_ksm {
+    return 0  # <--- Add this line here
+    if is_service_enabled n-cpu; then
+
+... then run:
+./unstack.sh
+./stack.sh
+
+... /usr/sbin/apachectl: 102: ulimit: error setting limit (Operation not permitted)
+... Open the apachectl script:
+
+sudo vim /usr/sbin/apachectl
+
+... find line 102 (or search for ulimit).
+... It usually looks like ulimit -n $ULIMIT_MAX_FILES.
+
+# ulimit -n $ULIMIT_MAX_FILES
+
+... Save and exit, then run ./stack.sh again.
