@@ -82,3 +82,18 @@ file { '/etc/httpd/conf/httpd.conf':
 }
 
 ... here, package httpd will be installed before file resource applied.
+
+... another example:
+
+yum::install { 'my_package':
+  ensure => present,
+}
+
+... Use code with caution. Capitalized (to refer to it):
+
+file { '/etc/config_file':
+  ensure  => file,
+
+  # Every segment is capitalized
+  require => Yum::Install['my_package'],
+}
