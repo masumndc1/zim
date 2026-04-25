@@ -172,3 +172,7 @@ Ran on 1 target
 - inherits does not fit in bolt plan.
 - lookup/hiera is also possible in plan
 - normal dependency which was available in Class -> Class is also possible here.
+
+... get all facts from a host
+
+bolt task run facts --targets localhost
