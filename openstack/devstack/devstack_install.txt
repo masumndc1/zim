@@ -29,6 +29,23 @@ HOST_IP=<your_host_ip>
 ... after the installation the horizon interface can be accessed by
 ... http://HOST_IP/dashboard
 
+... login to your devstack by following
+
+stack@masum:~/devstack$ source openrc admin admin
+stack@masum:~/devstack$ openstack service list
++----------------------------------+-------------+----------------+
+| ID                               | Name        | Type           |
++----------------------------------+-------------+----------------+
+| 48edd15a0bb344a4ac9d8e697fca0e36 | placement   | placement      |
+| 5a3f992cad2d41958003130649b6daa7 | nova        | compute        |
+| 6e06c760a9f340818f6faefcab6e804d | keystone    | identity       |
+| 81c1368655eb48a1be64bf0b0a56527a | glance      | image          |
+| cb4fb731f6c446e4a3ccc2c52146c8e3 | cinder      | block-storage  |
+| d4f1dbdf34fa4dd19ddfc84fbc644b6d | neutron     | network        |
+| d7988528bb4c4be3a434dccc12a9e3e1 | nova_legacy | compute_legacy |
++----------------------------------+-------------+----------------+
+stack@masum:~/devstack$
+
 ... trouble-shooting;
 ...
 ... if you are running inside a container/lxc and you hit
