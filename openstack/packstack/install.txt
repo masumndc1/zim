@@ -1,0 +1,18 @@
+
+
+...
+... *** NoTE: packstack did not worked for me ***
+... *** I tried to install it in almalinux 9 VM *
+...
+... install the easy way
+
+sudo dnf update -y
+sudo hostnamectl set-hostname openstack.example.com
+
+sudo dnf config-manager --enable crb
+sudo dnf install -y centos-release-openstack-caracal # Or current version
+
+sudo dnf update -y
+sudo dnf install -y openstack-packstack
+
+sudo packstack --allinone
