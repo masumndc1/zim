@@ -1,6 +1,7 @@
 
 
-After installing packstack there will be two files where we can find the credential for admin and demo project
+... After installing packstack there will be two files where
+... we can find the credential for admin and demo project
 
 [root@packstack ~]# ls
 anaconda-ks.cfg   keystonerc_demo
