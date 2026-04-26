@@ -29,3 +29,70 @@ facter: error while loading shared libraries: leatherman_curl.so.1.3.0: cannot o
 ++ exit 127
 
 yum downgrade leatherman
+
+2.
+Saving key "$USER/.ssh/id_rsa" failed: Permission denied
+
+sudo chown -R masum:masum /home/masum/.ssh
+chmod 700 /home/masum/.ssh
+
+... then run packstack -d --allinone
+
+3.
+Gathering ssh host keys for Nova migration        [ ERROR ]
+
+ERROR : Failed to run remote script, stdout:
+stderr: + trap t ERR
++ ssh-keyscan -q 192.168.122.141
+unknown option -- q
+usage: ssh-keyscan [-46cDHv] [-f file] [-p port] [-T timeout] [-t type]
+                   [host | addrlist namelist]
+++ t
+++ exit 1
+
+remedy:
+# This function strips out the -q flag before running the command
+ssh-keyscan() {
+  /usr/bin/ssh-keyscan $(echo "$@" | sed 's/-q//g')
+}
+export -f ssh-keyscan
+
+ERROR : Error appeared during Puppet run: 192.168.122.141_controller.pp
+Error: Evaluation Error: Error while evaluating a Function Call, Could not find class ::firewall
+for packstack (file: /var/tmp/packstack/86346238c66845d5a3160b2a6d91f736/manifests/192.168.122.141_controller.pp,
+line: 11, column: 1) on node packstack
+
+# This installs it to the standard system path
+sudo puppet module install puppetlabs-firewall --version 7.0.2
+
+or
+
+sudo dnf install -y centos-release-openstack-caracal
+sudo dnf install -y puppet-firewall
+
+Error: Evaluation Error: Unknown function: 'pick'.
+(file: /var/tmp/packstack/443802ccc23d478ab948782fa16b397a/modules/firewall/manifests/init.pp, line: 42, column: 17)
+on node packstack
+
+sudo puppet module install puppetlabs-stdlib
+
+or
+
+# Ensure the directory exists
+sudo mkdir -p /usr/share/openstack-puppet/modules
+
+# Link stdlib to the Packstack module path
+sudo ln -s /etc/puppetlabs/code/environments/production/modules/stdlib /usr/share/openstack-puppet/modules/stdlib
+
+
+ERROR    -> Command exited with non-zero exit code:
+Command: git clone https://github.com/openstack/puppet-glance /usr/share/openstack-puppet/modules/glance
+ --reference /home/masum/.r10k/git/https---github.com-openstack-puppet-glance
+Stderr:
+fatal: could not create work tree dir '/usr/share/openstack-puppet/modules/glance': Permission denied
+Exit code: 128
+
+[masum@packstack packstack]$ sudo chown -R masum:masum /usr/share/openstack-puppet/modules
+[masum@packstack packstack]$ chmod 755 /usr/share/openstack-puppet/modules
+[masum@packstack packstack]$ r10k puppetfile install -v
+INFO     -> Using Puppetfile '/home/masum/packstack/Puppet
