@@ -1,0 +1,18 @@
+
+
+...
+
+/opt/stack/data/venv/lib/python3.12/site-packages/oslo_concurrency/lockutils.py:41: EventletDeprecationWarning:
+Eventlet is deprecated. It is currently being maintained in bugfix mode, and
+we strongly recommend against using it for new projects.
+
+$ vim ~/devstack/openrc
+export PYTHONWARNINGS="ignore::EventletDeprecationWarning"
+
+
+$ vim /opt/stack/data/venv/lib/python3.12/site-packages/oslo_concurrency/lockutils.py
+
+... add following two lines in the beginning of the line.
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning, message=".*Eventlet is deprecated.*")
