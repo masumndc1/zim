@@ -20,7 +20,16 @@ $ sudo make install
 ... Therefore, installed check `brew install check`
 ...
 ... fixing:
+... if you have following problem:
+
+sign_and_send_pubkey: signing failed for RSA "Public key for PIV Authentication"
+from agent: agent refused operation
+
+... then do following
 
 pkill ssh-agent
 eval $(ssh-agent -s)
+ssh-add -s /usr/local/lib/libykcs11.dylib
+
+... following may be for linux
 ssh-add -s /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so
