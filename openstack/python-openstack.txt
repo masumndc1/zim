@@ -159,3 +159,13 @@ $ source rc.sh
 ... openstack help image
 ... openstack image list
 ... openstack server list
+
+... How to actually "read" it:
+...
+... Instead of starting with the modules, start with the Entry Points:
+... Look for the setup.cfg or entry_points in pyproject.toml: This tells you which
+... Python function actually starts the service.
+... Follow the "Manager" classes: In almost every module (Nova, Neutron, Cinder), the
+... file named manager.py is the "brain." Start there.
+... Read the oslo.config files: OpenStack behavior is defined by .conf files.
+... If you don't know the config, the code won't make sense.
