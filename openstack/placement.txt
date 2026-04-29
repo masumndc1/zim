@@ -1,0 +1,49 @@
+
+...
+...
+... how you set sync_on_startup = True in the [placement_database] section
+... of /etc/placement/placement.conf
+...
+... To set this using puppet-placement, you don't actually need to edit the
+... file manually. Because most OpenStack Puppet modules are built on a consistent
+... framework, you use a specific "config" resource to inject settings into
+... the .conf files.
+...
+... you need to have puppet-placement module in Puppetfile.
+
+... In your Puppet manifest (e.g., site.pp or a profile module),
+...  add this block:
+
+placement_config {
+  'placement_database/sync_on_startup': value => true;
+}
+
+... example placement various resource class
+
+
+❯ openstack resource class list
++----------------------------------------+
+| name                                   |
++----------------------------------------+
+| VCPU                                   |
+| MEMORY_MB                              |
+| DISK_GB                                |
+| PCI_DEVICE                             |
+| SRIOV_NET_VF                           |
+| NUMA_SOCKET                            |
+| NUMA_CORE                              |
+| NUMA_THREAD                            |
+| NUMA_MEMORY_MB                         |
+| IPV4_ADDRESS                           |
+| VGPU                                   |
+| VGPU_DISPLAY_HEAD                      |
+| NET_BW_EGR_KILOBIT_PER_SEC             |
+| NET_BW_IGR_KILOBIT_PER_SEC             |
+| PCPU                                   |
+| MEM_ENCRYPTION_CONTEXT                 |
+| FPGA                                   |
+| PGPU                                   |
+| NET_PACKET_RATE_KILOPACKET_PER_SEC     |
+| NET_PACKET_RATE_EGR_KILOPACKET_PER_SEC |
+| NET_PACKET_RATE_IGR_KILOPACKET_PER_SEC |
++----------------------------------------+
