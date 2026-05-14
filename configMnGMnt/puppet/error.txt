@@ -44,3 +44,8 @@ On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete
 /usr/lib/ruby/vendor_ruby/puppet/indirector/request.rb:272: warning: URI.unescape is ob
 
 ... then add following: export RUBYOPT='-W0' in the terminal
+
+... if you are using bolt then you can stop puppet service on the target node
+
+sudo systemctl stop puppet
+sudo systemctl disable puppet

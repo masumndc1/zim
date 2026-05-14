@@ -20,6 +20,8 @@ notify { grettings:
  message => "hello $my_name and your roll is $num_tokens"
 }
 
+notify { "DEBUG: Cinder password is: >${cinder_pass}<": }
+
 ... gives output when we run it
 
 root@controller:~/puppet/manifests# puppet apply sometest.pp

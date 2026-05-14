@@ -52,3 +52,12 @@ echo '*' >> /etc/puppet/puppetserver/config.d/autosign.conf
 ...
 
 # puppet agent -t --environment=<feature_branch> --noop
+
+... sign one particular cert
+
+[root@puppetserver]# puppetserver ca list
+Requested Certificates:
+    node1.domain.com       (SHA256)  A5:5C:B6:64:49:5D:97:F9:4D:38:9E:08:44:C1:0D:80:75:93:9D:80:D4:C2:86:8D:65:D4:BA:02:65:BD:05:11
+[root@puppetserver]# puppetserver ca sign --certname node1.domain.com
+Successfully signed certificate request for node1.domain.com
+[root@puppetserver]#

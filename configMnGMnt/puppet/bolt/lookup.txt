@@ -1,0 +1,35 @@
+
+
+... lookup of the vars
+
+... if the value is defined
+
+/Users/khuddin/Documents/github/puppet-bolt/data/hosts
+❯ ls
+ db-alma9-dev9.yaml   sys-ubu22-dev1.yaml
+❯ cat db-alma9-dev9.yaml
+---
+keystone_db_pass: 'admin'
+~/Documents/github/puppet-bolt/data/hosts main*
+myenv ❯
+
+❯ bolt lookup keystone_db_pass -t db-alma9-dev9
+Starting: install puppet and gather facts on db-alma9-dev9
+Finished: install puppet and gather facts with 0 failures in 1.66 sec
+Finished on db-alma9-dev9:
+  admin
+Successful on 1 target: db-alma9-dev9
+Ran on 1 target
+
+
+... if it cant find the value.
+
+❯ bolt lookup keystone_db_pass -t sys-ubu22-dev9
+Starting: install puppet and gather facts on sys-ubu22-dev9
+Finished: install puppet and gather facts with 0 failures in 2.93 sec
+Failed on sys-ubu22-dev9:
+  Function lookup() did not find a value for the name 'keystone_db_pass'
+Failed on 1 target: sys-ubu22-dev9
+Ran on 1 target
+~/Documents/github/puppet-bolt/data/hosts main* 6s
+myenv ❯
