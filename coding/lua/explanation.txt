@@ -1,0 +1,74 @@
+
+
+... explaint following line by line
+
+local FileInfo = {}
+FileInfo.__index = FileInfo
+
+function FileInfo.new(filename)
+  local self = setmetatable({}, FileInfo)
+  self._filename = filename
+  return self
+end
+
+function Fileinfo:get_filename()
+  -- above line is equivalent to following
+  -- Fileinfo.get_filename(self)
+  return self.filename
+end
+
+local my_file = Fileinfo.new("/Users/khuddin/learn.lua")
+print(my_file:get_filename())
+print(my_file.get_filename(my_file))
+
+- function FileInfo.new(filename):
+ This defines a static function named new
+ inside a table or
+ class structure called FileInfo.
+
+- It accepts one parameter:
+ the string or path variables representing a filename.
+
+- local self = setmetatable({}, FileInfo):
+ {}: Creates a brand new, empty table to act as the individual object instance.
+ FileInfo: Acts as the metatable (or "class blueprint") containing the shared methods for your objects.
+ setmetatable(..., FileInfo): Links the empty table to FileInfo.
+ This allows the new object to inherit functions from the FileInfo
+ parent table via the __index metamethod.
+ local self: Stores this newly linked table in a local variable named self.
+
+- self._filename = filename:
+- This initializes an instance property.
+ It assigns the passed filename string to a key named _filename inside the new object table.
+ The underscore prefix _ is a developer convention indicating
+ that this property should be treated as private or internal.
+
+- return self:
+ This passes the completely initialized,
+ metatable-linked object back to whoever called the function.
+
+- function Fileinfo:get_filename():
+ is equivalent to Fileinfo.get_filename(self)
+
+- print(my_file:get_filename()), print(my_file.get_filename(my_file))
+ both of the lines are the same and print the following same thing
+
+/Users/khuddin/learn.lua
+/Users/khuddin/learn.lua
+
+- now how we can determine when to use (.) or when to use (:)
+- lets see the following example,
+
+local original = "hello world"
+local modified = string.gsub(original, "world", "lua")
+-- output: hello lua
+
+- as we know that original itself is string, so we can use directly string.gsub.
+
+local original = "hello world"
+local modified = original:gsub("world", "lua")
+-- equivalent to origina.gsub(original, "world", "lua")
+-- output: hello lua
+
+-- as original is an instance of string, so we can use original:gsub("world", "lua")
+-- which is equivalent to original.gsub(original,"world", "lua")

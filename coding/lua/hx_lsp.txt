@@ -1,0 +1,21 @@
+
+
+
+❯ hx --health lua
+Configured language servers:
+  ✘ lua-language-server: 'lua-language-server' not found in $PATH
+Configured debug adapter: None
+Configured formatter: None
+Tree-sitter parser: ✓
+Highlight queries: ✓
+Textobject queries: ✓
+Indent queries: ✓
+
+...
+... for the formatter, from helix issue :format which will automatically
+... for the code. Alternatively, install stylua and add following,
+
+[[language]]
+name = "lua"
+auto-format = true
+formatter = { command = "stylua", args = ["-"] }
