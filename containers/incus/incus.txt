@@ -1,0 +1,65 @@
+
+
+... list images
+
+❯ incus image ls -f yaml
+- auto_update: true
+  properties:
+    architecture: arm64
+    description: Almalinux 9 arm64 (20260430_23:08)
+    os: Almalinux
+    release: "9"
+    requirements.cdrom_agent: "true"
+    serial: "20260430_23:08"
+    type: squashfs
+    variant: default
+  public: false
+  expires_at: 1970-01-01T00:00:00Z
+  profiles:
+  - default
+  aliases: []
+  architecture: aarch64
+  cached: true
+  filename: incus.tar.xz
+  fingerprint: 1de319bccf01e7b004333457a770cde2b13771cfd599d8e4747d93ef79c0b5f3
+  size: 114365372
+  update_source:
+    alias: almalinux/9/arm64
+    certificate: ""
+    protocol: simplestreams
+    server: https://images.linuxcontainers.org
+    image_type: ""
+  type: container
+  created_at: 2026-04-30T00:00:00Z
+  last_used_at: 2026-05-01T09:12:17.464294768Z
+  uploaded_at: 2026-05-01T09:12:09.319420949Z
+  project: default
+❯
+
+... launch a incus container
+
+❯ sudo incus launch images:almalinux/9/arm64 keystone-alma9-dev9
+Launching keystone-alma9-dev9
+❯ sudo incus launch images:almalinux/9/arm64 db-alma9-dev9
+Launching db-alma9-dev9
+
+❯
+
+... lauch a incus vm
+
+incus launch images:almalinux/9 --vm
+
+... if we need to give previlege to our incus containers.
+By default, Incus containers are restricted for security.
+OpenStack needs higher privileges to manage networking and for
+RabbitMQ to handle sockets.Run these on your HOST machine
+
+incus config set keystone-node security.nesting true
+incus config set keystone-node security.privileged true
+incus config set nova-node security.nesting true
+incus config set nova-node security.privileged true
+
+incus config set keystone-alma9-dev9 security.nesting true
+incus config set keystone-alma9-dev9 linux.kernel_modules primary
+
+incus restart keystone-node nova-node

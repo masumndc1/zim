@@ -20,3 +20,6 @@ INFO[0002] downloading disk image ...                    context=vm
 > [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
 > [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
 > [hostagent] Waiting for the essential requirement 1 of 4: "ssh"
+
+... this will start incus with virtualization type vz in mac
+colima start --runtime incus --vm-type vz --cpu 4 --memory 8 --mount-type virtiofs
