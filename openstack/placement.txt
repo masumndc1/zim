@@ -47,3 +47,54 @@ placement_config {
 | NET_PACKET_RATE_EGR_KILOPACKET_PER_SEC |
 | NET_PACKET_RATE_IGR_KILOPACKET_PER_SEC |
 +----------------------------------------+
+
+... error:
+
+[root@nova-alma9-dev9 etc]# curl http://keystone:8778
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error or
+misconfiguration and was unable to complete
+your request.</p>
+<p>Please contact the server administrator at
+ [no address given] to inform them of the time this error occurred,
+ and the actions you performed just before this error.</p>
+<p>More information about this error may be available
+in the server error log.</p>
+</body></html>
+[root@nova-alma9-dev9 etc]# curl http://keystone-alma9-dev9.incus:8778
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error or
+misconfiguration and was unable to complete
+your request.</p>
+<p>Please contact the server administrator at
+ [no address given] to inform them of the time this error occurred,
+ and the actions you performed just before this error.</p>
+<p>More information about this error may be available
+in the server error log.</p>
+</body></html>
+
+... if connection settings is ok /etc/placement/placement.conf, run following.
+
+# placement-manage db sync
+
+curl -i http://keystone:8778
+curl: (7) Failed to connect to keystone port 8778 after 0 ms: Couldn't connect to server
+
+systemctl status openstack-placement-api
+Unit openstack-placement-api.service could not be found.
+root@keystone-deb12-dev9:/etc/placement#
+
+... probably another instance of uWSGI is running on the same address (:8778).
+bind(): Address already in use [core/socket.c line 769]
+
+sudo systemctl stop placement-api
+sudo systemctl disable placement-api
+sudo systemctl mask placement-api

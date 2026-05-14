@@ -404,3 +404,52 @@ location.py  notifier.py  opts.py  __pycache__  quota  registry  schema.py  scru
 ... in the /var/log/nova/nova-compute.log file.
 ... 2. Examine the /var/log/nova/nova-api.log and
 ... /var/log/nova/nova-compute.log log files for error messages.
+
+... manual db sync
+
+[root@glance-alma9-dev9 glance]# glance-manage db_sync
+
+2026-05-02 13:32:30.775 32659 INFO alembic.runtime.migration [-] Context impl MySQLImpl.
+2026-05-02 13:32:30.775 32659 INFO alembic.runtime.migration [-] Will assume non-transactional DDL.
+2026-05-02 13:32:30.782 32659 INFO alembic.runtime.migration [-] Context impl MySQLImpl.
+2026-05-02 13:32:30.782 32659 INFO alembic.runtime.migration [-] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> liberty, liberty initial
+INFO  [alembic.runtime.migration] Running upgrade liberty -> mitaka01, add index on created_at and updated_at columns of 'images' table
+INFO  [alembic.runtime.migration] Running upgrade mitaka01 -> mitaka02, update metadef os_nova_server
+INFO  [alembic.runtime.migration] Running upgrade mitaka02 -> ocata_expand01, add visibility to images
+INFO  [alembic.runtime.migration] Running upgrade ocata_expand01 -> pike_expand01, empty expand for symmetry with pike_contract01
+INFO  [alembic.runtime.migration] Running upgrade pike_expand01 -> queens_expand01
+INFO  [alembic.runtime.migration] Running upgrade queens_expand01 -> rocky_expand01, add os_hidden column to images table
+INFO  [alembic.runtime.migration] Running upgrade rocky_expand01 -> rocky_expand02, add os_hash_algo and os_hash_value columns to images table
+INFO  [alembic.runtime.migration] Running upgrade rocky_expand02 -> train_expand01, empty expand for symmetry with train_contract01
+INFO  [alembic.runtime.migration] Running upgrade train_expand01 -> ussuri_expand01, empty expand for symmetry with ussuri_expand01
+INFO  [alembic.runtime.migration] Running upgrade ussuri_expand01 -> wallaby_expand01, add image_id, request_id, user columns to tasks table"
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Upgraded database to: wallaby_expand01, current revision(s): wallaby_expand01
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Database migration is up to date. No migration needed.
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade mitaka02 -> ocata_contract01, remove is_public from images
+INFO  [alembic.runtime.migration] Running upgrade ocata_contract01 -> pike_contract01, drop glare artifacts tables
+INFO  [alembic.runtime.migration] Running upgrade pike_contract01 -> queens_contract01
+INFO  [alembic.runtime.migration] Running upgrade queens_contract01 -> rocky_contract01
+INFO  [alembic.runtime.migration] Running upgrade rocky_contract01 -> rocky_contract02
+INFO  [alembic.runtime.migration] Running upgrade rocky_contract02 -> train_contract01
+INFO  [alembic.runtime.migration] Running upgrade train_contract01 -> ussuri_contract01
+INFO  [alembic.runtime.migration] Running upgrade ussuri_contract01 -> wallaby_contract01
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Upgraded database to: wallaby_contract01, current revision(s): wallaby_contract01
+INFO  [alembic.runtime.migration] Context impl MySQLImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Database is synced successfully.
+[root@glance-alma9-dev9 glance]#

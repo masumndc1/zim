@@ -70,3 +70,26 @@ masum@devstack:~$ nova service-list
 ... from the hosts:
 
 > virsh cpu-models x86_64
+
+... conflict of installint package
+
+Problem: package openstack-glance-1:24.2.1-1.el9s.noarch from centos-openstack-yoga requires
+python3-glance = 1:24.2.1-1.el9s, but none of the providers can be installed
+
+... then do following
+
+dnf repolist | grep openstack
+
+... if above gives you multiple repo then do following
+
+dnf clean all
+dnf syncrypt  # Or dnf distro-sync
+
+... nothing provides python3-pyxattr needed by python3-glance-1:24.2.1-1.el9s.noarch
+... from centos-openstack-yoga
+
+# Enable the CRB repository
+bolt command run "dnf config-manager --set-enabled crb" --targets keystone-alma9-dev9
+
+# Clean metadata and install the missing package manually to test
+bolt command run "dnf clean all && dnf install -y python3-pyxattr" --targets keystone-alma9-dev9

@@ -4,10 +4,14 @@
 ... rabbmitmq the message broker for openstack.
 ...
 ... producer: who send the messages to the bus
-... consumer: to whom, the messages are sent and then consumer listen
-...   for message.
+... consumer: to whom, the messages are sent, then consumer listen for message.
 ...
 ... rabbit service is only run on controller node.
+
+... manaual insallation of rabbitmq-server (if needed).
+
+dnf install rabbitmq-server
+
 ... to check the messages, run following from the controller node.
 
 $ sudo rabbitmqctl list_queues name messages consumers
@@ -92,3 +96,167 @@ sudo rabbitmq-diagnostics -q check_local_alarms
 ... if node down -> cluster communication broken.
 
 sudo rabbitmqctl list_queues name members
+
+
+[root@keystone-alma9-dev9 masum]# rabbitmqctl list_users
+Listing users ...
+user    tags
+rabbit  []
+[root@keystone-alma9-dev9 masum]# rabbitmqctl list_permissions -p /rabbit_vhost
+Listing permissions for vhost "/rabbit_vhost" ...
+user    configure       write   read
+rabbit  .*      .*      .*
+[root@keystone-alma9-dev9 masum]#
+
+
+[root@keystone-alma9-dev9 rabbitmq]# rabbitmqctl status
+Status of node rabbit@keystone-alma9-dev9 ...
+Runtime
+
+OS PID: 87368
+OS: Linux
+Uptime (seconds): 3474
+Is under maintenance?: false
+RabbitMQ version: 3.9.21
+Node name: rabbit@keystone-alma9-dev9
+Erlang configuration: Erlang/OTP 26 [erts-14.2.5] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit]
+Crypto library: OpenSSL 3.5.1 1 Jul 2025
+Erlang processes: 390 used, 1048576 limit
+Scheduler run queue: 1
+Cluster heartbeat timeout (net_ticktime): 60
+
+Plugins
+
+Enabled plugin file: /etc/rabbitmq/enabled_plugins
+Enabled plugins:
+
+ * rabbitmq_management
+ * amqp_client
+ * rabbitmq_web_dispatch
+ * cowboy
+ * cowlib
+ * rabbitmq_management_agent
+
+Data directory
+
+Node data directory: /var/lib/rabbitmq/mnesia/rabbit@keystone-alma9-dev9
+Raft data directory: /var/lib/rabbitmq/mnesia/rabbit@keystone-alma9-dev9/quorum/rabbit@keystone-alma9-dev9
+
+Config files
+
+ * /etc/rabbitmq/rabbitmq.config
+
+Log file(s)
+
+ * /var/log/rabbitmq/rabbit@keystone-alma9-dev9.log
+ * /var/log/rabbitmq/rabbit@keystone-alma9-dev9_upgrade.log
+ * <stdout>
+
+Alarms
+
+(none)
+
+Memory
+
+Total memory used: 0.1455 gb
+Calculation strategy: rss
+Memory high watermark setting: 0.4 of available memory, computed to: 3.3232 gb
+
+reserved_unallocated: 0.0687 gb (47.22 %)
+code: 0.032 gb (21.98 %)
+other_proc: 0.0207 gb (14.22 %)
+other_system: 0.0198 gb (13.61 %)
+other_ets: 0.0029 gb (2.01 %)
+binary: 0.0023 gb (1.59 %)
+atom: 0.0015 gb (1.01 %)
+plugins: 0.0011 gb (0.74 %)
+metrics: 0.0007 gb (0.5 %)
+mgmt_db: 0.0002 gb (0.12 %)
+mnesia: 0.0001 gb (0.07 %)
+msg_index: 0.0001 gb (0.06 %)
+quorum_ets: 0.0 gb (0.02 %)
+connection_other: 0.0 gb (0.0 %)
+stream_queue_procs: 0.0 gb (0.0 %)
+stream_queue_replica_reader_procs: 0.0 gb (0.0 %)
+connection_readers: 0.0 gb (0.0 %)
+connection_writers: 0.0 gb (0.0 %)
+connection_channels: 0.0 gb (0.0 %)
+queue_procs: 0.0 gb (0.0 %)
+queue_slave_procs: 0.0 gb (0.0 %)
+quorum_queue_procs: 0.0 gb (0.0 %)
+stream_queue_coordinator_procs: 0.0 gb (0.0 %)
+allocated_unused: 0.0 gb (0.0 %)
+
+File Descriptors
+
+Total: 6, limit: 16287
+Sockets: 0, limit: 14656
+
+Free Disk Space
+
+Low free disk space watermark: 0.05 gb
+Free disk space: 84.3693 gb
+
+Totals
+
+Connection count: 0
+Queue count: 0
+Virtual host count: 3
+
+Listeners
+
+Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Interface: 0.0.0.0, port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+
+... set permission for the nova for rabbit
+
+# sudo rabbitmqctl set_permissions -p "/" nova ".*" ".*" ".*"
+Setting permissions for user "nova" in vhost "/" ...
+[root@keystone-alma9-dev9 masum]#
+
+sudo rabbitmq-diagnostics listeners
+Asking node rabbit@keystone-alma9-dev9 to report its protocol listeners ...
+Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+
+[root@keystone-alma9-dev9 rabbitmq]# cat /etc/rabbitmq/rabbitmq-env.conf
+LC_ALL=en_US.UTF-8
+NODE_IP_ADDRESS=0.0.0.0
+NODE_PORT=5672
+export ERL_INETRC=/etc/rabbitmq/inetrc
+
+[root@keystone-alma9-dev9 rabbitmq]# sudo rabbitmq-diagnostics listeners
+Asking node rabbit@keystone-alma9-dev9 to report its protocol listeners ...
+Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Interface: 0.0.0.0, port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+
+... adding users menually
+
+sudo rabbitmqctl add_user rabbit NEW_PASSWORD
+sudo rabbitmqctl set_permissions -p / rabbit ".*" ".*" ".*"
+sudo rabbitmqctl set_user_tags rabbit administrator
+
+sudo rabbitmqctl add_user guest guest
+sudo rabbitmqctl set_permissions -p / guest ".*" ".*" ".*"
+sudo rabbitmqctl set_user_tags guest administrator
+
+... test:
+
+curl -u rabbit:rabbit http://localhost:15672/api/whoami
+{"name":"rabbit","tags":["administrator"]}
+[root@keystone-alma9-dev9 rabbitmq]#
+
+... error:
+Failed on keystone-alma9-dev1:
+  Resources failed to apply for keystone-alma9-dev1
+    Rabbitmq_user[nova]: Prefetch failed for rabbitmq_user provider 'rabbitmqctl'
+    Rabbitmq_vhost[/vhost]: Prefetch failed for rabbitmq_vhost provider 'rabbitmqctl'
+
+... install glib-langpack-en
+
+sudo dnf install -y glibc-langpack-en
+sudo localectl set-locale LANG=en_US.UTF-8
+localectl status

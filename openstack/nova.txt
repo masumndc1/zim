@@ -432,3 +432,8 @@ root@controller:~# su -s /bin/sh -c "nova-manage db sync" nova
  service nova-scheduler restart
  service nova-conductor restart
  service nova-novncproxy restart
+
+... error:
+... see where is the problem from the status.
+
+journalctl -u openstack-nova-compute -n 50 --no-pager
