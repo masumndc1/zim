@@ -1,0 +1,8 @@
+
+
+
+...
+
+sudo dnf install -y glibc-langpack-en
+sudo localectl set-locale LANG=en_US.UTF-8
+localectl status

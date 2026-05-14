@@ -1,0 +1,9 @@
+
+
+multipass list | awk 'NR>1 {print $3, $1}'
+
+192.168.252.7 cinder-alma9-dev9
+192.168.252.9 db-alma9-dev9
+192.168.252.8 glance-alma9-dev9
+192.168.252.5 keystone-alma9-dev9
+192.168.252.6 nova-alma9-dev9

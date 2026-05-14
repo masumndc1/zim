@@ -1,0 +1,36 @@
+
+
+... sudo dnf install -y chrony
+
+[root@keystone-alma9-dev9 sysconfig]# cat chronyd
+# Command-line options for chronyd
+#OPTIONS="-F 2"
+OPTIONS="-x"
+[root@keystone-alma9-dev9 sysconfig]# pwd
+/etc/sysconfig
+[root@keystone-alma9-dev9 sysconfig]# cat chronyd
+# Command-line options for chronyd
+#OPTIONS="-F 2"
+OPTIONS="-x"
+[root@keystone-alma9-dev9 sysconfig]#
+
+[root@keystone-alma9-dev9 sysconfig]# systemctl start chronyd
+[root@keystone-alma9-dev9 sysconfig]# systemctl enable chronyd
+[root@keystone-alma9-dev9 sysconfig]# chronyc tracking
+Reference ID    : 4115F2B5 (65.21.242.181)
+Stratum         : 3
+Ref time (UTC)  : Wed May 06 21:46:37 2026
+System time     : 0.005961332 seconds slow of NTP time
+Last offset     : +0.000512636 seconds
+RMS offset      : 0.000512636 seconds
+Frequency       : 0.000 ppm slow
+Residual freq   : -325.374 ppm
+Skew            : 1000000.000 ppm
+Root delay      : 0.024348617 seconds
+Root dispersion : 7.635617733 seconds
+Update interval : 1.7 seconds
+Leap status     : Normal
+
+... set time zone
+
+sudo timedatectl set-timezone Europe/Helsinki

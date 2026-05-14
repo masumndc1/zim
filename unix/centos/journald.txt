@@ -1,0 +1,15 @@
+
+
+... usages of journalctl
+
+To use the systemd journal on Debian, you use the journalctl command.
+
+View all logs: Run journalctl to see the complete log history, displayed with pagination.
+Recent logs: Use journalctl -n 50 to see the last 50 entries, or
+journalctl -f to follow new logs in real-time (like tail -f).
+Filter by time: View logs from today with journalctl --since today, from the last hour with
+journalctl --since "1 hour ago", or from a specific date with journalctl --since "2023-09-10".
+Filter by service: Check logs for a specific service (e.g., Apache) with journalctl -u apache2.service.
+Filter by boot: See logs from the current boot with journalctl -b, or
+from the previous boot with journalctl -b -1.
+Kernel logs: View only kernel messages with journalctl -k.

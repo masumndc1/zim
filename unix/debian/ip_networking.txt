@@ -35,3 +35,18 @@ kernel by a dynamic routing protocol.
 
 ip tunnel is used to manage tunneled connections. Tunnels can be gre, ipip, and
 sit. We will include an example later in the book on how to build IP tunnels.
+
+
+Libvirt often assigns the same IP to two virtual machines when they share the same MAC address or
+, more commonly in modern Linux distributions, when they have a duplicate Machine ID.
+This usually happens after cloning a VM without properly "generalizing" it first.1. Check for
+Duplicate Machine IDs (Common Fix)Many modern Linux OSs (like Ubuntu 20.04+) use a unique machine-id
+ as a DHCP identifier instead of just the MAC address. If you cloned a VM, both now have
+the same ID, so the DHCP server thinks they are the same machine.On both VMs, check
+if the IDs
+
+in any of them.
+cat /etc/machine-id
+rm /etc/machine-id
+sudo systemd-machine-id-setup
+sudo reboot

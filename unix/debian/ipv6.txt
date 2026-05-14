@@ -1,0 +1,9 @@
+
+
+... disable ipv6 in ubuntu
+
+nvim /etc/netplan/50-cloud-init.yaml
+ dhcp6: no
+ link-local: []
+
+> sudo netplan apply

@@ -31,6 +31,11 @@
 [root]# rpm -aq --last libxslt
 libxslt-1.1.32-6.1.el8_10.x86_64              Thu 22 May 2025 02:54:02 PM EEST
 
+ or
+
+[root]# rpm -aq --last | grep libxslt
+libxslt-1.1.32-6.1.el8_10.x86_64              Thu 22 May 2025 02:54:02 PM EEST
+
 ... what other packages are depend for an rpm?
 
 [root@]# rpm -q --whatrequires libxslt

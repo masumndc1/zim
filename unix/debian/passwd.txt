@@ -1,0 +1,7 @@
+
+
+... fed password from command line so other cannot see it
+
+read -s mypass
+export mypass
+cmd --password $mypass

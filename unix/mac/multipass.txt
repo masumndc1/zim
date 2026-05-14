@@ -1,0 +1,22 @@
+
+
+... install multipass
+
+brew install --cask multipass
+
+cp /Users/khuddin/Documents/bektigoto/iso/AlmaLinux-9-GenericCloud-ext4-latest.aarch64.qcow2 /tmp/
+chmod 644 /tmp/AlmaLinux-9-GenericCloud-ext4-latest.aarch64.qcow2
+multipass launch file:///tmp/AlmaLinux-9-GenericCloud-ext4-latest.aarch64.qcow2 \
+--name keystone-alma9-dev9 \
+--cpus 4 --memory 8G --disk 20G
+
+... restart
+
+sudo launchctl unload /Library/LaunchDaemons/com.canonical.multipassd.plist
+sudo rm /var/run/multipass_socket
+sudo launchctl load /Library/LaunchDaemons/com.canonical.multipassd.plist
+
+... increase ram and cpus
+
+multipass set local.keystone-alma9-dev9.memory=4G
+ multipass set local.keystone-alma9-dev9.cpus=4
