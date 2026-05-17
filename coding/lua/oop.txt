@@ -92,4 +92,23 @@ local a1 = blass:new({
 
 print(a1:withdraw(100)) -- 900
 
-...
+-- another example of oop, and good one.
+
+local FileInfo = {}
+FileInfo.__index = FileInfo
+
+function FileInfo.new(filename)
+  local self = setmetatable({}, FileInfo)
+  self._filename = filename
+  return self
+end
+
+function Fileinfo:get_filename()
+  -- above line is equivalent to following
+  -- Fileinfo.get_filename(self)
+  return self.filename
+end
+
+local my_file = Fileinfo.new("/Users/khuddin/learn.lua")
+print(my_file:get_filename())
+print(my_file.get_filename(my_file))
