@@ -1,6 +1,6 @@
 
 
-... explaint following line by line
+... explain following line by line
 
 local FileInfo = {}
 FileInfo.__index = FileInfo
@@ -67,8 +67,44 @@ local modified = string.gsub(original, "world", "lua")
 
 local original = "hello world"
 local modified = original:gsub("world", "lua")
--- equivalent to origina.gsub(original, "world", "lua")
+-- equivalent to original.gsub(original, "world", "lua")
 -- output: hello lua
 
 -- as original is an instance of string, so we can use original:gsub("world", "lua")
 -- which is equivalent to original.gsub(original,"world", "lua")
+
+-- when to use pairs and ipairs
+--
+-- pairs (Dictionary/Map):
+-- Use pairs when your table uses custom string keys or named properties.
+-- It uses an internal hashing system, meaning the items will print out in an
+-- unpredictable order.
+
+-- example
+player = { name = "Alice", health = 100, level = 5 }
+
+for key, value in pairs(player) do
+    print(key, value)
+end
+
+-- OUTPUT (Order can change every time you run it!):
+-- health  100
+-- name    Alice
+-- level   5
+
+-- ipairs (Array/List)
+-- Use ipairs when your table is an ordered list of items starting at index 1.
+-- It reads them sequentially and stops instantly if it hits a gap (nil).
+
+-- example
+fruits = { "apple", "banana", nil, "orange" }
+
+for index, value in ipairs(fruits) do
+    print(index, value)
+end
+
+-- OUTPUT:
+-- 1    apple
+-- 2    banana
+
+-- stops here because index 3 is nil! "orange" is skipped.
