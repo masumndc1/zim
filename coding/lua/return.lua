@@ -1,3 +1,8 @@
+-- sometimes it is good to check the type of the return
+-- for example,
+-- local result = my_function()
+-- print(type(result)) -- Outputs: "string", "number", "table", "boolean", etc.
+
 -- pick a safe command to test (e.g., 'echo hello')
 local cmd = "echo hello"
 
