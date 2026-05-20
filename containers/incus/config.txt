@@ -1,0 +1,40 @@
+
+
+-- source: https://discuss.linuxcontainers.org/t/does-incus-create-have-a-way-to-upload-specified-files-when-creating-a-new-container/23325/8
+-- config.yml
+
+config:
+  user.network-config: |
+    version: 2
+    ethernets:
+      eth0:
+        dhcp4: false
+        addresses:
+          - A.B.C.D/E
+        routes:
+          - to: 0.0.0.0/0
+            via: A.B.C.1
+        nameservers:
+          addresses:
+            - F.G.H.I
+            - F.G.H.J
+  cloud-init.user-data: |
+    #cloud-config
+    users:
+      - name: user1
+        groups: sudo
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-rsa ssh-rsa REDACTED
+    packages:
+      - vim
+      - curl
+      - python3
+    runcmd:
+      - apt-get update
+      - apt-get upgrade -y
+      # - shutdown -r now
+
+-- then use it like
+
+incus launch images:debian/13/cloud sys-deb13-dev9 < config.yaml

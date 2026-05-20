@@ -63,3 +63,6 @@ incus config set keystone-alma9-dev9 security.nesting true
 incus config set keystone-alma9-dev9 linux.kernel_modules primary
 
 incus restart keystone-node nova-node
+
+... remove a network, interface
+incus profile device remove default eth0
