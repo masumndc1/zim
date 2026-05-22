@@ -1,5 +1,5 @@
 -- Define the target filename
-local filename = "table_complete_demo.lua"
+local filename = "table_demo.lua"
 
 -- The complete Lua source code to write
 local scriptContent = [[
