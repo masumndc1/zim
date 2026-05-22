@@ -1,0 +1,14 @@
+
+
+
+-- from command line
+-- sh -c "$(curl -fsSL https://raw.githubusercontent.com/luizvbo/oh-crab/main/install.sh)"
+
+-- by cargo
+-- cargo install ohcrab
+
+-- add it to zsh
+-- eval $(ohcrab --shell zsh)
+
+-- with different aliash
+-- eval $(ohcrab --shell zsh --alias cr)
