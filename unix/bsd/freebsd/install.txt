@@ -1,0 +1,7 @@
+
+
+-- install:
+-- use FreeBSD-14.4-RELEASE-amd64-memstick.img
+-- This is a standard USB installer.
+-- You flash it to a USB drive,
+-- boot the laptop from it, and it will install everything via the stick.
