@@ -6,3 +6,5 @@
 coding/python/vatde/.tox/
 coding/python/vatde/*.egg-info/
 *.swp
+__pycache__/
+__pycache__/*
