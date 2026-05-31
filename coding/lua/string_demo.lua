@@ -4,7 +4,7 @@ print("=========================================================\n")
 
 -- Helper function to print values alongside their precise data type
 local function printResult(funcName, result)
-    print(string.format("%-18s -> Return Value: %-16s | Type: %s", funcName, tostring(result), type(result)))
+	print(string.format("%-18s -> Return Value: %-16s | Type: %s", funcName, tostring(result), type(result)))
 end
 
 -- 1. string.len
@@ -46,7 +46,15 @@ printResult("string.format", formatted)
 -- 10. string.find
 -- Returns starting index, ending index of matches
 local startIdx, endIdx = string.find("The quick brown fox", "brown")
-print(string.format("%-18s -> Return Values: %-16s | Type: %s, %s", "string.find", startIdx .. ", " .. endIdx, type(startIdx), type(endIdx)))
+print(
+	string.format(
+		"%-18s -> Return Values: %-16s | Type: %s, %s",
+		"string.find",
+		startIdx .. ", " .. endIdx,
+		type(startIdx),
+		type(endIdx)
+	)
+)
 
 -- 11. string.match
 -- Extracts specific matched text via string patterns
@@ -61,7 +69,15 @@ printResult("string.gmatch", iterator)
 -- 13. string.gsub
 -- Replaces instances and returns modified string plus substitution total count
 local modifiedStr, replacementCount = string.gsub("apple, banana, apple", "apple", "kiwi")
-print(string.format("%-18s -> Return Values: %-16s | Type: %s, %s", "string.gsub", "'" .. modifiedStr .. "', " .. replacementCount, type(modifiedStr), type(replacementCount)))
+print(
+	string.format(
+		"%-18s -> Return Values: %-16s | Type: %s, %s",
+		"string.gsub",
+		"'" .. modifiedStr .. "', " .. replacementCount,
+		type(modifiedStr),
+		type(replacementCount)
+	)
+)
 
 -- 14. string.pack
 -- Binds data structures into a binary byte string format (e.g., '>i4' is Big-Endian 4-byte Int)
@@ -71,4 +87,12 @@ printResult("string.pack", "Binary Data String")
 -- 15. string.unpack
 -- Extracts values directly from binary data strings
 local unpackedValue, nextPos = string.unpack(">i4", binaryData)
-print(string.format("%-18s -> Return Values: %-16s | Type: %s, %s", "string.unpack", unpackedValue .. ", " .. nextPos, type(unpackedValue), type(nextPos)))
+print(
+	string.format(
+		"%-18s -> Return Values: %-16s | Type: %s, %s",
+		"string.unpack",
+		unpackedValue .. ", " .. nextPos,
+		type(unpackedValue),
+		type(nextPos)
+	)
+)
