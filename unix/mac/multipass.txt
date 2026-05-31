@@ -1,5 +1,7 @@
 
 
+*** note: you should not run in when you are in vpn ***
+
 ... install multipass
 
 brew install --cask multipass
@@ -20,3 +22,6 @@ sudo launchctl load /Library/LaunchDaemons/com.canonical.multipassd.plist
 
 multipass set local.keystone-alma9-dev9.memory=4G
  multipass set local.keystone-alma9-dev9.cpus=4
+
+-- uninstall
+sudo sh "/Library/Application Support/com.canonical.multipass/uninstall.sh"
