@@ -257,6 +257,11 @@ Failed on keystone-alma9-dev1:
 
 ... install glib-langpack-en
 
-sudo dnf install -y glibc-langpack-en
-sudo localectl set-locale LANG=en_US.UTF-8
-localectl status
+sudo systemctl edit rabbitmq-server
+
+[service]
+TasksMax=infinity
+LimitNOFILE=65536
+
+sudo systemctl daemon-reload
+sudo systemctl restart rabbitmq-server

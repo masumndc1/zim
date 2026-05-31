@@ -453,3 +453,33 @@ INFO  [alembic.runtime.migration] Context impl MySQLImpl.
 INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
 Database is synced successfully.
 [root@glance-alma9-dev9 glance]#
+
+... see the version of the db
+
+[root@glance-alma9-dev9 ~]# glance-manage db version
+2026-05-20 11:15:42.776 20843 INFO alembic.runtime.migration [-] Context impl MySQLImpl.
+2026-05-20 11:15:42.776 20843 INFO alembic.runtime.migration [-] Will assume non-transactional DDL.
+wallaby_contract01
+
+... migration scripts are located down below
+
+[root@glance-alma9-dev9 versions]# pwd
+/usr/lib/python3.9/site-packages/glance/db/sqlalchemy/alembic_migrations/versions
+
+[root@glance-alma9-dev9 versions]# ls
+__init__.py                                pike_contract01_drop_artifacts_tables.py  rocky_expand02_add_os_hash_.py
+__pycache__                                pike_expand01_empty.py                    train_contract01_empty.py
+liberty_initial.py                         queens_contract01_empty.py                train_expand01_empty.py
+mitaka01_add_image_created_updated_idx.py  queens_expand01_empty.py                  ussuri_contract01_empty.py
+mitaka02_update_metadef_os_nova_server.py  rocky_contract01_empty.py                 ussuri_expand01_empty.py
+ocata_contract01_drop_is_public.py         rocky_contract02_empty.py                 wallaby_contract01_empty.py
+ocata_expand01_add_visibility.py           rocky_expand01_add_os_hidden.py           wallaby_expand01_add_user_imageid_requestid_to_tasks.py
+[root@glance-alma9-dev9 versions]#
+
+... if the database is synced properly
+
+[root@glance-alma9-dev9 versions]# glance-manage db sync
+2026-05-20 11:27:55.403 20856 INFO alembic.runtime.migration [-] Context impl MySQLImpl.
+2026-05-20 11:27:55.404 20856 INFO alembic.runtime.migration [-] Will assume non-transactional DDL.
+Database is up to date. No migrations needed.
+[root@glance-alma9-dev9 versions]#

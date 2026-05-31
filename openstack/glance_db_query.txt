@@ -1,0 +1,93 @@
+
+
+
+Database changed
+MariaDB [glance]> show tables;
++----------------------------------+
+| Tables_in_glance                 |
++----------------------------------+
+| alembic_version                  |
+| image_locations                  |
+| image_members                    |
+| image_properties                 |
+| image_tags                       |
+| images                           |
+| metadef_namespace_resource_types |
+| metadef_namespaces               |
+| metadef_objects                  |
+| metadef_properties               |
+| metadef_resource_types           |
+| metadef_tags                     |
+| task_info                        |
+| tasks                            |
++----------------------------------+
+14 rows in set (0.000 sec)
+
+MariaDB [glance]> SELECT id, name, size, status, deleted, disk_format, container_format
+    -> FROM images
+    -> ORDER BY created_at DESC;
+Empty set (0.003 sec)
+
+... list active/delete cloud images
+
+MariaDB [glance]> SELECT id, name, size, status, deleted, disk_format, container_format  FROM images  ORDER BY created_at DESC;
++--------------------------------------+--------------------------------+-------------+---------+---------+-------------+------------------+
+| id                                   | name                           | size        | status  | deleted | disk_format | container_format |
++--------------------------------------+--------------------------------+-------------+---------+---------+-------------+------------------+
+| ebc3db5e-068a-412a-95c5-f8c9f1d7a59b | CentOS-9-Stream                | 10737418240 | active  |       0 | raw         | bare             |
+| 19ed733f-c237-4282-8ab1-3804471550e7 | AlmaLinux-10                   | 10737418240 | active  |       0 | raw         | bare             |
+
+
+... list all zombie/stuck images
+
+SELECT id, name, status, owner AS project_id
+FROM images
+WHERE status NOT IN ('active', 'deactivated') AND deleted = 0;
+
+... total storage size consumed by per project
+
+MariaDB [glance]> SELECT owner AS project_id,
+    ->        COUNT(id) AS total_images,
+    ->        ROUND(SUM(size) / 1024 / 1024 / 1024, 2) AS size_in_gb
+    -> FROM images
+    -> WHERE deleted = 0 AND status = 'active'
+    -> GROUP BY owner;
+
++----------------------------------+--------------+------------+
+| project_id                       | total_images | size_in_gb |
++----------------------------------+--------------+------------+
+| 5602f59b67714164b5cf677680ff44c7 |            1 |       0.01 |
+| a03539b5b96f41738c6d74756be29582 |           15 |     122.70 |
+| cb5dfe5cab7a44889b4165cb893a3a92 |            1 |       0.05 |
+| f5ce5840a5b845d491db5c165871b522 |            1 |       0.55 |
++----------------------------------+--------------+------------+
+4 rows in set (0.001 sec)
+
+... physical storage paths/locations
+
+MariaDB [glance]> SELECT i.id, i.name, l.value AS storage_url, l.status
+FROM images i
+JOIN image_locations l ON i.id = l.image_id
+WHERE i.deleted = 0 \G
+
+*************************** 1. row ***************************
+         id: 008394af-1d3c-4975-a309-4247b8dfd2b5
+       name: Ubuntu-24.04
+storage_url: rbd://07086bc6-c0fd-4963-acc1-5682ad59902e/glance/008394af-1d3c-4975-a309-4247b8dfd2b5/snap
+     status: active
+
+...  another query on image table
+
+MariaDB [glance]> SELECT deleted, COUNT(*) AS row_count
+    -> FROM images
+    -> GROUP BY deleted;
++---------+-----------+
+| deleted | row_count |
++---------+-----------+
+|       0 |        18 |
+|       1 |        70 |
++---------+-----------+
+2 rows in set (0.000 sec)
+
+deleted = 0: Active cloud catalog items.
+deleted = 1: Trashed records waiting to be permanently pruned out by your maintenance chron jobs.
