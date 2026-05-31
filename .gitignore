@@ -8,3 +8,4 @@ coding/python/vatde/*.egg-info/
 *.swp
 __pycache__/
 __pycache__/*
+*demo.lua
