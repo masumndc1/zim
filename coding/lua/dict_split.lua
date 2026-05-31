@@ -17,3 +17,7 @@ end
 for i, _ in pairs(t) do
 	print(i, t[i])
 end
+
+--[[ output
+os      ubuntu
+--]]
