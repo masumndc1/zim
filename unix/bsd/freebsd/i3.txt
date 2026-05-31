@@ -21,6 +21,141 @@
 #shutdown -r now
 %startx
 
-... if you dont have any display manager you can run
+-- if you dont have any display manager you can run
 
 startx &; lock -pn
+
+-- i3 installation
+pkg update && pkg install xorg i3 i3status i3lock dmenu lightdm lightdm-gtk-greeter
+
+-- enable intel graphix core drives
+pkg install drm-kmod
+sysrc kld_list+="i915kms"
+
+-- enable background services
+sysrc dbus_enable="YES"
+sysrc lightdm_enable="YES"
+
+-- enable wifi
+$ cat /etc/rc.conf
+wlans_iwn0="wlan0"
+ifconfig_wlan0="WPA SYNCDHCP"
+
+-- connect to your router
+$ cat /etc/wpa_supplicant.conf
+
+network={
+    ssid="Your_WiFi_Name"
+    psk="Your_WiFi_Password"
+}
+
+-- for audio
+
+$ sysrc snd_hda_load="YES"
+
+$ cat /etc/sysctl.conf
+hw.snd.default_auto_sysqueue=1
+dev.hdac.0.pindump=1
+vfs.usermount=1
+
+-- enable laptop lid sleep
+
+$ cat /etc/sysctl.conf
+hw.acpi.lid_switch_state=S3
+hw.acpi.sleep_button_state=S3
+hw.acpi.power_button_state=S3
+
+-- optimize battery life & cpu fan
+sysrc powerd_enable="YES"
+sysrc powerd_flags="-a hiadaptive -b adaptive"
+
+-- enable the red trackpoint and touchpad tap-to-click
+
+$ mkdir -p /usr/local/etc/X11/xorg.conf.d
+$ cat /usr/local/etc/X11/xorg.conf.d/90-synaptics.conf
+
+Section "InputClass"
+        Identifier "touchpad catchall"
+        Driver "synaptics"
+        MatchIsTouchpad "on"
+        Option "TapButton1" "1"
+        Option "TapButton2" "3"
+        Option "TapButton3" "2"
+EndSection
+
+-- install core applications
+$ pkg install falkon feh pcmanfm numlockx
+
+-- setup desktop wall paper
+
+$ cat ~/.config/i3/config
+exec_always --no-startup-id feh --bg-scale /path/to/your/wallpaper.jpg
+
+-- Install the Audio Control Tool
+-- FreeBSD uses mixer to control system volume. To ensure you have full control over
+-- the audio channels, install mixertui (a handy terminal volume mixer) alongside
+-- your layout.
+
+sudo pkg install mixertui xbacklight
+
+-- Use code with caution.(Note: If xbacklight does not respond to your Intel hardware,
+-- use the FreeBSD package acpi_call or intel-backlight instead).2.
+-- Update Your i3 Configuration FileOpen your local user's i3 configuration file
+-- using your text editor:bash
+
+ee ~/.config/i3/config
+
+-- These lines map the physical hardware buttons (the XF86 multimedia keys) to system
+
+# Mute volume
+bindsym XF86AudioMute exec --no-startup-id mixer vol.volume=0
+# Raise volume by 5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id mixer vol.volume=+0.05
+# Lower volume by 5%
+bindsym XF86AudioLowerVolume exec --no-startup-id mixer vol.volume=-0.05
+
+# --- Mic Mute Control ---
+bindsym XF86AudioMicMute exec --no-startup-id mixer rec.volume=0
+
+# --- Screen Brightness Controls ---
+# Raise brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
+# Lower brightness
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+
+-- restart i3 by Mod + Shift + r
+
+-- Copy the Default ConfigurationFreeBSD stores the default i3status file in a system directory.
+-- Copy it to your user directory so you can safely edit it:bash
+
+mkdir -p ~/.config/i3status
+cp /usr/local/etc/i3status.conf ~/.config/i3status/config
+
+ee ~/.config/i3status/config
+
+order += "battery all"
+order += "tztime local"
+
+-- The Wireless BlockUpdate the wireless section to target FreeBSD's
+-- generic wlan0 interface name
+
+wireless _first_ {
+        format_up = "W: (%quality at %essid) %ip"
+        format_down = "W: down"
+}
+
+-- the Battery BlockThis is the most critical fix.
+-- FreeBSD uses the ACPI system (acpibat0) to poll battery health.
+-- Change the battery block to look exactly like this
+
+battery all {
+        format = "%status %percentage %remaining"
+        format_down = "No battery"
+        status_chr = "⚡ CHG"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
+        status_full = "☻ FULL"
+        path = "/dev/acpi"
+        low_threshold = 15
+        threshold_type = percentage
+}
