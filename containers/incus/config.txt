@@ -35,6 +35,7 @@ config:
       - apt-get upgrade -y
       # - shutdown -r now
 
--- then use it like
+-- then use it like, using cloud image is very much important here,
+-- otherwise this will not work.
 
 incus launch images:debian/13/cloud sys-deb13-dev9 < config.yaml
