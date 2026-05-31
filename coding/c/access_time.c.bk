@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <sys/time.h>
+
+/* usages of:
+ * int utimes(const char *, const struct timeval *);
+ */
+
+int main() {
+  const char *filename = "test_file.txt";
+
+  // 1. create an array of two timeval structs (0 is access, 1 is modification)
+  struct timeval new_times[2];
+
+  // 2. grab the current actual system time to use as a starting point
+  gettimeofday(&new_times[0], NULL); // Current time for Access Time
+  gettimeofday(&new_times[1], NULL); // Current time for Modification Time
+
+  // 3. subtract 3600 seconds (1 hour) from the Modification Time
+  new_times[1].tv_sec -= 3600;
+
+  // 4. apply the new times to the file
+  if (utimes(filename, &new_times[0]) == 0) {
+    printf("Successfully updated %s timestamps!\n", filename);
+    printf("Modification time shifted 1 hour into the past.\n");
+  } else {
+    perror("Error modifying file times");
+    printf("Make sure '%s' actually exists.\n", filename);
+  }
+
+  return 0;
+}

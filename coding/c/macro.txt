@@ -1,0 +1,41 @@
+
+
+
+-- declaration of macros
+# include <stdio.h>
+
+#define typeof_str(x) \
+  _Generic((x), int: "int", float: "float", char: "char", default: "unknown")
+
+int main() {
+  int a = 0;
+  printf("%s\n", typeof_str(a));
+
+  return 0;
+}
+
+-- output:
+int
+
+
+-- better version:
+
+#include <stdio.h>
+#include <string.h>
+
+#define typeof_str(x)                                                          \
+  _Generic((x), int: "int", float: "float", char: "char", default: "unknown")
+
+int main() {
+  int a = 0;
+
+  if (strcmp("int", typeof_str(a)) == 0) {
+    printf("int\n");
+  }
+
+  if (strncmp("int", typeof_str(a), 5) == 0) {
+    printf("int\n");
+  }
+
+  return 0;
+}

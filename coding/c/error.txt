@@ -1,0 +1,10 @@
+
+
+... exp_getopt.c:10:5: error: statement requires expression of integer type ('char *' invalid)
+   10 |     switch (argv[1]) {
+      |     ^       ~~~~~~~
+1 error generated.
+
+... The compilation error occurs because you cannot use a string (char *) or an array inside a
+... C switch statement.In C, switch statements only accept integral expressions
+... (integers, characters, or enums). They do not work with strings or pointers like argv[1].

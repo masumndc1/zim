@@ -1,0 +1,59 @@
+
+
+-- let say you have a functions
+
+int utimes(const char *, const struct timeval *);
+
+-- In C, const char * is simply the standard way to create a text variable
+-- (what other languages like Python or JavaScript just call a String).
+
+-- therefore you need to declare variable like
+
+const char *filename
+
+-- Breaking Down const char *filename Piece by Piecechar (Character):
+-- This tells the computer that we are dealing with text characters
+-- (like 'a', 'b', '1', or '/').
+-- (The Pointer Asterisk): In C, a single char can only hold one single letter.
+-- To hold a whole word or a sentence, we use the * symbol.
+-- This tells C: "This is a chain of characters joined together in a row."
+-- const (Constant): This tells the computer that this text is read-only and
+-- cannot be accidentally changed or erased by the program later.
+
+-- filename: This is just the custom name we chose for our variable.
+-- However, text strings (char *) are a special exception in C.
+-- Here is exactly why you do not use the & symbol for filename when we call it.
+-- for example, we call it like
+
+utimes(filename) but not utimes(&filename)
+
+-- in summary:
+-- For numbers and structs,
+-- use & to find their location (e.g., &new_times).
+-- For text strings (char *), never use & when passing them to system functions,
+-- because they are already locations. In C, an Array is a Pointer.
+
+-- then, the parameter type is a pointer to a struct (const struct timeval *),
+-- but in our code(see access_time.c), we created an array (struct timeval new_times[2])
+-- and passed it directly. variable declaration follows,
+
+struct timeval new_times[2];
+
+-- The word 'new_times' is automatically a pointer (a memory location).
+-- Just like text strings, arrays have a secret identity in C.
+-- When a standard array like new_times[2] is created, the variable new_times
+-- does not actually represent the entire block of data.
+-- Instead, the name of the array automatically acts as a pointer
+-- to the very first item (&new_times[0]).
+
+-- another thing to point out here
+-- If you declare a variable and add const,
+
+const struct timeval new_times[2];
+
+-- you are telling the C compiler:
+-- "This data is locked forever and can never be changed."
+-- but we need to change the value of the variable new_times[1].
+-- therefore, we need to declare variable like,
+
+struct timeval new_times[2];

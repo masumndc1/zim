@@ -10,5 +10,11 @@ argument_compile:
 argument_run:
 	./argument.o what is this
 
+uname_cpl:
+	gcc -o uname_masum uname.c
+
+uname_run:
+	./uname_masum
+
 clean:
 	rm -fr *.o

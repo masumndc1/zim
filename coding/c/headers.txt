@@ -1,0 +1,37 @@
+
+
+-- location of headers file in macOS:
+-- /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include
+
+-- example of using header files
+
+#include <sys/random.h>
+
+-- location of random.h will be
+-- /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys
+
+-- locaiton of header files in linux
+
+[root@db-alma9-dev9 include]# pwd
+/usr/include
+[root@db-alma9-dev9 include]# ls
+aio.h        dirent.h           fts.h           limits.h    netinet         pwd.h        stdc-predef.h  uchar.h
+aliases.h    dlfcn.h            ftw.h           link.h      netipx          python3.9    stdint.h       ucontext.h
+alloca.h     drm                fwctl           linux       netiucv         rdma         stdio_ext.h    ulimit.h
+a.out.h      elf.h              gconv.h         locale.h    netpacket       re_comp.h    stdio.h        unistd.h
+argp.h       endian.h           getopt.h        malloc.h    netrom          regex.h      stdlib.h       utime.h
+argz.h       envz.h             glob.h          math.h      netrose         regexp.h     string.h       utmp.h
+ar.h         err.h              gnu             mcheck.h    nfs             resolv.h     strings.h      utmpx.h
+arpa         errno.h            gnumake.h       memory.h    nl_types.h      rpc          sys            values.h
+asm          error.h            gnu-versions.h  misc        nss.h           sched.h      syscall.h      video
+asm-generic  execinfo.h         grp.h           mntent.h    obstack.h       scsi         sysexits.h     wait.h
+assert.h     fcntl.h            gshadow.h       monetary.h  offload         search.h     syslog.h       wchar.h
+bits         features.h         iconv.h         mqueue.h    paths.h         semaphore.h  tar.h          wctype.h
+byteswap.h   features-time64.h  ieee754.h       mtd         poll.h          setjmp.h     termio.h       wordexp.h
+c++          fenv.h             ifaddrs.h       net         powercap.h      sgtty.h      termios.h      xen
+complex.h    finclude           inttypes.h      netash      printf.h        shadow.h     tgmath.h
+cpio.h       fmtmsg.h           langinfo.h      netatalk    proc_service.h  signal.h     thread_db.h
+cpuidle.h    fnmatch.h          lastlog.h       netax25     protocols       sound        threads.h
+crypt.h      fpu_control.h      libgen.h        netdb.h     pthread.h       spawn.h      time.h
+ctype.h      fstab.h            libintl.h       neteconet   pty.h           stab.h       ttyent.h
+[root@db-alma9-dev9 include]#

@@ -1,0 +1,5 @@
+#include <string.h>
+
+char * strerror(int errnum);
+
+-- The unction returns a pointer to a string describing the error given by err num.

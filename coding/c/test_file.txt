@@ -1,0 +1,2 @@
+-- write and read something
+-- not too big file, it will be

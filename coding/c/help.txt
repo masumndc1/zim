@@ -9,3 +9,74 @@
 ... man 3 fget                      // character related
 ... man 3 string                    // string related
 ...
+... usages of aproach command
+
+> apropos -s 3 directory
+bindtextdomain(3)        - set directory containing message catalogs
+libssh2_sftp_mkdir_ex(3) - create a directory on the remote file system
+libssh2_sftp_readdir_ex(3) - read directory data from an SFTP handle
+libssh2_sftp_rmdir_ex(3) - remove an SFTP directory
+CURLOPT_CAPATH(3)        - directory holding CA certificates
+CURLOPT_DIRLISTONLY(3)   - ask for names only in a directory listing
+CURLOPT_FTP_FILEMETHOD(3) - select directory traversing method for FTP
+CURLOPT_NEW_DIRECTORY_PERMS(3) - permissions for remotely created directories
+CURLOPT_PROXY_CAPATH(3)  - directory holding HTTPS proxy CA certificates
+CURLOPT_WILDCARDMATCH(3) - directory wildcard transfers
+FcCacheCreateTagFile(3)  - Create CACHEDIR.TAG at cache directory
+FcCacheDir(3)            - Return directory of cache
+FcCacheSubdir(3)         - Return the i'th subdirectory
+FcConfigAppFontAddDir(3) - Add fonts from directory to font database
+FcConfigEnableHome(3)    - controls use of the home directory
+FcConfigGetSysRoot(3)    - Obtain the system root directory
+FcConfigHome(3)          - return the current home directory
+FcConfigSetSysRoot(3)    - Set the system root directory
+FcDirCacheClean(3)       - Clean up a cache directory
+FcDirCacheCreateUUID(3)  - Create .uuid file at a directory
+FcDirCacheLoad(3)        - load a directory cache
+FcDirCacheRead(3)        - read or construct a directory cache
+FcDirCacheRescan(3)      - Re-scan a directory cache
+FcDirCacheValid(3)       - check directory cache
+FcDirSave(3)             - DEPRECATED: formerly used to save a directory cache
+FcDirScan(3)             - scan a font directory without caching it
+FcFileIsDir(3)           - check whether a file is a directory
+FcStrDirname(3)          - directory part of filename
+bindtextdomain(3)        - set directory containing message catalogs
+ldap(3)                  - OpenLDAP Lightweight Directory Access Protocol API
+libssh2_sftp_mkdir_ex(3) - create a directory on the remote file system
+libssh2_sftp_readdir_ex(3) - read directory data from an SFTP handle
+libssh2_sftp_rmdir_ex(3) - remove an SFTP directory
+CURLOPT_CAPATH(3)        - directory holding CA certificates
+CURLOPT_DIRLISTONLY(3)   - ask for names only in a directory listing
+CURLOPT_FTP_FILEMETHOD(3) - select directory traversing method for FTP
+CURLOPT_NEW_DIRECTORY_PERMS(3) - permissions for remotely created directories
+CURLOPT_PROXY_CAPATH(3)  - directory holding HTTPS proxy CA certificates
+CURLOPT_WILDCARDMATCH(3) - directory wildcard transfers
+dirname(3)               - extract the directory part of a pathname
+getcwd(3), getwd(3)      - get working directory pathname
+ldap(3)                  - OpenLDAP Lightweight Directory Access Protocol API
+opendir(3), fdopendir(3), readdir(3), readdir_r(3), telldir(3), seekdir(3), rewinddir(3), closedir(3),
+fdclosedir(3), dirfd(3)  - directory operations
+remove(3)                - remove directory entry
+scandir(3), fdscandir(3), scandirat(3), scandir_b(3), fdscandir_b(3), fdscandirat_b(3),
+alphasort(3)             - scan a directory
+❯
+
+❯ whatis getopt
+getopt(1)                - parse command options
+getopt(3)                - get option character from command line argument list
+❯
+
+... explanation:
+
+extern char **environ;
+
+-- extern: Tells the compiler that the variable environ is defined somewhere
+-- else (managed by the OS/runtime library), so it should not allocate new memory for it.
+-- It just looks up the existing one during linking.
+
+-- char **: A pointer to a pointer of characters. Think of it as an array of strings
+-- (char *environ[]). Each element points to a null-terminated string formatted as KEY=value
+-- (e.g., "USER=alice").environ: The standard POSIX-defined variable name for this environment list.
+--
+
+-- also search for man feature_test_macros and see what are there.

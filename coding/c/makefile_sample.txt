@@ -1,0 +1,5 @@
+CC=gcc
+CFLAGS=-Wall -Wextra -pedantic -std=c99
+
+prog: prog.h prog1.c prog2.c
+	$ (CC) $(CFLAGS) -o prog prog1.c prog2.c
