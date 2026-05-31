@@ -1052,3 +1052,6 @@ $ pre-commit run --all-files
 
 ... restoring files from a specific commit
 git restore --source <commit-hash> .
+
+... enable autocorrect
+git config --global help.autocorrect 20

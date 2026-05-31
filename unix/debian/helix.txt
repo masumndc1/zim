@@ -61,3 +61,42 @@ scope = "source.puppet"
 file-types = ["pp"]
 formatter = { command = "/usr/local/bin/puppet-lint", args = ["--fix", "{file}"] }
 auto-format = true
+
+
+❯ hx --health c
+
+Configured language servers:
+  ✓ clangd: /usr/bin/clangd
+Configured debug adapter:
+  ✘ 'lldb-dap' not found in $PATH
+Configured formatter: None
+Tree-sitter parser: ✓
+Highlight queries: ✓
+Textobject queries: ✓
+Indent queries: ✓
+~
+❯
+❯ port install llvm-22
+
+~/.config/helix/languages.toml
+
+[[language]]
+name = "c"
+formatter = { command = "clang", args = ["-style=file"] }
+auto-format = true
+
+-- in freebsd
+> hx --health c
+>
+Configured language servers: None
+Configured debug adapter:
+  ✘ 'lldb-dap' not found in $PATH
+Configured formatter: None
+Tree-sitter parser: ✓
+Highlight queries: ✓
+Textobject queries: ✓
+Indent queries: ✓
+
+$ sudo pkg install devel/llvm
+$ which clangd
+$ sudo ln -s /usr/local/bin/clangd15 /usr/local/bin/clangd

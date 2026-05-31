@@ -30,3 +30,17 @@ bar {
 ... how to exit i3: from dmenu(mod+d) run i3 exit
 ... how to reboot/shutdown: from dmenu(mod+x) run reboot or shutdown
 ...
+
+... i3status
+... generate one brand new config file
+
+$ mkdir ~/.config/i3status
+$ i3status > ~/.config/i3status/config
+
+... link it
+
+bar {
+    status_command i3status -c ~/.config/i3status/config
+}
+
+$ cat ~/.config/i3status/config
