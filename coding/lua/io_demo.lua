@@ -4,13 +4,13 @@ print("=========================================================\n")
 
 -- Helper function to print values alongside their precise data type
 local function printResult(funcName, val1, val2)
-	local valStr = tostring(val1)
-	local typeStr = type(val1)
-	if val2 ~= nil then
-		valStr = valStr .. ", " .. tostring(val2)
-		typeStr = typeStr .. ", " .. type(val2)
-	end
-	print(string.format("%-14s -> Returns: %-26s | Type: %s", funcName, valStr, typeStr))
+    local valStr = tostring(val1)
+    local typeStr = type(val1)
+    if val2 ~= nil then
+        valStr = valStr .. ", " .. tostring(val2)
+        typeStr = typeStr .. ", " .. type(val2)
+    end
+    print(string.format("%-14s -> Returns: %-26s | Type: %s", funcName, valStr, typeStr))
 end
 
 -- Create dummy sandbox files for the demo operations
@@ -83,13 +83,11 @@ printResult("io.type(closed)", io.type(fileHandle))
 
 -- 13. io.popen
 -- Opens a one-way system process pipeline (e.g. system directory list command)
-local isWindows = package.config:sub(1, 1) == "\\"
+local isWindows = package.config:sub(1,1) == "\\"
 local cmd = isWindows and "dir" or "ls"
 local pipeHandle = io.popen(cmd)
 printResult("io.popen", pipeHandle)
-if pipeHandle then
-	pipeHandle:close()
-end
+if pipeHandle then pipeHandle:close() end
 
 -- Cleanup generated scratch files from filesystem
 os.remove(textFile)
