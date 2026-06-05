@@ -3,3 +3,58 @@
 char * strerror(int errnum);
 
 -- The unction returns a pointer to a string describing the error given by err num.
+
+-- you cant write something like, it dangerous
+
+#include <limits.h>
+
+char *filename[PATH_MAX];
+
+-- basically it is creating array of pointer (path_max 4096 in linux) which can crash
+-- your system. rather you define like below
+
+char filename[PATH_MAX];
+
+-- strncpy, copy a string from one location to another location.
+
+#include <string.h>
+
+strncpy(destination, source, max_num_of_bytes);
+
+int main(void) {
+	strncpy(filename, argv[1], PATH_MAX-1);
+	return 0;
+}
+
+
+# execl function
+
+int execl(const char *path, const char *arg0, const char *arg1, ..., const char *argN, (char *)NULL);
+
+path: The absolute path to the executable file you want to run (e.g., "/bin/ls").
+arg0: The name of the program (by convention, this should match the file name itself).
+arg1 to argN: The actual command-line arguments you want to pass to the program.
+(char *)NULL: You must terminate the list with a NULL pointer cast to a char *.
+This tells execl where the arguments stop.
+
+-- ai
+#include <stdio.h>
+#include <unistd.h> // Required for execl
+#include <string.h>
+#include <errno.h>
+
+int main() {
+    printf("1. This line will print.\n");
+
+    // Replace this program with "/bin/ls"
+    // Arguments: path, arg0, arg1, arg2, terminator
+    execl("/bin/ls", "ls", "-l", "/home", (char *)NULL);
+
+    // ⚠️ CRITICAL: The code below will NEVER execute if execl works!
+    printf("2. This line will NEVER print unless execl fails.\n");
+    printf("System Error: %s\n", strerror(errno));
+
+    return 1;
+}
+
+-- eoai

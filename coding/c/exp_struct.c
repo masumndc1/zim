@@ -8,6 +8,22 @@ struct Student {
   float gpa;
 };
 
+struct tnode {
+  int count;
+  struct tnode *left;
+  struct tnode *right;
+};
+
+/*
+int count;
+This holds the actual data or metadata for this specific node
+(e.g., how many times a certain word or number has been seen).
+struct tnode *left;
+This is a pointer storing the memory address of the left child node.
+struct tnode *right;
+This is a pointer storing the memory address of the right child node.
+*/
+
 int main() {
   // 2. Declaring a struct variable
   struct Student s1;
@@ -39,6 +55,19 @@ int main() {
   printf("Name: %s\n", s3.name);
   printf("Age: %d\n", s3.age);
   printf("GPA: %.2f\n", s3.gpa);
+
+  // couple of way of creating instace of tnode
+  // regular variable (accessed with a dot: root.count)
+  // struct tnode root;
+
+  // because this is a tree structure,
+  // you will almost always create a pointer to a node instead:
+  // a pointer to the top of your tree
+  struct tnode *root = NULL;
+
+  // update the count of the left child using the root pointer
+  root->left->count = 5;
+  printf("%d", root->left->count);
 
   return 0;
 }

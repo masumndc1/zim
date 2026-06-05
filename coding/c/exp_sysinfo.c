@@ -15,3 +15,19 @@ int main(void) {
 
   return 0;
 }
+
+/* explanation
+
+#include <sys/sysinfo.h>
+
+int sysinfo(struct sysinfo *info);
+
+To pass a variable to the sysinfo function in C,
+you must create a struct sysinfo variable in your
+code and pass its memory address using the address-of
+operator (&). Because the function signature expects
+a pointer (struct sysinfo *info),
+it will directly fill your variable with the system's
+current statistics.
+
+*/
