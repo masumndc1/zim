@@ -1,0 +1,11 @@
+... run stress-test with parameters.
+...
+... []# stress-ng --brk 0 --stack 0 --bigheap 0 -t 1d
+stress-ng: info:  [36435] setting to a 86400 second (1 day, 0.00 secs) run per stressor
+stress-ng: info:  [36435] dispatching hogs: 64 brk, 64 stack, 64 bigheap
+stress-ng: info:  [36435] successful run completed in 86405.82s (1 day, 5.82 secs)
+
+... error:
+... a stess session is alreay running.
+
+rm /var/run/screen/S-root/*.stress
