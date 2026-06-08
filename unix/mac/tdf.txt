@@ -1,0 +1,8 @@
+
+
+... terminal based pdf viewer: tdf
+
+brew update
+brew upgrade rust
+
+cargo install --features cbz,epub --git https://github.com/itsjunetime/tdf.git

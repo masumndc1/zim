@@ -1,0 +1,16 @@
+
+
+... terminal based pdf viewer
+
+brew tap homebrew-zathura/zathura
+brew install zathura
+brew install zathura-pdf-poppler
+
+
+❯ mkdir -p $(brew --prefix zathura)/lib/zathura
+❯ ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+
+... or following
+
+mkdir -p ~/.config/zathura
+ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib ~/.config/zathura/libpdf-poppler.dylib
