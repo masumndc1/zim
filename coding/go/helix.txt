@@ -1,0 +1,21 @@
+
+go install mvdan.cc/gofumpt@latest
+go install golang.org/x/tools/gopls@latest
+brew install golangci-lint-langserver
+
+.. or
+
+brew install delve golangci-lint
+
+hx --health go
+
+Configured language servers:
+  ✓ gopls: /opt/local/bin/gopls
+  ✓ golangci-lint-lsp: /opt/homebrew/bin/golangci-lint-langserver
+Configured debug adapter:
+  ✘ 'dlv' not found in $PATH
+Configured formatter: None
+Tree-sitter parser: ✓
+Highlight queries: ✓
+Textobject queries: ✓
+Indent queries: ✓
