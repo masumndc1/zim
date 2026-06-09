@@ -1,0 +1,43 @@
+
+
+... arrays
+
+var planets [8]string
+planet[2] = "earth"
+fmt.Println(len(planets))
+
+... initialize
+
+vowels = [5]string{'a', 'e', 'i', 'o', 'u'}
+
+
+// let the compiler decide the size of array
+vowels = [...]string{'a', 'e', 'i', 'o', 'u',}
+
+... note following, array can be passed as variable
+
+func terraform(planets [8]string) {
+	for i := range planets {
+	planets[i] = "New " + planets[i]
+	}
+}
+
+... slices
+
+vowels[0:3]
+
+... making slices with make
+
+var serverIPs []string
+serverIPs = make([]string, length, capacity)
+
+[]string: The exact data type of the slice components
+ (e.g., strings, integers, custom structs).
+length: The initial number of elements populated with safe "zero-values"
+ (e.g., "" for strings, 0 for ints) that you can read or overwrite immediately.
+capacity (Optional): The total number of elements the underlying memory array
+ can hold before Go is forced to resize it.
+
+... more on make
+
+go doc builtin.make

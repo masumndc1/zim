@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func main() {
+func simple() {
 	// Declare and initialize a greeting variable
 	// greeting := "Hello, Go Developer!"
 	var greeting = "Hello, Go Developer!"
