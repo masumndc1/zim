@@ -1,0 +1,79 @@
+
+
+... using of man page to find c functions usages
+
+$ man -k getcwd
+getcwd (2)           - get current working directory
+getcwd (3)           - get current working directory
+
+$ man getcwd
+
+
+❯ man -k signal
+alarm (2)            - set an alarm clock for delivery of a signal
+bsd_signal (3)       - signal handling with BSD semantics
+gsignal (3)          - software signal facility
+kill (2)             - send signal to a process
+killpg (3)           - send signal to a process group
+pause (2)            - wait for signal
+pgrep (1)            - look up, signal, or wait for processes based on name and other attributes
+pidfd_send_signal (2) - send a signal to a process specified by a file descriptor
+pidwait (1)          - look up, signal, or wait for processes based on name and other attributes
+pkill (1)            - look up, signal, or wait for processes based on name and other attributes
+psiginfo (3)         - print signal description
+psignal (3)          - print signal description
+pthread_attr_getsigmask_np (3) - set/get signal mask attribute in thread attributes object
+pthread_attr_setsigmask_np (3) - set/get signal mask attribute in thread attributes object
+pthread_kill (3)     - send a signal to a thread
+pthread_sigmask (3)  - examine and change mask of blocked signals
+pthread_sigqueue (3) - queue a signal and data to a thread
+raise (3)            - send a signal to the caller
+restart_syscall (2)  - restart a system call after interruption by a stop signal
+rt_sigaction (2)     - examine and change a signal action
+rt_sigpending (2)    - examine pending signals
+rt_sigprocmask (2)   - examine and change blocked signals
+rt_sigqueueinfo (2)  - queue a signal and data
+rt_sigreturn (2)     - return from signal handler and cleanup stack frame
+rt_sigsuspend (2)    - wait for a signal
+rt_sigtimedwait (2)  - synchronously wait for queued signal
+
+$ man 2 signal
+$ man 7 signal
+
+
+❯ man -k "shared memory"
+shm_open (3)         - create/open or unlink POSIX shared memory objects
+shm_overview (7)     - overview of POSIX shared memory
+shm_unlink (3)       - create/open or unlink POSIX shared memory objects
+shmat (2)            - System V shared memory operations
+shmctl (2)           - System V shared memory control
+shmdt (2)            - System V shared memory operations
+shmget (2)           - allocates a System V shared memory segment
+shmop (2)            - System V shared memory operations
+
+-- find the location of the manual file.
+
+❯ man -w getcwd
+/usr/share/man/man3/getcwd.3.gz
+
+-- open the page in firefor browser
+> man -H firefox ls
+
+... another tool is apropos which is man -k
+
+> apropos compress
+
+fsck.cramfs (8)      - fsck compressed ROM file system
+gunzip (1)           - compress or expand files
+gzexe (1)            - compress executable files in place
+gzip (1)             - compress or expand files
+logrotate (8)        - rotates, compresses, and mails system logs
+logrotate.conf (5)   - rotates, compresses, and mails system logs
+mkfs.cramfs (8)      - make compressed ROM file system
+zcat (1)             - compress or expand files
+zcmp (1)             - compare compressed files
+zdiff (1)            - compare compressed files
+zgrep (1)            - search possibly compressed files for a regular expression
+zless (1)            - file perusal filter for crt viewing of compressed text
+zmore (1)            - file perusal filter for crt viewing of compressed text
+znew (1)             - recompress .Z files to .gz files
