@@ -1,0 +1,65 @@
+
+
+... pydoc is like man -k for c:
+
+
+❯ pydoc -k json
+json - JSON (JavaScript Object Notation) <https://json.org> is a subset of
+json.__main__ - Command-line tool to validate and pretty-print JSON
+json.decoder - Implementation of JSONDecoder
+json.encoder - Implementation of JSONEncoder
+json.scanner - JSON token scanner
+json.tool - Command-line tool to validate and pretty-print JSON
+test.test_json
+test.test_json.__main__
+test.test_json.test_decode
+test.test_json.test_default
+test.test_json.test_dump
+test.test_json.test_encode_basestring_ascii
+test.test_json.test_enum
+test.test_json.test_fail
+test.test_json.test_float
+test.test_json.test_indent
+test.test_json.test_pass1
+test.test_json.test_pass2
+test.test_json.test_pass3
+test.test_json.test_recursion
+test.test_json.test_scanstring
+test.test_json.test_separators
+test.test_json.test_speedups
+test.test_json.test_tool
+test.test_json.test_unicode
+_json
+setuptools.config._validate_pyproject.fastjsonschema_exceptions
+setuptools.config._validate_pyproject.fastjsonschema_validations
+
+-- now see the full man page for json, for example
+
+❯ pydoc json
+❯ pydoc os
+❯ pydoc os.path
+
+-- open the doc directly to the browser
+
+❯ pydoc -b os.path
+
+-- pydoc in browser
+❯ pydoc -p 8080
+
+-- also possible to use cheat
+
+> brew install cheat
+> cheat --init
+
+-- whole list
+> cheat -l
+
+-- tag: inspect
+
+#!/usr/bin/env python3
+
+import subprocess
+import inspect
+
+# prints source code lines
+print(inspect.getsource(subprocess.check_call))
