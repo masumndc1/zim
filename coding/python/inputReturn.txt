@@ -1,0 +1,78 @@
+
+
+-- tag: explanation, input, output
+--
+-- for exmaple see following
+
+def check_call(*popenargs, **kwargs):
+
+/*
+*popenargs:
+this *popenargs means popenargs has a * in front of it, Python opens its
+funnel. It grabs your list ["ls", "-la"] and drops it inside.
+therefore, we can also pass list in it. infact, we can pass any kind of
+data to it. but for this case, we need to pass a list as in the example
+it says so.
+
+check_call(["ls", "-l"])
+
+-- another way of type hinting.
+-- in modern python, you may also get the type hinting in the doc which
+tells you what kind of data it will take. for example, you may have seen
+
+from typing import Sequence
+
+def check_call(args: Sequence[str], *, shell: bool = False):
+
+-- here, in the doc, it is saying that args must be list or tuple.
+
+-- another way:
+if you see cmd = popenargs[0], in the function it is also telling
+the first element of the *popenargs, and that is from a list.
+
+**kwargs:
+stands for "Keyword Arguments.
+While *popenargs handles your positional data (like your command list),
+**kwargs acts as a separate automatic box designed to capture any named
+settings you pass into the function using an equals sign (=).
+
+an example of passing those values can be,
+(shell=True, timeout=30)
+check_call(["ls", "-la"], shell=True, timeout=30)
+
+**kwargs grabs everything else and creates this exact dictionary
+{"shell": True, "timeout": 30}
+
+-- what others kind of value we can pass to **kwargs:
+it can also take almost any types of values but values must be like
+key=value pair like below.
+
+check_call(["ls"],
+  shell=True,          # Passing a Boolean
+  timeout=10,          # Passing an Integer
+  env={"MY_VAR": "1"}  # Passing another Dictionary!
+)
+
+* return:
+-- in this source code, the return is clearly mention 0.
+ie successful execution will give 0, otherwise it will raise exception.
+raise CalledProcessError(retcode, cmd)
+
+*/
+
+    """Run command with arguments.  Wait for command to complete.  If
+    the exit code was zero then return, otherwise raise
+    CalledProcessError.  The CalledProcessError object will have the
+    return code in the returncode attribute.
+
+    The arguments are the same as for the call function.  Example:
+
+    check_call(["ls", "-l"])
+    """
+    retcode = call(*popenargs, **kwargs)
+    if retcode:
+        cmd = kwargs.get("args")
+        if cmd is None:
+            cmd = popenargs[0]
+        raise CalledProcessError(retcode, cmd)
+    return 0
