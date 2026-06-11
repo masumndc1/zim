@@ -119,9 +119,9 @@ func ParseCIDR(s string) (IP, *IPNet, error) {
         addr16 := ipAddr.As16()
         return IP(addr16[:]), &IPNet{IP: IP(addr16[:]).Mask(m), Mask: m}, nil
 }
-~/Documents/bektigoto/pendrive
 
 -- where go put all its source file:
+-- tag: location
 
 ❯ pwd
 /opt/homebrew/Cellar/go/1.26.4/libexec/src/strings
@@ -170,3 +170,23 @@ go: downloading github.com/yuin/goldmark v1.6.0
 -- now run "tour". this will open
 
 http://127.0.0.1:3999/tour/welcome/1
+
+-- tag: location in almalinux
+
+/usr/lib/golang/src/time
+❯ ls
+ embed.go            sleep.go         tick.go       zoneinfo_abbrs_windows.go   zoneinfo_js.go      zoneinfo_wasip1.go
+ format.go           sys_plan9.go     time.go       zoneinfo_android.go         zoneinfo_plan9.go   zoneinfo_windows.go
+ format_rfc3339.go   sys_unix.go      tzdata        zoneinfo_goroot.go          zoneinfo_read.go
+ genzabbrs.go        sys_windows.go   zoneinfo.go   zoneinfo_ios.go             zoneinfo_unix.go
+
+/usr/lib/golang/src/time
+
+# location of binary
+which go
+
+# src code
+go env GOROOT
+
+# location of third party packages
+go env GOPATH
