@@ -59,3 +59,70 @@ https://github.com/zabbly/incus
  _os_server_facts.py            os_group_info.py             os_keystone_role.py          os_pool.py                  os_security_group_rule.py   os_user.py
 ~/Documents/venv/pyenv/lib/python3.8/site-packages/ansible/modules/cloud/openstack
 ❯
+
+-- where does python puts its source code.
+-- tag: location of the standard modules:
+
+python3 -c "import os; print(os.__file__)"
+/opt/homebrew/Cellar/python@3.13/3.13.0_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/os.py
+
+-- output cut --
+
+ __future__.py                      bz2.py               fileinput.py     modulefinder.py   runpy.py           threading.py
+ __hello__.py                       calendar.py          fnmatch.py       multiprocessing   sched.py           timeit.py
+ __phello__                         cmd.py               fractions.py     netrc.py          secrets.py         tkinter
+ __pycache__                        code.py              ftplib.py        ntpath.py         selectors.py       token.py
+ _aix_support.py                    codecs.py            functools.py     nturl2path.py     shelve.py          tokenize.py
+ _android_support.py                codeop.py            genericpath.py   numbers.py        shlex.py           tomllib
+ _collections_abc.py                collections          getopt.py        opcode.py         shutil.py          trace.py
+ _colorize.py                       colorsys.py          getpass.py       operator.py       signal.py          traceback.py
+ _compat_pickle.py                  compileall.py        gettext.py       optparse.py       site-packages      tracemalloc.py
+ _compression.py                    concurrent           glob.py          os.py             site.py            tty.py
+
+-- output cut --
+-- also:
+python3 -c "import json; print(json.__file__)"
+
+-- location of the non-standard, third-party modules; ie installed by pip
+/opt/homebrew/Cellar/python@3.13/3.13.0_1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/
+
+-- location of packages installed by pip in a virtenv
+
+~/Documents/venv/myenv/lib/python3.13/site-packages
+
+❯ pip show pyperclip
+Name: pyperclip
+Version: 1.11.0
+Summary: A cross-platform clipboard module for Python. (Only handles plain text for now.)
+Home-page: https://github.com/asweigart/pyperclip
+Author:
+Author-email: Al Sweigart <al@inventwithpython.com>
+License: BSD
+Location: ~/Documents/venv/myenv/lib/python3.13/site-packages
+Requires:
+Required-by:
+
+-- in linux, we can find them in following
+
+❯ python3 -c "import os; print(os.__file__)"
+
+/usr/lib64/python3.9/os.py
+❯ cd /usr/lib64/python3.9
+❯ ls
+ __future__.py                                colorsys.py                    heapq.py          plistlib.py        struct.py
+ __phello__.foo.py                            compileall.py                  hmac.py           poplib.py          subprocess.py
+ __pycache__                                  concurrent                     html              posixpath.py       sunau.py
+ _aix_support.py                              config-3.9-aarch64-linux-gnu   http              pprint.py          symbol.py
+ _bootlocale.py                               configparser.py                imaplib.py        profile.py         symtable.py
+ _bootsubprocess.py                           contextlib.py                  imghdr.py         pstats.py          sysconfig.py
+ _collections_abc.py                          contextvars.py                 imp.py            pty.py             tabnanny.py
+ _compat_pickle.py                            copy.py                        importlib         py_compile.py      tarfile.py
+ _compression.py                              copyreg.py                     inspect.py        pyclbr.py          telnetlib.py
+ _markupbase.py                               cProfile.py                    io.py             pydoc.py           tempfile.py
+ _osx_support.py                              crypt.py                       ipaddress.py      pydoc_data         textwrap.py
+ _py_abc.py                                   csv.py                         json              queue.py           this.py
+ _pydecimal.py                                ctypes                         keyword.py        quopri.py          threading.py
+ _pyio.py                                     curses                         lib-dynload       random.py          timeit.py
+ _sitebuiltins.py                             dataclasses.py                 lib2to3           re.py              token.py
+ _strptime.py                                 datetime.py                    LICENSE.txt       reprlib.py         tokenize.py
+ _sysconfigdata__linux_aarch64-linux-gnu.py   dbm                            linecache.py      rlcompleter.py     trace.py
