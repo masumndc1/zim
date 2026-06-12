@@ -1,0 +1,122 @@
+
+
+... passing pointer as args
+
+    void swap(int *a, int *b) {
+        int temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+
+    int main() {
+        int x = 3, y = 7;
+        swap(&x, &y);
+        printf("%d %d\n", x, y);  // 7 3
+    }
+
+... passing struct as pointer
+
+
+  ### 2. Pass a large struct (avoid copying)
+
+    typedef struct {
+        char name[50];
+        int age;
+        float salary;
+    } Employee;
+
+    // Without pointer: copies entire struct (wasteful)
+    void printEmployee(Employee *e) {
+        printf("Name: %s, Age: %d\n", e->name, e->age);
+        //                                ↑ arrow operator for pointer to struct
+    }
+
+    int main() {
+        Employee emp = {"Ali", 30, 5000.0};
+        printEmployee(&emp);  // pass address, no copying
+    }
+  ──────
+  ###  3. Return multiple values
+
+    // C can only return ONE value
+    // Use pointers to "return" multiple results
+
+    void minMax(int arr[], int n, int *min, int *max) {
+        *min = arr[0];
+        *max = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] < *min) *min = arr[i];
+            if (arr[i] > *max) *max = arr[i];
+        }
+    }
+
+    int main() {
+        int arr[] = {3, 1, 7, 2, 9};
+        int min, max;
+
+        minMax(arr, 5, &min, &max);
+        printf("Min: %d, Max: %d\n", min, max);  // Min: 1, Max: 9
+
+
+  ##  ->  vs  .  for Structs
+
+    Employee emp;       // regular variable
+    Employee *ptr = &emp;
+
+    emp.age = 30;       // dot for direct access
+    ptr->age = 30;      // arrow for pointer access
+    (*ptr).age = 30;    // same as arrow, but ugly
+
+... passing function as pointer as arguments.
+
+
+  ### 3. qsort() — Classic Callback in C stdlib
+
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    // Comparison function — must match this signature
+    int compareAsc(const void *a, const void *b) {
+        return (*(int*)a - *(int*)b);
+    }
+
+    int compareDesc(const void *a, const void *b) {
+        return (*(int*)b - *(int*)a);
+    }
+
+    int main() {
+        int arr[] = {5, 2, 8, 1, 9, 3};
+        int n = 6;
+
+        qsort(arr, n, sizeof(int), compareAsc);
+        // qsort internally calls YOUR function to decide order
+
+        for (int i = 0; i < n; i++)
+            printf("%d ", arr[i]);   // 1 2 3 5 8 9
+    }
+
+... array as pointer and passing it as arg
+
+
+    #include <stdio.h>
+
+    void printArray(int *arr, int n) {
+        for (int i = 0; i < n; i++) {
+            printf("%d ", arr[i]);     // arr[i] == *(arr+i)
+        }
+        printf("\n");
+    }
+
+    void doubleAll(int *arr, int n) {
+        for (int i = 0; i < n; i++) {
+            arr[i] *= 2;    // modifies ORIGINAL array (pointer!)
+        }
+    }
+
+    int main() {
+        int nums[] = {1, 2, 3, 4, 5};
+        int n = 5;
+
+        printArray(nums, n);   // 1 2 3 4 5
+        doubleAll(nums, n);    // modifies original!
+        printArray(nums, n);   // 2 4 6 8 10
