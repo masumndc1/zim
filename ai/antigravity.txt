@@ -1,0 +1,36 @@
+
+
+--
+-- install:
+curl -fsSL https://antigravity.google/cli/install.sh | bash
+
+-- or download from:
+https://antigravity.google/download
+
+-- use:
+agy
+
+-- delete so it will ask you again
+rm ~/.gemini/antigravity-cli/settings.json
+
+-- or change in
+-- change color scheme
+
+{
+  "enableTelemetry": false,
+  "colorScheme": "dark"
+}
+
+Available built-in values for "colorScheme" include:
+
+"dark"
+"light"
+"solarized dark"
+"solarized light"
+"colorblind-friendly light"
+"terminal"
+
+-- or run /config from the agy terminal
+
+-- alternatively, we can use gemini from browser
+https://gemini.google.com
