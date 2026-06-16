@@ -1,4 +1,8 @@
 
+-- how to install go-lang
+
+
+> sudo apt install golang
 
 -- use go doc
 
@@ -122,6 +126,11 @@ func ParseCIDR(s string) (IP, *IPNet, error) {
 
 -- where go put all its source file:
 -- tag: location
+
+-- in linux it puts in
+/usr/lib/go-1.19/src/
+
+-- in mac following address:
 
 ❯ pwd
 /opt/homebrew/Cellar/go/1.26.4/libexec/src/strings
