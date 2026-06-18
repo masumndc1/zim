@@ -1,3 +1,5 @@
+package main
+
 /*
 
 func (r *ProtocolOCI) getProxyHost() (*url.URL, error) {
@@ -50,27 +52,36 @@ and an error interface value (to signal if something went wrong).
  2. The Type Assertion
     r.http.Transport.(*http.Transport)
 
-    Why it does this: In Go's standard library, r.http.Transport is typically defined as a generic http.RoundTripper interface. Interfaces do not expose configuration properties directly. The code uses a type assertion .(*http.Transport) to explicitly convert the interface back into its concrete struct type, giving the code access to the underlying .Proxy function.
+    Why it does this: In Go's standard library, r.http.Transport is typically defined as a
+    generic http.RoundTripper interface. Interfaces do not expose configuration properties
+    directly. The code uses a type assertion .(*http.Transport) to explicitly convert the
+    interface back into its concrete struct type, giving the code access to the underlying
+    .Proxy function.
 
  3. Resolving the Proxy Address
     proxy, err := r.http.Transport.(*http.Transport).Proxy(req)
 
-    This passes the fake request to the transport's proxy resolver function. The function checks global system settings, environment variables (like HTTP_PROXY), or custom code blocks to figure out where traffic should route.
+    This passes the fake request to the transport's proxy resolver function. The function
+    checks global system settings, environment variables (like HTTP_PROXY), or custom code
+    blocks to figure out where traffic should route.
 
-    Returns: A pointer to a url.URL struct containing the proxy details (e.g., http://example.com), or nil if the traffic should bypass proxies and connect directly.
+    Returns: A pointer to a url.URL struct containing the proxy details
+    (e.g., http://example.com), or nil if the traffic should bypass proxies
+    and connect directly.
 
 Structural Risk Factors & Solutions
 
   - The Panic Risk (Nil Interface Pointer):
-    If r.http.Transport is ever assigned a custom or wrapped interface that is not exactly an *http.Transport struct, the type assertion will instantly panic and crash your entire application.
+    If r.http.Transport is ever assigned a custom or wrapped interface that is not exactly
+    an *http.Transport struct, the type assertion will instantly panic and crash your entire application.
 
   - The Direct-Connection Case:
-    If no proxy is configured for r.httpHost, the function successfully returns (nil, nil). The caller of getProxyHost() must explicitly handle a nil URL pointer without assuming an error occurred, otherwise it will trigger a nil pointer dereference panic downstream.
+    If no proxy is configured for r.httpHost, the function successfully returns (nil, nil).
+    The caller of getProxyHost() must explicitly handle a nil URL pointer without assuming an
+    error occurred, otherwise it will trigger a nil pointer dereference panic downstream.
 
 Production-Ready Refactored Code (Safe Version)
 */
-
-package main
 
 import (
 	"fmt"
@@ -107,6 +118,7 @@ func (r *ProtocolOCI) getProxyHost() (*url.URL, error) {
 	return proxy, nil
 }
 
+/*
 func main() {
 	// Create a client utilizing default machine environments (HTTP_PROXY / NO_PROXY)
 	client := &http.Client{
@@ -133,3 +145,4 @@ func main() {
 		fmt.Printf("Traffic routing through proxy server: %s\n", proxyURL.String())
 	}
 }
+*/

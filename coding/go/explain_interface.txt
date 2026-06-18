@@ -1,0 +1,110 @@
+/*
+// 1. Declaration
+type Reader interface {
+	Read(p []byte) (n int, err error)
+	Close() error
+}
+
+// 2. Implicit Implementation (no implements keyword)
+
+type MyReader struct{}
+
+func (mr *MyReader) Read(p []byte) (int, error) { /* ... */ }
+func (mr *MyReader) Close() error               { /* ... */ }
+
+// Now MyReader implements Reader automatically
+
+// 3. Zero Values
+
+var r Reader // nil by default
+
+// 4. Empty Interface (accepts any type)
+
+func Process(v interface{}) { /* ... */ }
+
+Why It's Powerful
+
+ - Duck typing: Types don't declare which interfaces they implement
+ - Flexibility: Functions accept any type matching the interface
+ - Composition: Write generic code once, reuse everywhere
+
+// Example 1: Implementing json.Unmarshaler (Line 12-17)
+
+// Implements the json.Unmarshaler interface.
+func (j *Json) UnmarshalJSON(p []byte) error {
+ 	dec := json.NewDecoder(bytes.NewBuffer(p))
+ 	dec.UseNumber()
+ 	return dec.Decode(&j.data)
+}
+
+// The interface contract:
+
+type Unmarshaler interface {
+     UnmarshalJSON([]byte) error
+}
+
+// The *Json type automatically implements this interface just by
+// having the UnmarshalJSON method. No explicit declaration needed!
+
+// Example 2: Using io.Reader Interface (Line 19-26)
+
+func NewFromReader(r io.Reader) (*Json, error) {
+ 	j := new(Json)
+ 	dec := json.NewDecoder(r)  // r must satisfy io.Reader
+ 	dec.UseNumber()
+ 	err := dec.Decode(&j.data)
+ 	return j, err
+}
+
+// The key insight: NewFromReader accepts any type that implements
+// io.Reader. Could be a file, a network socket, a buffer—doesn't matter!
+
+// In the test (line 24):
+
+buf := bytes.NewBuffer(...)  // *bytes.Buffer
+js, err := NewFromReader(buf)  // Works! *bytes.Buffer implements io.Reader
+
+bytes.Buffer implements io.Reader implicitly (it has a Read() method), so it's accepted.
+
+The Power
+
+The function doesn't care what type r is—only that it has
+the Read() method. This is polymorphism without inheritance.
+
+
+/*
+
+// what is going on below
+
+● interface{} is the empty interface — it accepts any type.
+
+   var x interface{} = "hello"   // x can be a string
+   var y interface{} = 42        // y can be an int
+   var z interface{} = true      // z can be a boolean
+
+  Why? The empty interface has no methods, so every type satisfies it.
+
+  Use case:
+
+   func Process(v interface{}) {
+   	// v could be string, int, map, slice, custom type...
+   	// You don't know what it is until runtime
+   }
+
+   Process("hello")
+   Process(123)
+   Process([]int{1, 2, 3})
+
+  To use the value, you must type-assert:
+
+   v := interface{}("hello")
+
+   // Wrong: v is interface{}, not string
+   // len(v)  // compile error
+
+   // Right: assert first
+   s, ok := v.(string)
+   if ok {
+   	fmt.Println(len(s))  // Now it's safe to treat as string
+   }
+*/
