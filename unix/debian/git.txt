@@ -1055,3 +1055,18 @@ git restore --source <commit-hash> .
 
 ... enable autocorrect
 git config --global help.autocorrect 20
+
+... To automatically show a visual breakdown of line and file changes
+... (a diffstat) after a fast-forward merge finishes, you need to
+... configure the merge.stat (or merge.diffstat) setting.
+
+... locally: git config merge.stat true
+... globally: git config --global merge.stat true
+... globally: git config --global merge.summary true
+
+Updating a1b2c3d..e5f6g7h
+Fast-forward
+ README.md        | 12 +++++++++---
+ src/app.js       |  4 ++--
+ src/utils/log.js | 25 +++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+), 7 deletions(-)
