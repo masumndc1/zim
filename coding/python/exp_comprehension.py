@@ -5,14 +5,6 @@ A one-liner in Python is most commonly called a List Comprehension:
 (if it creates a list), a Lambda Function: (if it is an anonymous function),
 or a Ternary Operator: (if it is a single-line if/else statement). Broadly,
 single-line data transformations are called Comprehensions or Expressions
-
-another example:
-what does following means?
-
-ranges = [r.split("-", 1) for r in header[6:].split(",") if "-" in r]
-for every r, out of header[6:].split(","), do r.split("-", 1), if there is "-"
-in r.
-
 """
 
 # Multi-line way
@@ -32,8 +24,6 @@ def double(x):
     return x * 2
 
 
-# rather not use it, use def.
-# other wise it will not pass ruff check.
 # One-liner way (Lambda Function)
 # double = lambda a: a * 2
 # print("lambda:", double(3))
@@ -52,7 +42,6 @@ status = "Adult" if age >= 18 else "Minor"
 # Calculates length and checks condition all in one line
 if (n := len("segments")) > 5:
     print(f"Too many pieces: {n}")
-
 
 # output:
 
