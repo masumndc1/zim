@@ -208,3 +208,10 @@ usage: openstack role add [-h] [--domain <domain> | --project <project>]
                           <role>
 
 root@controller:~# openstack role add --project demo --user demo user
+
+... error.
+... if you accidentally remove fernet keys or credential-keys run following
+... to generate the new one.
+
+# keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+# keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
