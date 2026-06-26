@@ -215,3 +215,166 @@ root@controller:~# openstack role add --project demo --user demo user
 
 # keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 # keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+
+... query by using curl
+
+
+[root@keystone-alma9-dev9 ~]# curl -i http://keystone:5000
+HTTP/1.1 300 MULTIPLE CHOICES
+Date: Wed, 24 Jun 2026 10:20:38 GMT
+Server: Apache
+Content-Length: 263
+Location: http://keystone:5000/v3/
+Vary: X-Auth-Token
+x-openstack-request-id: req-cbec351b-a58c-492c-b136-452ab0719fc6
+Content-Type: application/json
+
+{"versions": {"values": [{"id": "v3.14", "status": "stable", "updated":
+"2020-04-07T00:00:00Z", "links": [{"rel": "self", "href":
+"http://keystone:5000/v3/"}], "media-types": [{"base": "application/json",
+"type": "application/vnd.openstack.identity-v3+json"}]}]}}
+
+[root@keystone-alma9-dev9 ~]#
+
+... keystone-manage command.
+
+[root@keystone-alma9-dev9 api]# keystone-manage doctor
+
+WARNING: `keystone.conf [cache] enabled` is not enabled.
+
+    Caching greatly improves the performance of keystone, and it is highly
+    recommended that you enable it.
+
+[root@keystone-alma9-dev9 api]#
+
+[root@keystone-alma9-dev9 api]# keystone-status upgrade check
++-------------------------------------------+
+| Upgrade Check Results                     |
++-------------------------------------------+
+| Check: Check trust policies are not empty |
+| Result: Success                           |
+| Details: Trust policies are safe.         |
++-------------------------------------------+
+| Check: Check default roles are immutable  |
+| Result: Success                           |
+| Details: Default roles are immutable.     |
++-------------------------------------------+
+| Check: Policy File JSON to YAML Migration |
+| Result: Success                           |
+| Details: None                             |
++-------------------------------------------+
+[root@keystone-alma9-dev9 api]#
+
+... role
+
+[root@keystone-alma9-dev9 keystone]# openstack role list
++----------------------------------+---------+
+| ID                               | Name    |
++----------------------------------+---------+
+| 1efb3da7404d4f42ad45572c377a6d4b | manager |
+| 37496f63dcc1450fa99ed8aa7e241901 | service |
+| 8f44de82416b447bace283358688a077 | member  |
+| a7bcd570ed9841daa92c846e2e54e580 | admin   |
+| f72c3f76c228460db79408693a9b6984 | reader  |
++----------------------------------+---------+
+
+
+[root@keystone-alma9-dev9 keystone]# openstack implied role list
++----------------------------------+-----------------+----------------------------------+-------------------+
+| Prior Role ID                    | Prior Role Name | Implied Role ID                  | Implied Role Name |
++----------------------------------+-----------------+----------------------------------+-------------------+
+| 1efb3da7404d4f42ad45572c377a6d4b | manager         | 8f44de82416b447bace283358688a077 | member            |
+| 8f44de82416b447bace283358688a077 | member          | f72c3f76c228460db79408693a9b6984 | reader            |
+| a7bcd570ed9841daa92c846e2e54e580 | admin           | 1efb3da7404d4f42ad45572c377a6d4b | manager           |
+| a7bcd570ed9841daa92c846e2e54e580 | admin           | 8f44de82416b447bace283358688a077 | member            |
++----------------------------------+-----------------+----------------------------------+-------------------+
+[root@keystone-alma9-dev9 keystone]#
+
+-- service catalog. driver is sql
+
+[root@keystone-alma9-dev9 keystone]# openstack service list
++----------------------------------+-----------+---------------+
+| ID                               | Name      | Type          |
++----------------------------------+-----------+---------------+
+| 2bd3f3218d9f41d7b25c4cdd94fc9c2c | nova      | compute       |
+| 2f5cda5c127346bf9a796bc9a3b61c44 | cinder    | block-storage |
+| 8a7f579a50c84ef9b20ff53d762eac12 | cinderv3  | volumev3      |
+| c43e5f8f34cb4ce2a94eee6c7907cf8e | placement | placement     |
+| e14a2197f8934d8789c8e33805209d8d | keystone  | identity      |
+| eab98440e69c4f588dc6de3d9f92bf2a | glance    | image         |
++----------------------------------+-----------+---------------+
+[root@keystone-alma9-dev9 keystone]#
+
+-- service list
+
+[root@keystone-alma9-dev9 keystone]# openstack service list
++----------------------------------+-----------+---------------+
+| ID                               | Name      | Type          |
++----------------------------------+-----------+---------------+
+| 2bd3f3218d9f41d7b25c4cdd94fc9c2c | nova      | compute       |
+| 2f5cda5c127346bf9a796bc9a3b61c44 | cinder    | block-storage |
+| 8a7f579a50c84ef9b20ff53d762eac12 | cinderv3  | volumev3      |
+| c43e5f8f34cb4ce2a94eee6c7907cf8e | placement | placement     |
+| e14a2197f8934d8789c8e33805209d8d | keystone  | identity      |
+| eab98440e69c4f588dc6de3d9f92bf2a | glance    | image         |
++----------------------------------+-----------+---------------+
+[root@keystone-alma9-dev9 keystone]#
+
+
+[root@keystone-alma9-dev9 keystone]# openstack project list
++----------------------------------+----------+
+| ID                               | Name     |
++----------------------------------+----------+
+| 99e3a5862247491eb1cff1e4862468a8 | dummy    |
+| bb72e1805b9b44dca9abd2c028194e83 | services |
+| f32782a4b0d248c28a6bcb5785e9c4aa | admin    |
++----------------------------------+----------+
+[root@keystone-alma9-dev9 keystone]#
+
+[root@keystone-alma9-dev9 keystone]# openstack project show services
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description |                                  |
+| domain_id   | default                          |
+| enabled     | True                             |
+| id          | bb72e1805b9b44dca9abd2c028194e83 |
+| is_domain   | False                            |
+| name        | services                         |
+| options     | {}                               |
+| parent_id   | default                          |
+| tags        | []                               |
++-------------+----------------------------------+
+[root@keystone-alma9-dev9 keystone]#
+
+[root@keystone-alma9-dev9 keystone]# openstack user list --project services
++----------------------------------+-----------+
+| ID                               | Name      |
++----------------------------------+-----------+
+| 6a5a74a21f1b4fde8134f4239b1fac3b | placement |
+| 28c4278aa4e1417592f61214b7f8e946 | cinder    |
+| 779d0e5c42a946ffb01ceea185e7fd34 | nova      |
+| fe7e28fce85140259eea85dcda609345 | glance    |
++----------------------------------+-----------+
+[root@keystone-alma9-dev9 keystone]#
+
+-- get user role information by curl
+
+
+[root@keystone-alma9-dev9 keystone]# source /root/openrc
+[root@keystone-alma9-dev9 keystone]# openstack token issue
+[root@keystone-alma9-dev9 keystone]# export YOUR_AUTH_TOKEN="123444-334303040030=3o333oo"
+[root@keystone-alma9-dev9 keystone]# curl -s -X GET \
+    http://keystone:5000/v3/projects/99e3a5862247491eb1cff1e4862468a8/users/8beab79ef2564f1d82508fc37dee9b6a/roles \
+    -H "X-Auth-Token: $YOUR_AUTH_TOKEN" \
+    -H "Content-Type: application/json"
+
+[root@keystone-alma9-dev9 keystone]#
+{"roles": [{"id": "8f44de82416b447bace283358688a077",
+"name": "member", "domain_id": null, "description": null,
+"options": {"immutable": true}, "links":
+{"self": "http://keystone:5000/v3/roles/8f44de82416b447bace283358688a077"}}],
+"links": {"next": null, "self":
+ "http://keystone:5000/v3/projects/99e3a5862247491eb1cff1e4862468a8/users/8beab79ef2564f1d82508fc37dee9b6a/roles",
+ "previous": null}}
+[root@keystone-alma9-dev9 keystone]#
