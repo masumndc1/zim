@@ -1,0 +1,24 @@
+
+
+... some random commands are here.
+-- see some other infos with ps
+
+# ps -eo user,pid,lstart,cmd
+
+[root@keystone-alma9-dev9 ~]# ps -eo user,pid,lstart,cmd
+USER         PID                  STARTED CMD
+root           1 Sun May 24 12:40:50 2026 /sbin/init
+root         119 Sun May 24 12:40:51 2026 /usr/lib/systemd/systemd-journald
+root         126 Sun May 24 12:40:51 2026 /usr/lib/systemd/systemd-udevd
+rpc          137 Sun May 24 12:40:51 2026 /usr/bin/rpcbind -w -f
+dbus         139 Sun May 24 12:40:51 2026 /usr/bin/dbus-broker-launch --scope system --audit
+root         141 Sun May 24 12:40:52 2026 /usr/bin/python3 -s /usr/sbin/firewalld --nofork --nopid
+rtkit        145 Sun May 24 12:40:52 2026 /usr/libexec/rtkit-daemon
+root         146 Sun May 24 12:40:52 2026 /usr/lib/systemd/systemd-logind
+root         147 Sun May 24 12:40:52 2026 /usr/libexec/upowerd
+root         191 Sun May 24 12:40:53 2026 /usr/sbin/NetworkManager --no-daemon
+polkitd      192 Sun May 24 12:40:53 2026 /usr/lib/polkit-1/polkitd --no-debug
+nova         221 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-api
+nova         222 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-conductor
+nova         223 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-scheduler
+root         228 Sun May 24 12:40:54 2026 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
