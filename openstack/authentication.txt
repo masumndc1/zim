@@ -1,0 +1,13 @@
+
+
+-- keystone_authtoken: what is it and how it works
+
+In OpenStack, authtoken (commonly configured via the [keystone_authtoken]
+block) refers to the Keystone middleware component responsible for
+intercepting, validating, and managing authentication tokens across
+all OpenStack services. Instead of each individual service (like Nova, Glance,
+or Neutron) manually processing user credentials, they use this middleware to
+outsource token verification to Keystone, OpenStack's identity manager
+
+-- in glance: glance::api::authtoken
+-- in nova: nova::keystone::authtoken
