@@ -1,0 +1,57 @@
+
+
+
+-- usage of curl
+
+-- json-home
+
+curl -s -X GET -H "Accept: application/json-home" http://keystone:5000/v3/
+
+-- getting an unscoped token
+
+[root@keystone-alma9-dev9 ~]# curl -i -H "Content-Type: application/json" -d'
+{ "auth": {
+"identity": {
+"methods": ["password"],
+"password": {
+"user": {
+"name": "admin",
+"domain": { "id": "default" },
+"password": "adminpwd"
+}
+}
+}
+}
+}' "http://localhost:5000/v3/auth/tokens" ; echo
+HTTP/1.1 201 CREATED
+Date: Wed, 24 Jun 2026 15:13:18 GMT
+Server: Apache
+Content-Length: 312
+X-Subject-Token: gAAAAABqO_QP05HhpA5f5Dyfxov-lBjAkv3bmAA9U0mAwSN9_9gHSU16GHJob
+Vary: X-Auth-Token
+x-openstack-request-id: req-e9d5cbb7-3294-4dc1-8f9f-498e9491ff5a
+Content-Type: application/json
+
+{"token": {"methods": ["password"], "user": {"domain": {"id": "default", "name": "Default"},
+"id": "a6a76e335cab48e2bbd51646114fb82d", "name": "admin", "password_expires_at": null},
+"audit_ids": ["MVKJbyBNS-mYdjOoTw4jzQ"], "expires_at": "2026-06-24T16:13:19.000000Z",
+"issued_at": "2026-06-24T15:13:19.000000Z"}}
+[root@keystone-alma9-dev9 ~]#
+
+[root@keystone-alma9-dev9 keystone]# source /root/openrc
+[root@keystone-alma9-dev9 keystone]# openstack token issue
+[root@keystone-alma9-dev9 keystone]# export YOUR_AUTH_TOKEN="123444-334303040030=3o333oo"
+[root@keystone-alma9-dev9 keystone]# curl -s -X GET \
+    http://keystone:5000/v3/projects/99e3a5862247491eb1cff1e4862468a8/users/8beab79ef2564f1d82508fc37dee9b6a/roles \
+    -H "X-Auth-Token: $YOUR_AUTH_TOKEN" \
+    -H "Content-Type: application/json"
+
+[root@keystone-alma9-dev9 keystone]#
+{"roles": [{"id": "8f44de82416b447bace283358688a077",
+"name": "member", "domain_id": null, "description": null,
+"options": {"immutable": true}, "links":
+{"self": "http://keystone:5000/v3/roles/8f44de82416b447bace283358688a077"}}],
+"links": {"next": null, "self":
+ "http://keystone:5000/v3/projects/99e3a5862247491eb1cff1e4862468a8/users/8beab79ef2564f1d82508fc37dee9b6a/roles",
+ "previous": null}}
+[root@keystone-alma9-dev9 keystone]#
