@@ -1,0 +1,114 @@
+
+
+
+... install in mac
+
+sudo port install vlang or
+brew install vlang
+
+
+... port contentx vlang
+
+... examples are located
+
+
+❯ pwd
+/opt/local/share/examples/vlang
+❯ ls
+ 2048                          dynamic_library_loader    js_dom_cube                   path_tracing.v             terminal_control.v
+ asm.v                         dynamic_library_loading   js_dom_draw                   pendulum-simulation        tetris
+ assets                        errors.v                  js_dom_draw_bechmark_chart    pico                       toml.v
+ binary_search_tree.v          eventbus                  json.v                        process                    tree_of_nodes.v
+ brainvuck.v                   fetch.v                   lander.v                      quadtree_demo              ttf_font
+ bst_map.v                     fetch_ip.v                linear_regression             quick_sort.v               v_script.vsh
+ buf_reader.v                  fibonacci.v               links_scraper.v               random_ips.v               vcasino
+ c_interop_wkhtmltopdf.v       file_list.v               log.v                         readline                   viewer
+ call_c_from_v                 fireworks                 logfatal.v                    regex                      vmod.v
+ call_v_from_c                 fizz_buzz.v               macos_tray                    rule110.v                  vpwgen.v
+ call_v_from_python            flappylearning            mini_calculator.v             rune.v                     vwatch
+ call_v_from_ruby              function_types.v          native                        smtp                       vweb
+ cli.v                         game_of_life              nbody.v                       snek                       vweb_fullstack
+ clock                         get_weather               net_failconnect.v             sokol                      vweb_orm_jwt
+ compiletime                   gg                        net_peer_ip.v                 spectral.v                 wasm
+ concurrency                   graphs                    net_raw_http.v                ssl_server                 wasm_codegen
+ control_thread_stack_size.v   hanoi.v                   net_resolve.v                 submodule                  web_crawler
+ coroutines                    hello_v_js.v              net_t.v                       tcp_echo_server.v          websocket
+ custom_error.v                hello_world.v             net_udp_server_and_client.v   tcp_notify_echo_server.v   word_counter
+ database                      hot_reload                news_fetcher.v                templates
+ dump_factorial.v              http_server.v             password                      term.ui
+/opt/local/share/examples/vlang
+myenv ❯
+
+... source code
+/opt/local/lib/vlang
+
+ cmd   thirdparty   v   v.mod   vlib
+
+/opt/local/lib/vlang/vlib
+❯ ls
+ arrays      cli         coroutines   dl         flag        hash   log    orm              rand        runtime   strconv   term   vweb
+ benchmark   clipboard   crypto       dlmalloc   fontstash   io     maps   os               readline    semver    strings   time   wasm
+ bitfield    compress    datatypes    encoding   gg          js     math   picoev           README.md   sokol     sync      toml   x
+ builtin     context     db           eventbus   gx          json   net    picohttpparser   regex       stbi      szip      v
+myenv ❯
+
+
+... language support in helix
+v download -RD https://raw.githubusercontent.com/vlang/v-analyzer/main/install.vsh
+
+... if error:
+
+ v run install.vsh
+install.vsh:8:1: builder error: cannot import module "compress.szip" (not found)
+    6 | import term
+    7 | import time
+    8 | import compress.szip
+      | ~~~~~~~~~~~~~~~~~~~~
+    9 | import cli
+   10 | import net.http
+❯
+
+... wipe cache
+v wipe-cache
+V cache folder /Users/khuddin/.vmodules/cache was wiped.
+V tmp.c and tests folder folder /tmp/v_502 was wiped.
+~
+myenv ❯
+
+... run this with any kind of gurbase collector
+
+v -gc none run install.vsh
+
+Installer version: 0.0.6
+Downloading v-analyzer...
+Fetching latest release info from GitHub...
+Found v-analyzer binary for your platform: darwin-arm64
+> Download from url: https://github.com/vlang/v-analyzer/releases/download/0.0.6/v-analyzer-darwin-arm64.zip ...
+Downloading v-analyzer archive.
+✓ Successfully downloaded v-analyzer archive
+Extracting v-analyzer archive...
+✓ Successfully extracted v-analyzer archive
+Path to the binary: /Users/khuddin/.config/v-analyzer/bin/v-analyzer
+Size of the binary: 3803720
+Binary version: v-analyzer version 0.0.6.532bebd
+Add it to your PATH to use it from anywhere or specify the full path to the binary in your editor settings
+
+For example in VS Code settings.json:
+{
+    "v-analyzer.serverPath": "/Users/khuddin/.config/v-analyzer/bin/v-analyzer"
+}
+~ 22s
+myenv ❯
+
+
+-- location if installed via brew
+
+
+/opt/homebrew/Cellar/vlang/0.5.1/libexec/vlib stable
+❯ ls
+ archive     builtin     coroutines   dlmalloc   fontstash   js     net              pool        runtime   strings   v      x
+ arrays      cli         crypto       encoding   gg          json   orm              rand        semver    sync      v2
+ benchmark   clipboard   datatypes    eventbus   gx          log    os               readline    sokol     term      veb
+ bitfield    compress    db           fasthttp   hash        maps   picoev           README.md   stbi      time      vweb
+ build       context     dl           flag       io          math   picohttpparser   regex       strconv   toml      wasm
+myenv ❯

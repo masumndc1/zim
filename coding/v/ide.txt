@@ -1,0 +1,17 @@
+
+
+... with helix
+
+sudo ln -s $HOME/.config/v-analyzer/bin/v-analyzer /usr/local/bin/v-analyzer
+
+[[language]]
+name = "v"
+scope = "source.v"
+file-types = ["v", "vv", "vsh"]
+roots = ["v.mod"]
+language-servers = [ "v-analyzer" ]
+auto-format = true
+formatter = { command = "v", args = ["fmt"] }
+
+[language-server.v-analyzer]
+command = "v-analyzer"
