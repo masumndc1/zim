@@ -16,3 +16,10 @@ maximum := arrays.max([1, 2, 3, 0, 9])! // => 0
 // println('${minimum}')
 println(minimum)
 println(maximum)
+
+result1 := os.execute('ping -c 1 google.com')
+for out in result1.output.split('\n') {
+	if out.contains('google') {
+		println(out)
+	}
+}
