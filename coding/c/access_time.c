@@ -1,3 +1,10 @@
+#if 0
+#This section is treated as Bash code by your terminal shell
+#It builds the C program using chibicc(or gcc / clang) and runs it
+gcc "$0" -o /tmp/my_c_script && /tmp/my_c_script "$@"
+exit
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <sys/time.h>

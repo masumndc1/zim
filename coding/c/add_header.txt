@@ -1,0 +1,28 @@
+
+
+-- add following in every c code file
+
+#if 0
+# This section is treated as Bash code by your terminal shell
+# It builds the C program using chibicc (or gcc/clang) and runs it
+gcc "$0" -o /tmp/my_c_script && /tmp/my_c_script "$@"
+exit
+#endif
+
+-- alternatively use tcc in linux
+
+ brew install --build-from-source tcc
+
+#!/usr/bin/tcc -run
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    char hostname[256];
+    gethostname(hostname, sizeof(hostname));
+
+    printf("Executing native C script via TCC...\n");
+    printf("Current Hostname: %s\n", hostname);
+
+    return 0;
+}
