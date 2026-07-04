@@ -1,0 +1,54 @@
+
+
+-- install minikube qemu by brew
+brew install minikube qemu
+
+-- install and start socket_vmnet service:
+
+brew install socket_vmnet
+HOMEBREW=$(which brew) && sudo ${HOMEBREW} services start socket_vmnet
+
+-- or
+
+sudo brew services start socket_vmnet
+
+-- initialize minikube
+
+❯ minikube start \
+  --driver=qemu \
+  --network=socket_vmnet \
+  --network-plugin=cni \
+  --cni=false \
+  --memory=4096 \
+  --cpus=3
+
+-- ssh to minikube
+minikube status
+kubectl get nodes
+kubectl get pods -n kube-system
+
+minikube ssh
+// it should be pure linux
+uname -a
+
+-- install cillium
+brew install cilium-cli
+
+-- verify that cilium is installed
+
+kubectl get pods -n kube-system -l k8s-app=cilium
+
+-- after your minikube is installed and ready install cilium
+cilium install
+cilium status --wait
+cilium connectivity test
+
+-- enable user interface
+cilium hubble enable --ui
+kubectl get svc -n kube-system | grep hubble-ui
+kubectl port-forward -n kube-system svc/hubble-ui 12000:80
+http://localhost:12000
+
+-- troubleshooting:
+- if you need to delete minikube
+minikube delete

@@ -1,0 +1,187 @@
+
+
+-- install openscap
+
+sudo apt install -y openscap-scanner ssg-base ssg-debderived
+
+-- location of the profiles files
+
+root@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content# ls
+ssg-ubuntu1604-cpe-dictionary.xml  ssg-ubuntu1804-cpe-dictionary.xml  ssg-ubuntu2004-cpe-dictionary.xml  ssg-ubuntu2204-cpe-dictionary.xml
+ssg-ubuntu1604-cpe-oval.xml        ssg-ubuntu1804-cpe-oval.xml        ssg-ubuntu2004-cpe-oval.xml        ssg-ubuntu2204-cpe-oval.xml
+ssg-ubuntu1604-ds-1.2.xml          ssg-ubuntu1804-ds-1.2.xml          ssg-ubuntu2004-ds-1.2.xml          ssg-ubuntu2204-ds-1.2.xml
+ssg-ubuntu1604-ds.xml              ssg-ubuntu1804-ds.xml              ssg-ubuntu2004-ds.xml              ssg-ubuntu2204-ds.xml
+ssg-ubuntu1604-ocil.xml            ssg-ubuntu1804-ocil.xml            ssg-ubuntu2004-ocil.xml            ssg-ubuntu2204-ocil.xml
+ssg-ubuntu1604-oval.xml            ssg-ubuntu1804-oval.xml            ssg-ubuntu2004-oval.xml            ssg-ubuntu2204-oval.xml
+ssg-ubuntu1604-xccdf.xml           ssg-ubuntu1804-xccdf.xml           ssg-ubuntu2004-xccdf.xml           ssg-ubuntu2204-xccdf.xml
+root@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content#
+
+-- available profiles
+
+root@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content# oscap info ssg-ubuntu2004-ds.xml
+Document type: Source Data Stream
+Imported: 2023-12-10T12:02:51
+
+Stream: scap_org.open-scap_datastream_from_xccdf_ssg-ubuntu2004-xccdf.xml
+Generated: (null)
+Version: 1.3
+Checklists:
+        Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2004-xccdf.xml
+                Status: draft
+                Generated: 2023-12-16
+                Resolved: true
+                Profiles:
+                        Title: CIS Ubuntu 20.04 Level 1 Server Benchmark
+                                Id: xccdf_org.ssgproject.content_profile_cis_level1_server
+                        Title: CIS Ubuntu 20.04 Level 1 Workstation Benchmark
+                                Id: xccdf_org.ssgproject.content_profile_cis_level1_workstation
+                        Title: CIS Ubuntu 20.04 Level 2 Server Benchmark
+                                Id: xccdf_org.ssgproject.content_profile_cis_level2_server
+                        Title: CIS Ubuntu 20.04 Level 2 Workstation Benchmark
+                                Id: xccdf_org.ssgproject.content_profile_cis_level2_workstation
+                        Title: Standard System Security Profile for Ubuntu 20.04
+                                Id: xccdf_org.ssgproject.content_profile_standard
+                        Title: Canonical Ubuntu 20.04 LTS Security Technical Implementation Guide (STIG) V1R9
+                                Id: xccdf_org.ssgproject.content_profile_stig
+                Referenced check files:
+                        ssg-ubuntu2004-oval.xml
+                                system: http://oval.mitre.org/XMLSchema/oval-definitions-5
+                        ssg-ubuntu2004-ocil.xml
+                                system: http://scap.nist.gov/schema/ocil/2
+Checks:
+        Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2004-oval.xml
+        Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2004-ocil.xml
+        Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2004-cpe-oval.xml
+Dictionaries:
+        Ref-Id: scap_org.open-scap_cref_ssg-ubuntu2004-cpe-dictionary.xml
+root@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content#
+
+
+-- get profile for ubuntu 24.04
+
+wget -c https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark.zip .
+unzip U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark.zip
+udo cp /home/masum/U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark.xml /usr/share/xml/scap/ssg/content/ssg-ubuntu2404-ds.xml
+
+-- after you have place profile file, get info by oscap.
+
+masum@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content$ oscap info ssg-ubuntu2404-ds.xml
+Document type: Source Data Stream
+Imported: 2026-07-02T14:32:13
+
+Stream: scap_mil.disa.stig_datastream_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark
+Generated: 2025-09-27T23:03:16.706-04:00
+Version: 1.3
+Checklists:
+        Ref-Id: scap_mil.disa.stig_cref_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark-xccdf.xml
+                Status: accepted
+                Generated: 2025-08-22
+                Resolved: false
+                Profiles:
+                        Title: I - Mission Critical Classified
+                                Id: xccdf_mil.disa.stig_profile_MAC-1_Classified
+                        Title: I - Mission Critical Public
+                                Id: xccdf_mil.disa.stig_profile_MAC-1_Public
+                        Title: I - Mission Critical Sensitive
+                                Id: xccdf_mil.disa.stig_profile_MAC-1_Sensitive
+                        Title: II - Mission Support Classified
+                                Id: xccdf_mil.disa.stig_profile_MAC-2_Classified
+                        Title: II - Mission Support Public
+                                Id: xccdf_mil.disa.stig_profile_MAC-2_Public
+                        Title: II - Mission Support Sensitive
+                                Id: xccdf_mil.disa.stig_profile_MAC-2_Sensitive
+                        Title: III - Administrative Classified
+                                Id: xccdf_mil.disa.stig_profile_MAC-3_Classified
+                        Title: III - Administrative Public
+                                Id: xccdf_mil.disa.stig_profile_MAC-3_Public
+                        Title: III - Administrative Sensitive
+                                Id: xccdf_mil.disa.stig_profile_MAC-3_Sensitive
+                        Title: Disable Slow Rules
+                                Id: xccdf_mil.disa.stig_profile_Disable_Slow_Rules
+                        Title: CAT I Only
+                                Id: xccdf_mil.disa.stig_profile_CAT_I_Only
+                Referenced check files:
+                        U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark-oval.xml
+                                system: http://oval.mitre.org/XMLSchema/oval-definitions-5
+Checks:
+        Ref-Id: scap_mil.disa.stig_cref_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark-oval.xml
+        Ref-Id: scap_mil.disa.stig_cref_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark-cpe-oval.xml
+Dictionaries:
+        Ref-Id: scap_mil.disa.stig_cref_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-3_Benchmark-cpe-dictionary.xml
+masum@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content$
+
+-- run oscap using one profile. the profile from ssg-ubuntu2404-ds.xml can be found from
+-- oscap info ssg-ubuntu2404-ds.xml.
+
+masum@openscap-ubu24-dev9:/usr/share/xml/scap/ssg/content$
+  sudo oscap xccdf eval \
+  --profile xccdf_mil.disa.stig_profile_Disable_Slow_Rules \
+  --results scan-results.xml \
+  --report scan-report.html ssg-ubuntu2404-ds.xml
+
+/ output cut /
+
+Title   Ubuntu 24.04 LTS must be configured to permit only authorized users ownership of the audit log files.
+Rule    xccdf_mil.disa.stig_rule_SV-270828r1066973_rule
+Ident   CCI-000162
+Ident   CCI-000163
+Ident   CCI-000164
+Result  fail
+
+Title   Ubuntu 24.04 LTS must permit only authorized groups ownership of the audit log files.
+Rule    xccdf_mil.disa.stig_rule_SV-270829r1066976_rule
+Ident   CCI-000162
+Ident   CCI-000163
+Ident   CCI-000164
+Result  fail
+
+Title   Ubuntu 24.04 LTS must be configured so that the audit log directory is not write-accessible by unauthorized users.
+Rule    xccdf_mil.disa.stig_rule_SV-270830r1068397_rule
+Ident   CCI-000164
+Result  fail
+
+Title   Ubuntu 24.04 LTS must use cryptographic mechanisms to protect the integrity of audit tools.
+Rule    xccdf_mil.disa.stig_rule_SV-270831r1135002_rule
+Ident   CCI-001496
+Result  fail
+
+Title   Ubuntu 24.04 LTS audit system must protect auditing rules from unauthorized change.
+Rule    xccdf_mil.disa.stig_rule_SV-270832r1068399_rule
+Ident   CCI-000163
+Result  fail
+
+Title   Ubuntu 24.04 LTS must require users to provide a password for privilege escalation.
+Rule    xccdf_mil.disa.stig_rule_SV-274868r1107313_rule
+Ident   CCI-000366
+Result  fail
+
+Title   Ubuntu 24.04 LTS must restrict privilege elevation to authorized personnel.
+Rule    xccdf_mil.disa.stig_rule_SV-274869r1107312_rule
+Ident   CCI-002038
+Ident   CCI-004895
+Result  pass
+
+Title   Ubuntu 24.04 LTS must audit any script or executable called by cron as root or by any privileged user.
+Rule    xccdf_mil.disa.stig_rule_SV-274870r1107304_rule
+Ident   CCI-000172
+Result  fail
+
+Title   Ubuntu 24.04 LTS must be a vendor-supported release.
+Rule    xccdf_mil.disa.stig_rule_SV-278917r1135000_rule
+Ident   CCI-000366
+Result  pass
+
+-- now check what is written in scan-report.html and scan-results.xml file.
+
+
+
+-- if need to run oscap in remote server use oscap-ssh
+
+oscap-ssh user@remote-host-ip 22 xccdf eval \
+  --profile xccdf_mil.disa.stig_profile_Disable_Slow_Rules \
+  --results scan-results.xml \
+  --report scan-report.html ssg-ubuntu2404-ds.xml
+
+
+-- reporting:
+browse scan-report.html to see chart and analyze them.
