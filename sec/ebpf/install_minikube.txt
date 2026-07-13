@@ -52,3 +52,7 @@ http://localhost:12000
 -- troubleshooting:
 - if you need to delete minikube
 minikube delete
+
+-- uninstall minikube
+minikube delete --all --purge
+brew uninstall minikube
