@@ -1,0 +1,241 @@
+
+
+
+-- service
+
+-- install cluster without kube-proxy enable
+
+cat kind.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+  - role: worker
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+  - role: worker
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+networking:
+  disableDefaultCNI: true
+  kubeProxyMode: "none"
+
+> kind create cluster --config kind.yaml
+
+-- enable cilium
+
+❯ cat cilium-kpr-values.yaml
+kubeProxyReplacement: true
+k8sServiceHost: kind-control-plane
+k8sServicePort: 6443%
+
+❯ helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values cilium-kpr-values.yaml
+
+NAME: cilium
+LAST DEPLOYED: Fri Jul 10 15:36:09 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+
+❯ cilium install --set kubeProxyReplacement=true
+🔮 Auto-detected Kubernetes kind: kind
+ℹ️  Using Cilium version 1.19.4
+🔮 Auto-detected cluster name: kind-kind
+ℹ️  Detecting real Kubernetes API server addr and port on Kind
+🔮 Auto-detected kube-proxy has not been installed
+ℹ️  Cilium will fully replace all functionalities of kube-proxy
+
+❯ kubectl apply -f httpd-deployment.yaml
+deployment.apps/httpd created
+❯ kubectl apply -f httpd-service.yaml
+service/httpd created
+❯
+❯ kubectl get pods -o wide
+NAME                     READY   STATUS              RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+httpd-6b86c58c46-8bzpk   0/1     ContainerCreating   0          13s   <none>       kind-worker2   <none>           <none>
+httpd-6b86c58c46-dpbgl   0/1     ContainerCreating   0          13s   <none>       kind-worker2   <none>           <none>
+httpd-6b86c58c46-ktmbt   1/1     Running             0          13s   10.0.0.209   kind-worker    <none>           <none>
+
+❯ kubectl get pods -o wide
+NAME                     READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+httpd-6b86c58c46-8bzpk   1/1     Running   0          23s   10.0.2.170   kind-worker2   <none>           <none>
+httpd-6b86c58c46-dpbgl   1/1     Running   0          23s   10.0.2.125   kind-worker2   <none>           <none>
+httpd-6b86c58c46-ktmbt   1/1     Running   0          23s   10.0.0.209   kind-worker    <none>           <none>
+❯ kubectl get service
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+httpd        ClusterIP   10.96.75.125   <none>        80/TCP    32s
+kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP   9m53s
+❯
+❯ cat httpd-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: httpd
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP%
+❯ kubectl exec -n kube-system -it ds/cilium -- cilium-dbg service list
+ID   Frontend                Service Type   Backend
+1    10.96.0.1:443/TCP       ClusterIP      1 => 172.18.0.2:6443/TCP (active)
+2    10.96.125.163:443/TCP   ClusterIP      1 => 172.18.0.4:4244/TCP (active)
+3    10.96.0.10:53/TCP       ClusterIP      1 => 10.0.0.37:53/TCP (active)
+                                            2 => 10.0.0.103:53/TCP (active)
+4    10.96.0.10:53/UDP       ClusterIP      1 => 10.0.0.37:53/UDP (active)
+                                            2 => 10.0.0.103:53/UDP (active)
+5    10.96.0.10:9153/TCP     ClusterIP      1 => 10.0.0.37:9153/TCP (active)
+                                            2 => 10.0.0.103:9153/TCP (active)
+6    10.96.75.125:80/TCP     ClusterIP      1 => 10.0.0.209:80/TCP (active)
+                                            2 => 10.0.2.125:80/TCP (active)
+                                            3 => 10.0.2.170:80/TCP (active)
+
+netshoot-client:~# curl 10.96.75.125 && cat "/proc/$$/net/tcp"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>It works! Apache httpd</title>
+</head>
+<body>
+<p>It works!</p>
+</body>
+</html>
+  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode
+   0: 5B02000A:D52A 7D02000A:0050 06 00000000:00000000 03:0000176F 00000000     0        0 0 3 00000000c28061cc
+
+-- service affinity
+
+i
+❯ cat affinity-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podinfo
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: podinfo
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: podinfo
+    spec:
+      containers:
+      - name: podinfo
+        image: stefanprodan/podinfo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: podinfo
+spec:
+  selector:
+    app.kubernetes.io/name: podinfo
+  ports:
+  - port: 9898
+
+❯ kubectl apply -f affinity-deployment.yaml
+deployment.apps/podinfo created
+service/podinfo created
+
+-- reply are coming from two different pods
+
+netshoot-client:~# curl podinfo:9898
+{
+  "hostname": "podinfo-95f684c8b-xrsmb",
+  "version": "6.14.0",
+  "revision": "a30fa3224289a3f3e413157104dee8844e329926",
+  "color": "#34577c",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "message": "greetings from podinfo v6.14.0",
+  "goos": "linux",
+  "goarch": "arm64",
+  "runtime": "go1.26.4",
+  "num_goroutine": "6",
+  "num_cpu": "8"
+
+}netshoot-client:~# curl podinfo:9898
+{
+  "hostname": "podinfo-95f684c8b-2hrdm",
+  "version": "6.14.0",
+  "revision": "a30fa3224289a3f3e413157104dee8844e329926",
+  "color": "#34577c",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "message": "greetings from podinfo v6.14.0",
+  "goos": "linux",
+  "goarch": "arm64",
+  "runtime": "go1.26.4",
+  "num_goroutine": "6",
+  "num_cpu": "8"
+}netshoot-client:~#
+
+-- to enable service affinity add sessionAffinity: ClientIP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: podinfo
+spec:
+  sessionAffinity: ClientIP
+  selector:
+    app.kubernetes.io/name: podinfo
+  ports:
+  - port: 9898
+
+
+netshoot-client:~# curl podinfo:9898
+{
+  "hostname": "podinfo-95f684c8b-2hrdm",
+  "version": "6.14.0",
+  "revision": "a30fa3224289a3f3e413157104dee8844e329926",
+  "color": "#34577c",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "message": "greetings from podinfo v6.14.0",
+  "goos": "linux",
+  "goarch": "arm64",
+  "runtime": "go1.26.4",
+  "num_goroutine": "6",
+  "num_cpu": "8"
+}
+netshoot-client:~# curl podinfo:9898
+{
+  "hostname": "podinfo-95f684c8b-2hrdm",
+  "version": "6.14.0",
+  "revision": "a30fa3224289a3f3e413157104dee8844e329926",
+  "color": "#34577c",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "message": "greetings from podinfo v6.14.0",
+  "goos": "linux",
+  "goarch": "arm64",
+  "runtime": "go1.26.4",
+  "num_goroutine": "6",
+  "num_cpu": "8"
+}
+netshoot-client:~# curl podinfo:9898
+{
+  "hostname": "podinfo-95f684c8b-2hrdm",
+  "version": "6.14.0",
+  "revision": "a30fa3224289a3f3e413157104dee8844e329926",
+  "color": "#34577c",
+  "logo": "https://raw.githubusercontent.com/stefanprodan/podinfo/gh-pages/cuddle_clap.gif",
+  "message": "greetings from podinfo v6.14.0",
+  "goos": "linux",
+  "goarch": "arm64",
+  "runtime": "go1.26.4",
+  "num_goroutine": "6",
+  "num_cpu": "8"
+}netshoot-client:~#

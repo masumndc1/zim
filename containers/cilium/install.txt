@@ -1,0 +1,308 @@
+
+
+❯ brew install kind
+Warning: kind 0.32.0 is already installed and up-to-date.
+To reinstall 0.32.0, run:
+  brew reinstall kind
+
+❯ brew install cilium-cli
+
+❯ cilium version --client
+cilium-cli: v0.19.5 compiled with go1.26.4 on darwin/arm64
+cilium image (default): v1.19.4
+cilium image (stable): v1.19.5
+
+brew install hubble
+❯ hubble version
+hubble 1.19.4 compiled with go1.26.4 on darwin/arm64
+
+❯ brew install helm
+❯ helm version
+version.BuildInfo {
+	Version:"v4.2.2",
+	GitCommit:"b05881cf967a5a09e19866799d0edfd40675803a",
+	GitTreeState:"clean",
+	GoVersion:"go1.26.4",
+	KubeClientVersion:"v1.36"
+}
+
+> brew install docker
+
+-- create the cluster
+
+kind create cluster --config kind.yaml
+
+Creating cluster "kind" ...
+ ✓ Ensuring node image (kindest/node:v1.33.4) 🖼
+ ✓ Preparing nodes 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-kind"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-kind
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+
+-- check the cluster info
+❯ kubectl cluster-info --context kind-kind
+Kubernetes control plane is running at https://127.0.0.1:58676
+CoreDNS is running at https://127.0.0.1:58676/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+-- note here nodes status, They are not ready.
+❯ kubectl get nodes
+NAME                 STATUS     ROLES           AGE     VERSION
+kind-control-plane   NotReady   control-plane   2m57s   v1.33.4
+kind-worker          NotReady   <none>          2m43s   v1.33.4
+kind-worker2         NotReady   <none>          2m43s   v1.33.4
+
+
+❯ kubectl get nodes kind-worker -o yaml
+apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
+    node.alpha.kubernetes.io/ttl: "0"
+    volumes.kubernetes.io/controller-managed-attach-detach: "true"
+  creationTimestamp: "2026-07-08T09:05:30Z"
+  labels:
+    beta.kubernetes.io/arch: arm64
+    beta.kubernetes.io/os: linux
+    kubernetes.io/arch: arm64
+    kubernetes.io/hostname: kind-worker
+    kubernetes.io/os: linux
+  name: kind-worker
+  resourceVersion: "818"
+  uid: 7f713ae0-073e-4ee7-b3c3-ecdb527263a5
+spec:
+  podCIDR: 10.244.1.0/24
+  podCIDRs:
+  - 10.244.1.0/24
+  providerID: kind://docker/kind/kind-worker
+  taints:
+  - effect: NoSchedule
+    key: node.kubernetes.io/not-ready
+status:
+  addresses:
+  - address: 172.18.0.4
+    type: InternalIP
+  - address: kind-worker
+    type: Hostname
+  allocatable:
+    cpu: "8"
+    ephemeral-storage: 1055761844Ki
+    hugepages-1Gi: "0"
+    hugepages-2Mi: "0"
+    hugepages-32Mi: "0"
+    hugepages-64Ki: "0"
+    memory: 8126756Ki
+    pods: "110"
+  capacity:
+    cpu: "8"
+    ephemeral-storage: 1055761844Ki
+    hugepages-1Gi: "0"
+    hugepages-2Mi: "0"
+    hugepages-32Mi: "0"
+    hugepages-64Ki: "0"
+    memory: 8126756Ki
+    pods: "110"
+  conditions:
+  - lastHeartbeatTime: "2026-07-08T09:08:54Z"
+    lastTransitionTime: "2026-07-08T09:05:30Z"
+    message: kubelet has sufficient memory available
+    reason: KubeletHasSufficientMemory
+    status: "False"
+    type: MemoryPressure
+  - lastHeartbeatTime: "2026-07-08T09:08:54Z"
+    lastTransitionTime: "2026-07-08T09:05:30Z"
+    message: kubelet has no disk pressure
+    reason: KubeletHasNoDiskPressure
+    status: "False"
+    type: DiskPressure
+  - lastHeartbeatTime: "2026-07-08T09:08:54Z"
+    lastTransitionTime: "2026-07-08T09:05:30Z"
+    message: kubelet has sufficient PID available
+    reason: KubeletHasSufficientPID
+    status: "False"
+    type: PIDPressure
+  - lastHeartbeatTime: "2026-07-08T09:08:54Z"
+    lastTransitionTime: "2026-07-08T09:05:30Z"
+    message: 'container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady
+      message:Network plugin returns error: cni plugin not initialized'
+    reason: KubeletNotReady
+    status: "False"
+    type: Ready
+  daemonEndpoints:
+    kubeletEndpoint:
+      Port: 10250
+  features:
+    supplementalGroupsPolicy: true
+  images:
+  - names:
+    - registry.k8s.io/kube-proxy-arm64:v1.33.4
+    - registry.k8s.io/kube-proxy:v1.33.4
+    sizeBytes: 101013193
+  - names:
+    - registry.k8s.io/kube-apiserver-arm64:v1.33.4
+    - registry.k8s.io/kube-apiserver:v1.33.4
+    sizeBytes: 98145777
+  - names:
+    - registry.k8s.io/kube-controller-manager-arm64:v1.33.4
+    - registry.k8s.io/kube-controller-manager:v1.33.4
+    sizeBytes: 91592021
+  - names:
+    - registry.k8s.io/kube-scheduler-arm64:v1.33.4
+    - registry.k8s.io/kube-scheduler:v1.33.4
+    sizeBytes: 71669077
+  - names:
+    - registry.k8s.io/etcd:3.5.21-0
+    sizeBytes: 70026017
+  - names:
+    - docker.io/kindest/kindnetd:v20250512-df8de77b
+    sizeBytes: 40636774
+  - names:
+    - docker.io/kindest/local-path-provisioner:v20250214-acbabc1a
+    sizeBytes: 20222523
+  - names:
+    - registry.k8s.io/coredns/coredns:v1.12.0
+    sizeBytes: 19148915
+  - names:
+    - docker.io/kindest/local-path-helper:v20241212-8ac705d0
+    sizeBytes: 2954522
+  - names:
+    - registry.k8s.io/pause:3.10
+    sizeBytes: 267933
+  nodeInfo:
+    architecture: arm64
+    bootID: f5781253-aa11-45c3-9c5d-633db79fd5ab
+    containerRuntimeVersion: containerd://2.1.3
+    kernelVersion: 6.12.76-linuxkit
+    kubeProxyVersion: ""
+    kubeletVersion: v1.33.4
+    machineID: 4b6d739967c24eae94ccb8afa8a5d33b
+    operatingSystem: linux
+    osImage: Debian GNU/Linux 12 (bookworm)
+    swap:
+      capacity: 1073737728
+    systemUUID: 4b6d739967c24eae94ccb8afa8a5d33b
+  runtimeHandlers:
+  - features:
+      recursiveReadOnlyMounts: true
+      userNamespaces: true
+    name: runc
+  - features:
+      recursiveReadOnlyMounts: true
+      userNamespaces: true
+    name: ""
+  - features:
+      recursiveReadOnlyMounts: true
+      userNamespaces: true
+    name: test-handler
+
+-- install cilium now
+
+> cilium install --dry-run-helm-values
+cluster:
+  name: kind-kind
+ipam:
+  mode: kubernetes
+operator:
+  replicas: 1
+routingMode: tunnel
+tunnelProtocol: vxlan
+
+❯ kubectl get nodes kind-worker -o yaml | yq .spec.podCIDR
+10.244.1.0/24
+❯
+❯ kubectl get nodes kind-worker2 -o yaml | yq .spec.podCIDR
+10.244.2.0/24
+~/Documents/github/cilium-up-and-running/chapter03 main
+myenv ❯
+
+❯ cilium install
+🔮 Auto-detected Kubernetes kind: kind
+ℹ️  Using Cilium version 1.19.4
+🔮 Auto-detected cluster name: kind-kind
+🔮 Auto-detected kube-proxy has been installed
+
+
+❯ cilium uninstall
+🔥 Deleting pods in cilium-test namespace...
+🔥 Deleting cilium-test namespace...
+⌛ Uninstalling Cilium
+🔥 Deleting pods in cilium-test namespace...
+🔥 Deleting cilium-test namespace...
+🔥 Cleaning up Cilium node annotations...
+❯
+
+-- rather install cilium with helm
+
+❯ helm repo add cilium https://helm.cilium.io/
+"cilium" has been added to your repositories
+
+> helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values helm-values.yaml
+NAME: cilium
+LAST DEPLOYED: Wed Jul  8 12:14:03 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+> cilium status --wait
+
+cilium status
+    /¯¯\
+ /¯¯\__/¯¯\    Cilium:             OK
+ \__/¯¯\__/    Operator:           OK
+ /¯¯\__/¯¯\    Envoy DaemonSet:    OK
+ \__/¯¯\__/    Hubble Relay:       disabled
+    \__/       ClusterMesh:        disabled
+
+DaemonSet              cilium                   Desired: 3, Ready: 3/3, Available: 3/3
+DaemonSet              cilium-envoy             Desired: 3, Ready: 3/3, Available: 3/3
+Deployment             cilium-operator          Desired: 1, Ready: 1/1, Available: 1/1
+Containers:            cilium                   Running: 3
+                       cilium-envoy             Running: 3
+                       cilium-operator          Running: 1
+                       clustermesh-apiserver
+                       hubble-relay
+Cluster Pods:          3/3 managed by Cilium
+Helm chart version:    1.18.4
+Image versions         cilium             quay.io/cilium/cilium:v1.18.4@sha256:49d87af187eeeb9e9e3ec2bc6bd372261a0b5cb2d845659463ba7cc10fe9e45f: 3
+                       cilium-envoy       quay.io/cilium/cilium-envoy:v1.34.10-1762597008-ff7ae7d623be00078865cff1b0672cc5d9bfc6d5@sha256:1deb6709afcb5523579bf1abbc3255adf9e354565a88c4a9162c8d9cb1d77ab5: 3
+                       cilium-operator    quay.io/cilium/operator-generic:v1.18.4@sha256:1b22b9ff28affdf574378a70dade4ef835b00b080c2ee2418530809dd62c3012: 1
+
+>
+❯ kubectl get -n kube-system daemonset cilium cilium-envoy
+NAME           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+cilium         3         3         3       3            3           kubernetes.io/os=linux   109s
+cilium-envoy   3         3         3       3            3           kubernetes.io/os=linux   109s
+❯
+❯ kubectl get -n kube-system deployment cilium-operator
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+cilium-operator   1/1     1            1           2m18s
+
+
+-- uninstalling cilium
+❯ cilium uninstall
+🔥 Deleting pods in cilium-test namespace...
+🔥 Deleting cilium-test namespace...
+⌛ Uninstalling Cilium
+🔥 Deleting pods in cilium-test namespace...
+🔥 Deleting cilium-test namespace...
+🔥 Cleaning up Cilium node annotations...
+❯

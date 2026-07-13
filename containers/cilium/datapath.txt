@@ -1,0 +1,85 @@
+
+
+
+-- datapath in cilium
+-- create cluster and install cilium with default value
+
+❯ cat kind.yaml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+  - role: worker
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+  - role: worker
+    image: kindest/node:v1.33.4@sha256:25a6018e48dfcaee478f4a59af81157a437f15e6e140bf103f85a2e7cd0cbbf2
+networking:
+  disableDefaultCNI: true
+
+> kind create cluster --config kind.yaml
+> cilium install
+
+cat intra-node-example.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-a
+spec:
+  nodeName: kind-worker
+  containers:
+    - name: netshoot
+      image: nicolaka/netshoot:latest
+      command: ["sleep", "infinite"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-b
+spec:
+  nodeName: kind-worker
+  containers:
+    - name: netshoot
+      image: nicolaka/netshoot:latest
+      command: ["sleep", "infinite"]
+
+> kubectl get pods -o wide
+NAME    READY   STATUS    RESTARTS   AGE   IP             NODE          NOMINATED NODE   READINESS GATES
+pod-a   1/1     Running   0          40s   10.244.2.145   kind-worker   <none>           <none>
+pod-b   1/1     Running   0          40s   10.244.2.98    kind-worker   <none>           <none>
+
+
+-- when cilium network has "autoDirectNodeRoutes" option enabled
+
+❯ docker exec kind-worker ip route
+default via 172.18.0.1 dev eth0
+10.10.0.0/27 via 172.18.0.2 dev eth0 proto kernel
+10.10.0.36 dev lxc_health proto kernel scope link
+10.10.0.64/27 via 172.18.0.4 dev eth0 proto kernel
+10.244.0.0/24 via 172.18.0.2 dev eth0 proto kernel
+10.244.1.0/24 via 172.18.0.4 dev eth0 proto kernel
+172.18.0.0/16 dev eth0 proto kernel scope link src 172.18.0.3
+❯
+❯ docker exec kind-worker2 ip route
+default via 172.18.0.1 dev eth0
+10.10.0.0/27 via 172.18.0.2 dev eth0 proto kernel
+10.10.0.32/27 via 172.18.0.3 dev eth0 proto kernel
+10.10.0.68 dev lxc_health proto kernel scope link
+10.10.0.92 dev lxcca106a12f060 proto kernel scope link
+10.244.0.0/24 via 172.18.0.2 dev eth0 proto kernel
+10.244.2.0/24 via 172.18.0.3 dev eth0 proto kernel
+172.18.0.0/16 dev eth0 proto kernel scope link src 172.18.0.4
+❯
+❯ docker exec kind-control-plane ip route
+default via 172.18.0.1 dev eth0
+10.10.0.13 dev lxc_health proto kernel scope link
+10.10.0.26 dev lxc2e1e1b46c558 proto kernel scope link
+10.10.0.32/27 via 172.18.0.3 dev eth0 proto kernel
+10.10.0.64/27 via 172.18.0.4 dev eth0 proto kernel
+10.244.1.0/24 via 172.18.0.4 dev eth0 proto kernel
+10.244.2.0/24 via 172.18.0.3 dev eth0 proto kernel
+172.18.0.0/16 dev eth0 proto kernel scope link src 172.18.0.2
+
+-- adding manual static route
+
+ip route add 10.10.0.0/27 via 172.18.0.4 dev eth0

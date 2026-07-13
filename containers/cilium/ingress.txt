@@ -1,0 +1,253 @@
+
+
+-- ingress and gateway api
+--
+-- first delete the existing cluster and recreate
+-- install cilium with following
+
+
+❯ cat cilium-ingress-values.yaml
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+devices:
+  - eth0
+ipam:
+  mode: kubernetes
+ingressController:
+  enabled: true
+
+❯ helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values cilium-ingress-values.yaml
+
+I0711 13:14:37.621972    7305 warnings.go:107] "Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice"
+I0711 13:14:37.879677    7305 warnings.go:107] "Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice"
+NAME: cilium
+LAST DEPLOYED: Sat Jul 11 13:14:37 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+❯ kubectl apply -f chapter07/ingress/bookinfo.yaml
+
+service/details created
+serviceaccount/bookinfo-details created
+deployment.apps/details-v1 created
+service/ratings created
+serviceaccount/bookinfo-ratings created
+deployment.apps/ratings-v1 created
+service/reviews created
+serviceaccount/bookinfo-reviews created
+deployment.apps/reviews-v1 created
+deployment.apps/reviews-v2 created
+deployment.apps/reviews-v3 created
+service/productpage created
+serviceaccount/bookinfo-productpage created
+deployment.apps/productpage-v1 created
+
+>
+
+-- deploy the basic ingress
+
+
+❯ cat basic-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  namespace: default
+spec:
+  ingressClassName: cilium
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: details
+                port:
+                  number: 9080
+            path: /details
+            pathType: Prefix
+          - backend:
+              service:
+                name: productpage
+                port:
+                  number: 9080
+            path: /
+            pathType: Prefix
+
+❯ kubectl apply -f basic-ingress.yaml
+ingress.networking.k8s.io/basic-ingress created
+
+-- but not yet external ip
+
+❯ kubectl get svc
+NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+cilium-ingress-basic-ingress   LoadBalancer   10.96.250.248   <pending>     80:30171/TCP,443:31975/TCP   94m
+details                        ClusterIP      10.96.146.69    <none>        9080/TCP                     96m
+
+-- deploy the ip pool for load balancer to have the external ip
+
+❯ cat pool.yaml
+apiVersion: "cilium.io/v2"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: "pool"
+spec:
+  blocks:
+  - cidr: "172.18.255.200/29"%
+
+❯ kubectl apply -f pool.yaml
+ciliumloadbalancerippool.cilium.io/pool created
+
+❯ kubectl get svc
+NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                      AGE
+cilium-ingress-basic-ingress   LoadBalancer   10.96.250.248   172.18.255.200   80:30171/TCP,443:31975/TCP   96m
+details                        ClusterIP      10.96.146.69    <none>           9080/TCP                     97m
+
+-- get info of ingress
+
+❯ kubectl get ingress
+NAME            CLASS    HOSTS   ADDRESS          PORTS   AGE
+basic-ingress   cilium   *       172.18.255.200   80      97m
+
+-- deploy one l2policy
+
+
+❯ cat l2policy.yaml
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: policy1
+spec:
+  loadBalancerIPs: true
+  interfaces:
+  - eth0
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+
+❯ kubectl apply -f l2policy.yaml
+ciliuml2announcementpolicy.cilium.io/policy1 created
+
+-- now we can use cluster_ip to connect, which then work as ingress and land us to backend nodes.
+
+> echo $INGRESS_IP
+172.18.255.200
+❯ curl --fail -s -o /dev/null -w "%{http_code}\n" "http://$INGRESS_IP/"
+200
+
+❯ curl --fail -s "http://$INGRESS_IP/details/1"
+{"id":1,"author":"William Shakespeare",
+"year":1595,"type":"paperback","pages":200,
+"publisher":"PublisherA","language":"English",
+"ISBN-10":"1234567890",
+"ISBN-13":"123-1234567890"}%
+❯
+
+
+-- tls termination
+-- install mkcert in mac, we dont need to install mkcert system wide
+
+brew install cert
+
+
+❯ mkcert '*.cilium.rocks'
+Created a new local CA 💥
+Note: the local CA is not installed in the system trust store.
+Note: the local CA is not installed in the Firefox trust store.
+Run "mkcert -install" for certificates to be trusted automatically ⚠️
+-- ** we dont need it ** --
+
+Created a new certificate valid for the following names 📜
+ - "*.cilium.rocks"
+
+Reminder: X.509 wildcards only go one level deep, so this won't match a.b.cilium.rocks ℹ️
+
+The certificate is at "./_wildcard.cilium.rocks.pem" and the key at "./_wildcard.cilium.rocks-key.pem" ✅
+
+It will expire on 11 October 2028 🗓
+
+-- create secret
+
+❯ kubectl create secret tls demo-cert \
+> --key=_wildcard.cilium.rocks-key.pem \
+> --cert=_wildcard.cilium.rocks.pem
+secret/demo-cert created
+
+❯ kubectl get secret
+NAME        TYPE                DATA   AGE
+demo-cert   kubernetes.io/tls   2      21s
+
+
+❯ cat tls-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tls-ingress
+  namespace: default
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: bookinfo.cilium.rocks
+      http:
+        paths:
+          - path: /details
+            pathType: Prefix
+            backend:
+              service:
+                name: details
+                port:
+                  number: 9080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: productpage
+                port:
+                  number: 9080
+  tls:
+    - hosts:
+        - bookinfo.cilium.rocks
+      secretName: demo-cert%
+❯ kubectl apply -f tls-ingress.yaml
+ingress.networking.k8s.io/tls-ingress created
+
+-- we got new ingress
+
+❯ kubectl get ingress
+NAME            CLASS    HOSTS                   ADDRESS          PORTS     AGE
+basic-ingress   cilium   *                       172.18.255.200   80        125m
+tls-ingress     cilium   bookinfo.cilium.rocks   172.18.255.202   80, 443   32s
+
+❯ mkcert -CAROOT
+/Users/user/Library/Application Support/mkcert
+
+❯ echo $TLS_INGRESS
+172.18.255.202
+
+❯ curl -s \
+--resolve "bookinfo.cilium.rocks:443:$TLS_INGRESS" \
+--cacert "$(mkcert -CAROOT)/rootCA.pem" \
+https://bookinfo.cilium.rocks/details/1 | jq
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}

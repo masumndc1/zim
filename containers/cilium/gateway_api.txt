@@ -1,0 +1,287 @@
+
+
+-- gateway api
+--
+-- delete the existing kind cluster and create a new one
+-- install cilium too
+
+-- install custom CRDs
+
+> CRD_PATH="https://raw.githubusercontent.com/"\
+"kubernetes-sigs/gateway-api/v1.3.0/config/crd/standard/"
+
+❯ kubectl apply -f "${CRD_PATH}/gateway.networking.k8s.io_gatewayclasses.yaml"
+customresourcedefinition.apiextensions.k8s.io/gatewayclasses.gateway.networking.k8s.io created
+❯ kubectl apply -f "${CRD_PATH}/gateway.networking.k8s.io_gateways.yaml"
+customresourcedefinition.apiextensions.k8s.io/gateways.gateway.networking.k8s.io created
+❯ kubectl apply -f "${CRD_PATH}/gateway.networking.k8s.io_httproutes.yaml"
+customresourcedefinition.apiextensions.k8s.io/httproutes.gateway.networking.k8s.io created
+❯ kubectl apply -f "${CRD_PATH}/gateway.networking.k8s.io_referencegrants.yaml"
+customresourcedefinition.apiextensions.k8s.io/referencegrants.gateway.networking.k8s.io created
+❯ kubectl apply -f "${CRD_PATH}/gateway.networking.k8s.io_grpcroutes.yaml"
+customresourcedefinition.apiextensions.k8s.io/grpcroutes.gateway.networking.k8s.io created
+
+-- list of CRDs
+
+❯ kubectl get crd
+NAME                                         CREATED AT
+ciliumcidrgroups.cilium.io                   2026-07-11T13:24:03Z
+ciliumclusterwidenetworkpolicies.cilium.io   2026-07-11T13:24:02Z
+ciliumendpoints.cilium.io                    2026-07-11T13:24:00Z
+ciliumidentities.cilium.io                   2026-07-11T13:23:57Z
+ciliumnetworkpolicies.cilium.io              2026-07-11T13:24:01Z
+ciliumnodes.cilium.io                        2026-07-11T13:23:56Z
+ciliumpodippools.cilium.io                   2026-07-11T13:23:59Z
+gatewayclasses.gateway.networking.k8s.io     2026-07-11T13:22:25Z
+gateways.gateway.networking.k8s.io           2026-07-11T13:22:37Z
+grpcroutes.gateway.networking.k8s.io         2026-07-11T13:23:06Z
+httproutes.gateway.networking.k8s.io         2026-07-11T13:22:49Z
+referencegrants.gateway.networking.k8s.io    2026-07-11T13:22:56Z
+
+
+❯ cat cilium-gatewayapi-values.yaml
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+devices:
+  - eth0
+ipam:
+  mode: kubernetes
+gatewayAPI:
+  enabled: true
+
+❯ helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values cilium-gatewayapi-values.yaml
+NAME: cilium
+LAST DEPLOYED: Sat Jul 11 16:06:21 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+-- these can be found from chapter07/gateway
+
+❯ kubectl apply -f pool.yaml
+ciliumloadbalancerippool.cilium.io/pool created
+❯ kubectl apply -f l2policy.yaml
+ciliuml2announcementpolicy.cilium.io/policy1 created
+❯ kubectl apply -f bookinfo.yaml
+service/details created
+serviceaccount/bookinfo-details created
+deployment.apps/details-v1 created
+service/ratings created
+serviceaccount/bookinfo-ratings created
+deployment.apps/ratings-v1 created
+service/reviews created
+serviceaccount/bookinfo-reviews created
+deployment.apps/reviews-v1 created
+deployment.apps/reviews-v2 created
+deployment.apps/reviews-v3 created
+service/productpage created
+serviceaccount/bookinfo-productpage created
+deployment.apps/productpage-v1 created
+
+❯ cat basic-http-route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-app-1
+spec:
+  parentRefs:
+  - name: my-gateway
+    namespace: default
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /details
+    backendRefs:
+    - name: details
+      port: 9080
+  - matches:
+    - headers:
+      - type: Exact
+        name: magic
+        value: foo
+      queryParams:
+      - type: Exact
+        name: great
+        value: example
+      path:
+        type: PathPrefix
+        value: /
+      method: GET
+    backendRefs:
+    - name: productpage
+      port: 9080
+❯ cat basic-gateway.yaml
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - protocol: HTTP
+    port: 80
+    name: web-gw
+    allowedRoutes:
+      namespaces:
+        from: Same
+
+❯ kubectl apply -f basic-gateway.yaml
+gateway.gateway.networking.k8s.io/my-gateway created
+❯ kubectl apply -f basic-http-route.yaml
+httproute.gateway.networking.k8s.io/http-app-1 created
+
+❯ kubectl get GatewayClass
+NAME     CONTROLLER                     ACCEPTED   AGE
+cilium   io.cilium/gateway-controller   True       4m25s
+
+❯ kubectl get Gateway
+NAME         CLASS    ADDRESS          PROGRAMMED   AGE
+my-gateway   cilium   172.18.255.200   True         98s
+
+
+❯ kubectl get httproutes http-app-1 -o yaml | yq .status.parents
+- conditions:
+    - lastTransitionTime: "2026-07-11T13:26:41Z"
+      message: Accepted HTTPRoute
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-07-11T13:26:41Z"
+      message: Service reference is valid
+      observedGeneration: 1
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+  controllerName: io.cilium/gateway-controller
+  parentRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: my-gateway
+    namespace: default
+
+❯ kubectl get gateway
+NAME         CLASS    ADDRESS          PROGRAMMED   AGE
+my-gateway   cilium   172.18.255.200   True         15m
+
+❯ GATEWAY=172.18.255.200
+❯ export GATEWAY
+❯
+❯ echo $GATEWAY
+172.18.255.200
+
+❯ curl --fail -s "http://$GATEWAY/details/1" | jq
+{
+  "id": 1,
+  "author": "William Shakespeare",
+  "year": 1595,
+  "type": "paperback",
+  "pages": 200,
+  "publisher": "PublisherA",
+  "language": "English",
+  "ISBN-10": "1234567890",
+  "ISBN-13": "123-1234567890"
+}
+
+❯ kubectl apply -f echo-servers.yaml
+service/echo-1 created
+deployment.apps/echo-1 created
+service/echo-2 created
+deployment.apps/echo-2 created
+
+❯ kubectl get pods,svc
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/details-v1-766844796b-hw2k9       1/1     Running   0          24m
+pod/echo-1-65bf7cf9b5-ntdb5           1/1     Running   0          9s
+pod/echo-2-569cb769b7-s8kj6           1/1     Running   0          9s
+pod/productpage-v1-54bb874995-pd572   1/1     Running   0          24m
+pod/ratings-v1-5dc79b6bcd-xjkgh       1/1     Running   0          24m
+pod/reviews-v1-598b896c9d-6wrmz       1/1     Running   0          24m
+pod/reviews-v2-556d6457d-tt52l        1/1     Running   0          24m
+pod/reviews-v3-564544b4d6-rnpkx       1/1     Running   0          24m
+
+NAME                                TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
+service/cilium-gateway-my-gateway   LoadBalancer   10.96.232.220   172.18.255.200   80:30350/TCP   23m
+service/details                     ClusterIP      10.96.82.8      <none>           9080/TCP       24m
+service/echo-1                      ClusterIP      10.96.45.81     <none>           8080/TCP       9s
+service/echo-2                      ClusterIP      10.96.54.236    <none>           8090/TCP       9s
+service/kubernetes                  ClusterIP      10.96.0.1       <none>           443/TCP        28m
+service/productpage                 ClusterIP      10.96.21.216    <none>           9080/TCP       24m
+service/ratings                     ClusterIP      10.96.246.193   <none>           9080/TCP       24m
+service/reviews                     ClusterIP      10.96.22.245    <none>           9080/TCP       24m
+
+
+❯ cat load-balancing-http-route.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: load-balancing-route
+spec:
+  parentRefs:
+  - name: my-gateway
+    namespace: default
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /echo
+    backendRefs:
+    - kind: Service
+      name: echo-1
+      port: 8080
+      weight: 50
+    - kind: Service
+      name: echo-2
+      port: 8090
+      weight: 50
+
+❯ kubectl apply -f load-balancing-http-route.yaml
+httproute.gateway.networking.k8s.io/load-balancing-route created
+❯
+
+-- it splits the traffics
+
+❯ curl "http://$GATEWAY/echo"
+Request served by echo-1-65bf7cf9b5-ntdb5
+
+HTTP/1.1 GET /echo
+
+Host: 172.18.255.200
+Accept: */*
+User-Agent: curl/8.19.0
+X-Envoy-Internal: true
+X-Forwarded-For: 172.18.0.1
+X-Forwarded-Proto: http
+X-Request-Id: 96da1a8f-7355-4217-898f-b9c94aaeb45c
+❯ curl "http://$GATEWAY/echo"
+Request served by echo-2-569cb769b7-s8kj6
+
+HTTP/1.1 GET /echo
+
+Host: 172.18.255.200
+Accept: */*
+User-Agent: curl/8.19.0
+X-Envoy-Internal: true
+X-Forwarded-For: 172.18.0.1
+X-Forwarded-Proto: http
+X-Request-Id: a6bae260-3eb6-484e-a2f4-17f0558d603d
+
+-- 99/1 rules
+
+❯ kubectl get httproute
+NAME                   HOSTNAMES   AGE
+http-app-1                         29m
+load-balancing-route               5m14s

@@ -1,0 +1,15 @@
+
+
+-- cluster access over bgp
+
+-- get worker nodes ip ip
+
+❯ kubectl get nodes -o wide | awk '{print $1,$6}'
+NAME INTERNAL-IP
+kind-control-plane 172.18.0.2
+kind-worker 172.18.0.4
+kind-worker2 172.18.0.3
+
+
+❯ WORKER_IP=172.18.0.4
+❯ WORKER2_IP=172.18.0.3

@@ -1,0 +1,202 @@
+
+
+-- ip address management in cilium, ipam
+
+-- delete any existing cluster first
+
+❯ kind delete cluster --name kind
+Deleting cluster "kind" ...
+Deleted nodes: ["kind-control-plane" "kind-worker2" "kind-worker"]
+
+-- recreate again
+
+> kind create cluster --config kind.yaml
+
+-- install cilium again with custome settings
+
+❯ cat  cilium-ipam-cluster-scope.yaml
+cluster:
+  name: kind-kind
+ipam:
+  mode: cluster-pool
+operator:
+  replicas: 1
+routingMode: tunnel
+tunnelProtocol: vxlan
+
+❯ helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values  cilium-ipam-cluster-scope.yaml
+
+NAME: cilium
+LAST DEPLOYED: Thu Jul  9 12:10:27 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+-- check the setting
+
+write-cni-conf-when-ready                         /host/etc/cni/net.d/05-cilium.conflist
+❯ cilium config view | grep -i cluster-pool
+cluster-pool-ipv4-cidr                            10.0.0.0/8
+cluster-pool-ipv4-mask-size                       24
+ipam                                              cluster-pool
+
+-- after we create one pod we can see that the pod is getting ip from the pool
+
+> kubectl -n kube-system exec -it cilium-9pj47 -- cilium-dbg status --verbose | grep -i allocated -A 5
+IPAM:                   IPv4: 3/254 allocated from 10.0.2.0/24,
+Allocated addresses:
+  10.0.2.185 (default/netshoot-client)
+  10.0.2.20 (health)
+  10.0.2.219 (router)
+IPv4 BIG TCP:           Disabled
+IPv6 BIG TCP:           Disabled
+
+-- when ipam is multi-pool
+
+cat cilium-ipam-multi-pool.yaml
+ipam:
+  mode: multi-pool
+  operator:
+    autoCreateCiliumPodIPPools:
+      default:
+        ipv4:
+          cidrs: ["10.10.0.0/16"]
+          maskSize: 27
+
+routingMode: native
+endpointRoutes:
+  enabled: true
+
+autoDirectNodeRoutes: true
+ipv4NativeRoutingCIDR: 10.0.0.0/8
+
+❯ helm install cilium cilium/cilium -n kube-system \
+--version 1.18.4 \
+--values cilium-ipam-multi-pool.yaml
+NAME: cilium
+LAST DEPLOYED: Thu Jul  9 12:26:15 2026
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+You have successfully installed Cilium with Hubble.
+
+Your release version is 1.18.4.
+
+For any further help, visit https://docs.cilium.io/en/v1.18/gettinghelp
+
+❯ kubectl get namespace
+NAME                 STATUS   AGE
+cilium-secrets       Active   5m2s
+default              Active   5m46s
+kube-node-lease      Active   5m46s
+kube-public          Active   5m46s
+kube-system          Active   5m46s
+local-path-storage   Active   5m43s
+
+❯ cat namespaces.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: acme-corp
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: foobar-inc
+
+❯ kubectl apply -f namespaces.yaml
+namespace/acme-corp created
+namespace/foobar-inc created
+
+❯ kubectl get namespace
+NAME                 STATUS   AGE
+acme-corp            Active   23s
+cilium-secrets       Active   5m43s
+default              Active   6m27s
+foobar-inc           Active   22s
+kube-node-lease      Active   6m27s
+kube-public          Active   6m27s
+kube-system          Active   6m27s
+local-path-storage   Active   6m24s
+
+-- lets create following two pools
+
+❯ cat acme-pool.yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumPodIPPool
+metadata:
+  name: acme-pool
+spec:
+  ipv4:
+    cidrs:
+    - 10.20.0.0/16
+    maskSize: 27
+
+❯ cat foobar-pool.yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumPodIPPool
+metadata:
+  name: foobar-pool
+spec:
+  ipv4:
+    cidrs:
+    - 10.30.0.0/16
+    maskSize: 27
+
+-- annotate them
+
+❯ kubectl annotate ns acme-corp ipam.cilium.io/ip-pool=acme-pool
+namespace/acme-corp annotated
+❯ kubectl annotate ns foobar-inc ipam.cilium.io/ip-pool=foobar-pool
+namespace/foobar-inc annotated
+
+-- deploy 10 pods in acme-corp and foobar-inc namespace.
+-- there will be 10 pods running in each name space
+
+
+❯ kubectl apply -f nginx-deployment-10-replicas.yaml -n acme-corp
+
+deployment.apps/nginx-deployment created
+❯ kubectl apply -f nginx-deployment-10-replicas.yaml -n foobar-inc
+
+deployment.apps/nginx-deployment created
+❯ kubectl get pods -o wide -n acme-corp
+NAME                                READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+nginx-deployment-688bbb47f7-4x84x   1/1     Running   0          51s   10.20.0.9    kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-b5c79   1/1     Running   0          51s   10.20.0.20   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-c6g2r   1/1     Running   0          51s   10.20.0.14   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-d5wbn   1/1     Running   0          51s   10.20.0.12   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-hhplj   1/1     Running   0          51s   10.20.0.1    kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-pdpww   1/1     Running   0          51s   10.20.0.11   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-tvcgv   1/1     Running   0          51s   10.20.0.23   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-x8v6b   1/1     Running   0          51s   10.20.0.13   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-xdwr5   1/1     Running   0          51s   10.20.0.5    kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-zp87p   1/1     Running   0          51s   10.20.0.17   kind-worker2   <none>           <none>
+❯
+❯ kubectl get pods -o wide -n foobar-inc
+NAME                                READY   STATUS    RESTARTS   AGE   IP           NODE           NOMINATED NODE   READINESS GATES
+nginx-deployment-688bbb47f7-56xnx   1/1     Running   0          49s   10.30.0.12   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-749kj   1/1     Running   0          50s   10.30.0.17   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-bc879   1/1     Running   0          49s   10.30.0.19   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-bqj6m   1/1     Running   0          49s   10.30.0.21   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-dwlzz   1/1     Running   0          49s   10.30.0.22   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-gpgf8   1/1     Running   0          49s   10.30.0.11   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-n2297   1/1     Running   0          49s   10.30.0.13   kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-nn5xn   1/1     Running   0          50s   10.30.0.6    kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-ntrdc   1/1     Running   0          49s   10.30.0.3    kind-worker2   <none>           <none>
+nginx-deployment-688bbb47f7-pmp25   1/1     Running   0          50s   10.30.0.2    kind-worker2   <none>           <none>
+
+>

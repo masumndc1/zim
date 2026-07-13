@@ -1,0 +1,373 @@
+
+
+-- various component of cilium
+
+kubectl get -n kube-system daemonset cilium cilium-envoy
+NAME           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+cilium         3         3         3       3            3           kubernetes.io/os=linux   11h
+cilium-envoy   3         3         3       3            3           kubernetes.io/os=linux   11h
+
+-- cilium operator, which is only one per cluster
+
+❯ kubectl get -n kube-system deployment cilium-operator
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+cilium-operator   1/1     1            1           11h
+
+-- running an application
+
+❯ kubectl apply -f nginx-deployment.yaml
+deployment.apps/nginx-deployment created
+
+-- which we can see from the following
+
+❯ kubectl get pods -o wide
+NAME                                READY   STATUS    RESTARTS   AGE   IP            NODE           NOMINATED NODE   READINESS GATES
+nginx-deployment-688bbb47f7-qgd5r   1/1     Running   0          55s   10.244.2.49   kind-worker2   <none>           <none>
+
+-- a pod which includes all the networking tools
+
+❯ kubectl apply -f netshoot-client-pod.yaml
+pod/netshoot-client created
+
+❯ kubectl get pods -o wide
+NAME                                READY   STATUS    RESTARTS   AGE     IP            NODE           NOMINATED NODE   READINESS GATES
+netshoot-client                     1/1     Running   0          33s     10.244.1.69   kind-worker    <none>           <none>
+nginx-deployment-688bbb47f7-qgd5r   1/1     Running   0          3m44s   10.244.2.49   kind-worker2   <none>           <none>
+
+-- we can access website running in nginx pod from netshoot-client pod by following
+
+❯ kubectl exec pod/netshoot-client -- curl -s http://10.244.2.49
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+-- check the status code when accessing the webside
+
+❯ kubectl exec pod/netshoot-client -- \
+	curl -s -o /dev/null \
+	-w "%{http_code}\n" \
+	http://10.244.2.49
+200
+
+
+-- we have created on service svc by following
+
+❯ cat nginx-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app.kubernetes.io/name: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+❯ kubectl apply -f nginx-service.yaml
+service/nginx-service created
+
+❯ kubectl get svc -o wide
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP   11h   <none>
+nginx-service   ClusterIP   10.96.189.230   <none>        80/TCP    20s   app.kubernetes.io/name=nginx
+
+-- it is showing the cluster ip, on which client will send it requests.
+-- which will eventually land to the endpoints.
+-- lets consider following.
+-- it is clusterip which is only accessable within the cluster.
+
+❯ kubectl get svc nginx-service -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":
+	{"annotations":{},"name":"nginx-service","namespace":"default"},
+	"spec":{"ports":[{"port":80,"protocol":"TCP","targetPort":80}],
+	"selector":{"app.kubernetes.io/name":"nginx"},"type":"ClusterIP"}}
+  creationTimestamp: "2026-07-08T20:35:52Z"
+  name: nginx-service
+  namespace: default
+  resourceVersion: "63275"
+  uid: c6417388-d58a-4609-b9ed-63f515ad645c
+spec:
+  clusterIP: 10.96.189.230
+  clusterIPs:
+  - 10.96.189.230
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app.kubernetes.io/name: nginx
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
+-- now we can send the request to the clusterIP by following
+
+❯ kubectl exec pod/netshoot-client -- curl -s http://10.96.189.230
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+-- lets scale one deployment
+
+❯ kubectl get deployment -o wide
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES   SELECTOR
+nginx-deployment   1/1     1            1           62m   nginx        nginx    app.kubernetes.io/name=nginx
+
+❯ kubectl scale deployment nginx-deployment --replicas=2
+deployment.apps/nginx-deployment scaled
+
+❯ kubectl get deployment -o wide
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES   SELECTOR
+nginx-deployment   2/2     2            2           63m   nginx        nginx    app.kubernetes.io/name=nginx
+
+-- list all daemonsets
+
+❯ kubectl get -n kube-system daemonset
+NAME           DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+cilium         3         3         3       3            3           kubernetes.io/os=linux   12h
+cilium-envoy   3         3         3       3            3           kubernetes.io/os=linux   12h
+kube-proxy     3         3         3       3            3           kubernetes.io/os=linux   12h
+
+-- we can access our service which is in the same namespace by following
+-- get the service first
+
+❯ kubectl get svc -o wide
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+kubernetes      ClusterIP   10.96.0.1       <none>        443/TCP   12h   <none>
+nginx-service   ClusterIP   10.96.189.230   <none>        80/TCP    65m   app.kubernetes.io/name=nginx
+
+❯ kubectl exec netshoot-client -- curl http://nginx-service
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    896 100    896   0      0  28465      0                              0
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+-- restrict the application from the access
+-- we will create one pod name unauthorized-client
+-- we can access nginx-service pod from unauthorized-client pod
+
+❯ kubectl exec unauthorized-client -- curl http://nginx-service
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100    896 100    896   0      0  81093      0                              0
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+
+-- lets apply following policy. here nginx is only accessable through
+-- netshoot-client.
+
+❯ cat policy.yaml
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: policy
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: nginx
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: netshoot-client
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+
+❯ kubectl apply -f policy.yaml
+ciliumnetworkpolicy.cilium.io/policy created
+
+-- policies in cilium are deployed by use of labels
+
+❯ kubectl get pods --show-labels
+NAME                                READY   STATUS    RESTARTS   AGE     LABELS
+netshoot-client                     1/1     Running   0          95m     app.kubernetes.io/name=netshoot-client
+nginx-deployment-688bbb47f7-db7vl   1/1     Running   0          34m     app.kubernetes.io/name=nginx,pod-template-hash=688bbb47f7
+nginx-deployment-688bbb47f7-qgd5r   1/1     Running   0          98m     app.kubernetes.io/name=nginx,pod-template-hash=688bbb47f7
+unauthorized-client                 1/1     Running   0          8m13s   <none>
+
+-- after we deploy the policy, access from the unauthorized-client will be dropped
+-- but access will be permitted from netshoot-client.
+-- this also be visible from hubble dashboard.
+
+❯ kubectl exec pod/netshoot-client -- \
+curl -s -o /dev/null \
+-w "%{http_code}\n" \
+http://10.244.2.49
+200
+❯ kubectl exec unauthorized-client -- curl --max-time 3 -s http://nginx-service
+command terminated with exit code 28
+
+-- let update the policy with l7 layer, therefore, anything except index.html will get blocked.
+
+> cat policy-with-l7.yaml
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: policy
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: nginx
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: netshoot-client
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+          rules:
+            http:
+              - method: "GET"
+                path: "/index.html"
+
+❯ kubectl exec netshoot-client -- curl --max-time 3 -s http://nginx-service/50x.html
+Access denied
+
+-- let access hubble now
+
+> cilium hubble enable -ui
+> cilium hubble port-forward &
+
+❯ hubble status
+Healthcheck (via localhost:4245): Ok
+Current/Max Flows: 12,285/12,285 (100.00%)
+Flows/s: 9.20
+Connected Nodes: 3/3
+
+-- list nodes
+> hubble list nodes
+NAME                           STATUS      AGE        FLOWS/S   CURRENT/MAX-FLOWS
+kind-kind/kind-control-plane   Connected   9h55m30s   3.95      4095/4095 (100.00%)
+kind-kind/kind-worker          Connected   9h55m29s   0.96      4095/4095 (100.00%)
+kind-kind/kind-worker2         Connected   9h55m30s   0.67      4095/4095 (100.00%)
+
+-- enable hubble user interface
+
+❯ cilium hubble enable --ui
+❯ kubectl -n kube-system get deployment/hubble-ui
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+hubble-ui   1/1     1            1           23s
+❯
+
+-- to access hubble ui
+> cillium hubble ui &
+
+-- if you need to delete a pod, run following this will recreate the pod again.
+
+> kubectl delete pod hubble-ui-6445786767-9kznj -n kube-system
