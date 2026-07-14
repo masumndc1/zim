@@ -1,0 +1,9 @@
+
+
+-- download the whole website:
+
+wget --mirror --page-requisites --adjust-extension --convert-links --no-parent http://example.com
+
+-- make pdf out of the downloaded website
+
+wkhtmltopdf --enable-local-file-access *.html complete_website.pdf
