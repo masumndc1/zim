@@ -21,3 +21,6 @@ https://tetragon.io/docs/reference/tracing-policy/
 -- more resource:
 
 https://tetragon.io/docs/resources/
+
+-- example:
+https://github.com/cilium/tetragon/tree/main/examples
