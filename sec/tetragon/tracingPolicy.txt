@@ -1,0 +1,88 @@
+
+
+-- tracing policy
+
+-- you can also find the tracing policy running in the cluster
+
+❯ kubectl get tracingpolicy
+NAME                                                  AGE
+file-monitoring-filtered                              19m
+monitor-network-activity-outside-cluster-cidr-range   6m11s
+
+❯ kubectl get tracingpolicy -o yaml file-monitoring-filtered
+
+// output cut //
+
+spec:
+  kprobes:
+  - args:
+    - index: 0
+      maxData: false
+      resolve: ""
+      returnCopy: false
+      type: file
+    - index: 1
+      maxData: false
+      resolve: ""
+      returnCopy: false
+      type: int
+    call: security_file_permission
+    return: true
+    returnArg:
+      index: 0
+      maxData: false
+      resolve: ""
+
+// output cut //
+
+-- before you enforce any policy in kubernetes, we need to find out PODCIDR and serviceCIDR
+
+export PODCIDR=`kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'`
+export SERVICECIDR=$(kubectl describe pod -n kube-system kube-apiserver-kind-control-plane | awk -F= '/--service-cluster-ip-range/ {print $2; }')
+
+-- then run following to enforce policy in egress traffic
+-- before that we need to delete any existing similar egress cluster there.
+
+❯ kubectl delete tracingpolicy monitor-network-activity-outside-cluster-cidr-range
+tracingpolicy.cilium.io "monitor-network-activity-outside-cluster-cidr-range" deleted
+
+-- now run following
+envsubst < network_egress_cluster_enforce.yaml | kubectl apply -n default -f -
+tracingpolicynamespaced.cilium.io/enforce-network-activity-outside-cluster-cidr-range created
+
+-- list them
+
+❯ kubectl get tracingpolicynamespaced -o wide
+NAME                                                  AGE
+enforce-network-activity-outside-cluster-cidr-range   112s
+
+-- similarly monitor them as we can see it is killing sigcall.
+
+> kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing
+
+ process default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon
+ connect default/xwing /usr/bin/curl tcp 10.244.0.8:53776 -> 104.26.4.27:443
+ exit    default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon SIGKILL
+
+> kubectl exec -ti xwing -- bash -c 'curl https://ebpf.io/applications/#tetragon'
+command terminated with exit code 137
+
+
+-- similarly we can enforce policy for the file access. for example,
+kubectl apply -f file_monitoring_enforce.yaml
+tracingpolicynamespaced.cilium.io/file-monitoring-filtered created
+
+-- now we can monitor the events
+
+kubectl exec -ti xwing -- bash -c 'cat /etc/shadow'
+command terminated with exit code 137
+
+> kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing
+
+ process default/xwing /proc/self/fd/7 init
+ exit    default/xwing /proc/self/fd/7 init 0
+ process default/xwing /usr/bin/bash -c "cat /etc/shadow"
+ process default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ exit    default/xwing /usr/bin/cat /etc/shadow SIGKILL

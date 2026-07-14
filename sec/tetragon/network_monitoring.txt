@@ -1,0 +1,51 @@
+
+
+-- monitor the network activity
+-- file: network_egress_cluster.yaml
+
+-- find the pod and service cidr
+
+export PODCIDR=`kubectl get nodes -o jsonpath='{.items[*].spec.podCIDR}'`
+export SERVICECIDR=$(kubectl describe pod -n kube-system -l component=kube-apiserver | awk -F= '/--service-cluster-ip-range/ {print $2; }')
+
+-- Once you have this information, you can customize a policy to exclude network
+-- traffic to the networks stored in the PODCIDR and SERVICECIDR environment
+-- variables. Use envsubst to do this, and then apply the policy to your
+-- Kubernetes cluster with kubectl apply:
+
+-- run following to deploy network egress cluster
+
+❯ envsubst < network_egress_cluster.yaml | kubectl apply -f -
+tracingpolicy.cilium.io/monitor-network-activity-outside-cluster-cidr-range created
+
+-- now run following in one window
+
+kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing --processes curl
+
+-- in another window run following
+
+kubectl exec -ti xwing -- bash -c 'curl https://ebpf.io/applications/#tetragon'
+
+-- you will get following output
+
+ kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing --processes curl
+
+ process default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon
+ connect default/xwing /usr/bin/curl tcp 10.244.0.8:53186 -> 104.26.4.27:443
+ exit    default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon 0
+
+-- if you want no output then,
+
+kubectl exec -ti xwing -- bash -c 'curl -s -o /dev/null https://ebpf.io/applications/#tetragon'
+
+-- in another window you will see
+
+ kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing --processes curl
+
+ process default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon
+ connect default/xwing /usr/bin/curl tcp 10.244.0.8:53186 -> 104.26.4.27:443
+ exit    default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon 0
+
+-- finally if you need to delete this tracing policy
+
+envsubst < network_egress_cluster.yaml | kubectl delete -f -

@@ -1,0 +1,62 @@
+
+
+-- file access monitoring
+--
+
+❯ kubectl apply -f file_monitoring.yaml
+tracingpolicy.cilium.io/file-monitoring-filtered created
+
+-- run following in one window
+
+kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing
+
+-- in another window run following.
+
+❯ kubectl exec -ti xwing -- bash -c 'cat /etc/shadow'
+root:*:19709:0:99999:7:::
+daemon:*:19709:0:99999:7:::
+bin:*:19709:0:99999:7:::
+sys:*:19709:0:99999:7:::
+sync:*:19709:0:99999:7:::
+games:*:19709:0:99999:7:::
+man:*:19709:0:99999:7:::
+lp:*:19709:0:99999:7:::
+mail:*:19709:0:99999:7:::
+news:*:19709:0:99999:7:::
+uucp:*:19709:0:99999:7:::
+proxy:*:19709:0:99999:7:::
+www-data:*:19709:0:99999:7:::
+backup:*:19709:0:99999:7:::
+list:*:19709:0:99999:7:::
+irc:*:19709:0:99999:7:::
+_apt:*:19709:0:99999:7:::
+nobody:*:19709:0:99999:7:::
+node:!:19710:0:99999:7:::
+
+-- this will show following, as /etc/shadow file is being accessed.
+
+> kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing
+
+ process default/xwing /proc/self/fd/7 init
+ exit    default/xwing /proc/self/fd/7 init 0
+ process default/xwing /usr/bin/bash -c "cat /etc/shadow"
+ process default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ read    default/xwing /usr/bin/cat /etc/shadow
+ exit    default/xwing /usr/bin/cat /etc/shadow 0
+
+-- when we try to write something
+
+kubectl exec -ti xwing -- bash -c 'echo foo >> /etc/bar'
+
+🚀 process default/xwing /usr/bin/bash -c "echo foo >> /etc/bar"
+📝 write   default/xwing /usr/bin/bash /etc/bar
+📝 write   default/xwing /usr/bin/bash /etc/bar
+💥 exit    default/xwing /usr/bin/bash -c "echo foo >> /etc/bar" 0
+
+-- it let the write as we see below
+
+kubectl exec -ti xwing -- bash -c 'cat  /etc/bar'
+foo

@@ -1,0 +1,53 @@
+
+
+-- sysdump
+
+❯ cilium sysdump
+
+🔍 Collecting sysdump with cilium-cli version: v0.19.5, args: [sysdump]
+⚠️ Failed to detect Cilium installation
+⚠️ Failed to detect Cilium operator
+ℹ️ Using default Cilium Helm release name: "cilium"
+ℹ️ Using default Tetragon Helm release name: "tetragon"
+🔍 Collecting Kubernetes nodes
+🔍 Collect Kubernetes nodes
+🔍 Collecting Kubernetes events
+🔍 Collect Kubernetes version
+🔍 Collecting Kubernetes pods
+🔍 Collecting Kubernetes namespaces
+🔍 Collecting Kubernetes services
+🔍 Collecting Kubernetes endpoints
+🔍 Collecting Kubernetes network policies
+🔍 Collecting Kubernetes pods summary
+🔍 Collecting Kubernetes leases
+🔍 Collecting Kubernetes endpointslices
+🔍 Collecting Kubernetes nodes memory/cpu usage
+🔍 Collecting Kubernetes metrics
+🔍 Collecting crashed test pod logs
+🔍 Collecting Kubernetes pods memory/cpu usage
+🔍 Collecting logs from Tetragon pods
+I0714 18:10:26.468545   22602 warnings.go:107] "Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice"
+I0714 18:10:27.633824   22602 request.go:752] "Waited before sending request" delay="1.170815166s" reason="client-side throttling, not priority and fairness" verb="GET" URL="https://127.0.0.1:55907/api/v1/namespaces/kube-system/pods?labelSelector=app.kubernetes.io%2Fname%3Dtetragon"
+🔍 Collecting logs from Tetragon operator pods
+🔍 Collecting bugtool output from Tetragon pods
+🔍 Collecting Tetragon configmap
+🔍 Collecting Tetragon PodInfo custom resources
+🔍 Collecting Tetragon namespaced tracing policies
+🔍 Collecting Tetragon tracing policies
+🔍 Collecting Helm metadata from the Cilium release
+🔍 Collecting Helm metadata from the Tetragon release
+🔍 Collecting Helm values from the Cilium release
+🔍 Collecting Helm values from the Tetragon release
+
+-- bug tool
+
+
+❯ kubectl get pods -n kube-system -l app.kubernetes.io/name=tetragon
+NAME             READY   STATUS    RESTARTS   AGE
+tetragon-7j82p   2/2     Running   0          111m
+
+❯ kubectl exec -n kube-system tetragon-7j82p -c tetragon -- tetra bugtool
+
+level=info msg="saving init info"
+level=info msg="retrieving lib directory" libDir=/var/lib/tetragon
+level=warn msg="not an object file, ignoring" path=/var/lib/tetragon

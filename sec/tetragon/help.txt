@@ -1,0 +1,23 @@
+
+
+-- help
+
+-- more on policy:
+
+https://tetragon.io/docs/concepts/tracing-policy/example/
+
+-- tetra cli:
+brew install tetra
+
+-- add mode by cli
+tetra tracingpolicy add --mode monitor policy.yaml
+
+-- add the policy run time
+tetra tp set-mode --namespace pizza enforce-security enforce
+
+-- more on tracing policy
+https://tetragon.io/docs/reference/tracing-policy/
+
+-- more resource:
+
+https://tetragon.io/docs/resources/

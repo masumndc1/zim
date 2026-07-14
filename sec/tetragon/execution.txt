@@ -1,0 +1,24 @@
+
+
+-- observe the execution of tetragon
+-- main purpose of tetragon is to observe the executions on kubernetes, VMs and bare metal systems.
+--
+
+-- in out terminal run following
+kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o compact --pods xwing
+
+
+-- in another window try to browse something
+$ kubectl exec -ti xwing -- bash -c 'curl https://ebpf.io/applications/#tetragon'
+
+-- in the above window you will see
+
+ process default/xwing /proc/self/fd/7 init
+ exit    default/xwing /proc/self/fd/7 init 0
+ process default/xwing /usr/bin/bash -c "curl https://ebpf.io/applications/#tetragon"
+ process default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon
+ exit    default/xwing /usr/bin/curl https://ebpf.io/applications/#tetragon 0
+
+-- for the json output
+
+❯ kubectl exec -ti -n kube-system ds/tetragon -c tetragon -- tetra getevents -o json --pods xwing
