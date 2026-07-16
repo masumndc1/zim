@@ -1,0 +1,151 @@
+
+
+> docker network rm kind
+network kind has active endpoints (name:"client" id:"5305455359ca")
+
+> docker network disconnect -f kind client
+> docker rm -f $(docker ps -a -q --filter label=io.x-k8s.kind.cluster=kind)
+> docker network rm kind
+
+-- in mac m1 you need to clean all extra_mounts
+
+              + extra_mounts {
+                  + container_path = "/sys/fs/bpf"
+                  + host_path      = "/sys/fs/bpf"
+                  + propagation    = "HostToContainer"
+                }
+              + extra_mounts {
+                  + container_path = "/sys/kernel/debug"
+                  + host_path      = "/sys/kernel/debug"
+                }
+
+--
+
+-- add following
+
+# -----------------------------------------------------------------------------
+# Install Cilium CNI (via Helm)
+# -----------------------------------------------------------------------------
+resource "helm_release" "cilium" {
+  name       = "cilium"
+  repository = "https://helm.cilium.io"
+  chart      = "cilium"
+  version    = "1.16.1"
+  namespace  = "kube-system"
+
+  depends_on = [kind_cluster.local_cluster]
+
+  set {
+    name  = "ipam.mode"
+    value = "kubernetes"
+  }
+  set {
+    name  = "k8sServiceHost"
+    value = "kind-control-plane"
+  }
+  set {
+    name  = "k8sServicePort"
+    value = "6443"
+  }
+  set {
+    name  = "kubeProxyReplacement"
+    value = "true"
+  }
+  set {
+    name  = "bpf.masquerade"
+    value = "true"
+  }
+  set {
+    name  = "operator.replicas"
+    value = "1"
+  }
+
+  # --- CRITICAL FLAGS FOR MAC M1 DOCKER ENVIRONMENT ---
+  set {
+    name  = "cgroup.autoMount.enabled"
+    value = "true"
+  }
+  set {
+    name  = "bpf.autoMount.enabled"
+    value = "true"
+  }
+}
+
+
+--
+│ Error: could not download chart: looks like "https://helm.cilium.io" is not a valid chart
+repository or cannot be reached: Get "https://helm.cilium.io/index.yaml": dial tcp:
+lookup helm.cilium.io: no such host
+│
+│   with helm_release.cilium,
+│   on kind.tf line 77, in resource "helm_release" "cilium":
+│   77: resource "helm_release" "cilium" {
+│
+╵
+❯ curl -I https://helm.cilium.io/index.yaml
+HTTP/2 200
+server: GitHub.com
+content-type: text/yaml
+x-origin-cache: HIT
+last-modified: Tue, 14 Jul 2026 02:46:41 GMT
+access-control-allow-origin: *
+etag: "6a55a311-195207"
+expires: Tue, 14 Jul 2026 02:59:04 GMT
+cache-control: max-age=600
+x-proxy-cache: HIT
+x-github-request-id: 4668:28367F:166A69:16E586:6A55A3E5
+accept-ranges: bytes
+date: Thu, 16 Jul 2026 10:05:02 GMT
+via: 1.1 varnish
+age: 114
+x-served-by: cache-hel1410020-HEL
+x-cache: HIT
+x-cache-hits: 1
+x-timer: S1784196303.643888,VS0,VE2
+vary: Accept-Encoding
+x-fastly-request-id: f082e7a1fde3189ac2acb6a8b52796325225dccd
+content-length: 1659399
+
+❯ helm repo add cilium https://helm.cilium.io
+Error: repository name (cilium) already exists, please specify a different name
+
+❯ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "cilium" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+
+... if problem to download the chart by terraform then download by helm locally
+
+> helm pull cilium/cilium --version 1.16.1 --untar
+❯ helm pull cilium/tetragon --version 1.1.2 --untar
+❯ helm repo add kyverno https://kyverno.github.io/kyverno/
+helm repo update
+helm pull kyverno/kyverno --version 3.3.0 --untar
+"kyverno" has been added to your repositories
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "kyverno" chart repository
+...Successfully got an update from the "cilium" chart repository
+Update Complete. ⎈Happy Helming!⎈
+
+-- add them in kind.tf
+
+resource "helm_release" "cilium" {
+  name       = "cilium"
+  chart      = "./cilium" # Points to the local folder
+  namespace  = "kube-system"
+
+> and then run terraform apply again.
+
+> you can also manually install helm chart by following
+
+helm upgrade --install cilium ./cilium \
+  -n kube-system \
+  --set ipam.mode=kubernetes \
+  --set k8sServiceHost=kind-control-plane \
+  --set k8sServicePort=6443 \
+  --set kubeProxyReplacement=true \
+  --set bpf.masquerade=true \
+  --set operator.replicas=1 \
+  --set cgroup.autoMount.enabled=true \
+  --set bpf.autoMount.enabled=true
