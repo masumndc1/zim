@@ -1,0 +1,75 @@
+
+❯ terraform apply
+kind_cluster.local_cluster: Refreshing state... [id=kind-kindest/node:v1.31.0]
+╷
+│ Error: could not locate any control plane nodes for cluster named 'kind'. Use the --name option to select a different cluster
+│
+│   with kind_cluster.local_cluster,
+│   on kind.tf line 43, in resource "kind_cluster" "local_cluster":
+│   43: resource "kind_cluster" "local_cluster" {
+│
+╵
+❯ kind get clusters
+No kind clusters found.
+❯ kind delete cluster --name kind
+Deleting cluster "kind" ...
+❯
+❯ terraform apply
+kind_cluster.local_cluster: Refreshing state... [id=kind-kindest/node:v1.31.0]
+╷
+│ Error: could not locate any control plane nodes for cluster named 'kind'. Use the --name option to select a different cluster
+│
+│   with kind_cluster.local_cluster,
+│   on kind.tf line 43, in resource "kind_cluster" "local_cluster":
+│   43: resource "kind_cluster" "local_cluster" {
+│
+╵
+❯ terraform refresh
+kind_cluster.local_cluster: Refreshing state... [id=kind-kindest/node:v1.31.0]
+╷
+│ Error: could not locate any control plane nodes for cluster named 'kind'. Use the --name option to select a different cluster
+│
+│   with kind_cluster.local_cluster,
+│   on kind.tf line 43, in resource "kind_cluster" "local_cluster":
+│   43: resource "kind_cluster" "local_cluster" {
+│
+╵
+❯ terraform state list
+helm_release.cilium
+helm_release.kyverno
+helm_release.tetragon
+kind_cluster.local_cluster
+
+❯ terraform state rm kind_cluster.local_cluster
+Removed kind_cluster.local_cluster
+Successfully removed 1 resource instance(s).
+
+❯
+❯ terraform refresh
+helm_release.cilium: Refreshing state... [id=cilium]
+╷
+│ Error: Kubernetes cluster unreachable: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable
+│
+│   with helm_release.cilium,
+│   on kind.tf line 77, in resource "helm_release" "cilium":
+│   77: resource "helm_release" "cilium" {
+│
+╵
+❯ terraform state list
+helm_release.cilium
+helm_release.kyverno
+helm_release.tetragon
+
+❯ terraform state rm helm_release.cilium
+Removed helm_release.cilium
+Successfully removed 1 resource instance(s).
+
+❯ terraform state rm helm_release.kyverno
+Removed helm_release.kyverno
+Successfully removed 1 resource instance(s).
+
+❯ terraform state rm helm_release.tetragon
+Removed helm_release.tetragon
+Successfully removed 1 resource instance(s).
+
+❯
