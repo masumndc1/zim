@@ -1,0 +1,25 @@
+
+
+❯ kubectl apply -f test-policy.yaml
+clusterpolicy.kyverno.io/require-tier-label created
+
+❯ kubectl get clusterpolicy
+NAME                 ADMISSION   BACKGROUND   READY   AGE    MESSAGE
+require-tier-label   true        true         True    4m5s   Ready
+
+❯ kubectl run test-pod --image=nginx
+Error from server: admission webhook "validate.kyverno.svc-fail" denied the request:
+
+resource Pod/default/test-pod was blocked due to the following policies
+
+require-tier-label:
+  check-for-tier-label: 'validation error: Label ''tier'' is required for all pods
+    in this cluster. rule check-for-tier-label failed at path /metadata/labels/tier/'
+
+> kubectl run test-pod --image=nginx --labels=tier=frontend
+pod/test-pod created
+
+-- clean up:
+
+kubectl delete pod test-pod
+kubectl delete clusterpolicy require-tier-label
