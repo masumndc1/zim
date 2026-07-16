@@ -1,0 +1,109 @@
+
+-- install trivy
+
+Trivy Installation Guide
+
+Linux (Debian/Ubuntu)
+sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install -y trivy
+
+Linux (RHEL/CentOS/Fedora)
+sudo rpm --import https://aquasecurity.github.io/trivy-repo/rpm/public.key
+sudo cat <<EOF > /etc/yum.repos.d/trivy.repo
+[trivy]
+name=Trivy repository
+baseurl=https://aquasecurity.github.io/trivy-repo/rpm
+gpgcheck=1
+enabled=1
+EOF
+sudo yum install -y trivy
+
+macOS
+brew install trivy
+
+Run Trivy via Docker (no installation required)
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image nginx:latest
+
+Manual Binary Installation (Linux)
+wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.tar.gz
+tar zxvf trivy_0.50.2_Linux-64bit.tar.gz
+sudo mv trivy /usr/local/bin/
+
+Manual Binary Installation (macOS)
+wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_macOS-64bit.tar.gz
+tar zxvf trivy_0.50.2_macOS-64bit.tar.gz
+sudo mv trivy /usr/local/bin/
+
+Verify Installation
+trivy --version
+
+
+-- Trivy Practical Examples
+
+1. Scan a container image
+trivy image nginx:latest
+Scans the nginx:latest container image for vulnerabilities and shows
+CRITICAL, HIGH, MEDIUM, LOW issues.
+
+2. Scan local filesystem (vulns + secrets + misconfigs)
+trivy fs --scanners vuln,secret,misconfig .
+Scans the current directory for vulnerable dependencies, exposed secrets,
+and misconfigured IaC or Dockerfiles.
+
+3. Scan a Kubernetes cluster
+trivy k8s --report summary cluster
+Runs all scanners against the entire Kubernetes cluster and prints a summary report.
+
+4. Run Trivy via Docker (no local install)
+docker run --rm \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  aquasec/trivy image nginx:latest
+Uses the Trivy container to scan the nginx:latest image.
+
+5. Secret detection demo
+Create a file:
+const apiKey = "AKIA123456789FAKE";
+const password = "supersecret";
+
+Scan it:
+trivy fs .
+Detects hardcoded secrets in your project.
+
+6. Scan Infrastructure-as-Code (Terraform, CloudFormation)
+trivy fs --scanners misconfig ./infra
+Detects IaC misconfigurations before deployment.
+
+7. Generate an SBOM (Software Bill of Materials)
+trivy image --format spdx-json --output sbom.json nginx:latest
+Produces an SPDX-compliant SBOM for supply-chain security.
+
+8. CI/CD pipeline example (GitHub Actions)
+name: Security Scan
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t myapp:${{ github.sha }} .
+      - uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'myapp:${{ github.sha }}'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+Fails the pipeline if CRITICAL or HIGH vulnerabilities are found.
+
+9. Scan a Python base image
+trivy image python:3.4-alpine
+Basic example scanning a Python Alpine image.
+
+10. Scan a remote Git repository
+trivy repo https://github.com/example/project --scanners vuln,secret,misconfig
+Scans a remote Git repo directly for vulnerabilities, secrets, and misconfigs.
