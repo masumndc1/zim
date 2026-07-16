@@ -13,3 +13,18 @@ host's fingerprint to your known_hosts file to manage this host."}
 
 Then you might have ansible version 2.0.0 or less.
 its better to update your ansible.
+
+
+TASK [Ensure Kyverno Test Policy is applied] ********************************************************************************************************************
+[ERROR]: Task failed: Module failed: Failed to import the required Python library (kubernetes) on aair13-2QD1WG7's Python /Users/khuddin/Documents/venv/myenv/bin/python3.13. Please read the module documentation and install it in the appropriate location. If the required library is installed, but Ansible is using the wrong Python interpreter, please consult the documentation on ansible_python_interpreter
+Origin: /Users/khuddin/Documents/github/kubernetes-prac/ansible/deploy-policy.yaml:7:7
+
+5
+6   tasks:
+7     - name: Ensure Kyverno Test Policy is applied
+        ^ column 7
+
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Failed to import the required Python library (kubernetes) on aair13-2QD1WG7's Python /Users/khuddin/Documents/venv/myenv/bin/python3.13. Please read the module documentation and install it in the appropriate location. If the required library is installed, but Ansible is using the wrong Python interpreter, please consult the documentation on ansible_python_interpreter"}
+
+
+> pip install kubernetes PyYAML
