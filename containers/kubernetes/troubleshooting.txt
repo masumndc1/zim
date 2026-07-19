@@ -149,3 +149,112 @@ helm upgrade --install cilium ./cilium \
   --set operator.replicas=1 \
   --set cgroup.autoMount.enabled=true \
   --set bpf.autoMount.enabled=true
+
+-- delete installed CRD
+kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml
+customresourcedefinition.apiextensions.k8s.io "backendtlspolicies.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "gatewayclasses.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "gateways.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "grpcroutes.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "httproutes.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "listenersets.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "referencegrants.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "tcproutes.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "tlsroutes.gateway.networking.k8s.io" deleted
+customresourcedefinition.apiextensions.k8s.io "udproutes.gateway.networking.k8s.io" deleted
+validatingadmissionpolicy.admissionregistration.k8s.io "safe-upgrades.gateway.networking.k8s.io" deleted
+validatingadmissionpolicybinding.admissionregistration.k8s.io "safe-upgrades.gateway.networking.k8s.io" deleted
+
+
+-- check the status of gateway API
+
+> kubectl get gateway cilium-gateway -n kube-system -o yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  creationTimestamp: "2026-07-17T22:52:05Z"
+  generation: 1
+  name: cilium-gateway
+  namespace: kube-system
+  resourceVersion: "396082"
+  uid: 63d5828b-f796-472b-9a4b-f599b8e1801b
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: Same
+    name: http
+    port: 80
+    protocol: HTTP
+status:
+  conditions:
+  - lastTransitionTime: "1970-01-01T00:00:00Z"
+    message: Waiting for controller
+    reason: Pending
+    status: Unknown
+    type: Accepted
+  - lastTransitionTime: "1970-01-01T00:00:00Z"
+    message: Waiting for controller
+    reason: Pending
+    status: Unknown
+    type: Programmed
+
+
+kubectl get httproute nginx-route -n default -o yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  creationTimestamp: "2026-07-17T23:02:59Z"
+  generation: 2
+  name: nginx-route
+  namespace: default
+  resourceVersion: "414250"
+  uid: af5d5b41-632a-429a-88bb-06db53ff1eee
+spec:
+  hostnames:
+  - nginx.masum.com
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: cilium-gateway
+    namespace: kube-system
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: nginx-service
+      port: 80
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+status:
+  parents:
+  - conditions:
+    - lastTransitionTime: "2026-07-18T00:11:15Z"
+      message: Accepted HTTPRoute
+      observedGeneration: 2
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2026-07-17T23:58:59Z"
+      message: Service reference is valid
+      observedGeneration: 2
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+    controllerName: io.cilium/gateway-controller
+    parentRef:
+      group: gateway.networking.k8s.io
+      kind: Gateway
+      name: cilium-gateway
+      namespace: kube-system
+
+
+kubectl get svc -n kube-system -l gateway.networking.k8s.io/gateway-name=cilium-gateway
+NAME                            TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+cilium-gateway-cilium-gateway   LoadBalancer   10.96.93.14   <pending>     80:32063/TCP   6m25s
+
+curl http://nginx.masum.com:32063
