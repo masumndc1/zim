@@ -1,0 +1,34 @@
+
+
+
+-- tune swappppness and zram
+
+echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf
+sudo sysctl --system
+
+
+-- enable zram-generator
+
+sudo zypper in zram-generator
+
+/etc/systemd/zram-generator.conf
+[zram0]
+zram-size = ram / 2
+compression-algorithm = zstd
+
+sudo systemctl daemon-reload
+sudo systemctl start systemd-zram-setup@zram0.service
+
+-- enable packman
+
+sudo zypper ar -cfp 90 https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
+sudo zypper dup --from packman --allow-vendor-change
+
+-- hw video accelartion
+
+sudo zypper in intel-media-driver libva-utils
+
+
+-- disable modem manager as the machine does not have sim card option
+
+sudo systemctl disable --now ModemManager
