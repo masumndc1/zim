@@ -22,3 +22,36 @@ nova         221 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-api
 nova         222 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-conductor
 nova         223 Sun May 24 12:40:54 2026 /usr/bin/python3 /usr/bin/nova-scheduler
 root         228 Sun May 24 12:40:54 2026 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+
+-- get the infos on ram
+
+sudo lshw -short -C memory
+H/W path           Device     Class          Description
+========================================================
+/0/0                          memory         128KiB BIOS
+/0/4/5                        memory         128KiB L1 cache
+/0/4/6                        memory         512KiB L2 cache
+/0/4/7                        memory         3MiB L3 cache
+/0/24                         memory         8GiB System Memory
+/0/24/0                       memory         4GiB SODIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
+/0/24/1                       memory         4GiB SODIMM DDR4 Synchronous Unbuffered (Unregistered) 2133 MHz (0.5 ns)
+/0/100/1f.2                   memory         Memory controller
+
+❯ sudo dmidecode -t memory | grep -E "(Size|Type|Speed|Manufacturer|Form Factor)" | grep -v "No Module Installed"
+        Error Correction Type: None
+        Size: 4 GiB
+        Form Factor: SODIMM
+        Type: DDR4
+        Type Detail: Synchronous Unbuffered (Unregistered)
+        Speed: 2133 MT/s
+        Manufacturer: Samsung
+        Configured Memory Speed: 2133 MT/s
+        Size: 4 GiB
+        Form Factor: SODIMM
+        Type: DDR4
+        Type Detail: Synchronous Unbuffered (Unregistered)
+        Speed: 2133 MT/s
+        Manufacturer: Samsung
+        Configured Memory Speed: 2133 MT/s
+
+>
