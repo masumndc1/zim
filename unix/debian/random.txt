@@ -55,3 +55,8 @@ H/W path           Device     Class          Description
         Configured Memory Speed: 2133 MT/s
 
 >
+
+-- in debian fd was missing. actual package name is fdfind.
+-- make symlink like bellow.
+
+ln -s $(which fdfind) /usr/local/bin/fd
