@@ -1,0 +1,25 @@
+
+
+
+--
+
+sudo apt install -y stterm
+sudo apt install fonts-terminus
+
+-- check if the terminus has installed
+
+fc-list | grep -i terminus
+
+-- add options
+
+cat ~/.Xresources
+
+! Scalable / TrueType style (crisp rendering with antialiasing off)
+st.font: Terminus:pixelsize=16:antialias=false:autohint=false
+
+! Alternatively, if your system lists it under xos4:
+! st.font: xos4 Terminus:pixelsize=16:antialias=false:autohint=false
+
+-- reload X resources
+
+xrdb -merge ~/.Xresources
