@@ -87,3 +87,30 @@ nmcli device wifi connect "your_SSID_name" password "password"
 -- If it's an open network without a password:
 
 nmcli device wifi connect "Your_SSID_Name"
+
+❯ nmcli device wifi list
+IN-USE  BSSID              SSID         MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+*       A6:91:B1:2E:6B:E4  WhoAreYou-5  Infra  36    540 Mbit/s  72      ▂▄▆_  WPA2
+❯
+❯
+❯ sudo nmcli device wifi rescan && nmcli device wifi list
+IN-USE  BSSID              SSID         MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+*       A6:91:B1:2E:6B:E4  WhoAreYou-5  Infra  36    540 Mbit/s  72      ▂▄▆_  WPA2
+❯ nmcli -f SSID,BSSID,CHAN,RATE,SIGNAL,SECURITY device wifi list
+SSID                         BSSID              CHAN  RATE        SIGNAL  SECURITY
+WhoAreYou-2.4                A4:91:B1:2E:6B:DB  1     130 Mbit/s  95      WPA2
+5GCPE_99E0C4                 B0:0A:D5:99:E0:C4  11    130 Mbit/s  72      WPA2
+WhoAreYou-5                  A6:91:B1:2E:6B:E4  36    540 Mbit/s  71      WPA2
+DNA-WIFI-68BB                6C:67:EF:27:68:C4  1     130 Mbit/s  64      WPA2 WPA3
+4G-Gateway-EB88EA            B0:0A:D5:EB:88:EA  11    270 Mbit/s  60      WPA2
+5GCPE_5EBC30                 C8:EA:F8:5E:BC:30  10    270 Mbit/s  55      WPA2
+5GCPE_99E0C4                 B0:0A:D5:9A:E0:C4  60    270 Mbit/s  55      WPA2
+4G-Gateway-EB88EA            B0:0A:D5:ED:88:EA  48    270 Mbit/s  52      WPA2
+Samsung Fridge_E50AJTRB009L  1C:E8:9E:0B:08:98  1     135 Mbit/s  37      WPA2
+5GCPE_5EBC30_5GHz            C8:EA:F8:5F:BC:30  44    270 Mbit/s  37      WPA2
+DNA-WIFI-68BB                6C:67:EF:27:68:C8  36    270 Mbit/s  35      WPA2 WPA3
+DNA-WIFI-5Ghz-68BB           6C:67:EF:27:68:C9  36    270 Mbit/s  35      WPA2 WPA3
+5GCPE_A703AD_5GHz            B4:1C:30:A8:03:AD  44    270 Mbit/s  35      WPA2
+HP-Print-31-LaserJet 100     E0:06:E6:07:FE:31  6     54 Mbit/s   30      --
+masum@lap-thinkpad /etc/NetworkManager/system-connections
+❯
