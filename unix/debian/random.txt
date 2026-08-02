@@ -60,3 +60,30 @@ H/W path           Device     Class          Description
 -- make symlink like bellow.
 
 ln -s $(which fdfind) /usr/local/bin/fd
+
+-- Wi-Fi Applet:
+
+sudo apt install network-manager-gnome
+
+-- Add to ~/.config/i3/config:
+
+exec --no-startup-id nm-applet
+
+-- Bluetooth Manager:
+
+sudo apt install bluetooth bluez blueman
+
+-- Add to ~/.config/i3/config:
+
+exec --no-startup-id blueman-applet
+
+-- connect to access point cli
+
+1. Scan and List Available Networks
+
+nmcli device wifi list
+nmcli device wifi connect "your_SSID_name" password "password"
+
+-- If it's an open network without a password:
+
+nmcli device wifi connect "Your_SSID_Name"
