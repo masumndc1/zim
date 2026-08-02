@@ -1,0 +1,20 @@
+
+
+-- Install TLP (essential for ThinkPads):
+-- TLP automatically optimizes power management,
+-- ensuring your CPU runs at peak frequency when
+-- plugged in without thermal throttling.
+
+sudo apt update && sudo apt install tlp tlp-rdw
+sudo systemctl enable --now tlp
+
+-- Install ZRAM:
+-- ZRAM creates a compressed RAM drive for swap, which is
+-- significantly faster than swapping to the SSD.
+
+sudo apt install zram-tools
+
+-- Ensure SSD TRIM is Active
+-- Keep your SSD read/write speeds snappy by enabling periodic TRIM:
+
+sudo systemctl enable --now fstrim.timer
