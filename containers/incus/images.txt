@@ -1,0 +1,87 @@
+
+
+-- list images
+
+incus image list images:freebsd architecture=aarch64
+
+-- launch a vm
+-- in mac m1, as we cant use kvm, therefore, launching a freebsd VM is not possible.
+
+❯ incus launch images:freebsd/14.4/arm64 sys-bsd14-dev9 --vm < files/freebsd_cloudinit.yml
+Launching sys-bsd14-dev9
+Error: Failed instance creation: Failed creating instance record: Instance type "virtual-machine"
+is not supported on this server: KVM support is missing (no /dev/kvm)
+
+
+❯ incus image list images:kali architecture=aarch64 -f yaml
+- auto_update: false
+  properties:
+    architecture: arm64
+    description: Kali current arm64 (20260818_17:14)
+    os: Kali
+    release: current
+    serial: "20260818_17:14"
+    type: squashfs
+    variant: cloud
+  public: true
+  expires_at: 1970-01-01T00:00:00Z
+  profiles: []
+  aliases:
+  - name: kali/current/cloud/arm64
+    description: ""
+  - name: kali/cloud/arm64
+    description: ""
+  architecture: aarch64
+  cached: false
+  filename: incus.tar.xz
+  fingerprint: 145ec7c066226a24fc4ebcf5b3e92c72f977b8648ff072ff15860b478528be33
+  size: 120255684
+  type: container
+  created_at: 2026-08-18T00:00:00Z
+  last_used_at: 0001-01-01T00:00:00Z
+  uploaded_at: 2026-08-18T00:00:00Z
+  project: ""
+- auto_update: false
+  properties:
+    architecture: arm64
+    description: Kali current arm64 (20260818_17:14)
+    os: Kali
+    release: current
+    serial: "20260818_17:14"
+    type: squashfs
+    variant: default
+  public: true
+  expires_at: 1970-01-01T00:00:00Z
+  profiles: []
+  aliases:
+  - name: kali/current/default/arm64
+    description: ""
+  - name: kali/current/arm64
+    description: ""
+  - name: kali/arm64
+    description: ""
+  architecture: aarch64
+  cached: false
+  filename: incus.tar.xz
+  fingerprint: 753579ca4bc8e487215440443a1a0222bbc801f926244877c39b98e43671448b
+  size: 89227964
+  type: container
+  created_at: 2026-08-18T00:00:00Z
+  last_used_at: 0001-01-01T00:00:00Z
+  uploaded_at: 2026-08-18T00:00:00Z
+  project: ""
+
+
+❯ incus launch images:kali/cloud/arm64 sys-kali-dev9 < files/debian_cloudinit.yml
+Launching sys-kali-dev9
+
+-- kali is minimal here.
+-- you need to install tools here.
+-- choose either top 10 tools or
+-- whole systems
+
+apt install -y kali-tools-top10
+apt install -y kali-linux-headless
+
+-- in kali, majority of tools are located in
+-- either /usr/bin or /usr/sbin/ or /usr/share
