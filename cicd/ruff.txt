@@ -1,0 +1,28 @@
+
+
+
+❯ ruff check --select I --fix set_zsh.py
+Found 1 error (1 fixed, 0 remaining).
+❯ ruff check --select I --fix set_vim.py
+Found 1 error (1 fixed, 0 remaining).
+
+
+
+❯ ruff check --select SIM114 set_zsh.py
+set_zsh.py:33:9: SIM114 [*] Combine `if` branches using logical `or` operator
+   |
+31 |           if pkg == "ripgrep":
+32 |               pkg_location = pkg_path + "rg"
+33 |           elif "Darwin" in platform.system() and pkg == "fzf":
+   |  _________^
+34 | |             continue
+35 | |         elif os.path.exists("/usr/bin/zypper") and pkg == "exa":
+36 | |             continue
+   | |____________________^ SIM114
+37 |           else:
+38 |               pkg_location = pkg_path + pkg
+   |
+   = help: Combine `if` branches
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.
