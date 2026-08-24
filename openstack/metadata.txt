@@ -1,0 +1,26 @@
+
+
+-- what is metadata
+
+metadatas are configuration information passed to instances.
+one of the way of passing root password to instance during it
+boots via cloud-init. this is an example of metadata.
+
+in other way, we can say metadatas are additional or external
+infos passeed directly to instance. in openstack, there is a
+service called metadata service.
+
+from openstack nova documents,
+
+"The metadata service provides a way for instances to retrieve
+instance-specific data via a REST API. Instances access this
+service at 169.254.169.254or at fe80::a9fe:a9fe. All types of
+metadata, be it user-, nova- or vendor-provided, can be accessed
+via this service."
+
+one example can be, following where metadata is passing through
+user data
+
+openstack server create --config-drive true --image my-image-name \
+--flavor 1 --key-name mykey --user-data ./my-user-data.txt \
+--property role=webservers --property essential=false MYINSTANCE
