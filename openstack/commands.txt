@@ -16,3 +16,62 @@ openstack compute service list --host compute1.domain.com
 
 openstack compute service set --disable --disable-reason "some faulty reason" \
  compute1.domain.com nova-compute
+
+-- how to remove a compute node from host list
+
+❯ openstack compute service list | grep -i x53
+| 7ba4e55e-7950-4163-8107-8f269d92225b | nova-compute   | x53.domain.com  | nova     | enabled  | down  | 2026-08-06T11:14:40.000000 |
+❯ openstack compute service delete 7ba4e55e-7950-4163-8107-8f269d92225b
+❯ openstack compute service list | grep -i p53
+>
+
+-- how to remove neutron agent
+❯ openstack network agent list | grep -i x53
+| 027aaabd-50fa-4992-a6b8-881c5234c618 | Linux bridge agent | x53.domain.com       | None              | XXX   | UP    | neutron-linuxbridge-agent |
+❯ openstack network agent delete 027aaabd-50fa-4992-a6b8-881c5234c618
+❯ openstack network agent list | grep -i p53
+
+-- boot from volume
+
+openstack server create \
+--flavor $FLAVOR --network $NETWORK \
+--image 44d317a3-6183-4063-868b-aa0728576f5f \
+--boot-from-volume 10 \
+--wait test-server
+
+-- list volumes attached to a particular server
+
+
+❯ openstack server volume list de8e5f7f-b3b8-4877-97dc-c62bed63 -f yaml
+- Device: /dev/vdb
+  ID: 10881f4d-8153-4575-939f-c929267aa
+  Server ID: de8e5f7f-b3b8-4877-97dc-c6286ed63
+  Volume ID: 10881f4d-8153-4575-939f-c92a227aa
+
+-- create a bootable image out from a volume
+
+openstack volume create \
+--image 44d317a3-6183-4063-868b-aa072855f \
+--size 10 \
+test-volume
+
+-- create an encrypted bootable volume
+
+openstack volume create \
+--type ENCRYPTED_VOLUME_TYPE --image $IMAGE --size $SIZE \
+test-volume
+
+-- attach swap or ephemeral disk to an instance
+
+openstack server create \
+--flavor $FLAVOR --image $IMAGE --network $NETWORK \
+--ephemeral size=2 --swap 512
+--wait test-server
+
+-- launch an instance from an iso image
+
+openstack server create \
+--image ubuntu-24.04.2-server-amd64.iso \
+--nic net-id = $NETWORK_UUID \
+--flavor 2 \
+$INSTANCE_NAME
