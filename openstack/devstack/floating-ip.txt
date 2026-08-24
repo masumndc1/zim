@@ -28,3 +28,22 @@ masum@devstack:/opt/stack/devstack$ openstack floating ip create \
 172.24.4.20 public
 
 masum@devstack:/opt/stack/devstack$ openstack floating ip list
+
+-- another approach:
+-- by default floating ips are created from public pool.
+
+openstack floating ip create public
+
+-- list the port list associated with a server
+
+openstack port list --device-id $SERVER_ID
+openstack floating ip set --port $PORT_ID FLOATING_IP_ADDRESS
+
+-- example can be like
+
+openstack floating ip set \
+--port 40e9dea9-f457-458f-bc46-6f4ebea3c268 172.24.4.225
+
+-- removing floating ip from a server.
+
+openstack floating ip unset --port FLOATING_IP_ADDRESS
