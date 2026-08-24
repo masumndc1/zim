@@ -6,3 +6,61 @@ cannot open directory '.': Permission denied (os error 13)
 
 ... in old laptop, might be lsd will not work.
 ... try to install exa instead.
+
+-- old asus laptop does not have lan activate. it cant negotiate
+-- with 10G links. force it to use old mode.
+
+❯ lspci -nnk -s 07:00.5
+07:00.5 Ethernet controller [0200]: JMicron Technology Corp.
+JMC250 PCI Express Gigabit Ethernet Controller [197b:0250] (rev 03)
+        Subsystem: ASUSTeK Computer Inc. Device [1043:1905]
+        Kernel driver in use: jme
+        Kernel modules: jme
+
+❯ sudo dmesg | grep -i jme
+[    1.561997] jme: JMicron JMC2XX ethernet driver version 1.0.8
+[    1.562049] jme 0000:07:00.5: can't disable ASPM; OS doesn't have ASPM control
+[    1.567713] jme 0000:07:00.5 eth0: JMC250 Gigabit Ethernet chiprev:23 pcirev:3 macaddr:f4:6d:04:52:96:e5
+[    1.599728] jme 0000:07:00.5 enp7s0f5: renamed from eth0
+
+-- solution:
+
+sudo modprobe -r jme
+sudo modprobe jme pcie_aspm=0 force_sel_100m=0
+
+-- make it permanent
+
+echo "options jme pcie_aspm=0 force_sel_100m=0" | sudo tee /etc/modprobe.d/jme.conf
+
+-- another way. this worked for me.
+
+sudo vi /etc/systemd/system/jme-phy-fix.service
+
+[Unit]
+Description=Fix JMicron JMC250 PHY Link Settings
+After=sys-subsystem-net-devices-enp7s0f5.device
+Wants=sys-subsystem-net-devices-enp7s0f5.device
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ip link set enp7s0f5 down
+ExecStart=/usr/sbin/ethtool -s enp7s0f5 speed 100 duplex full autoneg on
+ExecStart=/usr/bin/ip link set enp7s0f5 up
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl enable jme-phy-fix.service
+
+-- following also worked for me
+
+# 1. Bring interface down
+sudo ip link set enp7s0f5 down
+
+# 2. Force 100Mbps Full Duplex with autonegotiation enabled
+sudo ethtool -s enp7s0f5 speed 100 duplex full autoneg on
+
+# 3. Bring interface up
+sudo ip link set enp7s0f5 up
