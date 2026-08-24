@@ -98,3 +98,58 @@ bind(): Address already in use [core/socket.c line 769]
 sudo systemctl stop placement-api
 sudo systemctl disable placement-api
 sudo systemctl mask placement-api
+
+
+-- show resource provider allocation
+-- get the hypervisors id by following
+
+❯ openstack compute service list --service nova-compute -f yaml
+- Binary: nova-compute
+  Host: node1.domain.com
+  ID: 6c1eaece-abcd-bd64-e9615e49257b
+  State: up
+  Status: enabled
+  Updated At: '2026-08-04T11:39:11.000000'
+  Zone: nova
+- Binary: nova-compute
+  Host: node2.comain.com
+  ID: 97b3c131-abcd-4038-8c7d-19598974370e
+  State: up
+  Status: enabled
+  Updated At: '2026-08-04T11:39:05.000000'
+  Zone: nova
+
+>
+
+-- find out the resource allocation of a instance by its uuid.
+
+> openstack resource provider allocation show <instance_uuid> -f yaml
+> openstack resource provider allocation show 7fedd4c2-abcd-4468-aacc-6ac2ddef7a94 -f yaml
+- generation: 9390
+  project_id: 95f557cdef39403e9c2b8cfcc5e7abcd
+  resource_provider: 81ad585d-abcd-4fab-a365-2f9da4b9603d
+  resources:
+    DISK_GB: 82
+    MEMORY_MB: 1000
+    VCPU: 2
+  user_id: user1
+
+
+-- another way
+
+❯ openstack resource provider list -f yaml
+- generation: 13586
+  name: node1.domain.com
+  parent_provider_uuid: null
+  root_provider_uuid: 3b363c26-dd94-424e-bbe3-12a7c9cf1643
+  uuid: 3b363c26-dd94-424e-bbe3-12a7c9cf1643
+- generation: 9390
+  name: node2.domain.com
+  parent_provider_uuid: null
+  root_provider_uuid: 81ad585d-7a92-4fab-a365-2f9da4b9603d
+  uuid: 81ad585d-7a92-4fab-a365-2f9da4b9603d
+
+
+-- how to manually fix the allocation for an instance
+>
+[root@comupute1 compute]# nova-manage placement heal_allocations --instance 90e40613-abcd-447-9303-fa2dcb403ecf
