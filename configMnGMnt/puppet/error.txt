@@ -49,3 +49,23 @@ On the agent:   find /etc/puppetlabs/puppet/ssl -name host.fqdn.com.pem -delete
 
 sudo systemctl stop puppet
 sudo systemctl disable puppet
+
+
+-- Error: The certificate for 'CN=node1.domain.com' does not match its private key
+
+-- on node:
+
+# Stop the Puppet service
+sudo systemctl stop puppet
+
+# Remove local agent SSL files
+sudo rm -rf /etc/puppetlabs/puppet/ssl
+
+-- on master:
+
+# Clean the certificate using puppetserver ca
+sudo puppetserver ca clean --certname node.domain.com
+sudo puppetserver ca sign --certname p33.pouta.csc.fi
+
+-- search for a key in puppet server
+puppet lookup nova::params::modular_libvirt --node node1.domain.com --compile --explain --environment feature_branch
