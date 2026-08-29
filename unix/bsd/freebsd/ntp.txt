@@ -1,0 +1,19 @@
+
+--
+-- fix ntp clock offset exceeds panic threshold
+--
+-- stop the ntpd service and manually sync the time.
+service ntpd stop
+ntpdate -b 0.freebsd.pool.ntp.org
+
+-- put following in /etc/rc.conf
+cat /etc/rc.conf
+ntpd_enable="YES"
+ntpd_sync_on_start="YES"
+
+-- or run following
+sysrc ntpd_enable="YES"
+sysrc ntpd_sync_on_start="YES"
+
+-- run service again
+service ntpd start
