@@ -1,0 +1,70 @@
+
+
+-- bhyve with cloud init
+
+-- download debian 12 cloud image
+
+cd /zroot/vm/.iso
+sudo fetch https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2
+
+
+-- cloud-init configuration template
+cat /zroot/vm/.templates/debian12-userdata.yaml
+
+#cloud-config
+hostname: debian12-node
+fqdn: debian12-node.local
+manage_etc_hosts: true
+
+users:
+  - name: sysadmin
+    gecos: System Administrator
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    # Optional password hash or plain string (for quick testing)
+    plain_text_passwd: "ChangeMe123!"
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleKeyHashGoesHere user@host
+
+# Packages to install on initial boot
+packages:
+  - curl
+  - htop
+  - sudo
+
+# Execute commands on first boot
+runcmd:
+  - systemctl enable --now ssh
+
+
+-- create and launch the cloud-init VM
+
+sudo vm create -t debian -c 2 -m 4g debian-cloud
+
+-- Import the official qcow2 disk into the VM's storage:
+
+sudo vm import debian-cloud debian-12-genericcloud-amd64.qcow2
+
+-- Configure the VM to use UEFI firmware:
+
+sudo vm configure debian-cloud
+
+guest="linux"
+uefi="bhyve-firmware"
+disk0_type="virtio-blk"
+net0_type="virtio-net"
+net0_switch="public"
+
+-- initialize with cloud-init
+
+sudo vm start -C -u /zroot/vm/.templates/debian12-userdata.yaml debian-cloud
+
+-- Access and Verify
+-- Attach to the console to observe cloud-init provisioning:
+
+sudo vm console debian-cloud
+ssh sysadmin@<VM-IP-ADDRESS>
+
+-- To verify the provisioning status inside the VM:
+sudo cloud-init status --wait

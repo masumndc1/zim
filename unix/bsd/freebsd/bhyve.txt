@@ -1,0 +1,71 @@
+
+
+-- bhyve
+--
+
+-- method1:
+-- install bhyve 
+pkg install vm-bhyve bhyve-firmware
+
+-- run following or add them in /etc/rc.local
+
+sysrc vm_enable="YES"
+sysrc vm_dir="zroot/vm" # Or your preferred ZFS dataset path
+
+-- run following
+vm init
+
+-- network setup
+vm switch create public
+
+# Replace em0 with your primary network interface
+vm switch add public em0
+
+-- fetch debian iso and create VM
+
+# Download Debian 12 NetInst ISO
+vm iso https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
+
+# Create VM (2 CPUs, 2GB RAM, 20GB disk)
+vm create -c 2 -m 2g -s 20g debian12
+
+-- install debian 12
+
+# Boot with UEFI firmware enabled for Debian 12
+vm configure debian12
+
+# Ensure graphics/uefi is configured:
+# uefi="bhyve-firmware"
+
+vm start -i debian12
+
+-- method 2:
+
+# Load bhyve kernel modules
+kldload vmm
+kldload nmdm
+
+# Create storage volume
+zfs create -V 20G zroot/debian12-disk
+
+# Launch installation using UEFI firmware
+bhyve -c 2 -m 2G -H -A -P \
+  -s 0,hostbridge \
+  -s 3,ahci-cd,/path/to/debian-12-netinst.iso \
+  -s 4,virtio-blk,/dev/zvol/zroot/debian12-disk \
+  -s 5,virtio-net,tap0 \
+  -s 29,fslua,bootrom=/usr/local/share/uefi-firmware/BHYVE_UEFI.fd \
+  -l bootrom,/usr/local/share/uefi-firmware/BHYVE_UEFI.fd \
+  -s 31,lpc -l com1,stdio \
+  debian12
+
+
+-- Bootloader:
+-- Always use UEFI (BHYVE_UEFI.fd from bhyve-firmware) rather than
+-- grub-bhyve for modern Debian 12 installations to ensure seamless
+-- kernel update compatibility.
+
+-- Console access:
+vm console debian12
+-- or
+cu -l /dev/nmdm0A
