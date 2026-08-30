@@ -4,13 +4,13 @@
 --
 
 -- method1:
--- install bhyve 
+-- install bhyve
 pkg install vm-bhyve bhyve-firmware
 
 -- run following or add them in /etc/rc.local
 
 sysrc vm_enable="YES"
-sysrc vm_dir="zroot/vm" # Or your preferred ZFS dataset path
+sysrc vm_dir="/zroot/vm" # Or your preferred ZFS dataset path
 
 -- run following
 vm init
@@ -69,3 +69,67 @@ bhyve -c 2 -m 2G -H -A -P \
 vm console debian12
 -- or
 cu -l /dev/nmdm0A
+
+-- commands;
+
+
+❯ sudo vm info debian12
+------------------------
+Virtual Machine: debian12
+------------------------
+  state: running (12979)
+  datastore: default
+  loader: uefi
+  uuid: 15cb4337-a3fa-11f1-a2bb-c85b760b8de7
+  cpu: 2
+  memory: 2g
+  memory-resident: 44355584 (42.300M)
+
+  console-ports
+    com1: /dev/nmdm-debian12.1B
+    vnc: 0.0.0.0:5900
+
+  network-interface
+    number: 0
+    emulation: virtio-net
+    virtual-switch: {'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': ['vm', 'switch', 'create', 'public'], 'start': '2026-08-30 01:36:08.674392', 'end': '2026-08-30 01:36:08.777246', 'delta': '0:00:00.102854', 'msg': '', 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'deprecations': [{'msg': 'INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change.', 'collection_name': 'ansible.builtin', 'version': '2.24', 'deprecator': {'resolved_name': 'ansible.builtin', 'type': None}}]}
+    fixed-mac-address: 58:9c:fc:0c:63:4d
+    fixed-device: -
+    active-device: tap0
+    desc: vmnet/debian12/0/{'changed':
+    mtu: 1500
+    bridge: -
+    bytes-in: 0 (0.000B)
+    bytes-out: 0 (0.000B)
+
+  virtual-disk
+    number: 0
+    device-type: file
+    emulation: virtio-blk
+    options: -
+    system-path: /zroot/vm/debian12/disk0.qcow2
+    bytes-size: 348520448 (332.375M)
+    bytes-used: 694404096 (662.235M)
+
+
+❯ sudo cat /zroot/vm/debian12/vm-bhyve.log
+
+2026-08-30T01:36:13+03:00: generated static mac 58:9c:fc:05:de:62
+2026-08-30T01:36:32+03:00: initialising
+2026-08-30T01:36:32+03:00:  [loader: uefi]
+2026-08-30T01:36:32+03:00:  [cpu: 2]
+2026-08-30T01:36:32+03:00:  [memory: 2g]
+2026-08-30T01:36:32+03:00:  [hostbridge: standard]
+2026-08-30T01:36:32+03:00:  [com ports: com1]
+2026-08-30T01:36:32+03:00:  [uuid: 15cb4337-a3fa-11f1-a2bb-c85b760b8de7]
+2026-08-30T01:36:32+03:00:  [debug mode: no]
+2026-08-30T01:36:32+03:00:  [primary disk: disk0.qcow2]
+2026-08-30T01:36:32+03:00:  [primary disk dev: file]
+2026-08-30T01:36:32+03:00: generated static mac 58:9c:fc:0c:63:4d
+2026-08-30T01:36:32+03:00: initialising network device tap0
+2026-08-30T01:36:32+03:00: failed to find virtual switch '{'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': ['vm', 'switch', 'create', 'public'], 'start': '2026-08-30 01:36:08.674392', 'end': '2026-08-30 01:36:08.777246', 'delta': '0:00:00.102854', 'msg': '', 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'deprecations': [{'msg': 'INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change.', 'collection_name': 'ansible.builtin', 'version': '2.24', 'deprecator': {'resolved_name': 'ansible.builtin', 'type': None}}]}'
+2026-08-30T01:36:32+03:00: booting
+2026-08-30T01:36:32+03:00:  [bhyve options: -c 2 -m 2g -AHPw -l bootrom,/usr/local/share/uefi-firmware/BHYVE_UEFI.fd -U 15cb4337-a3fa-11f1-a2bb-c85b760b8de7 -u]
+2026-08-30T01:36:32+03:00:  [bhyve devices: -s 0,hostbridge -s 31,lpc -s 0:4:0,virtio-blk,/zroot/vm/debian12/disk0.qcow2 -s 0:5:0,virtio-net,tap0,mac=58:9c:fc:0c:63:4d -s 0:6:0,fbuf,tcp=0.0.0.0:5900]
+2026-08-30T01:36:32+03:00:  [bhyve console: -l com1,/dev/nmdm-debian12.1A]
+2026-08-30T01:36:32+03:00: starting bhyve (run 1)
