@@ -30,4 +30,6 @@ sudo apt-get install vim-nox
 ""   finish
 ""endif
 
-...
+... remove highlighting of previous search
+
+:let @/ = ""
