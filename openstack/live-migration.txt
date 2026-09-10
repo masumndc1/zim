@@ -1,0 +1,13 @@
+
+
+-- how to enable live migration
+
+cat /etc/nova/nova.conf
+
+server_listen = 0.0.0.0
+(optional) instances_path=
+
+-- enable password less ssh so that root of one node can
+-- connect to any other compute host. this is important for the libvirtd.
+
+-- open firewall for 49152, 49261
