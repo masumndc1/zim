@@ -437,3 +437,69 @@ root@controller:~# su -s /bin/sh -c "nova-manage db sync" nova
 ... see where is the problem from the status.
 
 journalctl -u openstack-nova-compute -n 50 --no-pager
+
+
+-- command to use to verify cells are working fine.
+
+[root@node1 user]# nova-manage cell_v2 list_cells
++---------+--------------------------------------+-------------------------------------------+-----------------------------------------------------+----------+
+|   Name  |                 UUID                 |               Transport URL               |                 Database Connection                 | Disabled |
++---------+--------------------------------------+-------------------------------------------+-----------------------------------------------------+----------+
+|  cell0  | 00000000-0000-0000-0000-000000000000 |                   none:/                  | mysql+pymysql://nova:****@127.0.0.1:3306/nova_cell0 |  False   |
+| default | 4aef2fa5-da7d-4149-879d-c8978566970f | rabbit://openstack:****@node:5672         | mysql+pymysql://nova:****@127.0.0.1:3306/nova       |  False   |
++---------+--------------------------------------+-------------------------------------------+-----------------------------------------------------+----------+
+[root@node1 user]#
+
+-- check cells and placement API are working successfully.
+
+[root@]# nova-status upgrade check
++---------------------------------------------------------------------+
+| Upgrade Check Results                                               |
++---------------------------------------------------------------------+
+| Check: Cells v2                                                     |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: Placement API                                                |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: Cinder API                                                   |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: Policy Scope-based Defaults                                  |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: Policy File JSON to YAML Migration                           |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: Older than N-1 computes                                      |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+| Check: hw_machine_type unset                                        |
+| Result: Warning                                                     |
+| Details:  Instances found without hw_machine_type set. This warning |
+|   can be ignored if your environment does not contain               |
+|   libvirt based compute hosts. Use the `nova-manage                 |
+|   machine_type list_unset` command to list these instances.         |
+|   For more details see the following: https://docs.openstack        |
+|   .org/latest/nova/admin/hw_machine_type.html                       |
++---------------------------------------------------------------------+
+| Check: Service User Token Configuration                             |
+| Result: Success                                                     |
+| Details: None                                                       |
++---------------------------------------------------------------------+
+[root@]#
+
+
+-- AZ: select one host in a ZONE to launch VM in it.
+-- alternatively, we can use --host to deploy VM in a particular host.
+
+openstack server create --avalability-zone ZONE:HOST:NODE server
+
+openstack --os-compute-api-version 2.74 server create \
+ --host HOST --hypervisor-hostname HYPERVISOR ... SERVER
