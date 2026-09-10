@@ -9,3 +9,4 @@ coding/python/vatde/*.egg-info/
 __pycache__/
 __pycache__/*
 *demo.lua
+ty-*.core
