@@ -10,3 +10,4 @@ __pycache__/
 __pycache__/*
 *demo.lua
 ty-*.core
+coding/c/*.o
