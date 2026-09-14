@@ -4,3 +4,11 @@
 ... before you edit run following.
 
 # mount -u -w /
+
+-- for you, xautolock did not worked as expected but its fine.
+-- rather to auto lock, you can use,
+
+acpiconf -s 3
+
+-- but before that add following in /boot/loader.conf
+i915kms_load="YES"
