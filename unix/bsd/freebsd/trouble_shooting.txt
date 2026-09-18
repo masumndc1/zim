@@ -7,8 +7,26 @@
 
 -- for you, xautolock did not worked as expected but its fine.
 -- rather to auto lock, you can use,
-
 acpiconf -s 3
 
 -- but before that add following in /boot/loader.conf
 i915kms_load="YES"
+
+-- when you run firefox or other programme.
+-- higher cpu load:
+-- try to do following
+
+-- Enable Power Daemon (powerd):
+-- Dynamically scales your CPU clock speed based on load.
+-- Add this line to /etc/rc.conf:
+
+powerd_enable="YES"
+powerd_flags="-a adaptive -b adaptive"
+
+-- Enable Deeper CPU Idle States (C-States):
+-- Keeps idle CPU cores cool.
+-- Add this to /etc/sysctl.conf:
+
+hw.acpi.cpu.cx_lowest=Cmax
+dev.cpu.0.cx_lowest=Cmax
+dev.cpu.1.cx_lowest=Cmax
