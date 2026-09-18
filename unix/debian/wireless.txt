@@ -16,9 +16,12 @@ root@lap-macmini:/home/masum# cat /etc/apt/sources.list
 deb http://deb.debian.org/debian/ trixie main contrib non-free-firmware
 deb-src http://deb.debian.org/debian/ trixie main contrib non-free-firmware
 
+$ sudo apt update
 $ sudo apt install firmware-b43-installer
 $ sudo apt install firmware-linux-nonfree
 
+--- you may also install following
+$ sudo apt install broadcom-sta-dkms
 
 root@lap-macmini:/home# /etc/network/interfaces
 
