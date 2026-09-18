@@ -27,3 +27,14 @@ wlans_ath0="wlan0"
 create_args_wlan0="country FI"
 wpa_supplicant_enable="YES"
 ifconfig_wlan0="WPA SYNCDHCP"
+
+-- additionally
+-- internal Intel Wi-Fi cards (if_iwlwifi),
+-- firmware binary blobs control radio frequencies,
+-- power-saving states, and modern WPA3 encryption handling.
+
+sudo pkg install -y wifi-firmware-kmod
+
+-- add following in /boot/loader.conf:
+
+iwlwifi_firmware_load="YES"
