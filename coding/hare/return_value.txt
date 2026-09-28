@@ -81,3 +81,38 @@ let cmd = exec::cmd("ping", "google.com")!;
 -- here we are telling
 -- "If result is a command, unwrap it and put it in cmd."
 -- "If result is either an error or a nomem, immediately crash/abort the program."
+
+-- another example,
+-- consider following function:
+
+fn check(stat: *status) (void | !exit_status);
+
+-- return value void means success
+-- return value !exis_status is clearly telling us this is an error type value.
+-- it indicates the failure. The ! explicitly marks it as an error variant
+-- within the tagged union, allowing Hare's error-handling operators
+-- (! and ?) to recognize and interact with it.
+
+// sample code
+let status = exec::wait(&proc)!;
+
+// call check by passing a pointer to status
+let check_result = exec::check(&status);
+
+-- Because it returns a tagged union of (void | !exit_status),
+-- you have two primary ways to handle it depending on your goals:
+
+-- options 1:
+
+match (exec::check(&status)) {
+case void =>
+    fmt::printfln("Command succeeded!")!;
+case let code: exec::exit_status =>
+    // 'code' contains the exit details; cast to int to print
+    fmt::printfln("Command failed with exit code: {}", (code: int))!;
+};
+
+-- options 2:
+
+// if it fails, the program automatically panics and exits
+exec::check(&status)!;
