@@ -1,0 +1,83 @@
+
+
+-- return value and how to handle them.
+
+-- look at the following function os::exec::cmd
+-- location of this is in os/exec/cmd.ha file
+
+export fn cmd(name: str, args: str...) (command | error | nomem) = {
+	let platcmd = if (strings::contains(name, '/')) {
+		yield match (open(name)) {
+		case let p: platform_cmd =>
+			yield p;
+		case let err: error =>
+			return err;
+		case =>
+			return nocmd;
+		};
+	} else {
+		yield match (lookup_open(name)?) {
+		case void =>
+			return nocmd;
+		case let p: platform_cmd =>
+			yield p;
+		};
+	};
+
+	let argv = platform_newargv(name, args...)?;
+
+	let env = match (platform_dup_env(os::getenvs())) {
+	case let env: platform_env =>
+		yield env;
+	case nomem =>
+		platform_free_argv(argv);
+		return nomem;
+	};
+
+	return command {
+		platform = platcmd,
+		files = [],
+		dir = "",
+		argv = argv,
+		env = env,
+		...
+	};
+};
+
+-- if we call this function, it will return command | error | nomem
+-- we can handle them following
+
+use fmt;
+use errors;
+use os::exec;
+
+export fn main() void = {
+    // Call the function that returns the 3-way tagged union
+    let result = exec::cmd("ping", "google.com");
+
+    match (result) {
+    case let cmd: exec::command =>
+        // 1. Success case: We got our command struct!
+        fmt::printfln("Command prepared successfully.")!;
+        // You would proceed to run it here: exec::start(&cmd)!;
+
+    case let err: errors::error =>
+        // 2. Operational error case: e.g., binary not found
+        fmt::printfln("Failed to find or build command.")!;
+
+    case let nm: nomem =>
+        // 3. Out-of-memory case
+        fmt::printfln("Out of memory error!")!;
+    };
+};
+
+-- therefore,
+-- writing out a full 3-way match block every time you want
+-- to run a command gets tedious fast.
+-- That is why the ! operator exists. When you write:
+
+let cmd = exec::cmd("ping", "google.com")!;
+
+-- here we are telling
+-- "If result is a command, unwrap it and put it in cmd."
+-- "If result is either an error or a nomem, immediately crash/abort the program."

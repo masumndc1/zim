@@ -1,0 +1,13 @@
+
+
+-- haredoc
+
+❯ haredoc bufio::read_line
+// Reads a slice of bytes until a newline character (\n, 0x0A). Newline itself
+// is not included but it is read from the handle. The return value must be
+// freed by the caller.
+fn read_line(h: io::handle) ([]u8 | io::EOF | io::error);
+
+❯ haredoc io::error
+// Any error which may be returned from an I/O function.
+type error = !(...errors::error | underread | nomem);

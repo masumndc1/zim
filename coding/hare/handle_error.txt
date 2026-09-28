@@ -1,0 +1,22 @@
+
+
+--
+
+-- What ! Does
+-- When a function returns a tagged union that includes an error
+	(like (void | error) or (int | fs::error)), appending ! tells the compiler:
+	- If it's a success: Unwrap the underlying value and continue.
+    - If it's an error: Immediately abort/crash the program with that error.
+-- never use ! in type definitions, like
+
+   $ haredoc errors::noaccess
+   type noaccess = !void;
+
+-- What ? Does
+-- When you write const file = os::create(path, 0o644, oflags)?;, it means:
+   	- If it succeeds: Unwrap the io::file and assign it to file.
+	- If it fails (returns an error): Immediately return that error
+	- out of the current function to whoever called without crashing the programme.
+
+-- Think of it as saying: "I am not crashing the program here;
+-- I'm passing the problem up to my caller to deal with."

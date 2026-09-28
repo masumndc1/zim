@@ -1,0 +1,9 @@
+
+
+-- opensuse
+
+sudo zypper install hare
+
+-- freebsd 15
+
+sudo pkg install devel/hare

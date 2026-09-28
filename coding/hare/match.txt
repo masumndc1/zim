@@ -1,0 +1,73 @@
+
+
+
+-- we can not use match with everything
+-- use switch for values.
+-- use match for types.
+-- for example,
+
+haredoc os::architecture
+
+$ haredoc os::arch
+// All currently supported target architectures.
+// This enum will be extended
+// whenever support for a new architecture is added.
+type arch = enum {
+        AARCH64,
+        RISCV64,
+        X86_64,
+};
+
+// Returns the host CPU architecture.
+fn architecture() arch;
+
+$ haredoc os::architecture
+// Returns the host CPU architecture.
+fn architecture() arch;
+
+-- here no tagged union
+// example of tagged union
+type dynamic_value = (int | f64 | str);
+
+-- i can use match with tagged union but if there is
+-- type enum, i have to use switch. this is the example.
+
+use fmt;
+use os;
+
+export fn main() void = {
+    switch (os::architecture()) {
+
+// returning type value
+# type arch = enum {
+# 	AARCH64,
+# 	RISCV64,
+# 	X86_64,
+# };
+
+        case os::arch::AARCH64 =>
+        	fmt::printfln("aarch64 based os")!;
+        case os::arch::RISCV64 =>
+        	fmt::printfln("riscv based os")!;
+        case os::arch::X86_64 =>
+        	fmt::printfln("amd or x64 based os")!;
+        case =>
+        	fmt::printfln("we dont support this OS")!;
+        };
+};
+
+
+-- explation:
+-- In Hare, a tagged union allows a variable to hold one of several different types at runtime.
+-- You define it by grouping types together inside parentheses separated by a pipe (|).
+-- Because tagged unions deal with types, you use a match statement,
+-- (not a switch) you cant use switch to inspect and extract the value safely.
+
+-- Syntax clue
+-- switch:
+-- Matches against enum tags or numbers
+-- (case os::arch::X86_64 =>)
+
+-- match:
+-- Extracts typed variables
+-- (case let x: int =>)

@@ -1,0 +1,15 @@
+
+
+-- in hare,
+-- [_]int means an array with inferred length (size)
+-- Instead of explicitly hardcoding the number of elements
+-- inside the brackets (like [5]int),
+-- you use an underscore _ to tell the compiler:
+-- "Figure out the array's size automatically based on the initializer expression".
+
+
+// The compiler automatically infers the length as 4
+let numbers: [_]int = [10, 20, 30, 40];
+
+// This is equivalent to explicitly writing:
+// let numbers: [4]int = [10, 20, 30, 40];

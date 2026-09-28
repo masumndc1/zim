@@ -1,0 +1,56 @@
+
+
+-- In Hare, a tagged union (often called a union type) allows a variable or
+-- function return value to hold one of several possible types.
+-- Because Hare has no exceptions or nil/null pointers for errors,
+-- tagged unions are heavily used for error handling and multi-type values.
+
+-- Here is a clear, practical example of how to define, assign, and unwrap tagged unions in Hare:
+
+use fmt;
+
+// 1. Define a function that returns a tagged union:
+// It can return either an integer (int) OR a specific error type (syntax | overflow).
+type parse_error = enum {
+    syntax,
+    overflow,
+};
+
+type number_result = (int | parse_error);
+
+fn parse_number(input: str) number_result = {
+    if (input == "42") {
+        return 42; // returns an int
+    } else if (input == "bad") {
+        return parse_error::syntax; // returns an error enum
+    };
+    return parse_error::overflow;
+};
+
+export fn main() void = {
+    // 2. Calling the function returns the tagged union
+    let res = parse_number("42");
+
+    // 3. Checking and unwrapping the union using a type switch
+    match (res) {
+    case let n: int =>
+        fmt::printfln("Successfully parsed number: {}", n)!;
+    case let err: parse_error =>
+        fmt::printfln("Failed with error code: {}", err)!;
+    };
+};
+
+How Hare Handles Tagged Unions
+  - Syntax (TypeA | TypeB): You create a union type by grouping types
+    inside parentheses separated by pipes (|).
+
+  - Type Safety (match): You cannot directly use a tagged union as if
+    it were a specific type (e.g., you can't do math on res directly).
+	You must inspect it using a match expression to extract and
+	safely use the underlying value.
+
+  - The Shortcut (! and ?): For built-in functions that return (T | error),
+    Hare provides shorthand operators:
+     - ! (assert/unwrap): Crashes the program if it contains an error,
+	     or extracts the value if it succeeds.
+     - ? (propagate): Returns the error up to the calling function.
