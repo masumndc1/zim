@@ -20,3 +20,37 @@
 
 -- Think of it as saying: "I am not crashing the program here;
 -- I'm passing the problem up to my caller to deal with."
+
+-- when to use free
+
+-- in haredoc if you see nomem in return type, then you need to use free to
+	return the heap after using it.
+
+ haredoc strings::concat
+	fn concat (strs: str...) (str | nomem);
+
+use fmt;
+use strings;
+
+export fn main() void = {
+    let first = "Hello, ";
+    let second = "Hare!";
+
+    // strings::concat allocates a brand new string on the heap.
+    // Because it allocates, its return type is: (str | nomem)
+    let combined = match (strings::concat(first, second)) {
+        case let s: str => yield s;
+		case nomem => {
+            fmt::errorfln("Error: Out of memory during concatenation!")!;
+            return;
+        };
+    };
+
+    // Since 'combined' is a fresh heap allocation that we now own,
+    // we must defer free() to release the memory when main() exits.
+    defer free(combined);
+
+    fmt::printfln("Result: {}", combined)!;
+};
+
+-- if you dont free the memory, it can memory leak and oom kill the programme.
