@@ -159,3 +159,14 @@ battery all {
         low_threshold = 15
         threshold_type = percentage
 }
+
+-- you also need to install mesa-demos
+
+pkg install -y mesa-demos
+
+sudo cat /usr/local/etc/X11/xorg.conf.d/20-modesetting.conf
+Section "Device"
+    Identifier "Intel Graphics"
+    Driver     "modesetting"
+    Option     "AccelMethod" "glamor"
+EndSection
