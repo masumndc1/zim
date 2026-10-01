@@ -1,0 +1,18 @@
+
+
+-- debian/ubuntu
+
+apt install -y tcc
+
+-- macos
+
+bres install tcc
+
+-- opensuse
+
+git clone https://github.com/TinyCC/tinycc.git
+./configure
+make
+sudo make install
+
+--
