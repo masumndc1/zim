@@ -69,5 +69,12 @@ int main() {
   root->left->count = 5;
   printf("%d", root->left->count);
 
+  /*
+  rule of thumb:
+  use . when you have the direct variable (object.field).
+  Use -> when you have a pointer/reference to the variable
+    (pointer_to_object->field).
+  */
+
   return 0;
 }
