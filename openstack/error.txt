@@ -93,3 +93,13 @@ bolt command run "dnf config-manager --set-enabled crb" --targets keystone-alma9
 
 # Clean metadata and install the missing package manually to test
 bolt command run "dnf clean all && dnf install -y python3-pyxattr" --targets keystone-alma9-dev9
+
+-- error on glance/image:
+-- Troubleshoot image creation
+-- If you encounter problems in creating an image in the Image service or Compute,
+-- the following information may help you troubleshoot the creation process.
+-- Ensure that the version of qemu you are using is version 0.14 or later.
+-- Earlier versions of qemu result in an unknown option -s error message in
+-- the /var/log/nova/nova-compute.log file.
+-- Examine the /var/log/nova/nova-api.log and
+-- /var/log/nova/nova-compute.log log files for error messages.
