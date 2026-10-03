@@ -20,3 +20,47 @@ and watch the output of my htop command in command promt dynamips does not cross
 if we need to limit a service by pid(say 12121) then step is following
 
 root@masum-K42JZ:~# cpulimit -p 12121 -l 30
+
+-- making cpu run at higher speed
+
+❯ lscpu | grep MHz
+CPU(s) scaling MHz:                      28%
+CPU max MHz:                             3600.0000
+CPU min MHz:                             800.0000
+❯
+❯ cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+schedutil
+schedutil
+schedutil
+schedutil
+
+❯ echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+performance
+❯ lscpu | grep MHz
+CPU(s) scaling MHz:                      91%
+CPU max MHz:                             3600.0000
+CPU min MHz:                             800.0000
+❯
+
+-- alternatively, you can use tuned(cpu, network, storage) or cpu-power(minimum)
+
+sudo apt update && sudo apt install linux-cpupower
+sudo zypper install cpupower
+
+sudo vim /etc/default/cpupower
+governor='performance'
+
+sudo systemctl enable --now cpupower
+
+-- tuned
+sudo apt update && sudo apt install tuned
+sudo zypper install tuned
+
+sudo systemctl enable --now tuned
+
+-- apply high performance profile
+sudo tuned-adm profile throughput-performance
+
+-- verify profile
+sudo tuned-adm active
+ Current active profile: throughput-performance
