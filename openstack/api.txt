@@ -1,0 +1,12 @@
+
+
+--
+api are used in glance to do the image related operations via REST API call.
+"A common strategy is to deploy multiple Glance nodes: internal-facing nodes providing
+the Images APIs for internal consumers like Nova, and external-facing nodes
+providing the Images v2 API for public use."[1]
+
+
+
+[1]: Using Glance’s Image Public APIs — glance 33.1.0.dev6 documentation. (n.d.).
+https://docs.openstack.org/glance/latest/user/glanceapi.html
