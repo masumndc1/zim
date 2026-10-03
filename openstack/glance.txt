@@ -483,3 +483,24 @@ ocata_expand01_add_visibility.py           rocky_expand01_add_os_hidden.py      
 2026-05-20 11:27:55.404 20856 INFO alembic.runtime.migration [-] Will assume non-transactional DDL.
 Database is up to date. No migrations needed.
 [root@glance-alma9-dev9 versions]#
+
+-- list the available namespace
+
+curl -H "X-Auth-Token: $token" \
+https://image.devstack.com:9293/v2/metadefs/namespaces | jq '.'
+
+-- output cut --
+
+    {
+      "namespace": "OS::Glance::CommonImageProperties",
+      "display_name": "Common Image Properties",
+      "description": "When adding an image to Glance, you may specify some common image properties that may prove useful to consumers of your image.",
+      "visibility": "private",
+      "protected": true,
+      "owner": "admin",
+      "created_at": "2026-09-14T08:24:36Z",
+      "self": "/v2/metadefs/namespaces/OS::Glance::CommonImageProperties",
+      "schema": "/v2/schemas/metadefs/namespace"
+    },
+
+-- output cut --
