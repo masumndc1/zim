@@ -7,3 +7,7 @@ sudo zypper install hare
 -- freebsd 15
 
 sudo pkg install devel/hare
+
+-- debian 13 or ubuntu 26
+
+sudo apt install hare
