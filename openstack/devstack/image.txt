@@ -2,10 +2,11 @@
 
 ... adding image in openstack by following.
 
-masum@devstack:/opt/stack/devstack$ openstack image create \
---container-format bare --disk-format qcow2 \
---file /home/masum/debian-9.7.0-openstack-amd64.qcow2 \
-debian-9.7.0-openstack-amd64
+masum@devstack:/opt/stack/devstack$
+openstack image create \
+  --container-format bare --disk-format qcow2 \
+  --file /home/masum/debian-9.7.0-openstack-amd64.qcow2 \
+  debian-9.7.0-openstack-amd64
 
 masum@devstack:/opt/stack/devstack$ openstack image list
 +--------------------------------------+------------------------------+--------+
@@ -16,4 +17,215 @@ masum@devstack:/opt/stack/devstack$ openstack image list
 +--------------------------------------+------------------------------+--------+
 masum@devstack:/opt/stack/devstack$
 
+-- image creation can be done also by following
+
+wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img
+
+glance image-create --name "cirros" \
+  --file cirros-0.4.0-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare \
+  --visibility=public
+
+-- creating a image from iso file by following
+
+glance image-create --name ISO_IMAGE --file IMAGE.iso \
+  --disk-format iso --container-format bare
+
 ... and we have image added to my domain as above.
+
+-- know about an image by curl.
+-- to run following command you need to grab one token
+
+openstack token issue
+$ export token="your-long-token-here8uuosuofsuousfoifoisuoifusoiuoi"
+
+curl -H "X-Auth-Token: $token" \
+https://image.server.com:9292/v2/images/c0d98f68-8a76-437f-af46-f4fb76984cc5 | jq '.'
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100   1191 100   1191   0      0  12954      0                              0
+{
+  "owner_specified.openstack.md5": "",
+  "owner_specified.openstack.sha256": "",
+  "owner_specified.openstack.object": "images/Alma9-BootStrap",
+  "name": "Alma9-BootStrap",
+
+->  "disk_format": "qcow2",
+->  "container_format": "bare",
+  "visibility": "public",
+  "size": 589299712,
+  "virtual_size": 10737418240,
+->  "status": "active",
+  "checksum": "87cb8ae096e877009f0c0555b4a0df65",
+  "protected": false,
+  "min_ram": 0,
+  "min_disk": 0,
+  "owner": "ae60265f55ee40a3a8f6c781a3e6752a",
+  "os_hidden": false,
+  "os_hash_algo": "sha512",
+  "os_hash_value": "8b444e9eeb59222ca7da90ef17fd4bdf26ac019001b1adae0d5920f36cb21ceee00c3721813e695acd",
+  "id": "c0d98f68-8a76-437f-af46-f4fb76984cc5",
+  "created_at": "2026-09-14T10:36:23Z",
+  "updated_at": "2026-09-14T10:36:54Z",
+  "locations": [
+    {
+      "url": "rbd://0708devel/c0d98f68-8a76-437f-af46-f4fb76984cc5/snap",
+      "metadata": {}
+    }
+  ],
+  "direct_url": "rbd://07086bc6-c0d98f68-8a76-437f-af46-f4fb76984cc5/snap",
+  "tags": [],
+  "self": "/v2/images/c0d98f68-8a76-437f-af46-f4fb76984cc5",
+  "file": "/v2/images/c0d98f68-8a76-437f-af46-f4fb76984cc5/file",
+  "schema": "/v2/schemas/image"
+}
+
+-- another image where the disk format is raw.
+
+
+❯ curl -H "X-Auth-Token: $token" \
+https://image.server.com:9293/v2/images/51e25b85-4128-4144-bb4a-c3d55293cf2c | jq '.'
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+100   1362 100   1362   0      0   8049      0                              0
+{
+  "os_admin_user": "ubuntu",
+  "os_version": "26.04",
+->  "os_type": "linux",
+->  "hw_vif_multiqueue_enabled": "True",
+  "description": "To find out which user to login with: ssh in as root.",
+  "owner_specified.openstack.md5": "",
+  "owner_specified.openstack.sha256": "",
+  "owner_specified.openstack.object": "images/Ubuntu-26.04",
+->  "name": "Ubuntu-26.04",
+->  "disk_format": "raw",
+->  "container_format": "bare",
+  "visibility": "public",
+  "size": 3758096384,
+  "virtual_size": 3758096384,
+  "status": "active",
+  "checksum": "24191a54aa9c3fc64e180a51331ef10a",
+  "protected": false,
+  "min_ram": 0,
+  "min_disk": 0,
+  "owner": "302d19c8fe304996a5b8d7b5d62c9be7",
+  "os_hidden": false,
+  "os_hash_algo": "sha512",
+  "os_hash_value": "6fd4d468ba908ae5d37e27a725ba57bd785199ca7b270c4993bff50c143a723155cccba0eaec",
+  "id": "51e25b85-4128-4144-bb4a-c3d55293cf2c",
+  "created_at": "2026-09-19T22:00:19Z",
+  "updated_at": "2026-09-19T22:01:45Z",
+  "locations": [
+    {
+      "url": "rbd://0708649vel/51e25b85-4128-4144-bb4a-c3d55293cf2c/snap",
+      "metadata": {}
+    }
+  ],
+  "direct_url": "rbd://07086bc6/51e25b85-412293cf2c/snap",
+  "tags": [],
+  "self": "/v2/images/51e25b85-4128-4144-bb4a-c3d55293cf2c",
+  "file": "/v2/images/51e25b85-4128-4144-bb4a-c3d55293cf2c/file",
+  "schema": "/v2/schemas/image"
+}
+
+-- update the image metadata
+
+curl -i -X PATCH \
+  -H "X-Auth-Token: $TOKEN" \
+  -H "Content-Type: application/openstack-images-v2.1-json-patch" \
+  -d '[
+    {"op": "replace", "path": "/name", "value": "debian-12-updated"},
+    {"op": "add", "path": "/hw_firmware_type", "value": "uefi"}
+  ]' \
+  http://<Glance_Server_Location>:9292/v2/images/<ID>
+
+-- same to delete an image
+
+curl -i -X DELETE \
+  -H "X-Auth-Token: $TOKEN" \
+  http://<Glance_Server_Location>:9292/v2/images/<ID>
+
+-- to sort by name and status
+
+curl -s -H "X-Auth-Token: $token" \
+  "https://glance-server:9293/v2/images?sort=name,status" | jq '.'
+
+-- get info on a particular image
+-- in APIv2.2, a cloud provider can imploy property protection which
+-- can hide few property to expose to non-admin users.
+
+❯ curl -s -H "X-Auth-Token: $token" \
+"https://glance-server:9293/v2/images/81ae2787-18eb-4bc6-809f-1669831204c8" | jq '.'
+{
+  "owner_specified.openstack.md5": "",
+  "owner_specified.openstack.sha256": "",
+  "owner_specified.openstack.object": "images/nagiostest-cirros-0.3.0-x86_64",
+  "name": "nagiostest-cirros-0.3.0-x86_64",
+-->  "disk_format": "qcow2",
+-->  "container_format": "bare",
+  "visibility": "public",
+  "size": 13267968,
+  "virtual_size": 41126400,
+  "status": "active",
+  "checksum": "f8ab98ff5e73ebab884d80c9dc9c7290",
+  "protected": false,
+  "min_ram": 0,
+  "min_disk": 0,
+  "owner": "c4c19542b64e44bc9b363487c62b6698",
+  "os_hidden": false,
+ --> "os_hash_algo": "sha512",
+ --> "os_hash_value": "f0fd1b50420dce4ca382ccfbb528eef3ad2d8698b1174a335fbd66035bb3edc525d2cdb187232",
+  "id": "81ae2787-18eb-4bc6-809f-1669831204c8",
+  "created_at": "2026-09-14T10:36:55Z",
+  "updated_at": "2026-09-14T10:36:56Z",
+  "locations": [
+    {
+      "url": "rbd://07086bc6-c0fd-4963-ac02e/glance-dev/81ae2787-18eb-4bc6-809f-1669831204c8/snap",
+      "metadata": {}
+    }
+  ],
+  "direct_url": "rbd://07086bc6-c0fd-4963-acc/glance-dev/81ae2787-18eb-4bc6-809f-1669831204c8/snap",
+  "tags": [],
+  "self": "/v2/images/81ae2787-18eb-4bc6-809f-1669831204c8",
+  "file": "/v2/images/81ae2787-18eb-4bc6-809f-1669831204c8/file",
+  "schema": "/v2/schemas/image"
+}
+
+-- visibility of images:
+-- in below, no images have been shared to community
+
+ curl -s -H "X-Auth-Token: $token" \
+"https://image.server.com:9293/v2/images?visibility=community" | jq '.'
+{
+  "images": [],
+  "first": "/v2/images?visibility=community",
+  "schema": "/v2/schemas/images"
+}
+
+-- how to update an image properties
+
+glance image-update \
+    --property hw_disk_bus=scsi \
+    --property hw_cdrom_bus=ide \
+    --property hw_vif_model=e1000 \
+    <Image-ID>
+
+-- from https://docs.openstack.org/glance/latest/admin/manage-images.html
+
+"Currently the libvirt virtualization tool determines the disk, CD-ROM,
+and VIF device models based on the configured hypervisor type
+(libvirt_type in /etc/nova/nova.conf file). For the sake of optimal performance,
+libvirt defaults to using virtio for both disk and VIF (NIC) models.
+The disadvantage of this approach is that it is not possible to run
+operating systems that lack virtio drivers, for example,
+BSD, Solaris, and older versions of Linux and Windows."
+
+-- if your environment has cache feature enabled, can be queried like,
+-- following output shows there is no images for cached.
+
+curl -s -H "X-Auth-Token: $token" \
+"https://image.service.com:9293/v2/cache" | jq '.'
+{
+  "cached_images": [],
+  "queued_images": []
+}
