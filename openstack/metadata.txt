@@ -24,3 +24,16 @@ user data
 openstack server create --config-drive true --image my-image-name \
 --flavor 1 --key-name mykey --user-data ./my-user-data.txt \
 --property role=webservers --property essential=false MYINSTANCE
+
+-- there are metadata prefix for specific services for example,
+hw_ for images and hw: for flavor. so for an image, the core for a
+cpu will be like hw_cpu_cores=1. for other service also metadata
+specification can be different. for example, on a host aggregate,
+you may see:
+
+companyx:fastio=true
+
+But then when used on the flavor, then AggregateInstanceExtraSpecsFilter
+needs to be define as
+
+aggregate_instance_extra_specs:companyx:fastio=true
