@@ -1,0 +1,19 @@
+
+
+-- manual installation for the plugins
+-- manually i needed to install zsh-autosugession for opensuse as package was not found.
+-- zsh-autosuggession:
+
+# 1. Create the custom plugins directory if it doesn't exist
+mkdir -p ~/.zsh/plugins
+
+# 2. Clone the official repository from GitHub
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
+
+# 3. Add it to your ~/.zshrc file
+echo 'source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh' >> ~/.zshrc
+
+-- powerlevel10k:
+
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
