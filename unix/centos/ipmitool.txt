@@ -35,3 +35,27 @@ Backup Gateway MAC      : 00:00:00:00:00:00
 RMCP+ Cipher Suites     : 3,17
 Cipher Suite Priv Max   : Not Available
 Bad Password Threshold  : Not Available
+
+-- make the mac address upper case
+
+[]# ipmitool lan print 1 | grep -i "Mac Address" | awk '{print toupper($0)}'
+MAC ADDRESS             : 7C:5C:9C:7D:3C:38
+
+-- another way of getting mac address
+
+/opt/dell/srvadmin/sbin/racadm -r node.domain.com -u root -p calvin get NIC.VndrConfigPage.1.MacAddr --nocertwarn | grep MacAddr
+
+-- alternatively, you can put the command in a bash file like
+
+#!/bin/bash
+
+for a in {120..135}; do
+        host node$a.domain.com | cut -f1,5 -d ' '
+        /opt/dell/srvadmin/sbin/racadm -r node$a-ipmi.domain.com \
+		 -u user -p passwrd get NIC.VndrConfigPage.1.MacAddr \
+		 --nocertwarn | grep MacAddr | cut -f2 -d '='
+done
+
+-- output
+node1.domain.com 192.168.2.1
+8C:12:CF:7D:A4:52
