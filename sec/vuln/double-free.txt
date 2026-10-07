@@ -1,0 +1,12 @@
+
+
+--
+-- double free
+
+"
+A double-free vulnerability is a memory corruption flaw that occurs when a program
+attempts to release (free) the exact same block of dynamically allocated memory twice.
+"
+
+-- mitigation:
+-- memory safety languages like rust, go

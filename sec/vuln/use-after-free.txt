@@ -1,0 +1,30 @@
+
+
+--
+-- what is use-after-free vulnerability
+--
+-- desc:
+
+"
+A use-after-free (UAF) vulnerability is a type of memory corruption flaw that
+occurs when a program continues to use a memory pointer after that memory
+has been deallocated (freed).
+"
+
+-- after allocating memory and after using it,
+
+"The program finishes using the memory and releases it back to the memory allocator
+(e.g., via free or delete). However, the pointer variable itself is not cleared or
+set to NULL. This remaining reference is known as a dangling pointer."
+
+-- this UAF can lead to
+-- arbitary code execution
+-- information disclosuer
+-- DOS
+
+--
+-- mitiagtion:
+-- pointer nullification, nullptr, or NULL
+-- smart pointers, std::unique_ptr, std::shared_ptr
+-- memory safety languages like rust, go or python
+--
