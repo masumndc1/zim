@@ -1070,3 +1070,8 @@ Fast-forward
  src/app.js       |  4 ++--
  src/utils/log.js | 25 +++++++++++++++++++++++++
  3 files changed, 34 insertions(+), 7 deletions(-)
+
+-- i have a commit, which branch it is part of
+
+> git branch --contains e2e5434b
+  fun-branch
