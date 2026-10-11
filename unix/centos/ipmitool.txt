@@ -59,3 +59,12 @@ done
 -- output
 node1.domain.com 192.168.2.1
 8C:12:CF:7D:A4:52
+
+-- change the password through racadm
+
+#!/bin/bash
+
+for a in {1..10}; do
+        echo node${a}-ipmi.domain.com
+        /opt/dell/srvadmin/sbin/racadm -r node${a}-ipmi.domain.com -u root -p <old_password> set iDRAC.Users.2.Password <new_password>
+done
