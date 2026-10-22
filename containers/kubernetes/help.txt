@@ -12,3 +12,25 @@ masum@controller:~$
 masum@controller:~$ kubectl explain pods
 
 ...
+
+-- use of dry run to make the template
+
+kubectl run my-pod --image=nginx --restart=Never --dry-run=client -o yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: my-pod
+  name: my-pod
+spec:
+  containers:
+  - image: nginx
+    name: my-pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+kubectl create deployment my-dep --image=nginx --replicas=3 --dry-run=client -o yaml
+kubectl create service clusterip my-svc --tcp=80:8080 --dry-run=client -o yaml
+kubectl create configmap my-config --from-literal=key1=value1 --dry-run=client -o yaml
