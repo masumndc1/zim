@@ -22,5 +22,19 @@ aichat
 # Install as root / via sudo
 pkg install misc/aichat
 
+-- you need to put your api key in
+~/.config/aichat/config.yaml
+$ cat config.yaml
+# see https://github.com/sigoden/aichat/blob/main/config.example.yaml
+
+model: gemini:gemini-2.5-flash
+clients:
+- type: gemini
+  api_key: <your_api_key_here>
+
 -- in linux, if you have brew install
 brew install aichat
+
+-- alternatively, first-time you need just run aichat
+-- it will then prompt for the api key and set up the
+-- config.yaml file for you.
