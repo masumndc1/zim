@@ -1,0 +1,26 @@
+
+
+-- gemini:
+-- install
+npm install -g @google/gemini-cli
+
+-- lanuch
+gemini
+
+-- in mac
+brew install gemini-cli
+
+-- aichat:
+-- alternatively you can install aichat
+brew install aichat
+
+-- after installing run aichat, it will promt for api key
+-- launch
+aichat
+
+-- in freebsd
+# Install as root / via sudo
+pkg install misc/aichat
+
+-- in linux, if you have brew install
+brew install aichat
