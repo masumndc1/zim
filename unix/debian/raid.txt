@@ -1,5 +1,6 @@
 
 
+... software raid:
 ... raid or redundant arrays of independent disks.
 ...
 ... there are different level of raid
@@ -776,3 +777,19 @@ md1 : active raid1 sda2[0]
       bitmap: 7/8 pages [28KB], 65536KB chunk
 
 []#
+
+-- hardware raid:
+
+dmesg -T | grep -i raid
+
+mpi3mr0: Running in RAID Personality
+mpi3mr0: Protocol=(Initiator,NVMe attachment), Capabilities=(RAID,MultiPath)
+
+lspci | grep -i raid
+scsi 0:0:1:0: Direct-Access     DELL     RAID             8-14 PQ: 0 ANSI: 5
+RAID bus controller: Broadcom / LSI Fusion-MPT 24GSAS/PCIe SAS40xx/41xx (rev 01)
+
+-- to get the info with hardware raid controller, you need to install storcli
+-- you can download it from broadcom website and unzip and install rpm or deb pkg.
+
+/opt/MegaRAID/storcli/storcli64 /call show
