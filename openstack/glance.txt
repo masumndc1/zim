@@ -504,3 +504,16 @@ https://image.devstack.com:9293/v2/metadefs/namespaces | jq '.'
     },
 
 -- output cut --
+
+-- for example, you have put an VM as shelved-offloaded, then the disk will be stored
+-- in glance as an image. you can save that image from glance to local computer by following
+
+❯ openstack image list --property instance_uuid=073b39b4-2a62-46a5-9117-1146fa515
++--------------------------------------+----------------------+--------+
+| ID                                   | Name                 | Status |
++--------------------------------------+----------------------+--------+
+| 74865245-5536-4b9f-b3eb-2fllll9f7db2 | test-std-shelved     | active |
++--------------------------------------+----------------------+--------+
+❯
+❯ openstack image save --file vm-disk.qcow2 74865245-5536-4b9f-b3eb-2flllll9f7132
+❯
