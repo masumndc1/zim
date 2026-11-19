@@ -190,3 +190,84 @@ Pod Template:
     Environment:        <none>
     Mounts:     <none>
   Volumes:      <none>
+
+-- using --dry-run=client with deployment
+
+kubectl create deployment app-cache --image=memcached --dry-run=client -o yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-cache
+  name: app-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-cache
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: app-cache
+    spec:
+      containers:
+      - image: memcached
+        name: memcached
+        resources: {}
+status: {}
+
+❯ kubectl apply -f deployment_appcache.yaml
+❯ kubectl get deployments
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+app-cache   4/4     4            4           41s
+❯ kubectl describe  deployments
+Name:                   app-cache
+Namespace:              default
+CreationTimestamp:      Thu, 12 Nov 2026 19:19:08 +0200
+Labels:                 app=app-cache
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=app-cache
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=app-cache
+  Containers:
+   memcached:
+    Image:         memcached
+    Port:          <none>
+    Host Port:     <none>
+    Environment:   <none>
+    Mounts:        <none>
+  Volumes:         <none>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   app-cache-fd55bcc59 (4/4 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  47s   deployment-controller  Scaled up replica set app-cache-fd55bcc59 from 0 to 4
+
+-- updating the elements of a deployment
+
+❯ kubectl set image deployment app-cache memcached=mecached:1.6.10 --record
+Flag --record has been deprecated, --record will be removed in the future
+deployment.apps/app-cache image updated
+❯ kubectl rollout status deployment app-cache
+Waiting for deployment "app-cache" rollout to finish: 2 out of 4 new replicas have been updated...
+
+-- rollout history
+
+❯ kubectl rollout history deployment app-cache
+deployment.apps/app-cache
+REVISION  CHANGE-CAUSE
+1         <none>
+2         kubectl set image deployment app-cache memcached=mecached:1.6.10 --record=true
