@@ -1,0 +1,99 @@
+
+
+-- rate limiter
+-- limiting the resources
+
+❯ cat exp_rate_limiter.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rate-limiter
+spec:
+  containers:
+  - name: business-app
+    image: bmuschko/nodejs-business-app:1.0.0
+    ports:
+      - containerPort: 8080
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "1"
+  - name: ambassador
+    image: bmuschko/nodejs-ambassador:1.0.0
+    ports:
+      - containerPort: 8081
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "1"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+-- now check the resource consumption of this pod in its nodes
+
+> kubectl describe nodes kind-worker2
+
+-- output cut --
+
+Non-terminated Pods:          (8 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  default                     app-cache-c89c55c8b-l4glf           0 (0%)        0 (0%)      0 (0%)           0 (0%)         82m
+  default                     app-cache-c89c55c8b-z572s           0 (0%)        0 (0%)      0 (0%)           0 (0%)         82m
+  default                     backend                             0 (0%)        0 (0%)      0 (0%)           0 (0%)         27m
+  default                     rate-limiter                        2 (25%)       0 (0%)      320Mi (4%)       0 (0%)         7m18s
+  kube-system                 cilium-b5b68                        100m (1%)     1 (12%)     10Mi (0%)        1Gi (12%)      21d
+  kube-system                 cilium-envoy-zw95x                  0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+  kube-system                 cilium-operator-7978b68cd7-kqdpz    0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+  kube-system                 tetragon-cdcdk                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+Allocated resources:
+
+-- request vs limits
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rate-limiter
+spec:
+  containers:
+  - name: business-app
+    image: bmuschko/nodejs-business-app:1.0.0
+    ports:
+      - containerPort: 8080
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "1"
+      limits:
+        memory: "512Mi"
+        cpu: "2"
+  - name: ambassador
+    image: bmuschko/nodejs-ambassador:1.0.0
+    ports:
+      - containerPort: 8081
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "1"
+      limits:
+        memory: "128Mi"
+        cpu: "2"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+> kubectl describe node kind-worker2
+
+Non-terminated Pods:          (8 in total)
+  Namespace                   Name                                CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                ------------  ----------  ---------------  -------------  ---
+  default                     app-cache-c89c55c8b-l4glf           0 (0%)        0 (0%)      0 (0%)           0 (0%)         90m
+  default                     app-cache-c89c55c8b-z572s           0 (0%)        0 (0%)      0 (0%)           0 (0%)         90m
+  default                     backend                             0 (0%)        0 (0%)      0 (0%)           0 (0%)         36m
+  default                     rate-limiter                        2 (25%)       4 (50%)     320Mi (4%)       640Mi (8%)     18s
+  kube-system                 cilium-b5b68                        100m (1%)     1 (12%)     10Mi (0%)        1Gi (12%)      21d
+  kube-system                 cilium-envoy-zw95x                  0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+  kube-system                 cilium-operator-7978b68cd7-kqdpz    0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+  kube-system                 tetragon-cdcdk                      0 (0%)        0 (0%)      0 (0%)           0 (0%)         21d
+Allocated resources:
