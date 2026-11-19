@@ -1,0 +1,39 @@
+
+
+-- auto scalling of a deployment
+
+> kubectl autoscale deployment app-cache --min=3 --max=6 --cpu=60% --memory=70% --dry-run=client -o yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-cache
+spec:
+  maxReplicas: 6
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 60
+        type: Utilization
+    type: Resource
+  - resource:
+      name: memory
+      target:
+        averageUtilization: 70
+        type: Utilization
+    type: Resource
+  minReplicas: 4
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app-cache
+status:
+  currentMetrics: null
+  desiredReplicas: 0
+
+❯ kubectl apply -f autoscale_app.yaml
+horizontalpodautoscaler.autoscaling/app-cache created
+
+❯ kubectl get hpa
+NAME        REFERENCE              TARGETS                                     MINPODS   MAXPODS   REPLICAS   AGE
+app-cache   Deployment/app-cache   cpu: <unknown>/60%, memory: <unknown>/70%   4         6         4          3m30s
