@@ -201,3 +201,29 @@ masum-web-p9lzf   1/1       Running       0          4m        172.17.0.5   kube
 masum-web-sqcq0   1/1       Running       0          4m        172.17.0.4   kube-master         run=masum-web
 masum-web-z3q79   1/1       Terminating   0          1d        172.17.0.2   kube-host7-centos   run=masum-web
 [root@kube-master ~]#
+
+-- collecting some info out of a pod by using grep.
+
+❯ kubectl describe pod -n kube-system cilium-b5b68 | grep -i limit -A 5
+    Limits:
+      cpu:     1
+      memory:  1Gi
+    Requests:
+      cpu:        100m
+      memory:     10Mi
+--
+
+-- knowing about the options
+
+❯ kubectl explain pods.spec.os
+KIND:       Pod
+VERSION:    v1
+
+FIELD: os <PodOS>
+
+DESCRIPTION:
+    Specifies the OS of the containers in the pod.
+    Some pod and container fields are restricted if this is set.
+
+    If the OS field is set to linux, the following fields must be unset:
+    -securityContext.windowsOptions
