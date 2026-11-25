@@ -1,0 +1,6 @@
+Sample input (sales.txt):
+alice laptop 1200
+bob mouse 25
+alice keyboard 75
+carol monitor 300
+bob laptop 1100

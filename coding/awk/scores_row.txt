@@ -1,0 +1,4 @@
+Amina 94 88 91
+Mikko 82 79 85 90
+Lukas 95 92
+Sofia 76 81 84 80

@@ -1,0 +1,4 @@
+2026-11-24 INFO user=alice login_ok
+2026-11-24 ERROR user=bob disk_full
+2026-11-24 WARN user=carol slow_query
+2026-11-24 ERROR user=alice timeout

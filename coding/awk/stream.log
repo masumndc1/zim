@@ -1,0 +1,5 @@
+job_start alpha
+skip maintenance_check
+job_step beta
+STOP emergency_halt
+job_after_stop gamma

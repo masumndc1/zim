@@ -1,0 +1,5 @@
+name score
+Amina 94
+Mikko 88
+Lukas 91
+Sofia 79

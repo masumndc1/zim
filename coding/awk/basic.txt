@@ -1,0 +1,33 @@
+
+
+-- awk
+-- Awk scans input line-by-line (records) and splits each line into columns
+-- (fields) separated by whitespace by default.
+-- Every Awk program consists of pattern-action rules:
+
+awk 'pattern { action }' file.txt
+￼ Omit pattern -> action runs on EVERY line.
+￼ Omit action  -> defaults to { print $0 } (prints the entire matching line).
+
+Built-in Variables:
+$0   - Entire current line
+$1   - First field ($2 second,$NF last field)
+NR   - Current record (line) number across all input files
+FNR  - Current record number within the current file
+NF   - Number of fields on the current line
+FS   - Input field separator (set via -F',' or FS=",")
+OFS  - Output field separator (default is a single space)
+RS   - Input record separator (default is newline \n)
+ORS  - Output record separator (default is newline \n)
+
+
+--
+  string functions (split, gsub, sub, match, substr, length, tolower, index)
+￼ split(str, arr [, sep])   : Splits str into arr[1..n], returns count n.
+￼ gsub(regex, repl [, tgt]) : Replaces ALL regex matches in tgt (or $0).
+￼ sub(regex, repl [, tgt])  : Replaces FIRST regex match in tgt (or $0).
+￼ match(str, regex)         : Finds regex in str; sets RSTART and RLENGTH.
+￼ substr(str, start [,len]) : Extracts substring starting at 1-based index.
+￼ length(str)               : Returns string length (or array element count).
+￼ tolower(str)/toupper(str) : Converts case.
+￼ index(str, needle)        : Returns 1-based position of needle, or 0.
